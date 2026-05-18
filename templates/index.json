@@ -1,98 +1,22 @@
 {
   "sections": {
-    "fortified_hero": {
-      "type": "fortified-hero",
-      "settings": {}
-    },
-    "fortified_press_logos": {
-      "type": "fortified-press-logos",
-      "settings": {}
-    },
-    "fortified_product_feature": {
-      "type": "fortified-product-feature",
-      "settings": {}
-    },
-    "fortified_dark_lifestyle": {
-      "type": "fortified-dark-lifestyle",
+    "hero_section": {
+      "type": "section",
       "blocks": {
-        "p1": { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+ENERGY" } },
-        "p2": { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+PERFORMANCE" } },
-        "p3": { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+HYDRATION" } },
-        "p4": { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+FOCUS" } }
+        "fortified_hero_1": {
+          "type": "fortified-hero",
+          "settings": {}
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4"],
-      "settings": {}
-    },
-    "fortified_stats": {
-      "type": "fortified-stats",
-      "blocks": {
-        "s1": { "type": "fortified-stat", "settings": { "stat_number": "2.3x", "stat_label": "Better Hydration", "show_chart": true } },
-        "s2": { "type": "fortified-stat", "settings": { "stat_number": "+24%", "stat_label": "Improved Endurance", "show_chart": true } },
-        "s3": { "type": "fortified-checklist-card", "settings": {} }
-      },
-      "block_order": ["s1", "s2", "s3"],
-      "settings": {}
-    },
-    "fortified_ingredients_tabs": {
-      "type": "fortified-ingredients-tabs",
-      "blocks": {
-        "t1": { "type": "fortified-tab", "settings": { "tab_label": "Hydration" } },
-        "t2": { "type": "fortified-tab", "settings": { "tab_label": "Performance" } },
-        "i1": { "type": "fortified-ingredient", "settings": { "tab": "Hydration", "ingredient_name": "Sodium Citrate", "dosage_badge": "1200MG" } },
-        "i2": { "type": "fortified-ingredient", "settings": { "tab": "Hydration", "ingredient_name": "Magnesium Glycinate", "dosage_badge": "200MG" } },
-        "i3": { "type": "fortified-ingredient", "settings": { "tab": "Hydration", "ingredient_name": "Potassium", "dosage_badge": "150MG" } },
-        "i4": { "type": "fortified-ingredient", "settings": { "tab": "Performance", "ingredient_name": "Creatine", "dosage_badge": "3G" } }
-      },
-      "block_order": ["t1", "t2", "i1", "i2", "i3", "i4"],
-      "settings": {}
-    },
-    "fortified_lifestyle_strip": {
-      "type": "fortified-lifestyle-strip",
-      "blocks": {
-        "b1": { "type": "fortified-strip-image" },
-        "b2": { "type": "fortified-strip-image" },
-        "b3": { "type": "fortified-strip-image" },
-        "b4": { "type": "fortified-strip-image" },
-        "b5": { "type": "fortified-strip-image" }
-      },
-      "block_order": ["b1", "b2", "b3", "b4", "b5"],
-      "settings": {}
-    },
-    "fortified_faq": {
-      "type": "fortified-faq",
-      "blocks": {
-        "q1": { "type": "fortified-faq-item", "settings": { "question": "What is Fortified?", "answer": "<p>Premium electrolytes formulated for performance and recovery.</p>" } },
-        "q2": { "type": "fortified-faq-item", "settings": { "question": "Why is it important?", "answer": "<p>Proper hydration supports energy, focus, and muscle function.</p>" } },
-        "q3": { "type": "fortified-faq-item", "settings": { "question": "Who should take it?", "answer": "<p>Anyone living an active lifestyle.</p>" } },
-        "q4": { "type": "fortified-faq-item", "settings": { "question": "What is the recommended dosage?", "answer": "<p>1 stick per day, mixed with 16oz of water.</p>" } }
-      },
-      "block_order": ["q1", "q2", "q3", "q4"],
-      "settings": {}
-    },
-    "fortified_b2b_split": {
-      "type": "fortified-b2b-split",
-      "blocks": {
-        "c1": { "type": "fortified-b2b-card", "settings": { "heading": "BECOME A WHOLESALER", "cta_label": "JOIN NOW" } },
-        "c2": { "type": "fortified-b2b-card", "settings": { "heading": "BECOME A PARTNER", "cta_label": "APPLY NOW" } }
-      },
-      "block_order": ["c1", "c2"],
-      "settings": {}
-    },
-    "fortified_subscribe_save": {
-      "type": "fortified-subscribe-save",
-      "settings": {}
+      "block_order": ["fortified_hero_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
-  "order": [
-    "fortified_hero",
-    "fortified_press_logos",
-    "fortified_product_feature",
-    "fortified_dark_lifestyle",
-    "fortified_stats",
-    "fortified_ingredients_tabs",
-    "fortified_lifestyle_strip",
-    "fortified_faq",
-    "fortified_b2b_split",
-    "fortified_subscribe_save"
-  ]
+  "order": ["hero_section"]
 }
