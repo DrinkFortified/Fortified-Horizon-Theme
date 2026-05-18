@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_section": {
@@ -8,11 +17,11 @@
           "settings": {
             "eyebrow": "FORMULATED FOR",
             "heading": "HYDRATION THAT HITS",
-            "body": "Electrolytes that actually work. Clinically dosed sodium, potassium, and magnesium \u2014 clean ingredients, zero sugar, no crash.",
+            "body": "Premium electrolytes that fuel your every move. Clinically dosed, clean, and zero sugar.",
             "cta_primary_label": "SHOP NOW",
-            "cta_primary_url": "/collections/all",
+            "cta_primary_url": "",
             "cta_secondary_label": "LEARN MORE",
-            "cta_secondary_url": "/pages/about",
+            "cta_secondary_url": "",
             "image_side": "right",
             "bg_color": "#F4EEE7",
             "text_color": "#0A0A0A"
@@ -25,7 +34,16 @@
       ],
       "settings": {
         "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
         "section_width": "full-width",
+        "section_height": "",
+        "section_height_custom": 50,
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
@@ -314,15 +332,6 @@
     }
   },
   "order": [
-    "hero_section",
-    "press_section",
-    "product_feature_section",
-    "dark_lifestyle_section",
-    "stats_section",
-    "ingredients_section",
-    "lifestyle_strip_section",
-    "faq_section",
-    "b2b_section",
-    "subscribe_section"
+    "hero_section"
   ]
 }
