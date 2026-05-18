@@ -27,7 +27,7 @@
             "text_color": "#0a0a0a"
           },
           "blocks": {},
-          "name": "01 \u2014 Hero"
+          "name": "HP-01 \u2014 Hero"
         }
       },
       "block_order": [
@@ -60,11 +60,11 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       },
-      "name": "01 \u2014 Hero"
+      "name": "HP-01 \u2014 Hero"
     },
     "fortified_press_logos_gwMwgC": {
       "type": "fortified-press-logos",
-      "name": "02 \u2014 Press Logos",
+      "name": "HP-02 \u2014 Press Logos",
       "settings": {
         "heading": "AS SEEN IN",
         "logo_1_alt": "",
@@ -78,7 +78,7 @@
     },
     "fortified_product_feature_4mEfw4": {
       "type": "fortified-product-feature",
-      "name": "03 \u2014 Product Feature",
+      "name": "HP-03 \u2014 Product Feature",
       "settings": {
         "eyebrow": "FORMULATED FOR",
         "heading": "CLEAN HYDRATION MAX PERFORMANCE",
@@ -95,7 +95,8 @@
           "type": "fortified-lifestyle-photo",
           "settings": {
             "benefit_label": "+ENERGY"
-          }
+          },
+          "name": "HP-04 \u2014 Dark Lifestyle"
         },
         "fortified_lifestyle_photo_emxnwm": {
           "type": "fortified-lifestyle-photo",
@@ -122,7 +123,7 @@
         "fortified_lifestyle_photo_nKJydy",
         "fortified_lifestyle_photo_metnqr"
       ],
-      "name": "04 \u2014 Dark Lifestyle",
+      "name": "HP-04 \u2014 Dark Lifestyle",
       "settings": {
         "eyebrow": "THE TRUTH",
         "heading": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT",
@@ -141,7 +142,8 @@
             "stat_label": "Better Hydration",
             "stat_description": "",
             "show_chart": true
-          }
+          },
+          "name": "HP-05 \u2014 Stats"
         },
         "fortified_stat_JQxU8U": {
           "type": "fortified-stat",
@@ -171,7 +173,7 @@
         "fortified_stat_JQxU8U",
         "fortified_checklist_card_6bc8cU"
       ],
-      "name": "05 \u2014 Stats",
+      "name": "HP-05 \u2014 Stats",
       "settings": {
         "eyebrow": "",
         "heading": "WHY WE BEAT THE REST ELECTROLYTES",
@@ -185,7 +187,8 @@
       "blocks": {
         "fortified_strip_image_GK7Pbx": {
           "type": "fortified-strip-image",
-          "settings": {}
+          "settings": {},
+          "name": "HP-07 \u2014 Lifestyle Strip"
         },
         "fortified_strip_image_y8cdjY": {
           "type": "fortified-strip-image",
@@ -211,7 +214,7 @@
         "fortified_strip_image_nTY7Bz",
         "fortified_strip_image_dJTwtg"
       ],
-      "name": "07 \u2014 Lifestyle Strip",
+      "name": "HP-07 \u2014 Lifestyle Strip",
       "settings": {
         "eyebrow": "THE TRUTH",
         "heading": "MORE THAN HYDRATION",
@@ -228,7 +231,8 @@
           "settings": {
             "question": "What is Fortified?",
             "answer": "<p>Premium electrolytes formulated for performance.</p>"
-          }
+          },
+          "name": "HP-08 \u2014 FAQ"
         },
         "fortified_faq_item_tEPJtG": {
           "type": "fortified-faq-item",
@@ -258,7 +262,7 @@
         "fortified_faq_item_FUWUpL",
         "fortified_faq_item_CJrrN9"
       ],
-      "name": "08 \u2014 FAQ",
+      "name": "HP-08 \u2014 FAQ",
       "settings": {
         "eyebrow": "",
         "heading": "FREQUENTLY ASKED QUESTIONS",
@@ -279,7 +283,8 @@
             "cta_label": "JOIN NOW",
             "cta_url": "",
             "bg_overlay_opacity": 50
-          }
+          },
+          "name": "HP-09 \u2014 B2B Split"
         },
         "fortified_b2b_card_me9PxB": {
           "type": "fortified-b2b-card",
@@ -297,28 +302,29 @@
         "fortified_b2b_card_7gPpQn",
         "fortified_b2b_card_me9PxB"
       ],
-      "name": "09 \u2014 B2B Split",
+      "name": "HP-09 \u2014 B2B Split",
       "settings": {
         "color_scheme": ""
       }
     },
     "fortified_ingredients_tabs_IDzSYi": {
       "type": "fortified-ingredients-tabs",
-      "name": "06 \u2014 Ingredients",
+      "name": "HP-06 \u2014 Ingredients",
       "blocks": {
-        "fortified_fortified_tab_Jvovzq": {
+        "fortified_tab_Jvovzq": {
           "type": "fortified-tab",
           "settings": {
             "tab_label": "Hydration"
-          }
+          },
+          "name": "HP-06 \u2014 Ingredients"
         },
-        "fortified_fortified_tab_XavfUy": {
+        "fortified_tab_XavfUy": {
           "type": "fortified-tab",
           "settings": {
             "tab_label": "Performance"
           }
         },
-        "fortified_fortified_ingredient_YynieK": {
+        "fortified_ingredient_YynieK": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Hydration",
@@ -326,7 +332,7 @@
             "dosage_badge": "1,200MG"
           }
         },
-        "fortified_fortified_ingredient_OeXfgQ": {
+        "fortified_ingredient_OeXfgQ": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Hydration",
@@ -334,7 +340,7 @@
             "dosage_badge": "150MG"
           }
         },
-        "fortified_fortified_ingredient_LyzriQ": {
+        "fortified_ingredient_LyzriQ": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Hydration",
@@ -342,7 +348,7 @@
             "dosage_badge": "300MG"
           }
         },
-        "fortified_fortified_ingredient_hxQwLl": {
+        "fortified_ingredient_hxQwLl": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Performance",
@@ -352,12 +358,12 @@
         }
       },
       "block_order": [
-        "fortified_fortified_tab_Jvovzq",
-        "fortified_fortified_tab_XavfUy",
-        "fortified_fortified_ingredient_YynieK",
-        "fortified_fortified_ingredient_OeXfgQ",
-        "fortified_fortified_ingredient_LyzriQ",
-        "fortified_fortified_ingredient_hxQwLl"
+        "fortified_tab_Jvovzq",
+        "fortified_tab_XavfUy",
+        "fortified_ingredient_YynieK",
+        "fortified_ingredient_OeXfgQ",
+        "fortified_ingredient_LyzriQ",
+        "fortified_ingredient_hxQwLl"
       ],
       "settings": {
         "eyebrow": "THE TRUTH",
