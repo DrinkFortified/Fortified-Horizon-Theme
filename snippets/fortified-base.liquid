@@ -152,14 +152,19 @@
     .fortified-dark-lifestyle__copy,
     .fortified-faq__side,
     .fortified-b2b__card,
-    .fortified-b2b-split__card,
-    .fortified-lifestyle-strip__copy,
-    .fortified-subscribe__copy,
-    .fortified-subscribe-save__copy,
+    .fortified-b2b__content,
+    .fortified-lifestyle-strip__inner,
+    .fortified-subscribe__inner,
     .fortified-stats__header,
+    .fortified-stats__inner,
     .fortified-ingredients__header,
+    .fortified-ingredients__inner,
+    .fortified-ingredients__panel,
+    .fortified-ingredients__body,
     .fortified-reviews__header,
-    .fortified-comparison__header {
+    .fortified-reviews__inner,
+    .fortified-comparison__heading,
+    .fortified-press__row {
       align-items: center !important;
       text-align: center !important;
     }
@@ -167,18 +172,28 @@
     .fortified-product-feature__ctas,
     .fortified-dark-lifestyle__ctas,
     .fortified-subscribe__ctas,
-    .fortified-subscribe-save__ctas,
     .fortified-b2b__card-cta,
-    .fortified-b2b-split__card-cta,
-    .fortified-lifestyle-strip__cta,
+    .fortified-stats__cta,
+    .fortified-ingredients__cta,
     .fortified-faq__cta {
+      display: flex !important;
       justify-content: center !important;
       align-items: center !important;
     }
     .fortified-hero__body,
     .fortified-product-feature__body,
-    .fortified-dark-lifestyle__body {
+    .fortified-dark-lifestyle__body,
+    .fortified-lifestyle-strip__body,
+    .fortified-subscribe__body {
       margin-inline: auto !important;
+      text-align: center !important;
+    }
+    /* Lifestyle Strip and Subscribe overlays — center the overlay copy column */
+    .fortified-lifestyle-strip__inner,
+    .fortified-subscribe__inner {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
     }
   </style>
 {% endunless %}
