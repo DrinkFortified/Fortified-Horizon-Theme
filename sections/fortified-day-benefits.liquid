@@ -1,0 +1,177 @@
+{% render 'fortified-base' %}
+
+<section
+  id="FortifiedDayBenefits-{{ section.id }}"
+  class="fortified-day color-{{ section.settings.color_scheme }}"
+>
+  {% if section.settings.image != blank %}
+    {{ section.settings.image | image_url: width: 2400 | image_tag:
+        widths: '800, 1200, 1800, 2400',
+        sizes: '100vw',
+        class: 'fortified-day__bg',
+        alt: '',
+        loading: 'lazy' }}
+  {% endif %}
+  <div class="fortified-container fortified-day__inner">
+    {% if section.settings.heading != blank %}
+      <h2 class="fortified-heading fortified-h2 fortified-day__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+    <div class="fortified-day__scroll">
+      <div class="fortified-day__row">
+        {% for block in section.blocks %}
+          {% if block.type == 'fortified-day-column' %}
+            <article class="fortified-day__col" {{ block.shopify_attributes }}>
+              {% if block.settings.icon != blank %}
+                {{ block.settings.icon | image_url: width: 120 | image_tag:
+                    widths: '60, 90, 120',
+                    sizes: '60px',
+                    class: 'fortified-day__icon',
+                    alt: block.settings.heading,
+                    loading: 'lazy' }}
+              {% endif %}
+              {% if block.settings.day_label != blank %}
+                <span class="fortified-day__label">{{ block.settings.day_label }}</span>
+              {% endif %}
+              {% if block.settings.heading != blank %}
+                <h3 class="fortified-day__title">{{ block.settings.heading }}</h3>
+              {% endif %}
+              {% if block.settings.body != blank %}
+                <p class="fortified-day__body">{{ block.settings.body }}</p>
+              {% endif %}
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    {% if section.settings.cta_label != blank %}
+      <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary fortified-day__cta">{{ section.settings.cta_label }}</a>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .fortified-day {
+    position: relative;
+    background: var(--fortified-black);
+    color: #fff;
+    padding-block: var(--fortified-section-py);
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .fortified-day__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    opacity: .35;
+  }
+  .fortified-day::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(0 0 0 / .55), rgb(0 0 0 / .8));
+    z-index: -1;
+  }
+  .fortified-day__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+  .fortified-day__heading { text-align: center; max-width: 800px; margin: 0; }
+  .fortified-day__scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .fortified-day__scroll::-webkit-scrollbar { display: none; }
+  .fortified-day__row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: clamp(12px, 1.6vw, 24px);
+  }
+  .fortified-day__col {
+    flex: 0 0 auto;
+    width: clamp(180px, 18vw, 240px);
+    background: rgb(255 255 255 / .06);
+    backdrop-filter: blur(6px);
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid rgb(255 255 255 / .1);
+  }
+  @media (min-width: 1024px) {
+    .fortified-day__row { width: 100%; }
+    .fortified-day__col { flex: 1; }
+  }
+  .fortified-day__icon { width: 48px; height: 48px; object-fit: contain; }
+  .fortified-day__label {
+    font-family: var(--font-fortified-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fortified-teal);
+  }
+  .fortified-day__title {
+    font-family: var(--font-fortified-display);
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+  .fortified-day__body {
+    font-family: var(--font-fortified-body);
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 0;
+    opacity: .85;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Fortified Day Benefits",
+  "tag": "section",
+  "class": "fortified-day-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "WHY WE BEAT THE REST ELECTROLYTES" },
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "EXPLORE ALL FLAVORS" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" }
+  ],
+  "blocks": [
+    {
+      "type": "fortified-day-column",
+      "name": "Day column",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "day_label", "label": "Day label", "default": "Day 1-3" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Hydrate" },
+        { "type": "textarea", "id": "body", "label": "Body" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fortified Day Benefits",
+      "category": "Fortified",
+      "tag": null,
+      "blocks": [
+        { "type": "fortified-day-column", "settings": { "day_label": "Day 1-3", "heading": "Hydrate" } },
+        { "type": "fortified-day-column", "settings": { "day_label": "Day 4-7", "heading": "Energize" } },
+        { "type": "fortified-day-column", "settings": { "day_label": "Day 8-14", "heading": "Strengthen" } },
+        { "type": "fortified-day-column", "settings": { "day_label": "Day 15-21", "heading": "Recover" } },
+        { "type": "fortified-day-column", "settings": { "day_label": "Day 22-30", "heading": "Sustain" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

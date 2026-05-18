@@ -1,0 +1,114 @@
+{% comment %} Loop Subscriptions widget — renders between variant selector and ATC {% endcomment %}
+<div
+  id="FortifiedSubscription-{{ block.id }}"
+  class="fortified-subscription"
+  data-loop-variant-id="{{ current_variant.id }}"
+  data-loop-product-id="{{ product.id }}"
+  data-loop-discount="{{ block.settings.subscription_discount_percentage }}"
+>
+  <div class="fortified-subscription__widget">
+    {% comment %} Loop.js will hydrate this element when it loads {% endcomment %}
+    <div
+      class="loop-subscription-widget"
+      data-loop-subscription-widget
+      data-product-id="{{ product.id }}"
+      data-variant-id="{{ current_variant.id }}"
+    ></div>
+
+    {% comment %} Fallback radio UI when Loop hasn't initialized {% endcomment %}
+    <div class="fortified-subscription__fallback" data-fortified-loop-fallback>
+      <label class="fortified-subscription__opt is-selected">
+        <input type="radio" name="selling_plan" value="" checked>
+        <span>
+          <span class="fortified-subscription__opt-label">{{ block.settings.one_time_label }}</span>
+          <span class="fortified-subscription__opt-price">{{ current_variant.price | money }}</span>
+        </span>
+      </label>
+      {% if product.selling_plan_groups.size > 0 %}
+        {% for group in product.selling_plan_groups %}
+          {% for plan in group.selling_plans %}
+            <label class="fortified-subscription__opt">
+              <input type="radio" name="selling_plan" value="{{ plan.id }}">
+              <span>
+                <span class="fortified-subscription__opt-label">{{ block.settings.subscribe_label }} — {{ plan.name }}</span>
+                <span class="fortified-subscription__opt-discount">Save {{ block.settings.subscription_discount_percentage }}%</span>
+              </span>
+            </label>
+          {% endfor %}
+        {% endfor %}
+      {% else %}
+        <label class="fortified-subscription__opt">
+          <input type="radio" name="selling_plan" value="" disabled>
+          <span>
+            <span class="fortified-subscription__opt-label">{{ block.settings.subscribe_label }}</span>
+            <span class="fortified-subscription__opt-discount">Save {{ block.settings.subscription_discount_percentage }}%</span>
+          </span>
+        </label>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById('FortifiedSubscription-{{ block.id }}');
+    if (!root) return;
+    var opts = root.querySelectorAll('.fortified-subscription__opt');
+    opts.forEach(function (opt) {
+      var input = opt.querySelector('input');
+      if (!input) return;
+      input.addEventListener('change', function () {
+        opts.forEach(function (o) { o.classList.toggle('is-selected', o === opt); });
+      });
+    });
+    var form = root.closest('form');
+    if (form) {
+      form.addEventListener('fortified:variantchange', function (e) {
+        var id = e.detail && e.detail.id;
+        if (id) root.setAttribute('data-loop-variant-id', id);
+      });
+    }
+  })();
+</script>
+
+<style>
+  .fortified-subscription {
+    background: var(--fortified-off-white);
+    border-radius: 14px;
+    padding: 14px;
+  }
+  .fortified-subscription__fallback { display: flex; flex-direction: column; gap: 8px; }
+  .fortified-subscription__opt {
+    cursor: pointer;
+    border: 2px solid var(--fortified-gray-light);
+    background: #fff;
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+  }
+  .fortified-subscription__opt input { accent-color: var(--fortified-teal); }
+  .fortified-subscription__opt.is-selected { border-color: var(--fortified-teal); background: rgb(0 184 184 / .05); }
+  .fortified-subscription__opt > span {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .fortified-subscription__opt-label { font-family: var(--font-fortified-body); font-size: 14px; font-weight: 600; }
+  .fortified-subscription__opt-price { font-family: var(--font-fortified-body); font-size: 15px; font-weight: 600; }
+  .fortified-subscription__opt-discount {
+    background: var(--fortified-teal);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>

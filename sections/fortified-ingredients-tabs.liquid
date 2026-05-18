@@ -1,0 +1,242 @@
+{% render 'fortified-base' %}
+
+{%- liquid
+  assign tab_labels = ''
+  for block in section.blocks
+    if block.type == 'fortified-tab'
+      assign tab_labels = tab_labels | append: block.settings.tab_label | append: '|'
+    endif
+  endfor
+  assign tab_array = tab_labels | split: '|'
+-%}
+
+<section
+  id="FortifiedIngredients-{{ section.id }}"
+  class="fortified-ingredients color-{{ section.settings.color_scheme }}"
+  data-fortified-ingredients
+>
+  <div class="fortified-container fortified-ingredients__inner">
+    <header class="fortified-ingredients__header">
+      {% if section.settings.eyebrow != blank %}
+        <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="fortified-heading fortified-h2">{{ section.settings.heading }}</h2>
+      {% endif %}
+    </header>
+
+    {% if tab_array.size > 0 %}
+      <div class="fortified-ingredients__tabs" role="tablist">
+        {% for label in tab_array %}
+          {% if label != blank %}
+            <button
+              type="button"
+              class="fortified-ingredients__tab {% if forloop.first %}is-active{% endif %}"
+              role="tab"
+              data-tab="{{ label | handleize }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            >{{ label }}</button>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="fortified-ingredients__panels">
+      {%- assign first_tab = tab_array | first | handleize -%}
+      {% for block in section.blocks %}
+        {% if block.type == 'fortified-ingredient' %}
+          {%- assign tab_handle = block.settings.tab | handleize -%}
+          <article
+            class="fortified-ingredients__panel"
+            data-tab-target="{{ tab_handle }}"
+            {% unless tab_handle == first_tab %}hidden{% endunless %}
+            {{ block.shopify_attributes }}
+          >
+            <div class="fortified-ingredients__media">
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 600 | image_tag:
+                    widths: '300, 600',
+                    sizes: '(min-width: 750px) 280px, 50vw',
+                    class: 'fortified-ingredients__img',
+                    alt: block.settings.ingredient_name,
+                    loading: 'lazy' }}
+              {% endif %}
+            </div>
+            <div class="fortified-ingredients__body">
+              <h3 class="fortified-ingredients__name">{{ block.settings.ingredient_name }}</h3>
+              {% if block.settings.description != blank %}
+                <p class="fortified-ingredients__desc">{{ block.settings.description }}</p>
+              {% endif %}
+              <div class="fortified-ingredients__badges">
+                {% if block.settings.dosage_badge != blank %}
+                  <span class="fortified-badge fortified-badge--teal">{{ block.settings.dosage_badge }}</span>
+                {% endif %}
+                {% if block.settings.benefit_badge != blank %}
+                  <span class="fortified-badge fortified-badge--dark">{{ block.settings.benefit_badge }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if section.settings.cta_label != blank %}
+      <div class="fortified-ingredients__cta">
+        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ section.settings.cta_label }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.getElementById('FortifiedIngredients-{{ section.id }}');
+    if (!root) return;
+    var tabs = root.querySelectorAll('.fortified-ingredients__tab');
+    var panels = root.querySelectorAll('.fortified-ingredients__panel');
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.getAttribute('data-tab');
+        tabs.forEach(function (t) {
+          t.classList.toggle('is-active', t === tab);
+          t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+        });
+        panels.forEach(function (panel) {
+          if (panel.getAttribute('data-tab-target') === target) {
+            panel.removeAttribute('hidden');
+          } else {
+            panel.setAttribute('hidden', '');
+          }
+        });
+      });
+    });
+  })();
+</script>
+
+{% stylesheet %}
+  .fortified-ingredients {
+    background: var(--color-background, #fff);
+    color: var(--color-foreground, #0A0A0A);
+    padding-block: var(--fortified-section-py);
+  }
+  .fortified-ingredients__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(24px, 3vw, 40px);
+  }
+  .fortified-ingredients__header { text-align: center; max-width: 800px; }
+  .fortified-ingredients__tabs {
+    display: inline-flex;
+    background: rgb(0 0 0 / .04);
+    border-radius: 999px;
+    padding: 6px;
+    gap: 4px;
+  }
+  .fortified-ingredients__tab {
+    background: transparent;
+    color: currentColor;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-family: var(--font-fortified-body);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .fortified-ingredients__tab.is-active {
+    background: var(--fortified-teal);
+    color: #fff;
+  }
+  .fortified-ingredients__panels {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+  }
+  @media (min-width: 750px) {
+    .fortified-ingredients__panels { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .fortified-ingredients__panels { grid-template-columns: repeat(4, 1fr); }
+  }
+  .fortified-ingredients__panel {
+    background: var(--fortified-off-white);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .fortified-ingredients__img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 12px; }
+  .fortified-ingredients__name {
+    font-family: var(--font-fortified-display);
+    font-size: 22px;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .fortified-ingredients__desc {
+    font-family: var(--font-fortified-body);
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    opacity: .85;
+  }
+  .fortified-ingredients__badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Fortified Ingredients Tabs",
+  "tag": "section",
+  "class": "fortified-ingredients-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "WHY WE BEAT THE REST ELECTROLYTES" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FORTIFIED NOW" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+  ],
+  "blocks": [
+    {
+      "type": "fortified-tab",
+      "name": "Tab",
+      "settings": [
+        { "type": "text", "id": "tab_label", "label": "Tab label", "default": "Hydration" }
+      ]
+    },
+    {
+      "type": "fortified-ingredient",
+      "name": "Ingredient",
+      "settings": [
+        { "type": "text", "id": "tab", "label": "Belongs to tab", "default": "Hydration" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "ingredient_name", "label": "Ingredient name", "default": "Sodium Citrate" },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "text", "id": "dosage_badge", "label": "Dosage badge", "default": "1200MG" },
+        { "type": "text", "id": "benefit_badge", "label": "Benefit badge", "default": "HYDRATION FACTS" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fortified Ingredients Tabs",
+      "category": "Fortified",
+      "tag": null,
+      "blocks": [
+        { "type": "fortified-tab", "settings": { "tab_label": "Hydration" } },
+        { "type": "fortified-tab", "settings": { "tab_label": "Performance" } },
+        { "type": "fortified-ingredient", "settings": { "tab": "Hydration", "ingredient_name": "Sodium Citrate", "dosage_badge": "1200MG" } },
+        { "type": "fortified-ingredient", "settings": { "tab": "Hydration", "ingredient_name": "Magnesium Glycinate", "dosage_badge": "200MG" } },
+        { "type": "fortified-ingredient", "settings": { "tab": "Hydration", "ingredient_name": "Potassium", "dosage_badge": "150MG" } },
+        { "type": "fortified-ingredient", "settings": { "tab": "Performance", "ingredient_name": "Creatine", "dosage_badge": "3G" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

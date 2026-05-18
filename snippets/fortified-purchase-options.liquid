@@ -1,0 +1,143 @@
+{%- liquid
+  assign multi_qty = block.settings.multi_quantity | default: 3
+  assign single_label = block.settings.single_label
+  assign multi_label = block.settings.multi_label
+-%}
+
+<div class="fortified-purchase">
+  <div class="fortified-purchase__options" role="radiogroup" aria-label="Purchase option">
+    <label class="fortified-purchase__option is-selected">
+      <input type="radio" name="fortified-qty-option" value="1" data-fortified-qty="1" checked>
+      <span class="fortified-purchase__opt-inner">
+        <span class="fortified-purchase__opt-label">{{ single_label }}</span>
+        <span class="fortified-purchase__opt-price" data-fortified-single-price>{{ product.price | money }}</span>
+      </span>
+    </label>
+    <label class="fortified-purchase__option">
+      <input type="radio" name="fortified-qty-option" value="{{ multi_qty }}" data-fortified-qty="{{ multi_qty }}">
+      <span class="fortified-purchase__opt-inner">
+        <span class="fortified-purchase__opt-label">{{ multi_label }}</span>
+        <span class="fortified-purchase__opt-price" data-fortified-multi-price>
+          {%- assign multi_total = product.price | times: multi_qty -%}
+          {{ multi_total | money }}
+        </span>
+        {% if product.compare_at_price > product.price %}
+          <span class="fortified-purchase__compare">{{ product.compare_at_price | times: multi_qty | money }}</span>
+        {% endif %}
+      </span>
+    </label>
+  </div>
+
+  <div class="fortified-purchase__qty">
+    <label for="FortifiedQty-{{ section.id }}" class="fortified-purchase__qty-label">Quantity</label>
+    <div class="fortified-purchase__qty-controls">
+      <button type="button" aria-label="Decrease" data-fortified-qty-step="-1">−</button>
+      <input
+        type="number"
+        id="FortifiedQty-{{ section.id }}"
+        name="quantity"
+        min="1"
+        value="1"
+        data-fortified-qty-input
+      >
+      <button type="button" aria-label="Increase" data-fortified-qty-step="1">+</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var form = document.getElementById('FortifiedProductForm-{{ section.id }}');
+    if (!form) return;
+    var input = form.querySelector('[data-fortified-qty-input]');
+    var labels = form.querySelectorAll('.fortified-purchase__option');
+    var radios = form.querySelectorAll('[data-fortified-qty]');
+    radios.forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        if (!radio.checked) return;
+        input.value = radio.value;
+        labels.forEach(function (label) {
+          label.classList.toggle('is-selected', label.contains(radio));
+        });
+      });
+    });
+    form.querySelectorAll('[data-fortified-qty-step]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var step = parseInt(btn.getAttribute('data-fortified-qty-step'), 10) || 1;
+        var current = parseInt(input.value, 10) || 1;
+        var next = Math.max(1, current + step);
+        input.value = next;
+      });
+    });
+  })();
+</script>
+
+<style>
+  .fortified-purchase { display: flex; flex-direction: column; gap: 14px; }
+  .fortified-purchase__options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .fortified-purchase__option {
+    cursor: pointer;
+    border: 2px solid var(--fortified-gray-light);
+    border-radius: 12px;
+    padding: 14px;
+    background: #fff;
+    display: flex;
+    min-height: 44px;
+  }
+  .fortified-purchase__option.is-selected { border-color: var(--fortified-teal); background: rgb(0 184 184 / .05); }
+  .fortified-purchase__option input { position: absolute; opacity: 0; pointer-events: none; }
+  .fortified-purchase__opt-inner { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+  .fortified-purchase__opt-label {
+    font-family: var(--font-fortified-body);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .fortified-purchase__opt-price {
+    font-family: var(--font-fortified-display);
+    font-size: 22px;
+    color: var(--fortified-teal);
+  }
+  .fortified-purchase__compare {
+    font-size: 13px;
+    text-decoration: line-through;
+    opacity: .6;
+  }
+  .fortified-purchase__qty { display: flex; flex-direction: column; gap: 6px; }
+  .fortified-purchase__qty-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fortified-gray-mid);
+  }
+  .fortified-purchase__qty-controls {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--fortified-gray-light);
+    border-radius: 999px;
+    width: fit-content;
+    overflow: hidden;
+  }
+  .fortified-purchase__qty-controls button {
+    background: transparent;
+    border: 0;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--fortified-black);
+  }
+  .fortified-purchase__qty-controls input {
+    width: 50px;
+    border: 0;
+    text-align: center;
+    background: transparent;
+    font-family: var(--font-fortified-body);
+    font-size: 15px;
+    -moz-appearance: textfield;
+  }
+  .fortified-purchase__qty-controls input::-webkit-outer-spin-button,
+  .fortified-purchase__qty-controls input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+</style>

@@ -1,0 +1,105 @@
+{% render 'fortified-base' %}
+
+<section
+  id="FortifiedProductFeature-{{ section.id }}"
+  class="fortified-product-feature color-{{ section.settings.color_scheme }}"
+>
+  <div class="fortified-container fortified-product-feature__inner">
+    <header class="fortified-product-feature__header">
+      {% if section.settings.eyebrow != blank %}
+        <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="fortified-heading fortified-h2">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.body != blank %}
+        <p class="fortified-body fortified-product-feature__body">{{ section.settings.body }}</p>
+      {% endif %}
+    </header>
+
+    <div class="fortified-product-feature__products">
+      {% for i in (1..4) %}
+        {%- assign key = 'product_image_' | append: i -%}
+        {%- assign img = section.settings[key] -%}
+        {% if img != blank %}
+          <div class="fortified-product-feature__item fortified-product-feature__item--{{ i }}">
+            {{ img | image_url: width: 700 | image_tag:
+                widths: '300, 500, 700',
+                sizes: '(min-width: 750px) 22vw, 60vw',
+                class: 'fortified-product-feature__img',
+                alt: img.alt | default: 'Fortified product',
+                loading: 'lazy' }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if section.settings.cta_label != blank %}
+      <div class="fortified-product-feature__cta">
+        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ section.settings.cta_label }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .fortified-product-feature {
+    background: var(--color-background, #fff);
+    color: var(--color-foreground, #0A0A0A);
+    padding-block: var(--fortified-section-py);
+  }
+  .fortified-product-feature__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(28px, 4vw, 48px);
+  }
+  .fortified-product-feature__header { text-align: center; max-width: 760px; }
+  .fortified-product-feature__body { margin: 12px 0 0; }
+  .fortified-product-feature__products {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%;
+    gap: clamp(8px, 1.4vw, 24px);
+    justify-content: center;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+  .fortified-product-feature__products::-webkit-scrollbar { display: none; }
+  .fortified-product-feature__item {
+    flex: 0 0 auto;
+    width: clamp(180px, 22vw, 320px);
+  }
+  .fortified-product-feature__item--2 { transform: translateY(-12px) rotate(-2deg); }
+  .fortified-product-feature__item--3 { transform: translateY(8px) rotate(1deg); }
+  .fortified-product-feature__item--4 { transform: translateY(-6px) rotate(2deg); }
+  .fortified-product-feature__img { width: 100%; height: auto; display: block; }
+  @media (max-width: 749px) {
+    .fortified-product-feature__products { justify-content: flex-start; }
+    .fortified-product-feature__item { transform: none !important; width: 200px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Fortified Product Feature",
+  "tag": "section",
+  "class": "fortified-product-feature-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FORMULATED FOR" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "CLEAN HYDRATION MAX PERFORMANCE" },
+    { "type": "textarea", "id": "body", "label": "Body text" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "EXPLORE ALL FLAVORS" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL" },
+    { "type": "image_picker", "id": "product_image_1", "label": "Product image 1" },
+    { "type": "image_picker", "id": "product_image_2", "label": "Product image 2" },
+    { "type": "image_picker", "id": "product_image_3", "label": "Product image 3" },
+    { "type": "image_picker", "id": "product_image_4", "label": "Product image 4" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+  ],
+  "presets": [
+    { "name": "Fortified Product Feature", "category": "Fortified", "tag": null }
+  ]
+}
+{% endschema %}

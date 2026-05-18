@@ -1,0 +1,149 @@
+{% render 'fortified-base' %}
+
+<section
+  id="FortifiedComparison-{{ section.id }}"
+  class="fortified-comparison color-{{ section.settings.color_scheme }}"
+>
+  <div class="fortified-container">
+    {% if section.settings.heading != blank %}
+      <h2 class="fortified-heading fortified-h2 fortified-comparison__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+    <div class="fortified-comparison__wrap">
+      <table class="fortified-comparison__table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="fortified-comparison__th fortified-comparison__th--ours">FORTIFIED</th>
+            <th class="fortified-comparison__th">{{ section.settings.competitor_1_name }}</th>
+            {% if section.settings.competitor_2_name != blank %}<th class="fortified-comparison__th">{{ section.settings.competitor_2_name }}</th>{% endif %}
+            {% if section.settings.competitor_3_name != blank %}<th class="fortified-comparison__th">{{ section.settings.competitor_3_name }}</th>{% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for block in section.blocks %}
+            {% if block.type == 'fortified-comparison-row' %}
+              <tr {{ block.shopify_attributes }}>
+                <th scope="row" class="fortified-comparison__row-label">{{ block.settings.row_label }}</th>
+                {% if block.settings.is_checkmark_row %}
+                  <td class="fortified-comparison__td fortified-comparison__td--ours">{% if block.settings.fortified_value contains "yes" or block.settings.fortified_value == "✓" %}<span class="fortified-comparison__check">✓</span>{% else %}<span class="fortified-comparison__x">✗</span>{% endif %}</td>
+                  <td class="fortified-comparison__td">{% if block.settings.comp_1_value contains "yes" or block.settings.comp_1_value == "✓" %}<span class="fortified-comparison__check">✓</span>{% else %}<span class="fortified-comparison__x">✗</span>{% endif %}</td>
+                  {% if section.settings.competitor_2_name != blank %}<td class="fortified-comparison__td">{% if block.settings.comp_2_value contains "yes" or block.settings.comp_2_value == "✓" %}<span class="fortified-comparison__check">✓</span>{% else %}<span class="fortified-comparison__x">✗</span>{% endif %}</td>{% endif %}
+                  {% if section.settings.competitor_3_name != blank %}<td class="fortified-comparison__td">{% if block.settings.comp_3_value contains "yes" or block.settings.comp_3_value == "✓" %}<span class="fortified-comparison__check">✓</span>{% else %}<span class="fortified-comparison__x">✗</span>{% endif %}</td>{% endif %}
+                {% else %}
+                  <td class="fortified-comparison__td fortified-comparison__td--ours">{{ block.settings.fortified_value }}</td>
+                  <td class="fortified-comparison__td">{{ block.settings.comp_1_value }}</td>
+                  {% if section.settings.competitor_2_name != blank %}<td class="fortified-comparison__td">{{ block.settings.comp_2_value }}</td>{% endif %}
+                  {% if section.settings.competitor_3_name != blank %}<td class="fortified-comparison__td">{{ block.settings.comp_3_value }}</td>{% endif %}
+                {% endif %}
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if section.settings.cta_label != blank %}
+      <div class="fortified-comparison__cta">
+        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ section.settings.cta_label }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .fortified-comparison {
+    background: var(--color-background, #fff);
+    color: var(--color-foreground, #0A0A0A);
+    padding-block: var(--fortified-section-py);
+  }
+  .fortified-comparison__heading { text-align: center; margin-bottom: 32px; }
+  .fortified-comparison__wrap { overflow-x: auto; }
+  .fortified-comparison__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-fortified-body);
+    min-width: 600px;
+  }
+  .fortified-comparison__th {
+    padding: 14px 12px;
+    text-align: center;
+    font-family: var(--font-fortified-display);
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: var(--fortified-gray-light);
+    color: var(--fortified-black);
+    border-bottom: 2px solid var(--fortified-gray-light);
+  }
+  .fortified-comparison__th--ours { background: var(--fortified-teal); color: #fff; }
+  .fortified-comparison__row-label {
+    text-align: left;
+    padding: 14px 12px;
+    font-weight: 600;
+    font-size: 14px;
+    background: var(--fortified-off-white);
+    border-bottom: 1px solid var(--fortified-gray-light);
+  }
+  .fortified-comparison__td {
+    padding: 14px 12px;
+    text-align: center;
+    font-size: 14px;
+    border-bottom: 1px solid var(--fortified-gray-light);
+  }
+  .fortified-comparison__td--ours {
+    background: rgb(0 184 184 / .08);
+    font-weight: 700;
+    color: var(--fortified-teal);
+  }
+  .fortified-comparison__check { color: var(--fortified-teal); font-weight: 700; font-size: 18px; }
+  .fortified-comparison__x { color: var(--fortified-gray-mid); font-size: 18px; }
+  .fortified-comparison__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Fortified Comparison Table",
+  "tag": "section",
+  "class": "fortified-comparison-section",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "WHY WE BEAT THE REST ELECTROLYTES" },
+    { "type": "text", "id": "competitor_1_name", "label": "Competitor 1 name", "default": "Liquid IV" },
+    { "type": "text", "id": "competitor_2_name", "label": "Competitor 2 name", "default": "Liquid IV+" },
+    { "type": "text", "id": "competitor_3_name", "label": "Competitor 3 name", "default": "Liquid IV Pro" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FORTIFIED NOW" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+  ],
+  "blocks": [
+    {
+      "type": "fortified-comparison-row",
+      "name": "Comparison row",
+      "settings": [
+        { "type": "text", "id": "row_label", "label": "Row label", "default": "Sodium per serving" },
+        { "type": "text", "id": "fortified_value", "label": "Fortified value", "default": "1200MG" },
+        { "type": "text", "id": "comp_1_value", "label": "Competitor 1 value", "default": "500MG" },
+        { "type": "text", "id": "comp_2_value", "label": "Competitor 2 value" },
+        { "type": "text", "id": "comp_3_value", "label": "Competitor 3 value" },
+        { "type": "checkbox", "id": "is_checkmark_row", "label": "Render values as check/x icons", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fortified Comparison Table",
+      "category": "Fortified",
+      "tag": null,
+      "blocks": [
+        { "type": "fortified-comparison-row", "settings": { "row_label": "Sodium per serving", "fortified_value": "1200MG", "comp_1_value": "500MG", "comp_2_value": "500MG", "comp_3_value": "500MG" } },
+        { "type": "fortified-comparison-row", "settings": { "row_label": "Sugar-free", "is_checkmark_row": true, "fortified_value": "yes", "comp_1_value": "no", "comp_2_value": "no", "comp_3_value": "no" } },
+        { "type": "fortified-comparison-row", "settings": { "row_label": "Magnesium glycinate", "is_checkmark_row": true, "fortified_value": "yes", "comp_1_value": "no", "comp_2_value": "no", "comp_3_value": "yes" } },
+        { "type": "fortified-comparison-row", "settings": { "row_label": "Trial price", "fortified_value": "$1.99", "comp_1_value": "$8.97", "comp_2_value": "$5.97", "comp_3_value": "$5.97" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

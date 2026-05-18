@@ -1,0 +1,128 @@
+{% comment %}
+  Shared FORTIFIED design tokens + utility CSS.
+  Render once per page where needed: {% render 'fortified-base' %}
+{% endcomment %}
+{% unless fortified_base_loaded %}
+  {% assign fortified_base_loaded = true %}
+  <style>
+    .fortified {
+      font-family: var(--font-fortified-body);
+      color: var(--color-foreground);
+    }
+    .fortified-container {
+      width: 100%;
+      max-width: var(--fortified-container);
+      margin-inline: auto;
+      padding-inline: clamp(16px, 4vw, 80px);
+    }
+    .fortified-section {
+      padding-block: var(--fortified-section-py);
+    }
+    .fortified-eyebrow {
+      display: inline-block;
+      font-family: var(--font-fortified-body);
+      font-size: clamp(11px, 1vw, 13px);
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--fortified-teal);
+      margin: 0 0 12px;
+    }
+    .fortified-heading {
+      font-family: var(--font-fortified-display);
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      line-height: 0.95;
+      margin: 0 0 16px;
+      color: var(--color-foreground-heading, currentColor);
+    }
+    .fortified-h1 { font-size: clamp(40px, 7vw, 72px); }
+    .fortified-h2 { font-size: clamp(32px, 5vw, 56px); }
+    .fortified-h3 { font-size: clamp(24px, 3vw, 36px); }
+    .fortified-body {
+      font-family: var(--font-fortified-body);
+      font-size: clamp(15px, 1.1vw, 17px);
+      line-height: 1.55;
+      color: var(--color-foreground);
+    }
+    .fortified-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: var(--fortified-radius-pill);
+      padding: 14px 32px;
+      font-family: var(--font-fortified-body);
+      font-size: clamp(12px, 1vw, 14px);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .15s ease, opacity .15s ease, background-color .15s ease;
+      border: 2px solid transparent;
+      min-height: 44px;
+    }
+    .fortified-btn:hover { transform: translateY(-1px); opacity: .92; }
+    .fortified-btn--primary {
+      background: var(--fortified-teal);
+      color: var(--fortified-white);
+    }
+    .fortified-btn--primary:hover { background: var(--fortified-teal-dark); }
+    .fortified-btn--ghost {
+      background: transparent;
+      color: var(--fortified-teal);
+      border-color: var(--fortified-teal);
+    }
+    .fortified-btn--dark {
+      background: var(--fortified-black);
+      color: var(--fortified-white);
+    }
+    .fortified-btn--white {
+      background: var(--fortified-white);
+      color: var(--fortified-black);
+    }
+    .fortified-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .fortified-checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-family: var(--font-fortified-body);
+      font-size: 15px;
+    }
+    .fortified-checklist li::before {
+      content: "✓";
+      color: var(--fortified-teal);
+      font-weight: 700;
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fortified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--fortified-radius-pill);
+      font-family: var(--font-fortified-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .fortified-badge--teal { background: var(--fortified-teal); color: #fff; }
+    .fortified-badge--dark { background: var(--fortified-black); color: #fff; }
+    .fortified-badge--white { background: #fff; color: var(--fortified-black); }
+  </style>
+{% endunless %}

@@ -31,6 +31,41 @@
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-schemes' -%}
 
+    {% comment %} FORTIFIED brand fonts {% endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    >
+    <style>
+      :root {
+        --font-fortified-display: "Bebas Neue", "Anton", "Impact", sans-serif;
+        --font-fortified-body: "DM Sans", "Inter", system-ui, sans-serif;
+        --fortified-teal: #00B8B8;
+        --fortified-teal-dark: #009A9A;
+        --fortified-black: #0A0A0A;
+        --fortified-dark: #111111;
+        --fortified-white: #FFFFFF;
+        --fortified-off-white: #F7F7F7;
+        --fortified-gray-light: #EBEBEB;
+        --fortified-gray-mid: #999999;
+        --fortified-orange: #E8821A;
+        --fortified-purple: #7B3FA0;
+        --fortified-gold: #D4A017;
+        --fortified-success: #2ECC71;
+        --fortified-container: 1280px;
+        --fortified-section-py: clamp(48px, 8vw, 120px);
+        --fortified-radius-pill: 100px;
+      }
+    </style>
+
+    {% comment %} Loop Subscriptions {% endcomment %}
+    {% unless loop_script_loaded %}
+      <script src="https://cdn.loopwork.co/loop.js" defer></script>
+      {% assign loop_script_loaded = true %}
+    {% endunless %}
+
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
     {% endif %}

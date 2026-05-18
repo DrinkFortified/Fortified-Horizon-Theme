@@ -1,0 +1,42 @@
+<section class="fortified-faq-block">
+  <div class="fortified-container fortified-faq-block__inner">
+    <aside class="fortified-faq-block__side">
+      {% if block.settings.heading != blank %}
+        <h2 class="fortified-heading fortified-h2">{{ block.settings.heading }}</h2>
+      {% endif %}
+    </aside>
+    <div class="fortified-faq-block__list">
+      {% for i in (1..6) %}
+        {%- assign q_key = 'question_' | append: i -%}
+        {%- assign a_key = 'answer_' | append: i -%}
+        {%- assign q = block.settings[q_key] -%}
+        {%- assign a = block.settings[a_key] -%}
+        {% if q != blank %}
+          <details class="fortified-faq__item">
+            <summary class="fortified-faq__q">
+              <span>{{ q }}</span>
+              <span class="fortified-faq__icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="fortified-faq__a">{{ a }}</div>
+          </details>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .fortified-faq-block {
+    background: var(--fortified-white);
+    padding-block: var(--fortified-section-py);
+  }
+  .fortified-faq-block__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(24px, 4vw, 64px);
+  }
+  @media (min-width: 1024px) {
+    .fortified-faq-block__inner { grid-template-columns: 1fr 1.4fr; }
+  }
+  .fortified-faq-block__list { display: flex; flex-direction: column; gap: 8px; }
+</style>

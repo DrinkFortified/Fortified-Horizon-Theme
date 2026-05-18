@@ -1,0 +1,140 @@
+{% render 'fortified-base' %}
+
+<section
+  id="FortifiedDarkLifestyle-{{ section.id }}"
+  class="fortified-dark-lifestyle color-{{ section.settings.color_scheme }}"
+>
+  <div class="fortified-container fortified-dark-lifestyle__inner">
+    <header class="fortified-dark-lifestyle__header">
+      {% if section.settings.eyebrow != blank %}
+        <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="fortified-heading fortified-h2">{{ section.settings.heading | newline_to_br }}</h2>
+      {% endif %}
+    </header>
+
+    <div class="fortified-dark-lifestyle__grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'fortified-lifestyle-photo' %}
+          <div class="fortified-dark-lifestyle__item" {{ block.shopify_attributes }}>
+            {% if block.settings.image != blank %}
+              {{ block.settings.image | image_url: width: 800 | image_tag:
+                  widths: '300, 500, 800',
+                  sizes: '(min-width: 1024px) 22vw, 50vw',
+                  class: 'fortified-dark-lifestyle__img',
+                  alt: block.settings.image.alt | default: block.settings.benefit_label,
+                  loading: 'lazy' }}
+            {% endif %}
+            {% if block.settings.benefit_label != blank %}
+              <span class="fortified-dark-lifestyle__badge">{{ block.settings.benefit_label }}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if section.settings.cta_label != blank %}
+      <div class="fortified-dark-lifestyle__cta">
+        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--white">{{ section.settings.cta_label }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .fortified-dark-lifestyle {
+    background: var(--color-background, #0A0A0A);
+    color: var(--color-foreground, #fff);
+    padding-block: var(--fortified-section-py);
+  }
+  .fortified-dark-lifestyle__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(28px, 4vw, 56px);
+  }
+  .fortified-dark-lifestyle__header { text-align: center; max-width: 800px; }
+  .fortified-dark-lifestyle__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(10px, 1.5vw, 20px);
+    width: 100%;
+  }
+  @media (min-width: 750px) {
+    .fortified-dark-lifestyle__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .fortified-dark-lifestyle__grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+  .fortified-dark-lifestyle__item {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .fortified-dark-lifestyle__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .fortified-dark-lifestyle__badge {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    background: rgb(0 0 0 / .55);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-family: var(--font-fortified-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Fortified Dark Lifestyle",
+  "tag": "section",
+  "class": "fortified-dark-lifestyle-section",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "EXPLORE ALL FLAVORS" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" }
+  ],
+  "blocks": [
+    {
+      "type": "fortified-lifestyle-photo",
+      "name": "Lifestyle photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "benefit_label", "label": "Benefit label", "default": "+ENERGY" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fortified Dark Lifestyle",
+      "category": "Fortified",
+      "tag": null,
+      "blocks": [
+        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+ENERGY" } },
+        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+PERFORMANCE" } },
+        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+HYDRATION" } },
+        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+FOCUS" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

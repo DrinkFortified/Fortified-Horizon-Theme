@@ -1,0 +1,43 @@
+{%- liquid
+  assign subhead = block.settings.subhead
+  if block.settings.subhead_metafield != blank
+    assign mf_parts = block.settings.subhead_metafield | split: '.'
+    assign ns = mf_parts[0]
+    assign key = mf_parts[1]
+    if product.metafields[ns][key] != blank
+      assign subhead = product.metafields[ns][key]
+    endif
+  endif
+-%}
+
+<div class="fortified-product-info">
+  <h1 class="fortified-heading fortified-h2 fortified-product-info__title">{{ product.title }}</h1>
+  {% if subhead != blank %}
+    <p class="fortified-product-info__subhead">{{ subhead }}</p>
+  {% endif %}
+  <div class="fortified-product-info__reviews" data-fortified-judgeme-badge>
+    {% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', concierge_install: true, product: product %}
+  </div>
+</div>
+
+<style>
+  .fortified-product-info { display: flex; flex-direction: column; gap: 8px; }
+  .fortified-product-info__title {
+    font-family: var(--font-fortified-display);
+    font-size: clamp(32px, 4vw, 48px);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .fortified-product-info__subhead {
+    font-family: var(--font-fortified-body);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--fortified-teal);
+    margin: 0 0 4px;
+  }
+  .fortified-product-info__reviews { font-size: 13px; margin-top: 4px; }
+</style>

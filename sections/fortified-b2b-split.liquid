@@ -1,0 +1,132 @@
+{% render 'fortified-base' %}
+
+<section
+  id="FortifiedB2B-{{ section.id }}"
+  class="fortified-b2b color-{{ section.settings.color_scheme }}"
+>
+  <div class="fortified-container fortified-b2b__inner">
+    {% for block in section.blocks %}
+      {% if block.type == 'fortified-b2b-card' %}
+        <article class="fortified-b2b__card" {{ block.shopify_attributes }} style="--overlay: {{ block.settings.bg_overlay_opacity | default: 50 }}%;">
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 1200 | image_tag:
+                widths: '600, 900, 1200',
+                sizes: '(min-width: 750px) 50vw, 100vw',
+                class: 'fortified-b2b__bg',
+                alt: block.settings.heading,
+                loading: 'lazy' }}
+          {% endif %}
+          <div class="fortified-b2b__content">
+            {% if block.settings.eyebrow != blank %}
+              <span class="fortified-eyebrow">{{ block.settings.eyebrow }}</span>
+            {% endif %}
+            {% if block.settings.heading != blank %}
+              <h3 class="fortified-heading fortified-h3">{{ block.settings.heading }}</h3>
+            {% endif %}
+            {% if block.settings.body != blank %}
+              <p class="fortified-b2b__body">{{ block.settings.body }}</p>
+            {% endif %}
+            {% if block.settings.cta_label != blank %}
+              <a href="{{ block.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ block.settings.cta_label }}</a>
+            {% endif %}
+          </div>
+        </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .fortified-b2b {
+    background: var(--color-background, #fff);
+    padding-block: var(--fortified-section-py);
+  }
+  .fortified-b2b__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(14px, 2vw, 24px);
+  }
+  @media (min-width: 750px) {
+    .fortified-b2b__inner { grid-template-columns: repeat(2, 1fr); }
+  }
+  .fortified-b2b__card {
+    position: relative;
+    min-height: 420px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    color: #fff;
+    isolation: isolate;
+  }
+  .fortified-b2b__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+  .fortified-b2b__card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / var(--overlay, 0.5));
+    z-index: -1;
+  }
+  .fortified-b2b__content {
+    padding: clamp(24px, 3vw, 40px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+  }
+  .fortified-b2b__content .fortified-eyebrow { color: var(--fortified-teal); }
+  .fortified-b2b__body {
+    margin: 0 0 8px;
+    font-family: var(--font-fortified-body);
+    font-size: 15px;
+    line-height: 1.55;
+    max-width: 380px;
+    opacity: .9;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Fortified B2B Split",
+  "tag": "section",
+  "class": "fortified-b2b-section",
+  "max_blocks": 2,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+  ],
+  "blocks": [
+    {
+      "type": "fortified-b2b-card",
+      "name": "B2B card",
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "BECOME A WHOLESALER" },
+        { "type": "textarea", "id": "body", "label": "Body" },
+        { "type": "text", "id": "cta_label", "label": "CTA label", "default": "JOIN NOW" },
+        { "type": "url", "id": "cta_url", "label": "CTA URL" },
+        { "type": "image_picker", "id": "image", "label": "Background image" },
+        { "type": "range", "id": "bg_overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "default": 50, "unit": "%" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fortified B2B Split",
+      "category": "Fortified",
+      "tag": null,
+      "blocks": [
+        { "type": "fortified-b2b-card", "settings": { "heading": "BECOME A WHOLESALER", "cta_label": "JOIN NOW" } },
+        { "type": "fortified-b2b-card", "settings": { "heading": "BECOME A PARTNER", "cta_label": "APPLY NOW" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

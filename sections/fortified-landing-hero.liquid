@@ -1,0 +1,186 @@
+{% render 'fortified-base' %}
+
+<section
+  id="FortifiedLandingHero-{{ section.id }}"
+  class="fortified-landing-hero color-{{ section.settings.color_scheme }}"
+>
+  <div class="fortified-container fortified-landing-hero__inner">
+    <div class="fortified-landing-hero__text">
+      <h1 class="fortified-heading fortified-h1">
+        <span class="fortified-landing-hero__line">{{ section.settings.headline_line_1 }}</span>
+        <span class="fortified-landing-hero__line">{{ section.settings.headline_line_2 }}</span>
+      </h1>
+      <ul class="fortified-landing-hero__benefits">
+        {% for block in section.blocks %}
+          {% if block.type == 'fortified-benefit-item' %}
+            <li class="fortified-landing-hero__benefit" {{ block.shopify_attributes }}>
+              <span class="fortified-landing-hero__icon" aria-hidden="true">
+                {% if block.settings.icon == 'star' %}★{% else %}✓{% endif %}
+              </span>
+              <span>{{ block.settings.text }}</span>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% if section.settings.cta_label != blank %}
+        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--dark fortified-landing-hero__cta">{{ section.settings.cta_label }}</a>
+      {% endif %}
+      {% if section.settings.asterisk_disclaimer != blank %}
+        <p class="fortified-landing-hero__disclaimer">{{ section.settings.asterisk_disclaimer }}</p>
+      {% endif %}
+    </div>
+    <div class="fortified-landing-hero__media">
+      {% if section.settings.image_1 != blank %}
+        {{ section.settings.image_1 | image_url: width: 600 | image_tag:
+            class: 'fortified-landing-hero__product fortified-landing-hero__product--1',
+            widths: '300, 500, 600',
+            sizes: '50vw',
+            alt: '',
+            loading: 'eager' }}
+      {% endif %}
+      {% if section.settings.image_2 != blank %}
+        {{ section.settings.image_2 | image_url: width: 600 | image_tag:
+            class: 'fortified-landing-hero__product fortified-landing-hero__product--2',
+            widths: '300, 500, 600',
+            sizes: '50vw',
+            alt: '',
+            loading: 'eager' }}
+      {% endif %}
+      {% if section.settings.image_3 != blank %}
+        {{ section.settings.image_3 | image_url: width: 600 | image_tag:
+            class: 'fortified-landing-hero__product fortified-landing-hero__product--3',
+            widths: '300, 500, 600',
+            sizes: '50vw',
+            alt: '',
+            loading: 'eager' }}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .fortified-landing-hero {
+    background: linear-gradient(135deg, #00B8B8 0%, #008B8B 100%);
+    color: #fff;
+    padding-block: var(--fortified-section-py);
+    overflow: hidden;
+  }
+  .fortified-landing-hero__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (min-width: 750px) {
+    .fortified-landing-hero__inner { grid-template-columns: 1.1fr 1fr; }
+  }
+  .fortified-landing-hero__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .fortified-landing-hero__line { display: block; }
+  .fortified-landing-hero__benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .fortified-landing-hero__benefit {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-fortified-body);
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .fortified-landing-hero__icon {
+    background: #fff;
+    color: var(--fortified-teal);
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .fortified-landing-hero__cta { margin-top: 8px; }
+  .fortified-landing-hero__disclaimer {
+    font-size: 12px;
+    opacity: .85;
+    margin: 0;
+  }
+  .fortified-landing-hero__media {
+    position: relative;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fortified-landing-hero__product {
+    position: relative;
+    max-width: 200px;
+    height: auto;
+    margin: -20px;
+    filter: drop-shadow(0 20px 30px rgb(0 0 0 / .25));
+  }
+  .fortified-landing-hero__product--1 { transform: rotate(-12deg) translateY(8px); }
+  .fortified-landing-hero__product--2 { transform: rotate(4deg); z-index: 2; }
+  .fortified-landing-hero__product--3 { transform: rotate(14deg) translateY(-6px); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Fortified Landing Hero",
+  "tag": "section",
+  "class": "fortified-landing-hero-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "headline_line_1", "label": "Headline line 1", "default": "TRY 3 STICKS" },
+    { "type": "text", "id": "headline_line_2", "label": "Headline line 2", "default": "FOR FREE*" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "TRY 3 STICKS FOR $1.99" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL" },
+    { "type": "text", "id": "asterisk_disclaimer", "label": "Asterisk disclaimer", "default": "*Just pay shipping. Limited time offer." },
+    { "type": "image_picker", "id": "image_1", "label": "Product image 1" },
+    { "type": "image_picker", "id": "image_2", "label": "Product image 2" },
+    { "type": "image_picker", "id": "image_3", "label": "Product image 3" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" }
+  ],
+  "blocks": [
+    {
+      "type": "fortified-benefit-item",
+      "name": "Benefit item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "checkmark", "label": "Checkmark" },
+            { "value": "star", "label": "Star" }
+          ],
+          "default": "checkmark"
+        },
+        { "type": "text", "id": "text", "label": "Text", "default": "Premium Hydration + Performance" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fortified Landing Hero",
+      "category": "Fortified",
+      "tag": null,
+      "blocks": [
+        { "type": "fortified-benefit-item", "settings": { "text": "Premium Hydration + Performance" } },
+        { "type": "fortified-benefit-item", "settings": { "text": "Zero Sugar, Zero Crash" } },
+        { "type": "fortified-benefit-item", "settings": { "text": "Scientifically Dosed Ingredients" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

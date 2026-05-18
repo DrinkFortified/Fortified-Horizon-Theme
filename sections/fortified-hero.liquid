@@ -1,0 +1,128 @@
+{% render 'fortified-base' %}
+
+{%- liquid
+  assign img_pos = section.settings.image_position | default: 'right'
+  assign bg = section.settings.bg_color
+-%}
+
+<section
+  id="FortifiedHero-{{ section.id }}"
+  class="fortified-hero color-{{ section.settings.color_scheme }} fortified-hero--image-{{ img_pos }}"
+  {% if bg != blank %}style="--fortified-hero-bg: {{ bg }};"{% endif %}
+>
+  <div class="fortified-container fortified-hero__inner">
+    <div class="fortified-hero__text">
+      {% if section.settings.eyebrow_text != blank %}
+        <span class="fortified-eyebrow">{{ section.settings.eyebrow_text }}</span>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h1 class="fortified-heading fortified-h1">{{ section.settings.heading | newline_to_br }}</h1>
+      {% endif %}
+      {% if section.settings.body_text != blank %}
+        <p class="fortified-body fortified-hero__body">{{ section.settings.body_text }}</p>
+      {% endif %}
+      <div class="fortified-hero__ctas">
+        {% if section.settings.cta_primary_label != blank %}
+          <a href="{{ section.settings.cta_primary_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ section.settings.cta_primary_label }}</a>
+        {% endif %}
+        {% if section.settings.cta_secondary_label != blank %}
+          <a href="{{ section.settings.cta_secondary_url | default: '#' }}" class="fortified-btn fortified-btn--ghost">{{ section.settings.cta_secondary_label }}</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="fortified-hero__media">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1400 | image_tag:
+            widths: '480, 720, 960, 1200, 1400',
+            sizes: '(min-width: 750px) 45vw, 100vw',
+            class: 'fortified-hero__img',
+            alt: section.settings.image.alt | default: section.settings.heading,
+            loading: 'eager',
+            fetchpriority: 'high' }}
+      {% else %}
+        <div class="fortified-hero__placeholder"></div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .fortified-hero {
+    background: var(--fortified-hero-bg, var(--color-background, var(--fortified-teal)));
+    color: var(--color-foreground, #fff);
+    padding-block: var(--fortified-section-py);
+    overflow: hidden;
+  }
+  .fortified-hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+  @media (min-width: 750px) {
+    .fortified-hero__inner {
+      flex-direction: row;
+      align-items: center;
+      gap: clamp(32px, 5vw, 80px);
+    }
+    .fortified-hero__text { flex: 0 0 55%; }
+    .fortified-hero__media { flex: 0 0 45%; }
+    .fortified-hero--image-left .fortified-hero__inner { flex-direction: row-reverse; }
+  }
+  .fortified-hero__text { display: flex; flex-direction: column; align-items: flex-start; }
+  .fortified-hero__body { max-width: 480px; margin: 0 0 24px; }
+  .fortified-hero__ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .fortified-hero__media { width: 100%; }
+  .fortified-hero__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+  }
+  .fortified-hero__placeholder {
+    aspect-ratio: 1 / 1;
+    background: rgb(255 255 255 / .12);
+    border-radius: 20px;
+  }
+  @media (max-width: 749px) {
+    .fortified-hero__inner { flex-direction: column-reverse; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Fortified Hero",
+  "tag": "section",
+  "class": "fortified-hero-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow", "default": "FORMULATED FOR" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "HYDRATION THAT HITS" },
+    { "type": "textarea", "id": "body_text", "label": "Body text", "default": "Premium electrolytes that fuel your every move. Clinically dosed, clean, and zero sugar." },
+    { "type": "text", "id": "cta_primary_label", "label": "Primary CTA label", "default": "SHOP NOW" },
+    { "type": "url", "id": "cta_primary_url", "label": "Primary CTA URL" },
+    { "type": "text", "id": "cta_secondary_label", "label": "Secondary CTA label", "default": "LEARN MORE" },
+    { "type": "url", "id": "cta_secondary_url", "label": "Secondary CTA URL" },
+    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "right"
+    },
+    { "type": "color", "id": "bg_color", "label": "Background color (optional override)" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" }
+  ],
+  "presets": [
+    { "name": "Fortified Hero", "category": "Fortified", "tag": null }
+  ]
+}
+{% endschema %}
