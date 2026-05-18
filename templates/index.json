@@ -302,23 +302,23 @@
         "color_scheme": ""
       }
     },
-    "fortified_ingredients_tabs_HOME": {
+    "fortified_ingredients_tabs_IDzSYi": {
       "type": "fortified-ingredients-tabs",
       "name": "06 \u2014 Ingredients",
       "blocks": {
-        "tab_hyd": {
+        "fortified_fortified_tab_Jvovzq": {
           "type": "fortified-tab",
           "settings": {
             "tab_label": "Hydration"
           }
         },
-        "tab_perf": {
+        "fortified_fortified_tab_XavfUy": {
           "type": "fortified-tab",
           "settings": {
             "tab_label": "Performance"
           }
         },
-        "ing_1": {
+        "fortified_fortified_ingredient_YynieK": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Hydration",
@@ -326,7 +326,7 @@
             "dosage_badge": "1,200MG"
           }
         },
-        "ing_2": {
+        "fortified_fortified_ingredient_OeXfgQ": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Hydration",
@@ -334,7 +334,7 @@
             "dosage_badge": "150MG"
           }
         },
-        "ing_3": {
+        "fortified_fortified_ingredient_LyzriQ": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Hydration",
@@ -342,7 +342,7 @@
             "dosage_badge": "300MG"
           }
         },
-        "ing_4": {
+        "fortified_fortified_ingredient_hxQwLl": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Performance",
@@ -352,12 +352,12 @@
         }
       },
       "block_order": [
-        "tab_hyd",
-        "tab_perf",
-        "ing_1",
-        "ing_2",
-        "ing_3",
-        "ing_4"
+        "fortified_fortified_tab_Jvovzq",
+        "fortified_fortified_tab_XavfUy",
+        "fortified_fortified_ingredient_YynieK",
+        "fortified_fortified_ingredient_OeXfgQ",
+        "fortified_fortified_ingredient_LyzriQ",
+        "fortified_fortified_ingredient_hxQwLl"
       ],
       "settings": {
         "eyebrow": "THE TRUTH",
@@ -374,7 +374,7 @@
     "fortified_product_feature_4mEfw4",
     "fortified_dark_lifestyle_qNtabj",
     "fortified_stats_cCqLA9",
-    "fortified_ingredients_tabs_HOME",
+    "fortified_ingredients_tabs_IDzSYi",
     "fortified_lifestyle_strip_zRfxBc",
     "fortified_faq_3XLRkY",
     "fortified_b2b_split_pyX7VB"
