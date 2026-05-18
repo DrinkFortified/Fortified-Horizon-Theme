@@ -483,12 +483,12 @@
         "social_links": {
           "type": "social-links",
           "settings": {
-            "facebook_url": "https://www.facebook.com/",
-            "instagram_url": "https://www.instagram.com/",
-            "youtube_url": "https://www.youtube.com/",
-            "tiktok_url": "https://www.tiktok.com/",
-            "twitter_url": "https://x.com/",
-            "threads_url": "",
+            "facebook_url": "https://www.facebook.com/drinkfortified",
+            "instagram_url": "https://www.instagram.com/drinkfortified",
+            "youtube_url": "https://www.youtube.com/@drinkfortified",
+            "tiktok_url": "https://www.tiktok.com/@drinkfortified",
+            "twitter_url": "https://x.com/drinkfortified",
+            "threads_url": "https://www.threads.net/@drinkfortified",
             "linkedin_url": "",
             "bluesky_url": "",
             "snapchat_url": "",
