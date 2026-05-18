@@ -146,111 +146,41 @@
     .fortified-badge--dark { background: var(--fortified-black); color: #fff; }
     .fortified-badge--white { background: #fff; color: var(--fortified-black); }
 
-    /* === Aggressive horizontal centering for every Fortified element === */
+    /* === Centering for Fortified content (conservative) === */
 
-    /* All section/block roots: center the container itself */
-    [class*="fortified-"][class*="fortified-container"],
-    .fortified-container {
-      margin-inline: auto !important;
+    /* Wrappers should sit centered on the page */
+    .fortified-container,
+    .fortified-hero__inner,
+    .fortified-product-feature__inner,
+    .fortified-dark-lifestyle__inner,
+    .fortified-stats__inner,
+    .fortified-ingredients__inner,
+    .fortified-lifestyle-strip__inner,
+    .fortified-faq__inner,
+    .fortified-b2b__inner,
+    .fortified-subscribe__inner,
+    .fortified-comparison-table__inner,
+    .fortified-press__row {
+      margin-inline: auto;
     }
 
-    /* Every wrapper inside any Fortified block: center its content */
-    [class^="fortified-"][class*="__inner"],
-    [class*=" fortified-"][class*="__inner"],
-    [class^="fortified-"][class*="__copy"],
-    [class*=" fortified-"][class*="__copy"],
-    [class^="fortified-"][class*="__header"],
-    [class*=" fortified-"][class*="__header"],
-    [class^="fortified-"][class*="__content"],
-    [class*=" fortified-"][class*="__content"],
-    [class^="fortified-"][class*="__body"],
-    [class*=" fortified-"][class*="__body"],
-    [class^="fortified-"][class*="__panel"],
-    [class*=" fortified-"][class*="__panel"],
-    [class^="fortified-"][class*="__card"],
-    [class*=" fortified-"][class*="__card"],
-    [class^="fortified-"][class*="__cta"],
-    [class*=" fortified-"][class*="__cta"],
-    [class^="fortified-"][class*="__row"],
-    [class*=" fortified-"][class*="__row"],
-    [class^="fortified-"][class*="__grid"],
-    [class*=" fortified-"][class*="__grid"],
-    [class^="fortified-"][class*="__items"],
-    [class*=" fortified-"][class*="__items"],
-    [class^="fortified-"][class*="__list"],
-    [class*=" fortified-"][class*="__list"],
-    [class^="fortified-"][class*="__tabs"],
-    [class*=" fortified-"][class*="__tabs"],
-    [class^="fortified-"][class*="__panels"],
-    [class*=" fortified-"][class*="__panels"],
-    [class^="fortified-"][class*="__side"],
-    [class*=" fortified-"][class*="__side"],
-    [class^="fortified-"][class*="__scroll"],
-    [class*=" fortified-"][class*="__scroll"],
-    [class^="fortified-"][class*="__products"],
-    [class*=" fortified-"][class*="__products"] {
-      margin-inline: auto !important;
-      text-align: center !important;
+    /* Single-column content blocks: center their text */
+    .fortified-stats__header,
+    .fortified-ingredients__header,
+    .fortified-reviews__header,
+    .fortified-comparison__heading,
+    .fortified-lifestyle-strip__header,
+    .fortified-subscribe__header {
+      text-align: center;
     }
 
-    /* Flex containers inside Fortified blocks: center along main axis */
-    [class*="fortified-"][class*="__inner"],
-    [class*="fortified-"][class*="__copy"],
-    [class*="fortified-"][class*="__header"],
-    [class*="fortified-"][class*="__content"],
-    [class*="fortified-"][class*="__cta"],
-    [class*="fortified-"][class*="__row"],
-    [class*="fortified-"][class*="__list"],
-    [class*="fortified-"][class*="__tabs"],
-    [class*="fortified-"][class*="__panels"],
-    [class*="fortified-"][class*="__side"],
-    [class*="fortified-"][class*="__products"],
-    [class*="fortified-"][class*="__items"] {
-      justify-content: center !important;
-      align-items: center !important;
-      justify-items: center !important;
-    }
-
-    /* Force grid layouts to center their items in their cells */
-    [class*="fortified-"][class*="__grid"] {
-      justify-items: center !important;
-      align-items: center !important;
-    }
-
-    /* All text inside any Fortified block centers */
-    [class^="fortified-"] h1,
-    [class*=" fortified-"] h1,
-    [class^="fortified-"] h2,
-    [class*=" fortified-"] h2,
-    [class^="fortified-"] h3,
-    [class*=" fortified-"] h3,
-    [class^="fortified-"] h4,
-    [class*=" fortified-"] h4,
-    [class^="fortified-"] p,
-    [class*=" fortified-"] p,
-    [class^="fortified-"] .fortified-heading,
-    [class*=" fortified-"] .fortified-heading,
-    [class^="fortified-"] .fortified-eyebrow,
-    [class*=" fortified-"] .fortified-eyebrow,
-    [class^="fortified-"] .fortified-body,
-    [class*=" fortified-"] .fortified-body {
-      text-align: center !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
-
-    /* Buttons: keep them inline-flex (they're inline-flex by default) but center their containing row */
-    [class*="fortified-"] .fortified-btn {
-      margin-inline: auto !important;
-    }
-
-    /* Comparison table — keep cells readable, but center the table itself */
+    /* Comparison table cells stay center-aligned */
     .fortified-comparison__table {
-      margin-inline: auto !important;
+      margin-inline: auto;
     }
     .fortified-comparison__table th,
     .fortified-comparison__table td {
-      text-align: center !important;
+      text-align: center;
     }
   </style>
 {% endunless %}
