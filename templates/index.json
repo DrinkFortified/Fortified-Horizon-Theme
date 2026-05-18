@@ -16,7 +16,8 @@
             "image_side": "right",
             "bg_color": "#F4EEE7",
             "text_color": "#0A0A0A"
-          }
+          },
+          "name": "01 \u2014 Hero"
         }
       },
       "block_order": [
@@ -28,7 +29,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "01 \u2014 Hero"
     },
     "press_section": {
       "type": "section",
@@ -42,7 +44,8 @@
             "logo_3_alt": "GQ",
             "logo_4_alt": "Mail Online",
             "logo_5_alt": "Esquire"
-          }
+          },
+          "name": "02 \u2014 Press Logos"
         }
       },
       "block_order": [
@@ -54,7 +57,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "02 \u2014 Press Logos"
     },
     "product_feature_section": {
       "type": "section",
@@ -69,7 +73,8 @@
             "cta_primary_url": "/collections/all",
             "cta_secondary_label": "",
             "image_side": "right"
-          }
+          },
+          "name": "03 \u2014 Product Feature"
         }
       },
       "block_order": [
@@ -81,7 +86,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "03 \u2014 Product Feature"
     },
     "dark_lifestyle_section": {
       "type": "section",
@@ -94,7 +100,8 @@
             "body": "Electrolytes don't provide full recovery on their own. Fortified combines hydration with the minerals your body craves \u2014 supporting energy, focus, and muscle function all day.",
             "cta_label": "EXPLORE ALL FLAVORS",
             "cta_url": "/collections/all"
-          }
+          },
+          "name": "04 \u2014 Dark Lifestyle"
         }
       },
       "block_order": [
@@ -106,7 +113,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "04 \u2014 Dark Lifestyle"
     },
     "stats_section": {
       "type": "section",
@@ -127,7 +135,8 @@
             "stat_3_caption": "* Journal of Strength & Conditioning Research",
             "cta_label": "EXPLORE ALL FLAVORS",
             "cta_url": "/collections/all"
-          }
+          },
+          "name": "05 \u2014 Stats"
         }
       },
       "block_order": [
@@ -139,7 +148,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "05 \u2014 Stats"
     },
     "ingredients_section": {
       "type": "section",
@@ -159,7 +169,8 @@
             "pillar_4_text": "Gut-friendly formula that supports digestive health alongside hydration.",
             "cta_label": "SHOP FORTIFIED NOW",
             "cta_url": "/collections/all"
-          }
+          },
+          "name": "06 \u2014 Ingredients"
         }
       },
       "block_order": [
@@ -171,7 +182,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "06 \u2014 Ingredients"
     },
     "lifestyle_strip_section": {
       "type": "section",
@@ -185,7 +197,8 @@
             "cta_label": "SHOP FORTIFIED NOW",
             "cta_url": "/collections/all",
             "overlay_opacity": 35
-          }
+          },
+          "name": "07 \u2014 Lifestyle Strip"
         }
       },
       "block_order": [
@@ -197,7 +210,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "07 \u2014 Lifestyle Strip"
     },
     "faq_section": {
       "type": "section",
@@ -221,7 +235,8 @@
             "answer_5": "<p>Yes. The formula is built around clinically researched mineral doses and contains no artificial sweeteners, dyes, or stimulants.</p>",
             "question_6": "How fast will I feel the difference?",
             "answer_6": "<p>Most customers notice better hydration and energy within the first few servings \u2014 and report improved performance and recovery within a week.</p>"
-          }
+          },
+          "name": "08 \u2014 FAQ"
         }
       },
       "block_order": [
@@ -233,7 +248,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "08 \u2014 FAQ"
     },
     "b2b_section": {
       "type": "section",
@@ -251,7 +267,8 @@
             "card_2_body": "Gym, studio, or team? Get co-branded packs, ambassador codes, and revenue share.",
             "card_2_cta_label": "APPLY NOW",
             "card_2_cta_url": "/pages/partners"
-          }
+          },
+          "name": "09 \u2014 B2B Split"
         }
       },
       "block_order": [
@@ -263,7 +280,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "09 \u2014 B2B Split"
     },
     "subscribe_section": {
       "type": "section",
@@ -278,7 +296,8 @@
             "cta_primary_url": "/pages/subscribe",
             "cta_secondary_label": "LEARN MORE",
             "cta_secondary_url": "/pages/subscribe"
-          }
+          },
+          "name": "10 \u2014 Subscribe & Save"
         }
       },
       "block_order": [
@@ -290,7 +309,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "10 \u2014 Subscribe & Save"
     }
   },
   "order": [

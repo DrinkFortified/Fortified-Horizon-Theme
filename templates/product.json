@@ -254,7 +254,8 @@
         "color_scheme": "",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "00 \u2014 Product Information"
     },
     "product_recommendations_qggXJq": {
       "type": "product-recommendations",
@@ -377,7 +378,7 @@
       "block_order": [
         "text_cbcgyb"
       ],
-      "name": "t:names.product_recommendations",
+      "name": "10 \u2014 You May Also Like",
       "settings": {
         "product": "{{ closest.product }}",
         "recommendation_type": "related",
@@ -410,7 +411,8 @@
             "cta_primary_url": "/collections/all",
             "cta_secondary_label": "",
             "image_side": "right"
-          }
+          },
+          "name": "01 \u2014 Feature: Your Best Day"
         }
       },
       "block_order": [
@@ -422,7 +424,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "01 \u2014 Feature: Your Best Day"
     },
     "pdp_ingredients_section": {
       "type": "section",
@@ -442,7 +445,8 @@
             "pillar_4_text": "Gut-friendly formula that supports digestive health alongside hydration.",
             "cta_label": "SHOP FORTIFIED NOW",
             "cta_url": "/collections/all"
-          }
+          },
+          "name": "02 \u2014 Clinically Backed Ingredients"
         }
       },
       "block_order": [
@@ -454,7 +458,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "02 \u2014 Clinically Backed Ingredients"
     },
     "pdp_testimonial_section": {
       "type": "section",
@@ -469,7 +474,8 @@
             "cta_primary_url": "/pages/athletes",
             "cta_secondary_label": "",
             "image_side": "left"
-          }
+          },
+          "name": "03 \u2014 Testimonial: Alex Friedman"
         }
       },
       "block_order": [
@@ -481,7 +487,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "03 \u2014 Testimonial: Alex Friedman"
     },
     "pdp_stats_section": {
       "type": "section",
@@ -502,7 +509,8 @@
             "stat_3_caption": "in hydration and recovery *",
             "cta_label": "EXPLORE ALL FLAVORS",
             "cta_url": "/collections/all"
-          }
+          },
+          "name": "04 \u2014 Research Stats"
         }
       },
       "block_order": [
@@ -514,7 +522,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "04 \u2014 Research Stats"
     },
     "pdp_comparison_section": {
       "type": "section",
@@ -565,7 +574,8 @@
             "row_6_is_checkmark": false,
             "cta_label": "SHOP FORTIFIED NOW",
             "cta_url": "/collections/all"
-          }
+          },
+          "name": "05 \u2014 Comparison Table"
         }
       },
       "block_order": [
@@ -577,7 +587,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "05 \u2014 Comparison Table"
     },
     "pdp_lifestyle_section": {
       "type": "section",
@@ -591,7 +602,8 @@
             "cta_label": "SHOP FORTIFIED NOW",
             "cta_url": "/collections/all",
             "overlay_opacity": 35
-          }
+          },
+          "name": "06 \u2014 Lifestyle Strip"
         }
       },
       "block_order": [
@@ -603,7 +615,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "06 \u2014 Lifestyle Strip"
     },
     "pdp_reviews_section": {
       "type": "section",
@@ -633,7 +646,8 @@
             "review_6_name": "Devon L.",
             "review_6_rating": 5,
             "review_6_quote": "<p>Clean ingredients you can actually pronounce. My whole family is on it now.</p>"
-          }
+          },
+          "name": "07 \u2014 Customer Reviews"
         }
       },
       "block_order": [
@@ -645,7 +659,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "07 \u2014 Customer Reviews"
     },
     "pdp_faq_section": {
       "type": "section",
@@ -669,7 +684,8 @@
             "answer_5": "<p>Yes. The formula is built around clinically researched mineral doses and contains no artificial sweeteners, dyes, or stimulants.</p>",
             "question_6": "How fast will I feel the difference?",
             "answer_6": "<p>Most customers notice better hydration and energy within the first few servings \u2014 and report improved performance and recovery within a week.</p>"
-          }
+          },
+          "name": "08 \u2014 FAQ"
         }
       },
       "block_order": [
@@ -681,7 +697,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "08 \u2014 FAQ"
     },
     "pdp_subscribe_section": {
       "type": "section",
@@ -696,7 +713,8 @@
             "cta_primary_url": "/pages/subscribe",
             "cta_secondary_label": "LEARN MORE",
             "cta_secondary_url": "/pages/subscribe"
-          }
+          },
+          "name": "09 \u2014 Subscribe & Save"
         }
       },
       "block_order": [
@@ -708,7 +726,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "name": "09 \u2014 Subscribe & Save"
     }
   },
   "order": [
