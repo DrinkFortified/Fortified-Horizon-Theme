@@ -31,17 +31,46 @@
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-schemes' -%}
 
-    {% comment %} FORTIFIED brand fonts {% endcomment %}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    >
+    {% comment %} FORTIFIED brand fonts — Brother 1816 {% endcomment %}
     <style>
+      @font-face {
+        font-family: "Brother 1816";
+        src: url("{{ 'Brother1816-Regular.otf' | asset_url }}") format("opentype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Brother 1816";
+        src: url("{{ 'Brother1816-RegularItalic.otf' | asset_url }}") format("opentype");
+        font-weight: 400;
+        font-style: italic;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Brother 1816";
+        src: url("{{ 'Brother1816-Medium.otf' | asset_url }}") format("opentype");
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Brother 1816";
+        src: url("{{ 'Brother1816-Bold.otf' | asset_url }}") format("opentype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Brother 1816";
+        src: url("{{ 'Brother1816-Black.otf' | asset_url }}") format("opentype");
+        font-weight: 900;
+        font-style: normal;
+        font-display: swap;
+      }
       :root {
-        --font-fortified-display: "Bebas Neue", "Anton", "Impact", sans-serif;
-        --font-fortified-body: "DM Sans", "Inter", system-ui, sans-serif;
+        --font-fortified-display: "Brother 1816", "Helvetica Neue", Arial, sans-serif;
+        --font-fortified-body: "Brother 1816", "Helvetica Neue", Arial, sans-serif;
         --fortified-teal: #00B8B8;
         --fortified-teal-dark: #009A9A;
         --fortified-black: #0A0A0A;
