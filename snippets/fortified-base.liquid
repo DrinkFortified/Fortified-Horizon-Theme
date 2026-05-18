@@ -5,6 +5,26 @@
 {% unless fortified_base_loaded %}
   {% assign fortified_base_loaded = true %}
   <style>
+    :root {
+      --fortified-container: 1320px;
+      --fortified-section-py: clamp(48px, 7vw, 112px);
+      --fortified-radius-pill: 999px;
+
+      --fortified-black: #0A0A0A;
+      --fortified-white: #FFFFFF;
+      --fortified-off-white: #F4EEE7;
+      --fortified-gray-light: #E5E5E5;
+      --fortified-gray-mid: #6B6B6B;
+      --fortified-teal: #1FA8A1;
+      --fortified-teal-dark: #168A84;
+      --fortified-orange: #F2A93B;
+      --fortified-gold: #D9A24A;
+      --fortified-success: #2BB673;
+
+      --font-fortified-display: 'Brother 1816', 'Helvetica Neue', Arial, sans-serif;
+      --font-fortified-body: 'Brother 1816', 'Helvetica Neue', Arial, sans-serif;
+    }
+
     .fortified {
       font-family: var(--font-fortified-body);
       color: var(--color-foreground);
@@ -125,5 +145,40 @@
     .fortified-badge--teal { background: var(--fortified-teal); color: #fff; }
     .fortified-badge--dark { background: var(--fortified-black); color: #fff; }
     .fortified-badge--white { background: #fff; color: var(--fortified-black); }
+
+    /* Center all Fortified block content horizontally */
+    .fortified-hero__copy,
+    .fortified-product-feature__copy,
+    .fortified-dark-lifestyle__copy,
+    .fortified-faq__side,
+    .fortified-b2b__card,
+    .fortified-b2b-split__card,
+    .fortified-lifestyle-strip__copy,
+    .fortified-subscribe__copy,
+    .fortified-subscribe-save__copy,
+    .fortified-stats__header,
+    .fortified-ingredients__header,
+    .fortified-reviews__header,
+    .fortified-comparison__header {
+      align-items: center !important;
+      text-align: center !important;
+    }
+    .fortified-hero__ctas,
+    .fortified-product-feature__ctas,
+    .fortified-dark-lifestyle__ctas,
+    .fortified-subscribe__ctas,
+    .fortified-subscribe-save__ctas,
+    .fortified-b2b__card-cta,
+    .fortified-b2b-split__card-cta,
+    .fortified-lifestyle-strip__cta,
+    .fortified-faq__cta {
+      justify-content: center !important;
+      align-items: center !important;
+    }
+    .fortified-hero__body,
+    .fortified-product-feature__body,
+    .fortified-dark-lifestyle__body {
+      margin-inline: auto !important;
+    }
   </style>
 {% endunless %}
