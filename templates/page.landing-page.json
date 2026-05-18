@@ -9,6 +9,86 @@
  */
 {
   "sections": {
+    "fortified_landing_hero_wmDewT": {
+      "type": "fortified-landing-hero",
+      "blocks": {
+        "fortified_benefit_item_UhRREk": {
+          "type": "fortified-benefit-item",
+          "settings": {
+            "icon": "checkmark",
+            "text": "Premium Hydration + Performance"
+          }
+        },
+        "fortified_benefit_item_TqEWcj": {
+          "type": "fortified-benefit-item",
+          "settings": {
+            "icon": "checkmark",
+            "text": "Zero Sugar, Zero Crash"
+          }
+        },
+        "fortified_benefit_item_7NGV3q": {
+          "type": "fortified-benefit-item",
+          "settings": {
+            "icon": "checkmark",
+            "text": "Scientifically Dosed Ingredients"
+          }
+        }
+      },
+      "block_order": [
+        "fortified_benefit_item_UhRREk",
+        "fortified_benefit_item_TqEWcj",
+        "fortified_benefit_item_7NGV3q"
+      ],
+      "name": "Fortified Landing Hero",
+      "settings": {
+        "headline_line_1": "TRY 3 STICKS",
+        "headline_line_2": "FOR FREE*",
+        "cta_label": "TRY 3 STICKS FOR $1.99",
+        "cta_url": "",
+        "asterisk_disclaimer": "*Just pay shipping. Limited time offer.",
+        "color_scheme": ""
+      }
+    },
+    "fortified_lifestyle_strip_tCkFVJ": {
+      "type": "fortified-lifestyle-strip",
+      "blocks": {
+        "fortified_strip_image_BkDgBn": {
+          "type": "fortified-strip-image",
+          "settings": {}
+        },
+        "fortified_strip_image_m6DP8H": {
+          "type": "fortified-strip-image",
+          "settings": {}
+        },
+        "fortified_strip_image_VmAbUQ": {
+          "type": "fortified-strip-image",
+          "settings": {}
+        },
+        "fortified_strip_image_pLUnMj": {
+          "type": "fortified-strip-image",
+          "settings": {}
+        },
+        "fortified_strip_image_8knm8K": {
+          "type": "fortified-strip-image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "fortified_strip_image_BkDgBn",
+        "fortified_strip_image_m6DP8H",
+        "fortified_strip_image_VmAbUQ",
+        "fortified_strip_image_pLUnMj",
+        "fortified_strip_image_8knm8K"
+      ],
+      "name": "Fortified Lifestyle Strip",
+      "settings": {
+        "eyebrow": "THE TRUTH",
+        "heading": "MORE THAN HYDRATION",
+        "cta_label": "SHOP FORTIFIED NOW",
+        "cta_url": "",
+        "color_scheme": ""
+      }
+    },
     "main": {
       "type": "main-page",
       "blocks": {
@@ -58,6 +138,8 @@
     }
   },
   "order": [
+    "fortified_landing_hero_wmDewT",
+    "fortified_lifestyle_strip_tCkFVJ",
     "main"
   ]
 }
