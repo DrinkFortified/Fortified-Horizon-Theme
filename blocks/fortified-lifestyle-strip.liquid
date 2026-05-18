@@ -1,0 +1,98 @@
+{% render 'fortified-base' %}
+
+{%- liquid
+  assign img = block.settings.image
+  assign cta_label = block.settings.cta_label
+  assign cta_url = block.settings.cta_url | default: '#'
+  assign overlay = block.settings.overlay_opacity | default: 40
+-%}
+
+<div
+  class="fortified-lifestyle-strip color-{{ block.settings.color_scheme }}"
+  style="--fortified-strip-overlay: {{ overlay }}%;"
+  {{ block.shopify_attributes }}
+>
+  {% if img != blank %}
+    {{ img | image_url: width: 2400 | image_tag:
+        widths: '800, 1200, 1800, 2400',
+        sizes: '100vw',
+        class: 'fortified-lifestyle-strip__bg',
+        alt: img.alt | default: block.settings.heading,
+        loading: 'lazy' }}
+  {% endif %}
+  <div class="fortified-lifestyle-strip__overlay" aria-hidden="true"></div>
+  <div class="fortified-container fortified-lifestyle-strip__inner">
+    {% if block.settings.eyebrow != blank %}
+      <span class="fortified-eyebrow">{{ block.settings.eyebrow }}</span>
+    {% endif %}
+    {% if block.settings.heading != blank %}
+      <h2 class="fortified-heading fortified-h2">{{ block.settings.heading }}</h2>
+    {% endif %}
+    {% if block.settings.body != blank %}
+      <p class="fortified-body fortified-lifestyle-strip__body">{{ block.settings.body }}</p>
+    {% endif %}
+    {% if cta_label != blank %}
+      <a href="{{ cta_url }}" class="fortified-btn fortified-btn--white">{{ cta_label }}</a>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .fortified-lifestyle-strip {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #fff;
+    padding-block: clamp(72px, 12vw, 160px);
+    min-height: 360px;
+    display: flex;
+    align-items: center;
+  }
+  .fortified-lifestyle-strip__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+  .fortified-lifestyle-strip__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / var(--fortified-strip-overlay, 40%));
+    z-index: -1;
+  }
+  .fortified-lifestyle-strip__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    max-width: 640px;
+  }
+  .fortified-lifestyle-strip__body {
+    margin: 4px 0 4px;
+    font-size: 16px;
+    line-height: 1.55;
+    max-width: 52ch;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Fortified Lifestyle Strip",
+  "tag": null,
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "MORE THAN HYDRATION" },
+    { "type": "textarea", "id": "body", "label": "Body" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FORTIFIED NOW" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL" },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "default": 40, "unit": "%" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+  ],
+  "presets": [
+    { "name": "Fortified Lifestyle Strip", "category": "Fortified" }
+  ]
+}
+{% endschema %}

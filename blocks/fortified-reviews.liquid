@@ -1,0 +1,163 @@
+{% render 'fortified-base' %}
+
+<div
+  class="fortified-reviews color-{{ block.settings.color_scheme }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="fortified-container fortified-reviews__inner">
+    <header class="fortified-reviews__header">
+      {% if block.settings.eyebrow != blank %}
+        <span class="fortified-eyebrow">{{ block.settings.eyebrow }}</span>
+      {% endif %}
+      {% if block.settings.heading != blank %}
+        <h2 class="fortified-heading fortified-h2">{{ block.settings.heading }}</h2>
+      {% endif %}
+      {% if block.settings.average_rating != blank %}
+        {%- assign avg = block.settings.average_rating | times: 1 -%}
+        <div class="fortified-reviews__avg" aria-label="Average rating {{ avg }} out of 5">
+          <span class="fortified-reviews__avg-stars" aria-hidden="true">
+            {% for s in (1..5) %}
+              {% if s <= avg %}<span class="fortified-reviews__star is-on">★</span>{% else %}<span class="fortified-reviews__star">★</span>{% endif %}
+            {% endfor %}
+          </span>
+          <span class="fortified-reviews__avg-value">{{ block.settings.average_rating }}{% if block.settings.review_count != blank %} · {{ block.settings.review_count }}{% endif %}</span>
+        </div>
+      {% endif %}
+    </header>
+
+    <div class="fortified-reviews__grid">
+      {% for i in (1..6) %}
+        {%- assign name_key = 'review_' | append: i | append: '_name' -%}
+        {%- assign rating_key = 'review_' | append: i | append: '_rating' -%}
+        {%- assign quote_key = 'review_' | append: i | append: '_quote' -%}
+        {%- assign name = block.settings[name_key] -%}
+        {%- assign rating = block.settings[rating_key] | default: 5 -%}
+        {%- assign quote = block.settings[quote_key] -%}
+        {% if name != blank or quote != blank %}
+          <article class="fortified-reviews__card">
+            <div class="fortified-reviews__stars" aria-label="{{ rating }} out of 5 stars">
+              {% for s in (1..5) %}
+                {% if s <= rating %}<span class="fortified-reviews__star is-on" aria-hidden="true">★</span>{% else %}<span class="fortified-reviews__star" aria-hidden="true">★</span>{% endif %}
+              {% endfor %}
+            </div>
+            {% if quote != blank %}
+              <div class="fortified-reviews__quote">{{ quote }}</div>
+            {% endif %}
+            {% if name != blank %}
+              <div class="fortified-reviews__name">— {{ name }}</div>
+            {% endif %}
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .fortified-reviews {
+    background: var(--color-background, #fff);
+    color: var(--color-foreground, #0A0A0A);
+    padding-block: var(--fortified-section-py);
+  }
+  .fortified-reviews__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(24px, 3vw, 40px);
+  }
+  .fortified-reviews__header {
+    text-align: center;
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .fortified-reviews__avg {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-fortified-body);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .fortified-reviews__avg-stars { letter-spacing: 2px; }
+  .fortified-reviews__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(14px, 2vw, 24px);
+    width: 100%;
+  }
+  @media (min-width: 750px) {
+    .fortified-reviews__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .fortified-reviews__grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .fortified-reviews__card {
+    background: var(--fortified-off-white);
+    border-radius: 16px;
+    padding: clamp(20px, 2.5vw, 28px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .fortified-reviews__stars { letter-spacing: 2px; font-size: 16px; color: var(--fortified-gray-light); }
+  .fortified-reviews__star.is-on { color: var(--fortified-teal); }
+  .fortified-reviews__quote {
+    font-family: var(--font-fortified-body);
+    font-size: 15px;
+    line-height: 1.55;
+    margin: 0;
+  }
+  .fortified-reviews__quote p { margin: 0; }
+  .fortified-reviews__name {
+    font-family: var(--font-fortified-body);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: .8;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Fortified Reviews",
+  "tag": null,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "WHAT CUSTOMERS ARE SAYING" },
+    { "type": "text", "id": "average_rating", "label": "Average rating (1-5)", "default": "4.9" },
+    { "type": "text", "id": "review_count", "label": "Review count caption", "default": "12,400+ verified reviews" },
+    { "type": "header", "content": "Review 1" },
+    { "type": "text", "id": "review_1_name", "label": "Reviewer name", "default": "Alex M." },
+    { "type": "range", "id": "review_1_rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+    { "type": "richtext", "id": "review_1_quote", "label": "Quote", "default": "<p>Hits harder than anything else I've tried. Game changer for my morning workouts.</p>" },
+    { "type": "header", "content": "Review 2" },
+    { "type": "text", "id": "review_2_name", "label": "Reviewer name", "default": "Jordan T." },
+    { "type": "range", "id": "review_2_rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+    { "type": "richtext", "id": "review_2_quote", "label": "Quote", "default": "<p>Clean ingredients, no sugar crash, and I actually feel hydrated.</p>" },
+    { "type": "header", "content": "Review 3" },
+    { "type": "text", "id": "review_3_name", "label": "Reviewer name", "default": "Sam K." },
+    { "type": "range", "id": "review_3_rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+    { "type": "richtext", "id": "review_3_quote", "label": "Quote", "default": "<p>Subscribed after the first sip. Tastes amazing.</p>" },
+    { "type": "header", "content": "Review 4" },
+    { "type": "text", "id": "review_4_name", "label": "Reviewer name" },
+    { "type": "range", "id": "review_4_rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+    { "type": "richtext", "id": "review_4_quote", "label": "Quote" },
+    { "type": "header", "content": "Review 5" },
+    { "type": "text", "id": "review_5_name", "label": "Reviewer name" },
+    { "type": "range", "id": "review_5_rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+    { "type": "richtext", "id": "review_5_quote", "label": "Quote" },
+    { "type": "header", "content": "Review 6" },
+    { "type": "text", "id": "review_6_name", "label": "Reviewer name" },
+    { "type": "range", "id": "review_6_rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+    { "type": "richtext", "id": "review_6_quote", "label": "Quote" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+  ],
+  "presets": [
+    { "name": "Fortified Reviews", "category": "Fortified" }
+  ]
+}
+{% endschema %}

@@ -3,10 +3,7 @@
     "hero_section": {
       "type": "section",
       "blocks": {
-        "fortified_hero_1": {
-          "type": "fortified-hero",
-          "settings": {}
-        }
+        "fortified_hero_1": { "type": "fortified-hero", "settings": {} }
       },
       "block_order": ["fortified_hero_1"],
       "settings": {
@@ -16,7 +13,174 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "press_section": {
+      "type": "section",
+      "blocks": {
+        "fortified_press_1": { "type": "fortified-press-logos", "settings": {} }
+      },
+      "block_order": ["fortified_press_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "product_feature_section": {
+      "type": "section",
+      "blocks": {
+        "fortified_product_feature_1": { "type": "fortified-product-feature", "settings": {} }
+      },
+      "block_order": ["fortified_product_feature_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "dark_lifestyle_section": {
+      "type": "section",
+      "blocks": {
+        "fortified_dark_lifestyle_1": { "type": "fortified-dark-lifestyle", "settings": {} }
+      },
+      "block_order": ["fortified_dark_lifestyle_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "stats_section": {
+      "type": "section",
+      "blocks": {
+        "fortified_stats_1": { "type": "fortified-stats", "settings": {} }
+      },
+      "block_order": ["fortified_stats_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "ingredients_section": {
+      "type": "section",
+      "blocks": {
+        "fortified_ingredients_1": { "type": "fortified-ingredients-tabs", "settings": {} }
+      },
+      "block_order": ["fortified_ingredients_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "lifestyle_strip_section": {
+      "type": "section",
+      "blocks": {
+        "fortified_lifestyle_strip_1": { "type": "fortified-lifestyle-strip", "settings": {} }
+      },
+      "block_order": ["fortified_lifestyle_strip_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "reviews_section": {
+      "type": "section",
+      "blocks": {
+        "fortified_reviews_1": { "type": "fortified-reviews", "settings": {} }
+      },
+      "block_order": ["fortified_reviews_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "comparison_section": {
+      "type": "section",
+      "blocks": {
+        "fortified_comparison_1": { "type": "fortified-comparison-table", "settings": {} }
+      },
+      "block_order": ["fortified_comparison_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "faq_section": {
+      "type": "section",
+      "blocks": {
+        "fortified_faq_1": { "type": "fortified-faq", "settings": {} }
+      },
+      "block_order": ["fortified_faq_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "b2b_section": {
+      "type": "section",
+      "blocks": {
+        "fortified_b2b_split_1": { "type": "fortified-b2b-split", "settings": {} }
+      },
+      "block_order": ["fortified_b2b_split_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "subscribe_section": {
+      "type": "section",
+      "blocks": {
+        "fortified_subscribe_1": { "type": "fortified-subscribe-save", "settings": {} }
+      },
+      "block_order": ["fortified_subscribe_1"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
-  "order": ["hero_section"]
+  "order": [
+    "hero_section",
+    "press_section",
+    "product_feature_section",
+    "dark_lifestyle_section",
+    "stats_section",
+    "ingredients_section",
+    "lifestyle_strip_section",
+    "reviews_section",
+    "comparison_section",
+    "faq_section",
+    "b2b_section",
+    "subscribe_section"
+  ]
 }
