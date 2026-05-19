@@ -1,0 +1,102 @@
+{% render 'fortified-base' %}
+
+<section
+  id="PdpBenefits-{{ section.id }}"
+  class="pdp-benefits"
+  {{ section.shopify_attributes }}
+>
+  <div class="fortified-container">
+    <header class="pdp-benefits__head">
+      <p class="pdp-benefits__eyebrow p-energy">{{ section.settings.energy_eyebrow }}</p>
+      <p class="pdp-benefits__eyebrow p-everyday">{{ section.settings.everyday_eyebrow }}</p>
+      <h2 class="pdp-benefits__title">
+        <span class="p-energy">{{ section.settings.energy_title }}</span>
+        <span class="p-everyday">{{ section.settings.everyday_title }}</span>
+      </h2>
+    </header>
+
+    <div class="pdp-benefits__grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'benefit_energy' %}
+          <article class="pdp-benefit p-energy" {{ block.shopify_attributes }}>
+            <div class="pdp-benefit__icon">{{ block.settings.icon }}</div>
+            <h3 class="pdp-benefit__title">{{ block.settings.title }}</h3>
+            <p class="pdp-benefit__body">{{ block.settings.body }}</p>
+          </article>
+        {% elsif block.type == 'benefit_everyday' %}
+          <article class="pdp-benefit p-everyday" {{ block.shopify_attributes }}>
+            <div class="pdp-benefit__icon">{{ block.settings.icon }}</div>
+            <h3 class="pdp-benefit__title">{{ block.settings.title }}</h3>
+            <p class="pdp-benefit__body">{{ block.settings.body }}</p>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .pdp-benefits { background: var(--fortified-off-white); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); color: var(--fortified-black); }
+  .pdp-benefits__head { text-align: center; margin-bottom: 32px; }
+  .pdp-benefits__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fortified-gray-mid); margin: 0 0 8px; }
+  body[data-product="energy"] .pdp-benefits__eyebrow.p-energy { color: var(--fortified-gold); }
+  body[data-product="everyday"] .pdp-benefits__eyebrow.p-everyday { color: var(--fortified-teal-dark); }
+  .pdp-benefits__title { font-family: var(--font-fortified-display); font-size: clamp(26px, 3.6vw, 40px); margin: 0; text-transform: uppercase; letter-spacing: 0.02em; }
+  .pdp-benefits__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  @media (max-width: 800px) { .pdp-benefits__grid { grid-template-columns: 1fr; } }
+  .pdp-benefit { background: var(--fortified-white); border: 1px solid var(--fortified-gray-light); border-radius: 18px; padding: 24px; }
+  .pdp-benefit__icon { font-size: 28px; margin-bottom: 12px; line-height: 1; }
+  .pdp-benefit__title { font-family: var(--font-fortified-display); font-size: 16px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px; }
+  .pdp-benefit__body { color: var(--fortified-gray-mid); font-size: 14px; line-height: 1.55; margin: 0; }
+  body[data-product="energy"] .p-everyday { display: none; }
+  body[data-product="everyday"] .p-energy { display: none; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "04-Omni-Why Fortified",
+  "tag": "section",
+  "class": "pdp-section pdp-section--benefits",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "energy_eyebrow", "label": "Energy eyebrow", "default": "Why Fortified Energy" },
+    { "type": "text", "id": "energy_title", "label": "Energy title", "default": "POWER YOUR PERFORMANCE" },
+    { "type": "text", "id": "everyday_eyebrow", "label": "Everyday eyebrow", "default": "Why Fortified Everyday" },
+    { "type": "text", "id": "everyday_title", "label": "Everyday title", "default": "HYDRATE LIKE YOU MEAN IT" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit_energy",
+      "name": "Energy benefit",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "⚡" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Clean caffeine" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "200mg from green coffee bean — no jitters, no crash." }
+      ]
+    },
+    {
+      "type": "benefit_everyday",
+      "name": "Everyday benefit",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "💧" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Real electrolytes" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "1,200mg sodium, magnesium glycinate, and potassium for daily hydration." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "04-Omni-Why Fortified",
+      "category": "Fortified",
+      "blocks": [
+        { "type": "benefit_energy", "settings": { "icon": "⚡", "title": "Clean caffeine", "body": "200mg from green coffee bean — no jitters, no crash." } },
+        { "type": "benefit_energy", "settings": { "icon": "🎯", "title": "Sharp focus", "body": "L-theanine paired with caffeine for steady, calm energy." } },
+        { "type": "benefit_energy", "settings": { "icon": "🔥", "title": "Endurance", "body": "Sodium and beta-alanine to keep you pushing through the last rep." } },
+        { "type": "benefit_everyday", "settings": { "icon": "💧", "title": "Real electrolytes", "body": "1,200mg sodium, magnesium glycinate, and potassium for daily hydration." } },
+        { "type": "benefit_everyday", "settings": { "icon": "🌿", "title": "Nothing to hide", "body": "No sugar, no dyes, no fillers. Just minerals your body craves." } },
+        { "type": "benefit_everyday", "settings": { "icon": "😴", "title": "Recovery & sleep", "body": "Magnesium glycinate supports muscle recovery and restful sleep." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

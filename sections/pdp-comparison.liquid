@@ -1,0 +1,124 @@
+{% render 'fortified-base' %}
+
+<section
+  id="PdpComparison-{{ section.id }}"
+  class="pdp-cmp"
+  {{ section.shopify_attributes }}
+>
+  <div class="fortified-container">
+    <header class="pdp-cmp__head">
+      <p class="pdp-cmp__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="pdp-cmp__title">{{ section.settings.title }}</h2>
+    </header>
+
+    <div class="pdp-cmp__table-wrap">
+      <table class="pdp-cmp__table">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col" class="pdp-cmp__th--ours">
+              <span class="p-energy">{{ section.settings.energy_col_name }}</span>
+              <span class="p-everyday">{{ section.settings.everyday_col_name }}</span>
+            </th>
+            <th scope="col">{{ section.settings.competitor_1_name }}</th>
+            <th scope="col">{{ section.settings.competitor_2_name }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for block in section.blocks %}
+            {% if block.type == 'cmp_row' %}
+              <tr {{ block.shopify_attributes }}>
+                <th scope="row" class="pdp-cmp__row-label">{{ block.settings.row_label }}</th>
+                <td class="pdp-cmp__td pdp-cmp__td--ours">
+                  {% if block.settings.is_checkmark %}
+                    {% if block.settings.ours == 'yes' %}<span class="pdp-cmp__check">✓</span>{% else %}<span class="pdp-cmp__x">×</span>{% endif %}
+                  {% else %}
+                    {{ block.settings.ours }}
+                  {% endif %}
+                </td>
+                <td class="pdp-cmp__td">
+                  {% if block.settings.is_checkmark %}
+                    {% if block.settings.comp1 == 'yes' %}<span class="pdp-cmp__check">✓</span>{% else %}<span class="pdp-cmp__x">×</span>{% endif %}
+                  {% else %}
+                    {{ block.settings.comp1 }}
+                  {% endif %}
+                </td>
+                <td class="pdp-cmp__td">
+                  {% if block.settings.is_checkmark %}
+                    {% if block.settings.comp2 == 'yes' %}<span class="pdp-cmp__check">✓</span>{% else %}<span class="pdp-cmp__x">×</span>{% endif %}
+                  {% else %}
+                    {{ block.settings.comp2 }}
+                  {% endif %}
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .pdp-cmp { background: var(--fortified-black); color: var(--fortified-white); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); }
+  .pdp-cmp__head { text-align: center; margin-bottom: 28px; }
+  .pdp-cmp__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,.7); margin: 0 0 8px; }
+  .pdp-cmp__title { font-family: var(--font-fortified-display); font-size: clamp(26px, 3.6vw, 40px); margin: 0; text-transform: uppercase; letter-spacing: 0.02em; }
+  .pdp-cmp__table-wrap { overflow-x: auto; border-radius: 18px; border: 1px solid rgba(255,255,255,.12); }
+  .pdp-cmp__table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  .pdp-cmp__table th, .pdp-cmp__table td { padding: 14px 16px; text-align: center; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .pdp-cmp__table thead th { font-family: var(--font-fortified-display); text-transform: uppercase; letter-spacing: 0.06em; font-size: 12px; background: rgba(255,255,255,.04); color: rgba(255,255,255,.85); }
+  body[data-product="energy"] .pdp-cmp__th--ours { background: var(--fortified-orange); color: var(--fortified-black); }
+  body[data-product="everyday"] .pdp-cmp__th--ours { background: var(--fortified-teal); color: var(--fortified-white); }
+  body[data-product="energy"] .pdp-cmp__th--ours .p-everyday,
+  body[data-product="everyday"] .pdp-cmp__th--ours .p-energy { display: none; }
+  .pdp-cmp__row-label { text-align: left; font-weight: 600; color: rgba(255,255,255,.9); background: rgba(255,255,255,.03); }
+  body[data-product="energy"] .pdp-cmp__td--ours { background: rgba(242,169,59,.12); color: var(--fortified-orange); font-weight: 700; }
+  body[data-product="everyday"] .pdp-cmp__td--ours { background: rgba(31,168,161,.12); color: var(--fortified-teal); font-weight: 700; }
+  .pdp-cmp__check { color: var(--fortified-teal); font-weight: 700; font-size: 18px; }
+  body[data-product="energy"] .pdp-cmp__td--ours .pdp-cmp__check { color: var(--fortified-orange); }
+  .pdp-cmp__x { color: rgba(255,255,255,.4); font-size: 18px; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "07-Omni-Comparison Table",
+  "tag": "section",
+  "class": "pdp-section pdp-section--cmp",
+  "max_blocks": 16,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Side by side" },
+    { "type": "text", "id": "title", "label": "Title", "default": "WHY WE BEAT THE COMPETITION" },
+    { "type": "text", "id": "energy_col_name", "label": "Energy column header", "default": "Fortified Energy" },
+    { "type": "text", "id": "everyday_col_name", "label": "Everyday column header", "default": "Fortified Everyday" },
+    { "type": "text", "id": "competitor_1_name", "label": "Competitor 1", "default": "Liquid IV" },
+    { "type": "text", "id": "competitor_2_name", "label": "Competitor 2", "default": "LMNT" }
+  ],
+  "blocks": [
+    {
+      "type": "cmp_row",
+      "name": "Comparison row",
+      "settings": [
+        { "type": "text", "id": "row_label", "label": "Row label", "default": "Sodium per serving" },
+        { "type": "text", "id": "ours", "label": "Ours", "default": "1,200mg" },
+        { "type": "text", "id": "comp1", "label": "Competitor 1", "default": "500mg" },
+        { "type": "text", "id": "comp2", "label": "Competitor 2", "default": "1,000mg" },
+        { "type": "checkbox", "id": "is_checkmark", "label": "Render as ✓ / ×", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "07-Omni-Comparison Table",
+      "category": "Fortified",
+      "blocks": [
+        { "type": "cmp_row", "settings": { "row_label": "Sodium per serving", "ours": "1,200mg", "comp1": "500mg", "comp2": "1,000mg" } },
+        { "type": "cmp_row", "settings": { "row_label": "Magnesium glycinate", "is_checkmark": true, "ours": "yes", "comp1": "no", "comp2": "no" } },
+        { "type": "cmp_row", "settings": { "row_label": "Sugar-free", "is_checkmark": true, "ours": "yes", "comp1": "no", "comp2": "yes" } },
+        { "type": "cmp_row", "settings": { "row_label": "Artificial dyes", "is_checkmark": true, "ours": "no", "comp1": "yes", "comp2": "no" } },
+        { "type": "cmp_row", "settings": { "row_label": "Price per serving", "ours": "$1.07", "comp1": "$1.50", "comp2": "$1.95" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

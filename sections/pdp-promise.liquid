@@ -1,0 +1,92 @@
+{% render 'fortified-base' %}
+
+<section
+  id="PdpPromise-{{ section.id }}"
+  class="pdp-promise"
+  {{ section.shopify_attributes }}
+>
+  <div class="fortified-container pdp-promise__grid">
+    <div class="pdp-promise__copy">
+      <p class="pdp-promise__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="pdp-promise__title">{{ section.settings.title }}</h2>
+      <p class="pdp-promise__body">{{ section.settings.body }}</p>
+      <blockquote class="pdp-promise__quote">
+        <p>{{ section.settings.quote }}</p>
+        <cite>— {{ section.settings.quote_author }}</cite>
+      </blockquote>
+    </div>
+
+    <div class="pdp-promise__pills">
+      <h3 class="pdp-promise__pills-title">{{ section.settings.pills_title }}</h3>
+      <ul class="pdp-promise__pills-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'no_pill' %}
+            <li {{ block.shopify_attributes }}>
+              <span class="pdp-promise__pill-mark" aria-hidden="true">NO</span>
+              <span>{{ block.settings.label }}</span>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .pdp-promise { background: var(--fortified-off-white); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); color: var(--fortified-black); }
+  .pdp-promise__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
+  @media (max-width: 800px) { .pdp-promise__grid { grid-template-columns: 1fr; } }
+  .pdp-promise__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fortified-teal); margin: 0 0 8px; }
+  .pdp-promise__title { font-family: var(--font-fortified-display); font-size: clamp(28px, 4vw, 44px); text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 14px; }
+  .pdp-promise__body { color: var(--fortified-gray-mid); font-size: 15px; line-height: 1.6; margin: 0 0 22px; max-width: 50ch; }
+  .pdp-promise__quote { border-left: 3px solid var(--fortified-teal); padding: 10px 16px; margin: 0; background: var(--fortified-white); border-radius: 0 12px 12px 0; }
+  .pdp-promise__quote p { font-family: var(--font-fortified-display); font-size: 16px; line-height: 1.4; margin: 0 0 6px; }
+  .pdp-promise__quote cite { font-style: normal; font-size: 12px; color: var(--fortified-gray-mid); letter-spacing: 0.06em; text-transform: uppercase; }
+  .pdp-promise__pills-title { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 14px; color: var(--fortified-gray-mid); }
+  .pdp-promise__pills-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  @media (max-width: 500px) { .pdp-promise__pills-grid { grid-template-columns: 1fr; } }
+  .pdp-promise__pills-grid li { display: flex; align-items: center; gap: 10px; background: var(--fortified-white); border: 1px solid var(--fortified-gray-light); border-radius: 999px; padding: 10px 14px; font-size: 13px; font-weight: 600; }
+  .pdp-promise__pill-mark { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 22px; padding: 0 8px; border-radius: 999px; background: var(--fortified-black); color: var(--fortified-white); font-family: var(--font-fortified-display); font-size: 10px; letter-spacing: 0.1em; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "09-Omni-Clean Label Promise",
+  "tag": "section",
+  "class": "pdp-section pdp-section--promise",
+  "max_blocks": 16,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The clean label promise" },
+    { "type": "text", "id": "title", "label": "Title", "default": "NO MUMBO JUMBO." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "If we wouldn't give it to our own kids, it's not going in our pouches. Every ingredient is listed in plain English with the dose right next to it." },
+    { "type": "textarea", "id": "quote", "label": "Quote", "default": "Most hydration brands hide behind 'proprietary blends'. We just print the dose on the label." },
+    { "type": "text", "id": "quote_author", "label": "Quote author", "default": "Dr. Eli Roth, founder" },
+    { "type": "text", "id": "pills_title", "label": "Pills title", "default": "What's not inside" }
+  ],
+  "blocks": [
+    {
+      "type": "no_pill",
+      "name": "No-pill (what's NOT in it)",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Added sugar" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "09-Omni-Clean Label Promise",
+      "category": "Fortified",
+      "blocks": [
+        { "type": "no_pill", "settings": { "label": "Added sugar" } },
+        { "type": "no_pill", "settings": { "label": "Artificial dyes" } },
+        { "type": "no_pill", "settings": { "label": "Sucralose" } },
+        { "type": "no_pill", "settings": { "label": "Maltodextrin" } },
+        { "type": "no_pill", "settings": { "label": "Proprietary blends" } },
+        { "type": "no_pill", "settings": { "label": "Seed oils" } },
+        { "type": "no_pill", "settings": { "label": "Soy" } },
+        { "type": "no_pill", "settings": { "label": "Gluten" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

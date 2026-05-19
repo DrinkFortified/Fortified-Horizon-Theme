@@ -1,0 +1,105 @@
+{% render 'fortified-base' %}
+
+<section
+  id="PdpTestimonials-{{ section.id }}"
+  class="pdp-testi"
+  {{ section.shopify_attributes }}
+>
+  <div class="fortified-container">
+    <header class="pdp-testi__head">
+      <p class="pdp-testi__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="pdp-testi__title">{{ section.settings.title }}</h2>
+      <p class="pdp-testi__sub">{{ section.settings.sub }}</p>
+    </header>
+
+    <div class="pdp-testi__grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'review' %}
+          <article class="pdp-testi__card" {{ block.shopify_attributes }}>
+            <div class="pdp-testi__stars" aria-label="{{ block.settings.stars }} stars">
+              {% for i in (1..5) %}{% if i <= block.settings.stars %}★{% else %}☆{% endif %}{% endfor %}
+            </div>
+            <blockquote class="pdp-testi__quote">{{ block.settings.quote }}</blockquote>
+            <div class="pdp-testi__meta">
+              <strong>{{ block.settings.author }}</strong>
+              <span>{{ block.settings.author_detail }}</span>
+            </div>
+            {% if block.settings.tag != blank %}
+              <span class="pdp-testi__tag pdp-testi__tag--{{ block.settings.product }}">{{ block.settings.tag }}</span>
+            {% endif %}
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .pdp-testi { background: var(--fortified-white); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); color: var(--fortified-black); }
+  .pdp-testi__head { text-align: center; margin-bottom: 32px; }
+  .pdp-testi__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fortified-gray-mid); margin: 0 0 8px; }
+  .pdp-testi__title { font-family: var(--font-fortified-display); font-size: clamp(26px, 3.6vw, 40px); text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 8px; }
+  .pdp-testi__sub { color: var(--fortified-gray-mid); margin: 0; font-size: 14px; }
+  .pdp-testi__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 1000px) { .pdp-testi__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .pdp-testi__grid { grid-template-columns: 1fr; } }
+  .pdp-testi__card { position: relative; background: var(--fortified-off-white); border: 1px solid var(--fortified-gray-light); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .pdp-testi__stars { color: var(--fortified-orange); letter-spacing: 2px; font-size: 14px; }
+  .pdp-testi__quote { margin: 0; font-family: var(--font-fortified-display); font-size: 15px; line-height: 1.45; }
+  .pdp-testi__meta { display: flex; flex-direction: column; font-size: 12px; color: var(--fortified-gray-mid); margin-top: auto; }
+  .pdp-testi__meta strong { color: var(--fortified-black); font-size: 13px; }
+  .pdp-testi__tag { position: absolute; top: 16px; right: 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+  .pdp-testi__tag--energy { background: var(--fortified-orange); color: var(--fortified-black); }
+  .pdp-testi__tag--everyday { background: var(--fortified-teal); color: var(--fortified-white); }
+  .pdp-testi__tag--creatine { background: var(--fortified-black); color: var(--fortified-white); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "10-Omni-Testimonials (Judge.me)",
+  "tag": "section",
+  "class": "pdp-section pdp-section--testi",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What people are saying" },
+    { "type": "text", "id": "title", "label": "Title", "default": "VERIFIED REVIEWS" },
+    { "type": "text", "id": "sub", "label": "Subtitle", "default": "4.9 average · 2,143 reviews · 96% would recommend" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "stars", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "The first electrolyte that doesn't taste like cough syrup. My morning is built around it." },
+        { "type": "text", "id": "author", "label": "Author", "default": "Jordan M." },
+        { "type": "text", "id": "author_detail", "label": "Detail", "default": "Verified buyer · Subscriber" },
+        {
+          "type": "select",
+          "id": "product",
+          "label": "Tag color",
+          "options": [
+            { "value": "energy", "label": "Energy" },
+            { "value": "everyday", "label": "Everyday" },
+            { "value": "creatine", "label": "Creatine" }
+          ],
+          "default": "everyday"
+        },
+        { "type": "text", "id": "tag", "label": "Tag label", "default": "Everyday" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "10-Omni-Testimonials (Judge.me)",
+      "category": "Fortified",
+      "blocks": [
+        { "type": "review", "settings": { "stars": 5, "quote": "The first electrolyte that doesn't taste like cough syrup. My morning is built around it.", "author": "Jordan M.", "author_detail": "Verified buyer · Subscriber", "product": "everyday", "tag": "Everyday" } },
+        { "type": "review", "settings": { "stars": 5, "quote": "Cleaner energy than any pre I've tried. Zero crash, zero stomach drama.", "author": "Devon R.", "author_detail": "Verified buyer", "product": "energy", "tag": "Energy" } },
+        { "type": "review", "settings": { "stars": 5, "quote": "Threw out my old powder the day this showed up. Mixes clean, no grit.", "author": "Sam K.", "author_detail": "Verified buyer · Quarterly", "product": "creatine", "tag": "Creatine" } },
+        { "type": "review", "settings": { "stars": 5, "quote": "Finally a brand that prints the dose right on the label. No proprietary blend nonsense.", "author": "Ari S.", "author_detail": "Verified buyer", "product": "everyday", "tag": "Everyday" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

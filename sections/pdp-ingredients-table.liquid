@@ -1,0 +1,126 @@
+{% render 'fortified-base' %}
+
+<section
+  id="PdpIngredients-{{ section.id }}"
+  class="pdp-ingredients"
+  {{ section.shopify_attributes }}
+>
+  <div class="fortified-container">
+    <header class="pdp-ingredients__head">
+      <p class="pdp-ingredients__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="pdp-ingredients__title">
+        <span class="p-energy">{{ section.settings.energy_title }}</span>
+        <span class="p-everyday">{{ section.settings.everyday_title }}</span>
+      </h2>
+      <p class="pdp-ingredients__intro">
+        <span class="p-energy">{{ section.settings.energy_intro }}</span>
+        <span class="p-everyday">{{ section.settings.everyday_intro }}</span>
+      </p>
+    </header>
+
+    <div class="pdp-ingredients__table-wrap">
+      <table class="pdp-ingredients__table">
+        <thead>
+          <tr>
+            <th scope="col">{{ section.settings.col_name }}</th>
+            <th scope="col">{{ section.settings.col_dose }}</th>
+            <th scope="col">{{ section.settings.col_why }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for block in section.blocks %}
+            {% if block.type == 'ing_energy' %}
+              <tr class="p-energy" {{ block.shopify_attributes }}>
+                <td><strong>{{ block.settings.name }}</strong></td>
+                <td>{{ block.settings.dose }}</td>
+                <td>{{ block.settings.why }}</td>
+              </tr>
+            {% elsif block.type == 'ing_everyday' %}
+              <tr class="p-everyday" {{ block.shopify_attributes }}>
+                <td><strong>{{ block.settings.name }}</strong></td>
+                <td>{{ block.settings.dose }}</td>
+                <td>{{ block.settings.why }}</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .pdp-ingredients { background: var(--fortified-white); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); color: var(--fortified-black); }
+  .pdp-ingredients__head { text-align: center; margin-bottom: 28px; }
+  .pdp-ingredients__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fortified-gray-mid); margin: 0 0 8px; }
+  .pdp-ingredients__title { font-family: var(--font-fortified-display); font-size: clamp(26px, 3.6vw, 40px); margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.02em; }
+  .pdp-ingredients__intro { color: var(--fortified-gray-mid); max-width: 64ch; margin: 0 auto; font-size: 14px; }
+  .pdp-ingredients__table-wrap { border: 1px solid var(--fortified-gray-light); border-radius: 18px; overflow: hidden; }
+  .pdp-ingredients__table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .pdp-ingredients__table th { text-align: left; padding: 14px 18px; background: var(--fortified-off-white); font-family: var(--font-fortified-display); text-transform: uppercase; letter-spacing: 0.06em; font-size: 12px; border-bottom: 1px solid var(--fortified-gray-light); }
+  .pdp-ingredients__table td { padding: 14px 18px; border-bottom: 1px solid var(--fortified-gray-light); vertical-align: top; }
+  .pdp-ingredients__table tbody tr:last-child td { border-bottom: 0; }
+  body[data-product="energy"] .pdp-ingredients__table tr.p-everyday { display: none; }
+  body[data-product="everyday"] .pdp-ingredients__table tr.p-energy { display: none; }
+  body[data-product="energy"] .pdp-ingredients__title .p-everyday,
+  body[data-product="energy"] .pdp-ingredients__intro .p-everyday,
+  body[data-product="everyday"] .pdp-ingredients__title .p-energy,
+  body[data-product="everyday"] .pdp-ingredients__intro .p-energy { display: none; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "05-Omni-Full Ingredients Table",
+  "tag": "section",
+  "class": "pdp-section pdp-section--ingredients",
+  "max_blocks": 30,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Every ingredient, every dose" },
+    { "type": "text", "id": "energy_title", "label": "Energy title", "default": "WHAT'S IN FORTIFIED ENERGY" },
+    { "type": "text", "id": "everyday_title", "label": "Everyday title", "default": "WHAT'S IN FORTIFIED EVERYDAY" },
+    { "type": "textarea", "id": "energy_intro", "label": "Energy intro", "default": "Every dose disclosed — no proprietary blends, no hidden anything." },
+    { "type": "textarea", "id": "everyday_intro", "label": "Everyday intro", "default": "Mineral-rich hydration, fully transparent. Here's exactly what you're drinking." },
+    { "type": "text", "id": "col_name", "label": "Column — name", "default": "Ingredient" },
+    { "type": "text", "id": "col_dose", "label": "Column — dose", "default": "Per serving" },
+    { "type": "text", "id": "col_why", "label": "Column — why it's here", "default": "Why it's here" }
+  ],
+  "blocks": [
+    {
+      "type": "ing_energy",
+      "name": "Energy ingredient row",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Caffeine (from green coffee bean)" },
+        { "type": "text", "id": "dose", "label": "Dose", "default": "200mg" },
+        { "type": "text", "id": "why", "label": "Why", "default": "Clinically proven dose for focus and performance." }
+      ]
+    },
+    {
+      "type": "ing_everyday",
+      "name": "Everyday ingredient row",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Sodium (sea salt)" },
+        { "type": "text", "id": "dose", "label": "Dose", "default": "1,200mg" },
+        { "type": "text", "id": "why", "label": "Why", "default": "Primary extracellular electrolyte — drives hydration." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "05-Omni-Full Ingredients Table",
+      "category": "Fortified",
+      "blocks": [
+        { "type": "ing_energy", "settings": { "name": "Caffeine (green coffee bean)", "dose": "200mg", "why": "Clean stimulant for focus + drive." } },
+        { "type": "ing_energy", "settings": { "name": "L-Theanine", "dose": "200mg", "why": "Smooths caffeine, keeps you calm + sharp." } },
+        { "type": "ing_energy", "settings": { "name": "Sodium", "dose": "1,000mg", "why": "Replaces sweat loss during training." } },
+        { "type": "ing_energy", "settings": { "name": "Magnesium glycinate", "dose": "300mg", "why": "Muscle contraction + nervous system support." } },
+        { "type": "ing_energy", "settings": { "name": "Beta-alanine", "dose": "2g", "why": "Buffers fatigue at the cellular level." } },
+        { "type": "ing_everyday", "settings": { "name": "Sodium (sea salt)", "dose": "1,200mg", "why": "Primary electrolyte for daily hydration." } },
+        { "type": "ing_everyday", "settings": { "name": "Magnesium glycinate", "dose": "400mg", "why": "Supports 300+ enzymatic reactions; aids sleep." } },
+        { "type": "ing_everyday", "settings": { "name": "Potassium citrate", "dose": "300mg", "why": "Fluid balance + cardiovascular function." } },
+        { "type": "ing_everyday", "settings": { "name": "Calcium", "dose": "100mg", "why": "Bone health + muscle signalling." } },
+        { "type": "ing_everyday", "settings": { "name": "Vitamin K2 (MK-7)", "dose": "90mcg", "why": "Directs calcium to bone, away from arteries." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

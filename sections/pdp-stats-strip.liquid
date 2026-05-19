@@ -1,0 +1,84 @@
+{% render 'fortified-base' %}
+
+<section
+  id="PdpStatsStrip-{{ section.id }}"
+  class="pdp-stats"
+  {{ section.shopify_attributes }}
+>
+  <div class="fortified-container pdp-stats__inner">
+    <div class="pdp-stats__set p-energy">
+      {% for i in (1..5) %}
+        {% assign v = 'energy_stat_' | append: i | append: '_value' %}
+        {% assign l = 'energy_stat_' | append: i | append: '_label' %}
+        {% if section.settings[v] != blank %}
+          <div class="pdp-stats__item">
+            <span class="pdp-stats__value">{{ section.settings[v] }}</span>
+            <span class="pdp-stats__label">{{ section.settings[l] }}</span>
+          </div>
+          {% unless forloop.last %}<span class="pdp-stats__sep" aria-hidden="true">·</span>{% endunless %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="pdp-stats__set p-everyday">
+      {% for i in (1..5) %}
+        {% assign v = 'everyday_stat_' | append: i | append: '_value' %}
+        {% assign l = 'everyday_stat_' | append: i | append: '_label' %}
+        {% if section.settings[v] != blank %}
+          <div class="pdp-stats__item">
+            <span class="pdp-stats__value">{{ section.settings[v] }}</span>
+            <span class="pdp-stats__label">{{ section.settings[l] }}</span>
+          </div>
+          {% unless forloop.last %}<span class="pdp-stats__sep" aria-hidden="true">·</span>{% endunless %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .pdp-stats { background: var(--fortified-black); color: var(--fortified-white); padding-block: clamp(20px, 3vw, 36px); font-family: var(--font-fortified-body); }
+  .pdp-stats__inner { display: flex; justify-content: center; }
+  .pdp-stats__set { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: clamp(10px, 2vw, 28px); }
+  body[data-product="energy"] .pdp-stats__set.p-everyday { display: none; }
+  body[data-product="everyday"] .pdp-stats__set.p-energy { display: none; }
+  .pdp-stats__item { display: inline-flex; align-items: baseline; gap: 8px; }
+  .pdp-stats__value { font-family: var(--font-fortified-display); font-size: clamp(20px, 2.8vw, 28px); letter-spacing: 0.02em; }
+  .pdp-stats__label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,.75); font-weight: 600; }
+  body[data-product="energy"] .pdp-stats__sep { color: var(--fortified-orange); }
+  body[data-product="everyday"] .pdp-stats__sep { color: var(--fortified-teal); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "03-Omni-Stats Strip",
+  "tag": "section",
+  "class": "pdp-section pdp-section--stats",
+  "settings": [
+    { "type": "header", "content": "Energy stats" },
+    { "type": "text", "id": "energy_stat_1_value", "label": "1 value", "default": "200MG" },
+    { "type": "text", "id": "energy_stat_1_label", "label": "1 label", "default": "Caffeine" },
+    { "type": "text", "id": "energy_stat_2_value", "label": "2 value", "default": "1000MG" },
+    { "type": "text", "id": "energy_stat_2_label", "label": "2 label", "default": "Sodium" },
+    { "type": "text", "id": "energy_stat_3_value", "label": "3 value", "default": "300MG" },
+    { "type": "text", "id": "energy_stat_3_label", "label": "3 label", "default": "Magnesium" },
+    { "type": "text", "id": "energy_stat_4_value", "label": "4 value", "default": "200MG" },
+    { "type": "text", "id": "energy_stat_4_label", "label": "4 label", "default": "L-Theanine" },
+    { "type": "text", "id": "energy_stat_5_value", "label": "5 value", "default": "0G" },
+    { "type": "text", "id": "energy_stat_5_label", "label": "5 label", "default": "Sugar" },
+    { "type": "header", "content": "Everyday stats" },
+    { "type": "text", "id": "everyday_stat_1_value", "label": "1 value", "default": "1200MG" },
+    { "type": "text", "id": "everyday_stat_1_label", "label": "1 label", "default": "Sodium" },
+    { "type": "text", "id": "everyday_stat_2_value", "label": "2 value", "default": "400MG" },
+    { "type": "text", "id": "everyday_stat_2_label", "label": "2 label", "default": "Magnesium" },
+    { "type": "text", "id": "everyday_stat_3_value", "label": "3 value", "default": "300MG" },
+    { "type": "text", "id": "everyday_stat_3_label", "label": "3 label", "default": "Potassium" },
+    { "type": "text", "id": "everyday_stat_4_value", "label": "4 value", "default": "100MG" },
+    { "type": "text", "id": "everyday_stat_4_label", "label": "4 label", "default": "Calcium" },
+    { "type": "text", "id": "everyday_stat_5_value", "label": "5 value", "default": "0G" },
+    { "type": "text", "id": "everyday_stat_5_label", "label": "5 label", "default": "Sugar" }
+  ],
+  "presets": [
+    { "name": "03-Omni-Stats Strip", "category": "Fortified" }
+  ]
+}
+{% endschema %}
