@@ -3,7 +3,7 @@
 <section
   id="FortifiedStats-{{ section.id }}"
   class="fortified-stats color-{{ section.settings.color_scheme }}"
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container fortified-stats__inner">
     {% if section.settings.heading != blank %}
       <header class="fortified-stats__header">
@@ -118,51 +118,164 @@
 
 {% schema %}
 {
-  "name": "05 — Stats",
+  "name": "05 \u2014 Stats",
   "tag": "section",
   "class": "fortified-stats-section",
   "max_blocks": 4,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "WHY WE BEAT THE REST ELECTROLYTES" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "EXPLORE ALL FLAVORS" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WHY WE BEAT THE REST ELECTROLYTES"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "EXPLORE ALL FLAVORS"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "blocks": [
     {
       "type": "fortified-stat",
       "name": "Stat card",
       "settings": [
-        { "type": "text", "id": "stat_number", "label": "Number", "default": "2.3x" },
-        { "type": "text", "id": "stat_label", "label": "Label", "default": "Better Hydration" },
-        { "type": "textarea", "id": "stat_description", "label": "Description" },
-        { "type": "checkbox", "id": "show_chart", "label": "Show comparison bar chart", "default": true }
+        {
+          "type": "text",
+          "id": "stat_number",
+          "label": "Number",
+          "default": "2.3x"
+        },
+        {
+          "type": "text",
+          "id": "stat_label",
+          "label": "Label",
+          "default": "Better Hydration"
+        },
+        {
+          "type": "textarea",
+          "id": "stat_description",
+          "label": "Description"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_chart",
+          "label": "Show comparison bar chart",
+          "default": true
+        }
       ]
     },
     {
       "type": "fortified-checklist-card",
       "name": "Checklist card",
       "settings": [
-        { "type": "text", "id": "headline_number", "label": "Headline number", "default": "0%" },
-        { "type": "text", "id": "headline_label", "label": "Headline label", "default": "No Sugar. No Crash." },
-        { "type": "text", "id": "item_1", "label": "Item 1", "default": "Improve Hydration" },
-        { "type": "text", "id": "item_2", "label": "Item 2", "default": "Boost Energy" },
-        { "type": "text", "id": "item_3", "label": "Item 3", "default": "Support Muscle Function" },
-        { "type": "text", "id": "item_4", "label": "Item 4" },
-        { "type": "text", "id": "item_5", "label": "Item 5" },
-        { "type": "text", "id": "item_6", "label": "Item 6" }
+        {
+          "type": "text",
+          "id": "headline_number",
+          "label": "Headline number",
+          "default": "0%"
+        },
+        {
+          "type": "text",
+          "id": "headline_label",
+          "label": "Headline label",
+          "default": "No Sugar. No Crash."
+        },
+        {
+          "type": "text",
+          "id": "item_1",
+          "label": "Item 1",
+          "default": "Improve Hydration"
+        },
+        {
+          "type": "text",
+          "id": "item_2",
+          "label": "Item 2",
+          "default": "Boost Energy"
+        },
+        {
+          "type": "text",
+          "id": "item_3",
+          "label": "Item 3",
+          "default": "Support Muscle Function"
+        },
+        {
+          "type": "text",
+          "id": "item_4",
+          "label": "Item 4"
+        },
+        {
+          "type": "text",
+          "id": "item_5",
+          "label": "Item 5"
+        },
+        {
+          "type": "text",
+          "id": "item_6",
+          "label": "Item 6"
+        }
       ]
     }
   ],
   "presets": [
     {
-      "name": "05 — Stats",
+      "name": "05 \u2014 Stats",
       "category": "Fortified",
       "blocks": [
-        { "type": "fortified-stat", "settings": { "stat_number": "2.3x", "stat_label": "Better Hydration" } },
-        { "type": "fortified-stat", "settings": { "stat_number": "+24%", "stat_label": "Improved Endurance" } },
-        { "type": "fortified-checklist-card" }
+        {
+          "type": "fortified-stat",
+          "settings": {
+            "stat_number": "2.3x",
+            "stat_label": "Better Hydration"
+          }
+        },
+        {
+          "type": "fortified-stat",
+          "settings": {
+            "stat_number": "+24%",
+            "stat_label": "Improved Endurance"
+          }
+        },
+        {
+          "type": "fortified-checklist-card"
+        }
       ]
     }
   ]

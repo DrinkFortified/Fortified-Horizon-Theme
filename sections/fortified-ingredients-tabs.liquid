@@ -14,7 +14,7 @@
   id="FortifiedIngredients-{{ section.id }}"
   class="fortified-ingredients color-{{ section.settings.color_scheme }}"
   data-fortified-ingredients
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container fortified-ingredients__inner">
     <header class="fortified-ingredients__header">
       {% if section.settings.eyebrow != blank %}
@@ -192,48 +192,163 @@
 
 {% schema %}
 {
-  "name": "06 — Ingredients",
+  "name": "06 \u2014 Ingredients",
   "tag": "section",
   "class": "fortified-ingredients-section",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "WHY WE BEAT THE REST ELECTROLYTES" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FORTIFIED NOW" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE TRUTH"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WHY WE BEAT THE REST ELECTROLYTES"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "SHOP FORTIFIED NOW"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "blocks": [
     {
       "type": "fortified-tab",
       "name": "Tab",
       "settings": [
-        { "type": "text", "id": "tab_label", "label": "Tab label", "default": "Hydration" }
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tab label",
+          "default": "Hydration"
+        }
       ]
     },
     {
       "type": "fortified-ingredient",
       "name": "Ingredient",
       "settings": [
-        { "type": "text", "id": "tab", "label": "Belongs to tab", "default": "Hydration" },
-        { "type": "image_picker", "id": "image", "label": "Image" },
-        { "type": "text", "id": "ingredient_name", "label": "Ingredient name", "default": "Sodium Citrate" },
-        { "type": "textarea", "id": "description", "label": "Description" },
-        { "type": "text", "id": "dosage_badge", "label": "Dosage badge", "default": "1200MG" },
-        { "type": "text", "id": "benefit_badge", "label": "Benefit badge", "default": "HYDRATION FACTS" }
+        {
+          "type": "text",
+          "id": "tab",
+          "label": "Belongs to tab",
+          "default": "Hydration"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "ingredient_name",
+          "label": "Ingredient name",
+          "default": "Sodium Citrate"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "dosage_badge",
+          "label": "Dosage badge",
+          "default": "1200MG"
+        },
+        {
+          "type": "text",
+          "id": "benefit_badge",
+          "label": "Benefit badge",
+          "default": "HYDRATION FACTS"
+        }
       ]
     }
   ],
   "presets": [
     {
-      "name": "06 — Ingredients",
+      "name": "06 \u2014 Ingredients",
       "category": "Fortified",
       "blocks": [
-        { "type": "fortified-tab", "settings": { "tab_label": "Hydration" } },
-        { "type": "fortified-tab", "settings": { "tab_label": "Performance" } },
-        { "type": "fortified-ingredient", "settings": { "tab": "Hydration", "ingredient_name": "Sodium Citrate", "dosage_badge": "1200MG" } },
-        { "type": "fortified-ingredient", "settings": { "tab": "Hydration", "ingredient_name": "Magnesium Glycinate", "dosage_badge": "200MG" } },
-        { "type": "fortified-ingredient", "settings": { "tab": "Hydration", "ingredient_name": "Potassium", "dosage_badge": "150MG" } },
-        { "type": "fortified-ingredient", "settings": { "tab": "Performance", "ingredient_name": "Creatine", "dosage_badge": "3G" } }
+        {
+          "type": "fortified-tab",
+          "settings": {
+            "tab_label": "Hydration"
+          }
+        },
+        {
+          "type": "fortified-tab",
+          "settings": {
+            "tab_label": "Performance"
+          }
+        },
+        {
+          "type": "fortified-ingredient",
+          "settings": {
+            "tab": "Hydration",
+            "ingredient_name": "Sodium Citrate",
+            "dosage_badge": "1200MG"
+          }
+        },
+        {
+          "type": "fortified-ingredient",
+          "settings": {
+            "tab": "Hydration",
+            "ingredient_name": "Magnesium Glycinate",
+            "dosage_badge": "200MG"
+          }
+        },
+        {
+          "type": "fortified-ingredient",
+          "settings": {
+            "tab": "Hydration",
+            "ingredient_name": "Potassium",
+            "dosage_badge": "150MG"
+          }
+        },
+        {
+          "type": "fortified-ingredient",
+          "settings": {
+            "tab": "Performance",
+            "ingredient_name": "Creatine",
+            "dosage_badge": "3G"
+          }
+        }
       ]
     }
   ]

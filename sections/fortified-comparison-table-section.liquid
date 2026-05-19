@@ -3,7 +3,7 @@
 <section
   id="FortifiedComparison-{{ section.id }}"
   class="fortified-comparison color-{{ section.settings.color_scheme }}"
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container">
     {% if section.settings.heading != blank %}
       <h2 class="fortified-heading fortified-h2 fortified-comparison__heading">{{ section.settings.heading }}</h2>
@@ -105,42 +105,162 @@
 
 {% schema %}
 {
-  "name": "11 — Comparison Table",
+  "name": "11 \u2014 Comparison Table",
   "tag": "section",
   "class": "fortified-comparison-section",
   "max_blocks": 12,
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "WHY WE BEAT THE REST ELECTROLYTES" },
-    { "type": "text", "id": "competitor_1_name", "label": "Competitor 1 name", "default": "Liquid IV" },
-    { "type": "text", "id": "competitor_2_name", "label": "Competitor 2 name", "default": "Liquid IV+" },
-    { "type": "text", "id": "competitor_3_name", "label": "Competitor 3 name", "default": "Liquid IV Pro" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FORTIFIED NOW" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WHY WE BEAT THE REST ELECTROLYTES"
+    },
+    {
+      "type": "text",
+      "id": "competitor_1_name",
+      "label": "Competitor 1 name",
+      "default": "Liquid IV"
+    },
+    {
+      "type": "text",
+      "id": "competitor_2_name",
+      "label": "Competitor 2 name",
+      "default": "Liquid IV+"
+    },
+    {
+      "type": "text",
+      "id": "competitor_3_name",
+      "label": "Competitor 3 name",
+      "default": "Liquid IV Pro"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "SHOP FORTIFIED NOW"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "blocks": [
     {
       "type": "fortified-comparison-row",
       "name": "Comparison row",
       "settings": [
-        { "type": "text", "id": "row_label", "label": "Row label", "default": "Sodium per serving" },
-        { "type": "text", "id": "fortified_value", "label": "Fortified value", "default": "1200MG" },
-        { "type": "text", "id": "comp_1_value", "label": "Competitor 1 value", "default": "500MG" },
-        { "type": "text", "id": "comp_2_value", "label": "Competitor 2 value" },
-        { "type": "text", "id": "comp_3_value", "label": "Competitor 3 value" },
-        { "type": "checkbox", "id": "is_checkmark_row", "label": "Render values as check/x icons", "default": false }
+        {
+          "type": "text",
+          "id": "row_label",
+          "label": "Row label",
+          "default": "Sodium per serving"
+        },
+        {
+          "type": "text",
+          "id": "fortified_value",
+          "label": "Fortified value",
+          "default": "1200MG"
+        },
+        {
+          "type": "text",
+          "id": "comp_1_value",
+          "label": "Competitor 1 value",
+          "default": "500MG"
+        },
+        {
+          "type": "text",
+          "id": "comp_2_value",
+          "label": "Competitor 2 value"
+        },
+        {
+          "type": "text",
+          "id": "comp_3_value",
+          "label": "Competitor 3 value"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_checkmark_row",
+          "label": "Render values as check/x icons",
+          "default": false
+        }
       ]
     }
   ],
   "presets": [
     {
-      "name": "11 — Comparison Table",
+      "name": "11 \u2014 Comparison Table",
       "category": "Fortified",
       "blocks": [
-        { "type": "fortified-comparison-row", "settings": { "row_label": "Sodium per serving", "fortified_value": "1200MG", "comp_1_value": "500MG", "comp_2_value": "500MG", "comp_3_value": "500MG" } },
-        { "type": "fortified-comparison-row", "settings": { "row_label": "Sugar-free", "is_checkmark_row": true, "fortified_value": "yes", "comp_1_value": "no", "comp_2_value": "no", "comp_3_value": "no" } },
-        { "type": "fortified-comparison-row", "settings": { "row_label": "Magnesium glycinate", "is_checkmark_row": true, "fortified_value": "yes", "comp_1_value": "no", "comp_2_value": "no", "comp_3_value": "yes" } },
-        { "type": "fortified-comparison-row", "settings": { "row_label": "Trial price", "fortified_value": "$1.99", "comp_1_value": "$8.97", "comp_2_value": "$5.97", "comp_3_value": "$5.97" } }
+        {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Sodium per serving",
+            "fortified_value": "1200MG",
+            "comp_1_value": "500MG",
+            "comp_2_value": "500MG",
+            "comp_3_value": "500MG"
+          }
+        },
+        {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Sugar-free",
+            "is_checkmark_row": true,
+            "fortified_value": "yes",
+            "comp_1_value": "no",
+            "comp_2_value": "no",
+            "comp_3_value": "no"
+          }
+        },
+        {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Magnesium glycinate",
+            "is_checkmark_row": true,
+            "fortified_value": "yes",
+            "comp_1_value": "no",
+            "comp_2_value": "no",
+            "comp_3_value": "yes"
+          }
+        },
+        {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Trial price",
+            "fortified_value": "$1.99",
+            "comp_1_value": "$8.97",
+            "comp_2_value": "$5.97",
+            "comp_3_value": "$5.97"
+          }
+        }
       ]
     }
   ]

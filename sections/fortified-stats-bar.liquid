@@ -3,7 +3,7 @@
 <section
   id="FortifiedStatsBar-{{ section.id }}"
   class="fortified-stats-bar color-{{ section.settings.color_scheme }}"
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container fortified-stats-bar__inner">
     {% for i in (1..6) %}
       {%- assign val_key = 'stat_' | append: i | append: '_value' -%}
@@ -62,26 +62,112 @@
 
 {% schema %}
 {
-  "name": "14 — Stats Bar",
+  "name": "14 \u2014 Stats Bar",
   "tag": "section",
   "class": "fortified-stats-bar-section",
   "settings": [
-    { "type": "text", "id": "stat_1_value", "label": "Stat 1 value", "default": "1200MG" },
-    { "type": "text", "id": "stat_1_label", "label": "Stat 1 label", "default": "Sodium" },
-    { "type": "text", "id": "stat_2_value", "label": "Stat 2 value", "default": "200MG" },
-    { "type": "text", "id": "stat_2_label", "label": "Stat 2 label", "default": "Mag Cit" },
-    { "type": "text", "id": "stat_3_value", "label": "Stat 3 value", "default": "150MG" },
-    { "type": "text", "id": "stat_3_label", "label": "Stat 3 label", "default": "Potassium" },
-    { "type": "text", "id": "stat_4_value", "label": "Stat 4 value", "default": "100MG" },
-    { "type": "text", "id": "stat_4_label", "label": "Stat 4 label", "default": "Calcium" },
-    { "type": "text", "id": "stat_5_value", "label": "Stat 5 value", "default": "300MG" },
-    { "type": "text", "id": "stat_5_label", "label": "Stat 5 label", "default": "Per Cap" },
-    { "type": "text", "id": "stat_6_value", "label": "Stat 6 value" },
-    { "type": "text", "id": "stat_6_label", "label": "Stat 6 label" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" }
+    {
+      "type": "text",
+      "id": "stat_1_value",
+      "label": "Stat 1 value",
+      "default": "1200MG"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Stat 1 label",
+      "default": "Sodium"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_value",
+      "label": "Stat 2 value",
+      "default": "200MG"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Stat 2 label",
+      "default": "Mag Cit"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_value",
+      "label": "Stat 3 value",
+      "default": "150MG"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Stat 3 label",
+      "default": "Potassium"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_value",
+      "label": "Stat 4 value",
+      "default": "100MG"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_label",
+      "label": "Stat 4 label",
+      "default": "Calcium"
+    },
+    {
+      "type": "text",
+      "id": "stat_5_value",
+      "label": "Stat 5 value",
+      "default": "300MG"
+    },
+    {
+      "type": "text",
+      "id": "stat_5_label",
+      "label": "Stat 5 label",
+      "default": "Per Cap"
+    },
+    {
+      "type": "text",
+      "id": "stat_6_value",
+      "label": "Stat 6 value"
+    },
+    {
+      "type": "text",
+      "id": "stat_6_label",
+      "label": "Stat 6 label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "presets": [
-    { "name": "14 — Stats Bar", "category": "Fortified" }
+    {
+      "name": "14 \u2014 Stats Bar",
+      "category": "Fortified"
+    }
   ]
 }
 {% endschema %}

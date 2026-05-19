@@ -182,5 +182,35 @@
     .fortified-comparison__table td {
       text-align: center;
     }
+
+    /* Position control — section root with text-align cascades to flex/grid children */
+    [class*="fortified-"][style*="text-align: center"] [class*="__inner"],
+    [class*="fortified-"][style*="text-align: center"] [class*="__header"],
+    [class*="fortified-"][style*="text-align: center"] [class*="__row"],
+    [class*="fortified-"][style*="text-align: center"] [class*="__grid"],
+    [class*="fortified-"][style*="text-align: center"] [class*="__list"] {
+      justify-content: center;
+      justify-items: center;
+      align-items: center;
+      margin-inline: auto;
+    }
+    [class*="fortified-"][style*="text-align: left"] [class*="__inner"],
+    [class*="fortified-"][style*="text-align: left"] [class*="__header"],
+    [class*="fortified-"][style*="text-align: left"] [class*="__row"],
+    [class*="fortified-"][style*="text-align: left"] [class*="__grid"],
+    [class*="fortified-"][style*="text-align: left"] [class*="__list"] {
+      justify-content: flex-start;
+      justify-items: start;
+      align-items: flex-start;
+    }
+    [class*="fortified-"][style*="text-align: right"] [class*="__inner"],
+    [class*="fortified-"][style*="text-align: right"] [class*="__header"],
+    [class*="fortified-"][style*="text-align: right"] [class*="__row"],
+    [class*="fortified-"][style*="text-align: right"] [class*="__grid"],
+    [class*="fortified-"][style*="text-align: right"] [class*="__list"] {
+      justify-content: flex-end;
+      justify-items: end;
+      align-items: flex-end;
+    }
   </style>
 {% endunless %}

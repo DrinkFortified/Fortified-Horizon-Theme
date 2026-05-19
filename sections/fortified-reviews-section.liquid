@@ -3,7 +3,7 @@
 <section
   id="FortifiedReviewsSection-{{ section.id }}"
   class="fortified-reviews-section color-{{ section.settings.color_scheme }}"
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container fortified-reviews-section__inner">
     <header class="fortified-reviews-section__header">
       {% if section.settings.eyebrow != blank %}
@@ -37,16 +37,54 @@
 
 {% schema %}
 {
-  "name": "12 — Customer Reviews",
+  "name": "12 \u2014 Customer Reviews",
   "tag": "section",
   "class": "fortified-reviews-section-section",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "12,400+ CUSTOMER REVIEWS" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE TRUTH"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "12,400+ CUSTOMER REVIEWS"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "presets": [
-    { "name": "12 — Customer Reviews", "category": "Fortified" }
+    {
+      "name": "12 \u2014 Customer Reviews",
+      "category": "Fortified"
+    }
   ]
 }
 {% endschema %}

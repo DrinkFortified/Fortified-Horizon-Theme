@@ -3,7 +3,7 @@
 <section
   id="FortifiedSubscribe-{{ section.id }}"
   class="fortified-subscribe color-{{ section.settings.color_scheme }}"
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   {% if section.settings.background_image != blank %}
     {{ section.settings.background_image | image_url: width: 2400 | image_tag:
         widths: '800, 1200, 1800, 2400',
@@ -74,23 +74,92 @@
 
 {% schema %}
 {
-  "name": "10 — Subscribe & Save",
+  "name": "10 \u2014 Subscribe & Save",
   "tag": "section",
   "class": "fortified-subscribe-section",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "SUBSCRIBE & SAVE 15%" },
-    { "type": "text", "id": "benefit_1", "label": "Benefit 1", "default": "Improve Hydration" },
-    { "type": "text", "id": "benefit_2", "label": "Benefit 2", "default": "Boost Energy Naturally" },
-    { "type": "text", "id": "benefit_3", "label": "Benefit 3", "default": "Support Muscle Function" },
-    { "type": "text", "id": "benefit_4", "label": "Benefit 4" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SUBSCRIBE NOW" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "image_picker", "id": "background_image", "label": "Background image" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SUBSCRIBE & SAVE 15%"
+    },
+    {
+      "type": "text",
+      "id": "benefit_1",
+      "label": "Benefit 1",
+      "default": "Improve Hydration"
+    },
+    {
+      "type": "text",
+      "id": "benefit_2",
+      "label": "Benefit 2",
+      "default": "Boost Energy Naturally"
+    },
+    {
+      "type": "text",
+      "id": "benefit_3",
+      "label": "Benefit 3",
+      "default": "Support Muscle Function"
+    },
+    {
+      "type": "text",
+      "id": "benefit_4",
+      "label": "Benefit 4"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "SUBSCRIBE NOW"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "presets": [
-    { "name": "10 — Subscribe & Save", "category": "Fortified" }
+    {
+      "name": "10 \u2014 Subscribe & Save",
+      "category": "Fortified"
+    }
   ]
 }
 {% endschema %}

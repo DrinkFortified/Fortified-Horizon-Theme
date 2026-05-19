@@ -3,7 +3,7 @@
 <section
   id="FortifiedFAQ-{{ section.id }}"
   class="fortified-faq color-{{ section.settings.color_scheme }}"
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container fortified-faq__inner">
     <aside class="fortified-faq__side">
       {% if section.settings.eyebrow != blank %}
@@ -96,36 +96,109 @@
 
 {% schema %}
 {
-  "name": "08 — FAQ",
+  "name": "08 \u2014 FAQ",
   "tag": "section",
   "class": "fortified-faq-section",
   "max_blocks": 12,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "FREQUENTLY ASKED QUESTIONS" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "READ ALL REVIEWS" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FREQUENTLY ASKED QUESTIONS"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "READ ALL REVIEWS"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "blocks": [
     {
       "type": "fortified-faq-item",
       "name": "FAQ item",
       "settings": [
-        { "type": "text", "id": "question", "label": "Question", "default": "What is Fortified?" },
-        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Premium electrolytes formulated for performance.</p>" }
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is Fortified?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Premium electrolytes formulated for performance.</p>"
+        }
       ]
     }
   ],
   "presets": [
     {
-      "name": "08 — FAQ",
+      "name": "08 \u2014 FAQ",
       "category": "Fortified",
       "blocks": [
-        { "type": "fortified-faq-item", "settings": { "question": "What is Fortified?" } },
-        { "type": "fortified-faq-item", "settings": { "question": "Why is it Important?" } },
-        { "type": "fortified-faq-item", "settings": { "question": "Who should take it?" } },
-        { "type": "fortified-faq-item", "settings": { "question": "What is the recommended dosage?" } }
+        {
+          "type": "fortified-faq-item",
+          "settings": {
+            "question": "What is Fortified?"
+          }
+        },
+        {
+          "type": "fortified-faq-item",
+          "settings": {
+            "question": "Why is it Important?"
+          }
+        },
+        {
+          "type": "fortified-faq-item",
+          "settings": {
+            "question": "Who should take it?"
+          }
+        },
+        {
+          "type": "fortified-faq-item",
+          "settings": {
+            "question": "What is the recommended dosage?"
+          }
+        }
       ]
     }
   ]

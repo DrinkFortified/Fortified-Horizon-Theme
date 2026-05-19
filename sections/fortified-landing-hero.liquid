@@ -3,7 +3,7 @@
 <section
   id="FortifiedLandingHero-{{ section.id }}"
   class="fortified-landing-hero color-{{ section.settings.color_scheme }}"
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container fortified-landing-hero__inner">
     <div class="fortified-landing-hero__text">
       <h1 class="fortified-heading fortified-h1">
@@ -136,20 +136,81 @@
 
 {% schema %}
 {
-  "name": "13 — Landing Hero",
+  "name": "13 \u2014 Landing Hero",
   "tag": "section",
   "class": "fortified-landing-hero-section",
   "max_blocks": 6,
   "settings": [
-    { "type": "text", "id": "headline_line_1", "label": "Headline line 1", "default": "TRY 3 STICKS" },
-    { "type": "text", "id": "headline_line_2", "label": "Headline line 2", "default": "FOR FREE*" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "TRY 3 STICKS FOR $1.99" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "text", "id": "asterisk_disclaimer", "label": "Asterisk disclaimer", "default": "*Just pay shipping. Limited time offer." },
-    { "type": "image_picker", "id": "image_1", "label": "Product image 1" },
-    { "type": "image_picker", "id": "image_2", "label": "Product image 2" },
-    { "type": "image_picker", "id": "image_3", "label": "Product image 3" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" }
+    {
+      "type": "text",
+      "id": "headline_line_1",
+      "label": "Headline line 1",
+      "default": "TRY 3 STICKS"
+    },
+    {
+      "type": "text",
+      "id": "headline_line_2",
+      "label": "Headline line 2",
+      "default": "FOR FREE*"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "TRY 3 STICKS FOR $1.99"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "text",
+      "id": "asterisk_disclaimer",
+      "label": "Asterisk disclaimer",
+      "default": "*Just pay shipping. Limited time offer."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Product image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Product image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Product image 3"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-3"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "blocks": [
     {
@@ -161,23 +222,49 @@
           "id": "icon",
           "label": "Icon",
           "options": [
-            { "value": "checkmark", "label": "Checkmark" },
-            { "value": "star", "label": "Star" }
+            {
+              "value": "checkmark",
+              "label": "Checkmark"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            }
           ],
           "default": "checkmark"
         },
-        { "type": "text", "id": "text", "label": "Text", "default": "Premium Hydration + Performance" }
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Premium Hydration + Performance"
+        }
       ]
     }
   ],
   "presets": [
     {
-      "name": "13 — Landing Hero",
+      "name": "13 \u2014 Landing Hero",
       "category": "Fortified",
       "blocks": [
-        { "type": "fortified-benefit-item", "settings": { "text": "Premium Hydration + Performance" } },
-        { "type": "fortified-benefit-item", "settings": { "text": "Zero Sugar, Zero Crash" } },
-        { "type": "fortified-benefit-item", "settings": { "text": "Scientifically Dosed Ingredients" } }
+        {
+          "type": "fortified-benefit-item",
+          "settings": {
+            "text": "Premium Hydration + Performance"
+          }
+        },
+        {
+          "type": "fortified-benefit-item",
+          "settings": {
+            "text": "Zero Sugar, Zero Crash"
+          }
+        },
+        {
+          "type": "fortified-benefit-item",
+          "settings": {
+            "text": "Scientifically Dosed Ingredients"
+          }
+        }
       ]
     }
   ]

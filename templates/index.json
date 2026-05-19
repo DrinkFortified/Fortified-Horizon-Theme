@@ -33,7 +33,8 @@
         "logo_3_alt": "GQ",
         "logo_4_alt": "Mail Online",
         "logo_5_alt": "Esquire",
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
       }
     },
     "fortified_product_feature_ImRSEh": {
@@ -45,7 +46,8 @@
         "body": "Premium electrolytes formulated for full recovery. Hydration, energy, and muscle function in every stick \u2014 clean ingredients you can taste.",
         "cta_label": "EXPLORE ALL FLAVORS",
         "cta_url": "/collections/all",
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
       }
     },
     "fortified_dark_lifestyle_DZlSAx": {
@@ -56,7 +58,8 @@
         "heading": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT",
         "cta_label": "EXPLORE ALL FLAVORS",
         "cta_url": "/collections/all",
-        "color_scheme": "scheme-2"
+        "color_scheme": "scheme-2",
+        "content_alignment": "center"
       },
       "blocks": {
         "fortified_lifestyle_photo_zsVdFe": {
@@ -98,7 +101,8 @@
         "heading": "WHY WE BEAT THE REST ELECTROLYTES",
         "cta_label": "EXPLORE ALL FLAVORS",
         "cta_url": "/collections/all",
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
       },
       "blocks": {
         "fortified_stat_rjWWSo": {
@@ -147,7 +151,8 @@
         "heading": "CLINICALLY BACKED INGREDIENTS",
         "cta_label": "SHOP FORTIFIED NOW",
         "cta_url": "/collections/all",
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
       },
       "blocks": {
         "fortified_tab_tDCzsO": {
@@ -220,7 +225,8 @@
         "heading": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT",
         "cta_label": "SHOP FORTIFIED NOW",
         "cta_url": "/collections/all",
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
       },
       "blocks": {
         "fortified_strip_image_hedlND": {
@@ -259,7 +265,8 @@
         "heading": "FREQUENTLY ASKED QUESTIONS",
         "cta_label": "READ ALL REVIEWS",
         "cta_url": "/pages/reviews",
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
       },
       "blocks": {
         "fortified_faq_item_tlsNks": {
@@ -341,7 +348,8 @@
         "benefit_3": "Support Muscle Function",
         "cta_label": "SUBSCRIBE NOW",
         "cta_url": "/pages/subscribe",
-        "color_scheme": "scheme-2"
+        "color_scheme": "scheme-2",
+        "content_alignment": "center"
       }
     }
   },

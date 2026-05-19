@@ -8,7 +8,7 @@
 <section
   id="FortifiedHero-{{ section.id }}"
   class="fortified-hero color-{{ section.settings.color_scheme }} fortified-hero--image-{{ img_pos }}"
-  {% if bg != blank %}style="--fortified-hero-bg: {{ bg }};"{% endif %}
+  {% if bg != blank %}style="text-align: {{ section.settings.content_alignment | default: 'center' }}; --fortified-hero-bg: {{ bg }};"{% endif %}
 >
   <div class="fortified-container fortified-hero__inner">
     <div class="fortified-hero__text">
@@ -96,33 +96,108 @@
 
 {% schema %}
 {
-  "name": "01 — Hero",
+  "name": "01 \u2014 Hero",
   "tag": "section",
   "class": "fortified-hero-section",
   "settings": [
-    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow", "default": "FORMULATED FOR" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "HYDRATION THAT HITS" },
-    { "type": "textarea", "id": "body_text", "label": "Body text", "default": "Premium electrolytes that fuel your every move. Clinically dosed, clean, and zero sugar." },
-    { "type": "text", "id": "cta_primary_label", "label": "Primary CTA label", "default": "SHOP NOW" },
-    { "type": "url", "id": "cta_primary_url", "label": "Primary CTA URL" },
-    { "type": "text", "id": "cta_secondary_label", "label": "Secondary CTA label", "default": "LEARN MORE" },
-    { "type": "url", "id": "cta_secondary_url", "label": "Secondary CTA URL" },
-    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "FORMULATED FOR"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "HYDRATION THAT HITS"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body text",
+      "default": "Premium electrolytes that fuel your every move. Clinically dosed, clean, and zero sugar."
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_label",
+      "label": "Primary CTA label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_url",
+      "label": "Primary CTA URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Secondary CTA label",
+      "default": "LEARN MORE"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_url",
+      "label": "Secondary CTA URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
     {
       "type": "select",
       "id": "image_position",
       "label": "Image position",
       "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "right", "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ],
       "default": "right"
     },
-    { "type": "color", "id": "bg_color", "label": "Background color (optional override)" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" }
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color (optional override)"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-3"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "presets": [
-    { "name": "01 — Hero", "category": "Fortified" }
+    {
+      "name": "01 \u2014 Hero",
+      "category": "Fortified"
+    }
   ]
 }
 {% endschema %}

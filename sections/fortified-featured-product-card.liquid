@@ -7,7 +7,7 @@
 <section
   id="FortifiedFeaturedProductCard-{{ section.id }}"
   class="fortified-featured-card color-{{ section.settings.color_scheme }}"
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container fortified-featured-card__inner">
     <div class="fortified-featured-card__media">
       {% if p != blank and p.featured_image != blank %}
@@ -124,42 +124,145 @@
 
 {% schema %}
 {
-  "name": "15 — Featured Product Card",
+  "name": "15 \u2014 Featured Product Card",
   "tag": "section",
   "class": "fortified-featured-card-section",
   "max_blocks": 6,
   "settings": [
-    { "type": "product", "id": "product", "label": "Product" },
-    { "type": "text", "id": "fallback_title", "label": "Fallback title", "default": "EVERYDAY HYDRATION" },
-    { "type": "text", "id": "badge_text", "label": "Top-left badge", "default": "DOCTOR RECOMMENDED" },
-    { "type": "checkbox", "id": "show_rating", "label": "Show rating overlay", "default": true },
-    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "4.8 stars / 4.6k reviews" },
-    { "type": "checkbox", "id": "bestseller", "label": "Show bestseller badge", "default": true },
-    { "type": "text", "id": "sale_label", "label": "Sale price label", "default": "$1.99" },
-    { "type": "text", "id": "regular_price_label", "label": "Regular price label", "default": "$9.97" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FORTIFIED" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "text", "id": "trust_line", "label": "Trust line", "default": "Fast shipping within US (1 to 4 days)" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "fallback_title",
+      "label": "Fallback title",
+      "default": "EVERYDAY HYDRATION"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Top-left badge",
+      "default": "DOCTOR RECOMMENDED"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating overlay",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "4.8 stars / 4.6k reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "bestseller",
+      "label": "Show bestseller badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sale_label",
+      "label": "Sale price label",
+      "default": "$1.99"
+    },
+    {
+      "type": "text",
+      "id": "regular_price_label",
+      "label": "Regular price label",
+      "default": "$9.97"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "SHOP FORTIFIED"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "text",
+      "id": "trust_line",
+      "label": "Trust line",
+      "default": "Fast shipping within US (1 to 4 days)"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "blocks": [
     {
       "type": "fortified-include-item",
       "name": "Included item",
       "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Energy Hydration Stick — Salty Orange" }
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Energy Hydration Stick \u2014 Salty Orange"
+        }
       ]
     }
   ],
   "presets": [
     {
-      "name": "15 — Featured Product Card",
+      "name": "15 \u2014 Featured Product Card",
       "category": "Fortified",
       "blocks": [
-        { "type": "fortified-include-item", "settings": { "text": "Energy Hydration Stick — Salty Orange K2" } },
-        { "type": "fortified-include-item", "settings": { "text": "Energy Hydration Stick — Salty Palau K2" } },
-        { "type": "fortified-include-item", "settings": { "text": "Free USA Shipping" } },
-        { "type": "fortified-include-item", "settings": { "text": "Money-Back Guarantee" } }
+        {
+          "type": "fortified-include-item",
+          "settings": {
+            "text": "Energy Hydration Stick \u2014 Salty Orange K2"
+          }
+        },
+        {
+          "type": "fortified-include-item",
+          "settings": {
+            "text": "Energy Hydration Stick \u2014 Salty Palau K2"
+          }
+        },
+        {
+          "type": "fortified-include-item",
+          "settings": {
+            "text": "Free USA Shipping"
+          }
+        },
+        {
+          "type": "fortified-include-item",
+          "settings": {
+            "text": "Money-Back Guarantee"
+          }
+        }
       ]
     }
   ]

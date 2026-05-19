@@ -3,7 +3,7 @@
 <section
   id="FortifiedLifestyleStrip-{{ section.id }}"
   class="fortified-lifestyle-strip color-{{ section.settings.color_scheme }}"
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container fortified-lifestyle-strip__inner">
     <header class="fortified-lifestyle-strip__header">
       {% if section.settings.eyebrow != blank %}
@@ -77,36 +77,94 @@
 
 {% schema %}
 {
-  "name": "07 — Lifestyle Strip",
+  "name": "07 \u2014 Lifestyle Strip",
   "tag": "section",
   "class": "fortified-lifestyle-strip-section",
   "max_blocks": 8,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "MORE THAN HYDRATION" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FORTIFIED NOW" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE TRUTH"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "MORE THAN HYDRATION"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "SHOP FORTIFIED NOW"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "blocks": [
     {
       "type": "fortified-strip-image",
       "name": "Image",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Image" }
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
       ]
     }
   ],
   "presets": [
     {
-      "name": "07 — Lifestyle Strip",
+      "name": "07 \u2014 Lifestyle Strip",
       "category": "Fortified",
       "blocks": [
-        { "type": "fortified-strip-image" },
-        { "type": "fortified-strip-image" },
-        { "type": "fortified-strip-image" },
-        { "type": "fortified-strip-image" },
-        { "type": "fortified-strip-image" }
+        {
+          "type": "fortified-strip-image"
+        },
+        {
+          "type": "fortified-strip-image"
+        },
+        {
+          "type": "fortified-strip-image"
+        },
+        {
+          "type": "fortified-strip-image"
+        },
+        {
+          "type": "fortified-strip-image"
+        }
       ]
     }
   ]

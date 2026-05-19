@@ -3,7 +3,7 @@
 <section
   id="FortifiedDarkLifestyle-{{ section.id }}"
   class="fortified-dark-lifestyle color-{{ section.settings.color_scheme }}"
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container fortified-dark-lifestyle__inner">
     <header class="fortified-dark-lifestyle__header">
       {% if section.settings.eyebrow != blank %}
@@ -102,36 +102,109 @@
 
 {% schema %}
 {
-  "name": "04 — Dark Lifestyle",
+  "name": "04 \u2014 Dark Lifestyle",
   "tag": "section",
   "class": "fortified-dark-lifestyle-section",
   "max_blocks": 8,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "EXPLORE ALL FLAVORS" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE TRUTH"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "EXPLORE ALL FLAVORS"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "blocks": [
     {
       "type": "fortified-lifestyle-photo",
       "name": "Lifestyle photo",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Photo" },
-        { "type": "text", "id": "benefit_label", "label": "Benefit label", "default": "+ENERGY" }
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "benefit_label",
+          "label": "Benefit label",
+          "default": "+ENERGY"
+        }
       ]
     }
   ],
   "presets": [
     {
-      "name": "04 — Dark Lifestyle",
+      "name": "04 \u2014 Dark Lifestyle",
       "category": "Fortified",
       "blocks": [
-        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+ENERGY" } },
-        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+PERFORMANCE" } },
-        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+HYDRATION" } },
-        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+FOCUS" } }
+        {
+          "type": "fortified-lifestyle-photo",
+          "settings": {
+            "benefit_label": "+ENERGY"
+          }
+        },
+        {
+          "type": "fortified-lifestyle-photo",
+          "settings": {
+            "benefit_label": "+PERFORMANCE"
+          }
+        },
+        {
+          "type": "fortified-lifestyle-photo",
+          "settings": {
+            "benefit_label": "+HYDRATION"
+          }
+        },
+        {
+          "type": "fortified-lifestyle-photo",
+          "settings": {
+            "benefit_label": "+FOCUS"
+          }
+        }
       ]
     }
   ]
