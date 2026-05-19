@@ -446,10 +446,16 @@
             "help_col",
             "company_col"
           ]
+        },
+        "payment_icons": {
+          "type": "payment-icons",
+          "settings": {},
+          "blocks": {}
         }
       },
       "block_order": [
-        "row_group"
+        "row_group",
+        "payment_icons"
       ],
       "name": "t:names.footer",
       "settings": {
@@ -498,18 +504,12 @@
             "custom_url": ""
           },
           "blocks": {}
-        },
-        "payment_icons": {
-          "type": "payment-icons",
-          "settings": {},
-          "blocks": {}
         }
       },
       "block_order": [
         "footer_copyright",
         "footer_policy_list",
-        "social_links",
-        "payment_icons"
+        "social_links"
       ],
       "name": "t:names.utilities",
       "settings": {
