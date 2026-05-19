@@ -1,0 +1,153 @@
+{% render 'fortified-base' %}
+
+<aside
+  id="PdpQuickbuy-{{ section.id }}"
+  class="pdp-qb"
+  data-pdp-quickbuy
+  aria-hidden="true"
+  {{ section.shopify_attributes }}
+>
+  <div class="fortified-container pdp-qb__bar">
+    <div class="pdp-qb__id">
+      <span class="pdp-qb__name p-energy">{{ section.settings.energy_name }}</span>
+      <span class="pdp-qb__name p-everyday">{{ section.settings.everyday_name }}</span>
+      <span class="pdp-qb__summary" data-qb-summary>{{ section.settings.default_summary }}</span>
+    </div>
+    <div class="pdp-qb__actions">
+      <button type="button" class="pdp-qb__edit" data-qb-edit>{{ section.settings.edit_label }}</button>
+      <button type="button" class="pdp-qb__cta" data-qb-cta>
+        <span data-qb-cta-label>{{ section.settings.cta_label }}</span>
+        <span class="pdp-qb__price" data-qb-price>{{ section.settings.default_price }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="pdp-qb__drawer" data-qb-drawer hidden>
+    <div class="pdp-qb__drawer-head">
+      <h3>{{ section.settings.drawer_title }}</h3>
+      <button type="button" class="pdp-qb__close" data-qb-close aria-label="Close">×</button>
+    </div>
+    <div class="pdp-qb__drawer-body">
+      <p>{{ section.settings.drawer_body }}</p>
+      <a href="#PdpHero" class="pdp-qb__scroll-link" data-qb-scroll>{{ section.settings.drawer_link }}</a>
+    </div>
+  </div>
+  <div class="pdp-qb__scrim" data-qb-scrim hidden></div>
+</aside>
+
+{% stylesheet %}
+  .pdp-qb { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--fortified-white); border-top: 1px solid var(--fortified-gray-light); box-shadow: 0 -8px 32px rgba(0,0,0,.08); font-family: var(--font-fortified-body); transform: translateY(110%); transition: transform .3s ease; }
+  .pdp-qb.is-visible { transform: translateY(0); }
+  .pdp-qb__bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 12px; }
+  .pdp-qb__id { display: flex; flex-direction: column; min-width: 0; }
+  .pdp-qb__name { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--fortified-black); }
+  body[data-product="energy"] .pdp-qb__name.p-everyday,
+  body[data-product="everyday"] .pdp-qb__name.p-energy { display: none; }
+  .pdp-qb__summary { font-size: 12px; color: var(--fortified-gray-mid); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60vw; }
+  .pdp-qb__actions { display: flex; align-items: center; gap: 10px; }
+  .pdp-qb__edit { background: transparent; border: 1px solid var(--fortified-gray-light); border-radius: 999px; padding: 10px 16px; font-family: var(--font-fortified-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; color: var(--fortified-black); }
+  .pdp-qb__cta { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px; border: 0; background: var(--fortified-black); color: var(--fortified-white); font-family: var(--font-fortified-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; }
+  body[data-product="energy"] .pdp-qb__cta { background: var(--fortified-gold); color: var(--fortified-black); }
+  body[data-product="everyday"] .pdp-qb__cta { background: var(--fortified-teal); color: var(--fortified-white); }
+  .pdp-qb__price { font-size: 14px; }
+  @media (max-width: 640px) {
+    .pdp-qb__edit { display: none; }
+    .pdp-qb__summary { max-width: 45vw; }
+  }
+  .pdp-qb__scrim { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 1; }
+  .pdp-qb__drawer { position: fixed; right: 24px; bottom: 96px; width: min(420px, calc(100vw - 32px)); background: var(--fortified-white); border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 18px 20px; z-index: 2; }
+  .pdp-qb__drawer-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .pdp-qb__drawer-head h3 { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; color: var(--fortified-black); }
+  .pdp-qb__close { background: transparent; border: 0; font-size: 26px; line-height: 1; cursor: pointer; color: var(--fortified-gray-mid); padding: 0; }
+  .pdp-qb__drawer-body p { color: var(--fortified-gray-mid); font-size: 13px; line-height: 1.5; margin: 0 0 12px; }
+  .pdp-qb__scroll-link { display: inline-flex; padding: 10px 18px; border-radius: 999px; background: var(--fortified-black); color: var(--fortified-white); text-decoration: none; font-family: var(--font-fortified-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+{% endstylesheet %}
+
+<script>
+  (function() {
+    var bar = document.getElementById('PdpQuickbuy-{{ section.id }}');
+    if (!bar) return;
+    var hero = document.querySelector('[data-pdp-hero]');
+    var drawer = bar.querySelector('[data-qb-drawer]');
+    var scrim = bar.querySelector('[data-qb-scrim]');
+    var editBtn = bar.querySelector('[data-qb-edit]');
+    var closeBtn = bar.querySelector('[data-qb-close]');
+    var scrollLink = bar.querySelector('[data-qb-scroll]');
+    var ctaBtn = bar.querySelector('[data-qb-cta]');
+    var sumEl = bar.querySelector('[data-qb-summary]');
+    var priceEl = bar.querySelector('[data-qb-price]');
+    var ctaLabelEl = bar.querySelector('[data-qb-cta-label]');
+
+    function show() { bar.classList.add('is-visible'); bar.setAttribute('aria-hidden','false'); }
+    function hide() { bar.classList.remove('is-visible'); bar.setAttribute('aria-hidden','true'); closeDrawer(); }
+    function openDrawer() { drawer.hidden = false; scrim.hidden = false; }
+    function closeDrawer() { drawer.hidden = true; scrim.hidden = true; }
+
+    if (hero && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.intersectionRatio < 0.1) show(); else hide();
+        });
+      }, { threshold: [0, 0.1, 0.5, 1] });
+      io.observe(hero);
+    } else {
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 600) show(); else hide();
+      }, { passive: true });
+    }
+
+    editBtn && editBtn.addEventListener('click', openDrawer);
+    closeBtn && closeBtn.addEventListener('click', closeDrawer);
+    scrim && scrim.addEventListener('click', closeDrawer);
+    scrollLink && scrollLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      closeDrawer();
+      if (hero) hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    ctaBtn && ctaBtn.addEventListener('click', function() {
+      var heroCta = hero && hero.querySelector('[data-cta]');
+      if (heroCta && !heroCta.disabled) { heroCta.click(); }
+      else if (hero) { hero.scrollIntoView({ behavior: 'smooth' }); }
+    });
+
+    // Mirror hero summary state
+    window.addEventListener('pdp:add-to-cart', function(e) {
+      if (e.detail && e.detail.state && e.detail.state.plan) {
+        sumEl.textContent = e.detail.state.plan.label;
+        priceEl.textContent = '$' + (e.detail.state.plan.price/100).toFixed(2);
+      }
+    });
+    setInterval(function() {
+      if (!hero) return;
+      var totalEl = hero.querySelector('[data-sum-total]');
+      var planEl = hero.querySelector('[data-sum-plan]');
+      var ctaLabel = hero.querySelector('[data-cta-label]');
+      if (totalEl && totalEl.textContent !== '—') priceEl.textContent = totalEl.textContent;
+      if (planEl && planEl.textContent !== '—') sumEl.textContent = planEl.textContent;
+      if (ctaLabel) ctaLabelEl.textContent = ctaLabel.textContent;
+    }, 600);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "13-Omni-Quick-Buy Bottom Bar",
+  "tag": "section",
+  "class": "pdp-section pdp-section--quickbuy",
+  "settings": [
+    { "type": "text", "id": "energy_name", "label": "Energy name", "default": "Fortified Energy" },
+    { "type": "text", "id": "everyday_name", "label": "Everyday name", "default": "Fortified Everyday" },
+    { "type": "text", "id": "default_summary", "label": "Default summary", "default": "Choose your plan" },
+    { "type": "text", "id": "default_price", "label": "Default price", "default": "—" },
+    { "type": "text", "id": "edit_label", "label": "Edit button label", "default": "Edit" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Add to cart" },
+    { "type": "text", "id": "drawer_title", "label": "Drawer title", "default": "Edit your order" },
+    { "type": "textarea", "id": "drawer_body", "label": "Drawer body", "default": "Jump back to the configurator to change plan, function, flavor, or add-ons." },
+    { "type": "text", "id": "drawer_link", "label": "Drawer scroll-link label", "default": "Open configurator" }
+  ],
+  "presets": [
+    { "name": "13-Omni-Quick-Buy Bottom Bar", "category": "Fortified" }
+  ]
+}
+{% endschema %}
