@@ -9,329 +9,352 @@
  */
 {
   "sections": {
-    "hero_section": {
-      "type": "section",
+    "fortified_hero_YlHKxO": {
+      "type": "fortified-hero",
+      "name": "01 \u2014 Hero",
+      "settings": {
+        "eyebrow": "FORMULATED FOR",
+        "heading": "HYDRATION THAT HITS",
+        "body": "Electrolytes that actually work. Clinically dosed sodium, potassium, and magnesium \u2014 clean ingredients, zero sugar, no crash.",
+        "cta_primary_label": "SHOP NOW",
+        "cta_primary_url": "/collections/all",
+        "cta_secondary_label": "LEARN MORE",
+        "cta_secondary_url": "/pages/about",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "fortified_press_logos_SzIWbP": {
+      "type": "fortified-press-logos",
+      "name": "02 \u2014 Press Logos",
+      "settings": {
+        "heading": "AS SEEN IN",
+        "logo_1_alt": "Marie Claire",
+        "logo_2_alt": "Men's Health",
+        "logo_3_alt": "GQ",
+        "logo_4_alt": "Mail Online",
+        "logo_5_alt": "Esquire",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "fortified_product_feature_ImRSEh": {
+      "type": "fortified-product-feature",
+      "name": "03 \u2014 Product Feature",
+      "settings": {
+        "eyebrow": "FORMULATED FOR",
+        "heading": "CLEAN HYDRATION, MAX PERFORMANCE.",
+        "body": "Premium electrolytes formulated for full recovery. Hydration, energy, and muscle function in every stick \u2014 clean ingredients you can taste.",
+        "cta_label": "EXPLORE ALL FLAVORS",
+        "cta_url": "/collections/all",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "fortified_dark_lifestyle_DZlSAx": {
+      "type": "fortified-dark-lifestyle",
+      "name": "04 \u2014 Dark Lifestyle",
+      "settings": {
+        "eyebrow": "THE TRUTH",
+        "heading": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT",
+        "cta_label": "EXPLORE ALL FLAVORS",
+        "cta_url": "/collections/all",
+        "color_scheme": "scheme-2"
+      },
       "blocks": {
-        "fortified_hero_1": {
-          "type": "fortified-hero",
+        "fortified_lifestyle_photo_zsVdFe": {
+          "type": "fortified-lifestyle-photo",
           "settings": {
-            "eyebrow": "FORMULATED FOR",
-            "heading": "HYDRATION THAT HITS",
-            "body": "Electrolytes that actually work. Clinically dosed sodium, potassium, and magnesium \u2014 clean ingredients, zero sugar, no crash.",
-            "cta_primary_label": "SHOP NOW",
-            "cta_primary_url": "/collections/all",
-            "cta_secondary_label": "LEARN MORE",
-            "cta_secondary_url": "/pages/about",
-            "image_side": "right",
-            "bg_color": "#F4EEE7",
-            "text_color": "#0A0A0A"
-          },
-          "name": "01 \u2014 Hero"
+            "benefit_label": "+ENERGY"
+          }
+        },
+        "fortified_lifestyle_photo_BJbmTH": {
+          "type": "fortified-lifestyle-photo",
+          "settings": {
+            "benefit_label": "+PERFORMANCE"
+          }
+        },
+        "fortified_lifestyle_photo_dtWYCT": {
+          "type": "fortified-lifestyle-photo",
+          "settings": {
+            "benefit_label": "+HYDRATION"
+          }
+        },
+        "fortified_lifestyle_photo_MVVmEo": {
+          "type": "fortified-lifestyle-photo",
+          "settings": {
+            "benefit_label": "+FOCUS"
+          }
         }
       },
       "block_order": [
-        "fortified_hero_1"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "section_width": "full-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      },
-      "name": "01 \u2014 Hero"
+        "fortified_lifestyle_photo_zsVdFe",
+        "fortified_lifestyle_photo_BJbmTH",
+        "fortified_lifestyle_photo_dtWYCT",
+        "fortified_lifestyle_photo_MVVmEo"
+      ]
     },
-    "press_section": {
-      "type": "section",
+    "fortified_stats_cNKnRQ": {
+      "type": "fortified-stats",
+      "name": "05 \u2014 Stats",
+      "settings": {
+        "heading": "WHY WE BEAT THE REST ELECTROLYTES",
+        "cta_label": "EXPLORE ALL FLAVORS",
+        "cta_url": "/collections/all",
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
-        "fortified_press_1": {
-          "type": "fortified-press-logos",
+        "fortified_stat_rjWWSo": {
+          "type": "fortified-stat",
           "settings": {
-            "heading": "AS SEEN IN",
-            "logo_1_alt": "Marie Claire",
-            "logo_2_alt": "Men's Health",
-            "logo_3_alt": "GQ",
-            "logo_4_alt": "Mail Online",
-            "logo_5_alt": "Esquire"
-          },
-          "name": "02 \u2014 Press Logos"
+            "stat_number": "2.3x",
+            "stat_label": "Better Hydration",
+            "stat_description": "vs. water alone *",
+            "show_chart": true
+          }
+        },
+        "fortified_stat_egoIaQ": {
+          "type": "fortified-stat",
+          "settings": {
+            "stat_number": "+24%",
+            "stat_label": "Improved Endurance",
+            "stat_description": "in high-intensity workouts *",
+            "show_chart": true
+          }
+        },
+        "fortified_checklist_card_rlyQOm": {
+          "type": "fortified-checklist-card",
+          "settings": {
+            "headline_number": "0%",
+            "headline_label": "No Sugar. No Crash.",
+            "item_1": "Improve Hydration",
+            "item_2": "Boost Energy Naturally",
+            "item_3": "Support Muscle Function",
+            "item_4": "",
+            "item_5": "",
+            "item_6": ""
+          }
         }
       },
       "block_order": [
-        "fortified_press_1"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "section_width": "full-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      },
-      "name": "02 \u2014 Press Logos"
+        "fortified_stat_rjWWSo",
+        "fortified_stat_egoIaQ",
+        "fortified_checklist_card_rlyQOm"
+      ]
     },
-    "product_feature_section": {
-      "type": "section",
+    "fortified_ingredients_tabs_mfWVek": {
+      "type": "fortified-ingredients-tabs",
+      "name": "06 \u2014 Ingredients",
+      "settings": {
+        "eyebrow": "THE TRUTH",
+        "heading": "CLINICALLY BACKED INGREDIENTS",
+        "cta_label": "SHOP FORTIFIED NOW",
+        "cta_url": "/collections/all",
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
-        "fortified_product_feature_1": {
-          "type": "fortified-product-feature",
+        "fortified_tab_tDCzsO": {
+          "type": "fortified-tab",
           "settings": {
-            "eyebrow": "FORMULATED FOR",
-            "heading": "CLEAN HYDRATION, MAX PERFORMANCE.",
-            "body": "Premium electrolytes formulated for full recovery. Hydration, energy, and muscle function in every stick \u2014 clean ingredients you can taste.",
-            "cta_primary_label": "EXPLORE ALL FLAVORS",
-            "cta_primary_url": "/collections/all",
-            "cta_secondary_label": "",
-            "image_side": "right"
-          },
-          "name": "03 \u2014 Product Feature"
+            "tab_label": "Hydration"
+          }
+        },
+        "fortified_tab_SyLbQS": {
+          "type": "fortified-tab",
+          "settings": {
+            "tab_label": "Performance"
+          }
+        },
+        "fortified_ingredient_NsjZEU": {
+          "type": "fortified-ingredient",
+          "settings": {
+            "tab": "Hydration",
+            "ingredient_name": "Sodium Citrate",
+            "dosage_badge": "1,200MG",
+            "description": "Essential electrolyte for fluid balance, hydration, and muscle function.",
+            "benefit_badge": "HYDRATION FACTS"
+          }
+        },
+        "fortified_ingredient_chOGbQ": {
+          "type": "fortified-ingredient",
+          "settings": {
+            "tab": "Hydration",
+            "ingredient_name": "Magnesium Glycinate",
+            "dosage_badge": "150MG",
+            "description": "Supports muscle function and reduces cramps.",
+            "benefit_badge": "HYDRATION FACTS"
+          }
+        },
+        "fortified_ingredient_reiuyA": {
+          "type": "fortified-ingredient",
+          "settings": {
+            "tab": "Hydration",
+            "ingredient_name": "Potassium",
+            "dosage_badge": "300MG",
+            "description": "Maintains fluid balance and supports muscle/nerve function.",
+            "benefit_badge": "HYDRATION FACTS"
+          }
+        },
+        "fortified_ingredient_aMVNVf": {
+          "type": "fortified-ingredient",
+          "settings": {
+            "tab": "Performance",
+            "ingredient_name": "Creatine",
+            "dosage_badge": "3G",
+            "description": "Supports strength and recovery in high-intensity workouts.",
+            "benefit_badge": "HYDRATION FACTS"
+          }
         }
       },
       "block_order": [
-        "fortified_product_feature_1"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "section_width": "full-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      },
-      "name": "03 \u2014 Product Feature"
+        "fortified_tab_tDCzsO",
+        "fortified_tab_SyLbQS",
+        "fortified_ingredient_NsjZEU",
+        "fortified_ingredient_chOGbQ",
+        "fortified_ingredient_reiuyA",
+        "fortified_ingredient_aMVNVf"
+      ]
     },
-    "dark_lifestyle_section": {
-      "type": "section",
+    "fortified_lifestyle_strip_ZDuzBI": {
+      "type": "fortified-lifestyle-strip",
+      "name": "07 \u2014 Lifestyle Strip",
+      "settings": {
+        "eyebrow": "THE TRUTH",
+        "heading": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT",
+        "cta_label": "SHOP FORTIFIED NOW",
+        "cta_url": "/collections/all",
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
-        "fortified_dark_lifestyle_1": {
-          "type": "fortified-dark-lifestyle",
+        "fortified_strip_image_hedlND": {
+          "type": "fortified-strip-image",
+          "settings": {}
+        },
+        "fortified_strip_image_HRVREM": {
+          "type": "fortified-strip-image",
+          "settings": {}
+        },
+        "fortified_strip_image_eTCxat": {
+          "type": "fortified-strip-image",
+          "settings": {}
+        },
+        "fortified_strip_image_nOeeZV": {
+          "type": "fortified-strip-image",
+          "settings": {}
+        },
+        "fortified_strip_image_HvsasE": {
+          "type": "fortified-strip-image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "fortified_strip_image_hedlND",
+        "fortified_strip_image_HRVREM",
+        "fortified_strip_image_eTCxat",
+        "fortified_strip_image_nOeeZV",
+        "fortified_strip_image_HvsasE"
+      ]
+    },
+    "fortified_faq_wEkbLR": {
+      "type": "fortified-faq",
+      "name": "08 \u2014 FAQ",
+      "settings": {
+        "heading": "FREQUENTLY ASKED QUESTIONS",
+        "cta_label": "READ ALL REVIEWS",
+        "cta_url": "/pages/reviews",
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "fortified_faq_item_tlsNks": {
+          "type": "fortified-faq-item",
+          "settings": {
+            "question": "What are electrolytes and why do they matter?",
+            "answer": "<p>Electrolytes \u2014 sodium, potassium, magnesium \u2014 regulate fluid balance, muscle function, and nerve signaling. Fortified delivers them at the doses your body actually needs.</p>"
+          }
+        },
+        "fortified_faq_item_KBDXND": {
+          "type": "fortified-faq-item",
+          "settings": {
+            "question": "Why is Fortified different?",
+            "answer": "<p>Most hydration drinks underdose sodium and skip key minerals like magnesium glycinate. Fortified is clinically dosed, zero sugar, and made with clean ingredients.</p>"
+          }
+        },
+        "fortified_faq_item_MCzVYp": {
+          "type": "fortified-faq-item",
+          "settings": {
+            "question": "What is the recommended dosage?",
+            "answer": "<p>1 stick in 12\u201316oz of water, once a day. Active days or hot conditions? Take a second stick.</p>"
+          }
+        },
+        "fortified_faq_item_QhKFug": {
+          "type": "fortified-faq-item",
+          "settings": {
+            "question": "Who should take Fortified?",
+            "answer": "<p>Anyone training hard, working long hours, traveling, or just trying to stay properly hydrated.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "fortified_faq_item_tlsNks",
+        "fortified_faq_item_KBDXND",
+        "fortified_faq_item_MCzVYp",
+        "fortified_faq_item_QhKFug"
+      ]
+    },
+    "fortified_b2b_split_RzzPpG": {
+      "type": "fortified-b2b-split",
+      "name": "09 \u2014 B2B Split",
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "fortified_b2b_card_GPygWB": {
+          "type": "fortified-b2b-card",
           "settings": {
             "eyebrow": "THE TRUTH",
-            "heading": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT",
-            "body": "Electrolytes don't provide full recovery on their own. Fortified combines hydration with the minerals your body craves \u2014 supporting energy, focus, and muscle function all day.",
-            "cta_label": "EXPLORE ALL FLAVORS",
-            "cta_url": "/collections/all"
-          },
-          "name": "04 \u2014 Dark Lifestyle"
-        }
-      },
-      "block_order": [
-        "fortified_dark_lifestyle_1"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "section_width": "full-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      },
-      "name": "04 \u2014 Dark Lifestyle"
-    },
-    "stats_section": {
-      "type": "section",
-      "blocks": {
-        "fortified_stats_1": {
-          "type": "fortified-stats",
-          "settings": {
-            "eyebrow": "THE SCIENCE",
-            "heading": "WHY WE BEAT THE REST",
-            "stat_1_number": "2.3x",
-            "stat_1_label": "Better Hydration",
-            "stat_1_caption": "vs. water alone *",
-            "stat_2_number": "+24%",
-            "stat_2_label": "Improved Endurance",
-            "stat_2_caption": "in high intensity workouts *",
-            "stat_3_number": "0%",
-            "stat_3_label": "No Sugar. No Crash.",
-            "stat_3_caption": "* Journal of Strength & Conditioning Research",
-            "cta_label": "EXPLORE ALL FLAVORS",
-            "cta_url": "/collections/all"
-          },
-          "name": "05 \u2014 Stats"
-        }
-      },
-      "block_order": [
-        "fortified_stats_1"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "section_width": "full-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      },
-      "name": "05 \u2014 Stats"
-    },
-    "ingredients_section": {
-      "type": "section",
-      "blocks": {
-        "fortified_ingredients_1": {
-          "type": "fortified-ingredients-tabs",
+            "heading": "BECOME A WHOLESALER",
+            "body": "Bring Fortified to your shelves. Bulk pricing, full marketing support, quick reorders.",
+            "cta_label": "APPLY NOW",
+            "cta_url": "/pages/wholesale"
+          }
+        },
+        "fortified_b2b_card_PLsNPR": {
+          "type": "fortified-b2b-card",
           "settings": {
             "eyebrow": "THE TRUTH",
-            "heading": "CLINICALLY BACKED INGREDIENTS",
-            "pillar_1_title": "SODIUM",
-            "pillar_1_text": "1,200mg per serving. Essential electrolyte to support fluid balance, hydration, and muscle function.",
-            "pillar_2_title": "POTASSIUM",
-            "pillar_2_text": "300mg per serving. Helps maintain fluid balance and supports muscle and nerve function.",
-            "pillar_3_title": "MAGNESIUM",
-            "pillar_3_text": "150mg magnesium glycinate. Supports muscle function and reduces cramps.",
-            "pillar_4_title": "PREBIOTIC FIBER",
-            "pillar_4_text": "Gut-friendly formula that supports digestive health alongside hydration.",
-            "cta_label": "SHOP FORTIFIED NOW",
-            "cta_url": "/collections/all"
-          },
-          "name": "06 \u2014 Ingredients"
+            "heading": "BECOME A PARTNER",
+            "body": "Gym, studio, or team? Get co-branded packs, ambassador codes, and revenue share.",
+            "cta_label": "APPLY NOW",
+            "cta_url": "/pages/partners"
+          }
         }
       },
       "block_order": [
-        "fortified_ingredients_1"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "section_width": "full-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      },
-      "name": "06 \u2014 Ingredients"
+        "fortified_b2b_card_GPygWB",
+        "fortified_b2b_card_PLsNPR"
+      ]
     },
-    "lifestyle_strip_section": {
-      "type": "section",
-      "blocks": {
-        "fortified_lifestyle_strip_1": {
-          "type": "fortified-lifestyle-strip",
-          "settings": {
-            "eyebrow": "THE TRUTH",
-            "heading": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT",
-            "body": "Fueling your every move \u2014 from the first sip to your last set.",
-            "cta_label": "SHOP FORTIFIED NOW",
-            "cta_url": "/collections/all",
-            "overlay_opacity": 35
-          },
-          "name": "07 \u2014 Lifestyle Strip"
-        }
-      },
-      "block_order": [
-        "fortified_lifestyle_strip_1"
-      ],
+    "fortified_subscribe_save_Rzsdod": {
+      "type": "fortified-subscribe-save",
+      "name": "10 \u2014 Subscribe & Save",
       "settings": {
-        "content_direction": "column",
-        "section_width": "full-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      },
-      "name": "07 \u2014 Lifestyle Strip"
-    },
-    "faq_section": {
-      "type": "section",
-      "blocks": {
-        "fortified_faq_1": {
-          "type": "fortified-faq",
-          "settings": {
-            "eyebrow": "ANSWERS",
-            "heading": "FREQUENTLY ASKED QUESTIONS",
-            "cta_label": "READ FULL REVIEWS",
-            "cta_url": "/pages/reviews",
-            "question_1": "What are electrolytes and why do they matter?",
-            "answer_1": "<p>Electrolytes are essential minerals \u2014 sodium, potassium, magnesium \u2014 that regulate fluid balance, muscle function, and nerve signaling. Fortified delivers them at the doses your body actually needs.</p>",
-            "question_2": "Why is Fortified different from other hydration drinks?",
-            "answer_2": "<p>Most hydration drinks underdose sodium and skip key minerals like magnesium glycinate. Fortified is clinically dosed, zero sugar, and made with clean ingredients.</p>",
-            "question_3": "What is the recommended dosage?",
-            "answer_3": "<p>1 stick in 12\u201316oz of water, once a day. Active days or hot conditions? Take a second stick.</p>",
-            "question_4": "Who should take Fortified?",
-            "answer_4": "<p>Anyone training hard, working long hours, traveling, or just trying to stay properly hydrated \u2014 Fortified is formulated for daily use.</p>",
-            "question_5": "Is Fortified safe for daily use?",
-            "answer_5": "<p>Yes. The formula is built around clinically researched mineral doses and contains no artificial sweeteners, dyes, or stimulants.</p>",
-            "question_6": "How fast will I feel the difference?",
-            "answer_6": "<p>Most customers notice better hydration and energy within the first few servings \u2014 and report improved performance and recovery within a week.</p>"
-          },
-          "name": "08 \u2014 FAQ"
-        }
-      },
-      "block_order": [
-        "fortified_faq_1"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "section_width": "full-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      },
-      "name": "08 \u2014 FAQ"
-    },
-    "b2b_section": {
-      "type": "section",
-      "blocks": {
-        "fortified_b2b_1": {
-          "type": "fortified-b2b-split",
-          "settings": {
-            "card_1_eyebrow": "THE TRUTH",
-            "card_1_heading": "BECOME A WHOLESALER",
-            "card_1_body": "Bring Fortified to your shelves. Bulk pricing, full marketing support, and quick reorders.",
-            "card_1_cta_label": "APPLY NOW",
-            "card_1_cta_url": "/pages/wholesale",
-            "card_2_eyebrow": "THE TRUTH",
-            "card_2_heading": "BECOME A PARTNER",
-            "card_2_body": "Gym, studio, or team? Get co-branded packs, ambassador codes, and revenue share.",
-            "card_2_cta_label": "APPLY NOW",
-            "card_2_cta_url": "/pages/partners"
-          },
-          "name": "09 \u2014 B2B Split"
-        }
-      },
-      "block_order": [
-        "fortified_b2b_1"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "section_width": "full-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      },
-      "name": "09 \u2014 B2B Split"
-    },
-    "subscribe_section": {
-      "type": "section",
-      "blocks": {
-        "fortified_subscribe_1": {
-          "type": "fortified-subscribe-save",
-          "settings": {
-            "eyebrow": "THE TRUTH",
-            "heading": "SUBSCRIBE & SAVE 15%",
-            "body": "Save 15% on every order. Boost energy naturally. Support muscle function. Cancel or pause anytime.",
-            "cta_primary_label": "SUBSCRIBE NOW",
-            "cta_primary_url": "/pages/subscribe",
-            "cta_secondary_label": "LEARN MORE",
-            "cta_secondary_url": "/pages/subscribe"
-          },
-          "name": "10 \u2014 Subscribe & Save"
-        }
-      },
-      "block_order": [
-        "fortified_subscribe_1"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "section_width": "full-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      },
-      "name": "10 \u2014 Subscribe & Save"
+        "heading": "SUBSCRIBE & SAVE 15%",
+        "benefit_1": "Save 15% on every order",
+        "benefit_2": "Boost Energy Naturally",
+        "benefit_3": "Support Muscle Function",
+        "cta_label": "SUBSCRIBE NOW",
+        "cta_url": "/pages/subscribe",
+        "color_scheme": "scheme-2"
+      }
     }
   },
   "order": [
-    "hero_section",
-    "press_section",
-    "product_feature_section",
-    "dark_lifestyle_section",
-    "stats_section",
-    "ingredients_section",
-    "lifestyle_strip_section",
-    "faq_section",
-    "b2b_section",
-    "subscribe_section"
+    "fortified_hero_YlHKxO",
+    "fortified_press_logos_SzIWbP",
+    "fortified_product_feature_ImRSEh",
+    "fortified_dark_lifestyle_DZlSAx",
+    "fortified_stats_cNKnRQ",
+    "fortified_ingredients_tabs_mfWVek",
+    "fortified_lifestyle_strip_ZDuzBI",
+    "fortified_faq_wEkbLR",
+    "fortified_b2b_split_RzzPpG",
+    "fortified_subscribe_save_Rzsdod"
   ]
 }
