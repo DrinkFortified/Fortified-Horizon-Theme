@@ -1,136 +1,121 @@
 {
   "type": "footer",
-  "name": "t:names.footer",
+  "name": "Footer",
   "sections": {
-    "footer_main": {
+    "footer_m9NzUG": {
       "type": "footer",
-      "name": "Footer",
       "blocks": {
-        "brand_logo": {
-          "type": "logo",
+        "group_H6VpwJ": {
+          "type": "group",
           "settings": {
-            "logo_size": 140,
-            "logo_size_mobile": 110,
-            "alignment": "left"
-          },
-          "blocks": {}
-        },
-        "brand_tag": {
-          "type": "text",
-          "settings": {
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "paragraph",
-            "font": "var(--font-body--family)",
-            "font_size": "0.95rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 6,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
-            "padding-inline-end": 0,
-            "text": "<p>Premium electrolytes formulated for performance. Clean, clinically dosed, zero sugar.</p>"
+            "padding-inline-end": 0
           },
-          "blocks": {}
-        },
-        "shop_text": {
-          "type": "text",
-          "settings": {
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "paragraph",
-            "font": "var(--font-body--family)",
-            "font_size": "0.95rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0,
-            "text": "<h4 style=\"font-size:0.85rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;\">SHOP</h4>\n<ul style=\"list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;\">\n<li><a href=\"/collections/all\">All Products</a></li>\n<li><a href=\"/collections/hydration\">Hydration</a></li>\n<li><a href=\"/collections/bundles\">Bundles</a></li>\n<li><a href=\"/pages/subscribe\">Subscribe & Save</a></li>\n</ul>"
+          "blocks": {
+            "text_LWt8Pz": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Join our email list</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_f9CFLH": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Get exclusive deals and early access to new products.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
           },
-          "blocks": {}
+          "block_order": [
+            "text_LWt8Pz",
+            "text_f9CFLH"
+          ]
         },
-        "help_text": {
-          "type": "text",
-          "settings": {
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "paragraph",
-            "font": "var(--font-body--family)",
-            "font_size": "0.95rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0,
-            "text": "<h4 style=\"font-size:0.85rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;\">HELP</h4>\n<ul style=\"list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;\">\n<li><a href=\"/pages/contact\">Contact Us</a></li>\n<li><a href=\"/pages/shipping\">Shipping</a></li>\n<li><a href=\"/pages/returns\">Returns</a></li>\n<li><a href=\"/pages/faq\">FAQ</a></li>\n</ul>"
-          },
-          "blocks": {}
-        },
-        "company_text": {
-          "type": "text",
-          "settings": {
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "paragraph",
-            "font": "var(--font-body--family)",
-            "font_size": "0.95rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0,
-            "text": "<h4 style=\"font-size:0.85rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;\">COMPANY</h4>\n<ul style=\"list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;\">\n<li><a href=\"/pages/about\">Our Story</a></li>\n<li><a href=\"/pages/wholesale\">Wholesale</a></li>\n<li><a href=\"/pages/ambassadors\">Ambassadors</a></li>\n<li><a href=\"/pages/press\">Press</a></li>\n</ul>"
-          },
-          "blocks": {}
-        },
-        "email_signup": {
+        "email_signup_crihX7": {
           "type": "email-signup",
           "settings": {
             "width": "fill",
             "custom_width": 100,
             "inherit_color_scheme": true,
             "color_scheme": "",
-            "heading": "Join the list",
-            "heading_preset": "h6",
+            "heading": "",
+            "heading_preset": "h3",
             "border_style": "all",
             "border_width": 1,
             "border_radius": 100,
             "input_type_preset": "paragraph",
-            "style_class": "button",
-            "display_type": "label",
-            "label": "Subscribe",
+            "style_class": "button-unstyled",
+            "display_type": "arrow",
+            "label": "Sign up",
             "integrated_button": true,
             "button_type_preset": "paragraph",
             "padding-block-start": 0,
@@ -139,44 +124,34 @@
             "padding-inline-end": 0
           },
           "blocks": {}
-        },
-        "payment_icons": {
-          "type": "payment-icons",
-          "settings": {},
-          "blocks": {}
         }
       },
       "block_order": [
-        "brand_logo",
-        "brand_tag",
-        "shop_text",
-        "help_text",
-        "company_text",
-        "email_signup",
-        "payment_icons"
+        "group_H6VpwJ",
+        "email_signup_crihX7"
       ],
+      "name": "t:names.footer",
       "settings": {
         "section_width": "page-width",
-        "gap": 24,
+        "gap": 20,
         "color_scheme": "scheme-1",
-        "padding-block-start": 48,
-        "padding-block-end": 32
+        "padding-block-start": 30,
+        "padding-block-end": 30
       }
     },
-    "footer_utilities": {
+    "footer_utilities_jLGE8U": {
       "type": "footer-utilities",
-      "name": "Footer utilities",
       "blocks": {
-        "footer_copyright": {
+        "footer_copyright_jweRK8": {
           "type": "footer-copyright",
           "settings": {
-            "show_powered_by": false,
+            "show_powered_by": true,
             "font_size": "0.75rem",
             "case": "none"
           },
           "blocks": {}
         },
-        "footer_policy_list": {
+        "footer_policy_list_VCdnpa": {
           "type": "footer-policy-list",
           "settings": {
             "font_size": "0.75rem",
@@ -184,7 +159,7 @@
           },
           "blocks": {}
         },
-        "social_links": {
+        "social_links_Ew63Kq": {
           "type": "social-links",
           "settings": {
             "facebook_url": "https://www.facebook.com/drinkfortified",
@@ -205,22 +180,23 @@
         }
       },
       "block_order": [
-        "footer_copyright",
-        "footer_policy_list",
-        "social_links"
+        "footer_copyright_jweRK8",
+        "footer_policy_list_VCdnpa",
+        "social_links_Ew63Kq"
       ],
+      "name": "t:names.utilities",
       "settings": {
         "section_width": "page-width",
         "gap": 24,
-        "divider_thickness": 1,
+        "divider_thickness": 0,
         "color_scheme": "",
-        "padding-block-start": 24,
-        "padding-block-end": 32
+        "padding-block-start": 20,
+        "padding-block-end": 48
       }
     }
   },
   "order": [
-    "footer_main",
-    "footer_utilities"
+    "footer_m9NzUG",
+    "footer_utilities_jLGE8U"
   ]
 }
