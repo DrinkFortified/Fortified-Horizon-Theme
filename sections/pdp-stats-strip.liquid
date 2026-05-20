@@ -4,7 +4,7 @@
   id="PdpStatsStrip-{{ section.id }}"
   class="pdp-stats"
   {{ section.shopify_attributes }}
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container pdp-stats__inner">
     <div class="pdp-stats__set p-energy">
       {% for i in (1..5) %}
@@ -54,31 +54,160 @@
   "tag": "section",
   "class": "pdp-section pdp-section--stats",
   "settings": [
-    { "type": "header", "content": "Energy stats" },
-    { "type": "text", "id": "energy_stat_1_value", "label": "1 value", "default": "200MG" },
-    { "type": "text", "id": "energy_stat_1_label", "label": "1 label", "default": "Caffeine" },
-    { "type": "text", "id": "energy_stat_2_value", "label": "2 value", "default": "1000MG" },
-    { "type": "text", "id": "energy_stat_2_label", "label": "2 label", "default": "Sodium" },
-    { "type": "text", "id": "energy_stat_3_value", "label": "3 value", "default": "300MG" },
-    { "type": "text", "id": "energy_stat_3_label", "label": "3 label", "default": "Magnesium" },
-    { "type": "text", "id": "energy_stat_4_value", "label": "4 value", "default": "200MG" },
-    { "type": "text", "id": "energy_stat_4_label", "label": "4 label", "default": "L-Theanine" },
-    { "type": "text", "id": "energy_stat_5_value", "label": "5 value", "default": "0G" },
-    { "type": "text", "id": "energy_stat_5_label", "label": "5 label", "default": "Sugar" },
-    { "type": "header", "content": "Everyday stats" },
-    { "type": "text", "id": "everyday_stat_1_value", "label": "1 value", "default": "1200MG" },
-    { "type": "text", "id": "everyday_stat_1_label", "label": "1 label", "default": "Sodium" },
-    { "type": "text", "id": "everyday_stat_2_value", "label": "2 value", "default": "400MG" },
-    { "type": "text", "id": "everyday_stat_2_label", "label": "2 label", "default": "Magnesium" },
-    { "type": "text", "id": "everyday_stat_3_value", "label": "3 value", "default": "300MG" },
-    { "type": "text", "id": "everyday_stat_3_label", "label": "3 label", "default": "Potassium" },
-    { "type": "text", "id": "everyday_stat_4_value", "label": "4 value", "default": "100MG" },
-    { "type": "text", "id": "everyday_stat_4_label", "label": "4 label", "default": "Calcium" },
-    { "type": "text", "id": "everyday_stat_5_value", "label": "5 value", "default": "0G" },
-    { "type": "text", "id": "everyday_stat_5_label", "label": "5 label", "default": "Sugar" }
+    {
+      "type": "header",
+      "content": "Energy stats"
+    },
+    {
+      "type": "text",
+      "id": "energy_stat_1_value",
+      "label": "1 value",
+      "default": "200MG"
+    },
+    {
+      "type": "text",
+      "id": "energy_stat_1_label",
+      "label": "1 label",
+      "default": "Caffeine"
+    },
+    {
+      "type": "text",
+      "id": "energy_stat_2_value",
+      "label": "2 value",
+      "default": "1000MG"
+    },
+    {
+      "type": "text",
+      "id": "energy_stat_2_label",
+      "label": "2 label",
+      "default": "Sodium"
+    },
+    {
+      "type": "text",
+      "id": "energy_stat_3_value",
+      "label": "3 value",
+      "default": "300MG"
+    },
+    {
+      "type": "text",
+      "id": "energy_stat_3_label",
+      "label": "3 label",
+      "default": "Magnesium"
+    },
+    {
+      "type": "text",
+      "id": "energy_stat_4_value",
+      "label": "4 value",
+      "default": "200MG"
+    },
+    {
+      "type": "text",
+      "id": "energy_stat_4_label",
+      "label": "4 label",
+      "default": "L-Theanine"
+    },
+    {
+      "type": "text",
+      "id": "energy_stat_5_value",
+      "label": "5 value",
+      "default": "0G"
+    },
+    {
+      "type": "text",
+      "id": "energy_stat_5_label",
+      "label": "5 label",
+      "default": "Sugar"
+    },
+    {
+      "type": "header",
+      "content": "Everyday stats"
+    },
+    {
+      "type": "text",
+      "id": "everyday_stat_1_value",
+      "label": "1 value",
+      "default": "1200MG"
+    },
+    {
+      "type": "text",
+      "id": "everyday_stat_1_label",
+      "label": "1 label",
+      "default": "Sodium"
+    },
+    {
+      "type": "text",
+      "id": "everyday_stat_2_value",
+      "label": "2 value",
+      "default": "400MG"
+    },
+    {
+      "type": "text",
+      "id": "everyday_stat_2_label",
+      "label": "2 label",
+      "default": "Magnesium"
+    },
+    {
+      "type": "text",
+      "id": "everyday_stat_3_value",
+      "label": "3 value",
+      "default": "300MG"
+    },
+    {
+      "type": "text",
+      "id": "everyday_stat_3_label",
+      "label": "3 label",
+      "default": "Potassium"
+    },
+    {
+      "type": "text",
+      "id": "everyday_stat_4_value",
+      "label": "4 value",
+      "default": "100MG"
+    },
+    {
+      "type": "text",
+      "id": "everyday_stat_4_label",
+      "label": "4 label",
+      "default": "Calcium"
+    },
+    {
+      "type": "text",
+      "id": "everyday_stat_5_value",
+      "label": "5 value",
+      "default": "0G"
+    },
+    {
+      "type": "text",
+      "id": "everyday_stat_5_label",
+      "label": "5 label",
+      "default": "Sugar"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
   ],
   "presets": [
-    { "name": "03-Omni-Stats Strip", "category": "Fortified" }
+    {
+      "name": "03-Omni-Stats Strip",
+      "category": "Fortified"
+    }
   ]
 }
 {% endschema %}

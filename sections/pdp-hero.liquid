@@ -5,7 +5,7 @@
   class="pdp-hero"
   data-pdp-hero
   {{ section.shopify_attributes }}
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container pdp-hero__grid">
     {%- comment -%} ============= GALLERY ============= {%- endcomment -%}
     <div class="pdp-hero__gallery">
@@ -720,6 +720,26 @@
       "id": "trust_3",
       "label": "Trust line 3",
       "default": "60-day money-back guarantee"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
     }
   ],
   "blocks": [

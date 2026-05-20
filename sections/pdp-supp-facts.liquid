@@ -4,7 +4,7 @@
   id="PdpSuppFacts-{{ section.id }}"
   class="pdp-facts"
   {{ section.shopify_attributes }}
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container pdp-facts__grid">
     <div class="pdp-facts__panel">
       {%- for variant in 'energy,everyday' | split: ',' -%}
@@ -149,6 +149,26 @@
       "id": "everyday_callout_title",
       "label": "Everyday callouts title",
       "default": "WHY THESE DOSES"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
     }
   ],
   "blocks": [

@@ -4,7 +4,7 @@
   id="PdpPromise-{{ section.id }}"
   class="pdp-promise"
   {{ section.shopify_attributes }}
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container pdp-promise__grid">
     <div class="pdp-promise__copy">
       <p class="pdp-promise__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -91,6 +91,26 @@
       "id": "pills_title",
       "label": "Pills title",
       "default": "What's not inside"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
     }
   ],
   "blocks": [

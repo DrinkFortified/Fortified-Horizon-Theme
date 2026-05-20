@@ -5,7 +5,7 @@
   class="pdp-faq"
   data-pdp-faq
   {{ section.shopify_attributes }}
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container">
     <header class="pdp-faq__head">
       <p class="pdp-faq__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -117,6 +117,26 @@
       "id": "tab_creatine",
       "label": "Tab: Creatine",
       "default": "Creatine"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
     }
   ],
   "blocks": [

@@ -4,7 +4,7 @@
   id="PdpTestimonials-{{ section.id }}"
   class="pdp-testi"
   {{ section.shopify_attributes }}
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container">
     <header class="pdp-testi__head">
       <p class="pdp-testi__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -78,6 +78,26 @@
       "id": "sub",
       "label": "Subtitle",
       "default": "4.9 average \u00b7 2,143 reviews \u00b7 96% would recommend"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
     }
   ],
   "blocks": [

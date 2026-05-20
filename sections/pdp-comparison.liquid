@@ -4,7 +4,7 @@
   id="PdpComparison-{{ section.id }}"
   class="pdp-cmp"
   {{ section.shopify_attributes }}
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container">
     <header class="pdp-cmp__head">
       <p class="pdp-cmp__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -122,6 +122,26 @@
       "id": "competitor_2_name",
       "label": "Competitor 2",
       "default": "LMNT"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
     }
   ],
   "blocks": [

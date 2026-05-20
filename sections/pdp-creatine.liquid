@@ -4,7 +4,7 @@
   id="PdpCreatine-{{ section.id }}"
   class="pdp-cr"
   {{ section.shopify_attributes }}
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container pdp-cr__grid">
     <div class="pdp-cr__visual">
       {% if section.settings.image != blank %}
@@ -210,6 +210,26 @@
       "type": "url",
       "id": "cta_url",
       "label": "CTA URL"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
     }
   ],
   "blocks": [

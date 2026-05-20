@@ -4,7 +4,7 @@
   id="PdpDisclaimer-{{ section.id }}"
   class="pdp-disc"
   {{ section.shopify_attributes }}
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container pdp-disc__inner">
     <h2 class="pdp-disc__title">{{ section.settings.title }}</h2>
 
@@ -62,6 +62,26 @@
       "id": "fineprint",
       "label": "Fine print (optional)",
       "default": "Consult your physician before using if you are pregnant, nursing, have a medical condition, or take any medication."
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
     }
   ],
   "blocks": [

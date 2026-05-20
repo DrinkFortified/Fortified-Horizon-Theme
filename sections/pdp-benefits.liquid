@@ -4,7 +4,7 @@
   id="PdpBenefits-{{ section.id }}"
   class="pdp-benefits"
   {{ section.shopify_attributes }}
->
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
   <div class="fortified-container">
     <header class="pdp-benefits__head">
       <p class="pdp-benefits__eyebrow p-energy">{{ section.settings.energy_eyebrow }}</p>
@@ -82,6 +82,26 @@
       "id": "everyday_title",
       "label": "Everyday title",
       "default": "HYDRATE LIKE YOU MEAN IT"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
     }
   ],
   "blocks": [
