@@ -17,7 +17,7 @@
       <h2 class="fortified-heading fortified-h2 fortified-day__heading">{{ section.settings.heading }}</h2>
     {% endif %}
     <div class="fortified-day__scroll">
-      <div class="fortified-day__row">
+      <div class="fortified-day__row" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
         {% for block in section.blocks %}
           {% if block.type == 'fortified-day-column' %}
             <article class="fortified-day__col" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
@@ -185,6 +185,31 @@
         {
           "value": "right",
           "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "blocks_alignment",
+      "label": "Blocks row position",
+      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
         }
       ],
       "default": "center"

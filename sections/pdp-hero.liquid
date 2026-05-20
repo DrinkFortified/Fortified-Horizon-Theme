@@ -6,7 +6,7 @@
   data-pdp-hero
   {{ section.shopify_attributes }}
  style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
-  <div class="fortified-container pdp-hero__grid">
+  <div class="fortified-container pdp-hero__grid" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
     {%- comment -%} ============= GALLERY ============= {%- endcomment -%}
     <div class="pdp-hero__gallery">
       <div class="pdp-hero__main p-energy">
@@ -737,6 +737,31 @@
         {
           "value": "right",
           "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "blocks_alignment",
+      "label": "Blocks row position",
+      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
         }
       ],
       "default": "center"

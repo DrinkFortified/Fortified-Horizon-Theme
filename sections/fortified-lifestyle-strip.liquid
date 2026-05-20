@@ -16,7 +16,7 @@
   </div>
 
   <div class="fortified-lifestyle-strip__scroll">
-    <div class="fortified-lifestyle-strip__row">
+    <div class="fortified-lifestyle-strip__row" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
       {% for block in section.blocks %}
         {% if block.type == 'fortified-strip-image' and block.settings.image != blank %}
           <div class="fortified-lifestyle-strip__item" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
@@ -127,6 +127,31 @@
         {
           "value": "right",
           "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "blocks_alignment",
+      "label": "Blocks row position",
+      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
         }
       ],
       "default": "center"

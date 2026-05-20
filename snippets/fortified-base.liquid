@@ -240,5 +240,26 @@
     [style*="text-align: right"] [class*="fortified-"][class*="__content"],
     [style*="text-align: right"] [class*="fortified-"][class*="__body"],
     [style*="text-align: right"] [class*="fortified-"][class*="__inner"] { align-items: flex-end !important; }
+
+    /* block-row positioning — when block row uses justify-content other than stretch,
+       allow grids to auto-size their tracks so blocks can actually center/left/right */
+    [style*="justify-content: center"][class*="__grid"],
+    [style*="justify-content: flex-start"][class*="__grid"],
+    [style*="justify-content: flex-end"][class*="__grid"] {
+      grid-auto-flow: column;
+      grid-template-columns: repeat(auto-fit, minmax(0, max-content)) !important;
+      gap: clamp(16px, 2vw, 32px);
+    }
+    [style*="justify-content: space-between"][class*="__grid"] {
+      justify-items: stretch !important;
+    }
+    /* For flex rows of blocks */
+    [class*="__row"][style*="justify-content"],
+    [class*="__items"][style*="justify-content"],
+    [class*="__panels"][style*="justify-content"] {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(16px, 2vw, 32px);
+    }
   </style>
 {% endunless %}

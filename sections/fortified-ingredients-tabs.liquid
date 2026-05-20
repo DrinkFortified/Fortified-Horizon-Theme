@@ -41,7 +41,7 @@
       </div>
     {% endif %}
 
-    <div class="fortified-ingredients__panels">
+    <div class="fortified-ingredients__panels" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
       {%- assign first_tab = tab_array | first | handleize -%}
       {% for block in section.blocks %}
         {% if block.type == 'fortified-ingredient' %}
@@ -241,6 +241,31 @@
         {
           "value": "right",
           "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "blocks_alignment",
+      "label": "Blocks row position",
+      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
         }
       ],
       "default": "center"

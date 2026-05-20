@@ -82,7 +82,7 @@
                   {% for sub_block in section.blocks %}
                     {% if sub_block.type == 'fortified-comparison-row' %}
                       <tr>
-                        <th scope="row" class="fortified-comparison__row-label">{{ sub_block.settings.row_label }}</th>
+                        <th scope="row" class="fortified-comparison__row-label" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">{{ sub_block.settings.row_label }}</th>
                         {% if sub_block.settings.is_checkmark_row %}
                           <td class="fortified-comparison__td fortified-comparison__td--ours">{% if sub_block.settings.fortified_value contains 'yes' or sub_block.settings.fortified_value == '✓' %}<span class="fortified-comparison__check">✓</span>{% else %}<span class="fortified-comparison__x">✗</span>{% endif %}</td>
                           <td class="fortified-comparison__td">{% if sub_block.settings.comp_1_value contains 'yes' or sub_block.settings.comp_1_value == '✓' %}<span class="fortified-comparison__check">✓</span>{% else %}<span class="fortified-comparison__x">✗</span>{% endif %}</td>
@@ -188,6 +188,31 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "blocks_alignment",
+      "label": "Blocks row position",
+      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
+        }
+      ],
+      "default": "center"
     }
   ],
   "blocks": [
