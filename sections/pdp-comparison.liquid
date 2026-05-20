@@ -27,7 +27,7 @@
         <tbody>
           {% for block in section.blocks %}
             {% if block.type == 'cmp_row' %}
-              <tr {{ block.shopify_attributes }}>
+              <tr style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
                 <th scope="row" class="pdp-cmp__row-label">{{ block.settings.row_label }}</th>
                 <td class="pdp-cmp__td pdp-cmp__td--ours">
                   {% if block.settings.is_checkmark %}
@@ -87,23 +87,102 @@
   "class": "pdp-section pdp-section--cmp",
   "max_blocks": 16,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Side by side" },
-    { "type": "text", "id": "title", "label": "Title", "default": "WHY WE BEAT THE COMPETITION" },
-    { "type": "text", "id": "energy_col_name", "label": "Energy column header", "default": "Fortified Energy" },
-    { "type": "text", "id": "everyday_col_name", "label": "Everyday column header", "default": "Fortified Everyday" },
-    { "type": "text", "id": "competitor_1_name", "label": "Competitor 1", "default": "Liquid IV" },
-    { "type": "text", "id": "competitor_2_name", "label": "Competitor 2", "default": "LMNT" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Side by side"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "WHY WE BEAT THE COMPETITION"
+    },
+    {
+      "type": "text",
+      "id": "energy_col_name",
+      "label": "Energy column header",
+      "default": "Fortified Energy"
+    },
+    {
+      "type": "text",
+      "id": "everyday_col_name",
+      "label": "Everyday column header",
+      "default": "Fortified Everyday"
+    },
+    {
+      "type": "text",
+      "id": "competitor_1_name",
+      "label": "Competitor 1",
+      "default": "Liquid IV"
+    },
+    {
+      "type": "text",
+      "id": "competitor_2_name",
+      "label": "Competitor 2",
+      "default": "LMNT"
+    }
   ],
   "blocks": [
     {
       "type": "cmp_row",
       "name": "Comparison row",
       "settings": [
-        { "type": "text", "id": "row_label", "label": "Row label", "default": "Sodium per serving" },
-        { "type": "text", "id": "ours", "label": "Ours", "default": "1,200mg" },
-        { "type": "text", "id": "comp1", "label": "Competitor 1", "default": "500mg" },
-        { "type": "text", "id": "comp2", "label": "Competitor 2", "default": "1,000mg" },
-        { "type": "checkbox", "id": "is_checkmark", "label": "Render as ✓ / ×", "default": false }
+        {
+          "type": "text",
+          "id": "row_label",
+          "label": "Row label",
+          "default": "Sodium per serving"
+        },
+        {
+          "type": "text",
+          "id": "ours",
+          "label": "Ours",
+          "default": "1,200mg"
+        },
+        {
+          "type": "text",
+          "id": "comp1",
+          "label": "Competitor 1",
+          "default": "500mg"
+        },
+        {
+          "type": "text",
+          "id": "comp2",
+          "label": "Competitor 2",
+          "default": "1,000mg"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_checkmark",
+          "label": "Render as \u2713 / \u00d7",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     }
   ],
@@ -112,11 +191,54 @@
       "name": "07-Omni-Comparison Table",
       "category": "Fortified",
       "blocks": [
-        { "type": "cmp_row", "settings": { "row_label": "Sodium per serving", "ours": "1,200mg", "comp1": "500mg", "comp2": "1,000mg" } },
-        { "type": "cmp_row", "settings": { "row_label": "Magnesium glycinate", "is_checkmark": true, "ours": "yes", "comp1": "no", "comp2": "no" } },
-        { "type": "cmp_row", "settings": { "row_label": "Sugar-free", "is_checkmark": true, "ours": "yes", "comp1": "no", "comp2": "yes" } },
-        { "type": "cmp_row", "settings": { "row_label": "Artificial dyes", "is_checkmark": true, "ours": "no", "comp1": "yes", "comp2": "no" } },
-        { "type": "cmp_row", "settings": { "row_label": "Price per serving", "ours": "$1.07", "comp1": "$1.50", "comp2": "$1.95" } }
+        {
+          "type": "cmp_row",
+          "settings": {
+            "row_label": "Sodium per serving",
+            "ours": "1,200mg",
+            "comp1": "500mg",
+            "comp2": "1,000mg"
+          }
+        },
+        {
+          "type": "cmp_row",
+          "settings": {
+            "row_label": "Magnesium glycinate",
+            "is_checkmark": true,
+            "ours": "yes",
+            "comp1": "no",
+            "comp2": "no"
+          }
+        },
+        {
+          "type": "cmp_row",
+          "settings": {
+            "row_label": "Sugar-free",
+            "is_checkmark": true,
+            "ours": "yes",
+            "comp1": "no",
+            "comp2": "yes"
+          }
+        },
+        {
+          "type": "cmp_row",
+          "settings": {
+            "row_label": "Artificial dyes",
+            "is_checkmark": true,
+            "ours": "no",
+            "comp1": "yes",
+            "comp2": "no"
+          }
+        },
+        {
+          "type": "cmp_row",
+          "settings": {
+            "row_label": "Price per serving",
+            "ours": "$1.07",
+            "comp1": "$1.50",
+            "comp2": "$1.95"
+          }
+        }
       ]
     }
   ]

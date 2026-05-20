@@ -20,7 +20,7 @@
       <div class="fortified-day__row">
         {% for block in section.blocks %}
           {% if block.type == 'fortified-day-column' %}
-            <article class="fortified-day__col" {{ block.shopify_attributes }}>
+            <article class="fortified-day__col" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
               {% if block.settings.icon != blank %}
                 {{ block.settings.icon | image_url: width: 120 | image_tag:
                     widths: '60, 90, 120',
@@ -216,6 +216,30 @@
           "type": "textarea",
           "id": "body",
           "label": "Body"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
         }
       ]
     }

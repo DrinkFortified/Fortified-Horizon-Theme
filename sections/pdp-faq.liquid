@@ -22,7 +22,7 @@
     <div class="pdp-faq__list">
       {% for block in section.blocks %}
         {% if block.type == 'qa' %}
-          <details class="pdp-faq__item" data-faq-category="{{ block.settings.category }}" {{ block.shopify_attributes }}>
+          <details class="pdp-faq__item" data-faq-category="{{ block.settings.category }}" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
             <summary class="pdp-faq__q">
               <span>{{ block.settings.question }}</span>
               <span class="pdp-faq__chev" aria-hidden="true">+</span>
@@ -82,12 +82,42 @@
   "class": "pdp-section pdp-section--faq",
   "max_blocks": 30,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Frequently asked" },
-    { "type": "text", "id": "title", "label": "Title", "default": "GOT QUESTIONS?" },
-    { "type": "text", "id": "tab_all", "label": "Tab: All", "default": "All" },
-    { "type": "text", "id": "tab_energy", "label": "Tab: Energy", "default": "Energy" },
-    { "type": "text", "id": "tab_everyday", "label": "Tab: Everyday", "default": "Everyday" },
-    { "type": "text", "id": "tab_creatine", "label": "Tab: Creatine", "default": "Creatine" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Frequently asked"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "GOT QUESTIONS?"
+    },
+    {
+      "type": "text",
+      "id": "tab_all",
+      "label": "Tab: All",
+      "default": "All"
+    },
+    {
+      "type": "text",
+      "id": "tab_energy",
+      "label": "Tab: Energy",
+      "default": "Energy"
+    },
+    {
+      "type": "text",
+      "id": "tab_everyday",
+      "label": "Tab: Everyday",
+      "default": "Everyday"
+    },
+    {
+      "type": "text",
+      "id": "tab_creatine",
+      "label": "Tab: Creatine",
+      "default": "Creatine"
+    }
   ],
   "blocks": [
     {
@@ -99,15 +129,61 @@
           "id": "category",
           "label": "Category",
           "options": [
-            { "value": "all", "label": "All / general" },
-            { "value": "energy", "label": "Energy" },
-            { "value": "everyday", "label": "Everyday" },
-            { "value": "creatine", "label": "Creatine" }
+            {
+              "value": "all",
+              "label": "All / general"
+            },
+            {
+              "value": "energy",
+              "label": "Energy"
+            },
+            {
+              "value": "everyday",
+              "label": "Everyday"
+            },
+            {
+              "value": "creatine",
+              "label": "Creatine"
+            }
           ],
           "default": "all"
         },
-        { "type": "text", "id": "question", "label": "Question", "default": "How is Fortified different?" },
-        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>We publish every dose on the label. No proprietary blends, no fillers, no surprises.</p>" }
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How is Fortified different?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>We publish every dose on the label. No proprietary blends, no fillers, no surprises.</p>"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     }
   ],
@@ -116,14 +192,70 @@
       "name": "11-Omni-FAQ",
       "category": "Fortified",
       "blocks": [
-        { "type": "qa", "settings": { "category": "all", "question": "How is Fortified different?", "answer": "<p>Every dose is printed on the label. No proprietary blends, no fillers, no surprises — and clinical doses across the board.</p>" } },
-        { "type": "qa", "settings": { "category": "all", "question": "When will I get my first order?", "answer": "<p>Orders ship within 1 business day. US delivery is typically 2–5 days.</p>" } },
-        { "type": "qa", "settings": { "category": "energy", "question": "How much caffeine is in Fortified Energy?", "answer": "<p>200mg from green coffee bean — paired with 200mg L-theanine for smooth, focused energy without a crash.</p>" } },
-        { "type": "qa", "settings": { "category": "energy", "question": "Can I take it on an empty stomach?", "answer": "<p>Yes — but if you're caffeine-sensitive, start with half a pouch.</p>" } },
-        { "type": "qa", "settings": { "category": "everyday", "question": "Why so much sodium?", "answer": "<p>1,200mg matches what an active adult actually loses through sweat and daily life. Most other brands underdose by 60–80%.</p>" } },
-        { "type": "qa", "settings": { "category": "everyday", "question": "Is it safe for kids?", "answer": "<p>Yes — Everyday is caffeine-free. We typically suggest half a pouch for kids 8+.</p>" } },
-        { "type": "qa", "settings": { "category": "creatine", "question": "Is creatine safe?", "answer": "<p>Creatine monohydrate is the single most-researched sports supplement in history. Daily 5g doses are well-studied for safety and effectiveness.</p>" } },
-        { "type": "qa", "settings": { "category": "creatine", "question": "How long until I see results?", "answer": "<p>Most people notice strength and recovery improvements within 2–4 weeks of daily use.</p>" } }
+        {
+          "type": "qa",
+          "settings": {
+            "category": "all",
+            "question": "How is Fortified different?",
+            "answer": "<p>Every dose is printed on the label. No proprietary blends, no fillers, no surprises \u2014 and clinical doses across the board.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "category": "all",
+            "question": "When will I get my first order?",
+            "answer": "<p>Orders ship within 1 business day. US delivery is typically 2\u20135 days.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "category": "energy",
+            "question": "How much caffeine is in Fortified Energy?",
+            "answer": "<p>200mg from green coffee bean \u2014 paired with 200mg L-theanine for smooth, focused energy without a crash.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "category": "energy",
+            "question": "Can I take it on an empty stomach?",
+            "answer": "<p>Yes \u2014 but if you're caffeine-sensitive, start with half a pouch.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "category": "everyday",
+            "question": "Why so much sodium?",
+            "answer": "<p>1,200mg matches what an active adult actually loses through sweat and daily life. Most other brands underdose by 60\u201380%.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "category": "everyday",
+            "question": "Is it safe for kids?",
+            "answer": "<p>Yes \u2014 Everyday is caffeine-free. We typically suggest half a pouch for kids 8+.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "category": "creatine",
+            "question": "Is creatine safe?",
+            "answer": "<p>Creatine monohydrate is the single most-researched sports supplement in history. Daily 5g doses are well-studied for safety and effectiveness.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "category": "creatine",
+            "question": "How long until I see results?",
+            "answer": "<p>Most people notice strength and recovery improvements within 2\u20134 weeks of daily use.</p>"
+          }
+        }
       ]
     }
   ]

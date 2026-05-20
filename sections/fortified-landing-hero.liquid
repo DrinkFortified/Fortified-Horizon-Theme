@@ -13,7 +13,7 @@
       <ul class="fortified-landing-hero__benefits">
         {% for block in section.blocks %}
           {% if block.type == 'fortified-benefit-item' %}
-            <li class="fortified-landing-hero__benefit" {{ block.shopify_attributes }}>
+            <li class="fortified-landing-hero__benefit" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
               <span class="fortified-landing-hero__icon" aria-hidden="true">
                 {% if block.settings.icon == 'star' %}★{% else %}✓{% endif %}
               </span>
@@ -238,6 +238,30 @@
           "id": "text",
           "label": "Text",
           "default": "Premium Hydration + Performance"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
         }
       ]
     }

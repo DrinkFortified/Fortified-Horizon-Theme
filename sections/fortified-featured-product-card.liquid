@@ -45,7 +45,7 @@
       <ul class="fortified-checklist">
         {% for block in section.blocks %}
           {% if block.type == 'fortified-include-item' %}
-            <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+            <li style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
           {% endif %}
         {% endfor %}
       </ul>
@@ -230,6 +230,30 @@
           "id": "text",
           "label": "Text",
           "default": "Energy Hydration Stick \u2014 Salty Orange"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
         }
       ]
     }

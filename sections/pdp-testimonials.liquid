@@ -15,7 +15,7 @@
     <div class="pdp-testi__grid">
       {% for block in section.blocks %}
         {% if block.type == 'review' %}
-          <article class="pdp-testi__card" {{ block.shopify_attributes }}>
+          <article class="pdp-testi__card" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
             <div class="pdp-testi__stars" aria-label="{{ block.settings.stars }} stars">
               {% for i in (1..5) %}{% if i <= block.settings.stars %}★{% else %}☆{% endif %}{% endfor %}
             </div>
@@ -61,31 +61,107 @@
   "class": "pdp-section pdp-section--testi",
   "max_blocks": 12,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What people are saying" },
-    { "type": "text", "id": "title", "label": "Title", "default": "VERIFIED REVIEWS" },
-    { "type": "text", "id": "sub", "label": "Subtitle", "default": "4.9 average · 2,143 reviews · 96% would recommend" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "What people are saying"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "VERIFIED REVIEWS"
+    },
+    {
+      "type": "text",
+      "id": "sub",
+      "label": "Subtitle",
+      "default": "4.9 average \u00b7 2,143 reviews \u00b7 96% would recommend"
+    }
   ],
   "blocks": [
     {
       "type": "review",
       "name": "Review",
       "settings": [
-        { "type": "range", "id": "stars", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
-        { "type": "textarea", "id": "quote", "label": "Quote", "default": "The first electrolyte that doesn't taste like cough syrup. My morning is built around it." },
-        { "type": "text", "id": "author", "label": "Author", "default": "Jordan M." },
-        { "type": "text", "id": "author_detail", "label": "Detail", "default": "Verified buyer · Subscriber" },
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "The first electrolyte that doesn't taste like cough syrup. My morning is built around it."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Jordan M."
+        },
+        {
+          "type": "text",
+          "id": "author_detail",
+          "label": "Detail",
+          "default": "Verified buyer \u00b7 Subscriber"
+        },
         {
           "type": "select",
           "id": "product",
           "label": "Tag color",
           "options": [
-            { "value": "energy", "label": "Energy" },
-            { "value": "everyday", "label": "Everyday" },
-            { "value": "creatine", "label": "Creatine" }
+            {
+              "value": "energy",
+              "label": "Energy"
+            },
+            {
+              "value": "everyday",
+              "label": "Everyday"
+            },
+            {
+              "value": "creatine",
+              "label": "Creatine"
+            }
           ],
           "default": "everyday"
         },
-        { "type": "text", "id": "tag", "label": "Tag label", "default": "Everyday" }
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Tag label",
+          "default": "Everyday"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     }
   ],
@@ -94,10 +170,50 @@
       "name": "10-Omni-Testimonials (Judge.me)",
       "category": "Fortified",
       "blocks": [
-        { "type": "review", "settings": { "stars": 5, "quote": "The first electrolyte that doesn't taste like cough syrup. My morning is built around it.", "author": "Jordan M.", "author_detail": "Verified buyer · Subscriber", "product": "everyday", "tag": "Everyday" } },
-        { "type": "review", "settings": { "stars": 5, "quote": "Cleaner energy than any pre I've tried. Zero crash, zero stomach drama.", "author": "Devon R.", "author_detail": "Verified buyer", "product": "energy", "tag": "Energy" } },
-        { "type": "review", "settings": { "stars": 5, "quote": "Threw out my old powder the day this showed up. Mixes clean, no grit.", "author": "Sam K.", "author_detail": "Verified buyer · Quarterly", "product": "creatine", "tag": "Creatine" } },
-        { "type": "review", "settings": { "stars": 5, "quote": "Finally a brand that prints the dose right on the label. No proprietary blend nonsense.", "author": "Ari S.", "author_detail": "Verified buyer", "product": "everyday", "tag": "Everyday" } }
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "The first electrolyte that doesn't taste like cough syrup. My morning is built around it.",
+            "author": "Jordan M.",
+            "author_detail": "Verified buyer \u00b7 Subscriber",
+            "product": "everyday",
+            "tag": "Everyday"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "Cleaner energy than any pre I've tried. Zero crash, zero stomach drama.",
+            "author": "Devon R.",
+            "author_detail": "Verified buyer",
+            "product": "energy",
+            "tag": "Energy"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "Threw out my old powder the day this showed up. Mixes clean, no grit.",
+            "author": "Sam K.",
+            "author_detail": "Verified buyer \u00b7 Quarterly",
+            "product": "creatine",
+            "tag": "Creatine"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "Finally a brand that prints the dose right on the label. No proprietary blend nonsense.",
+            "author": "Ari S.",
+            "author_detail": "Verified buyer",
+            "product": "everyday",
+            "tag": "Everyday"
+          }
+        }
       ]
     }
   ]

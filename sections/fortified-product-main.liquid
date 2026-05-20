@@ -183,7 +183,12 @@
   "tag": "section",
   "class": "fortified-product-main-section",
   "settings": [
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
   ],
   "blocks": [
     {
@@ -191,8 +196,42 @@
       "name": "Product gallery",
       "limit": 1,
       "settings": [
-        { "type": "checkbox", "id": "show_thumbnails", "label": "Show thumbnail strip", "default": true },
-        { "type": "checkbox", "id": "enable_zoom", "label": "Enable zoom on click", "default": true }
+        {
+          "type": "checkbox",
+          "id": "show_thumbnails",
+          "label": "Show thumbnail strip",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_zoom",
+          "label": "Enable zoom on click",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -200,8 +239,42 @@
       "name": "Product info",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "subhead", "label": "Subhead (overrides metafield)", "default": "YOUR BEST DAY" },
-        { "type": "text", "id": "subhead_metafield", "label": "Subhead metafield (namespace.key)", "info": "Example: custom.subhead" }
+        {
+          "type": "text",
+          "id": "subhead",
+          "label": "Subhead (overrides metafield)",
+          "default": "YOUR BEST DAY"
+        },
+        {
+          "type": "text",
+          "id": "subhead_metafield",
+          "label": "Subhead metafield (namespace.key)",
+          "info": "Example: custom.subhead"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -209,7 +282,36 @@
       "name": "Variant picker (flavor swatches)",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "label", "label": "Picker label", "default": "FLAVOR" }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Picker label",
+          "default": "FLAVOR"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -217,9 +319,51 @@
       "name": "Purchase options",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "single_label", "label": "Single label", "default": "1 Pouch / Daily Meals" },
-        { "type": "text", "id": "multi_label", "label": "Multi label", "default": "3 Pouches / Daily 3 Months" },
-        { "type": "range", "id": "multi_quantity", "label": "Multi quantity", "min": 2, "max": 6, "step": 1, "default": 3 }
+        {
+          "type": "text",
+          "id": "single_label",
+          "label": "Single label",
+          "default": "1 Pouch / Daily Meals"
+        },
+        {
+          "type": "text",
+          "id": "multi_label",
+          "label": "Multi label",
+          "default": "3 Pouches / Daily 3 Months"
+        },
+        {
+          "type": "range",
+          "id": "multi_quantity",
+          "label": "Multi quantity",
+          "min": 2,
+          "max": 6,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -227,9 +371,51 @@
       "name": "Loop Subscription",
       "limit": 1,
       "settings": [
-        { "type": "range", "id": "subscription_discount_percentage", "label": "Subscription discount %", "min": 5, "max": 30, "step": 1, "default": 15 },
-        { "type": "text", "id": "subscribe_label", "label": "Subscribe option label", "default": "Subscribe & Save" },
-        { "type": "text", "id": "one_time_label", "label": "One-time option label", "default": "One-time purchase" }
+        {
+          "type": "range",
+          "id": "subscription_discount_percentage",
+          "label": "Subscription discount %",
+          "min": 5,
+          "max": 30,
+          "step": 1,
+          "default": 15
+        },
+        {
+          "type": "text",
+          "id": "subscribe_label",
+          "label": "Subscribe option label",
+          "default": "Subscribe & Save"
+        },
+        {
+          "type": "text",
+          "id": "one_time_label",
+          "label": "One-time option label",
+          "default": "One-time purchase"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -237,8 +423,42 @@
       "name": "Add to Cart",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "label", "label": "Button label", "default": "ADD TO CART" },
-        { "type": "checkbox", "id": "show_price", "label": "Show price in button", "default": true }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button label",
+          "default": "ADD TO CART"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_price",
+          "label": "Show price in button",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -246,9 +466,47 @@
       "name": "Upsell (Add Creatine)",
       "limit": 1,
       "settings": [
-        { "type": "product", "id": "upsell_product", "label": "Upsell product" },
-        { "type": "text", "id": "upsell_label", "label": "Upsell label", "default": "ADD CREATINE" },
-        { "type": "color", "id": "bg_color", "label": "Background color", "default": "#FFE6CC" }
+        {
+          "type": "product",
+          "id": "upsell_product",
+          "label": "Upsell product"
+        },
+        {
+          "type": "text",
+          "id": "upsell_label",
+          "label": "Upsell label",
+          "default": "ADD CREATINE"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#FFE6CC"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -256,12 +514,60 @@
       "name": "Trust badges",
       "limit": 1,
       "settings": [
-        { "type": "image_picker", "id": "badge_1", "label": "Badge 1" },
-        { "type": "image_picker", "id": "badge_2", "label": "Badge 2" },
-        { "type": "image_picker", "id": "badge_3", "label": "Badge 3" },
-        { "type": "image_picker", "id": "badge_4", "label": "Badge 4" },
-        { "type": "image_picker", "id": "badge_5", "label": "Badge 5" },
-        { "type": "image_picker", "id": "badge_6", "label": "Badge 6" }
+        {
+          "type": "image_picker",
+          "id": "badge_1",
+          "label": "Badge 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_2",
+          "label": "Badge 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_3",
+          "label": "Badge 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_4",
+          "label": "Badge 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_5",
+          "label": "Badge 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_6",
+          "label": "Badge 6"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -269,12 +575,63 @@
       "name": "Brand story",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FORMULATED FOR" },
-        { "type": "text", "id": "heading", "label": "Heading", "default": "YOUR BEST DAY" },
-        { "type": "textarea", "id": "body", "label": "Body" },
-        { "type": "text", "id": "cta_label", "label": "CTA label", "default": "EXPLORE ALL FLAVORS" },
-        { "type": "url", "id": "cta_url", "label": "CTA URL" },
-        { "type": "image_picker", "id": "image", "label": "Background image" }
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "default": "FORMULATED FOR"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "YOUR BEST DAY"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "EXPLORE ALL FLAVORS"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background image"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -282,18 +639,96 @@
       "name": "Clinically backed",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "CLINICALLY BACKED INGREDIENTS" },
-        { "type": "textarea", "id": "body", "label": "Body" },
-        { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FOR YOUR GOAL" },
-        { "type": "url", "id": "cta_url", "label": "CTA URL" },
-        { "type": "text", "id": "item_1", "label": "Item 1", "default": "Sodium Citrate" },
-        { "type": "text", "id": "item_2", "label": "Item 2", "default": "Magnesium Glycinate" },
-        { "type": "text", "id": "item_3", "label": "Item 3", "default": "Potassium" },
-        { "type": "text", "id": "item_4", "label": "Item 4", "default": "Calcium" },
-        { "type": "text", "id": "item_5", "label": "Item 5" },
-        { "type": "text", "id": "item_6", "label": "Item 6" },
-        { "type": "text", "id": "item_7", "label": "Item 7" },
-        { "type": "text", "id": "item_8", "label": "Item 8" }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "CLINICALLY BACKED INGREDIENTS"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "SHOP FOR YOUR GOAL"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL"
+        },
+        {
+          "type": "text",
+          "id": "item_1",
+          "label": "Item 1",
+          "default": "Sodium Citrate"
+        },
+        {
+          "type": "text",
+          "id": "item_2",
+          "label": "Item 2",
+          "default": "Magnesium Glycinate"
+        },
+        {
+          "type": "text",
+          "id": "item_3",
+          "label": "Item 3",
+          "default": "Potassium"
+        },
+        {
+          "type": "text",
+          "id": "item_4",
+          "label": "Item 4",
+          "default": "Calcium"
+        },
+        {
+          "type": "text",
+          "id": "item_5",
+          "label": "Item 5"
+        },
+        {
+          "type": "text",
+          "id": "item_6",
+          "label": "Item 6"
+        },
+        {
+          "type": "text",
+          "id": "item_7",
+          "label": "Item 7"
+        },
+        {
+          "type": "text",
+          "id": "item_8",
+          "label": "Item 8"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -301,12 +736,64 @@
       "name": "Testimonial",
       "limit": 1,
       "settings": [
-        { "type": "image_picker", "id": "photo", "label": "Photo" },
-        { "type": "text", "id": "name", "label": "Name", "default": "Alex Friedman" },
-        { "type": "text", "id": "title", "label": "Title", "default": "Pro Climber" },
-        { "type": "textarea", "id": "quote", "label": "Quote", "default": "I feel the difference in my workouts and recovery. No more cramps." },
-        { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FOR YOUR GOAL" },
-        { "type": "url", "id": "cta_url", "label": "CTA URL" }
+        {
+          "type": "image_picker",
+          "id": "photo",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Alex Friedman"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Pro Climber"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "I feel the difference in my workouts and recovery. No more cramps."
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "SHOP FOR YOUR GOAL"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -314,12 +801,66 @@
       "name": "Stats row",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "stat_1_number", "label": "Stat 1 number", "default": "Over 18" },
-        { "type": "text", "id": "stat_1_label", "label": "Stat 1 label", "default": "Years of Research" },
-        { "type": "text", "id": "stat_2_number", "label": "Stat 2 number", "default": "500+" },
-        { "type": "text", "id": "stat_2_label", "label": "Stat 2 label", "default": "Studies" },
-        { "type": "text", "id": "stat_3_number", "label": "Stat 3 number", "default": "95.6%" },
-        { "type": "text", "id": "stat_3_label", "label": "Stat 3 label", "default": "Improvement" }
+        {
+          "type": "text",
+          "id": "stat_1_number",
+          "label": "Stat 1 number",
+          "default": "Over 18"
+        },
+        {
+          "type": "text",
+          "id": "stat_1_label",
+          "label": "Stat 1 label",
+          "default": "Years of Research"
+        },
+        {
+          "type": "text",
+          "id": "stat_2_number",
+          "label": "Stat 2 number",
+          "default": "500+"
+        },
+        {
+          "type": "text",
+          "id": "stat_2_label",
+          "label": "Stat 2 label",
+          "default": "Studies"
+        },
+        {
+          "type": "text",
+          "id": "stat_3_number",
+          "label": "Stat 3 number",
+          "default": "95.6%"
+        },
+        {
+          "type": "text",
+          "id": "stat_3_label",
+          "label": "Stat 3 label",
+          "default": "Improvement"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -327,32 +868,169 @@
       "name": "Flavors CTA (dark)",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "FUEL YOUR EVERY MOVE" },
-        { "type": "text", "id": "cta_label", "label": "CTA label", "default": "EXPLORE ALL FLAVORS" },
-        { "type": "url", "id": "cta_url", "label": "CTA URL" },
-        { "type": "image_picker", "id": "bg_image", "label": "Background image" }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "FUEL YOUR EVERY MOVE"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "EXPLORE ALL FLAVORS"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Background image"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
       "type": "fortified-comparison-table",
       "name": "Comparison table",
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "WHY WE BEAT THE REST ELECTROLYTES" },
-        { "type": "text", "id": "competitor_1_name", "label": "Competitor 1", "default": "Liquid IV" },
-        { "type": "text", "id": "competitor_2_name", "label": "Competitor 2", "default": "Liquid IV+" },
-        { "type": "text", "id": "competitor_3_name", "label": "Competitor 3", "default": "Liquid IV Pro" }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "WHY WE BEAT THE REST ELECTROLYTES"
+        },
+        {
+          "type": "text",
+          "id": "competitor_1_name",
+          "label": "Competitor 1",
+          "default": "Liquid IV"
+        },
+        {
+          "type": "text",
+          "id": "competitor_2_name",
+          "label": "Competitor 2",
+          "default": "Liquid IV+"
+        },
+        {
+          "type": "text",
+          "id": "competitor_3_name",
+          "label": "Competitor 3",
+          "default": "Liquid IV Pro"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
       "type": "fortified-comparison-row",
       "name": "Comparison row",
       "settings": [
-        { "type": "text", "id": "row_label", "label": "Row label" },
-        { "type": "text", "id": "fortified_value", "label": "Fortified value", "default": "1200MG" },
-        { "type": "text", "id": "comp_1_value", "label": "Competitor 1 value", "default": "500MG" },
-        { "type": "text", "id": "comp_2_value", "label": "Competitor 2 value" },
-        { "type": "text", "id": "comp_3_value", "label": "Competitor 3 value" },
-        { "type": "checkbox", "id": "is_checkmark_row", "label": "Render values as check/x icons", "default": false }
+        {
+          "type": "text",
+          "id": "row_label",
+          "label": "Row label"
+        },
+        {
+          "type": "text",
+          "id": "fortified_value",
+          "label": "Fortified value",
+          "default": "1200MG"
+        },
+        {
+          "type": "text",
+          "id": "comp_1_value",
+          "label": "Competitor 1 value",
+          "default": "500MG"
+        },
+        {
+          "type": "text",
+          "id": "comp_2_value",
+          "label": "Competitor 2 value"
+        },
+        {
+          "type": "text",
+          "id": "comp_3_value",
+          "label": "Competitor 3 value"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_checkmark_row",
+          "label": "Render values as check/x icons",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -360,12 +1038,61 @@
       "name": "Lifestyle strip",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "MORE THAN HYDRATION" },
-        { "type": "image_picker", "id": "image_1", "label": "Image 1" },
-        { "type": "image_picker", "id": "image_2", "label": "Image 2" },
-        { "type": "image_picker", "id": "image_3", "label": "Image 3" },
-        { "type": "image_picker", "id": "image_4", "label": "Image 4" },
-        { "type": "image_picker", "id": "image_5", "label": "Image 5" }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "MORE THAN HYDRATION"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Image 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_5",
+          "label": "Image 5"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -373,17 +1100,57 @@
       "name": "Reviews (Judge.me)",
       "limit": 1,
       "settings": [
-        { "type": "checkbox", "id": "show_star_badge", "label": "Show star rating badge", "default": true },
-        { "type": "checkbox", "id": "show_review_count", "label": "Show review count", "default": true },
+        {
+          "type": "checkbox",
+          "id": "show_star_badge",
+          "label": "Show star rating badge",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_review_count",
+          "label": "Show review count",
+          "default": true
+        },
         {
           "type": "select",
           "id": "badge_position",
           "label": "Badge position",
           "options": [
-            { "value": "inline", "label": "Inline with title" },
-            { "value": "below", "label": "Below title" }
+            {
+              "value": "inline",
+              "label": "Inline with title"
+            },
+            {
+              "value": "below",
+              "label": "Below title"
+            }
           ],
           "default": "inline"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
         }
       ]
     },
@@ -391,19 +1158,98 @@
       "type": "fortified-faq-block",
       "name": "FAQ block",
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "FREQUENTLY ASKED QUESTIONS" },
-        { "type": "text", "id": "question_1", "label": "Q1", "default": "What is Fortified?" },
-        { "type": "richtext", "id": "answer_1", "label": "A1", "default": "<p>Premium electrolytes.</p>" },
-        { "type": "text", "id": "question_2", "label": "Q2" },
-        { "type": "richtext", "id": "answer_2", "label": "A2" },
-        { "type": "text", "id": "question_3", "label": "Q3" },
-        { "type": "richtext", "id": "answer_3", "label": "A3" },
-        { "type": "text", "id": "question_4", "label": "Q4" },
-        { "type": "richtext", "id": "answer_4", "label": "A4" },
-        { "type": "text", "id": "question_5", "label": "Q5" },
-        { "type": "richtext", "id": "answer_5", "label": "A5" },
-        { "type": "text", "id": "question_6", "label": "Q6" },
-        { "type": "richtext", "id": "answer_6", "label": "A6" }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "FREQUENTLY ASKED QUESTIONS"
+        },
+        {
+          "type": "text",
+          "id": "question_1",
+          "label": "Q1",
+          "default": "What is Fortified?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer_1",
+          "label": "A1",
+          "default": "<p>Premium electrolytes.</p>"
+        },
+        {
+          "type": "text",
+          "id": "question_2",
+          "label": "Q2"
+        },
+        {
+          "type": "richtext",
+          "id": "answer_2",
+          "label": "A2"
+        },
+        {
+          "type": "text",
+          "id": "question_3",
+          "label": "Q3"
+        },
+        {
+          "type": "richtext",
+          "id": "answer_3",
+          "label": "A3"
+        },
+        {
+          "type": "text",
+          "id": "question_4",
+          "label": "Q4"
+        },
+        {
+          "type": "richtext",
+          "id": "answer_4",
+          "label": "A4"
+        },
+        {
+          "type": "text",
+          "id": "question_5",
+          "label": "Q5"
+        },
+        {
+          "type": "richtext",
+          "id": "answer_5",
+          "label": "A5"
+        },
+        {
+          "type": "text",
+          "id": "question_6",
+          "label": "Q6"
+        },
+        {
+          "type": "richtext",
+          "id": "answer_6",
+          "label": "A6"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
@@ -411,14 +1257,75 @@
       "name": "Subscribe & Save",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "SUBSCRIBE & SAVE 15%" },
-        { "type": "text", "id": "benefit_1", "label": "Benefit 1", "default": "Improve Hydration" },
-        { "type": "text", "id": "benefit_2", "label": "Benefit 2", "default": "Boost Energy Naturally" },
-        { "type": "text", "id": "benefit_3", "label": "Benefit 3", "default": "Support Muscle Function" },
-        { "type": "text", "id": "benefit_4", "label": "Benefit 4" },
-        { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SUBSCRIBE NOW" },
-        { "type": "url", "id": "cta_url", "label": "CTA URL" },
-        { "type": "image_picker", "id": "bg_image", "label": "Background image" }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "SUBSCRIBE & SAVE 15%"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1",
+          "label": "Benefit 1",
+          "default": "Improve Hydration"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2",
+          "label": "Benefit 2",
+          "default": "Boost Energy Naturally"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3",
+          "label": "Benefit 3",
+          "default": "Support Muscle Function"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4",
+          "label": "Benefit 4"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "SUBSCRIBE NOW"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Background image"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     }
   ],
@@ -427,26 +1334,81 @@
       "name": "Fortified Product Main",
       "category": "Fortified",
       "blocks": [
-        { "type": "fortified-product-gallery" },
-        { "type": "fortified-product-info" },
-        { "type": "fortified-variant-picker" },
-        { "type": "fortified-purchase-options" },
-        { "type": "fortified-subscription" },
-        { "type": "fortified-atc" },
-        { "type": "fortified-upsell" },
-        { "type": "fortified-trust-badges" },
-        { "type": "fortified-brand-story" },
-        { "type": "fortified-clinically-backed" },
-        { "type": "fortified-testimonial" },
-        { "type": "fortified-stats-row" },
-        { "type": "fortified-flavors-cta" },
-        { "type": "fortified-comparison-table" },
-        { "type": "fortified-comparison-row", "settings": { "row_label": "Sodium per serving", "fortified_value": "1200MG", "comp_1_value": "500MG", "comp_2_value": "500MG", "comp_3_value": "500MG" } },
-        { "type": "fortified-comparison-row", "settings": { "row_label": "Sugar-free", "is_checkmark_row": true, "fortified_value": "yes", "comp_1_value": "no", "comp_2_value": "no", "comp_3_value": "no" } },
-        { "type": "fortified-lifestyle-strip-block" },
-        { "type": "fortified-reviews" },
-        { "type": "fortified-faq-block" },
-        { "type": "fortified-subscribe-block" }
+        {
+          "type": "fortified-product-gallery"
+        },
+        {
+          "type": "fortified-product-info"
+        },
+        {
+          "type": "fortified-variant-picker"
+        },
+        {
+          "type": "fortified-purchase-options"
+        },
+        {
+          "type": "fortified-subscription"
+        },
+        {
+          "type": "fortified-atc"
+        },
+        {
+          "type": "fortified-upsell"
+        },
+        {
+          "type": "fortified-trust-badges"
+        },
+        {
+          "type": "fortified-brand-story"
+        },
+        {
+          "type": "fortified-clinically-backed"
+        },
+        {
+          "type": "fortified-testimonial"
+        },
+        {
+          "type": "fortified-stats-row"
+        },
+        {
+          "type": "fortified-flavors-cta"
+        },
+        {
+          "type": "fortified-comparison-table"
+        },
+        {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Sodium per serving",
+            "fortified_value": "1200MG",
+            "comp_1_value": "500MG",
+            "comp_2_value": "500MG",
+            "comp_3_value": "500MG"
+          }
+        },
+        {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Sugar-free",
+            "is_checkmark_row": true,
+            "fortified_value": "yes",
+            "comp_1_value": "no",
+            "comp_2_value": "no",
+            "comp_3_value": "no"
+          }
+        },
+        {
+          "type": "fortified-lifestyle-strip-block"
+        },
+        {
+          "type": "fortified-reviews"
+        },
+        {
+          "type": "fortified-faq-block"
+        },
+        {
+          "type": "fortified-subscribe-block"
+        }
       ]
     }
   ]

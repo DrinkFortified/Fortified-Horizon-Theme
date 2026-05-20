@@ -17,7 +17,7 @@
     <div class="fortified-stats__grid">
       {% for block in section.blocks %}
         {% if block.type == 'fortified-stat' %}
-          <div class="fortified-stats__card" {{ block.shopify_attributes }}>
+          <div class="fortified-stats__card" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
             <div class="fortified-stats__number">{{ block.settings.stat_number }}</div>
             <div class="fortified-stats__label">{{ block.settings.stat_label }}</div>
             {% if block.settings.stat_description != blank %}
@@ -31,7 +31,7 @@
             {% endif %}
           </div>
         {% elsif block.type == 'fortified-checklist-card' %}
-          <div class="fortified-stats__card fortified-stats__card--list" {{ block.shopify_attributes }}>
+          <div class="fortified-stats__card fortified-stats__card--list" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
             <div class="fortified-stats__number">{{ block.settings.headline_number | default: "0%" }}</div>
             <div class="fortified-stats__label">{{ block.settings.headline_label | default: "No Sugar." }}</div>
             <ul class="fortified-checklist">
@@ -199,6 +199,30 @@
           "id": "show_chart",
           "label": "Show comparison bar chart",
           "default": true
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
         }
       ]
     },
@@ -250,6 +274,30 @@
           "type": "text",
           "id": "item_6",
           "label": "Item 6"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
         }
       ]
     }

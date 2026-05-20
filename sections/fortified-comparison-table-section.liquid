@@ -22,7 +22,7 @@
         <tbody>
           {% for block in section.blocks %}
             {% if block.type == 'fortified-comparison-row' %}
-              <tr {{ block.shopify_attributes }}>
+              <tr style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
                 <th scope="row" class="fortified-comparison__row-label">{{ block.settings.row_label }}</th>
                 {% if block.settings.is_checkmark_row %}
                   <td class="fortified-comparison__td fortified-comparison__td--ours">{% if block.settings.fortified_value contains "yes" or block.settings.fortified_value == "✓" %}<span class="fortified-comparison__check">✓</span>{% else %}<span class="fortified-comparison__x">✗</span>{% endif %}</td>
@@ -210,6 +210,30 @@
           "id": "is_checkmark_row",
           "label": "Render values as check/x icons",
           "default": false
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
         }
       ]
     }

@@ -30,13 +30,13 @@
         <tbody>
           {% for block in section.blocks %}
             {% if block.type == 'ing_energy' %}
-              <tr class="p-energy" {{ block.shopify_attributes }}>
+              <tr class="p-energy" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
                 <td><strong>{{ block.settings.name }}</strong></td>
                 <td>{{ block.settings.dose }}</td>
                 <td>{{ block.settings.why }}</td>
               </tr>
             {% elsif block.type == 'ing_everyday' %}
-              <tr class="p-everyday" {{ block.shopify_attributes }}>
+              <tr class="p-everyday" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
                 <td><strong>{{ block.settings.name }}</strong></td>
                 <td>{{ block.settings.dose }}</td>
                 <td>{{ block.settings.why }}</td>
@@ -75,32 +75,150 @@
   "class": "pdp-section pdp-section--ingredients",
   "max_blocks": 30,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Every ingredient, every dose" },
-    { "type": "text", "id": "energy_title", "label": "Energy title", "default": "WHAT'S IN FORTIFIED ENERGY" },
-    { "type": "text", "id": "everyday_title", "label": "Everyday title", "default": "WHAT'S IN FORTIFIED EVERYDAY" },
-    { "type": "textarea", "id": "energy_intro", "label": "Energy intro", "default": "Every dose disclosed — no proprietary blends, no hidden anything." },
-    { "type": "textarea", "id": "everyday_intro", "label": "Everyday intro", "default": "Mineral-rich hydration, fully transparent. Here's exactly what you're drinking." },
-    { "type": "text", "id": "col_name", "label": "Column — name", "default": "Ingredient" },
-    { "type": "text", "id": "col_dose", "label": "Column — dose", "default": "Per serving" },
-    { "type": "text", "id": "col_why", "label": "Column — why it's here", "default": "Why it's here" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Every ingredient, every dose"
+    },
+    {
+      "type": "text",
+      "id": "energy_title",
+      "label": "Energy title",
+      "default": "WHAT'S IN FORTIFIED ENERGY"
+    },
+    {
+      "type": "text",
+      "id": "everyday_title",
+      "label": "Everyday title",
+      "default": "WHAT'S IN FORTIFIED EVERYDAY"
+    },
+    {
+      "type": "textarea",
+      "id": "energy_intro",
+      "label": "Energy intro",
+      "default": "Every dose disclosed \u2014 no proprietary blends, no hidden anything."
+    },
+    {
+      "type": "textarea",
+      "id": "everyday_intro",
+      "label": "Everyday intro",
+      "default": "Mineral-rich hydration, fully transparent. Here's exactly what you're drinking."
+    },
+    {
+      "type": "text",
+      "id": "col_name",
+      "label": "Column \u2014 name",
+      "default": "Ingredient"
+    },
+    {
+      "type": "text",
+      "id": "col_dose",
+      "label": "Column \u2014 dose",
+      "default": "Per serving"
+    },
+    {
+      "type": "text",
+      "id": "col_why",
+      "label": "Column \u2014 why it's here",
+      "default": "Why it's here"
+    }
   ],
   "blocks": [
     {
       "type": "ing_energy",
       "name": "Energy ingredient row",
       "settings": [
-        { "type": "text", "id": "name", "label": "Name", "default": "Caffeine (from green coffee bean)" },
-        { "type": "text", "id": "dose", "label": "Dose", "default": "200mg" },
-        { "type": "text", "id": "why", "label": "Why", "default": "Clinically proven dose for focus and performance." }
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Caffeine (from green coffee bean)"
+        },
+        {
+          "type": "text",
+          "id": "dose",
+          "label": "Dose",
+          "default": "200mg"
+        },
+        {
+          "type": "text",
+          "id": "why",
+          "label": "Why",
+          "default": "Clinically proven dose for focus and performance."
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
       "type": "ing_everyday",
       "name": "Everyday ingredient row",
       "settings": [
-        { "type": "text", "id": "name", "label": "Name", "default": "Sodium (sea salt)" },
-        { "type": "text", "id": "dose", "label": "Dose", "default": "1,200mg" },
-        { "type": "text", "id": "why", "label": "Why", "default": "Primary extracellular electrolyte — drives hydration." }
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Sodium (sea salt)"
+        },
+        {
+          "type": "text",
+          "id": "dose",
+          "label": "Dose",
+          "default": "1,200mg"
+        },
+        {
+          "type": "text",
+          "id": "why",
+          "label": "Why",
+          "default": "Primary extracellular electrolyte \u2014 drives hydration."
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     }
   ],
@@ -109,16 +227,86 @@
       "name": "05-Omni-Full Ingredients Table",
       "category": "Fortified",
       "blocks": [
-        { "type": "ing_energy", "settings": { "name": "Caffeine (green coffee bean)", "dose": "200mg", "why": "Clean stimulant for focus + drive." } },
-        { "type": "ing_energy", "settings": { "name": "L-Theanine", "dose": "200mg", "why": "Smooths caffeine, keeps you calm + sharp." } },
-        { "type": "ing_energy", "settings": { "name": "Sodium", "dose": "1,000mg", "why": "Replaces sweat loss during training." } },
-        { "type": "ing_energy", "settings": { "name": "Magnesium glycinate", "dose": "300mg", "why": "Muscle contraction + nervous system support." } },
-        { "type": "ing_energy", "settings": { "name": "Beta-alanine", "dose": "2g", "why": "Buffers fatigue at the cellular level." } },
-        { "type": "ing_everyday", "settings": { "name": "Sodium (sea salt)", "dose": "1,200mg", "why": "Primary electrolyte for daily hydration." } },
-        { "type": "ing_everyday", "settings": { "name": "Magnesium glycinate", "dose": "400mg", "why": "Supports 300+ enzymatic reactions; aids sleep." } },
-        { "type": "ing_everyday", "settings": { "name": "Potassium citrate", "dose": "300mg", "why": "Fluid balance + cardiovascular function." } },
-        { "type": "ing_everyday", "settings": { "name": "Calcium", "dose": "100mg", "why": "Bone health + muscle signalling." } },
-        { "type": "ing_everyday", "settings": { "name": "Vitamin K2 (MK-7)", "dose": "90mcg", "why": "Directs calcium to bone, away from arteries." } }
+        {
+          "type": "ing_energy",
+          "settings": {
+            "name": "Caffeine (green coffee bean)",
+            "dose": "200mg",
+            "why": "Clean stimulant for focus + drive."
+          }
+        },
+        {
+          "type": "ing_energy",
+          "settings": {
+            "name": "L-Theanine",
+            "dose": "200mg",
+            "why": "Smooths caffeine, keeps you calm + sharp."
+          }
+        },
+        {
+          "type": "ing_energy",
+          "settings": {
+            "name": "Sodium",
+            "dose": "1,000mg",
+            "why": "Replaces sweat loss during training."
+          }
+        },
+        {
+          "type": "ing_energy",
+          "settings": {
+            "name": "Magnesium glycinate",
+            "dose": "300mg",
+            "why": "Muscle contraction + nervous system support."
+          }
+        },
+        {
+          "type": "ing_energy",
+          "settings": {
+            "name": "Beta-alanine",
+            "dose": "2g",
+            "why": "Buffers fatigue at the cellular level."
+          }
+        },
+        {
+          "type": "ing_everyday",
+          "settings": {
+            "name": "Sodium (sea salt)",
+            "dose": "1,200mg",
+            "why": "Primary electrolyte for daily hydration."
+          }
+        },
+        {
+          "type": "ing_everyday",
+          "settings": {
+            "name": "Magnesium glycinate",
+            "dose": "400mg",
+            "why": "Supports 300+ enzymatic reactions; aids sleep."
+          }
+        },
+        {
+          "type": "ing_everyday",
+          "settings": {
+            "name": "Potassium citrate",
+            "dose": "300mg",
+            "why": "Fluid balance + cardiovascular function."
+          }
+        },
+        {
+          "type": "ing_everyday",
+          "settings": {
+            "name": "Calcium",
+            "dose": "100mg",
+            "why": "Bone health + muscle signalling."
+          }
+        },
+        {
+          "type": "ing_everyday",
+          "settings": {
+            "name": "Vitamin K2 (MK-7)",
+            "dose": "90mcg",
+            "why": "Directs calcium to bone, away from arteries."
+          }
+        }
       ]
     }
   ]

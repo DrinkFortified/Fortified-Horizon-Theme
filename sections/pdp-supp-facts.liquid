@@ -23,12 +23,12 @@
           <div class="pdp-facts__divider"></div>
           {% for block in section.blocks %}
             {% if block.type == 'fact_energy' and variant == 'energy' %}
-              <div class="pdp-facts__row" {{ block.shopify_attributes }}>
+              <div class="pdp-facts__row" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
                 <span class="pdp-facts__name">{{ block.settings.name }} <em>{{ block.settings.amount }}</em></span>
                 <span class="pdp-facts__dv">{{ block.settings.dv }}</span>
               </div>
             {% elsif block.type == 'fact_everyday' and variant == 'everyday' %}
-              <div class="pdp-facts__row" {{ block.shopify_attributes }}>
+              <div class="pdp-facts__row" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
                 <span class="pdp-facts__name">{{ block.settings.name }} <em>{{ block.settings.amount }}</em></span>
                 <span class="pdp-facts__dv">{{ block.settings.dv }}</span>
               </div>
@@ -47,12 +47,12 @@
       </h3>
       {% for block in section.blocks %}
         {% if block.type == 'callout_energy' %}
-          <div class="pdp-facts__callout p-energy" {{ block.shopify_attributes }}>
+          <div class="pdp-facts__callout p-energy" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
             <h4>{{ block.settings.title }}</h4>
             <p>{{ block.settings.body }}</p>
           </div>
         {% elsif block.type == 'callout_everyday' %}
-          <div class="pdp-facts__callout p-everyday" {{ block.shopify_attributes }}>
+          <div class="pdp-facts__callout p-everyday" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
             <h4>{{ block.settings.title }}</h4>
             <p>{{ block.settings.body }}</p>
           </div>
@@ -98,49 +98,238 @@
   "class": "pdp-section pdp-section--facts",
   "max_blocks": 40,
   "settings": [
-    { "type": "text", "id": "panel_title", "label": "Panel title", "default": "Supplement Facts" },
-    { "type": "text", "id": "energy_serving", "label": "Energy — serving line", "default": "Serving size: 1 pouch (8.2g)" },
-    { "type": "text", "id": "everyday_serving", "label": "Everyday — serving line", "default": "Serving size: 1 pouch (7.6g)" },
-    { "type": "text", "id": "head_amount", "label": "Header — amount", "default": "Amount per serving" },
-    { "type": "text", "id": "head_dv", "label": "Header — daily value", "default": "% DV" },
-    { "type": "textarea", "id": "foot_note", "label": "Footnote", "default": "Percent Daily Values are based on a 2,000 calorie diet. Daily Value not established for some ingredients." },
-    { "type": "header", "content": "Callouts" },
-    { "type": "text", "id": "energy_callout_title", "label": "Energy callouts title", "default": "WHY THESE DOSES" },
-    { "type": "text", "id": "everyday_callout_title", "label": "Everyday callouts title", "default": "WHY THESE DOSES" }
+    {
+      "type": "text",
+      "id": "panel_title",
+      "label": "Panel title",
+      "default": "Supplement Facts"
+    },
+    {
+      "type": "text",
+      "id": "energy_serving",
+      "label": "Energy \u2014 serving line",
+      "default": "Serving size: 1 pouch (8.2g)"
+    },
+    {
+      "type": "text",
+      "id": "everyday_serving",
+      "label": "Everyday \u2014 serving line",
+      "default": "Serving size: 1 pouch (7.6g)"
+    },
+    {
+      "type": "text",
+      "id": "head_amount",
+      "label": "Header \u2014 amount",
+      "default": "Amount per serving"
+    },
+    {
+      "type": "text",
+      "id": "head_dv",
+      "label": "Header \u2014 daily value",
+      "default": "% DV"
+    },
+    {
+      "type": "textarea",
+      "id": "foot_note",
+      "label": "Footnote",
+      "default": "Percent Daily Values are based on a 2,000 calorie diet. Daily Value not established for some ingredients."
+    },
+    {
+      "type": "header",
+      "content": "Callouts"
+    },
+    {
+      "type": "text",
+      "id": "energy_callout_title",
+      "label": "Energy callouts title",
+      "default": "WHY THESE DOSES"
+    },
+    {
+      "type": "text",
+      "id": "everyday_callout_title",
+      "label": "Everyday callouts title",
+      "default": "WHY THESE DOSES"
+    }
   ],
   "blocks": [
     {
       "type": "fact_energy",
       "name": "Energy fact row",
       "settings": [
-        { "type": "text", "id": "name", "label": "Name", "default": "Caffeine" },
-        { "type": "text", "id": "amount", "label": "Amount", "default": "200mg" },
-        { "type": "text", "id": "dv", "label": "% DV", "default": "**" }
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Caffeine"
+        },
+        {
+          "type": "text",
+          "id": "amount",
+          "label": "Amount",
+          "default": "200mg"
+        },
+        {
+          "type": "text",
+          "id": "dv",
+          "label": "% DV",
+          "default": "**"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
       "type": "fact_everyday",
       "name": "Everyday fact row",
       "settings": [
-        { "type": "text", "id": "name", "label": "Name", "default": "Sodium" },
-        { "type": "text", "id": "amount", "label": "Amount", "default": "1,200mg" },
-        { "type": "text", "id": "dv", "label": "% DV", "default": "52%" }
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Sodium"
+        },
+        {
+          "type": "text",
+          "id": "amount",
+          "label": "Amount",
+          "default": "1,200mg"
+        },
+        {
+          "type": "text",
+          "id": "dv",
+          "label": "% DV",
+          "default": "52%"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
       "type": "callout_energy",
       "name": "Energy callout",
       "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "Clinically-dosed caffeine" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "200mg is the sweet spot for cognition and performance without overshoot." }
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Clinically-dosed caffeine"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "200mg is the sweet spot for cognition and performance without overshoot."
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     },
     {
       "type": "callout_everyday",
       "name": "Everyday callout",
       "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "Athlete-grade sodium" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "1,200mg matches what you actually lose during a hot training session." }
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Athlete-grade sodium"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "1,200mg matches what you actually lose during a hot training session."
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     }
   ],
@@ -149,20 +338,114 @@
       "name": "06-Omni-Supplement Facts",
       "category": "Fortified",
       "blocks": [
-        { "type": "fact_energy", "settings": { "name": "Caffeine", "amount": "200mg", "dv": "**" } },
-        { "type": "fact_energy", "settings": { "name": "L-Theanine", "amount": "200mg", "dv": "**" } },
-        { "type": "fact_energy", "settings": { "name": "Sodium", "amount": "1,000mg", "dv": "43%" } },
-        { "type": "fact_energy", "settings": { "name": "Magnesium glycinate", "amount": "300mg", "dv": "71%" } },
-        { "type": "fact_energy", "settings": { "name": "Beta-alanine", "amount": "2g", "dv": "**" } },
-        { "type": "fact_everyday", "settings": { "name": "Sodium", "amount": "1,200mg", "dv": "52%" } },
-        { "type": "fact_everyday", "settings": { "name": "Magnesium glycinate", "amount": "400mg", "dv": "95%" } },
-        { "type": "fact_everyday", "settings": { "name": "Potassium citrate", "amount": "300mg", "dv": "6%" } },
-        { "type": "fact_everyday", "settings": { "name": "Calcium", "amount": "100mg", "dv": "8%" } },
-        { "type": "fact_everyday", "settings": { "name": "Vitamin K2 (MK-7)", "amount": "90mcg", "dv": "75%" } },
-        { "type": "callout_energy", "settings": { "title": "Clinically-dosed caffeine", "body": "200mg is the sweet spot for cognition and performance without overshoot." } },
-        { "type": "callout_energy", "settings": { "title": "Why L-theanine?", "body": "Smooths the caffeine curve — calm focus without the crash." } },
-        { "type": "callout_everyday", "settings": { "title": "Athlete-grade sodium", "body": "1,200mg matches what you actually lose during a hot training session." } },
-        { "type": "callout_everyday", "settings": { "title": "Glycinate, not oxide", "body": "We use the most bioavailable form so your body actually absorbs it." } }
+        {
+          "type": "fact_energy",
+          "settings": {
+            "name": "Caffeine",
+            "amount": "200mg",
+            "dv": "**"
+          }
+        },
+        {
+          "type": "fact_energy",
+          "settings": {
+            "name": "L-Theanine",
+            "amount": "200mg",
+            "dv": "**"
+          }
+        },
+        {
+          "type": "fact_energy",
+          "settings": {
+            "name": "Sodium",
+            "amount": "1,000mg",
+            "dv": "43%"
+          }
+        },
+        {
+          "type": "fact_energy",
+          "settings": {
+            "name": "Magnesium glycinate",
+            "amount": "300mg",
+            "dv": "71%"
+          }
+        },
+        {
+          "type": "fact_energy",
+          "settings": {
+            "name": "Beta-alanine",
+            "amount": "2g",
+            "dv": "**"
+          }
+        },
+        {
+          "type": "fact_everyday",
+          "settings": {
+            "name": "Sodium",
+            "amount": "1,200mg",
+            "dv": "52%"
+          }
+        },
+        {
+          "type": "fact_everyday",
+          "settings": {
+            "name": "Magnesium glycinate",
+            "amount": "400mg",
+            "dv": "95%"
+          }
+        },
+        {
+          "type": "fact_everyday",
+          "settings": {
+            "name": "Potassium citrate",
+            "amount": "300mg",
+            "dv": "6%"
+          }
+        },
+        {
+          "type": "fact_everyday",
+          "settings": {
+            "name": "Calcium",
+            "amount": "100mg",
+            "dv": "8%"
+          }
+        },
+        {
+          "type": "fact_everyday",
+          "settings": {
+            "name": "Vitamin K2 (MK-7)",
+            "amount": "90mcg",
+            "dv": "75%"
+          }
+        },
+        {
+          "type": "callout_energy",
+          "settings": {
+            "title": "Clinically-dosed caffeine",
+            "body": "200mg is the sweet spot for cognition and performance without overshoot."
+          }
+        },
+        {
+          "type": "callout_energy",
+          "settings": {
+            "title": "Why L-theanine?",
+            "body": "Smooths the caffeine curve \u2014 calm focus without the crash."
+          }
+        },
+        {
+          "type": "callout_everyday",
+          "settings": {
+            "title": "Athlete-grade sodium",
+            "body": "1,200mg matches what you actually lose during a hot training session."
+          }
+        },
+        {
+          "type": "callout_everyday",
+          "settings": {
+            "title": "Glycinate, not oxide",
+            "body": "We use the most bioavailable form so your body actually absorbs it."
+          }
+        }
       ]
     }
   ]

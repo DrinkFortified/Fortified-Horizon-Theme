@@ -77,7 +77,7 @@
                   data-plan="{{ block.settings.plan_id | default: block.id }}"
                   data-pouches="{{ block.settings.pouch_count }}"
                   data-price="{{ block.settings.price_cents }}"
-                  {{ block.shopify_attributes }}
+                  style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}
                 >
                   <input type="radio" name="pdp-plan-{{ section.id }}" value="{{ block.settings.plan_id | default: block.id }}" {% if block.settings.is_default %}checked{% endif %}>
                   <span class="pdp-plan__main">
@@ -415,76 +415,394 @@
   "class": "pdp-section pdp-section--hero",
   "max_blocks": 6,
   "settings": [
-    { "type": "header", "content": "Gallery — Energy" },
-    { "type": "image_picker", "id": "energy_main_image", "label": "Main image" },
-    { "type": "text", "id": "energy_main_alt", "label": "Alt text", "default": "Fortified Energy" },
-    { "type": "text", "id": "energy_placeholder_label", "label": "Placeholder label", "default": "Fortified Energy" },
-    { "type": "header", "content": "Gallery — Everyday" },
-    { "type": "image_picker", "id": "everyday_main_image", "label": "Main image" },
-    { "type": "text", "id": "everyday_main_alt", "label": "Alt text", "default": "Fortified Everyday" },
-    { "type": "text", "id": "everyday_placeholder_label", "label": "Placeholder label", "default": "Fortified Everyday" },
-    { "type": "header", "content": "Thumbnails (shared)" },
-    { "type": "image_picker", "id": "thumb_1_image", "label": "Thumb 1" },
-    { "type": "image_picker", "id": "thumb_2_image", "label": "Thumb 2" },
-    { "type": "image_picker", "id": "thumb_3_image", "label": "Thumb 3" },
-    { "type": "image_picker", "id": "thumb_4_image", "label": "Thumb 4" },
-    { "type": "header", "content": "Copy — Energy" },
-    { "type": "text", "id": "energy_eyebrow", "label": "Eyebrow", "default": "Pre-workout / Focus" },
-    { "type": "text", "id": "energy_title", "label": "Title", "default": "FORTIFIED ENERGY" },
-    { "type": "textarea", "id": "energy_desc", "label": "Description", "default": "Clean caffeine plus electrolytes for pre-workout focus and pump. No sugar, no junk." },
-    { "type": "header", "content": "Copy — Everyday" },
-    { "type": "text", "id": "everyday_eyebrow", "label": "Eyebrow", "default": "Daily hydration" },
-    { "type": "text", "id": "everyday_title", "label": "Title", "default": "FORTIFIED EVERYDAY" },
-    { "type": "textarea", "id": "everyday_desc", "label": "Description", "default": "Mineral-rich hydration for the rest of the day. Caffeine-free, sugar-free, ready when you are." },
-    { "type": "text", "id": "review_text", "label": "Reviews line", "default": "4.9 · 2,143 verified reviews" },
-    { "type": "header", "content": "Step labels" },
-    { "type": "text", "id": "step1_title", "label": "Step 1 title", "default": "Choose your plan" },
-    { "type": "text", "id": "step2_title", "label": "Step 2 title", "default": "Pick function & flavor" },
-    { "type": "text", "id": "step2_hint", "label": "Step 2 hint", "default": "Choose a plan above to mix and match your pouches." },
-    { "type": "text", "id": "step3_title", "label": "Step 3 title", "default": "Add Creatine" },
-    { "type": "text", "id": "pouch_function_label", "label": "Pouch function label", "default": "Function" },
-    { "type": "text", "id": "pouch_flavor_label", "label": "Pouch flavor label", "default": "Flavor" },
-    { "type": "header", "content": "Function / Flavor options (comma-separated)" },
-    { "type": "text", "id": "energy_functions", "label": "Energy functions", "default": "Focus, Pump, Endurance" },
-    { "type": "text", "id": "energy_flavors", "label": "Energy flavors", "default": "Citrus, Berry, Tropical" },
-    { "type": "text", "id": "everyday_functions", "label": "Everyday functions", "default": "Hydration, Recovery, Sleep" },
-    { "type": "text", "id": "everyday_flavors", "label": "Everyday flavors", "default": "Lemon, Watermelon, Grape" },
-    { "type": "header", "content": "Creatine cross-sell" },
-    { "type": "text", "id": "creatine_free_title", "label": "Free row title", "default": "Creatine Monohydrate (Free with Quarterly)" },
-    { "type": "text", "id": "creatine_free_meta", "label": "Free row meta", "default": "30 servings · Micronized" },
-    { "type": "text", "id": "creatine_compare", "label": "Compare-at price", "default": "$24" },
-    { "type": "text", "id": "creatine_extra_title", "label": "Extra unit title", "default": "Add a second Creatine canister" },
-    { "type": "text", "id": "creatine_extra_meta", "label": "Extra meta", "default": "Stock up — limited to this order" },
-    { "type": "text", "id": "creatine_extra_price", "label": "Extra price label", "default": "$12" },
-    { "type": "number", "id": "creatine_extra_cents", "label": "Extra price (cents)", "default": 1200 },
-    { "type": "text", "id": "creatine_sub_title", "label": "Sub title", "default": "Creatine subscription — 50% off first order" },
-    { "type": "text", "id": "creatine_sub_meta", "label": "Sub meta", "default": "Ships monthly · cancel any time" },
-    { "type": "text", "id": "creatine_sub_price", "label": "Sub price label", "default": "$15" },
-    { "type": "number", "id": "creatine_sub_cents", "label": "Sub price (cents)", "default": 1500 },
-    { "type": "header", "content": "Summary + CTA" },
-    { "type": "text", "id": "summary_label_plan", "label": "Plan row label", "default": "Plan" },
-    { "type": "text", "id": "summary_label_addons", "label": "Add-ons row label", "default": "Add-ons" },
-    { "type": "text", "id": "summary_label_total", "label": "Total row label", "default": "Total" },
-    { "type": "text", "id": "cta_incomplete", "label": "CTA — incomplete", "default": "Complete your selection" },
-    { "type": "text", "id": "cta_complete", "label": "CTA — complete", "default": "Subscribe & save" },
-    { "type": "text", "id": "trust_1", "label": "Trust line 1", "default": "Free shipping over $40" },
-    { "type": "text", "id": "trust_2", "label": "Trust line 2", "default": "Cancel any time" },
-    { "type": "text", "id": "trust_3", "label": "Trust line 3", "default": "60-day money-back guarantee" }
+    {
+      "type": "header",
+      "content": "Gallery \u2014 Energy"
+    },
+    {
+      "type": "image_picker",
+      "id": "energy_main_image",
+      "label": "Main image"
+    },
+    {
+      "type": "text",
+      "id": "energy_main_alt",
+      "label": "Alt text",
+      "default": "Fortified Energy"
+    },
+    {
+      "type": "text",
+      "id": "energy_placeholder_label",
+      "label": "Placeholder label",
+      "default": "Fortified Energy"
+    },
+    {
+      "type": "header",
+      "content": "Gallery \u2014 Everyday"
+    },
+    {
+      "type": "image_picker",
+      "id": "everyday_main_image",
+      "label": "Main image"
+    },
+    {
+      "type": "text",
+      "id": "everyday_main_alt",
+      "label": "Alt text",
+      "default": "Fortified Everyday"
+    },
+    {
+      "type": "text",
+      "id": "everyday_placeholder_label",
+      "label": "Placeholder label",
+      "default": "Fortified Everyday"
+    },
+    {
+      "type": "header",
+      "content": "Thumbnails (shared)"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumb_1_image",
+      "label": "Thumb 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumb_2_image",
+      "label": "Thumb 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumb_3_image",
+      "label": "Thumb 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumb_4_image",
+      "label": "Thumb 4"
+    },
+    {
+      "type": "header",
+      "content": "Copy \u2014 Energy"
+    },
+    {
+      "type": "text",
+      "id": "energy_eyebrow",
+      "label": "Eyebrow",
+      "default": "Pre-workout / Focus"
+    },
+    {
+      "type": "text",
+      "id": "energy_title",
+      "label": "Title",
+      "default": "FORTIFIED ENERGY"
+    },
+    {
+      "type": "textarea",
+      "id": "energy_desc",
+      "label": "Description",
+      "default": "Clean caffeine plus electrolytes for pre-workout focus and pump. No sugar, no junk."
+    },
+    {
+      "type": "header",
+      "content": "Copy \u2014 Everyday"
+    },
+    {
+      "type": "text",
+      "id": "everyday_eyebrow",
+      "label": "Eyebrow",
+      "default": "Daily hydration"
+    },
+    {
+      "type": "text",
+      "id": "everyday_title",
+      "label": "Title",
+      "default": "FORTIFIED EVERYDAY"
+    },
+    {
+      "type": "textarea",
+      "id": "everyday_desc",
+      "label": "Description",
+      "default": "Mineral-rich hydration for the rest of the day. Caffeine-free, sugar-free, ready when you are."
+    },
+    {
+      "type": "text",
+      "id": "review_text",
+      "label": "Reviews line",
+      "default": "4.9 \u00b7 2,143 verified reviews"
+    },
+    {
+      "type": "header",
+      "content": "Step labels"
+    },
+    {
+      "type": "text",
+      "id": "step1_title",
+      "label": "Step 1 title",
+      "default": "Choose your plan"
+    },
+    {
+      "type": "text",
+      "id": "step2_title",
+      "label": "Step 2 title",
+      "default": "Pick function & flavor"
+    },
+    {
+      "type": "text",
+      "id": "step2_hint",
+      "label": "Step 2 hint",
+      "default": "Choose a plan above to mix and match your pouches."
+    },
+    {
+      "type": "text",
+      "id": "step3_title",
+      "label": "Step 3 title",
+      "default": "Add Creatine"
+    },
+    {
+      "type": "text",
+      "id": "pouch_function_label",
+      "label": "Pouch function label",
+      "default": "Function"
+    },
+    {
+      "type": "text",
+      "id": "pouch_flavor_label",
+      "label": "Pouch flavor label",
+      "default": "Flavor"
+    },
+    {
+      "type": "header",
+      "content": "Function / Flavor options (comma-separated)"
+    },
+    {
+      "type": "text",
+      "id": "energy_functions",
+      "label": "Energy functions",
+      "default": "Focus, Pump, Endurance"
+    },
+    {
+      "type": "text",
+      "id": "energy_flavors",
+      "label": "Energy flavors",
+      "default": "Citrus, Berry, Tropical"
+    },
+    {
+      "type": "text",
+      "id": "everyday_functions",
+      "label": "Everyday functions",
+      "default": "Hydration, Recovery, Sleep"
+    },
+    {
+      "type": "text",
+      "id": "everyday_flavors",
+      "label": "Everyday flavors",
+      "default": "Lemon, Watermelon, Grape"
+    },
+    {
+      "type": "header",
+      "content": "Creatine cross-sell"
+    },
+    {
+      "type": "text",
+      "id": "creatine_free_title",
+      "label": "Free row title",
+      "default": "Creatine Monohydrate (Free with Quarterly)"
+    },
+    {
+      "type": "text",
+      "id": "creatine_free_meta",
+      "label": "Free row meta",
+      "default": "30 servings \u00b7 Micronized"
+    },
+    {
+      "type": "text",
+      "id": "creatine_compare",
+      "label": "Compare-at price",
+      "default": "$24"
+    },
+    {
+      "type": "text",
+      "id": "creatine_extra_title",
+      "label": "Extra unit title",
+      "default": "Add a second Creatine canister"
+    },
+    {
+      "type": "text",
+      "id": "creatine_extra_meta",
+      "label": "Extra meta",
+      "default": "Stock up \u2014 limited to this order"
+    },
+    {
+      "type": "text",
+      "id": "creatine_extra_price",
+      "label": "Extra price label",
+      "default": "$12"
+    },
+    {
+      "type": "number",
+      "id": "creatine_extra_cents",
+      "label": "Extra price (cents)",
+      "default": 1200
+    },
+    {
+      "type": "text",
+      "id": "creatine_sub_title",
+      "label": "Sub title",
+      "default": "Creatine subscription \u2014 50% off first order"
+    },
+    {
+      "type": "text",
+      "id": "creatine_sub_meta",
+      "label": "Sub meta",
+      "default": "Ships monthly \u00b7 cancel any time"
+    },
+    {
+      "type": "text",
+      "id": "creatine_sub_price",
+      "label": "Sub price label",
+      "default": "$15"
+    },
+    {
+      "type": "number",
+      "id": "creatine_sub_cents",
+      "label": "Sub price (cents)",
+      "default": 1500
+    },
+    {
+      "type": "header",
+      "content": "Summary + CTA"
+    },
+    {
+      "type": "text",
+      "id": "summary_label_plan",
+      "label": "Plan row label",
+      "default": "Plan"
+    },
+    {
+      "type": "text",
+      "id": "summary_label_addons",
+      "label": "Add-ons row label",
+      "default": "Add-ons"
+    },
+    {
+      "type": "text",
+      "id": "summary_label_total",
+      "label": "Total row label",
+      "default": "Total"
+    },
+    {
+      "type": "text",
+      "id": "cta_incomplete",
+      "label": "CTA \u2014 incomplete",
+      "default": "Complete your selection"
+    },
+    {
+      "type": "text",
+      "id": "cta_complete",
+      "label": "CTA \u2014 complete",
+      "default": "Subscribe & save"
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Trust line 1",
+      "default": "Free shipping over $40"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Trust line 2",
+      "default": "Cancel any time"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Trust line 3",
+      "default": "60-day money-back guarantee"
+    }
   ],
   "blocks": [
     {
       "type": "plan",
       "name": "Plan option",
       "settings": [
-        { "type": "text", "id": "plan_id", "label": "Plan ID (one-time, monthly, quarterly)", "default": "monthly" },
-        { "type": "text", "id": "label", "label": "Label", "default": "Monthly subscription" },
-        { "type": "text", "id": "detail", "label": "Detail line", "default": "1 pouch · ships every 30 days" },
-        { "type": "text", "id": "badge", "label": "Badge (optional)" },
-        { "type": "number", "id": "pouch_count", "label": "Number of pouches", "default": 1 },
-        { "type": "text", "id": "price_display", "label": "Price display", "default": "$35" },
-        { "type": "text", "id": "compare_at", "label": "Compare-at (optional)" },
-        { "type": "number", "id": "price_cents", "label": "Price (cents, for math)", "default": 3500 },
-        { "type": "checkbox", "id": "is_default", "label": "Default selected", "default": false }
+        {
+          "type": "text",
+          "id": "plan_id",
+          "label": "Plan ID (one-time, monthly, quarterly)",
+          "default": "monthly"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Monthly subscription"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Detail line",
+          "default": "1 pouch \u00b7 ships every 30 days"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge (optional)"
+        },
+        {
+          "type": "number",
+          "id": "pouch_count",
+          "label": "Number of pouches",
+          "default": 1
+        },
+        {
+          "type": "text",
+          "id": "price_display",
+          "label": "Price display",
+          "default": "$35"
+        },
+        {
+          "type": "text",
+          "id": "compare_at",
+          "label": "Compare-at (optional)"
+        },
+        {
+          "type": "number",
+          "id": "price_cents",
+          "label": "Price (cents, for math)",
+          "default": 3500
+        },
+        {
+          "type": "checkbox",
+          "id": "is_default",
+          "label": "Default selected",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     }
   ],
@@ -493,9 +811,44 @@
       "name": "02-Omni-Hero & Purchase Flow",
       "category": "Fortified",
       "blocks": [
-        { "type": "plan", "settings": { "plan_id": "one-time", "label": "One-time", "detail": "1 pouch · no commitment", "pouch_count": 1, "price_display": "$40", "price_cents": 4000 } },
-        { "type": "plan", "settings": { "plan_id": "monthly", "label": "Monthly subscription", "detail": "1 pouch · ships every 30 days", "badge": "Most popular", "pouch_count": 1, "price_display": "$32", "compare_at": "$40", "price_cents": 3200, "is_default": true } },
-        { "type": "plan", "settings": { "plan_id": "quarterly", "label": "Quarterly bundle", "detail": "3 pouches · mix & match · free Creatine", "badge": "Best value", "pouch_count": 3, "price_display": "$84", "compare_at": "$120", "price_cents": 8400 } }
+        {
+          "type": "plan",
+          "settings": {
+            "plan_id": "one-time",
+            "label": "One-time",
+            "detail": "1 pouch \u00b7 no commitment",
+            "pouch_count": 1,
+            "price_display": "$40",
+            "price_cents": 4000
+          }
+        },
+        {
+          "type": "plan",
+          "settings": {
+            "plan_id": "monthly",
+            "label": "Monthly subscription",
+            "detail": "1 pouch \u00b7 ships every 30 days",
+            "badge": "Most popular",
+            "pouch_count": 1,
+            "price_display": "$32",
+            "compare_at": "$40",
+            "price_cents": 3200,
+            "is_default": true
+          }
+        },
+        {
+          "type": "plan",
+          "settings": {
+            "plan_id": "quarterly",
+            "label": "Quarterly bundle",
+            "detail": "3 pouches \u00b7 mix & match \u00b7 free Creatine",
+            "badge": "Best value",
+            "pouch_count": 3,
+            "price_display": "$84",
+            "compare_at": "$120",
+            "price_cents": 8400
+          }
+        }
       ]
     }
   ]

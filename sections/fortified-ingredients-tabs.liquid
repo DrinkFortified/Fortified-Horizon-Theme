@@ -50,7 +50,7 @@
             class="fortified-ingredients__panel"
             data-tab-target="{{ tab_handle }}"
             {% unless tab_handle == first_tab %}hidden{% endunless %}
-            {{ block.shopify_attributes }}
+            style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}
           >
             <div class="fortified-ingredients__media">
               {% if block.settings.image != blank %}
@@ -256,6 +256,30 @@
           "id": "tab_label",
           "label": "Tab label",
           "default": "Hydration"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
         }
       ]
     },
@@ -296,6 +320,30 @@
           "id": "benefit_badge",
           "label": "Benefit badge",
           "default": "HYDRATION FACTS"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
         }
       ]
     }

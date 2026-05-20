@@ -21,7 +21,7 @@
       <ul class="pdp-promise__pills-grid">
         {% for block in section.blocks %}
           {% if block.type == 'no_pill' %}
-            <li {{ block.shopify_attributes }}>
+            <li style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
               <span class="pdp-promise__pill-mark" aria-hidden="true">NO</span>
               <span>{{ block.settings.label }}</span>
             </li>
@@ -56,19 +56,78 @@
   "class": "pdp-section pdp-section--promise",
   "max_blocks": 16,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The clean label promise" },
-    { "type": "text", "id": "title", "label": "Title", "default": "NO MUMBO JUMBO." },
-    { "type": "textarea", "id": "body", "label": "Body", "default": "If we wouldn't give it to our own kids, it's not going in our pouches. Every ingredient is listed in plain English with the dose right next to it." },
-    { "type": "textarea", "id": "quote", "label": "Quote", "default": "Most hydration brands hide behind 'proprietary blends'. We just print the dose on the label." },
-    { "type": "text", "id": "quote_author", "label": "Quote author", "default": "Dr. Eli Roth, founder" },
-    { "type": "text", "id": "pills_title", "label": "Pills title", "default": "What's not inside" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The clean label promise"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "NO MUMBO JUMBO."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "If we wouldn't give it to our own kids, it's not going in our pouches. Every ingredient is listed in plain English with the dose right next to it."
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote",
+      "default": "Most hydration brands hide behind 'proprietary blends'. We just print the dose on the label."
+    },
+    {
+      "type": "text",
+      "id": "quote_author",
+      "label": "Quote author",
+      "default": "Dr. Eli Roth, founder"
+    },
+    {
+      "type": "text",
+      "id": "pills_title",
+      "label": "Pills title",
+      "default": "What's not inside"
+    }
   ],
   "blocks": [
     {
       "type": "no_pill",
       "name": "No-pill (what's NOT in it)",
       "settings": [
-        { "type": "text", "id": "label", "label": "Label", "default": "Added sugar" }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Added sugar"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     }
   ],
@@ -77,14 +136,54 @@
       "name": "09-Omni-Clean Label Promise",
       "category": "Fortified",
       "blocks": [
-        { "type": "no_pill", "settings": { "label": "Added sugar" } },
-        { "type": "no_pill", "settings": { "label": "Artificial dyes" } },
-        { "type": "no_pill", "settings": { "label": "Sucralose" } },
-        { "type": "no_pill", "settings": { "label": "Maltodextrin" } },
-        { "type": "no_pill", "settings": { "label": "Proprietary blends" } },
-        { "type": "no_pill", "settings": { "label": "Seed oils" } },
-        { "type": "no_pill", "settings": { "label": "Soy" } },
-        { "type": "no_pill", "settings": { "label": "Gluten" } }
+        {
+          "type": "no_pill",
+          "settings": {
+            "label": "Added sugar"
+          }
+        },
+        {
+          "type": "no_pill",
+          "settings": {
+            "label": "Artificial dyes"
+          }
+        },
+        {
+          "type": "no_pill",
+          "settings": {
+            "label": "Sucralose"
+          }
+        },
+        {
+          "type": "no_pill",
+          "settings": {
+            "label": "Maltodextrin"
+          }
+        },
+        {
+          "type": "no_pill",
+          "settings": {
+            "label": "Proprietary blends"
+          }
+        },
+        {
+          "type": "no_pill",
+          "settings": {
+            "label": "Seed oils"
+          }
+        },
+        {
+          "type": "no_pill",
+          "settings": {
+            "label": "Soy"
+          }
+        },
+        {
+          "type": "no_pill",
+          "settings": {
+            "label": "Gluten"
+          }
+        }
       ]
     }
   ]

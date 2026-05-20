@@ -27,7 +27,7 @@
       <ul class="pdp-cr__bullets">
         {% for block in section.blocks %}
           {% if block.type == 'bullet' %}
-            <li {{ block.shopify_attributes }}><strong>{{ block.settings.label }}</strong> {{ block.settings.body }}</li>
+            <li style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}><strong>{{ block.settings.label }}</strong> {{ block.settings.body }}</li>
           {% endif %}
         {% endfor %}
       </ul>
@@ -113,31 +113,146 @@
   "class": "pdp-section pdp-section--creatine",
   "max_blocks": 6,
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Canister image" },
-    { "type": "text", "id": "image_alt", "label": "Image alt", "default": "Fortified Creatine canister" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The strength cross-sell" },
-    { "type": "text", "id": "title", "label": "Title", "default": "ADD CREATINE TO YOUR STACK" },
-    { "type": "textarea", "id": "desc", "label": "Description", "default": "5g of micronized creatine monohydrate — the most-researched strength supplement on Earth. Quietly does the work in the background." },
-    { "type": "header", "content": "Pricing options" },
-    { "type": "text", "id": "opt_bundle_title", "label": "Bundle title", "default": "Free with Quarterly bundle" },
-    { "type": "text", "id": "opt_bundle_meta", "label": "Bundle meta", "default": "Locked in when you choose Quarterly above." },
-    { "type": "text", "id": "opt_bundle_compare", "label": "Bundle compare-at", "default": "$24" },
-    { "type": "text", "id": "opt_sub_title", "label": "Sub title", "default": "Creatine subscription" },
-    { "type": "text", "id": "opt_sub_meta", "label": "Sub meta", "default": "50% off your first order. Cancel any time." },
-    { "type": "text", "id": "opt_sub_price", "label": "Sub price", "default": "$12 / mo" },
-    { "type": "text", "id": "opt_one_title", "label": "One-time title", "default": "One-time canister" },
-    { "type": "text", "id": "opt_one_meta", "label": "One-time meta", "default": "30 servings · micronized" },
-    { "type": "text", "id": "opt_one_price", "label": "One-time price", "default": "$24" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Add to my stack" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" }
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Canister image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt",
+      "default": "Fortified Creatine canister"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The strength cross-sell"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "ADD CREATINE TO YOUR STACK"
+    },
+    {
+      "type": "textarea",
+      "id": "desc",
+      "label": "Description",
+      "default": "5g of micronized creatine monohydrate \u2014 the most-researched strength supplement on Earth. Quietly does the work in the background."
+    },
+    {
+      "type": "header",
+      "content": "Pricing options"
+    },
+    {
+      "type": "text",
+      "id": "opt_bundle_title",
+      "label": "Bundle title",
+      "default": "Free with Quarterly bundle"
+    },
+    {
+      "type": "text",
+      "id": "opt_bundle_meta",
+      "label": "Bundle meta",
+      "default": "Locked in when you choose Quarterly above."
+    },
+    {
+      "type": "text",
+      "id": "opt_bundle_compare",
+      "label": "Bundle compare-at",
+      "default": "$24"
+    },
+    {
+      "type": "text",
+      "id": "opt_sub_title",
+      "label": "Sub title",
+      "default": "Creatine subscription"
+    },
+    {
+      "type": "text",
+      "id": "opt_sub_meta",
+      "label": "Sub meta",
+      "default": "50% off your first order. Cancel any time."
+    },
+    {
+      "type": "text",
+      "id": "opt_sub_price",
+      "label": "Sub price",
+      "default": "$12 / mo"
+    },
+    {
+      "type": "text",
+      "id": "opt_one_title",
+      "label": "One-time title",
+      "default": "One-time canister"
+    },
+    {
+      "type": "text",
+      "id": "opt_one_meta",
+      "label": "One-time meta",
+      "default": "30 servings \u00b7 micronized"
+    },
+    {
+      "type": "text",
+      "id": "opt_one_price",
+      "label": "One-time price",
+      "default": "$24"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Add to my stack"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
   ],
   "blocks": [
     {
       "type": "bullet",
       "name": "Bullet",
       "settings": [
-        { "type": "text", "id": "label", "label": "Bold label", "default": "5g per scoop." },
-        { "type": "text", "id": "body", "label": "Body", "default": "The clinically-studied dose, every single day." }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Bold label",
+          "default": "5g per scoop."
+        },
+        {
+          "type": "text",
+          "id": "body",
+          "label": "Body",
+          "default": "The clinically-studied dose, every single day."
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
+        }
       ]
     }
   ],
@@ -146,9 +261,27 @@
       "name": "08-Omni-Add Creatine",
       "category": "Fortified",
       "blocks": [
-        { "type": "bullet", "settings": { "label": "5g per scoop.", "body": "The clinically-studied dose, every single day." } },
-        { "type": "bullet", "settings": { "label": "Micronized.", "body": "Dissolves clean in cold water — no grit." } },
-        { "type": "bullet", "settings": { "label": "Third-party tested.", "body": "Every batch lab-verified for purity." } }
+        {
+          "type": "bullet",
+          "settings": {
+            "label": "5g per scoop.",
+            "body": "The clinically-studied dose, every single day."
+          }
+        },
+        {
+          "type": "bullet",
+          "settings": {
+            "label": "Micronized.",
+            "body": "Dissolves clean in cold water \u2014 no grit."
+          }
+        },
+        {
+          "type": "bullet",
+          "settings": {
+            "label": "Third-party tested.",
+            "body": "Every batch lab-verified for purity."
+          }
+        }
       ]
     }
   ]

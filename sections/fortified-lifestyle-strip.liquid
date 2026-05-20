@@ -19,7 +19,7 @@
     <div class="fortified-lifestyle-strip__row">
       {% for block in section.blocks %}
         {% if block.type == 'fortified-strip-image' and block.settings.image != blank %}
-          <div class="fortified-lifestyle-strip__item" {{ block.shopify_attributes }}>
+          <div class="fortified-lifestyle-strip__item" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
             {{ block.settings.image | image_url: width: 700 | image_tag:
                 widths: '300, 500, 700',
                 sizes: '(min-width: 1024px) 18vw, 60vw',
@@ -141,6 +141,30 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "inherit"
         }
       ]
     }
