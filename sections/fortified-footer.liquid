@@ -197,6 +197,20 @@
     flex-wrap: wrap;
   }
   .fortified-footer__legal a { color: currentColor; text-decoration: none; font-size: 12px; opacity: .8; }
+
+  /* center-aware block alignment — when section is centered, push block content to center */
+  [style*="text-align: center"] [class*="__card"],
+  [style*="text-align: center"] [class*="__item"],
+  [style*="text-align: center"] [class*="__panel"],
+  [style*="text-align: center"] [class*="__cell"] { align-items: center !important; }
+  [style*="text-align: left"] [class*="__card"],
+  [style*="text-align: left"] [class*="__item"],
+  [style*="text-align: left"] [class*="__panel"],
+  [style*="text-align: left"] [class*="__cell"] { align-items: flex-start !important; }
+  [style*="text-align: right"] [class*="__card"],
+  [style*="text-align: right"] [class*="__item"],
+  [style*="text-align: right"] [class*="__panel"],
+  [style*="text-align: right"] [class*="__cell"] { align-items: flex-end !important; }
 {% endstylesheet %}
 
 {% schema %}

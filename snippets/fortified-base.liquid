@@ -212,5 +212,33 @@
       justify-items: end;
       align-items: flex-end;
     }
+
+    /* center-aware block alignment (global) — applies to every Fortified section */
+    [style*="text-align: center"] [class*="fortified-"][class*="__card"],
+    [style*="text-align: center"] [class*="fortified-"][class*="__item"],
+    [style*="text-align: center"] [class*="fortified-"][class*="__panel"],
+    [style*="text-align: center"] [class*="fortified-"][class*="__cell"],
+    [style*="text-align: center"] [class*="fortified-"][class*="__copy"],
+    [style*="text-align: center"] [class*="fortified-"][class*="__content"],
+    [style*="text-align: center"] [class*="fortified-"][class*="__body"],
+    [style*="text-align: center"] [class*="fortified-"][class*="__inner"] { align-items: center !important; }
+
+    [style*="text-align: left"] [class*="fortified-"][class*="__card"],
+    [style*="text-align: left"] [class*="fortified-"][class*="__item"],
+    [style*="text-align: left"] [class*="fortified-"][class*="__panel"],
+    [style*="text-align: left"] [class*="fortified-"][class*="__cell"],
+    [style*="text-align: left"] [class*="fortified-"][class*="__copy"],
+    [style*="text-align: left"] [class*="fortified-"][class*="__content"],
+    [style*="text-align: left"] [class*="fortified-"][class*="__body"],
+    [style*="text-align: left"] [class*="fortified-"][class*="__inner"] { align-items: flex-start !important; }
+
+    [style*="text-align: right"] [class*="fortified-"][class*="__card"],
+    [style*="text-align: right"] [class*="fortified-"][class*="__item"],
+    [style*="text-align: right"] [class*="fortified-"][class*="__panel"],
+    [style*="text-align: right"] [class*="fortified-"][class*="__cell"],
+    [style*="text-align: right"] [class*="fortified-"][class*="__copy"],
+    [style*="text-align: right"] [class*="fortified-"][class*="__content"],
+    [style*="text-align: right"] [class*="fortified-"][class*="__body"],
+    [style*="text-align: right"] [class*="fortified-"][class*="__inner"] { align-items: flex-end !important; }
   </style>
 {% endunless %}
