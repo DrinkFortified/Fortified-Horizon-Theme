@@ -1,0 +1,424 @@
+{% render 'fortified-base' %}
+
+{%- liquid
+  assign content_align = section.settings.content_alignment | default: 'center'
+  assign blocks_align = section.settings.blocks_alignment | default: 'center'
+  # Collect tabs (each tab block defines a panel)
+  assign tab_blocks = ''
+  for block in section.blocks
+    if block.type == 'tab'
+      assign tab_blocks = tab_blocks | append: forloop.index0 | append: ','
+    endif
+  endfor
+  assign tab_indexes = tab_blocks | split: ','
+-%}
+
+<section
+  id="FortifiedFunctionsTabs-{{ section.id }}"
+  class="fortified-functions-tabs color-{{ section.settings.color_scheme }}"
+  style="text-align: {{ content_align }};"
+  data-fortified-functions-tabs
+  {{ section.shopify_attributes }}
+>
+  <div class="fortified-container fortified-functions-tabs__inner">
+    {% if section.settings.eyebrow != blank %}
+      <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
+    {% endif %}
+    {% if section.settings.heading != blank %}
+      <h2 class="fortified-heading fortified-h2">{{ section.settings.heading }}</h2>
+    {% endif %}
+    {% if section.settings.body != blank %}
+      <div class="fortified-functions-tabs__body fortified-body">{{ section.settings.body }}</div>
+    {% endif %}
+
+    <div class="fortified-functions-tabs__tablist" role="tablist"
+         style="justify-content: {{ blocks_align }};">
+      {%- assign tab_index = 0 -%}
+      {% for block in section.blocks %}
+        {% if block.type == 'tab' %}
+          <button
+            type="button"
+            role="tab"
+            class="fortified-functions-tabs__tab{% if tab_index == 0 %} is-active{% endif %}"
+            data-tab-target="tab-{{ section.id }}-{{ block.id }}"
+            aria-selected="{% if tab_index == 0 %}true{% else %}false{% endif %}"
+            style="--tab-accent: {{ block.settings.accent_color | default: 'var(--fortified-teal)' }};"
+            {{ block.shopify_attributes }}
+          >
+            {% if block.settings.icon != blank %}
+              <span class="fortified-functions-tabs__tab-icon" aria-hidden="true">{{ block.settings.icon }}</span>
+            {% endif %}
+            <span class="fortified-functions-tabs__tab-label">{{ block.settings.label }}</span>
+            {% if block.settings.tagline != blank %}
+              <span class="fortified-functions-tabs__tab-tagline">{{ block.settings.tagline }}</span>
+            {% endif %}
+          </button>
+          {%- assign tab_index = tab_index | plus: 1 -%}
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="fortified-functions-tabs__panels">
+      {%- assign current_tab = '' -%}
+      {%- assign pane_index = 0 -%}
+      {% for block in section.blocks %}
+        {% if block.type == 'tab' %}
+          {%- if current_tab != '' -%}
+            </div>
+          {%- endif -%}
+          <div
+            class="fortified-functions-tabs__panel{% if pane_index == 0 %} is-active{% endif %}"
+            role="tabpanel"
+            id="tab-{{ section.id }}-{{ block.id }}"
+            style="justify-content: {{ blocks_align }};"
+          >
+          {%- assign current_tab = block.id -%}
+          {%- assign pane_index = pane_index | plus: 1 -%}
+        {% else %}
+          {%- if current_tab == '' -%}
+            {%- comment -%}Blocks before any tab — render as a default panel{%- endcomment -%}
+            <div class="fortified-functions-tabs__panel is-active" role="tabpanel">
+            {%- assign current_tab = 'default' -%}
+          {%- endif -%}
+          <div class="fortified-functions-tabs__panel-block"
+               style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};"
+               {{ block.shopify_attributes }}>
+            {%- case block.type -%}
+              {%- when 'text' -%}
+                <div class="fortified-functions-tabs__text">{{ block.settings.text }}</div>
+              {%- when 'image' -%}
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 1200 | image_tag:
+                      widths: '400, 600, 900, 1200',
+                      sizes: '(min-width: 990px) 50vw, 100vw',
+                      class: 'fortified-functions-tabs__image',
+                      alt: block.settings.image.alt | default: '',
+                      loading: 'lazy' }}
+                {% endif %}
+              {%- when 'heading' -%}
+                <h3 class="fortified-heading fortified-h3">{{ block.settings.heading }}</h3>
+              {%- when 'button' -%}
+                {% if block.settings.label != blank %}
+                  <a href="{{ block.settings.link | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ block.settings.label }}</a>
+                {% endif %}
+              {%- when 'feature' -%}
+                <article class="fortified-functions-tabs__feature">
+                  {% if block.settings.icon != blank %}<span class="fortified-functions-tabs__feature-icon" aria-hidden="true">{{ block.settings.icon }}</span>{% endif %}
+                  {% if block.settings.title != blank %}<h4 class="fortified-functions-tabs__feature-title">{{ block.settings.title }}</h4>{% endif %}
+                  {% if block.settings.description != blank %}<p class="fortified-functions-tabs__feature-desc">{{ block.settings.description }}</p>{% endif %}
+                </article>
+              {%- else -%}
+                {%- comment -%}Unknown block type — render its content_for body if available{%- endcomment -%}
+                {{ block.settings.text }}
+            {%- endcase -%}
+          </div>
+        {% endif %}
+      {% endfor %}
+      {%- if current_tab != '' -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {% if section.settings.cta_label != blank %}
+      <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary fortified-functions-tabs__cta">{{ section.settings.cta_label }}</a>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+(function(){
+  var root = document.getElementById('FortifiedFunctionsTabs-{{ section.id }}');
+  if(!root) return;
+  var tabs = root.querySelectorAll('.fortified-functions-tabs__tab');
+  var panels = root.querySelectorAll('.fortified-functions-tabs__panel');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var targetId = tab.getAttribute('data-tab-target');
+      tabs.forEach(function(t){
+        t.classList.toggle('is-active', t === tab);
+        t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+      });
+      panels.forEach(function(p){
+        p.classList.toggle('is-active', p.id === targetId);
+      });
+    });
+  });
+})();
+</script>
+
+{% stylesheet %}
+  .fortified-functions-tabs {
+    background: var(--color-background, #fff);
+    color: var(--color-foreground);
+    padding-block: var(--fortified-section-py);
+    overflow: hidden;
+  }
+  .fortified-functions-tabs__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(20px, 3vw, 36px);
+  }
+  .fortified-functions-tabs__body { max-width: 56ch; }
+  .fortified-functions-tabs__tablist {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    width: 100%;
+    background: var(--fortified-off-white);
+    padding: 6px;
+    border-radius: 999px;
+    max-width: 720px;
+  }
+  .fortified-functions-tabs__tab {
+    flex: 1 1 200px;
+    background: transparent;
+    border: 0;
+    padding: 12px 18px;
+    cursor: pointer;
+    border-radius: 999px;
+    font-family: var(--font-fortified-body);
+    color: var(--fortified-gray-mid);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    transition: background .15s ease, color .15s ease, transform .15s ease;
+  }
+  .fortified-functions-tabs__tab:hover { color: var(--fortified-black); }
+  .fortified-functions-tabs__tab.is-active {
+    background: var(--tab-accent, var(--fortified-teal));
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+  }
+  .fortified-functions-tabs__tab-icon { font-size: 18px; line-height: 1; }
+  .fortified-functions-tabs__tab-label {
+    font-family: var(--font-fortified-display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .fortified-functions-tabs__tab-tagline { font-size: 11px; opacity: .8; }
+  .fortified-functions-tabs__panels {
+    width: 100%;
+    position: relative;
+  }
+  .fortified-functions-tabs__panel { display: none; }
+  .fortified-functions-tabs__panel.is-active {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 2vw, 28px);
+  }
+  @media (min-width: 750px) {
+    .fortified-functions-tabs__panel.is-active { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 990px) {
+    .fortified-functions-tabs__panel.is-active[data-cols="3"],
+    .fortified-functions-tabs__panel.is-active { grid-template-columns: repeat(2, 1fr); }
+  }
+  .fortified-functions-tabs__panel-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .fortified-functions-tabs__image {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+  }
+  .fortified-functions-tabs__feature {
+    background: var(--fortified-off-white);
+    border-radius: 16px;
+    padding: clamp(20px, 2.5vw, 28px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .fortified-functions-tabs__feature-icon { font-size: 32px; line-height: 1; }
+  .fortified-functions-tabs__feature-title {
+    font-family: var(--font-fortified-display);
+    font-size: clamp(16px, 1.6vw, 20px);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .fortified-functions-tabs__feature-desc {
+    font-size: 14px; line-height: 1.55; margin: 0;
+    color: var(--fortified-gray-mid);
+  }
+  .fortified-functions-tabs__cta { margin-top: 8px; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Functions Tabs",
+  "tag": "section",
+  "class": "fortified-section fortified-section--functions-tabs",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE LINEUP" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "PICK YOUR FUNCTION" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Same clean electrolyte base. Two distinct daily uses. Switch tabs to see what's in each formula.</p>" },
+
+    { "type": "header", "content": "CTA" },
+    { "type": "text", "id": "cta_label", "label": "Footer CTA label", "default": "SHOP BOTH FORMULAS" },
+    { "type": "url", "id": "cta_url", "label": "Footer CTA URL" },
+
+    { "type": "header", "content": "Appearance" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "blocks_alignment",
+      "label": "Tabs row position",
+      "options": [
+        { "value": "flex-start",    "label": "Left" },
+        { "value": "center",        "label": "Center" },
+        { "value": "flex-end",      "label": "Right" },
+        { "value": "space-between", "label": "Space between" }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Tab label", "default": "Energy" },
+        { "type": "text", "id": "tagline", "label": "Sub-label / tagline", "default": "Caffeine + electrolytes" },
+        { "type": "text", "id": "icon", "label": "Icon (emoji or single char)", "default": "⚡" },
+        { "type": "color", "id": "accent_color", "label": "Active tab color", "default": "#F2A93B" }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Heading" },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            { "value": "inherit", "label": "Inherit from section" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Add a description for this function tab.</p>" },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            { "value": "inherit", "label": "Inherit from section" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            { "value": "inherit", "label": "Inherit from section" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Shop now" },
+        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            { "value": "inherit", "label": "Inherit from section" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "Feature card",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "✓" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Feature title" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Short benefit copy that explains this feature." },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            { "value": "inherit", "label": "Inherit from section" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Functions Tabs",
+      "category": "Fortified Landing",
+      "settings": {},
+      "blocks": [
+        { "type": "tab", "settings": { "label": "Energy", "tagline": "Caffeine + electrolytes", "icon": "⚡", "accent_color": "#F2A93B" } },
+        { "type": "feature", "settings": { "icon": "⚡", "title": "152mg Natural Caffeine", "description": "From whole coffee beans — not synthetic anhydrous." } },
+        { "type": "feature", "settings": { "icon": "💧", "title": "1,200mg Sodium", "description": "Drives fluid absorption. Pink Himalayan Salt, traceable." } },
+        { "type": "feature", "settings": { "icon": "🔋", "title": "Magnesium Malate", "description": "Krebs cycle co-factor. 150mg elemental Mg per stick." } },
+
+        { "type": "tab", "settings": { "label": "Everyday", "tagline": "D3 + K2 · zero caffeine", "icon": "🌿", "accent_color": "#1FA8A1" } },
+        { "type": "feature", "settings": { "icon": "☀️", "title": "Vitamin D3 — 130% DV", "description": "25mcg cholecalciferol. The form your skin makes from sunlight." } },
+        { "type": "feature", "settings": { "icon": "🦴", "title": "K2 MK-7", "description": "D3's missing partner. 3-day half-life for steady blood levels." } },
+        { "type": "feature", "settings": { "icon": "💧", "title": "Same clean base", "description": "1,200mg sodium · magnesium glycinate · potassium · 0g sugar." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,305 @@
+{% render 'fortified-base' %}
+
+{%- liquid
+  assign content_align = section.settings.content_alignment | default: 'center'
+  assign blocks_align = section.settings.blocks_alignment | default: 'center'
+  assign tag_value = section.settings.tag_value | default: ''
+-%}
+
+<section
+  id="FortifiedLandingHeroCapture-{{ section.id }}"
+  class="fortified-landing-hero-capture color-{{ section.settings.color_scheme }}"
+  style="text-align: {{ content_align }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="fortified-container fortified-landing-hero-capture__inner">
+    <div class="fortified-landing-hero-capture__text">
+      {% if section.settings.eyebrow != blank %}
+        <span class="fortified-eyebrow fortified-landing-hero-capture__eyebrow">{{ section.settings.eyebrow }}</span>
+      {% endif %}
+      <h1 class="fortified-heading fortified-h1 fortified-landing-hero-capture__heading">
+        {% if section.settings.headline_line_1 != blank %}<span class="fortified-landing-hero-capture__line">{{ section.settings.headline_line_1 }}</span>{% endif %}
+        {% if section.settings.headline_line_2 != blank %}<span class="fortified-landing-hero-capture__line">{{ section.settings.headline_line_2 }}</span>{% endif %}
+      </h1>
+      {% if section.settings.subhead != blank %}
+        <p class="fortified-body fortified-landing-hero-capture__subhead">{{ section.settings.subhead }}</p>
+      {% endif %}
+
+      <ul class="fortified-landing-hero-capture__benefits"
+          style="justify-content: {{ blocks_align }}; justify-items: {%- if blocks_align == 'space-between' -%}stretch{%- else -%}{{ blocks_align }}{%- endif -%};">
+        {% for block in section.blocks %}
+          {% if block.type == 'capture-benefit' %}
+            <li class="fortified-landing-hero-capture__benefit"
+                style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};"
+                {{ block.shopify_attributes }}>
+              <span class="fortified-landing-hero-capture__check" aria-hidden="true">✓</span>
+              <span>{{ block.settings.text }}</span>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+
+      <form
+        method="post"
+        action="/contact#FortifiedLandingHeroCapture-{{ section.id }}"
+        id="contact_form_{{ section.id }}"
+        accept-charset="UTF-8"
+        class="fortified-landing-hero-capture__form"
+      >
+        <input type="hidden" name="form_type" value="customer">
+        <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="contact[tags]" value="{{ tag_value }}">
+        {% if section.settings.accept_marketing %}
+          <input type="hidden" name="contact[accepts_marketing]" value="true">
+        {% endif %}
+        <label for="capture-email-{{ section.id }}" class="visually-hidden">Email</label>
+        <div class="fortified-landing-hero-capture__field">
+          <input
+            type="email"
+            id="capture-email-{{ section.id }}"
+            name="contact[email]"
+            placeholder="{{ section.settings.email_placeholder | default: 'Enter your email' }}"
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="fortified-btn fortified-btn--dark fortified-landing-hero-capture__submit">
+            {{ section.settings.cta_label | default: 'GET EARLY ACCESS' }}
+          </button>
+        </div>
+        {% if form.posted_successfully? %}
+          <p class="fortified-landing-hero-capture__success">{{ section.settings.success_message | default: 'You’re in. Watch your inbox.' }}</p>
+        {% endif %}
+        {%- if form.errors -%}
+          <p class="fortified-landing-hero-capture__error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+        {%- endif -%}
+      </form>
+
+      {% if section.settings.disclaimer != blank %}
+        <p class="fortified-landing-hero-capture__disclaimer">{{ section.settings.disclaimer }}</p>
+      {% endif %}
+    </div>
+
+    <div class="fortified-landing-hero-capture__media">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1200 | image_tag:
+            widths: '480, 720, 960, 1200',
+            sizes: '(min-width: 990px) 45vw, (min-width: 750px) 50vw, 100vw',
+            class: 'fortified-landing-hero-capture__image',
+            alt: section.settings.image.alt | default: section.settings.headline_line_1,
+            loading: 'eager',
+            fetchpriority: 'high' }}
+      {% else %}
+        <div class="fortified-landing-hero-capture__placeholder" aria-hidden="true">
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'fortified-landing-hero-capture__placeholder-svg' }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .fortified-landing-hero-capture {
+    background: var(--color-background, var(--fortified-off-white));
+    color: var(--color-foreground);
+    padding-block: var(--fortified-section-py);
+    overflow: hidden;
+  }
+  .fortified-landing-hero-capture__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(28px, 4vw, 56px);
+    align-items: center;
+  }
+  @media (min-width: 750px) {
+    .fortified-landing-hero-capture__inner { grid-template-columns: 1.1fr 1fr; }
+  }
+  .fortified-landing-hero-capture__text {
+    display: flex;
+    flex-direction: column;
+    align-items: inherit;
+    gap: 16px;
+  }
+  .fortified-landing-hero-capture__heading {
+    font-size: clamp(36px, 6vw, 72px);
+    line-height: 1;
+  }
+  .fortified-landing-hero-capture__line { display: block; }
+  .fortified-landing-hero-capture__subhead {
+    max-width: 56ch;
+    margin-inline: auto;
+    font-size: clamp(15px, 1.5vw, 18px);
+    line-height: 1.55;
+  }
+  .fortified-landing-hero-capture__benefits {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    width: 100%;
+  }
+  .fortified-landing-hero-capture__benefit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .fortified-landing-hero-capture__check {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--fortified-teal);
+    color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .fortified-landing-hero-capture__form {
+    width: 100%;
+    max-width: 540px;
+    margin-top: 12px;
+  }
+  .fortified-landing-hero-capture__field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  @media (min-width: 600px) {
+    .fortified-landing-hero-capture__field { flex-direction: row; }
+  }
+  .fortified-landing-hero-capture__field input[type="email"] {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 18px;
+    border: 1.5px solid var(--fortified-gray-light);
+    border-radius: var(--fortified-radius-pill);
+    background: #fff;
+    font-family: var(--font-fortified-body);
+    font-size: 15px;
+    color: var(--fortified-black);
+  }
+  .fortified-landing-hero-capture__field input[type="email"]:focus {
+    outline: 2px solid var(--fortified-teal);
+    outline-offset: 2px;
+  }
+  .fortified-landing-hero-capture__submit { white-space: nowrap; }
+  .fortified-landing-hero-capture__success {
+    margin-top: 12px;
+    color: var(--fortified-success);
+    font-weight: 600;
+  }
+  .fortified-landing-hero-capture__error {
+    margin-top: 8px;
+    color: #b00020;
+    font-size: 13px;
+  }
+  .fortified-landing-hero-capture__disclaimer {
+    font-size: 12px;
+    color: var(--fortified-gray-mid);
+    margin-top: 12px;
+    max-width: 56ch;
+  }
+  .fortified-landing-hero-capture__media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .fortified-landing-hero-capture__image,
+  .fortified-landing-hero-capture__placeholder-svg {
+    width: 100%;
+    max-width: 580px;
+    height: auto;
+    border-radius: 24px;
+    object-fit: cover;
+  }
+  .visually-hidden {
+    clip: rect(0 0 0 0); clip-path: inset(50%);
+    height: 1px; width: 1px;
+    overflow: hidden;
+    position: absolute; white-space: nowrap;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "LP Hero - Capture",
+  "tag": "section",
+  "class": "fortified-section fortified-section--landing-hero-capture",
+  "settings": [
+    { "type": "header", "content": "Copy" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "EARLY ACCESS" },
+    { "type": "text", "id": "headline_line_1", "label": "Headline line 1", "default": "FUEL YOUR" },
+    { "type": "text", "id": "headline_line_2", "label": "Headline line 2", "default": "EVERY MOVE." },
+    { "type": "textarea", "id": "subhead", "label": "Subhead", "default": "Drop your email and we'll send you a free sample plus 20% off your first order." },
+    { "type": "image_picker", "id": "image", "label": "Hero image" },
+
+    { "type": "header", "content": "Email form" },
+    { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "Enter your email" },
+    { "type": "text", "id": "cta_label", "label": "Submit button label", "default": "GET EARLY ACCESS" },
+    { "type": "text", "id": "tag_value", "label": "Customer tag(s)", "info": "Comma-separated tags applied to every email captured here (e.g. \"lp-energy, early-access\").", "default": "lp-capture, fortified-landing" },
+    { "type": "checkbox", "id": "accept_marketing", "label": "Subscribe to marketing emails", "info": "If checked, customers added through this form are flagged as accepting marketing emails in Shopify.", "default": true },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "You're in. Watch your inbox." },
+    { "type": "richtext", "id": "disclaimer", "label": "Disclaimer / fine print", "default": "<p>By submitting your email you agree to receive marketing emails from Fortified. Unsubscribe at any time.</p>" },
+
+    { "type": "header", "content": "Appearance" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "blocks_alignment",
+      "label": "Benefits row position",
+      "options": [
+        { "value": "flex-start",    "label": "Left" },
+        { "value": "center",        "label": "Center" },
+        { "value": "flex-end",      "label": "Right" },
+        { "value": "space-between", "label": "Space between" }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "capture-benefit",
+      "name": "Benefit pill",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free sample" },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Block alignment",
+          "options": [
+            { "value": "inherit", "label": "Inherit from section" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LP Hero - Capture",
+      "category": "Fortified Landing",
+      "settings": {},
+      "blocks": [
+        { "type": "capture-benefit", "settings": { "text": "Free sample pack" } },
+        { "type": "capture-benefit", "settings": { "text": "20% off first order" } },
+        { "type": "capture-benefit", "settings": { "text": "First-access drops" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
