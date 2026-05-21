@@ -37,17 +37,44 @@
         "b2",
         "b3"
       ],
-      "settings": {},
+      "settings": {
+        "headline_line_1": "TRY 3 STICKS",
+        "headline_line_2": "FOR $1.99",
+        "cta_label": "CLAIM YOUR TRIAL \u2014 $1.99",
+        "cta_url": "/products/trial-pack",
+        "asterisk_disclaimer": "*Just pay shipping. One trial per customer. Limited time.",
+        "color_scheme": "scheme-3",
+        "content_alignment": "center",
+        "blocks_alignment": "center"
+      },
       "name": "LP-01 \u2014 Landing Hero"
     },
     "stats_bar": {
       "type": "fortified-stats-bar",
-      "settings": {},
+      "settings": {
+        "stat_1_value": "1,200MG",
+        "stat_1_label": "Sodium",
+        "stat_2_value": "150MG",
+        "stat_2_label": "Magnesium Glycinate",
+        "stat_3_value": "300MG",
+        "stat_3_label": "Potassium",
+        "stat_4_value": "0G",
+        "stat_4_label": "Sugar",
+        "stat_5_value": "45",
+        "stat_5_label": "Servings per Pouch",
+        "color_scheme": "scheme-2",
+        "content_alignment": "center"
+      },
       "name": "LP-02 \u2014 Stats Bar"
     },
     "reviews_carousel": {
       "type": "fortified-reviews-section",
-      "settings": {},
+      "settings": {
+        "eyebrow": "REAL CUSTOMERS",
+        "heading": "12,400+ FIVE-STAR REVIEWS",
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
+      },
       "name": "LP-03 \u2014 Customer Reviews"
     },
     "featured_card": {
@@ -85,7 +112,21 @@
         "i3",
         "i4"
       ],
-      "settings": {},
+      "settings": {
+        "fallback_title": "EVERYDAY HYDRATION TRIAL",
+        "badge_text": "TRIAL OFFER",
+        "show_rating": true,
+        "rating_text": "4.9 \u2605\u2605\u2605\u2605\u2605 \u2014 12,400+ verified reviews",
+        "bestseller": true,
+        "sale_label": "$1.99",
+        "regular_price_label": "$9.97",
+        "cta_label": "CLAIM TRIAL \u2014 $1.99",
+        "cta_url": "/products/trial-pack",
+        "trust_line": "Free U.S. shipping in 1\u20134 days. Cancel anytime.",
+        "color_scheme": "scheme-1",
+        "content_alignment": "center",
+        "blocks_alignment": "center"
+      },
       "name": "LP-04 \u2014 Featured Product Card"
     },
     "day_benefits": {
@@ -135,7 +176,14 @@
         "d4",
         "d5"
       ],
-      "settings": {},
+      "settings": {
+        "heading": "A BETTER DAY, FROM FIRST SIP TO LAST SET",
+        "cta_label": "CLAIM TRIAL \u2014 $1.99",
+        "cta_url": "/products/trial-pack",
+        "color_scheme": "scheme-2",
+        "content_alignment": "center",
+        "blocks_alignment": "center"
+      },
       "name": "LP-05 \u2014 Day Benefits"
     },
     "ingredients_tabs": {
@@ -195,7 +243,15 @@
         "i3",
         "i4"
       ],
-      "settings": {},
+      "settings": {
+        "eyebrow": "THE TRUTH",
+        "heading": "CLINICALLY BACKED INGREDIENTS",
+        "cta_label": "TRY 3 STICKS \u2014 $1.99",
+        "cta_url": "/products/trial-pack",
+        "color_scheme": "scheme-1",
+        "content_alignment": "center",
+        "blocks_alignment": "center"
+      },
       "name": "LP-06 \u2014 Ingredients"
     },
     "comparison_table": {
@@ -251,13 +307,29 @@
         "r3",
         "r4"
       ],
-      "settings": {},
+      "settings": {
+        "heading": "WHY WE BEAT THE REST",
+        "competitor_1_name": "LMNT",
+        "competitor_2_name": "Liquid IV",
+        "competitor_3_name": "Drip Drop",
+        "cta_label": "TRY 3 STICKS \u2014 $1.99",
+        "cta_url": "/products/trial-pack",
+        "color_scheme": "scheme-1",
+        "content_alignment": "center",
+        "blocks_alignment": "center"
+      },
       "name": "LP-07 \u2014 Comparison Table"
     },
     "product_feature": {
       "type": "fortified-product-feature",
       "settings": {
-        "heading": "FORMULATED FOR YOUR BEST DAY"
+        "heading": "YOUR BEST DAY",
+        "eyebrow": "FORMULATED FOR",
+        "body": "Whether you're training hard, working long, or just trying to stay sharp \u2014 Fortified delivers the minerals your body actually needs. Clinically dosed sodium, magnesium glycinate, potassium, and prebiotic fiber. Zero sugar. Zero crash.",
+        "cta_label": "CLAIM TRIAL \u2014 $1.99",
+        "cta_url": "/products/trial-pack",
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
       },
       "name": "LP-08 \u2014 Product Feature"
     },
@@ -300,12 +372,31 @@
         "q3",
         "q4"
       ],
-      "settings": {},
+      "settings": {
+        "eyebrow": "TRIAL FAQ",
+        "heading": "EVERYTHING YOU NEED TO KNOW",
+        "cta_label": "READ ALL REVIEWS",
+        "cta_url": "/pages/reviews",
+        "color_scheme": "scheme-1",
+        "content_alignment": "center",
+        "blocks_alignment": "center"
+      },
       "name": "LP-09 \u2014 FAQ"
     },
     "subscribe_save": {
       "type": "fortified-subscribe-save",
-      "settings": {},
+      "settings": {
+        "eyebrow": "AFTER YOUR TRIAL",
+        "heading": "SUBSCRIBE & SAVE 15%",
+        "benefit_1": "Save 15% on every order",
+        "benefit_2": "Free U.S. shipping every shipment",
+        "benefit_3": "Cancel or pause anytime via Loop",
+        "benefit_4": "First-access to new flavors",
+        "cta_label": "START YOUR SUBSCRIPTION",
+        "cta_url": "/pages/subscribe",
+        "color_scheme": "scheme-2",
+        "content_alignment": "center"
+      },
       "name": "LP-10 \u2014 Subscribe & Save"
     }
   },
