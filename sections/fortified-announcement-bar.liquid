@@ -30,8 +30,8 @@
 
 {% stylesheet %}
   .fortified-announcement {
-    background: var(--fa-bg, #00B8B8);
-    color: var(--fa-text, #FFFFFF);
+    background: var(--fa-bg, var(--color-background));
+    color: var(--fa-text, var(--color-foreground));
     overflow: hidden;
     width: 100%;
     padding: 10px 0;
@@ -94,7 +94,13 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-1"
+      "default": "scheme-3"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight color",
+      "default": "#1FA8A1"
     },
     {
       "type": "header",
