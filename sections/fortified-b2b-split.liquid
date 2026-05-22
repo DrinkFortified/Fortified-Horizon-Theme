@@ -44,7 +44,7 @@
   .fortified-b2b__inner {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
     max-width: var(--fortified-container);
     margin-inline: auto;
     padding-inline: clamp(16px, 3vw, 48px);
@@ -56,83 +56,108 @@
   .fortified-b2b__card {
     position: relative;
     overflow: hidden;
-    border-radius: 18px;
-    min-height: clamp(360px, 40vw, 480px);
-    display: flex;
-    align-items: flex-end;
-    padding: clamp(24px, 3vw, 40px);
-    isolation: isolate;
-    background: color-mix(in srgb, var(--color-foreground) 12%, transparent);
-    color: var(--color-background);
-    transition: transform .35s ease;
+    border-radius: 14px;
+    min-height: 240px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    background: color-mix(in srgb, var(--color-foreground) 8%, transparent);
+    transition: transform .25s ease, box-shadow .25s ease;
   }
-  .fortified-b2b__card:hover { transform: translateY(-4px); }
-  .fortified-b2b__card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg,
-      color-mix(in srgb, var(--color-foreground) 10%, transparent) 0%,
-      color-mix(in srgb, var(--color-foreground) 75%, transparent) 100%);
-    z-index: 0;
-    pointer-events: none;
+  .fortified-b2b__card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px color-mix(in srgb, var(--color-foreground) 12%, transparent);
   }
-  .fortified-b2b__bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-  }
+
+  /* Text column on the left */
   .fortified-b2b__content {
-    position: relative;
-    z-index: 1;
+    padding: clamp(20px, 2.4vw, 32px);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
-    max-width: 90%;
+    gap: 8px;
+    text-align: left;
+    z-index: 2;
+    position: relative;
   }
   .fortified-b2b__content .fortified-eyebrow {
-    color: var(--color-background);
-    opacity: 0.85;
+    color: var(--color-foreground);
+    opacity: 0.55;
+    font-size: 10px;
+    letter-spacing: 0.18em;
     margin: 0;
   }
   .fortified-b2b__content .fortified-heading {
-    color: var(--color-background);
+    color: var(--color-foreground-heading);
     font-family: var(--font-fortified-display);
     font-weight: 900;
     text-transform: uppercase;
-    font-size: clamp(24px, 3vw, 36px);
+    font-size: clamp(20px, 2.4vw, 28px);
     line-height: 1.05;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.005em;
     margin: 0;
   }
   .fortified-b2b__body {
-    font-size: clamp(13px, 1vw, 15px);
-    line-height: 1.55;
-    color: var(--color-background);
-    opacity: 0.9;
-    margin: 0;
-    max-width: 42ch;
-  }
-  .fortified-b2b__content .fortified-btn {
-    background: var(--color-background);
+    font-size: 12.5px;
+    line-height: 1.5;
     color: var(--color-foreground);
+    opacity: 0.7;
+    margin: 0;
+    max-width: 32ch;
+  }
+  /* CTA renders as text-link with arrow, not a button */
+  .fortified-b2b__content .fortified-btn {
+    background: transparent;
+    color: var(--color-foreground-heading);
     border: 0;
-    padding: 12px 24px;
-    border-radius: 999px;
-    font-size: 12px;
+    padding: 8px 0 0;
+    border-radius: 0;
+    font-family: var(--font-fortified-display);
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
+    min-height: auto;
+    box-shadow: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     margin-top: 4px;
-    min-height: 44px;
+    transition: color .15s ease, gap .15s ease;
+  }
+  .fortified-b2b__content .fortified-btn::after {
+    content: '→';
+    font-size: 14px;
+    transition: transform .15s ease;
   }
   .fortified-b2b__content .fortified-btn:hover {
-    background: var(--fortified-accent, var(--color-foreground));
-    color: var(--color-background);
+    color: var(--fortified-accent, var(--color-foreground));
+    gap: 12px;
+  }
+  .fortified-b2b__content .fortified-btn:hover::after { transform: translateX(2px); }
+
+  /* Right side: image fills the right half of the card */
+  .fortified-b2b__bg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 1;
+    grid-column: 2;
+  }
+
+  @media (max-width: 749px) {
+    .fortified-b2b__card {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .fortified-b2b__bg {
+      grid-column: 1;
+      order: -1;
+      aspect-ratio: 16/9;
+    }
   }
 {% endstylesheet %}
 
