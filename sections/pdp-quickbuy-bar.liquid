@@ -2,15 +2,15 @@
 
 <aside
   id="PdpQuickbuy-{{ section.id }}"
-  class="pdp-qb color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="pdp-qb color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   data-pdp-quickbuy
   aria-hidden="true"
   {{ section.shopify_attributes }}
 >
   <div class="fortified-container pdp-qb__bar">
     <div class="pdp-qb__id">
-      <span class="pdp-qb__name p-energy">{{ section.settings.energy_name }}</span>
-      <span class="pdp-qb__name p-everyday">{{ section.settings.everyday_name }}</span>
+      <span class="pdp-qb__name p-energy">{% render 'fortified-accent-text', text: section.settings.energy_name %}</span>
+      <span class="pdp-qb__name p-everyday">{% render 'fortified-accent-text', text: section.settings.everyday_name %}</span>
       <span class="pdp-qb__summary" data-qb-summary>{{ section.settings.default_summary }}</span>
     </div>
     <div class="pdp-qb__actions">
@@ -24,11 +24,11 @@
 
   <div class="pdp-qb__drawer" data-qb-drawer hidden>
     <div class="pdp-qb__drawer-head">
-      <h3>{{ section.settings.drawer_title }}</h3>
+      <h3>{% render 'fortified-accent-text', text: section.settings.drawer_title %}</h3>
       <button type="button" class="pdp-qb__close" data-qb-close aria-label="Close">×</button>
     </div>
     <div class="pdp-qb__drawer-body">
-      <p>{{ section.settings.drawer_body }}</p>
+      <p>{% render 'fortified-accent-text', text: section.settings.drawer_body %}</p>
       <a href="#PdpHero" class="pdp-qb__scroll-link" data-qb-scroll>{{ section.settings.drawer_link }}</a>
     </div>
   </div>
@@ -284,12 +284,14 @@
       "type": "text",
       "id": "drawer_title",
       "label": "Drawer title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "Edit your order"
     },
     {
       "type": "textarea",
       "id": "drawer_body",
       "label": "Drawer body",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Jump back to the configurator to change plan, function, flavor, or add-ons."
     },
     {
@@ -384,6 +386,13 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     },
     {
       "type": "color_scheme",

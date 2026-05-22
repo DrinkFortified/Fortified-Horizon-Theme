@@ -2,28 +2,28 @@
 
 <section
   id="PdpPromise-{{ section.id }}"
-  class="pdp-promise color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="pdp-promise color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container pdp-promise__grid" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
     <div class="pdp-promise__copy">
       <p class="pdp-promise__eyebrow">{{ section.settings.eyebrow }}</p>
-      <h2 class="pdp-promise__title">{{ section.settings.title }}</h2>
-      <p class="pdp-promise__body">{{ section.settings.body }}</p>
+      <h2 class="pdp-promise__title">{% render 'fortified-accent-text', text: section.settings.title %}</h2>
+      <p class="pdp-promise__body">{% render 'fortified-accent-text', text: section.settings.body %}</p>
       <blockquote class="pdp-promise__quote">
-        <p>{{ section.settings.quote }}</p>
+        <p>{% render 'fortified-accent-text', text: section.settings.quote %}</p>
         <cite>— {{ section.settings.quote_author }}</cite>
       </blockquote>
     </div>
 
     <div class="pdp-promise__pills">
-      <h3 class="pdp-promise__pills-title">{{ section.settings.pills_title }}</h3>
+      <h3 class="pdp-promise__pills-title">{% render 'fortified-accent-text', text: section.settings.pills_title %}</h3>
       <ul class="pdp-promise__pills-grid">
         {% for block in section.blocks %}
           {% if block.type == 'no_pill' %}
             <li style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
               <span class="pdp-promise__pill-mark" aria-hidden="true">NO</span>
-              <span>{{ block.settings.label }}</span>
+              <span>{% render 'fortified-accent-text', text: block.settings.label %}</span>
             </li>
           {% endif %}
         {% endfor %}
@@ -164,18 +164,21 @@
       "type": "text",
       "id": "title",
       "label": "Title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "NO MUMBO JUMBO."
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "Body",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "If we wouldn't give it to our own kids, it's not going in our pouches. Every ingredient is listed in plain English with the dose right next to it."
     },
     {
       "type": "textarea",
       "id": "quote",
       "label": "Quote",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Most hydration brands hide behind 'proprietary blends'. We just print the dose on the label."
     },
     {
@@ -188,6 +191,7 @@
       "type": "text",
       "id": "pills_title",
       "label": "Pills title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "What's not inside"
     },
     {
@@ -303,6 +307,13 @@
       "default": "#1FA8A1"
     },
     {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
@@ -318,6 +329,7 @@
           "type": "text",
           "id": "label",
           "label": "Label",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Added sugar"
         },
         {
