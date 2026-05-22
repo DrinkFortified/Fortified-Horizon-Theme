@@ -50,15 +50,81 @@
 </section>
 
 {% stylesheet %}
-  .pdp-ingredients { background: var(--color-background); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); color: var(--color-foreground); }
-  .pdp-ingredients__head { text-align: center; margin-bottom: 28px; }
-  .pdp-ingredients__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-foreground); margin: 0 0 8px; }
-  .pdp-ingredients__title { font-family: var(--font-fortified-display); font-size: clamp(26px, 3.6vw, 40px); margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.02em; }
-  .pdp-ingredients__intro { color: var(--color-foreground); max-width: 64ch; margin: 0 auto; font-size: 14px; }
-  .pdp-ingredients__table-wrap { border: 1px solid var(--color-border); border-radius: 18px; overflow: hidden; }
-  .pdp-ingredients__table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  .pdp-ingredients__table th { text-align: left; padding: 14px 18px; background: var(--color-background); font-family: var(--font-fortified-display); text-transform: uppercase; letter-spacing: 0.06em; font-size: 12px; border-bottom: 1px solid var(--color-border); }
-  .pdp-ingredients__table td { padding: 14px 18px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .pdp-ingredients {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-body);
+  }
+  .pdp-ingredients__head {
+    text-align: center;
+    margin-bottom: 42px;
+    display: flex; flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .pdp-ingredients__eyebrow {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--fortified-accent);
+    margin: 0;
+  }
+  .pdp-ingredients__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 62px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+  .pdp-ingredients__intro {
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    max-width: 64ch;
+    margin: 0;
+  }
+  .pdp-ingredients__table-wrap {
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .pdp-ingredients__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-fortified-body);
+    font-size: 18px;
+  }
+  .pdp-ingredients__table th {
+    text-align: left;
+    padding: 18px 22px;
+    background: color-mix(in srgb, var(--color-foreground) 4%, var(--color-background));
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    border-bottom: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+  .pdp-ingredients__table td {
+    padding: 18px 22px;
+    border-bottom: 1.5px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .pdp-ingredients__table td strong {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
   .pdp-ingredients__table tbody tr:last-child td { border-bottom: 0; }
   body[data-product="energy"] .pdp-ingredients__table tr.p-everyday { display: none; }
   body[data-product="everyday"] .pdp-ingredients__table tr.p-energy { display: none; }
