@@ -1,45 +1,42 @@
 {% render 'fortified-base' %}
 
-{%- liquid
-  assign img_pos = section.settings.image_position | default: 'right'
--%}
-
 <section
   id="FortifiedHero-{{ section.id }}"
-  class="fortified-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }} fortified-hero--image-{{ img_pos }}"
-  {% if bg != blank %}style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; --fortified-hero-bg: {{ bg }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"{% endif %}
+  class="fortified-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }} fortified-hero--align-{{ section.settings.content_alignment | default: 'left' }}"
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 24 }}px {{ section.settings['padding-block-end'] | default: 24 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 24 }}px {{ section.settings['padding-inline-end'] | default: 24 }}px;"
 >
-  <div class="fortified-container fortified-hero__inner">
-    <div class="fortified-hero__text">
+  <div class="fortified-hero__frame">
+    {% if section.settings.image != blank %}
+      {{ section.settings.image | image_url: width: 2880 | image_tag:
+          widths: '720, 1080, 1440, 1920, 2400, 2880',
+          sizes: '100vw',
+          class: 'fortified-hero__bg',
+          alt: section.settings.image.alt | default: section.settings.heading,
+          loading: 'eager',
+          fetchpriority: 'high' }}
+    {% else %}
+      <div class="fortified-hero__bg fortified-hero__bg--placeholder"></div>
+    {% endif %}
+
+    <div class="fortified-hero__content">
       {% if section.settings.eyebrow_text != blank %}
-        <span class="fortified-eyebrow">{{ section.settings.eyebrow_text }}</span>
+        <span class="fortified-hero__eyebrow">{{ section.settings.eyebrow_text }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
-        <h1 class="fortified-heading fortified-h1">{{ section.settings.heading | newline_to_br }}</h1>
+        <h1 class="fortified-hero__heading">{{ section.settings.heading | newline_to_br }}</h1>
       {% endif %}
       {% if section.settings.body_text != blank %}
-        <p class="fortified-body fortified-hero__body">{{ section.settings.body_text }}</p>
+        <p class="fortified-hero__body">{{ section.settings.body_text }}</p>
       {% endif %}
-      <div class="fortified-hero__ctas">
-        {% if section.settings.cta_primary_label != blank %}
-          <a href="{{ section.settings.cta_primary_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ section.settings.cta_primary_label }}</a>
-        {% endif %}
-        {% if section.settings.cta_secondary_label != blank %}
-          <a href="{{ section.settings.cta_secondary_url | default: '#' }}" class="fortified-btn fortified-btn--ghost">{{ section.settings.cta_secondary_label }}</a>
-        {% endif %}
-      </div>
-    </div>
-    <div class="fortified-hero__media">
-      {% if section.settings.image != blank %}
-        {{ section.settings.image | image_url: width: 1400 | image_tag:
-            widths: '480, 720, 960, 1200, 1400',
-            sizes: '(min-width: 750px) 45vw, 100vw',
-            class: 'fortified-hero__img',
-            alt: section.settings.image.alt | default: section.settings.heading,
-            loading: 'eager',
-            fetchpriority: 'high' }}
-      {% else %}
-        <div class="fortified-hero__placeholder"></div>
+      {% if section.settings.cta_primary_label != blank or section.settings.cta_secondary_label != blank %}
+        <div class="fortified-hero__ctas">
+          {% if section.settings.cta_primary_label != blank %}
+            <a href="{{ section.settings.cta_primary_url | default: '#' }}" class="fortified-hero__btn fortified-hero__btn--primary">{{ section.settings.cta_primary_label }}</a>
+          {% endif %}
+          {% if section.settings.cta_secondary_label != blank %}
+            <a href="{{ section.settings.cta_secondary_url | default: '#' }}" class="fortified-hero__btn fortified-hero__btn--secondary">{{ section.settings.cta_secondary_label }}</a>
+          {% endif %}
+        </div>
       {% endif %}
     </div>
   </div>
@@ -49,100 +46,130 @@
   .fortified-hero {
     background: var(--color-background);
     color: var(--color-foreground);
-    overflow: hidden;
   }
-  .fortified-hero__inner {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: clamp(24px, 4vw, 56px);
-    align-items: center;
+  .fortified-hero__frame {
+    position: relative;
     width: 100%;
-    max-width: var(--fortified-container);
-    margin-inline: auto;
-    padding-inline: clamp(16px, 3vw, 48px);
+    border-radius: 20px;
+    overflow: hidden;
+    isolation: isolate;
+    min-height: 573px;
+    display: flex;
+    align-items: stretch;
   }
-  @media (min-width: 750px) {
-    .fortified-hero__inner { grid-template-columns: 1fr 1fr; }
+  .fortified-hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
   }
-  @media (min-width: 990px) {
-    .fortified-hero__inner { grid-template-columns: 1.05fr 1fr; }
-    .fortified-hero--image-left .fortified-hero__inner { grid-template-columns: 1fr 1.05fr; }
-    .fortified-hero--image-left .fortified-hero__text { order: 2; }
-    .fortified-hero--image-left .fortified-hero__media { order: 1; }
+  .fortified-hero__bg--placeholder {
+    background: color-mix(in srgb, var(--color-foreground) 6%, transparent);
   }
-
-  .fortified-hero__text {
+  .fortified-hero__content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 497px;
+    padding: 100px 40px;
     display: flex;
     flex-direction: column;
+    gap: 18px;
     align-items: flex-start;
-    gap: 16px;
     text-align: left;
-  }
-  .fortified-hero__text > .fortified-eyebrow {
-    margin: 0;
     color: var(--color-foreground);
-    opacity: 0.55;
   }
-  .fortified-hero__text > .fortified-heading {
+  .fortified-hero--align-center .fortified-hero__frame { justify-content: center; }
+  .fortified-hero--align-center .fortified-hero__content { align-items: center; text-align: center; margin-inline: auto; }
+  .fortified-hero--align-right .fortified-hero__frame { justify-content: flex-end; }
+  .fortified-hero--align-right .fortified-hero__content { align-items: flex-end; text-align: right; margin-left: auto; }
+
+  .fortified-hero__eyebrow {
     font-family: var(--font-fortified-display);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: clamp(40px, 6.5vw, 80px);
-    line-height: 0.92;
-    letter-spacing: -0.015em;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--fortified-accent);
+    text-transform: none;
     margin: 0;
+  }
+  .fortified-hero__heading {
+    font-family: var(--font-fortified-display);
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     color: var(--color-foreground-heading);
+    text-transform: lowercase;
+    margin: 0;
   }
   .fortified-hero__body {
-    font-size: clamp(14px, 1vw, 16px);
-    line-height: 1.55;
-    max-width: 44ch;
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-foreground);
     margin: 0;
-    opacity: 0.8;
   }
   .fortified-hero__ctas {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 8px;
+    gap: 16px;
+    margin-top: 0;
   }
-  .fortified-hero__ctas .fortified-btn {
-    padding: 12px 26px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border-radius: 10px;
-    min-height: 44px;
-  }
-
-  .fortified-hero__media {
-    display: flex;
+  .fortified-hero__btn {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-  }
-  .fortified-hero__img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-  }
-  .fortified-hero__placeholder {
-    width: 100%;
-    aspect-ratio: 4/3;
-    background: color-mix(in srgb, var(--color-foreground) 4%, transparent);
+    width: 212px;
+    height: 70px;
+    padding: 18px;
     border-radius: 8px;
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid;
+    box-sizing: border-box;
+  }
+  .fortified-hero__btn--primary {
+    background: var(--color-primary-button-background, var(--color-foreground));
+    color: var(--color-primary-button-text, var(--color-background));
+    border-color: var(--color-primary-button-background, var(--color-foreground));
+  }
+  .fortified-hero__btn--secondary {
+    background: transparent;
+    color: var(--color-secondary-button-text, var(--color-foreground));
+    border-color: var(--color-secondary-button-text, var(--color-foreground));
   }
 
+  @media (max-width: 990px) {
+    .fortified-hero__frame { min-height: 480px; }
+    .fortified-hero__content { padding: 64px 32px; max-width: 100%; }
+    .fortified-hero__heading { font-size: 48px; }
+    .fortified-hero__eyebrow { font-size: 22px; }
+    .fortified-hero__body { font-size: 18px; }
+  }
   @media (max-width: 749px) {
-    .fortified-hero__ctas { width: 100%; }
-    .fortified-hero__ctas .fortified-btn { flex: 1 1 auto; }
+    .fortified-hero__frame { min-height: 420px; border-radius: 16px; }
+    .fortified-hero__content { padding: 48px 24px; gap: 14px; }
+    .fortified-hero__heading { font-size: 38px; }
+    .fortified-hero__eyebrow { font-size: 18px; }
+    .fortified-hero__body { font-size: 16px; }
+    .fortified-hero__ctas { width: 100%; gap: 12px; }
+    .fortified-hero__btn { width: 100%; height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "01 \u2014 Hero",
+  "name": "01 — Hero",
   "tag": "section",
   "class": "fortified-hero-section",
   "settings": [
@@ -150,13 +177,14 @@
       "type": "text",
       "id": "eyebrow_text",
       "label": "Eyebrow",
-      "default": "FORMULATED FOR"
+      "default": "Formulated for"
     },
     {
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "HYDRATION THAT HITS"
+      "info": "Use line breaks to split into multiple lines (e.g. \"hydration\" + \"that hits\").",
+      "default": "hydration\nthat hits"
     },
     {
       "type": "textarea",
@@ -189,23 +217,7 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Hero image"
-    },
-    {
-      "type": "select",
-      "id": "image_position",
-      "label": "Image position",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "right"
+      "label": "Hero background image"
     },
     {
       "type": "color_scheme",
@@ -218,20 +230,11 @@
       "id": "content_alignment",
       "label": "Content alignment",
       "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
       ],
-      "default": "center"
+      "default": "left"
     },
     {
       "type": "header",
@@ -245,7 +248,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 24
     },
     {
       "type": "range",
@@ -255,7 +258,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 24
     },
     {
       "type": "range",
@@ -265,7 +268,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 24
     },
     {
       "type": "range",
@@ -275,35 +278,19 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
+      "default": 24
     },
     {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight / accent color",
-      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "info": "Used for the eyebrow text. Default: Fortified Teal.",
       "default": "#1FA8A1"
     }
   ],
   "presets": [
     {
-      "name": "01 \u2014 Hero",
+      "name": "01 — Hero",
       "category": "Fortified Home",
       "settings": {},
       "blocks": []
