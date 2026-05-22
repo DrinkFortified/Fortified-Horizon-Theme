@@ -54,80 +54,116 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    color: var(--color-foreground, #fff);
-    min-height: clamp(360px, 40vw, 520px);
-    display: flex;
-    align-items: center;
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+  .fortified-day__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
   }
   .fortified-day::before {
     content: '';
-    position: absolute; inset: 0; z-index: -2;
-    background-image: var(--day-bg-image, linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%));
-    background-size: cover; background-position: center;
-  }
-  .fortified-day::after {
-    content: '';
-    position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 100%);
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--color-foreground) 30%, transparent) 0%,
+      color-mix(in srgb, var(--color-foreground) 55%, transparent) 100%);
+    pointer-events: none;
   }
   .fortified-day__inner {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: clamp(24px, 3vw, 40px);
-    width: 100%;
+    max-width: var(--fortified-container);
+    margin-inline: auto;
+    padding-inline: clamp(16px, 3vw, 48px);
+    padding-block: clamp(56px, 7vw, 96px);
+    position: relative;
+    z-index: 1;
   }
-  .fortified-day__header { text-align: center; max-width: 720px; }
-  .fortified-day__header h2 { color: var(--color-foreground, #fff); }
-  .fortified-day__timeline {
+  .fortified-day__heading {
+    text-align: center;
+    color: var(--color-background);
+    font-family: var(--font-fortified-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(28px, 4.5vw, 48px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    max-width: 720px;
+    margin: 0;
+  }
+  .fortified-day__scroll {
+    width: 100%;
+    overflow-x: auto;
+  }
+  .fortified-day__row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 14px;
     width: 100%;
   }
   @media (min-width: 750px) {
-    .fortified-day__timeline { grid-template-columns: repeat(5, 1fr); }
+    .fortified-day__row { grid-template-columns: repeat(5, 1fr); }
   }
-  .fortified-day__step {
+  .fortified-day__col {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 6px;
-    padding: 16px 8px;
+    gap: 8px;
+    padding: 20px 12px;
+    background: color-mix(in srgb, var(--color-background) 8%, transparent);
+    backdrop-filter: blur(6px);
+    border-radius: 14px;
+    border: 1px solid color-mix(in srgb, var(--color-background) 12%, transparent);
+    color: var(--color-background);
   }
-  .fortified-day__step-icon {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.1);
-    border: 1.5px solid rgba(255,255,255,0.3);
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    color: var(--color-foreground, #fff);
+  .fortified-day__icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.92;
   }
-  .fortified-day__step-label {
+  .fortified-day__label {
     font-family: var(--font-fortified-display);
-    font-size: 12px; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground)));
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fortified-accent, var(--color-background));
   }
-  .fortified-day__step-title {
+  .fortified-day__title {
     font-family: var(--font-fortified-display);
-    font-size: 14px; font-weight: 700;
-    color: var(--color-foreground, #fff);
+    font-weight: 700;
+    font-size: 14px;
+    margin: 0;
+    color: var(--color-background);
+    line-height: 1.2;
   }
-  .fortified-day__step-desc {
+  .fortified-day__body {
     font-size: 11.5px;
-    color: rgba(255,255,255,0.75);
     line-height: 1.45;
+    opacity: 0.85;
+    margin: 0;
   }
   .fortified-day__cta {
-    background: rgba(255,255,255,0.12);
-    color: var(--color-foreground, #fff);
-    border: 1.5px solid rgba(255,255,255,0.45);
-    backdrop-filter: blur(6px);
+    background: var(--color-background);
+    color: var(--color-foreground);
+    padding: 14px 32px;
+    border-radius: 999px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    min-height: 48px;
   }
-  .fortified-day__cta:hover { background: rgba(255,255,255,0.2); }
 {% endstylesheet %}
 
 {% schema %}
