@@ -5,24 +5,36 @@
   class="pdp-testi"
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container">
+  <div class="pdp-testi__inner">
     <header class="pdp-testi__head">
       <p class="pdp-testi__eyebrow">{{ section.settings.eyebrow }}</p>
       <h2 class="pdp-testi__title">{{ section.settings.title }}</h2>
-      <p class="pdp-testi__sub">{{ section.settings.sub }}</p>
+      {% if section.settings.sub != blank %}<p class="pdp-testi__sub">{{ section.settings.sub }}</p>{% endif %}
     </header>
 
-    <div class="pdp-testi__grid" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
+    <div class="pdp-testi__grid">
       {% for block in section.blocks %}
         {% if block.type == 'review' %}
-          <article class="pdp-testi__card" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-            <div class="pdp-testi__stars" aria-label="{{ block.settings.stars }} stars">
-              {% for i in (1..5) %}{% if i <= block.settings.stars %}★{% else %}☆{% endif %}{% endfor %}
+          <article class="pdp-testi__card" {{ block.shopify_attributes }}>
+            <div class="pdp-testi__card-top">
+              <div class="pdp-testi__stars" aria-label="{{ block.settings.stars }} stars">
+                {% for i in (1..5) %}{% if i <= block.settings.stars %}<span class="pdp-testi__star is-on">★</span>{% else %}<span class="pdp-testi__star">★</span>{% endif %}{% endfor %}
+              </div>
+              {% if block.settings.headline != blank %}
+                <h3 class="pdp-testi__card-title">{{ block.settings.headline }}</h3>
+              {% endif %}
+              <blockquote class="pdp-testi__quote">{{ block.settings.quote }}</blockquote>
             </div>
-            <blockquote class="pdp-testi__quote">{{ block.settings.quote }}</blockquote>
-            <div class="pdp-testi__meta">
-              <strong>{{ block.settings.author }}</strong>
-              <span>{{ block.settings.author_detail }}</span>
+            <div class="pdp-testi__byline">
+              {% if block.settings.avatar != blank %}
+                <span class="pdp-testi__avatar"><img src="{{ block.settings.avatar | image_url: width: 116 }}" alt="" width="58" height="58" loading="lazy"></span>
+              {% else %}
+                <span class="pdp-testi__avatar pdp-testi__avatar--initial">{{ block.settings.author | slice: 0, 1 }}</span>
+              {% endif %}
+              <div class="pdp-testi__byline-text">
+                <strong>{{ block.settings.author }}</strong>
+                <span>{{ block.settings.author_detail }}</span>
+              </div>
             </div>
             {% if block.settings.tag != blank %}
               <span class="pdp-testi__tag pdp-testi__tag--{{ block.settings.product }}">{{ block.settings.tag }}</span>
@@ -31,27 +43,189 @@
         {% endif %}
       {% endfor %}
     </div>
+
+    {% if section.settings.cta_primary_label != blank or section.settings.cta_secondary_label != blank %}
+      <div class="pdp-testi__cta-row">
+        {% if section.settings.cta_primary_label != blank %}
+          <a class="pdp-testi__cta" href="{{ section.settings.cta_primary_url | default: '#' }}">{{ section.settings.cta_primary_label }}</a>
+        {% endif %}
+        {% if section.settings.cta_secondary_label != blank %}
+          <a class="pdp-testi__cta" href="{{ section.settings.cta_secondary_url | default: '#' }}">{{ section.settings.cta_secondary_label }}</a>
+        {% endif %}
+      </div>
+    {% endif %}
   </div>
 </section>
 
 {% stylesheet %}
-  .pdp-testi { background: var(--color-background); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); color: var(--color-foreground); }
-  .pdp-testi__head { text-align: center; margin-bottom: 32px; }
-  .pdp-testi__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-foreground); margin: 0 0 8px; }
-  .pdp-testi__title { font-family: var(--font-fortified-display); font-size: clamp(26px, 3.6vw, 40px); text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 8px; }
-  .pdp-testi__sub { color: var(--color-foreground); margin: 0; font-size: 14px; }
-  .pdp-testi__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .pdp-testi {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-body);
+  }
+  .pdp-testi__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 72px;
+    width: 100%;
+  }
+  .pdp-testi__head {
+    display: flex; flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    max-width: 753px;
+  }
+  .pdp-testi__eyebrow {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--fortified-accent);
+    margin: 0;
+  }
+  .pdp-testi__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 62px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    margin: 0;
+  }
+  .pdp-testi__sub {
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    margin: 0;
+  }
+  .pdp-testi__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    width: 100%;
+  }
   @media (max-width: 1000px) { .pdp-testi__grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .pdp-testi__grid { grid-template-columns: 1fr; } }
-  .pdp-testi__card { position: relative; background: var(--color-background); border: 1px solid var(--color-border); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
-  .pdp-testi__stars { color: var(--fortified-accent, var(--color-foreground)); letter-spacing: 2px; font-size: 14px; }
-  .pdp-testi__quote { margin: 0; font-family: var(--font-fortified-display); font-size: 15px; line-height: 1.45; }
-  .pdp-testi__meta { display: flex; flex-direction: column; font-size: 12px; color: var(--color-foreground); margin-top: auto; }
-  .pdp-testi__meta strong { color: var(--color-foreground); font-size: 13px; }
-  .pdp-testi__tag { position: absolute; top: 16px; right: 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
-  .pdp-testi__tag--energy { background: var(--fortified-accent, var(--color-foreground)); color: var(--color-foreground); }
-  .pdp-testi__tag--everyday { background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); color: var(--color-background); }
+  @media (max-width: 600px) { .pdp-testi__grid { grid-template-columns: 1fr; } }
+  .pdp-testi__card {
+    position: relative;
+    background: var(--color-background);
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    border-radius: 14px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+  }
+  .pdp-testi__card-top {
+    display: flex; flex-direction: column;
+    gap: 16px;
+  }
+  .pdp-testi__stars {
+    display: inline-flex; gap: 4px;
+    height: 28px;
+    color: var(--fortified-accent);
+    font-size: 24px;
+    line-height: 1;
+  }
+  .pdp-testi__star { color: color-mix(in srgb, var(--color-foreground) 18%, transparent); }
+  .pdp-testi__star.is-on { color: var(--fortified-accent); }
+  .pdp-testi__card-title {
+    margin: 0;
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
+  .pdp-testi__quote {
+    margin: 0;
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+  }
+  .pdp-testi__byline {
+    display: flex; align-items: center; gap: 21px;
+  }
+  .pdp-testi__avatar {
+    width: 58px; height: 58px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-foreground) 10%, transparent);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--color-foreground);
+  }
+  .pdp-testi__avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pdp-testi__byline-text {
+    display: flex; flex-direction: column;
+    gap: 4px;
+    line-height: 1.2;
+  }
+  .pdp-testi__byline-text strong {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
+  .pdp-testi__byline-text span {
+    font-family: var(--font-fortified-body);
+    font-size: 20px;
+    color: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+  }
+  .pdp-testi__tag {
+    position: absolute;
+    top: 18px; right: 18px;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--fortified-accent);
+    color: var(--color-background);
+  }
+  .pdp-testi__tag--energy { background: var(--fortified-accent); color: var(--color-background); }
+  .pdp-testi__tag--everyday { background: var(--color-foreground); color: var(--color-background); }
   .pdp-testi__tag--creatine { background: var(--color-foreground); color: var(--color-background); }
+  .pdp-testi__cta-row {
+    display: flex; align-items: center; gap: 18px;
+    width: 535px; max-width: 100%;
+  }
+  .pdp-testi__cta {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    padding: 18px 32px;
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease;
+  }
+  .pdp-testi__cta:hover { background: var(--color-foreground); color: var(--color-background); }
 {% endstylesheet %}
 
 {% schema %}
@@ -65,20 +239,24 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "What people are saying"
+      "default": "THE TRUTH"
     },
     {
       "type": "text",
       "id": "title",
       "label": "Title",
-      "default": "VERIFIED REVIEWS"
+      "default": "12,400+ customer reviews"
     },
     {
       "type": "text",
       "id": "sub",
       "label": "Subtitle",
-      "default": "4.9 average \u00b7 2,143 reviews \u00b7 96% would recommend"
+      "default": ""
     },
+    { "type": "text", "id": "cta_primary_label", "label": "CTA 1 label", "default": "READ ALL REVIEW" },
+    { "type": "url", "id": "cta_primary_url", "label": "CTA 1 url" },
+    { "type": "text", "id": "cta_secondary_label", "label": "CTA 2 label", "default": "WRITE A REVIEW" },
+    { "type": "url", "id": "cta_secondary_url", "label": "CTA 2 url" },
     {
       "type": "select",
       "id": "content_alignment",
@@ -207,22 +385,29 @@
           "default": 5
         },
         {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "Game changer!"
+        },
+        {
           "type": "textarea",
           "id": "quote",
           "label": "Quote",
-          "default": "The first electrolyte that doesn't taste like cough syrup. My morning is built around it."
+          "default": "I feel the difference in my workouts and recovery. No more cramps."
         },
+        { "type": "image_picker", "id": "avatar", "label": "Avatar" },
         {
           "type": "text",
           "id": "author",
           "label": "Author",
-          "default": "Jordan M."
+          "default": "Sarah J."
         },
         {
           "type": "text",
           "id": "author_detail",
           "label": "Detail",
-          "default": "Verified buyer \u00b7 Subscriber"
+          "default": "Verified Buyer"
         },
         {
           "type": "select",
