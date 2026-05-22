@@ -35,10 +35,9 @@
 {% stylesheet %}
   .fortified-subscribe {
     position: relative;
-    background: var(--color-background, #0A0A0A);
-    color: var(--color-foreground, #fff);
-    padding-block: var(--fortified-section-py);
     isolation: isolate;
+    background: var(--color-background);
+    color: var(--color-foreground);
     overflow: hidden;
   }
   .fortified-subscribe__bg {
@@ -48,28 +47,86 @@
     height: 100%;
     object-fit: cover;
     z-index: -2;
-    opacity: .35;
   }
-  .fortified-subscribe::after {
-    content: "";
+  .fortified-subscribe::before {
+    content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgb(0 0 0 / .6), rgb(0 0 0 / .8));
     z-index: -1;
+    background: linear-gradient(135deg,
+      color-mix(in srgb, var(--color-foreground) 18%, transparent) 0%,
+      color-mix(in srgb, var(--color-foreground) 55%, transparent) 100%);
+    pointer-events: none;
   }
   .fortified-subscribe__inner {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     gap: 16px;
     max-width: 720px;
+    margin-inline: auto;
+    padding-block: clamp(56px, 7vw, 96px);
+    padding-inline: clamp(20px, 3vw, 48px);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .fortified-subscribe__inner .fortified-eyebrow {
+    color: var(--color-background);
+    opacity: 0.85;
+  }
+  .fortified-subscribe__inner .fortified-heading {
+    color: var(--color-background);
+    font-family: var(--font-fortified-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin: 0;
   }
   .fortified-subscribe__list {
     margin: 8px 0 16px;
-    text-align: left;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  .fortified-subscribe__list li { color: var(--color-foreground, #fff); }
+  .fortified-subscribe__list li {
+    color: var(--color-background);
+    font-size: 14px;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .fortified-subscribe__list li::before {
+    color: var(--fortified-accent, var(--color-background));
+    font-size: 14px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-background) 18%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-background) 40%, transparent);
+  }
+  .fortified-subscribe__inner .fortified-btn {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    border: 0;
+    padding: 16px 36px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    min-height: 50px;
+    margin-top: 4px;
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--color-foreground) 25%, transparent);
+  }
+  .fortified-subscribe__inner .fortified-btn:hover {
+    background: var(--fortified-accent, var(--color-foreground));
+    color: var(--color-background);
+  }
 {% endstylesheet %}
 
 {% schema %}
