@@ -8,7 +8,7 @@
 <section
   id="FortifiedHero-{{ section.id }}"
   class="fortified-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }} fortified-hero--image-{{ img_pos }}"
-  {% if bg != blank %}style="text-align: {{ section.settings.content_alignment | default: 'center' }}; --fortified-hero-bg: {{ bg }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"{% endif %}
+  {% if bg != blank %}style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; --fortified-hero-bg: {{ bg }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"{% endif %}
 >
   <div class="fortified-container fortified-hero__inner">
     <div class="fortified-hero__text">
@@ -48,7 +48,7 @@
 
 {% stylesheet %}
   .fortified-hero {
-    background: var(--fortified-hero-bg, var(--color-background, var(--fortified-teal)));
+    background: var(--fortified-hero-bg, var(--color-background, var(--fortified-accent, var(--fortified-teal))));
     color: var(--color-foreground, #fff);
     padding-block: var(--fortified-section-py);
     overflow: hidden;
@@ -184,7 +184,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-3"
+      "default": "scheme-1"
     },
     {
       "type": "select",
@@ -265,6 +265,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "presets": [

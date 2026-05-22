@@ -16,7 +16,7 @@
 <section
   id="FortifiedFunctionsTabs-{{ section.id }}"
   class="fortified-functions-tabs color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
-  style="text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
   data-fortified-functions-tabs
   {{ section.shopify_attributes }}
 >
@@ -187,8 +187,8 @@
   }
   .fortified-functions-tabs__tab:hover { color: var(--fortified-black); }
   .fortified-functions-tabs__tab.is-active {
-    background: var(--tab-accent, var(--fortified-teal));
-    color: #fff;
+    background: var(--tab-accent, var(--fortified-accent, var(--fortified-teal)));
+    color: var(--color-foreground, #fff);
     box-shadow: 0 2px 12px rgba(0,0,0,.08);
   }
   .fortified-functions-tabs__tab-icon { font-size: 18px; line-height: 1; }
@@ -407,6 +407,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

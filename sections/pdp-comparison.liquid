@@ -4,7 +4,7 @@
   id="PdpComparison-{{ section.id }}"
   class="pdp-cmp"
   {{ section.shopify_attributes }}
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container">
     <header class="pdp-cmp__head">
       <p class="pdp-cmp__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -69,13 +69,13 @@
   .pdp-cmp__table th, .pdp-cmp__table td { padding: 14px 16px; text-align: center; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,.1); }
   .pdp-cmp__table thead th { font-family: var(--font-fortified-display); text-transform: uppercase; letter-spacing: 0.06em; font-size: 12px; background: rgba(255,255,255,.04); color: rgba(255,255,255,.85); }
   body[data-product="energy"] .pdp-cmp__th--ours { background: var(--fortified-orange); color: var(--fortified-black); }
-  body[data-product="everyday"] .pdp-cmp__th--ours { background: var(--fortified-teal); color: var(--fortified-white); }
+  body[data-product="everyday"] .pdp-cmp__th--ours { background: var(--fortified-accent, var(--fortified-teal)); color: var(--fortified-white); }
   body[data-product="energy"] .pdp-cmp__th--ours .p-everyday,
   body[data-product="everyday"] .pdp-cmp__th--ours .p-energy { display: none; }
   .pdp-cmp__row-label { text-align: left; font-weight: 600; color: rgba(255,255,255,.9); background: rgba(255,255,255,.03); }
   body[data-product="energy"] .pdp-cmp__td--ours { background: rgba(242,169,59,.12); color: var(--fortified-orange); font-weight: 700; }
-  body[data-product="everyday"] .pdp-cmp__td--ours { background: rgba(31,168,161,.12); color: var(--fortified-teal); font-weight: 700; }
-  .pdp-cmp__check { color: var(--fortified-teal); font-weight: 700; font-size: 18px; }
+  body[data-product="everyday"] .pdp-cmp__td--ours { background: rgba(31,168,161,.12); color: var(--fortified-accent, var(--fortified-teal)); font-weight: 700; }
+  .pdp-cmp__check { color: var(--fortified-accent, var(--fortified-teal)); font-weight: 700; font-size: 18px; }
   body[data-product="energy"] .pdp-cmp__td--ours .pdp-cmp__check { color: var(--fortified-orange); }
   .pdp-cmp__x { color: rgba(255,255,255,.4); font-size: 18px; }
 {% endstylesheet %}
@@ -227,6 +227,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

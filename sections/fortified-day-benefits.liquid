@@ -3,7 +3,7 @@
 <section
   id="FortifiedDayBenefits-{{ section.id }}"
   class="fortified-day color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--day-bg-image: {% if section.settings.image %}url({{ section.settings.image | image_url: width: 2400 }}){% else %}linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%){% endif %}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; --day-bg-image: {% if section.settings.image %}url({{ section.settings.image | image_url: width: 2400 }}){% else %}linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%){% endif %}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   {% if section.settings.image != blank %}
     {{ section.settings.image | image_url: width: 2400 | image_tag:
         widths: '800, 1200, 1800, 2400',
@@ -54,7 +54,7 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    color: #fff;
+    color: var(--color-foreground, #fff);
     min-height: clamp(360px, 40vw, 520px);
     display: flex;
     align-items: center;
@@ -78,7 +78,7 @@
     width: 100%;
   }
   .fortified-day__header { text-align: center; max-width: 720px; }
-  .fortified-day__header h2 { color: #fff; }
+  .fortified-day__header h2 { color: var(--color-foreground, #fff); }
   .fortified-day__timeline {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -103,7 +103,7 @@
     border: 1.5px solid rgba(255,255,255,0.3);
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 22px;
-    color: #fff;
+    color: var(--color-foreground, #fff);
   }
   .fortified-day__step-label {
     font-family: var(--font-fortified-display);
@@ -114,7 +114,7 @@
   .fortified-day__step-title {
     font-family: var(--font-fortified-display);
     font-size: 14px; font-weight: 700;
-    color: #fff;
+    color: var(--color-foreground, #fff);
   }
   .fortified-day__step-desc {
     font-size: 11.5px;
@@ -123,7 +123,7 @@
   }
   .fortified-day__cta {
     background: rgba(255,255,255,0.12);
-    color: #fff;
+    color: var(--color-foreground, #fff);
     border: 1.5px solid rgba(255,255,255,0.45);
     backdrop-filter: blur(6px);
   }
@@ -163,7 +163,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-2"
+      "default": "scheme-1"
     },
     {
       "type": "select",
@@ -269,6 +269,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

@@ -14,7 +14,7 @@
 <section
   id="FortifiedLandingHeroPDP-{{ section.id }}"
   class="fortified-landing-hero-pdp color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
-  style="text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
   data-fortified-landing-pdp
   data-default-plan="{{ default_plan_id }}"
   {{ section.shopify_attributes }}
@@ -198,7 +198,7 @@
   }
   .fortified-landing-hero-pdp__usp-check {
     width: 16px; height: 16px;
-    background: var(--fortified-teal); color: #fff;
+    background: var(--fortified-accent, var(--fortified-teal)); color: var(--color-foreground, #fff);
     border-radius: 50%;
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 10px; font-weight: 700;
@@ -252,7 +252,7 @@
   }
   .fortified-landing-hero-pdp__plan:hover { border-color: var(--fortified-gray-mid); transform: translateY(-1px); }
   .fortified-landing-hero-pdp__plan.is-selected {
-    border-color: var(--fortified-teal);
+    border-color: var(--fortified-accent, var(--fortified-teal));
     box-shadow: 0 0 0 2px rgba(31, 168, 161, 0.18);
   }
   .fortified-landing-hero-pdp__plan input[type="radio"] {
@@ -260,7 +260,7 @@
   }
   .fortified-landing-hero-pdp__plan-badge {
     align-self: flex-start;
-    background: var(--fortified-teal); color: #fff;
+    background: var(--fortified-accent, var(--fortified-teal)); color: var(--color-foreground, #fff);
     font-size: 10px; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase;
     padding: 3px 8px; border-radius: 100px;
@@ -502,6 +502,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

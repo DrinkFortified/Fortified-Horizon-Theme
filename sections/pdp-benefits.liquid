@@ -4,7 +4,7 @@
   id="PdpBenefits-{{ section.id }}"
   class="pdp-benefits"
   {{ section.shopify_attributes }}
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container">
     <header class="pdp-benefits__head">
       <p class="pdp-benefits__eyebrow p-energy">{{ section.settings.energy_eyebrow }}</p>
@@ -40,7 +40,7 @@
   .pdp-benefits__head { text-align: center; margin-bottom: 32px; }
   .pdp-benefits__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fortified-gray-mid); margin: 0 0 8px; }
   body[data-product="energy"] .pdp-benefits__eyebrow.p-energy { color: var(--fortified-gold); }
-  body[data-product="everyday"] .pdp-benefits__eyebrow.p-everyday { color: var(--fortified-teal-dark); }
+  body[data-product="everyday"] .pdp-benefits__eyebrow.p-everyday { color: var(--fortified-accent, var(--fortified-teal-dark)); }
   .pdp-benefits__title { font-family: var(--font-fortified-display); font-size: clamp(26px, 3.6vw, 40px); margin: 0; text-transform: uppercase; letter-spacing: 0.02em; }
   .pdp-benefits__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
   @media (max-width: 800px) { .pdp-benefits__grid { grid-template-columns: 1fr; } }
@@ -187,6 +187,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

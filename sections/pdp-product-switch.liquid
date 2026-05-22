@@ -5,7 +5,7 @@
   class="pdp-switch"
   data-pdp-switch
   {{ section.shopify_attributes }}
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container pdp-switch__inner">
     <div class="pdp-switch__tabs" role="tablist" aria-label="{{ section.settings.aria_label }}">
       <button
@@ -89,7 +89,7 @@
     width: 10px; height: 10px; border-radius: 50%;
   }
   .pdp-switch__dot--energy { background: var(--fortified-orange); }
-  .pdp-switch__dot--everyday { background: var(--fortified-teal); }
+  .pdp-switch__dot--everyday { background: var(--fortified-accent, var(--fortified-teal)); }
   @media (max-width: 600px) {
     .pdp-switch__sub { display: none; }
     .pdp-switch__tab { padding: 8px 14px; font-size: 12px; }
@@ -232,6 +232,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "presets": [

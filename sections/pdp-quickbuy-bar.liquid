@@ -48,7 +48,7 @@
   .pdp-qb__edit { background: transparent; border: 1px solid var(--fortified-gray-light); border-radius: 999px; padding: 10px 16px; font-family: var(--font-fortified-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; color: var(--fortified-black); }
   .pdp-qb__cta { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px; border: 0; background: var(--fortified-black); color: var(--fortified-white); font-family: var(--font-fortified-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; }
   body[data-product="energy"] .pdp-qb__cta { background: var(--fortified-gold); color: var(--fortified-black); }
-  body[data-product="everyday"] .pdp-qb__cta { background: var(--fortified-teal); color: var(--fortified-white); }
+  body[data-product="everyday"] .pdp-qb__cta { background: var(--fortified-accent, var(--fortified-teal)); color: var(--fortified-white); }
   .pdp-qb__price { font-size: 14px; }
   @media (max-width: 640px) {
     .pdp-qb__edit { display: none; }
@@ -269,6 +269,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "presets": [

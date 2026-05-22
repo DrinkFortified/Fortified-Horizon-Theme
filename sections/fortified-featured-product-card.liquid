@@ -7,7 +7,7 @@
 <section
   id="FortifiedFeaturedProductCard-{{ section.id }}"
   class="fortified-featured-card color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container fortified-featured-card__inner">
     <div class="fortified-featured-card__media">
       {% if p != blank and p.featured_image != blank %}
@@ -59,7 +59,7 @@
 
 {% stylesheet %}
   .fortified-featured-card {
-    background: var(--fortified-off-white, #F4EEE7);
+    background: var(--color-background, var(--fortified-off-white, #F4EEE7));
     overflow: hidden;
   }
   .fortified-featured-card__inner {
@@ -86,8 +86,8 @@
   .fortified-featured-card__badge {
     position: absolute;
     top: 14px; left: 14px;
-    background: #0A0A0A;
-    color: #fff;
+    background: var(--color-background, #0A0A0A);
+    color: var(--color-foreground, #fff);
     font-family: var(--font-fortified-display);
     font-size: 10px;
     font-weight: 700;
@@ -121,7 +121,7 @@
     font-weight: 800;
     text-transform: uppercase;
     line-height: 1.05;
-    color: #0A0A0A;
+    color: var(--color-foreground, #0A0A0A);
   }
   .fortified-featured-card__price-row {
     display: flex; align-items: baseline; gap: 10px;
@@ -130,7 +130,7 @@
     font-family: var(--font-fortified-display);
     font-size: clamp(28px, 3.2vw, 40px);
     font-weight: 800;
-    color: #0A0A0A;
+    color: var(--color-foreground, #0A0A0A);
     line-height: 1;
   }
   .fortified-featured-card__regular {
@@ -147,14 +147,14 @@
     padding: 4px 10px;
     border-radius: 999px;
     background: #F4EEE7;
-    color: #0A0A0A;
+    color: var(--color-foreground, #0A0A0A);
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.04em;
   }
   .fortified-featured-card__cta {
-    background: #0A0A0A;
-    color: #fff;
+    background: var(--color-background, #0A0A0A);
+    color: var(--color-foreground, #fff);
     width: 100%;
     margin-top: 6px;
     border-radius: 999px;
@@ -362,6 +362,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

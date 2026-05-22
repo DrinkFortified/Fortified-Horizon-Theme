@@ -9,7 +9,7 @@
 <section
   id="FortifiedLandingHeroCapture-{{ section.id }}"
   class="fortified-landing-hero-capture color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
-  style="text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
   {{ section.shopify_attributes }}
 >
   <div class="fortified-container fortified-landing-hero-capture__inner">
@@ -149,8 +149,8 @@
   .fortified-landing-hero-capture__check {
     width: 18px; height: 18px;
     border-radius: 50%;
-    background: var(--fortified-teal);
-    color: #fff;
+    background: var(--fortified-accent, var(--fortified-teal));
+    color: var(--color-foreground, #fff);
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 11px; font-weight: 700;
     flex-shrink: 0;
@@ -180,7 +180,7 @@
     color: var(--fortified-black);
   }
   .fortified-landing-hero-capture__field input[type="email"]:focus {
-    outline: 2px solid var(--fortified-teal);
+    outline: 2px solid var(--fortified-accent, var(--fortified-teal));
     outline-offset: 2px;
   }
   .fortified-landing-hero-capture__submit { white-space: nowrap; }
@@ -415,6 +415,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

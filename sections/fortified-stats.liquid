@@ -3,7 +3,7 @@
 <section
   id="FortifiedStats-{{ section.id }}"
   class="fortified-stats color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container fortified-stats__inner">
     {% if section.settings.heading != blank %}
       <header class="fortified-stats__header">
@@ -88,7 +88,7 @@
   .fortified-stats__number {
     font-family: var(--font-fortified-display);
     font-size: clamp(40px, 5vw, 64px);
-    color: var(--fortified-teal);
+    color: var(--fortified-accent, var(--fortified-teal));
     line-height: 1;
     letter-spacing: 0.02em;
   }
@@ -113,7 +113,7 @@
     background: var(--fortified-gray-light);
     border-radius: 8px 8px 0 0;
   }
-  .fortified-stats__bar--ours { background: var(--fortified-teal); }
+  .fortified-stats__bar--ours { background: var(--fortified-accent, var(--fortified-teal)); }
 
   /* center-aware block alignment — when section is centered, push block content to center */
   [style*="text-align: center"] [class*="__card"],
@@ -269,6 +269,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

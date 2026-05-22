@@ -3,7 +3,7 @@
 <section
   id="FortifiedLandingHero-{{ section.id }}"
   class="fortified-landing-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container fortified-landing-hero__inner">
     <div class="fortified-landing-hero__text">
       <h1 class="fortified-heading fortified-h1">
@@ -60,8 +60,8 @@
 
 {% stylesheet %}
   .fortified-landing-hero {
-    background: linear-gradient(135deg, #00B8B8 0%, #008B8B 100%);
-    color: #fff;
+    background: var(--color-background, #00B8B8);
+    color: var(--color-foreground, #fff);
     overflow: hidden;
     position: relative;
   }
@@ -101,21 +101,21 @@
     gap: 10px;
     font-size: 14px;
     font-weight: 500;
-    color: #fff;
+    color: var(--color-foreground, #fff);
   }
   .fortified-landing-hero__icon {
     width: 20px; height: 20px;
     border-radius: 50%;
     background: rgba(255,255,255,0.18);
     border: 1.5px solid rgba(255,255,255,0.45);
-    color: #fff;
+    color: var(--color-foreground, #fff);
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 11px; font-weight: 700;
     flex-shrink: 0;
   }
   .fortified-landing-hero__cta {
-    background: #0A0A0A;
-    color: #fff;
+    background: var(--color-background, #0A0A0A);
+    color: var(--color-foreground, #fff);
     border-radius: 999px;
     padding: 12px 26px;
     font-size: 13px;
@@ -202,7 +202,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-3"
+      "default": "scheme-1"
     },
     {
       "type": "select",
@@ -308,6 +308,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

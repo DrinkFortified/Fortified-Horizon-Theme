@@ -3,7 +3,7 @@
 <section
   id="FortifiedStatsBar-{{ section.id }}"
   class="fortified-stats-bar color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container fortified-stats-bar__inner">
     {% for i in (1..6) %}
       {%- assign val_key = 'stat_' | append: i | append: '_value' -%}
@@ -24,7 +24,7 @@
 {% stylesheet %}
   .fortified-stats-bar {
     background: var(--fortified-black);
-    color: #fff;
+    color: var(--color-foreground, #fff);
     padding-block: clamp(18px, 2.6vw, 32px);
   }
   .fortified-stats-bar__inner {
@@ -43,7 +43,7 @@
   .fortified-stats-bar__value {
     font-family: var(--font-fortified-display);
     font-size: clamp(18px, 2.5vw, 26px);
-    color: #fff;
+    color: var(--color-foreground, #fff);
     letter-spacing: 0.02em;
   }
   .fortified-stats-bar__label {
@@ -54,7 +54,7 @@
     font-weight: 600;
   }
   .fortified-stats-bar__sep {
-    color: var(--fortified-teal);
+    color: var(--fortified-accent, var(--fortified-teal));
     opacity: .65;
     font-size: 14px;
   }
@@ -140,7 +140,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-2"
+      "default": "scheme-1"
     },
     {
       "type": "select",
@@ -221,6 +221,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "presets": [

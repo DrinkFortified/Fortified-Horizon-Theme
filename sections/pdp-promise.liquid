@@ -4,7 +4,7 @@
   id="PdpPromise-{{ section.id }}"
   class="pdp-promise"
   {{ section.shopify_attributes }}
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container pdp-promise__grid" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
     <div class="pdp-promise__copy">
       <p class="pdp-promise__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -36,10 +36,10 @@
   .pdp-promise { background: var(--fortified-off-white); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); color: var(--fortified-black); }
   .pdp-promise__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
   @media (max-width: 800px) { .pdp-promise__grid { grid-template-columns: 1fr; } }
-  .pdp-promise__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fortified-teal); margin: 0 0 8px; }
+  .pdp-promise__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fortified-accent, var(--fortified-teal)); margin: 0 0 8px; }
   .pdp-promise__title { font-family: var(--font-fortified-display); font-size: clamp(28px, 4vw, 44px); text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 14px; }
   .pdp-promise__body { color: var(--fortified-gray-mid); font-size: 15px; line-height: 1.6; margin: 0 0 22px; max-width: 50ch; }
-  .pdp-promise__quote { border-left: 3px solid var(--fortified-teal); padding: 10px 16px; margin: 0; background: var(--fortified-white); border-radius: 0 12px 12px 0; }
+  .pdp-promise__quote { border-left: 3px solid var(--fortified-accent, var(--fortified-teal)); padding: 10px 16px; margin: 0; background: var(--fortified-white); border-radius: 0 12px 12px 0; }
   .pdp-promise__quote p { font-family: var(--font-fortified-display); font-size: 16px; line-height: 1.4; margin: 0 0 6px; }
   .pdp-promise__quote cite { font-style: normal; font-size: 12px; color: var(--fortified-gray-mid); letter-spacing: 0.06em; text-transform: uppercase; }
   .pdp-promise__pills-title { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 14px; color: var(--fortified-gray-mid); }
@@ -196,6 +196,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

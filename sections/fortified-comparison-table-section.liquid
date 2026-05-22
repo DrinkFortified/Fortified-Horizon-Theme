@@ -3,7 +3,7 @@
 <section
   id="FortifiedComparison-{{ section.id }}"
   class="fortified-comparison color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container">
     {% if section.settings.heading != blank %}
       <h2 class="fortified-heading fortified-h2 fortified-comparison__heading">{{ section.settings.heading }}</h2>
@@ -51,8 +51,8 @@
 
 {% stylesheet %}
   .fortified-comparison {
-    background: #1a1a1a;
-    color: #fff;
+    background: var(--color-background, #1a1a1a);
+    color: var(--color-foreground, #fff);
     overflow: hidden;
   }
   .fortified-comparison__inner {
@@ -61,7 +61,7 @@
     gap: clamp(20px, 3vw, 36px);
   }
   .fortified-comparison__heading {
-    color: #fff;
+    color: var(--color-foreground, #fff);
     text-align: center;
     margin-bottom: 8px;
   }
@@ -100,7 +100,7 @@
   .fortified-comparison__th--ours,
   .fortified-comparison__table th:nth-child(2) {
     background: #F2A93B;
-    color: #1a1a1a;
+    color: var(--color-foreground, #1a1a1a);
   }
   .fortified-comparison__table td {
     padding: 14px;
@@ -115,7 +115,7 @@
     font-weight: 500;
   }
   .fortified-comparison__table td:nth-child(2) {
-    color: #fff;
+    color: var(--color-foreground, #fff);
     font-weight: 600;
     background: rgba(242,169,59,0.08);
   }
@@ -130,7 +130,7 @@
   .fortified-comparison__cta {
     margin-top: 4px;
     background: #fff;
-    color: #1a1a1a;
+    color: var(--color-foreground, #1a1a1a);
     align-self: center;
   }
 {% endstylesheet %}
@@ -287,6 +287,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

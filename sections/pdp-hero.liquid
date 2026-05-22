@@ -5,7 +5,7 @@
   class="pdp-hero"
   data-pdp-hero
   {{ section.shopify_attributes }}
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container pdp-hero__grid" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
     {%- comment -%} ============= GALLERY ============= {%- endcomment -%}
     <div class="pdp-hero__gallery">
@@ -189,7 +189,7 @@
   .pdp-hero__main img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .pdp-hero__placeholder { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-family: var(--font-fortified-display); font-size: 28px; letter-spacing: 0.06em; text-transform: uppercase; }
   .pdp-hero__placeholder--energy { background: linear-gradient(180deg, var(--fortified-orange), var(--fortified-gold)); color: var(--fortified-black); }
-  .pdp-hero__placeholder--everyday { background: linear-gradient(180deg, var(--fortified-teal), var(--fortified-teal-dark)); color: var(--fortified-white); }
+  .pdp-hero__placeholder--everyday { background: linear-gradient(180deg, var(--fortified-accent, var(--fortified-teal)), var(--fortified-accent, var(--fortified-teal-dark))); color: var(--fortified-white); }
   .pdp-hero__thumbs { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 12px; }
   .pdp-hero__thumb { border: 1px solid var(--fortified-gray-light); border-radius: 14px; overflow: hidden; padding: 0; cursor: pointer; background: var(--fortified-white); aspect-ratio: 1/1; }
   .pdp-hero__thumb.is-active { border-color: var(--fortified-black); }
@@ -197,7 +197,7 @@
 
   .pdp-hero__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fortified-gray-mid); margin: 0 0 8px; }
   body[data-product="energy"] .pdp-hero__eyebrow.p-energy { color: var(--fortified-gold); }
-  body[data-product="everyday"] .pdp-hero__eyebrow.p-everyday { color: var(--fortified-teal-dark); }
+  body[data-product="everyday"] .pdp-hero__eyebrow.p-everyday { color: var(--fortified-accent, var(--fortified-teal-dark)); }
   .pdp-hero__title { font-family: var(--font-fortified-display); font-size: clamp(28px, 4vw, 44px); line-height: 1.05; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.01em; }
   .pdp-hero__desc { color: var(--fortified-gray-mid); margin: 0 0 16px; font-size: 15px; line-height: 1.5; max-width: 52ch; }
   .pdp-hero__reviews { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--fortified-gray-mid); margin-bottom: 24px; }
@@ -218,7 +218,7 @@
   .pdp-plan__opt input { position: absolute; opacity: 0; pointer-events: none; }
   .pdp-plan__badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: var(--fortified-black); color: var(--fortified-white); padding: 3px 8px; border-radius: 999px; margin-bottom: 6px; }
   body[data-product="energy"] .pdp-plan__opt.is-selected .pdp-plan__badge { background: var(--fortified-gold); }
-  body[data-product="everyday"] .pdp-plan__opt.is-selected .pdp-plan__badge { background: var(--fortified-teal); }
+  body[data-product="everyday"] .pdp-plan__opt.is-selected .pdp-plan__badge { background: var(--fortified-accent, var(--fortified-teal)); }
   .pdp-plan__name { display: block; font-family: var(--font-fortified-display); font-size: 15px; text-transform: uppercase; letter-spacing: 0.04em; }
   .pdp-plan__detail { display: block; color: var(--fortified-gray-mid); font-size: 12px; margin-top: 2px; }
   .pdp-plan__price { text-align: right; }
@@ -235,7 +235,7 @@
 
   .pdp-creatine { display: grid; gap: 8px; }
   .pdp-creatine__row { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--fortified-gray-light); border-radius: 12px; cursor: pointer; }
-  .pdp-creatine__row--free { grid-template-columns: 1fr auto; background: rgba(31,168,161,.06); border-color: var(--fortified-teal); cursor: default; }
+  .pdp-creatine__row--free { grid-template-columns: 1fr auto; background: rgba(31,168,161,.06); border-color: var(--fortified-accent, var(--fortified-teal)); cursor: default; }
   .pdp-creatine__title { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em; }
   .pdp-creatine__meta { color: var(--fortified-gray-mid); font-size: 12px; margin-top: 2px; }
   .pdp-creatine__price { font-family: var(--font-fortified-display); font-size: 15px; }
@@ -247,10 +247,10 @@
   .pdp-cta { width: 100%; padding: 16px 20px; border-radius: 999px; border: 0; cursor: pointer; font-family: var(--font-fortified-display); font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; background: var(--fortified-black); color: var(--fortified-white); transition: background .15s ease; }
   .pdp-cta:disabled { background: var(--fortified-gray-light); color: var(--fortified-gray-mid); cursor: not-allowed; }
   body[data-product="energy"] .pdp-cta:not(:disabled) { background: var(--fortified-gold); color: var(--fortified-black); }
-  body[data-product="everyday"] .pdp-cta:not(:disabled) { background: var(--fortified-teal); color: var(--fortified-white); }
+  body[data-product="everyday"] .pdp-cta:not(:disabled) { background: var(--fortified-accent, var(--fortified-teal)); color: var(--fortified-white); }
 
   .pdp-trust { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--fortified-gray-mid); }
-  .pdp-trust li::before { content: "✓"; color: var(--fortified-teal); margin-right: 6px; font-weight: 700; }
+  .pdp-trust li::before { content: "✓"; color: var(--fortified-accent, var(--fortified-teal)); margin-right: 6px; font-weight: 700; }
 
   body[data-product="energy"] .p-everyday { display: none; }
   body[data-product="everyday"] .p-energy { display: none; }
@@ -825,6 +825,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

@@ -3,7 +3,7 @@
 <section
   id="FortifiedDarkLifestyle-{{ section.id }}"
   class="fortified-dark-lifestyle color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container fortified-dark-lifestyle__inner">
     <header class="fortified-dark-lifestyle__header">
       {% if section.settings.eyebrow != blank %}
@@ -89,7 +89,7 @@
     bottom: 12px;
     background: rgb(0 0 0 / .55);
     backdrop-filter: blur(6px);
-    color: #fff;
+    color: var(--color-foreground, #fff);
     padding: 6px 12px;
     border-radius: 999px;
     font-family: var(--font-fortified-body);
@@ -134,7 +134,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-2"
+      "default": "scheme-1"
     },
     {
       "type": "select",
@@ -240,6 +240,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [

@@ -88,7 +88,7 @@
 {% stylesheet %}
   .fortified-header {
     background: var(--fortified-teal);
-    color: #fff;
+    color: var(--color-foreground, #fff);
     width: 100%;
   }
   .fortified-header[data-sticky="true"] {
@@ -116,7 +116,7 @@
     font-family: var(--font-fortified-display);
     font-size: clamp(22px, 2.4vw, 30px);
     letter-spacing: 0.05em;
-    color: #fff;
+    color: var(--color-foreground, #fff);
     line-height: 1;
   }
   .fortified-header__menu {
@@ -127,7 +127,7 @@
     padding: 0;
   }
   .fortified-header__link {
-    color: #fff;
+    color: var(--color-foreground, #fff);
     text-decoration: none;
     font-family: var(--font-fortified-body);
     font-size: 13px;
@@ -144,7 +144,7 @@
     flex-shrink: 0;
   }
   .fortified-header__action {
-    color: #fff;
+    color: var(--color-foreground, #fff);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -215,7 +215,7 @@
     gap: 18px;
   }
   .fortified-header__drawer-menu a {
-    color: #fff;
+    color: var(--color-foreground, #fff);
     text-decoration: none;
     font-family: var(--font-fortified-display);
     font-size: 28px;
@@ -257,7 +257,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-3"
+      "default": "scheme-1"
     },
     {
       "type": "header",

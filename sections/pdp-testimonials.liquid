@@ -4,7 +4,7 @@
   id="PdpTestimonials-{{ section.id }}"
   class="pdp-testi"
   {{ section.shopify_attributes }}
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container">
     <header class="pdp-testi__head">
       <p class="pdp-testi__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -50,7 +50,7 @@
   .pdp-testi__meta strong { color: var(--fortified-black); font-size: 13px; }
   .pdp-testi__tag { position: absolute; top: 16px; right: 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
   .pdp-testi__tag--energy { background: var(--fortified-orange); color: var(--fortified-black); }
-  .pdp-testi__tag--everyday { background: var(--fortified-teal); color: var(--fortified-white); }
+  .pdp-testi__tag--everyday { background: var(--fortified-accent, var(--fortified-teal)); color: var(--fortified-white); }
   .pdp-testi__tag--creatine { background: var(--fortified-black); color: var(--fortified-white); }
 {% endstylesheet %}
 
@@ -183,6 +183,13 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "default": "#1FA8A1"
     }
   ],
   "blocks": [
