@@ -345,7 +345,10 @@
   ],
   "max_blocks": 6,
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
     {
@@ -426,6 +429,10 @@
       "content": "t:content.padding"
     },
     {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top",
@@ -444,6 +451,26 @@
       "step": 1,
       "unit": "px",
       "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
     }
   ],
   "presets": [
@@ -476,7 +503,11 @@
               }
             }
           },
-          "block_order": ["heading_1", "text_1", "button_1"]
+          "block_order": [
+            "heading_1",
+            "text_1",
+            "button_1"
+          ]
         },
         "slide_2": {
           "type": "_layered-slide",
@@ -503,7 +534,11 @@
               }
             }
           },
-          "block_order": ["heading_2", "text_2", "button_2"]
+          "block_order": [
+            "heading_2",
+            "text_2",
+            "button_2"
+          ]
         },
         "slide_3": {
           "type": "_layered-slide",
@@ -530,10 +565,18 @@
               }
             }
           },
-          "block_order": ["heading_3", "text_3", "button_3"]
+          "block_order": [
+            "heading_3",
+            "text_3",
+            "button_3"
+          ]
         }
       },
-      "block_order": ["slide_1", "slide_2", "slide_3"]
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3"
+      ]
     }
   ]
 }

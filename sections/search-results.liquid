@@ -8,7 +8,7 @@
 
 <results-list
   class="section product-grid-container spacing-style color-{{ section.settings.color_scheme }}"
-  style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
+  style="--padding-block-start: {{ section.settings["padding-block-start"] }}px; --padding-block-end: {{ section.settings["padding-block-end"] }}px;"
   section-id="{{ section.id }}"
   infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
 >
@@ -219,6 +219,10 @@
       "default": "scheme-1"
     },
     {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top_padding",
@@ -237,6 +241,22 @@
       "step": 1,
       "unit": "px",
       "default": 8
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
     }
   ],
   "presets": []

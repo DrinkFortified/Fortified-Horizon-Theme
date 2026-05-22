@@ -3,7 +3,7 @@
 <section
   id="FortifiedReviewsSection-{{ section.id }}"
   class="fortified-reviews-section color-{{ section.settings.color_scheme }}"
- style="text-align: {{ section.settings.content_alignment | default: 'center' }};">
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 64 }}px {{ section.settings["padding-block-end"] | default: 64 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container fortified-reviews-section__inner">
     <header class="fortified-reviews-section__header">
       {% if section.settings.eyebrow != blank %}
@@ -78,6 +78,66 @@
         }
       ],
       "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
     }
   ],
   "presets": [

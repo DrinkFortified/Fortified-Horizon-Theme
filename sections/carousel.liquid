@@ -23,7 +23,10 @@
 {
   "name": "t:names.carousel",
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
     {
@@ -141,6 +144,10 @@
       "content": "t:content.padding"
     },
     {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top",
@@ -157,6 +164,26 @@
       "min": 0,
       "max": 100,
       "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 2,
       "unit": "px",
       "default": 0
     }
@@ -220,7 +247,9 @@
               }
             }
           },
-          "block_order": ["heading"]
+          "block_order": [
+            "heading"
+          ]
         },
         "static-carousel-content": {
           "type": "_carousel-content",
@@ -265,7 +294,11 @@
                   }
                 }
               },
-              "block_order": ["image_1", "heading_1", "text_1"]
+              "block_order": [
+                "image_1",
+                "heading_1",
+                "text_1"
+              ]
             },
             "card_2": {
               "type": "_card",
@@ -291,7 +324,11 @@
                   }
                 }
               },
-              "block_order": ["image_2", "heading_2", "text_2"]
+              "block_order": [
+                "image_2",
+                "heading_2",
+                "text_2"
+              ]
             },
             "card_3": {
               "type": "_card",
@@ -317,7 +354,11 @@
                   }
                 }
               },
-              "block_order": ["image_3", "heading_3", "text_3"]
+              "block_order": [
+                "image_3",
+                "heading_3",
+                "text_3"
+              ]
             },
             "card_4": {
               "type": "_card",
@@ -343,10 +384,19 @@
                   }
                 }
               },
-              "block_order": ["image_4", "heading_4", "text_4"]
+              "block_order": [
+                "image_4",
+                "heading_4",
+                "text_4"
+              ]
             }
           },
-          "block_order": ["card_1", "card_2", "card_3", "card_4"]
+          "block_order": [
+            "card_1",
+            "card_2",
+            "card_3",
+            "card_4"
+          ]
         }
       }
     }

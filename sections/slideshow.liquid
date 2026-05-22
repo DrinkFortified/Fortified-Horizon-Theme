@@ -176,7 +176,10 @@
     }
   ],
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
     {
@@ -383,6 +386,10 @@
       "content": "t:content.padding"
     },
     {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top",
@@ -399,6 +406,26 @@
       "min": 0,
       "max": 100,
       "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 2,
       "unit": "px",
       "default": 0
     }
@@ -442,7 +469,11 @@
               }
             }
           },
-          "block_order": ["heading", "text", "button"]
+          "block_order": [
+            "heading",
+            "text",
+            "button"
+          ]
         },
         "slide_2": {
           "type": "_slide",
@@ -478,10 +509,17 @@
               }
             }
           },
-          "block_order": ["heading", "text", "button"]
+          "block_order": [
+            "heading",
+            "text",
+            "button"
+          ]
         }
       },
-      "block_order": ["slide_1", "slide_2"]
+      "block_order": [
+        "slide_1",
+        "slide_2"
+      ]
     },
     {
       "name": "t:names.slideshow_inset",
@@ -520,7 +558,11 @@
               }
             }
           },
-          "block_order": ["heading", "text", "button"]
+          "block_order": [
+            "heading",
+            "text",
+            "button"
+          ]
         },
         "slide_2": {
           "type": "_slide",
@@ -555,10 +597,17 @@
               }
             }
           },
-          "block_order": ["heading", "text", "button"]
+          "block_order": [
+            "heading",
+            "text",
+            "button"
+          ]
         }
       },
-      "block_order": ["slide_1", "slide_2"],
+      "block_order": [
+        "slide_1",
+        "slide_2"
+      ],
       "settings": {
         "display_mode": "with_hints",
         "slideshow_gap": 18,

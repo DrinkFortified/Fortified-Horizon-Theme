@@ -9,7 +9,7 @@
 <section
   id="FortifiedLandingHeroCapture-{{ section.id }}"
   class="fortified-landing-hero-capture color-{{ section.settings.color_scheme }}"
-  style="text-align: {{ content_align }};"
+  style="text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 64 }}px {{ section.settings["padding-block-end"] | default: 64 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
   {{ section.shopify_attributes }}
 >
   <div class="fortified-container fortified-landing-hero-capture__inner">
@@ -227,31 +227,108 @@
   "tag": "section",
   "class": "fortified-section fortified-section--landing-hero-capture",
   "settings": [
-    { "type": "header", "content": "Copy" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "EARLY ACCESS" },
-    { "type": "text", "id": "headline_line_1", "label": "Headline line 1", "default": "FUEL YOUR" },
-    { "type": "text", "id": "headline_line_2", "label": "Headline line 2", "default": "EVERY MOVE." },
-    { "type": "textarea", "id": "subhead", "label": "Subhead", "default": "Drop your email and we'll send you a free sample plus 20% off your first order." },
-    { "type": "image_picker", "id": "image", "label": "Hero image" },
-
-    { "type": "header", "content": "Email form" },
-    { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "Enter your email" },
-    { "type": "text", "id": "cta_label", "label": "Submit button label", "default": "GET EARLY ACCESS" },
-    { "type": "text", "id": "tag_value", "label": "Customer tag(s)", "info": "Comma-separated tags applied to every email captured here (e.g. \"lp-energy, early-access\").", "default": "lp-capture, fortified-landing" },
-    { "type": "checkbox", "id": "accept_marketing", "label": "Subscribe to marketing emails", "info": "If checked, customers added through this form are flagged as accepting marketing emails in Shopify.", "default": true },
-    { "type": "text", "id": "success_message", "label": "Success message", "default": "You're in. Watch your inbox." },
-    { "type": "richtext", "id": "disclaimer", "label": "Disclaimer / fine print", "default": "<p>By submitting your email you agree to receive marketing emails from Fortified. Unsubscribe at any time.</p>" },
-
-    { "type": "header", "content": "Appearance" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "EARLY ACCESS"
+    },
+    {
+      "type": "text",
+      "id": "headline_line_1",
+      "label": "Headline line 1",
+      "default": "FUEL YOUR"
+    },
+    {
+      "type": "text",
+      "id": "headline_line_2",
+      "label": "Headline line 2",
+      "default": "EVERY MOVE."
+    },
+    {
+      "type": "textarea",
+      "id": "subhead",
+      "label": "Subhead",
+      "default": "Drop your email and we'll send you a free sample plus 20% off your first order."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "header",
+      "content": "Email form"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Submit button label",
+      "default": "GET EARLY ACCESS"
+    },
+    {
+      "type": "text",
+      "id": "tag_value",
+      "label": "Customer tag(s)",
+      "info": "Comma-separated tags applied to every email captured here (e.g. \"lp-energy, early-access\").",
+      "default": "lp-capture, fortified-landing"
+    },
+    {
+      "type": "checkbox",
+      "id": "accept_marketing",
+      "label": "Subscribe to marketing emails",
+      "info": "If checked, customers added through this form are flagged as accepting marketing emails in Shopify.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "You're in. Watch your inbox."
+    },
+    {
+      "type": "richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer / fine print",
+      "default": "<p>By submitting your email you agree to receive marketing emails from Fortified. Unsubscribe at any time.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
     {
       "type": "select",
       "id": "content_alignment",
       "label": "Content alignment",
       "options": [
-        { "value": "left",   "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right",  "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ],
       "default": "center"
     },
@@ -260,12 +337,84 @@
       "id": "blocks_alignment",
       "label": "Benefits row position",
       "options": [
-        { "value": "flex-start",    "label": "Left" },
-        { "value": "center",        "label": "Center" },
-        { "value": "flex-end",      "label": "Right" },
-        { "value": "space-between", "label": "Space between" }
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
+        }
       ],
       "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
     }
   ],
   "blocks": [
@@ -273,18 +422,79 @@
       "type": "capture-benefit",
       "name": "Benefit pill",
       "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Free sample" },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free sample"
+        },
         {
           "type": "select",
           "id": "content_alignment",
           "label": "Block alignment",
           "options": [
-            { "value": "inherit", "label": "Inherit from section" },
-            { "value": "left",    "label": "Left" },
-            { "value": "center",  "label": "Center" },
-            { "value": "right",   "label": "Right" }
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
           ],
           "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "padding-block-start",
+          "label": "Padding top",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-block-end",
+          "label": "Padding bottom",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-start",
+          "label": "Padding left",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-end",
+          "label": "Padding right",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
         }
       ]
     }
@@ -295,9 +505,24 @@
       "category": "Fortified Landing",
       "settings": {},
       "blocks": [
-        { "type": "capture-benefit", "settings": { "text": "Free sample pack" } },
-        { "type": "capture-benefit", "settings": { "text": "20% off first order" } },
-        { "type": "capture-benefit", "settings": { "text": "First-access drops" } }
+        {
+          "type": "capture-benefit",
+          "settings": {
+            "text": "Free sample pack"
+          }
+        },
+        {
+          "type": "capture-benefit",
+          "settings": {
+            "text": "20% off first order"
+          }
+        },
+        {
+          "type": "capture-benefit",
+          "settings": {
+            "text": "First-access drops"
+          }
+        }
       ]
     }
   ]

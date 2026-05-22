@@ -14,7 +14,7 @@
 <section
   id="FortifiedLandingHeroPDP-{{ section.id }}"
   class="fortified-landing-hero-pdp color-{{ section.settings.color_scheme }}"
-  style="text-align: {{ content_align }};"
+  style="text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 64 }}px {{ section.settings["padding-block-end"] | default: 64 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
   data-fortified-landing-pdp
   data-default-plan="{{ default_plan_id }}"
   {{ section.shopify_attributes }}
@@ -311,32 +311,111 @@
   "tag": "section",
   "class": "fortified-section fortified-section--landing-hero-pdp",
   "settings": [
-    { "type": "header", "content": "Copy" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FORTIFIED EVERYDAY" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "HYDRATION THAT HITS" },
-    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "4.9 — 12,400+ verified reviews" },
-    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>1,200mg sodium · 150mg magnesium glycinate · 300mg potassium. Zero sugar. Clinically dosed for real performance.</p>" },
-    { "type": "image_picker", "id": "image", "label": "Hero image" },
-
-    { "type": "header", "content": "Purchase flow" },
-    { "type": "text", "id": "plans_label", "label": "Plans group label", "default": "CHOOSE YOUR PLAN" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "ADD TO CART" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "text", "id": "trust_1", "label": "Trust line 1", "default": "Free U.S. shipping in 1–4 days" },
-    { "type": "text", "id": "trust_2", "label": "Trust line 2", "default": "30-day money-back guarantee" },
-    { "type": "text", "id": "trust_3", "label": "Trust line 3", "default": "Cancel anytime via Loop" },
-    { "type": "richtext", "id": "loop_note", "label": "Loop note", "default": "<p>Subscriptions managed by Loop. Pause, skip, or cancel anytime from your account.</p>" },
-
-    { "type": "header", "content": "Appearance" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "FORTIFIED EVERYDAY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "HYDRATION THAT HITS"
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "4.9 \u2014 12,400+ verified reviews"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>1,200mg sodium \u00b7 150mg magnesium glycinate \u00b7 300mg potassium. Zero sugar. Clinically dosed for real performance.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "header",
+      "content": "Purchase flow"
+    },
+    {
+      "type": "text",
+      "id": "plans_label",
+      "label": "Plans group label",
+      "default": "CHOOSE YOUR PLAN"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "ADD TO CART"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Trust line 1",
+      "default": "Free U.S. shipping in 1\u20134 days"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Trust line 2",
+      "default": "30-day money-back guarantee"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Trust line 3",
+      "default": "Cancel anytime via Loop"
+    },
+    {
+      "type": "richtext",
+      "id": "loop_note",
+      "label": "Loop note",
+      "default": "<p>Subscriptions managed by Loop. Pause, skip, or cancel anytime from your account.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
     {
       "type": "select",
       "id": "content_alignment",
       "label": "Content alignment",
       "options": [
-        { "value": "left",   "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right",  "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ],
       "default": "left"
     },
@@ -345,12 +424,84 @@
       "id": "blocks_alignment",
       "label": "Blocks row position",
       "options": [
-        { "value": "flex-start",    "label": "Left" },
-        { "value": "center",        "label": "Center" },
-        { "value": "flex-end",      "label": "Right" },
-        { "value": "space-between", "label": "Space between" }
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
+        }
       ],
       "default": "flex-start"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
     }
   ],
   "blocks": [
@@ -358,25 +509,119 @@
       "type": "plan",
       "name": "Purchase plan",
       "settings": [
-        { "type": "text", "id": "plan_id", "label": "Plan ID (slug)", "default": "monthly" },
-        { "type": "text", "id": "label", "label": "Plan name", "default": "Monthly subscription" },
-        { "type": "text", "id": "detail", "label": "Plan detail", "default": "1 pouch · ships every 30 days" },
-        { "type": "text", "id": "badge", "label": "Badge text" },
-        { "type": "text", "id": "price_display", "label": "Price (display)", "default": "$32" },
-        { "type": "text", "id": "compare_at", "label": "Compare-at price (strike-through)" },
-        { "type": "text", "id": "savings", "label": "Savings line", "default": "Save 20%" },
-        { "type": "checkbox", "id": "is_default", "label": "Selected by default", "default": false },
+        {
+          "type": "text",
+          "id": "plan_id",
+          "label": "Plan ID (slug)",
+          "default": "monthly"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Plan name",
+          "default": "Monthly subscription"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Plan detail",
+          "default": "1 pouch \u00b7 ships every 30 days"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge text"
+        },
+        {
+          "type": "text",
+          "id": "price_display",
+          "label": "Price (display)",
+          "default": "$32"
+        },
+        {
+          "type": "text",
+          "id": "compare_at",
+          "label": "Compare-at price (strike-through)"
+        },
+        {
+          "type": "text",
+          "id": "savings",
+          "label": "Savings line",
+          "default": "Save 20%"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_default",
+          "label": "Selected by default",
+          "default": false
+        },
         {
           "type": "select",
           "id": "content_alignment",
           "label": "Block alignment",
           "options": [
-            { "value": "inherit", "label": "Inherit from section" },
-            { "value": "left",    "label": "Left" },
-            { "value": "center",  "label": "Center" },
-            { "value": "right",   "label": "Right" }
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
           ],
           "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "padding-block-start",
+          "label": "Padding top",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-block-end",
+          "label": "Padding bottom",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-start",
+          "label": "Padding left",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-end",
+          "label": "Padding right",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
         }
       ]
     },
@@ -384,18 +629,79 @@
       "type": "usp",
       "name": "USP / Trust pill",
       "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Free U.S. shipping" },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free U.S. shipping"
+        },
         {
           "type": "select",
           "id": "content_alignment",
           "label": "Block alignment",
           "options": [
-            { "value": "inherit", "label": "Inherit from section" },
-            { "value": "left",    "label": "Left" },
-            { "value": "center",  "label": "Center" },
-            { "value": "right",   "label": "Right" }
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
           ],
           "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "padding-block-start",
+          "label": "Padding top",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-block-end",
+          "label": "Padding bottom",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-start",
+          "label": "Padding left",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-end",
+          "label": "Padding right",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
         }
       ]
     }
@@ -406,12 +712,58 @@
       "category": "Fortified Landing",
       "settings": {},
       "blocks": [
-        { "type": "plan", "settings": { "plan_id": "one-time", "label": "One-time", "detail": "1 pouch · no commitment", "price_display": "$40" } },
-        { "type": "plan", "settings": { "plan_id": "monthly", "label": "Monthly", "detail": "1 pouch / month · 20% off", "badge": "Most popular", "price_display": "$32", "compare_at": "$40", "savings": "Save 20%", "is_default": true } },
-        { "type": "plan", "settings": { "plan_id": "quarterly", "label": "Quarterly", "detail": "3 pouches every 3 months", "badge": "Best value", "price_display": "$84", "compare_at": "$120", "savings": "Save 30%" } },
-        { "type": "usp", "settings": { "text": "1,200mg sodium" } },
-        { "type": "usp", "settings": { "text": "Zero sugar" } },
-        { "type": "usp", "settings": { "text": "Magnesium glycinate" } }
+        {
+          "type": "plan",
+          "settings": {
+            "plan_id": "one-time",
+            "label": "One-time",
+            "detail": "1 pouch \u00b7 no commitment",
+            "price_display": "$40"
+          }
+        },
+        {
+          "type": "plan",
+          "settings": {
+            "plan_id": "monthly",
+            "label": "Monthly",
+            "detail": "1 pouch / month \u00b7 20% off",
+            "badge": "Most popular",
+            "price_display": "$32",
+            "compare_at": "$40",
+            "savings": "Save 20%",
+            "is_default": true
+          }
+        },
+        {
+          "type": "plan",
+          "settings": {
+            "plan_id": "quarterly",
+            "label": "Quarterly",
+            "detail": "3 pouches every 3 months",
+            "badge": "Best value",
+            "price_display": "$84",
+            "compare_at": "$120",
+            "savings": "Save 30%"
+          }
+        },
+        {
+          "type": "usp",
+          "settings": {
+            "text": "1,200mg sodium"
+          }
+        },
+        {
+          "type": "usp",
+          "settings": {
+            "text": "Zero sugar"
+          }
+        },
+        {
+          "type": "usp",
+          "settings": {
+            "text": "Magnesium glycinate"
+          }
+        }
       ]
     }
   ]

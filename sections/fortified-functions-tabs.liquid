@@ -16,7 +16,7 @@
 <section
   id="FortifiedFunctionsTabs-{{ section.id }}"
   class="fortified-functions-tabs color-{{ section.settings.color_scheme }}"
-  style="text-align: {{ content_align }};"
+  style="text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 64 }}px {{ section.settings["padding-block-end"] | default: 64 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
   data-fortified-functions-tabs
   {{ section.shopify_attributes }}
 >
@@ -257,25 +257,70 @@
   "tag": "section",
   "class": "fortified-section fortified-section--functions-tabs",
   "settings": [
-    { "type": "header", "content": "Header" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE LINEUP" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "PICK YOUR FUNCTION" },
-    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Same clean electrolyte base. Two distinct daily uses. Switch tabs to see what's in each formula.</p>" },
-
-    { "type": "header", "content": "CTA" },
-    { "type": "text", "id": "cta_label", "label": "Footer CTA label", "default": "SHOP BOTH FORMULAS" },
-    { "type": "url", "id": "cta_url", "label": "Footer CTA URL" },
-
-    { "type": "header", "content": "Appearance" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE LINEUP"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "PICK YOUR FUNCTION"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Same clean electrolyte base. Two distinct daily uses. Switch tabs to see what's in each formula.</p>"
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Footer CTA label",
+      "default": "SHOP BOTH FORMULAS"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Footer CTA URL"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
     {
       "type": "select",
       "id": "content_alignment",
       "label": "Content alignment",
       "options": [
-        { "value": "left",   "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right",  "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ],
       "default": "center"
     },
@@ -284,12 +329,84 @@
       "id": "blocks_alignment",
       "label": "Tabs row position",
       "options": [
-        { "value": "flex-start",    "label": "Left" },
-        { "value": "center",        "label": "Center" },
-        { "value": "flex-end",      "label": "Right" },
-        { "value": "space-between", "label": "Space between" }
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
+        }
       ],
       "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
     }
   ],
   "blocks": [
@@ -297,28 +414,153 @@
       "type": "tab",
       "name": "Tab",
       "settings": [
-        { "type": "text", "id": "label", "label": "Tab label", "default": "Energy" },
-        { "type": "text", "id": "tagline", "label": "Sub-label / tagline", "default": "Caffeine + electrolytes" },
-        { "type": "text", "id": "icon", "label": "Icon (emoji or single char)", "default": "⚡" },
-        { "type": "color", "id": "accent_color", "label": "Active tab color", "default": "#F2A93B" }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tab label",
+          "default": "Energy"
+        },
+        {
+          "type": "text",
+          "id": "tagline",
+          "label": "Sub-label / tagline",
+          "default": "Caffeine + electrolytes"
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (emoji or single char)",
+          "default": "\u26a1"
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Active tab color",
+          "default": "#F2A93B"
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "padding-block-start",
+          "label": "Padding top",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-block-end",
+          "label": "Padding bottom",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-start",
+          "label": "Padding left",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-end",
+          "label": "Padding right",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        }
       ]
     },
     {
       "type": "heading",
       "name": "Heading",
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Heading" },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Heading"
+        },
         {
           "type": "select",
           "id": "content_alignment",
           "label": "Block alignment",
           "options": [
-            { "value": "inherit", "label": "Inherit from section" },
-            { "value": "left",    "label": "Left" },
-            { "value": "center",  "label": "Center" },
-            { "value": "right",   "label": "Right" }
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
           ],
           "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "padding-block-start",
+          "label": "Padding top",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-block-end",
+          "label": "Padding bottom",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-start",
+          "label": "Padding left",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-end",
+          "label": "Padding right",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
         }
       ]
     },
@@ -326,18 +568,79 @@
       "type": "text",
       "name": "Text",
       "settings": [
-        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Add a description for this function tab.</p>" },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Add a description for this function tab.</p>"
+        },
         {
           "type": "select",
           "id": "content_alignment",
           "label": "Block alignment",
           "options": [
-            { "value": "inherit", "label": "Inherit from section" },
-            { "value": "left",    "label": "Left" },
-            { "value": "center",  "label": "Center" },
-            { "value": "right",   "label": "Right" }
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
           ],
           "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "padding-block-start",
+          "label": "Padding top",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-block-end",
+          "label": "Padding bottom",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-start",
+          "label": "Padding left",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-end",
+          "label": "Padding right",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
         }
       ]
     },
@@ -345,18 +648,78 @@
       "type": "image",
       "name": "Image",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Image" },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
         {
           "type": "select",
           "id": "content_alignment",
           "label": "Block alignment",
           "options": [
-            { "value": "inherit", "label": "Inherit from section" },
-            { "value": "left",    "label": "Left" },
-            { "value": "center",  "label": "Center" },
-            { "value": "right",   "label": "Right" }
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
           ],
           "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "padding-block-start",
+          "label": "Padding top",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-block-end",
+          "label": "Padding bottom",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-start",
+          "label": "Padding left",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-end",
+          "label": "Padding right",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
         }
       ]
     },
@@ -364,19 +727,84 @@
       "type": "button",
       "name": "Button",
       "settings": [
-        { "type": "text", "id": "label", "label": "Label", "default": "Shop now" },
-        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
         {
           "type": "select",
           "id": "content_alignment",
           "label": "Block alignment",
           "options": [
-            { "value": "inherit", "label": "Inherit from section" },
-            { "value": "left",    "label": "Left" },
-            { "value": "center",  "label": "Center" },
-            { "value": "right",   "label": "Right" }
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
           ],
           "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "padding-block-start",
+          "label": "Padding top",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-block-end",
+          "label": "Padding bottom",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-start",
+          "label": "Padding left",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-end",
+          "label": "Padding right",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
         }
       ]
     },
@@ -384,20 +812,91 @@
       "type": "feature",
       "name": "Feature card",
       "settings": [
-        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "✓" },
-        { "type": "text", "id": "title", "label": "Title", "default": "Feature title" },
-        { "type": "textarea", "id": "description", "label": "Description", "default": "Short benefit copy that explains this feature." },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (emoji)",
+          "default": "\u2713"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Short benefit copy that explains this feature."
+        },
         {
           "type": "select",
           "id": "content_alignment",
           "label": "Block alignment",
           "options": [
-            { "value": "inherit", "label": "Inherit from section" },
-            { "value": "left",    "label": "Left" },
-            { "value": "center",  "label": "Center" },
-            { "value": "right",   "label": "Right" }
+            {
+              "value": "inherit",
+              "label": "Inherit from section"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
           ],
           "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "padding-block-start",
+          "label": "Padding top",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-block-end",
+          "label": "Padding bottom",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-start",
+          "label": "Padding left",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding-inline-end",
+          "label": "Padding right",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
         }
       ]
     }
@@ -408,15 +907,72 @@
       "category": "Fortified Landing",
       "settings": {},
       "blocks": [
-        { "type": "tab", "settings": { "label": "Energy", "tagline": "Caffeine + electrolytes", "icon": "⚡", "accent_color": "#F2A93B" } },
-        { "type": "feature", "settings": { "icon": "⚡", "title": "152mg Natural Caffeine", "description": "From whole coffee beans — not synthetic anhydrous." } },
-        { "type": "feature", "settings": { "icon": "💧", "title": "1,200mg Sodium", "description": "Drives fluid absorption. Pink Himalayan Salt, traceable." } },
-        { "type": "feature", "settings": { "icon": "🔋", "title": "Magnesium Malate", "description": "Krebs cycle co-factor. 150mg elemental Mg per stick." } },
-
-        { "type": "tab", "settings": { "label": "Everyday", "tagline": "D3 + K2 · zero caffeine", "icon": "🌿", "accent_color": "#1FA8A1" } },
-        { "type": "feature", "settings": { "icon": "☀️", "title": "Vitamin D3 — 130% DV", "description": "25mcg cholecalciferol. The form your skin makes from sunlight." } },
-        { "type": "feature", "settings": { "icon": "🦴", "title": "K2 MK-7", "description": "D3's missing partner. 3-day half-life for steady blood levels." } },
-        { "type": "feature", "settings": { "icon": "💧", "title": "Same clean base", "description": "1,200mg sodium · magnesium glycinate · potassium · 0g sugar." } }
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Energy",
+            "tagline": "Caffeine + electrolytes",
+            "icon": "\u26a1",
+            "accent_color": "#F2A93B"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "\u26a1",
+            "title": "152mg Natural Caffeine",
+            "description": "From whole coffee beans \u2014 not synthetic anhydrous."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "\ud83d\udca7",
+            "title": "1,200mg Sodium",
+            "description": "Drives fluid absorption. Pink Himalayan Salt, traceable."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "\ud83d\udd0b",
+            "title": "Magnesium Malate",
+            "description": "Krebs cycle co-factor. 150mg elemental Mg per stick."
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Everyday",
+            "tagline": "D3 + K2 \u00b7 zero caffeine",
+            "icon": "\ud83c\udf3f",
+            "accent_color": "#1FA8A1"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "\u2600\ufe0f",
+            "title": "Vitamin D3 \u2014 130% DV",
+            "description": "25mcg cholecalciferol. The form your skin makes from sunlight."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "\ud83e\uddb4",
+            "title": "K2 MK-7",
+            "description": "D3's missing partner. 3-day half-life for steady blood levels."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "\ud83d\udca7",
+            "title": "Same clean base",
+            "description": "1,200mg sodium \u00b7 magnesium glycinate \u00b7 potassium \u00b7 0g sugar."
+          }
+        }
       ]
     }
   ]
