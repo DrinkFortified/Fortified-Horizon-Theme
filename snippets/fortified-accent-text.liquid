@@ -15,7 +15,8 @@
 {%- assign parts = text | split: '*' -%}
 {%- capture output -%}
   {%- for part in parts -%}
-    {%- if forloop.index0 | modulo: 2 == 1 -%}<span class="fortified-accent-text">{{ part }}</span>{%- else -%}{{ part }}{%- endif -%}
+    {%- assign mod = forloop.index0 | modulo: 2 -%}
+    {%- if mod == 1 -%}<span class="fortified-accent-text">{{ part }}</span>{%- else -%}{{ part }}{%- endif -%}
   {%- endfor -%}
 {%- endcapture -%}
 {{- output | newline_to_br -}}
