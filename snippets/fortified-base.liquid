@@ -6,8 +6,8 @@
   {% assign fortified_base_loaded = true %}
   <style>
     :root {
-      --fortified-container: 1320px;
-      --fortified-section-py: clamp(48px, 7vw, 112px);
+      --fortified-container: 1240px;
+      --fortified-section-py: clamp(40px, 5vw, 72px);
       --fortified-radius-pill: 999px;
 
       --fortified-black: #0A0A0A;
@@ -33,7 +33,7 @@
       width: 100%;
       max-width: var(--fortified-container);
       margin-inline: auto;
-      padding-inline: clamp(16px, 4vw, 80px);
+      padding-inline: clamp(16px, 3vw, 48px);
     }
     .fortified-section {
       padding-block: var(--fortified-section-py);
@@ -41,30 +41,30 @@
     .fortified-eyebrow {
       display: inline-block;
       font-family: var(--font-fortified-body);
-      font-size: clamp(11px, 1vw, 13px);
+      font-size: clamp(10px, 0.85vw, 12px);
       font-weight: 700;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--fortified-teal);
-      margin: 0 0 12px;
+      margin: 0 0 10px;
     }
     .fortified-heading {
       font-family: var(--font-fortified-display);
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: -0.005em;
-      line-height: 0.95;
-      margin: 0 0 16px;
+      line-height: 1;
+      margin: 0 0 12px;
       color: var(--color-foreground-heading, currentColor);
     }
-    .fortified-h1 { font-size: clamp(44px, 8vw, 96px); }
-    .fortified-h2 { font-size: clamp(32px, 5.5vw, 64px); }
-    .fortified-h3 { font-size: clamp(24px, 3.2vw, 40px); }
+    .fortified-h1 { font-size: clamp(32px, 5vw, 56px); line-height: 0.98; }
+    .fortified-h2 { font-size: clamp(26px, 3.5vw, 40px); }
+    .fortified-h3 { font-size: clamp(20px, 2.2vw, 28px); }
     .fortified-body {
       font-family: var(--font-fortified-body);
-      font-size: clamp(15px, 1.1vw, 17px);
+      font-size: clamp(14px, 1vw, 16px);
       font-weight: 400;
-      line-height: 1.55;
+      line-height: 1.5;
       color: var(--color-foreground);
     }
     .fortified-btn {
@@ -73,17 +73,17 @@
       justify-content: center;
       gap: 8px;
       border-radius: var(--fortified-radius-pill);
-      padding: 14px 32px;
+      padding: 10px 22px;
       font-family: var(--font-fortified-body);
-      font-size: clamp(12px, 1vw, 14px);
+      font-size: clamp(11px, 0.9vw, 13px);
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       text-decoration: none;
       cursor: pointer;
       transition: transform .15s ease, opacity .15s ease, background-color .15s ease;
       border: 2px solid transparent;
-      min-height: 44px;
+      min-height: 38px;
     }
     .fortified-btn:hover { transform: translateY(-1px); opacity: .92; }
     .fortified-btn--primary {

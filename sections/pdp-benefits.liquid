@@ -4,7 +4,7 @@
   id="PdpBenefits-{{ section.id }}"
   class="pdp-benefits"
   {{ section.shopify_attributes }}
- style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 64 }}px {{ section.settings["padding-block-end"] | default: 64 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container">
     <header class="pdp-benefits__head">
       <p class="pdp-benefits__eyebrow p-energy">{{ section.settings.energy_eyebrow }}</p>
@@ -140,7 +140,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 64
+      "default": 40
     },
     {
       "type": "range",
@@ -150,7 +150,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 64
+      "default": 40
     },
     {
       "type": "range",
