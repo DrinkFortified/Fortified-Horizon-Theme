@@ -23,40 +23,59 @@
 
 {% stylesheet %}
   .fortified-stats-bar {
-    background: var(--color-foreground);
-    color: var(--color-foreground, #fff);
-    padding-block: clamp(18px, 2.6vw, 32px);
+    background: var(--color-background);
+    color: var(--color-foreground);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
   }
   .fortified-stats-bar__inner {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    gap: clamp(12px, 2vw, 32px);
+    justify-content: space-around;
+    gap: clamp(16px, 2vw, 32px);
+    max-width: var(--fortified-container);
+    margin-inline: auto;
+    padding-inline: clamp(16px, 3vw, 48px);
+    padding-block: clamp(18px, 2.4vw, 28px);
   }
   .fortified-stats-bar__item {
     display: inline-flex;
-    align-items: baseline;
-    gap: 8px;
-    font-family: var(--font-fortified-body);
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 80px;
   }
   .fortified-stats-bar__value {
     font-family: var(--font-fortified-display);
-    font-size: clamp(18px, 2.5vw, 26px);
-    color: var(--color-foreground, #fff);
-    letter-spacing: 0.02em;
+    font-weight: 800;
+    font-size: clamp(16px, 1.6vw, 22px);
+    line-height: 1;
+    color: var(--color-foreground-heading);
+    letter-spacing: -0.005em;
   }
   .fortified-stats-bar__label {
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: rgb(255 255 255 / .8);
+    font-family: var(--font-fortified-body);
+    font-size: 10.5px;
     font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    opacity: 0.6;
+    text-align: center;
   }
   .fortified-stats-bar__sep {
-    color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground)));
-    opacity: .65;
-    font-size: 14px;
+    color: var(--color-foreground);
+    opacity: 0.25;
+    font-size: 18px;
+    line-height: 1;
+  }
+  @media (max-width: 749px) {
+    .fortified-stats-bar__sep { display: none; }
+    .fortified-stats-bar__inner {
+      justify-content: center;
+      gap: 18px 12px;
+    }
   }
 {% endstylesheet %}
 
