@@ -37,17 +37,23 @@
         "b2",
         "b3"
       ],
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-3"
+      },
       "name": "LP-01 \u2014 Landing Hero"
     },
     "stats_bar": {
       "type": "fortified-stats-bar",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-2"
+      },
       "name": "LP-02 \u2014 Stats Bar"
     },
     "reviews_carousel": {
       "type": "fortified-reviews-section",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "name": "LP-03 \u2014 Customer Reviews"
     },
     "featured_card": {
@@ -85,7 +91,9 @@
         "i3",
         "i4"
       ],
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "name": "LP-04 \u2014 Featured Product Card"
     },
     "day_benefits": {
@@ -135,7 +143,9 @@
         "d4",
         "d5"
       ],
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-2"
+      },
       "name": "LP-05 \u2014 Day Benefits"
     },
     "ingredients_tabs": {
@@ -195,7 +205,9 @@
         "i3",
         "i4"
       ],
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "name": "LP-06 \u2014 Ingredients"
     },
     "comparison_table": {
@@ -251,13 +263,16 @@
         "r3",
         "r4"
       ],
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-2"
+      },
       "name": "LP-07 \u2014 Comparison Table"
     },
     "product_feature": {
       "type": "fortified-product-feature",
       "settings": {
-        "heading": "FORMULATED FOR YOUR BEST DAY"
+        "heading": "FORMULATED FOR YOUR BEST DAY",
+        "color_scheme": "scheme-1"
       },
       "name": "LP-08 \u2014 Product Feature"
     },
@@ -300,12 +315,16 @@
         "q3",
         "q4"
       ],
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "name": "LP-09 \u2014 FAQ"
     },
     "subscribe_save": {
       "type": "fortified-subscribe-save",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-2"
+      },
       "name": "LP-10 \u2014 Subscribe & Save"
     }
   },

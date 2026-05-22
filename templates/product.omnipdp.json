@@ -12,12 +12,16 @@
     "pdp_product_switch_MyzMsx": {
       "type": "pdp-product-switch",
       "name": "01-Omni-Product Switch Tabs",
-      "settings": {}
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
     },
     "pdp_hero_LqQrtQ": {
       "type": "pdp-hero",
       "name": "02-Omni-Hero & Purchase Flow",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
         "plan_KXPaMb": {
           "type": "plan",
@@ -59,12 +63,16 @@
     "pdp_stats_strip_EUWZZp": {
       "type": "pdp-stats-strip",
       "name": "03-Omni-Stats Strip",
-      "settings": {}
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
     },
     "pdp_benefits_kJmKZp": {
       "type": "pdp-benefits",
       "name": "04-Omni-Why Fortified",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
         "benefit_e_MtYHLu": {
           "type": "benefit_energy",
@@ -127,7 +135,9 @@
     "pdp_ingredients_table_kZqCrR": {
       "type": "pdp-ingredients-table",
       "name": "05-Omni-Full Ingredients Table",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
         "ing_e_aluUaK": {
           "type": "ing_energy",
@@ -226,7 +236,9 @@
     "pdp_supp_facts_XXhNiE": {
       "type": "pdp-supp-facts",
       "name": "06-Omni-Supplement Facts",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
         "fact_e_FLComh": {
           "type": "fact_energy",
@@ -341,7 +353,8 @@
       "name": "07-Omni-Comparison Table",
       "settings": {
         "competitor_a_name": "Competitor A",
-        "competitor_b_name": "Competitor B"
+        "competitor_b_name": "Competitor B",
+        "color_scheme": "scheme-1"
       },
       "blocks": {
         "cmp_row_rPkkpu": {
@@ -428,7 +441,9 @@
     "pdp_creatine_HEsehf": {
       "type": "pdp-creatine",
       "name": "08-Omni-Add Creatine",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
         "bullet_LAXbAf": {
           "type": "bullet",
@@ -465,7 +480,9 @@
     "pdp_promise_cJGYqJ": {
       "type": "pdp-promise",
       "name": "09-Omni-Clean Label Promise",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
         "no_pill_vCzECe": {
           "type": "no_pill",
@@ -562,7 +579,9 @@
     "pdp_testimonials_PrkpJd": {
       "type": "pdp-testimonials",
       "name": "10-Omni-Testimonials (Judge.me)",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
         "review_JpTviz": {
           "type": "review",
@@ -611,7 +630,9 @@
     "pdp_faq_YRDwvk": {
       "type": "pdp-faq",
       "name": "11-Omni-FAQ",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
         "qa_xWGSWH": {
           "type": "qa",
@@ -683,7 +704,9 @@
     "pdp_disclaimer_qNZIsF": {
       "type": "pdp-disclaimer",
       "name": "12-Omni-Disclaimer",
-      "settings": {},
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
       "blocks": {
         "warning_ipsJyI": {
           "type": "warning",
@@ -726,7 +749,8 @@
         "default_summary": "Monthly \u00b7 10% off \u00b7 Tap to customise",
         "default_price": "$53.10",
         "edit_label": "Change \u2191",
-        "cta_label": "Subscribe"
+        "cta_label": "Subscribe",
+        "color_scheme": "scheme-1"
       }
     }
   },
