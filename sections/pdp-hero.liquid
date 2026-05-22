@@ -2,7 +2,7 @@
 
 <section
   id="PdpHero-{{ section.id }}"
-  class="pdp-hero"
+  class="pdp-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
   data-pdp-hero
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
@@ -1247,6 +1247,12 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     }
   ],
   "blocks": [

@@ -2,7 +2,7 @@
 
 <aside
   id="PdpQuickbuy-{{ section.id }}"
-  class="pdp-qb"
+  class="pdp-qb color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
   data-pdp-quickbuy
   aria-hidden="true"
   {{ section.shopify_attributes }}
@@ -388,6 +388,12 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     }
   ],
   "presets": [
