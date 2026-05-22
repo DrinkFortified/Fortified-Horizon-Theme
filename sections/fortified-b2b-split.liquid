@@ -3,14 +3,16 @@
 <section
   id="FortifiedB2B-{{ section.id }}"
   class="fortified-b2b color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container fortified-b2b__inner">
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 0 }}px {{ section.settings['padding-block-end'] | default: 0 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 0 }}px {{ section.settings['padding-inline-end'] | default: 0 }}px;"
+>
+  <div class="fortified-b2b__inner">
     {% for block in section.blocks %}
       {% if block.type == 'fortified-b2b-card' %}
-        <article class="fortified-b2b__card" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }} style="--overlay: {{ block.settings.bg_overlay_opacity | default: 50 }}%;">
+        {%- assign tone = block.settings.tone | default: 'light' -%}
+        <article class="fortified-b2b__card fortified-b2b__card--{{ tone }}" {{ block.shopify_attributes }}>
           {% if block.settings.image != blank %}
-            {{ block.settings.image | image_url: width: 1200 | image_tag:
-                widths: '600, 900, 1200',
+            {{ block.settings.image | image_url: width: 1600 | image_tag:
+                widths: '600, 900, 1200, 1600',
                 sizes: '(min-width: 750px) 50vw, 100vw',
                 class: 'fortified-b2b__bg',
                 alt: block.settings.heading,
@@ -18,16 +20,16 @@
           {% endif %}
           <div class="fortified-b2b__content">
             {% if block.settings.eyebrow != blank %}
-              <span class="fortified-eyebrow">{{ block.settings.eyebrow }}</span>
+              <span class="fortified-b2b__eyebrow">{{ block.settings.eyebrow }}</span>
             {% endif %}
             {% if block.settings.heading != blank %}
-              <h3 class="fortified-heading fortified-h3">{{ block.settings.heading }}</h3>
+              <h3 class="fortified-b2b__heading">{{ block.settings.heading | newline_to_br }}</h3>
             {% endif %}
             {% if block.settings.body != blank %}
               <p class="fortified-b2b__body">{{ block.settings.body }}</p>
             {% endif %}
             {% if block.settings.cta_label != blank %}
-              <a href="{{ block.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ block.settings.cta_label }}</a>
+              <a href="{{ block.settings.cta_url | default: '#' }}" class="fortified-b2b__btn">{{ block.settings.cta_label }}</a>
             {% endif %}
           </div>
         </article>
@@ -43,123 +45,111 @@
   }
   .fortified-b2b__inner {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
-    max-width: var(--fortified-container);
-    margin-inline: auto;
-    padding-inline: clamp(16px, 3vw, 48px);
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
   }
-  @media (min-width: 750px) {
-    .fortified-b2b__inner { grid-template-columns: 1fr 1fr; }
-  }
-
   .fortified-b2b__card {
     position: relative;
     overflow: hidden;
-    border-radius: 14px;
-    min-height: 240px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    background: color-mix(in srgb, var(--color-foreground) 8%, transparent);
-    transition: transform .25s ease, box-shadow .25s ease;
-  }
-
-  /* Text column on the left */
-  .fortified-b2b__content {
-    padding: clamp(20px, 2.4vw, 32px);
+    isolation: isolate;
+    min-height: 480px;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    text-align: left;
-    z-index: 2;
-    position: relative;
-  }
-  .fortified-b2b__content .fortified-eyebrow {
-    color: var(--color-foreground);
-    opacity: 0.55;
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    margin: 0;
-  }
-  .fortified-b2b__content .fortified-heading {
-    color: var(--color-foreground-heading);
-    font-family: var(--font-fortified-display);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: clamp(20px, 2.4vw, 28px);
-    line-height: 1.05;
-    letter-spacing: -0.005em;
-    margin: 0;
-  }
-  .fortified-b2b__body {
-    font-size: 12.5px;
-    line-height: 1.5;
-    color: var(--color-foreground);
-    opacity: 0.7;
-    margin: 0;
-    max-width: 32ch;
-  }
-  /* CTA renders as text-link with arrow, not a button */
-  .fortified-b2b__content .fortified-btn {
-    background: transparent;
-    color: var(--color-foreground-heading);
-    border: 0;
-    padding: 8px 0 0;
-    border-radius: 0;
-    font-family: var(--font-fortified-display);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    min-height: auto;
-    box-shadow: none;
-    text-decoration: none;
-    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 4px;
-    transition: color .15s ease, gap .15s ease;
   }
-  .fortified-b2b__content .fortified-btn::after {
-    content: '→';
-    font-size: 14px;
-    transition: transform .15s ease;
-  }
-  .fortified-b2b__content .fortified-btn:hover {
-    color: var(--fortified-accent, var(--color-foreground));
-    gap: 12px;
-  }
-  .fortified-b2b__content .fortified-btn:hover::after { transform: translateX(2px); }
-
-  /* Right side: image fills the right half of the card */
   .fortified-b2b__bg {
-    position: relative;
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    z-index: 0;
+  }
+  .fortified-b2b__card--dark::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(270deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
     z-index: 1;
-    grid-column: 2;
+    pointer-events: none;
+  }
+  .fortified-b2b__content {
+    position: relative;
+    z-index: 2;
+    width: 345px;
+    max-width: 100%;
+    padding: 100px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .fortified-b2b__card--dark .fortified-b2b__content { color: #fff; }
+  .fortified-b2b__card--light .fortified-b2b__content { color: #121212; }
+
+  .fortified-b2b__eyebrow {
+    font-family: var(--font-fortified-display);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .fortified-b2b__card--dark .fortified-b2b__eyebrow { color: #c4e1c5; }
+  .fortified-b2b__card--light .fortified-b2b__eyebrow { color: var(--fortified-accent); }
+
+  .fortified-b2b__heading {
+    font-family: var(--font-fortified-display);
+    font-size: 62px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0;
+    color: inherit;
+  }
+  .fortified-b2b__body {
+    font-family: var(--font-fortified-body);
+    font-size: 20px;
+    line-height: 1.2;
+    color: inherit;
+    margin: 0;
+  }
+  .fortified-b2b__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 70px;
+    padding: 18px;
+    border: 1.5px solid currentColor;
+    border-radius: 8px;
+    background: transparent;
+    color: inherit;
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-sizing: border-box;
   }
 
   @media (max-width: 749px) {
-    .fortified-b2b__card {
-      grid-template-columns: 1fr;
-      min-height: auto;
-    }
-    .fortified-b2b__bg {
-      grid-column: 1;
-      order: -1;
-      aspect-ratio: 16/9;
-    }
+    .fortified-b2b__inner { grid-template-columns: 1fr; }
+    .fortified-b2b__card { min-height: 380px; }
+    .fortified-b2b__content { width: 100%; padding: 64px 24px; }
+    .fortified-b2b__heading { font-size: 40px; }
+    .fortified-b2b__eyebrow { font-size: 20px; }
+    .fortified-b2b__body { font-size: 16px; }
+    .fortified-b2b__btn { height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "09 \u2014 B2B Split",
+  "name": "09 — B2B Split",
   "tag": "section",
   "class": "fortified-b2b-section",
   "max_blocks": 2,
@@ -169,51 +159,6 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
-    },
-    {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "Content alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "select",
-      "id": "blocks_alignment",
-      "label": "Blocks row position",
-      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
-      "options": [
-        {
-          "value": "flex-start",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "flex-end",
-          "label": "Right"
-        },
-        {
-          "value": "space-between",
-          "label": "Space between"
-        }
-      ],
-      "default": "center"
     },
     {
       "type": "header",
@@ -227,7 +172,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 0
     },
     {
       "type": "range",
@@ -237,7 +182,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 0
     },
     {
       "type": "range",
@@ -260,26 +205,10 @@
       "default": 0
     },
     {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
-    },
-    {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight / accent color",
-      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "info": "Used for the light card eyebrow. Default: Fortified Teal.",
       "default": "#1FA8A1"
     }
   ],
@@ -289,32 +218,14 @@
       "name": "B2B card",
       "settings": [
         {
-          "type": "text",
-          "id": "eyebrow",
-          "label": "Eyebrow",
-          "default": "THE TRUTH"
-        },
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "BECOME A WHOLESALER"
-        },
-        {
-          "type": "textarea",
-          "id": "body",
-          "label": "Body"
-        },
-        {
-          "type": "text",
-          "id": "cta_label",
-          "label": "CTA label",
-          "default": "JOIN NOW"
-        },
-        {
-          "type": "url",
-          "id": "cta_url",
-          "label": "CTA URL"
+          "type": "select",
+          "id": "tone",
+          "label": "Tone",
+          "options": [
+            { "value": "dark", "label": "Dark (with gradient overlay)" },
+            { "value": "light", "label": "Light" }
+          ],
+          "default": "light"
         },
         {
           "type": "image_picker",
@@ -322,104 +233,61 @@
           "label": "Background image"
         },
         {
-          "type": "range",
-          "id": "bg_overlay_opacity",
-          "label": "Overlay opacity",
-          "min": 0,
-          "max": 100,
-          "step": 5,
-          "default": 50,
-          "unit": "%"
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "default": "THE TRUTH"
         },
         {
-          "type": "select",
-          "id": "content_alignment",
-          "label": "Block alignment",
-          "options": [
-            {
-              "value": "inherit",
-              "label": "Inherit from section"
-            },
-            {
-              "value": "left",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ],
-          "default": "inherit"
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading",
+          "default": "BECOME A\npartner"
         },
         {
-          "type": "header",
-          "content": "Spacing"
+          "type": "textarea",
+          "id": "body",
+          "label": "Body text",
+          "default": "Electrolytes don't provide full recovery. UNDO® Regenerate combines hydration."
         },
         {
-          "type": "range",
-          "id": "padding-block-start",
-          "label": "Padding top",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "SUBSCRIBE NOW"
         },
         {
-          "type": "range",
-          "id": "padding-block-end",
-          "label": "Padding bottom",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-start",
-          "label": "Padding left",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-end",
-          "label": "Padding right",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "09 \u2014 B2B Split",
+      "name": "09 — B2B Split",
       "category": "Fortified Home",
       "settings": {},
       "blocks": [
         {
           "type": "fortified-b2b-card",
           "settings": {
-            "heading": "BECOME A WHOLESALER",
-            "cta_label": "JOIN NOW"
+            "tone": "dark",
+            "eyebrow": "THE TRUTH",
+            "heading": "BECOME A\nwholesaler",
+            "body": "Electrolytes don't provide full recovery. UNDO® Regenerate combines hydration.",
+            "cta_label": "SUBSCRIBE NOW"
           }
         },
         {
           "type": "fortified-b2b-card",
           "settings": {
+            "tone": "light",
+            "eyebrow": "THE TRUTH",
             "heading": "BECOME A PARTNER",
-            "cta_label": "APPLY NOW"
+            "body": "Electrolytes don't provide full recovery. UNDO® Regenerate combines hydration.",
+            "cta_label": "SUBSCRIBE NOW"
           }
         }
       ]

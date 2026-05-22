@@ -14,77 +14,110 @@
   id="FortifiedIngredients-{{ section.id }}"
   class="fortified-ingredients color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
   data-fortified-ingredients
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container fortified-ingredients__inner">
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 100 }}px {{ section.settings['padding-block-end'] | default: 100 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
+>
+  <div class="fortified-ingredients__inner">
     <header class="fortified-ingredients__header">
       {% if section.settings.eyebrow != blank %}
-        <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
+        <span class="fortified-ingredients__eyebrow">{{ section.settings.eyebrow }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
-        <h2 class="fortified-heading fortified-h2">{{ section.settings.heading }}</h2>
+        <h2 class="fortified-ingredients__heading">{{ section.settings.heading | newline_to_br }}</h2>
+      {% endif %}
+      {% if section.settings.body != blank %}
+        <p class="fortified-ingredients__body">{{ section.settings.body }}</p>
+      {% endif %}
+
+      {% if tab_array.size > 0 %}
+        <div class="fortified-ingredients__tabs" role="tablist">
+          {% for label in tab_array %}
+            {% if label != blank %}
+              <button
+                type="button"
+                class="fortified-ingredients__tab {% if forloop.first %}is-active{% endif %}"
+                role="tab"
+                data-tab="{{ label | handleize }}"
+                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              >
+                <span class="fortified-ingredients__tab-label">{{ label }}</span>
+              </button>
+            {% endif %}
+          {% endfor %}
+        </div>
       {% endif %}
     </header>
 
-    {% if tab_array.size > 0 %}
-      <div class="fortified-ingredients__tabs" role="tablist">
-        {% for label in tab_array %}
-          {% if label != blank %}
-            <button
-              type="button"
-              class="fortified-ingredients__tab {% if forloop.first %}is-active{% endif %}"
-              role="tab"
-              data-tab="{{ label | handleize }}"
-              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-            >{{ label }}</button>
-          {% endif %}
-        {% endfor %}
-      </div>
-    {% endif %}
-
-    <div class="fortified-ingredients__panels" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
+    <div class="fortified-ingredients__panels">
       {%- assign first_tab = tab_array | first | handleize -%}
       {% for block in section.blocks %}
         {% if block.type == 'fortified-ingredient' %}
           {%- assign tab_handle = block.settings.tab | handleize -%}
           <article
-            class="fortified-ingredients__panel"
+            class="fortified-ingredients__row"
             data-tab-target="{{ tab_handle }}"
             {% unless tab_handle == first_tab %}hidden{% endunless %}
-            style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}
+            {{ block.shopify_attributes }}
           >
-            <div class="fortified-ingredients__media">
-              {% if block.settings.image != blank %}
-                {{ block.settings.image | image_url: width: 600 | image_tag:
-                    widths: '300, 600',
-                    sizes: '(min-width: 750px) 280px, 50vw',
-                    class: 'fortified-ingredients__img',
-                    alt: block.settings.ingredient_name,
-                    loading: 'lazy' }}
-              {% endif %}
-            </div>
-            <div class="fortified-ingredients__body">
-              <h3 class="fortified-ingredients__name">{{ block.settings.ingredient_name }}</h3>
-              {% if block.settings.description != blank %}
-                <p class="fortified-ingredients__desc">{{ block.settings.description }}</p>
-              {% endif %}
-              <div class="fortified-ingredients__badges">
-                {% if block.settings.dosage_badge != blank %}
-                  <span class="fortified-badge fortified-badge--teal">{{ block.settings.dosage_badge }}</span>
+            <div class="fortified-ingredients__row-main">
+              <div class="fortified-ingredients__media">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 600 | image_tag:
+                      widths: '220, 440, 600',
+                      sizes: '220px',
+                      class: 'fortified-ingredients__img',
+                      alt: block.settings.ingredient_name,
+                      loading: 'lazy' }}
                 {% endif %}
-                {% if block.settings.benefit_badge != blank %}
-                  <span class="fortified-badge fortified-badge--dark">{{ block.settings.benefit_badge }}</span>
+              </div>
+              <div class="fortified-ingredients__info">
+                <h3 class="fortified-ingredients__name">{{ block.settings.ingredient_name }}</h3>
+                {% if block.settings.description != blank %}
+                  <p class="fortified-ingredients__desc">{{ block.settings.description }}</p>
+                {% endif %}
+                {% if block.settings.badge_label != blank %}
+                  <span class="fortified-ingredients__badge">{{ block.settings.badge_label }}</span>
                 {% endif %}
               </div>
             </div>
+            {% if block.settings.dosage_amount != blank or block.settings.dosage_unit != blank %}
+              <div class="fortified-ingredients__divider" aria-hidden="true"></div>
+              <div class="fortified-ingredients__dosage">
+                {% if block.settings.dosage_amount != blank %}
+                  <p class="fortified-ingredients__dosage-amount">{{ block.settings.dosage_amount }}</p>
+                {% endif %}
+                {% if block.settings.dosage_unit != blank %}
+                  <p class="fortified-ingredients__dosage-unit">{{ block.settings.dosage_unit }}</p>
+                {% endif %}
+              </div>
+            {% endif %}
+            {% if block.settings.benefit_title != blank or block.settings.benefit_icon != blank %}
+              <div class="fortified-ingredients__divider" aria-hidden="true"></div>
+              <div class="fortified-ingredients__benefit">
+                {% if block.settings.benefit_icon != blank %}
+                  {{ block.settings.benefit_icon | image_url: width: 164 | image_tag:
+                      widths: '82, 164',
+                      sizes: '82px',
+                      class: 'fortified-ingredients__benefit-icon',
+                      alt: '',
+                      loading: 'lazy' }}
+                {% endif %}
+                <div class="fortified-ingredients__benefit-text">
+                  {% if block.settings.benefit_title != blank %}
+                    <p class="fortified-ingredients__benefit-title">{{ block.settings.benefit_title }}</p>
+                  {% endif %}
+                  {% if block.settings.benefit_description != blank %}
+                    <p class="fortified-ingredients__benefit-desc">{{ block.settings.benefit_description | newline_to_br }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
           </article>
         {% endif %}
       {% endfor %}
     </div>
 
     {% if section.settings.cta_label != blank %}
-      <div class="fortified-ingredients__cta">
-        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ section.settings.cta_label }}</a>
-      </div>
+      <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-ingredients__cta">{{ section.settings.cta_label }}</a>
     {% endif %}
   </div>
 </section>
@@ -94,7 +127,7 @@
     var root = document.getElementById('FortifiedIngredients-{{ section.id }}');
     if (!root) return;
     var tabs = root.querySelectorAll('.fortified-ingredients__tab');
-    var panels = root.querySelectorAll('.fortified-ingredients__panel');
+    var panels = root.querySelectorAll('.fortified-ingredients__row');
     tabs.forEach(function (tab) {
       tab.addEventListener('click', function () {
         var target = tab.getAttribute('data-tab');
@@ -123,144 +156,260 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(24px, 3vw, 40px);
+    gap: 72px;
     max-width: var(--fortified-container);
     margin-inline: auto;
-    padding-inline: clamp(16px, 3vw, 48px);
   }
   .fortified-ingredients__header {
-    text-align: center;
-    max-width: 720px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 42px;
+    max-width: 720px;
+    text-align: center;
   }
-  .fortified-ingredients__header .fortified-heading {
+  .fortified-ingredients__eyebrow {
     font-family: var(--font-fortified-display);
-    font-weight: 900;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--fortified-accent);
     text-transform: uppercase;
-    font-size: clamp(28px, 4.5vw, 48px);
-    line-height: 1.02;
-    letter-spacing: -0.01em;
     margin: 0;
+  }
+  .fortified-ingredients__heading {
+    font-family: var(--font-fortified-display);
+    font-size: 62px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     color: var(--color-foreground-heading);
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .fortified-ingredients__body {
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    margin: 0;
   }
 
-  /* Tab pill switcher */
   .fortified-ingredients__tabs {
-    display: inline-flex;
+    display: flex;
+    align-items: center;
     gap: 0;
-    background: color-mix(in srgb, var(--color-foreground) 5%, transparent);
-    border-radius: 999px;
-    padding: 5px;
-    border: 1px solid var(--color-border);
   }
   .fortified-ingredients__tab {
+    flex: 0 0 240px;
     background: transparent;
     border: 0;
-    padding: 10px 22px;
-    font-family: var(--font-fortified-body);
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--color-foreground);
-    opacity: 0.55;
+    padding: 0 0 8px;
     cursor: pointer;
-    border-radius: 999px;
-    transition: background .2s ease, color .2s ease, opacity .2s ease;
+    border-bottom: 2px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    text-align: center;
   }
-  .fortified-ingredients__tab:hover { opacity: 0.85; }
+  .fortified-ingredients__tab-label {
+    font-family: var(--font-fortified-display);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+    text-transform: uppercase;
+  }
   .fortified-ingredients__tab.is-active {
-    background: var(--color-foreground);
-    color: var(--color-background);
-    opacity: 1;
+    border-bottom-color: var(--color-foreground);
+  }
+  .fortified-ingredients__tab.is-active .fortified-ingredients__tab-label {
+    font-weight: 600;
   }
 
-  /* Ingredient panels — grid of cards */
   .fortified-ingredients__panels {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    width: 100%;
-  }
-  @media (min-width: 750px) {
-    .fortified-ingredients__panels { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (min-width: 1024px) {
-    .fortified-ingredients__panels { grid-template-columns: repeat(4, 1fr); }
-  }
-  .fortified-ingredients__panel {
-    background: color-mix(in srgb, var(--color-foreground) 3%, transparent);
-    border: 1px solid var(--color-border);
-    border-radius: 16px;
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    transition: transform .25s ease, box-shadow .25s ease;
+    gap: 42px;
+    width: 100%;
   }
-  
-  .fortified-ingredients__panel[hidden] { display: none; }
+  .fortified-ingredients__row {
+    display: flex;
+    align-items: center;
+    gap: 42px;
+    width: 100%;
+  }
+  .fortified-ingredients__row[hidden] { display: none; }
 
+  .fortified-ingredients__row-main {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
   .fortified-ingredients__media {
-    aspect-ratio: 1;
-    border-radius: 12px;
-    background: color-mix(in srgb, var(--color-foreground) 4%, transparent);
+    flex: 0 0 220px;
+    width: 220px;
+    height: 137px;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
   }
   .fortified-ingredients__img {
-    width: 80%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
   }
-  .fortified-ingredients__body {
+  .fortified-ingredients__info {
+    flex: 1 1 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: flex-start;
+    gap: 12px;
   }
   .fortified-ingredients__name {
     font-family: var(--font-fortified-display);
-    font-weight: 800;
-    font-size: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-    margin: 0;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
     color: var(--color-foreground-heading);
+    margin: 0;
   }
   .fortified-ingredients__desc {
-    font-size: 12.5px;
-    line-height: 1.5;
+    font-family: var(--font-fortified-body);
+    font-size: 18px;
+    line-height: 1.2;
+    color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
     margin: 0;
-    opacity: 0.75;
   }
-  .fortified-ingredients__badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 4px;
-  }
-  .fortified-ingredients__badges .fortified-badge {
-    font-size: 10px;
-    padding: 4px 10px;
-  }
-  .fortified-ingredients__cta .fortified-btn {
-    padding: 14px 32px;
-    border-radius: 999px;
-    font-size: 13px;
-    letter-spacing: 0.06em;
+  .fortified-ingredients__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 41px;
+    min-width: 183px;
+    padding: 0 18px;
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 8px;
+    font-family: var(--font-fortified-display);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
     text-transform: uppercase;
-    min-height: 48px;
+    color: var(--color-foreground);
+  }
+
+  .fortified-ingredients__divider {
+    flex: 0 0 1px;
+    width: 1px;
+    height: 137px;
+    background: color-mix(in srgb, var(--color-foreground) 22%, transparent);
+  }
+
+  .fortified-ingredients__dosage {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: var(--color-foreground);
+  }
+  .fortified-ingredients__dosage-amount {
+    font-family: var(--font-fortified-display);
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .fortified-ingredients__dosage-unit {
+    font-family: var(--font-fortified-display);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+
+  .fortified-ingredients__benefit {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .fortified-ingredients__benefit-icon {
+    width: 82px;
+    height: 82px;
+    object-fit: contain;
+    flex: 0 0 82px;
+  }
+  .fortified-ingredients__benefit-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .fortified-ingredients__benefit-title {
+    font-family: var(--font-fortified-display);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground-heading);
+    margin: 0;
+  }
+  .fortified-ingredients__benefit-desc {
+    font-family: var(--font-fortified-body);
+    font-size: 18px;
+    line-height: 1.2;
+    color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
+    margin: 0;
+  }
+
+  .fortified-ingredients__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 411px;
+    max-width: 100%;
+    height: 70px;
+    padding: 18px;
+    border-radius: 8px;
+    background: var(--color-primary-button-background, var(--color-foreground));
+    color: var(--color-primary-button-text, var(--color-background));
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 990px) {
+    .fortified-ingredients__inner { gap: 48px; }
+    .fortified-ingredients__heading { font-size: 44px; }
+    .fortified-ingredients__row { flex-wrap: wrap; gap: 24px; }
+    .fortified-ingredients__row-main { flex: 1 0 100%; }
+    .fortified-ingredients__divider { display: none; }
+  }
+  @media (max-width: 749px) {
+    .fortified-ingredients__heading { font-size: 32px; }
+    .fortified-ingredients__tab { flex: 1 0 0; }
+    .fortified-ingredients__tab-label { font-size: 20px; }
+    .fortified-ingredients__row-main { flex-direction: column; align-items: flex-start; }
+    .fortified-ingredients__media { width: 100%; flex: 1 0 auto; }
+    .fortified-ingredients__cta { width: 100%; height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "06 \u2014 Ingredients",
+  "name": "06 — Ingredients",
   "tag": "section",
   "class": "fortified-ingredients-section",
   "settings": [
@@ -271,10 +420,16 @@
       "default": "THE TRUTH"
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "WHY WE BEAT THE REST ELECTROLYTES"
+      "default": "WHY WE BEAT THE REST\nelectrolytes"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Electrolytes don't provide full recovery."
     },
     {
       "type": "text",
@@ -294,51 +449,6 @@
       "default": "scheme-1"
     },
     {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "Content alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "select",
-      "id": "blocks_alignment",
-      "label": "Blocks row position",
-      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
-      "options": [
-        {
-          "value": "flex-start",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "flex-end",
-          "label": "Right"
-        },
-        {
-          "value": "space-between",
-          "label": "Space between"
-        }
-      ],
-      "default": "center"
-    },
-    {
       "type": "header",
       "content": "Spacing"
     },
@@ -350,7 +460,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 100
     },
     {
       "type": "range",
@@ -360,7 +470,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 100
     },
     {
       "type": "range",
@@ -370,7 +480,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 40
     },
     {
       "type": "range",
@@ -380,29 +490,13 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
+      "default": 40
     },
     {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight / accent color",
-      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "info": "Used for the eyebrow. Default: Fortified Teal.",
       "default": "#1FA8A1"
     }
   ],
@@ -416,74 +510,6 @@
           "id": "tab_label",
           "label": "Tab label",
           "default": "Hydration"
-        },
-        {
-          "type": "select",
-          "id": "content_alignment",
-          "label": "Block alignment",
-          "options": [
-            {
-              "value": "inherit",
-              "label": "Inherit from section"
-            },
-            {
-              "value": "left",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ],
-          "default": "inherit"
-        },
-        {
-          "type": "header",
-          "content": "Spacing"
-        },
-        {
-          "type": "range",
-          "id": "padding-block-start",
-          "label": "Padding top",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-block-end",
-          "label": "Padding bottom",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-start",
-          "label": "Padding left",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-end",
-          "label": "Padding right",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
         }
       ]
     },
@@ -494,13 +520,14 @@
         {
           "type": "text",
           "id": "tab",
-          "label": "Belongs to tab",
+          "label": "Tab",
+          "info": "Type the tab label this ingredient belongs to.",
           "default": "Hydration"
         },
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Ingredient image"
         },
         {
           "type": "text",
@@ -511,243 +538,58 @@
         {
           "type": "textarea",
           "id": "description",
-          "label": "Description"
+          "label": "Description",
+          "default": "Essential electrolyte to support fluid balance, hydration, and muscle function"
         },
         {
           "type": "text",
-          "id": "dosage_badge",
-          "label": "Dosage badge",
+          "id": "badge_label",
+          "label": "Badge label",
+          "default": "HYDRATION"
+        },
+        {
+          "type": "text",
+          "id": "dosage_amount",
+          "label": "Dosage amount",
           "default": "1200MG"
         },
         {
           "type": "text",
-          "id": "benefit_badge",
-          "label": "Benefit badge",
-          "default": "HYDRATION FACTS"
+          "id": "dosage_unit",
+          "label": "Dosage unit",
+          "default": "PER SERVINGS"
         },
         {
-          "type": "select",
-          "id": "content_alignment",
-          "label": "Block alignment",
-          "options": [
-            {
-              "value": "inherit",
-              "label": "Inherit from section"
-            },
-            {
-              "value": "left",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ],
-          "default": "inherit"
+          "type": "image_picker",
+          "id": "benefit_icon",
+          "label": "Benefit icon"
         },
         {
-          "type": "header",
-          "content": "Spacing"
+          "type": "text",
+          "id": "benefit_title",
+          "label": "Benefit title",
+          "default": "Hydration Facts"
         },
         {
-          "type": "range",
-          "id": "padding-block-start",
-          "label": "Padding top",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-block-end",
-          "label": "Padding bottom",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-start",
-          "label": "Padding left",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-end",
-          "label": "Padding right",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
+          "type": "textarea",
+          "id": "benefit_description",
+          "label": "Benefit description",
+          "default": "Supports muscle function\nand reduces cramps"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "06 \u2014 Ingredients",
+      "name": "06 — Ingredients",
       "category": "Fortified Home",
       "settings": {},
       "blocks": [
-        {
-          "type": "fortified-tab",
-          "settings": {
-            "tab_label": "Hydration"
-          }
-        },
-        {
-          "type": "fortified-tab",
-          "settings": {
-            "tab_label": "Performance"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Sodium Citrate",
-            "dosage_badge": "1200MG"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Magnesium Glycinate",
-            "dosage_badge": "200MG"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Potassium",
-            "dosage_badge": "150MG"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Performance",
-            "ingredient_name": "Creatine",
-            "dosage_badge": "3G"
-          }
-        }
-      ]
-    },
-    {
-      "name": "06 \u2014 Ingredients",
-      "category": "Fortified PDP",
-      "settings": {},
-      "blocks": [
-        {
-          "type": "fortified-tab",
-          "settings": {
-            "tab_label": "Hydration"
-          }
-        },
-        {
-          "type": "fortified-tab",
-          "settings": {
-            "tab_label": "Performance"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Sodium Citrate",
-            "dosage_badge": "1200MG"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Magnesium Glycinate",
-            "dosage_badge": "200MG"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Potassium",
-            "dosage_badge": "150MG"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Performance",
-            "ingredient_name": "Creatine",
-            "dosage_badge": "3G"
-          }
-        }
-      ]
-    },
-    {
-      "name": "06 \u2014 Ingredients",
-      "category": "Fortified Landing",
-      "settings": {},
-      "blocks": [
-        {
-          "type": "fortified-tab",
-          "settings": {
-            "tab_label": "Hydration"
-          }
-        },
-        {
-          "type": "fortified-tab",
-          "settings": {
-            "tab_label": "Performance"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Sodium Citrate",
-            "dosage_badge": "1200MG"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Magnesium Glycinate",
-            "dosage_badge": "200MG"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Potassium",
-            "dosage_badge": "150MG"
-          }
-        },
-        {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Performance",
-            "ingredient_name": "Creatine",
-            "dosage_badge": "3G"
-          }
-        }
+        { "type": "fortified-tab", "settings": { "tab_label": "Hydration" } },
+        { "type": "fortified-tab", "settings": { "tab_label": "Performance" } },
+        { "type": "fortified-ingredient", "settings": { "tab": "Hydration", "ingredient_name": "Sodium Citrate", "badge_label": "HYDRATION", "dosage_amount": "1200MG" } },
+        { "type": "fortified-ingredient", "settings": { "tab": "Hydration", "ingredient_name": "Magnesium Glycinate", "badge_label": "HYDRATION", "dosage_amount": "150MG" } },
+        { "type": "fortified-ingredient", "settings": { "tab": "Performance", "ingredient_name": "Creatine", "badge_label": "PERFORMANCE", "dosage_amount": "3G" } }
       ]
     }
   ]

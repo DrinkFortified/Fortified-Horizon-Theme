@@ -3,40 +3,64 @@
 <section
   id="FortifiedLifestyleStrip-{{ section.id }}"
   class="fortified-lifestyle-strip color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container fortified-lifestyle-strip__inner">
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 100 }}px {{ section.settings['padding-block-end'] | default: 100 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 0 }}px {{ section.settings['padding-inline-end'] | default: 0 }}px;"
+>
+  <div class="fortified-lifestyle-strip__inner">
     <header class="fortified-lifestyle-strip__header">
       {% if section.settings.eyebrow != blank %}
-        <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
+        <span class="fortified-lifestyle-strip__eyebrow">{{ section.settings.eyebrow }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
-        <h2 class="fortified-heading fortified-h2">{{ section.settings.heading }}</h2>
+        <h2 class="fortified-lifestyle-strip__heading">{{ section.settings.heading | newline_to_br }}</h2>
+      {% endif %}
+      {% if section.settings.body != blank %}
+        <p class="fortified-lifestyle-strip__body">{{ section.settings.body }}</p>
       {% endif %}
     </header>
-  </div>
 
-  <div class="fortified-lifestyle-strip__scroll">
-    <div class="fortified-lifestyle-strip__row" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
-      {% for block in section.blocks %}
-        {% if block.type == 'fortified-strip-image' and block.settings.image != blank %}
-          <div class="fortified-lifestyle-strip__item" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-            {{ block.settings.image | image_url: width: 700 | image_tag:
-                widths: '300, 500, 700',
-                sizes: '(min-width: 1024px) 18vw, 60vw',
-                class: 'fortified-lifestyle-strip__img',
-                alt: block.settings.image.alt | default: 'Lifestyle photo',
-                loading: 'lazy' }}
-          </div>
-        {% endif %}
-      {% endfor %}
+    <div class="fortified-lifestyle-strip__scroll">
+      <div class="fortified-lifestyle-strip__row">
+        {% for block in section.blocks %}
+          {% if block.type == 'fortified-strip-image' %}
+            <article class="fortified-lifestyle-strip__card" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 700 | image_tag:
+                    widths: '300, 500, 700',
+                    sizes: '(min-width: 1024px) 18vw, 70vw',
+                    class: 'fortified-lifestyle-strip__img',
+                    alt: block.settings.image.alt | default: block.settings.handle,
+                    loading: 'lazy' }}
+              {% endif %}
+              {% if block.settings.video_url != blank %}
+                <a class="fortified-lifestyle-strip__link" href="{{ block.settings.video_url }}" aria-label="{{ block.settings.handle | default: 'Watch' }}"></a>
+              {% endif %}
+              <div class="fortified-lifestyle-strip__play" aria-hidden="true">
+                <svg viewBox="0 0 62 62" width="62" height="62" fill="none">
+                  <circle cx="31" cy="31" r="30" stroke="currentColor" stroke-width="2"/>
+                  <path d="M25 21L43 31L25 41V21Z" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="fortified-lifestyle-strip__meta">
+                {% if block.settings.handle != blank %}
+                  <p class="fortified-lifestyle-strip__handle">{{ block.settings.handle }}</p>
+                {% endif %}
+                {% if block.settings.caption != blank %}
+                  <p class="fortified-lifestyle-strip__caption">{{ block.settings.caption }}</p>
+                {% endif %}
+                {% if block.settings.views != blank %}
+                  <p class="fortified-lifestyle-strip__views">{{ block.settings.views }}</p>
+                {% endif %}
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
-  </div>
 
-  {% if section.settings.cta_label != blank %}
-    <div class="fortified-container fortified-lifestyle-strip__cta">
-      <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ section.settings.cta_label }}</a>
-    </div>
-  {% endif %}
+    {% if section.settings.cta_label != blank %}
+      <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-lifestyle-strip__cta">{{ section.settings.cta_label }}</a>
+    {% endif %}
+  </div>
 </section>
 
 {% stylesheet %}
@@ -45,83 +69,184 @@
     color: var(--color-foreground);
   }
   .fortified-lifestyle-strip__inner {
-    max-width: var(--fortified-container);
-    margin-inline: auto;
-    padding-inline: clamp(16px, 3vw, 48px);
-    margin-bottom: clamp(20px, 2.4vw, 32px);
-  }
-  .fortified-lifestyle-strip__header {
-    text-align: center;
-    max-width: 720px;
-    margin-inline: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 72px;
+    width: 100%;
   }
-  .fortified-lifestyle-strip__header .fortified-heading {
+  .fortified-lifestyle-strip__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 929px;
+    text-align: center;
+    padding-inline: 40px;
+  }
+  .fortified-lifestyle-strip__eyebrow {
     font-family: var(--font-fortified-display);
-    font-weight: 900;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--fortified-accent);
     text-transform: uppercase;
-    font-size: clamp(28px, 4.5vw, 48px);
-    line-height: 1.02;
-    letter-spacing: -0.01em;
     margin: 0;
-    color: var(--color-foreground-heading);
   }
+  .fortified-lifestyle-strip__heading {
+    font-family: var(--font-fortified-display);
+    font-size: 62px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground-heading);
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .fortified-lifestyle-strip__body {
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    max-width: 581px;
+    margin: 0;
+  }
+
   .fortified-lifestyle-strip__scroll {
     width: 100%;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 0 clamp(16px, 3vw, 48px);
+    padding-inline: 40px;
   }
   .fortified-lifestyle-strip__scroll::-webkit-scrollbar { display: none; }
   .fortified-lifestyle-strip__row {
     display: flex;
-    gap: 14px;
+    gap: 18px;
     width: max-content;
-    margin-inline: auto;
   }
-  .fortified-lifestyle-strip__item {
+  .fortified-lifestyle-strip__card {
     flex: 0 0 auto;
-    width: clamp(180px, 22vw, 280px);
-    aspect-ratio: 3/4;
+    position: relative;
+    width: 250px;
+    height: 450px;
     border-radius: 14px;
     overflow: hidden;
-    position: relative;
-    background: color-mix(in srgb, var(--color-foreground) 6%, transparent);
-    transition: transform .25s ease;
+    isolation: isolate;
+    padding: 189px 18px 24px;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
   }
-  
   .fortified-lifestyle-strip__img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+    z-index: 0;
   }
-  .fortified-lifestyle-strip__cta {
+  .fortified-lifestyle-strip__card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,0.55) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .fortified-lifestyle-strip__link {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+  }
+  .fortified-lifestyle-strip__play {
+    position: absolute;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: #fff;
+    width: 62px;
+    height: 62px;
     display: flex;
+    align-items: center;
     justify-content: center;
-    margin-top: clamp(24px, 3vw, 40px);
-    padding-inline: clamp(16px, 3vw, 48px);
   }
-  .fortified-lifestyle-strip__cta .fortified-btn {
-    padding: 14px 32px;
-    border-radius: 999px;
-    font-size: 13px;
-    letter-spacing: 0.06em;
+  .fortified-lifestyle-strip__meta {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: auto;
+  }
+  .fortified-lifestyle-strip__handle {
+    font-family: var(--font-fortified-display);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0;
+    color: #fff;
+  }
+  .fortified-lifestyle-strip__caption {
+    font-family: var(--font-fortified-body);
+    font-size: 16px;
+    line-height: 1.1;
+    margin: 0;
+    color: #fff;
+  }
+  .fortified-lifestyle-strip__views {
+    font-family: var(--font-fortified-body);
+    font-size: 16px;
+    line-height: 1.1;
+    margin: 0;
+    color: #fff;
+    opacity: 0.85;
+  }
+
+  .fortified-lifestyle-strip__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 411px;
+    max-width: 100%;
+    height: 70px;
+    padding: 18px;
+    border-radius: 8px;
+    background: var(--color-primary-button-background, var(--color-foreground));
+    color: var(--color-primary-button-text, var(--color-background));
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
     text-transform: uppercase;
-    min-height: 48px;
+    text-decoration: none;
+    border: none;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 990px) {
+    .fortified-lifestyle-strip__inner { gap: 48px; }
+    .fortified-lifestyle-strip__heading { font-size: 44px; }
+    .fortified-lifestyle-strip__body { font-size: 18px; }
+  }
+  @media (max-width: 749px) {
+    .fortified-lifestyle-strip__heading { font-size: 32px; }
+    .fortified-lifestyle-strip__card { width: 220px; height: 380px; padding: 150px 16px 20px; }
+    .fortified-lifestyle-strip__scroll { padding-inline: 24px; }
+    .fortified-lifestyle-strip__cta { width: calc(100% - 48px); margin-inline: 24px; height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "07 \u2014 Lifestyle Strip",
+  "name": "07 — Lifestyle Strip",
   "tag": "section",
   "class": "fortified-lifestyle-strip-section",
-  "max_blocks": 8,
+  "max_blocks": 12,
   "settings": [
     {
       "type": "text",
@@ -130,10 +255,16 @@
       "default": "THE TRUTH"
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "MORE THAN HYDRATION"
+      "default": "More than hydration\nIt's daily support"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Electrolytes don't provide full recovery. UNDO® Regenerate combines hydration."
     },
     {
       "type": "text",
@@ -153,51 +284,6 @@
       "default": "scheme-1"
     },
     {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "Content alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "select",
-      "id": "blocks_alignment",
-      "label": "Blocks row position",
-      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
-      "options": [
-        {
-          "value": "flex-start",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "flex-end",
-          "label": "Right"
-        },
-        {
-          "value": "space-between",
-          "label": "Space between"
-        }
-      ],
-      "default": "center"
-    },
-    {
       "type": "header",
       "content": "Spacing"
     },
@@ -209,7 +295,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 100
     },
     {
       "type": "range",
@@ -219,7 +305,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 100
     },
     {
       "type": "range",
@@ -242,175 +328,61 @@
       "default": 0
     },
     {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
-    },
-    {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight / accent color",
-      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "info": "Used for the eyebrow. Default: Fortified Teal.",
       "default": "#1FA8A1"
     }
   ],
   "blocks": [
     {
       "type": "fortified-strip-image",
-      "name": "Image",
+      "name": "Video card",
       "settings": [
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Thumbnail / background"
         },
         {
-          "type": "select",
-          "id": "content_alignment",
-          "label": "Block alignment",
-          "options": [
-            {
-              "value": "inherit",
-              "label": "Inherit from section"
-            },
-            {
-              "value": "left",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ],
-          "default": "inherit"
+          "type": "text",
+          "id": "handle",
+          "label": "Username",
+          "default": "@madselly"
         },
         {
-          "type": "header",
-          "content": "Spacing"
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "undo before the drinks changes everything"
         },
         {
-          "type": "range",
-          "id": "padding-block-start",
-          "label": "Padding top",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
+          "type": "text",
+          "id": "views",
+          "label": "Views label",
+          "default": "2.1k views"
         },
         {
-          "type": "range",
-          "id": "padding-block-end",
-          "label": "Padding bottom",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-start",
-          "label": "Padding left",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-end",
-          "label": "Padding right",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
+          "type": "url",
+          "id": "video_url",
+          "label": "Link / video URL"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "07 \u2014 Lifestyle Strip",
+      "name": "07 — Lifestyle Strip",
       "category": "Fortified Home",
       "settings": {},
       "blocks": [
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        }
-      ]
-    },
-    {
-      "name": "07 \u2014 Lifestyle Strip",
-      "category": "Fortified PDP",
-      "settings": {},
-      "blocks": [
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        }
-      ]
-    },
-    {
-      "name": "07 \u2014 Lifestyle Strip",
-      "category": "Fortified Landing",
-      "settings": {},
-      "blocks": [
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        },
-        {
-          "type": "fortified-strip-image"
-        }
+        { "type": "fortified-strip-image" },
+        { "type": "fortified-strip-image" },
+        { "type": "fortified-strip-image" },
+        { "type": "fortified-strip-image" },
+        { "type": "fortified-strip-image" },
+        { "type": "fortified-strip-image" }
       ]
     }
   ]

@@ -3,27 +3,28 @@
 <section
   id="FortifiedFAQ-{{ section.id }}"
   class="fortified-faq color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container fortified-faq__inner">
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 100 }}px {{ section.settings['padding-block-end'] | default: 100 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
+>
+  <div class="fortified-faq__inner">
     <aside class="fortified-faq__side">
-      {% if section.settings.eyebrow != blank %}
-        <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
-      {% endif %}
       {% if section.settings.heading != blank %}
-        <h2 class="fortified-heading fortified-h2">{{ section.settings.heading }}</h2>
+        <h2 class="fortified-faq__heading">{{ section.settings.heading | newline_to_br }}</h2>
+      {% endif %}
+      {% if section.settings.body != blank %}
+        <p class="fortified-faq__body">{{ section.settings.body }}</p>
       {% endif %}
       {% if section.settings.cta_label != blank %}
-        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--ghost">{{ section.settings.cta_label }}</a>
+        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-faq__cta">{{ section.settings.cta_label }}</a>
       {% endif %}
     </aside>
 
-    <div class="fortified-faq__list" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
+    <div class="fortified-faq__list">
       {% for block in section.blocks %}
         {% if block.type == 'fortified-faq-item' %}
-          <details class="fortified-faq__item" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
+          <details class="fortified-faq__item" {{ block.shopify_attributes }}>
             <summary class="fortified-faq__q">
-              <span>{{ block.settings.question }}</span>
-              <span class="fortified-faq__icon" aria-hidden="true">+</span>
+              <span class="fortified-faq__q-text">{{ block.settings.question }}</span>
+              <span class="fortified-faq__icon" aria-hidden="true"></span>
             </summary>
             <div class="fortified-faq__a">{{ block.settings.answer }}</div>
           </details>
@@ -39,121 +40,143 @@
     color: var(--color-foreground);
   }
   .fortified-faq__inner {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: clamp(28px, 4vw, 56px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 80px;
+    width: 100%;
     max-width: var(--fortified-container);
     margin-inline: auto;
-    padding-inline: clamp(16px, 3vw, 48px);
-    align-items: start;
-  }
-  @media (min-width: 990px) {
-    .fortified-faq__inner { grid-template-columns: 1fr 1.6fr; }
   }
   .fortified-faq__side {
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 32px;
     text-align: left;
     position: sticky;
-    top: 100px;
+    top: 24px;
   }
-  .fortified-faq__side .fortified-heading {
+  .fortified-faq__heading {
     font-family: var(--font-fortified-display);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: clamp(28px, 4vw, 44px);
-    line-height: 1;
-    letter-spacing: -0.01em;
-    margin: 0;
+    font-size: 62px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
     color: var(--color-foreground-heading);
+    text-transform: uppercase;
+    margin: 0;
   }
-  .fortified-faq__side .fortified-btn--ghost {
+  .fortified-faq__body {
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    margin: 0;
+  }
+  .fortified-faq__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 411px;
+    max-width: 100%;
+    height: 70px;
+    padding: 18px;
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 8px;
     background: transparent;
     color: var(--color-foreground);
-    border: 1.5px solid var(--color-border);
-    border-radius: 999px;
-    padding: 12px 22px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
     text-transform: uppercase;
-    transition: background .15s ease, border-color .15s ease;
-  }
-  .fortified-faq__side .fortified-btn--ghost:hover {
-    background: color-mix(in srgb, var(--color-foreground) 5%, transparent);
-    border-color: var(--color-foreground);
+    text-decoration: none;
+    box-sizing: border-box;
   }
 
   .fortified-faq__list {
+    flex: 0 0 628px;
+    max-width: 628px;
     display: flex;
     flex-direction: column;
-    gap: 0;
-    width: 100%;
+    gap: 28px;
   }
   .fortified-faq__item {
-    border-bottom: 1px solid var(--color-border);
-    padding: 4px 0;
-  }
-  .fortified-faq__item:first-child {
-    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    padding-bottom: 12px;
   }
   .fortified-faq__q {
     list-style: none;
     cursor: pointer;
-    padding: 22px 0;
+    padding: 0 0 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    font-family: var(--font-fortified-body);
-    font-size: clamp(14px, 1.1vw, 16px);
-    font-weight: 600;
-    color: var(--color-foreground-heading);
-    text-align: left;
-    transition: color .15s ease;
+    gap: 24px;
   }
   .fortified-faq__q::-webkit-details-marker { display: none; }
-  .fortified-faq__q:hover { color: var(--fortified-accent, var(--color-foreground)); }
-  .fortified-faq__item[open] .fortified-faq__q { color: var(--fortified-accent, var(--color-foreground)); }
-
+  .fortified-faq__q-text {
+    font-family: var(--font-fortified-display);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground-heading);
+  }
   .fortified-faq__icon {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 1.5px solid var(--color-border);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--color-foreground);
-    transition: all .2s ease;
+    width: 18px;
+    height: 18px;
+    position: relative;
   }
-  .fortified-faq__item[open] .fortified-faq__icon {
-    transform: none;
-    background: var(--fortified-accent, var(--color-foreground));
-    color: var(--color-background);
-    border-color: var(--fortified-accent, var(--color-foreground));
+  .fortified-faq__icon::before,
+  .fortified-faq__icon::after {
+    content: '';
+    position: absolute;
+    background: var(--color-foreground);
   }
+  .fortified-faq__icon::before {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    transform: translateY(-50%);
+  }
+  .fortified-faq__icon::after {
+    left: 50%;
+    top: 0;
+    width: 1.5px;
+    height: 100%;
+    transform: translateX(-50%);
+  }
+  .fortified-faq__item[open] .fortified-faq__icon::after { display: none; }
 
   .fortified-faq__a {
-    padding: 0 0 24px;
+    padding: 16px 0 12px;
     font-family: var(--font-fortified-body);
-    font-size: clamp(13.5px, 1vw, 15px);
-    line-height: 1.65;
+    font-size: 22px;
+    line-height: 1.2;
     color: var(--color-foreground);
-    opacity: 0.85;
-    max-width: 680px;
     text-align: left;
   }
   .fortified-faq__a p { margin: 0 0 12px; }
   .fortified-faq__a p:last-child { margin: 0; }
 
-  @media (max-width: 989px) {
+  @media (max-width: 990px) {
+    .fortified-faq__inner { flex-direction: column; gap: 48px; }
     .fortified-faq__side { position: static; }
+    .fortified-faq__heading { font-size: 44px; }
+    .fortified-faq__body { font-size: 18px; }
+    .fortified-faq__list { flex: 1 1 auto; max-width: 100%; width: 100%; }
+    .fortified-faq__q-text { font-size: 22px; }
+    .fortified-faq__a { font-size: 18px; }
+  }
+  @media (max-width: 749px) {
+    .fortified-faq__heading { font-size: 32px; }
+    .fortified-faq__cta { width: 100%; height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
@@ -165,15 +188,16 @@
   "max_blocks": 12,
   "settings": [
     {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow"
-    },
-    {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "FREQUENTLY ASKED QUESTIONS"
+      "default": "Frequently asked\nquestions"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Electrolytes don't provide full recovery."
     },
     {
       "type": "text",
@@ -249,7 +273,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 100
     },
     {
       "type": "range",
@@ -259,7 +283,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 100
     },
     {
       "type": "range",
@@ -269,7 +293,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 40
     },
     {
       "type": "range",
@@ -279,7 +303,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 40
     },
     {
       "type": "select",

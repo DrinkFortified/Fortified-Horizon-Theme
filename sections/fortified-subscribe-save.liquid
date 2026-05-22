@@ -2,43 +2,58 @@
 
 <section
   id="FortifiedSubscribe-{{ section.id }}"
-  class="fortified-subscribe color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  {% if section.settings.background_image != blank %}
-    {{ section.settings.background_image | image_url: width: 2400 | image_tag:
-        widths: '800, 1200, 1800, 2400',
-        sizes: '100vw',
-        class: 'fortified-subscribe__bg',
-        alt: '',
-        loading: 'lazy' }}
-  {% endif %}
-  <div class="fortified-container fortified-subscribe__inner">
-    {% if section.settings.eyebrow != blank %}
-      <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
+  class="fortified-subscribe color-{{ section.settings.color_scheme | default: 'scheme-2' }}"
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 0 }}px {{ section.settings['padding-block-end'] | default: 0 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 0 }}px {{ section.settings['padding-inline-end'] | default: 0 }}px;"
+>
+  <div class="fortified-subscribe__frame">
+    {% if section.settings.background_image != blank %}
+      {{ section.settings.background_image | image_url: width: 2880 | image_tag:
+          widths: '800, 1200, 1800, 2400, 2880',
+          sizes: '100vw',
+          class: 'fortified-subscribe__bg',
+          alt: '',
+          loading: 'lazy' }}
     {% endif %}
-    {% if section.settings.heading != blank %}
-      <h2 class="fortified-heading fortified-h2">{{ section.settings.heading }}</h2>
-    {% endif %}
-    <ul class="fortified-checklist fortified-subscribe__list">
-      {% for i in (1..4) %}
-        {%- assign key = 'benefit_' | append: i -%}
-        {%- assign val = section.settings[key] -%}
-        {% if val != blank %}<li>{{ val }}</li>{% endif %}
-      {% endfor %}
-    </ul>
-    {% if section.settings.cta_label != blank %}
-      <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ section.settings.cta_label }}</a>
-    {% endif %}
+
+    <div class="fortified-subscribe__content">
+      {% if section.settings.eyebrow != blank %}
+        <span class="fortified-subscribe__eyebrow">{{ section.settings.eyebrow }}</span>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="fortified-subscribe__heading">{{ section.settings.heading | newline_to_br }}</h2>
+      {% endif %}
+      <ul class="fortified-subscribe__list">
+        {% for i in (1..6) %}
+          {%- assign key = 'benefit_' | append: i -%}
+          {%- assign val = section.settings[key] -%}
+          {% if val != blank %}
+            <li>
+              <span class="fortified-subscribe__check" aria-hidden="true">✓</span>
+              <span>{{ val }}</span>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% if section.settings.cta_label != blank %}
+        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-subscribe__btn">{{ section.settings.cta_label }}</a>
+      {% endif %}
+    </div>
   </div>
 </section>
 
 {% stylesheet %}
   .fortified-subscribe {
-    position: relative;
-    isolation: isolate;
     background: var(--color-background);
     color: var(--color-foreground);
+  }
+  .fortified-subscribe__frame {
+    position: relative;
+    width: 100%;
+    min-height: 620px;
     overflow: hidden;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
   }
   .fortified-subscribe__bg {
     position: absolute;
@@ -46,128 +61,162 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -2;
+    z-index: 0;
   }
-  .fortified-subscribe::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(135deg,
-      color-mix(in srgb, var(--color-foreground) 18%, transparent) 0%,
-      color-mix(in srgb, var(--color-foreground) 55%, transparent) 100%);
-    pointer-events: none;
-  }
-  .fortified-subscribe__inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    max-width: 720px;
-    margin-inline: auto;
-    padding-block: clamp(56px, 7vw, 96px);
-    padding-inline: clamp(20px, 3vw, 48px);
-    text-align: center;
+  .fortified-subscribe__content {
     position: relative;
     z-index: 1;
-  }
-  .fortified-subscribe__inner .fortified-eyebrow {
-    color: var(--color-background);
-    opacity: 0.85;
-  }
-  .fortified-subscribe__inner .fortified-heading {
-    color: var(--color-background);
-    font-family: var(--font-fortified-display);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: clamp(32px, 5vw, 56px);
-    line-height: 1;
-    letter-spacing: -0.01em;
-    margin: 0;
-  }
-  .fortified-subscribe__list {
-    margin: 8px 0 16px;
-    gap: 8px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: 42px;
+    padding: 100px 40px;
+    color: var(--color-foreground);
+    max-width: 720px;
+  }
+  .fortified-subscribe__eyebrow {
+    font-family: var(--font-fortified-display);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--fortified-accent);
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .fortified-subscribe__heading {
+    font-family: var(--font-fortified-display);
+    font-size: 62px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground-heading);
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .fortified-subscribe__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 420px;
   }
   .fortified-subscribe__list li {
-    color: var(--color-background);
-    font-size: 14px;
-    line-height: 1.4;
     display: flex;
     align-items: center;
-    gap: 10px;
-  }
-  .fortified-subscribe__list li::before {
-    color: var(--fortified-accent, var(--color-background));
-    font-size: 14px;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--color-background) 18%, transparent);
-    border: 1px solid color-mix(in srgb, var(--color-background) 40%, transparent);
-  }
-  .fortified-subscribe__inner .fortified-btn {
-    background: var(--color-background);
+    gap: 24px;
+    font-family: var(--font-fortified-body);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1;
+    text-transform: capitalize;
     color: var(--color-foreground);
-    border: 0;
-    padding: 16px 36px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    min-height: 50px;
-    margin-top: 4px;
-    
   }
-  .fortified-subscribe__inner .fortified-btn:hover {
-    background: var(--fortified-accent, var(--color-foreground));
+  .fortified-subscribe__check {
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--fortified-accent);
     color: var(--color-background);
+    font-weight: 700;
+    font-size: 22px;
+  }
+  .fortified-subscribe__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 411px;
+    max-width: 100%;
+    height: 70px;
+    padding: 18px;
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 990px) {
+    .fortified-subscribe__frame { min-height: 520px; }
+    .fortified-subscribe__heading { font-size: 44px; }
+    .fortified-subscribe__list li { font-size: 22px; }
+    .fortified-subscribe__content { padding: 72px 32px; gap: 32px; }
+  }
+  @media (max-width: 749px) {
+    .fortified-subscribe__frame { min-height: 480px; }
+    .fortified-subscribe__content { padding: 56px 24px; gap: 24px; }
+    .fortified-subscribe__heading { font-size: 32px; }
+    .fortified-subscribe__eyebrow { font-size: 18px; }
+    .fortified-subscribe__list li { font-size: 18px; gap: 16px; }
+    .fortified-subscribe__check { flex: 0 0 32px; width: 32px; height: 32px; font-size: 16px; }
+    .fortified-subscribe__btn { width: 100%; height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "10 \u2014 Subscribe & Save",
+  "name": "10 — Subscribe & Save",
   "tag": "section",
   "class": "fortified-subscribe-section",
   "settings": [
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow"
+      "label": "Eyebrow",
+      "default": "THE TRUTH"
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "SUBSCRIBE & SAVE 15%"
+      "default": "subscribe\n& save 15%"
     },
     {
       "type": "text",
       "id": "benefit_1",
       "label": "Benefit 1",
-      "default": "Improve Hydration"
+      "default": "Improve hydration"
     },
     {
       "type": "text",
       "id": "benefit_2",
       "label": "Benefit 2",
-      "default": "Boost Energy Naturally"
+      "default": "Boost energy naturally"
     },
     {
       "type": "text",
       "id": "benefit_3",
       "label": "Benefit 3",
-      "default": "Support Muscle Function"
+      "default": "support muscle function"
     },
     {
       "type": "text",
       "id": "benefit_4",
       "label": "Benefit 4"
+    },
+    {
+      "type": "text",
+      "id": "benefit_5",
+      "label": "Benefit 5"
+    },
+    {
+      "type": "text",
+      "id": "benefit_6",
+      "label": "Benefit 6"
     },
     {
       "type": "text",
@@ -189,27 +238,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "Content alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "center"
+      "default": "scheme-2"
     },
     {
       "type": "header",
@@ -223,7 +252,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 0
     },
     {
       "type": "range",
@@ -233,7 +262,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 0
     },
     {
       "type": "range",
@@ -256,44 +285,28 @@
       "default": 0
     },
     {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
-    },
-    {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight / accent color",
-      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "info": "Used for the eyebrow and checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
     }
   ],
   "presets": [
     {
-      "name": "10 \u2014 Subscribe & Save",
+      "name": "10 — Subscribe & Save",
       "category": "Fortified Home",
       "settings": {},
       "blocks": []
     },
     {
-      "name": "10 \u2014 Subscribe & Save",
+      "name": "10 — Subscribe & Save",
       "category": "Fortified PDP",
       "settings": {},
       "blocks": []
     },
     {
-      "name": "10 \u2014 Subscribe & Save",
+      "name": "10 — Subscribe & Save",
       "category": "Fortified Landing",
       "settings": {},
       "blocks": []
