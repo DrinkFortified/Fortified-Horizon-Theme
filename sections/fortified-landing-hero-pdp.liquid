@@ -198,7 +198,7 @@
   }
   .fortified-landing-hero-pdp__usp-check {
     width: 16px; height: 16px;
-    background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); color: var(--color-foreground, #fff);
+    background: var(--fortified-accent, var(--color-foreground)); color: var(--color-foreground, #fff);
     border-radius: 50%;
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 10px; font-weight: 700;
@@ -248,19 +248,17 @@
     flex-direction: column;
     gap: 4px;
     position: relative;
-    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    transition: border-color .15s ease;
   }
-  .fortified-landing-hero-pdp__plan:hover { border-color: var(--color-foreground);  }
   .fortified-landing-hero-pdp__plan.is-selected {
-    border-color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground)));
-    box-shadow: 0 0 0 2px rgba(31, 168, 161, 0.18);
+    border-color: var(--fortified-accent, var(--color-foreground));
   }
   .fortified-landing-hero-pdp__plan input[type="radio"] {
     position: absolute; opacity: 0; pointer-events: none;
   }
   .fortified-landing-hero-pdp__plan-badge {
     align-self: flex-start;
-    background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); color: var(--color-foreground, #fff);
+    background: var(--fortified-accent, var(--color-foreground)); color: var(--color-foreground, #fff);
     font-size: 10px; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase;
     padding: 3px 8px; border-radius: 100px;
