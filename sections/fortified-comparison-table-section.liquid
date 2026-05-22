@@ -3,48 +3,87 @@
 <section
   id="FortifiedComparison-{{ section.id }}"
   class="fortified-comparison color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container">
-    {% if section.settings.heading != blank %}
-      <h2 class="fortified-heading fortified-h2 fortified-comparison__heading">{{ section.settings.heading }}</h2>
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 100 }}px {{ section.settings['padding-block-end'] | default: 100 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
+>
+  <div class="fortified-comparison__inner">
+    {% if section.settings.eyebrow != blank or section.settings.heading != blank %}
+      <header class="fortified-comparison__header">
+        {% if section.settings.eyebrow != blank %}
+          <p class="fortified-comparison__eyebrow">{{ section.settings.eyebrow }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="fortified-comparison__heading">{{ section.settings.heading | newline_to_br }}</h2>
+        {% endif %}
+      </header>
     {% endif %}
-    <div class="fortified-comparison__wrap">
-      <table class="fortified-comparison__table">
-        <thead>
-          <tr>
-            <th></th>
-            <th class="fortified-comparison__th fortified-comparison__th--ours">FORTIFIED</th>
-            <th class="fortified-comparison__th">{{ section.settings.competitor_1_name }}</th>
-            {% if section.settings.competitor_2_name != blank %}<th class="fortified-comparison__th">{{ section.settings.competitor_2_name }}</th>{% endif %}
-            {% if section.settings.competitor_3_name != blank %}<th class="fortified-comparison__th">{{ section.settings.competitor_3_name }}</th>{% endif %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for block in section.blocks %}
-            {% if block.type == 'fortified-comparison-row' %}
-              <tr style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-                <th scope="row" class="fortified-comparison__row-label" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">{{ block.settings.row_label }}</th>
-                {% if block.settings.is_checkmark_row %}
-                  <td class="fortified-comparison__td fortified-comparison__td--ours">{% if block.settings.fortified_value contains "yes" or block.settings.fortified_value == "✓" %}<span class="fortified-comparison__check">✓</span>{% else %}<span class="fortified-comparison__x">✗</span>{% endif %}</td>
-                  <td class="fortified-comparison__td">{% if block.settings.comp_1_value contains "yes" or block.settings.comp_1_value == "✓" %}<span class="fortified-comparison__check">✓</span>{% else %}<span class="fortified-comparison__x">✗</span>{% endif %}</td>
-                  {% if section.settings.competitor_2_name != blank %}<td class="fortified-comparison__td">{% if block.settings.comp_2_value contains "yes" or block.settings.comp_2_value == "✓" %}<span class="fortified-comparison__check">✓</span>{% else %}<span class="fortified-comparison__x">✗</span>{% endif %}</td>{% endif %}
-                  {% if section.settings.competitor_3_name != blank %}<td class="fortified-comparison__td">{% if block.settings.comp_3_value contains "yes" or block.settings.comp_3_value == "✓" %}<span class="fortified-comparison__check">✓</span>{% else %}<span class="fortified-comparison__x">✗</span>{% endif %}</td>{% endif %}
-                {% else %}
-                  <td class="fortified-comparison__td fortified-comparison__td--ours">{{ block.settings.fortified_value }}</td>
-                  <td class="fortified-comparison__td">{{ block.settings.comp_1_value }}</td>
-                  {% if section.settings.competitor_2_name != blank %}<td class="fortified-comparison__td">{{ block.settings.comp_2_value }}</td>{% endif %}
-                  {% if section.settings.competitor_3_name != blank %}<td class="fortified-comparison__td">{{ block.settings.comp_3_value }}</td>{% endif %}
-                {% endif %}
-              </tr>
-            {% endif %}
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    {% if section.settings.cta_label != blank %}
-      <div class="fortified-comparison__cta">
-        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ section.settings.cta_label }}</a>
+
+    {%- liquid
+      assign rows = ''
+      for block in section.blocks
+        if block.type == 'fortified-comparison-row'
+          assign rows = rows | append: block.settings.label | append: '||'
+        endif
+      endfor
+      assign row_labels = rows | split: '||'
+    -%}
+
+    <div class="fortified-comparison__table">
+      <div class="fortified-comparison__labels">
+        <div class="fortified-comparison__label-head" aria-hidden="true"></div>
+        {% for block in section.blocks %}
+          {% if block.type == 'fortified-comparison-row' %}
+            <div class="fortified-comparison__label">{{ block.settings.label }}</div>
+          {% endif %}
+        {% endfor %}
       </div>
+
+      {% for c in (1..4) %}
+        {%- assign brand_key = 'col_' | append: c | append: '_brand' -%}
+        {%- assign brand = section.settings[brand_key] -%}
+        {%- if brand != blank or c == 1 -%}
+          {%- assign is_ours = false -%}
+          {%- if c == 1 -%}{%- assign is_ours = true -%}{%- endif -%}
+          <div class="fortified-comparison__column {% if is_ours %}fortified-comparison__column--ours{% endif %}">
+            {% if is_ours %}
+              <div class="fortified-comparison__brand fortified-comparison__brand--ours">
+                {% if section.settings.col_1_logo != blank %}
+                  {{ section.settings.col_1_logo | image_url: width: 380 | image_tag:
+                      widths: '190, 380',
+                      sizes: '190px',
+                      class: 'fortified-comparison__logo',
+                      alt: section.settings.col_1_brand | default: 'Fortified',
+                      loading: 'lazy' }}
+                {% else %}
+                  <p class="fortified-comparison__brand-text">{{ section.settings.col_1_brand | default: 'Fortified' }}</p>
+                {% endif %}
+              </div>
+            {% else %}
+              <p class="fortified-comparison__brand-text">{{ brand }}</p>
+            {% endif %}
+            {% for block in section.blocks %}
+              {% if block.type == 'fortified-comparison-row' %}
+                {%- assign val_key = 'col_' | append: c | append: '_value' -%}
+                {%- assign val = block.settings[val_key] -%}
+                <div class="fortified-comparison__cell">
+                  {%- if val == 'true' or val == '✓' -%}
+                    <span class="fortified-comparison__check" aria-hidden="true">✓</span>
+                  {%- elsif val == 'false' or val == '✗' or val == 'x' -%}
+                    <span class="fortified-comparison__x" aria-hidden="true">✕</span>
+                  {%- elsif val != blank -%}
+                    <span class="fortified-comparison__value">{{ val }}</span>
+                  {%- else -%}
+                    <span class="fortified-comparison__x" aria-hidden="true">—</span>
+                  {%- endif -%}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {%- endif -%}
+      {% endfor %}
+    </div>
+
+    {% if section.settings.cta_label != blank %}
+      <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-comparison__cta">{{ section.settings.cta_label }}</a>
     {% endif %}
   </div>
 </section>
@@ -54,159 +93,256 @@
     background: var(--color-background);
     color: var(--color-foreground);
   }
-  .fortified-comparison .fortified-container {
+  .fortified-comparison__inner {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(24px, 3vw, 36px);
-    max-width: 1100px;
+    gap: 72px;
+    width: 100%;
+    max-width: var(--fortified-container);
+    margin-inline: auto;
+  }
+  .fortified-comparison__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    max-width: 720px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .fortified-comparison__eyebrow {
+    font-family: var(--font-fortified-display);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--fortified-accent);
+    margin: 0;
   }
   .fortified-comparison__heading {
-    text-align: center;
-    color: var(--color-foreground-heading);
     font-family: var(--font-fortified-display);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: clamp(28px, 4.5vw, 48px);
-    line-height: 1.02;
-    letter-spacing: -0.01em;
-    max-width: 720px;
+    font-size: 62px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground-heading);
     margin: 0;
-  }
-  .fortified-comparison__wrap {
-    width: 100%;
-    overflow-x: auto;
-    border-radius: 16px;
-    border: 1px solid var(--color-border);
-    background: color-mix(in srgb, var(--color-foreground) 3%, transparent);
   }
   .fortified-comparison__table {
+    display: flex;
+    gap: 0;
     width: 100%;
-    border-collapse: collapse;
-    margin: 0;
+    align-items: stretch;
   }
-  .fortified-comparison__table thead tr {
-    border-bottom: 1px solid var(--color-border);
+  .fortified-comparison__labels {
+    flex: 0 0 26%;
+    display: flex;
+    flex-direction: column;
+    padding: 52px 0;
   }
-  .fortified-comparison__table th {
-    padding: 18px 16px;
-    text-align: center;
-    font-family: var(--font-fortified-display);
-    font-size: 12.5px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  .fortified-comparison__label-head {
+    height: 32px;
+    margin-bottom: 58px;
+  }
+  .fortified-comparison__label {
+    font-family: var(--font-fortified-body);
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     color: var(--color-foreground);
-    opacity: 0.6;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 58px;
   }
-  .fortified-comparison__th--ours,
-  .fortified-comparison__table thead th:nth-child(2) {
-    background: var(--fortified-accent, var(--color-foreground));
+  .fortified-comparison__label:last-of-type { margin-bottom: 0; }
+
+  .fortified-comparison__column {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 58px;
+    padding: 52px 24px;
+    border-radius: 14px;
+    background: transparent;
+    color: var(--color-foreground);
+  }
+  .fortified-comparison__column--ours {
+    background: var(--color-foreground);
     color: var(--color-background);
-    opacity: 1;
-    border-radius: 8px 8px 0 0;
   }
-  .fortified-comparison__table tbody tr {
-    border-bottom: 1px solid var(--color-border);
-    transition: background .15s ease;
+  .fortified-comparison__brand {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .fortified-comparison__table tbody tr:last-child { border-bottom: none; }
-  .fortified-comparison__table tbody tr:hover {
-    background: color-mix(in srgb, var(--color-foreground) 2%, transparent);
+  .fortified-comparison__brand-text {
+    font-family: var(--font-fortified-display);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: inherit;
+    margin: 0;
+    height: 32px;
+    display: flex;
+    align-items: center;
   }
-  .fortified-comparison__table td,
-  .fortified-comparison__row-label {
-    padding: 16px;
-    text-align: center;
-    font-size: 13.5px;
-    color: var(--color-foreground);
-    vertical-align: middle;
+  .fortified-comparison__logo {
+    height: 32px;
+    width: auto;
+    filter: invert(1) brightness(2);
   }
-  .fortified-comparison__row-label {
-    text-align: left;
+  .fortified-comparison__cell {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .fortified-comparison__value {
+    font-family: var(--font-fortified-display);
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: inherit;
+  }
+  .fortified-comparison__column--ours .fortified-comparison__value {
     font-weight: 600;
-    font-size: 13px;
-    color: var(--color-foreground-heading);
-  }
-  .fortified-comparison__td--ours {
-    color: var(--color-foreground-heading);
-    font-weight: 700;
-    background: color-mix(in srgb, var(--fortified-accent, var(--color-foreground)) 8%, transparent);
   }
   .fortified-comparison__check {
+    width: 42px;
+    height: 42px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 26px; height: 26px;
     border-radius: 50%;
-    background: var(--fortified-accent, var(--color-foreground));
+    background: var(--fortified-accent);
     color: var(--color-background);
+    font-size: 22px;
     font-weight: 700;
-    font-size: 14px;
+  }
+  .fortified-comparison__column--ours .fortified-comparison__check {
+    background: var(--color-background);
+    color: var(--color-foreground);
   }
   .fortified-comparison__x {
+    width: 42px;
+    height: 42px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 26px; height: 26px;
     border-radius: 50%;
-    background: color-mix(in srgb, var(--color-foreground) 8%, transparent);
-    color: var(--color-foreground);
-    opacity: 0.4;
-    font-weight: 700;
-    font-size: 14px;
-  }
-  .fortified-comparison__cta {
-    display: flex;
-    justify-content: center;
-  }
-  .fortified-comparison__cta .fortified-btn {
-    padding: 14px 32px;
-    border-radius: 999px;
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    min-height: 48px;
+    border: 1.5px solid color-mix(in srgb, currentColor 35%, transparent);
+    color: color-mix(in srgb, currentColor 55%, transparent);
+    font-size: 18px;
   }
 
+  .fortified-comparison__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 412px;
+    max-width: 100%;
+    height: 70px;
+    padding: 18px;
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 990px) {
+    .fortified-comparison__inner { gap: 48px; }
+    .fortified-comparison__heading { font-size: 44px; }
+    .fortified-comparison__labels { flex: 0 0 32%; }
+    .fortified-comparison__label, .fortified-comparison__value, .fortified-comparison__brand-text { font-size: 18px; }
+    .fortified-comparison__column { padding: 32px 16px; gap: 40px; }
+    .fortified-comparison__label { margin-bottom: 40px; }
+  }
   @media (max-width: 749px) {
-    .fortified-comparison__table th,
-    .fortified-comparison__table td { padding: 12px 8px; font-size: 12px; }
-    .fortified-comparison__check,
-    .fortified-comparison__x { width: 22px; height: 22px; font-size: 12px; }
+    .fortified-comparison__heading { font-size: 32px; }
+    .fortified-comparison__labels { flex: 0 0 38%; }
+    .fortified-comparison__check, .fortified-comparison__x { width: 28px; height: 28px; font-size: 14px; }
+    .fortified-comparison__cta { width: 100%; height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "11 \u2014 Comparison Table",
+  "name": "LP-05 — Comparison Table",
   "tag": "section",
   "class": "fortified-comparison-section",
   "max_blocks": 12,
   "settings": [
     {
       "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE TRUTH"
+    },
+    {
+      "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "WHY WE BEAT THE REST ELECTROLYTES"
+      "default": "WHY WE BEAT THE REST\nelectrolytes"
+    },
+    {
+      "type": "header",
+      "content": "Column 1 (Fortified — highlighted)"
+    },
+    {
+      "type": "image_picker",
+      "id": "col_1_logo",
+      "label": "Logo (image)"
     },
     {
       "type": "text",
-      "id": "competitor_1_name",
-      "label": "Competitor 1 name",
+      "id": "col_1_brand",
+      "label": "Brand (fallback text)",
+      "default": "Fortified"
+    },
+    {
+      "type": "header",
+      "content": "Column 2"
+    },
+    {
+      "type": "text",
+      "id": "col_2_brand",
+      "label": "Brand",
       "default": "Liquid IV"
     },
     {
-      "type": "text",
-      "id": "competitor_2_name",
-      "label": "Competitor 2 name",
-      "default": "Liquid IV+"
+      "type": "header",
+      "content": "Column 3"
     },
     {
       "type": "text",
-      "id": "competitor_3_name",
-      "label": "Competitor 3 name",
-      "default": "Liquid IV Pro"
+      "id": "col_3_brand",
+      "label": "Brand",
+      "default": "Liquid IV"
+    },
+    {
+      "type": "header",
+      "content": "Column 4"
+    },
+    {
+      "type": "text",
+      "id": "col_4_brand",
+      "label": "Brand",
+      "default": "Liquid IV"
     },
     {
       "type": "text",
@@ -226,51 +362,6 @@
       "default": "scheme-1"
     },
     {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "Content alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "select",
-      "id": "blocks_alignment",
-      "label": "Blocks row position",
-      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
-      "options": [
-        {
-          "value": "flex-start",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "flex-end",
-          "label": "Right"
-        },
-        {
-          "value": "space-between",
-          "label": "Space between"
-        }
-      ],
-      "default": "center"
-    },
-    {
       "type": "header",
       "content": "Spacing"
     },
@@ -282,7 +373,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 100
     },
     {
       "type": "range",
@@ -292,7 +383,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 100
     },
     {
       "type": "range",
@@ -302,7 +393,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 40
     },
     {
       "type": "range",
@@ -312,29 +403,12 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
+      "default": 40
     },
     {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight / accent color",
-      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
     }
   ],
@@ -345,206 +419,60 @@
       "settings": [
         {
           "type": "text",
-          "id": "row_label",
+          "id": "label",
           "label": "Row label",
           "default": "Sodium per serving"
         },
         {
           "type": "text",
-          "id": "fortified_value",
-          "label": "Fortified value",
-          "default": "1200MG"
+          "id": "col_1_value",
+          "label": "Column 1 value",
+          "info": "Use ✓ for checkmark, ✗ for X, or any text/number.",
+          "default": "1000mg"
         },
         {
           "type": "text",
-          "id": "comp_1_value",
-          "label": "Competitor 1 value",
-          "default": "500MG"
+          "id": "col_2_value",
+          "label": "Column 2 value",
+          "default": "500mg"
         },
         {
           "type": "text",
-          "id": "comp_2_value",
-          "label": "Competitor 2 value"
+          "id": "col_3_value",
+          "label": "Column 3 value",
+          "default": "1000mg"
         },
         {
           "type": "text",
-          "id": "comp_3_value",
-          "label": "Competitor 3 value"
-        },
-        {
-          "type": "checkbox",
-          "id": "is_checkmark_row",
-          "label": "Render values as check/x icons",
-          "default": false
-        },
-        {
-          "type": "select",
-          "id": "content_alignment",
-          "label": "Block alignment",
-          "options": [
-            {
-              "value": "inherit",
-              "label": "Inherit from section"
-            },
-            {
-              "value": "left",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ],
-          "default": "inherit"
-        },
-        {
-          "type": "header",
-          "content": "Spacing"
-        },
-        {
-          "type": "range",
-          "id": "padding-block-start",
-          "label": "Padding top",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-block-end",
-          "label": "Padding bottom",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-start",
-          "label": "Padding left",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-end",
-          "label": "Padding right",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
+          "id": "col_4_value",
+          "label": "Column 4 value",
+          "default": "270mg"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "11 \u2014 Comparison Table",
-      "category": "Fortified PDP",
-      "settings": {},
-      "blocks": [
-        {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Sodium per serving",
-            "fortified_value": "1200MG",
-            "comp_1_value": "500MG",
-            "comp_2_value": "500MG",
-            "comp_3_value": "500MG"
-          }
-        },
-        {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Sugar-free",
-            "is_checkmark_row": true,
-            "fortified_value": "yes",
-            "comp_1_value": "no",
-            "comp_2_value": "no",
-            "comp_3_value": "no"
-          }
-        },
-        {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Magnesium glycinate",
-            "is_checkmark_row": true,
-            "fortified_value": "yes",
-            "comp_1_value": "no",
-            "comp_2_value": "no",
-            "comp_3_value": "yes"
-          }
-        },
-        {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Trial price",
-            "fortified_value": "$1.99",
-            "comp_1_value": "$8.97",
-            "comp_2_value": "$5.97",
-            "comp_3_value": "$5.97"
-          }
-        }
-      ]
-    },
-    {
-      "name": "11 \u2014 Comparison Table",
+      "name": "LP-05 — Comparison Table",
       "category": "Fortified Landing",
       "settings": {},
       "blocks": [
-        {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Sodium per serving",
-            "fortified_value": "1200MG",
-            "comp_1_value": "500MG",
-            "comp_2_value": "500MG",
-            "comp_3_value": "500MG"
-          }
-        },
-        {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Sugar-free",
-            "is_checkmark_row": true,
-            "fortified_value": "yes",
-            "comp_1_value": "no",
-            "comp_2_value": "no",
-            "comp_3_value": "no"
-          }
-        },
-        {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Magnesium glycinate",
-            "is_checkmark_row": true,
-            "fortified_value": "yes",
-            "comp_1_value": "no",
-            "comp_2_value": "no",
-            "comp_3_value": "yes"
-          }
-        },
-        {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Trial price",
-            "fortified_value": "$1.99",
-            "comp_1_value": "$8.97",
-            "comp_2_value": "$5.97",
-            "comp_3_value": "$5.97"
-          }
-        }
+        { "type": "fortified-comparison-row", "settings": { "label": "Sodium per serving", "col_1_value": "1000mg", "col_2_value": "500mg", "col_3_value": "1000mg", "col_4_value": "270mg" } },
+        { "type": "fortified-comparison-row", "settings": { "label": "Sugar-free", "col_1_value": "✓", "col_2_value": "✓", "col_3_value": "✓", "col_4_value": "✓" } },
+        { "type": "fortified-comparison-row", "settings": { "label": "Energy version (caffeine)", "col_1_value": "✓", "col_2_value": "✓", "col_3_value": "✓", "col_4_value": "✓" } },
+        { "type": "fortified-comparison-row", "settings": { "label": "Real fruit flavor", "col_1_value": "✓", "col_2_value": "✓", "col_3_value": "✓", "col_4_value": "✓" } },
+        { "type": "fortified-comparison-row", "settings": { "label": "Magnesium glycinate", "col_1_value": "✓", "col_2_value": "✓", "col_3_value": "✓", "col_4_value": "✓" } },
+        { "type": "fortified-comparison-row", "settings": { "label": "Trial price (3 sticks)", "col_1_value": "$1.99", "col_2_value": "$8.97", "col_3_value": "$5.97", "col_4_value": "$5.97" } }
+      ]
+    },
+    {
+      "name": "Comparison Table",
+      "category": "Fortified PDP",
+      "settings": {},
+      "blocks": [
+        { "type": "fortified-comparison-row" },
+        { "type": "fortified-comparison-row" },
+        { "type": "fortified-comparison-row" }
       ]
     }
   ]

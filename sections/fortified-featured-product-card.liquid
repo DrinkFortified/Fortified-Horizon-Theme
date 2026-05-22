@@ -7,52 +7,83 @@
 <section
   id="FortifiedFeaturedProductCard-{{ section.id }}"
   class="fortified-featured-card color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container fortified-featured-card__inner">
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 80 }}px {{ section.settings['padding-block-end'] | default: 80 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
+>
+  <div class="fortified-featured-card__inner">
     <div class="fortified-featured-card__media">
-      {% if p != blank and p.featured_image != blank %}
-        {{ p.featured_image | image_url: width: 1200 | image_tag:
-            widths: '500, 800, 1200',
-            sizes: '(min-width: 750px) 50vw, 100vw',
+      {%- assign hero_image = section.settings.image -%}
+      {%- if hero_image == blank and p != blank -%}
+        {%- assign hero_image = p.featured_image -%}
+      {%- endif -%}
+      {% if hero_image != blank %}
+        {{ hero_image | image_url: width: 1400 | image_tag:
+            widths: '500, 800, 1200, 1400',
+            sizes: '(min-width: 990px) 694px, 100vw',
             class: 'fortified-featured-card__img',
-            alt: p.title,
+            alt: hero_image.alt | default: section.settings.heading,
             loading: 'lazy' }}
-      {% endif %}
-      {% if section.settings.badge_text != blank %}
-        <span class="fortified-badge fortified-badge--dark fortified-featured-card__doctor">{{ section.settings.badge_text }}</span>
-      {% endif %}
-      {% if section.settings.show_rating %}
-        <div class="fortified-featured-card__rating">
-          <span class="fortified-featured-card__stars">★★★★★</span>
-          <span>{{ section.settings.rating_text }}</span>
-        </div>
+      {% else %}
+        <div class="fortified-featured-card__placeholder"></div>
       {% endif %}
     </div>
 
-    <div class="fortified-featured-card__body">
-      {% if section.settings.bestseller %}
-        <span class="fortified-badge fortified-badge--teal">BESTSELLER</span>
-      {% endif %}
-      <h2 class="fortified-heading fortified-h2">{{ p.title | default: section.settings.fallback_title }}</h2>
-      <div class="fortified-featured-card__prices">
-        {% if section.settings.sale_label != blank %}
-          <span class="fortified-featured-card__sale">{{ section.settings.sale_label }}</span>
+    <div class="fortified-featured-card__panel">
+      <div class="fortified-featured-card__top">
+        {% if section.settings.badge_label != blank %}
+          <span class="fortified-featured-card__badge">{{ section.settings.badge_label }}</span>
         {% endif %}
-        {% if section.settings.regular_price_label != blank %}
-          <span class="fortified-featured-card__regular">{{ section.settings.regular_price_label }}</span>
+        {% if section.settings.heading != blank %}
+          <h2 class="fortified-featured-card__heading">{{ section.settings.heading }}</h2>
         {% endif %}
+        <div class="fortified-featured-card__price">
+          {% if section.settings.price_caption != blank %}
+            <p class="fortified-featured-card__price-caption">{{ section.settings.price_caption }}</p>
+          {% endif %}
+          <div class="fortified-featured-card__price-row">
+            {% if section.settings.price != blank %}
+              <p class="fortified-featured-card__price-amount">{{ section.settings.price }}</p>
+            {% endif %}
+            {% if section.settings.price_compare != blank %}
+              <p class="fortified-featured-card__price-compare">{{ section.settings.price_compare }}</p>
+            {% endif %}
+          </div>
+        </div>
       </div>
-      <ul class="fortified-checklist">
+
+      <ul class="fortified-featured-card__includes">
         {% for block in section.blocks %}
           {% if block.type == 'fortified-include-item' %}
-            <li style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+            <li {{ block.shopify_attributes }}>
+              <span class="fortified-featured-card__icon" aria-hidden="true">
+                {% if block.settings.icon != blank %}
+                  {{ block.settings.icon | image_url: width: 104 | image_tag:
+                      widths: '52, 104',
+                      sizes: '52px',
+                      alt: '',
+                      loading: 'lazy' }}
+                {% else %}✓{% endif %}
+              </span>
+              <div class="fortified-featured-card__icon-text">
+                <p class="fortified-featured-card__icon-title">{{ block.settings.title }}</p>
+                {% if block.settings.body != blank %}
+                  <p class="fortified-featured-card__icon-body">{{ block.settings.body }}</p>
+                {% endif %}
+              </div>
+            </li>
           {% endif %}
         {% endfor %}
       </ul>
-      <a href="{{ section.settings.cta_url | default: p.url | default: '#' }}" class="fortified-btn fortified-btn--primary fortified-featured-card__cta">{{ section.settings.cta_label | default: "SHOP FORTIFIED" }}</a>
-      {% if section.settings.trust_line != blank %}
-        <p class="fortified-featured-card__trust">{{ section.settings.trust_line }}</p>
-      {% endif %}
+
+      <div class="fortified-featured-card__divider" aria-hidden="true"></div>
+
+      <div class="fortified-featured-card__cta-wrap">
+        {% if section.settings.cta_label != blank %}
+          <a href="{{ section.settings.cta_url | default: p.url | default: '#' }}" class="fortified-featured-card__cta">{{ section.settings.cta_label }}</a>
+        {% endif %}
+        {% if section.settings.shipping_note != blank %}
+          <p class="fortified-featured-card__shipping">{{ section.settings.shipping_note }}</p>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>
@@ -63,207 +94,261 @@
     color: var(--color-foreground);
   }
   .fortified-featured-card__inner {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
-    max-width: 1000px;
-    margin-inline: auto;
-    padding-inline: clamp(16px, 3vw, 48px);
-    background: color-mix(in srgb, var(--color-background) 100%, transparent);
-    border: 1px solid var(--color-border);
-    border-radius: 18px;
-    overflow: hidden;
-  }
-  @media (min-width: 750px) {
-    .fortified-featured-card__inner {
-      grid-template-columns: 1fr 1.2fr;
-      align-items: stretch;
-      padding: 0;
-    }
-  }
-
-  .fortified-featured-card__media {
-    background: color-mix(in srgb, var(--color-foreground) 4%, transparent);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(28px, 4vw, 56px);
-    position: relative;
-    min-height: 320px;
-  }
-  .fortified-featured-card__img {
-    max-width: 280px;
+    gap: 52px;
+    align-items: stretch;
     width: 100%;
-    height: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 16px 32px rgba(0,0,0,0.15));
+    max-width: var(--fortified-container);
+    margin-inline: auto;
   }
-  .fortified-featured-card__doctor {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    background: var(--color-foreground);
-    color: var(--color-background);
-    font-family: var(--font-fortified-display);
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    padding: 6px 12px;
-    border-radius: 999px;
+  .fortified-featured-card__media {
+    flex: 0 0 694px;
+    width: 694px;
+    aspect-ratio: 1;
+    border-radius: 14px;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-foreground) 4%, transparent);
   }
-  .fortified-featured-card__rating {
-    position: absolute;
-    bottom: 16px;
-    left: 16px;
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
-    padding: 6px 12px;
-    font-size: 11.5px;
-    color: var(--color-foreground);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+  .fortified-featured-card__img,
+  .fortified-featured-card__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
-  .fortified-featured-card__stars {
-    color: var(--fortified-accent, var(--color-foreground));
-    letter-spacing: 2px;
-    font-size: 12px;
-  }
-
-  .fortified-featured-card__body {
-    padding: clamp(24px, 3vw, 40px);
+  .fortified-featured-card__panel {
+    flex: 1 1 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    text-align: left;
+    justify-content: center;
+    gap: 28px;
+    color: var(--color-foreground);
   }
-  .fortified-featured-card__body .fortified-badge--teal {
-    background: var(--fortified-accent, var(--color-foreground));
-    color: var(--color-background);
-    border: 0;
-  }
-  .fortified-featured-card__body .fortified-heading {
-    font-family: var(--font-fortified-display);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: clamp(28px, 3.5vw, 40px);
-    line-height: 1.02;
-    letter-spacing: -0.01em;
-    margin: 0;
-    color: var(--color-foreground-heading);
-  }
-  .fortified-featured-card__prices {
+  .fortified-featured-card__top {
     display: flex;
-    align-items: baseline;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .fortified-featured-card__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 52px;
+    padding: 18px 32px;
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 8px;
+    font-family: var(--font-fortified-display);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+    text-transform: uppercase;
+    align-self: flex-start;
+  }
+  .fortified-featured-card__heading {
+    font-family: var(--font-fortified-display);
+    font-size: 58px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground-heading);
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .fortified-featured-card__price {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
   }
-  .fortified-featured-card__sale {
-    font-family: var(--font-fortified-display);
-    font-weight: 900;
-    font-size: clamp(28px, 3.2vw, 38px);
+  .fortified-featured-card__price-caption {
+    font-family: var(--font-fortified-body);
+    font-size: 20px;
     line-height: 1;
-    color: var(--color-foreground-heading);
-  }
-  .fortified-featured-card__regular {
-    font-size: 14px;
+    letter-spacing: -0.03em;
     color: var(--color-foreground);
-    opacity: 0.5;
-    text-decoration: line-through;
-  }
-  .fortified-featured-card__body .fortified-checklist {
-    margin: 4px 0;
-    gap: 8px;
-  }
-  .fortified-featured-card__body .fortified-checklist li {
-    font-size: 13px;
-    color: var(--color-foreground);
-    opacity: 0.9;
-  }
-  .fortified-featured-card__cta {
-    width: 100%;
-    background: var(--color-primary-button-background);
-    color: var(--color-primary-button-text);
-    border: 1.5px solid var(--color-primary-button-border);
-    border-radius: 999px;
-    padding: 14px 28px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    min-height: 48px;
-    margin-top: 4px;
-    text-align: center;
-  }
-  .fortified-featured-card__trust {
-    font-size: 11.5px;
-    color: var(--color-foreground);
-    opacity: 0.6;
     margin: 0;
+  }
+  .fortified-featured-card__price-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+  }
+  .fortified-featured-card__price-amount {
+    font-family: var(--font-fortified-display);
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground-heading);
+    margin: 0;
+    text-transform: capitalize;
+  }
+  .fortified-featured-card__price-compare {
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1.4;
+    letter-spacing: -0.03em;
+    color: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+    text-decoration: line-through;
+    margin: 0;
+  }
+
+  .fortified-featured-card__includes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .fortified-featured-card__includes li {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 18px;
   }
-  .fortified-featured-card__trust::before {
-    content: '🛡';
-    font-size: 13px;
+  .fortified-featured-card__icon {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--fortified-accent) 18%, transparent);
+    color: var(--fortified-accent);
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .fortified-featured-card__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+  .fortified-featured-card__icon-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .fortified-featured-card__icon-title {
+    font-family: var(--font-fortified-display);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground-heading);
+    text-transform: capitalize;
+    margin: 0;
+  }
+  .fortified-featured-card__icon-body {
+    font-family: var(--font-fortified-body);
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
+    margin: 0;
+  }
+
+  .fortified-featured-card__divider {
+    height: 1px;
+    background: color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    width: 100%;
+  }
+  .fortified-featured-card__cta-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .fortified-featured-card__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 70px;
+    padding: 18px;
+    border-radius: 8px;
+    background: var(--color-primary-button-background, var(--color-foreground));
+    color: var(--color-primary-button-text, var(--color-background));
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    box-sizing: border-box;
+  }
+  .fortified-featured-card__shipping {
+    font-family: var(--font-fortified-body);
+    font-size: 18px;
+    line-height: 1;
+    color: var(--color-foreground);
+    margin: 0;
+  }
+
+  @media (max-width: 990px) {
+    .fortified-featured-card__inner { flex-direction: column; gap: 32px; }
+    .fortified-featured-card__media { flex: 1 0 auto; width: 100%; aspect-ratio: 1; }
+    .fortified-featured-card__heading { font-size: 40px; }
+    .fortified-featured-card__price-amount { font-size: 32px; }
+  }
+  @media (max-width: 749px) {
+    .fortified-featured-card__heading { font-size: 32px; }
+    .fortified-featured-card__cta { height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "15 \u2014 Featured Product Card",
+  "name": "LP-04 — Featured Product",
   "tag": "section",
-  "class": "fortified-featured-card-section",
-  "max_blocks": 6,
+  "class": "fortified-featured-product-card-section",
+  "max_blocks": 8,
   "settings": [
     {
       "type": "product",
       "id": "product",
-      "label": "Product"
+      "label": "Product (optional)",
+      "info": "If set, falls back to product image and link when section image / CTA URL are empty."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
     },
     {
       "type": "text",
-      "id": "fallback_title",
-      "label": "Fallback title",
-      "default": "EVERYDAY HYDRATION"
+      "id": "badge_label",
+      "label": "Badge",
+      "default": "bestseller"
     },
     {
       "type": "text",
-      "id": "badge_text",
-      "label": "Top-left badge",
-      "default": "DOCTOR RECOMMENDED"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_rating",
-      "label": "Show rating overlay",
-      "default": true
+      "id": "heading",
+      "label": "Heading",
+      "default": "Everyday Hydration"
     },
     {
       "type": "text",
-      "id": "rating_text",
-      "label": "Rating text",
-      "default": "4.8 stars / 4.6k reviews"
-    },
-    {
-      "type": "checkbox",
-      "id": "bestseller",
-      "label": "Show bestseller badge",
-      "default": true
+      "id": "price_caption",
+      "label": "Price caption",
+      "default": "You pay today:"
     },
     {
       "type": "text",
-      "id": "sale_label",
-      "label": "Sale price label",
+      "id": "price",
+      "label": "Price",
       "default": "$1.99"
     },
     {
       "type": "text",
-      "id": "regular_price_label",
-      "label": "Regular price label",
-      "default": "$9.97"
+      "id": "price_compare",
+      "label": "Compare-at price",
+      "default": "$10.97"
     },
     {
       "type": "text",
@@ -278,60 +363,15 @@
     },
     {
       "type": "text",
-      "id": "trust_line",
-      "label": "Trust line",
-      "default": "Fast shipping within US (1 to 4 days)"
+      "id": "shipping_note",
+      "label": "Shipping note",
+      "default": "Fast shipping within US (under 24 hours)"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
-    },
-    {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "Content alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "select",
-      "id": "blocks_alignment",
-      "label": "Blocks row position",
-      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
-      "options": [
-        {
-          "value": "flex-start",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "flex-end",
-          "label": "Right"
-        },
-        {
-          "value": "space-between",
-          "label": "Space between"
-        }
-      ],
-      "default": "center"
     },
     {
       "type": "header",
@@ -345,7 +385,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 80
     },
     {
       "type": "range",
@@ -355,7 +395,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 80
     },
     {
       "type": "range",
@@ -365,7 +405,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 40
     },
     {
       "type": "range",
@@ -375,144 +415,50 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
+      "default": 40
     },
     {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight / accent color",
-      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
     }
   ],
   "blocks": [
     {
       "type": "fortified-include-item",
-      "name": "Included item",
+      "name": "Include row",
       "settings": [
         {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
           "type": "text",
-          "id": "text",
-          "label": "Text",
-          "default": "Energy Hydration Stick \u2014 Salty Orange"
+          "id": "title",
+          "label": "Title",
+          "default": "Energy Hydration stick"
         },
         {
-          "type": "select",
-          "id": "content_alignment",
-          "label": "Block alignment",
-          "options": [
-            {
-              "value": "inherit",
-              "label": "Inherit from section"
-            },
-            {
-              "value": "left",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ],
-          "default": "inherit"
-        },
-        {
-          "type": "header",
-          "content": "Spacing"
-        },
-        {
-          "type": "range",
-          "id": "padding-block-start",
-          "label": "Padding top",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-block-end",
-          "label": "Padding bottom",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-start",
-          "label": "Padding left",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-end",
-          "label": "Padding right",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "200mg caffeine, 1000mg electrolytes"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "15 \u2014 Featured Product Card",
+      "name": "LP-04 — Featured Product",
       "category": "Fortified Landing",
       "settings": {},
       "blocks": [
-        {
-          "type": "fortified-include-item",
-          "settings": {
-            "text": "Energy Hydration Stick \u2014 Salty Orange K2"
-          }
-        },
-        {
-          "type": "fortified-include-item",
-          "settings": {
-            "text": "Energy Hydration Stick \u2014 Salty Palau K2"
-          }
-        },
-        {
-          "type": "fortified-include-item",
-          "settings": {
-            "text": "Free USA Shipping"
-          }
-        },
-        {
-          "type": "fortified-include-item",
-          "settings": {
-            "text": "Money-Back Guarantee"
-          }
-        }
+        { "type": "fortified-include-item", "settings": { "title": "Energy Hydration stick - salty orange x2", "body": "200mg caffeine, 1000mg electrolytes" } },
+        { "type": "fortified-include-item", "settings": { "title": "Energy Hydration stick - salty Melon x2", "body": "200mg caffeine, 1000mg electrolytes" } },
+        { "type": "fortified-include-item", "settings": { "title": "Free USA Shipping", "body": "Ships in 24 hours" } },
+        { "type": "fortified-include-item", "settings": { "title": "Money-back guarantee", "body": "Don't love it? Get a refund" } }
       ]
     }
   ]

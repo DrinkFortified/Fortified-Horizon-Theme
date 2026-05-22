@@ -3,57 +3,64 @@
 <section
   id="FortifiedLandingHero-{{ section.id }}"
   class="fortified-landing-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container fortified-landing-hero__inner">
-    <div class="fortified-landing-hero__text">
-      <h1 class="fortified-heading fortified-h1">
-        <span class="fortified-landing-hero__line">{{ section.settings.headline_line_1 }}</span>
-        <span class="fortified-landing-hero__line">{{ section.settings.headline_line_2 }}</span>
-      </h1>
-      <ul class="fortified-landing-hero__benefits" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
-        {% for block in section.blocks %}
-          {% if block.type == 'fortified-benefit-item' %}
-            <li class="fortified-landing-hero__benefit" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-              <span class="fortified-landing-hero__icon" aria-hidden="true">
-                {% if block.settings.icon == 'star' %}★{% else %}✓{% endif %}
-              </span>
-              <span>{{ block.settings.text }}</span>
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-      {% if section.settings.cta_label != blank %}
-        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--dark fortified-landing-hero__cta">{{ section.settings.cta_label }}</a>
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 24 }}px {{ section.settings['padding-block-end'] | default: 24 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 24 }}px {{ section.settings['padding-inline-end'] | default: 24 }}px;"
+>
+  <div class="fortified-landing-hero__frame">
+    {% if section.settings.image_1 != blank %}
+      {{ section.settings.image_1 | image_url: width: 2880 | image_tag:
+          widths: '720, 1080, 1440, 1920, 2400, 2880',
+          sizes: '100vw',
+          class: 'fortified-landing-hero__bg',
+          alt: section.settings.headline_line_1,
+          loading: 'eager',
+          fetchpriority: 'high' }}
+    {% endif %}
+
+    <div class="fortified-landing-hero__content">
+      <div class="fortified-landing-hero__headline">
+        {% if section.settings.headline_line_1 != blank %}
+          <p class="fortified-landing-hero__line">{{ section.settings.headline_line_1 }}</p>
+        {% endif %}
+        {% if section.settings.headline_line_2 != blank %}
+          {%- assign hl = section.settings.highlight_word | default: '' -%}
+          {%- if hl != blank -%}
+            {%- assign accented = '<span class="fortified-landing-hero__accent">' | append: hl | append: '</span>' -%}
+            <p class="fortified-landing-hero__line">{{ section.settings.headline_line_2 | replace: hl, accented }}</p>
+          {%- else -%}
+            <p class="fortified-landing-hero__line">{{ section.settings.headline_line_2 }}</p>
+          {%- endif -%}
+        {% endif %}
+      </div>
+
+      {% if section.blocks.size > 0 %}
+        <ul class="fortified-landing-hero__benefits">
+          {% for block in section.blocks %}
+            {% if block.type == 'fortified-benefit-item' %}
+              <li {{ block.shopify_attributes }}>
+                <span class="fortified-landing-hero__icon" aria-hidden="true">
+                  {% if block.settings.icon_image != blank %}
+                    {{ block.settings.icon_image | image_url: width: 104 | image_tag:
+                        widths: '52, 104',
+                        sizes: '52px',
+                        alt: '',
+                        loading: 'lazy' }}
+                  {% else %}✓{% endif %}
+                </span>
+                <span class="fortified-landing-hero__benefit-text">{{ block.settings.text }}</span>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
       {% endif %}
-      {% if section.settings.asterisk_disclaimer != blank %}
-        <p class="fortified-landing-hero__disclaimer">{{ section.settings.asterisk_disclaimer }}</p>
-      {% endif %}
-    </div>
-    <div class="fortified-landing-hero__media">
-      {% if section.settings.image_1 != blank %}
-        {{ section.settings.image_1 | image_url: width: 600 | image_tag:
-            class: 'fortified-landing-hero__product fortified-landing-hero__product--1',
-            widths: '300, 500, 600',
-            sizes: '50vw',
-            alt: '',
-            loading: 'eager' }}
-      {% endif %}
-      {% if section.settings.image_2 != blank %}
-        {{ section.settings.image_2 | image_url: width: 600 | image_tag:
-            class: 'fortified-landing-hero__product fortified-landing-hero__product--2',
-            widths: '300, 500, 600',
-            sizes: '50vw',
-            alt: '',
-            loading: 'eager' }}
-      {% endif %}
-      {% if section.settings.image_3 != blank %}
-        {{ section.settings.image_3 | image_url: width: 600 | image_tag:
-            class: 'fortified-landing-hero__product fortified-landing-hero__product--3',
-            widths: '300, 500, 600',
-            sizes: '50vw',
-            alt: '',
-            loading: 'eager' }}
-      {% endif %}
+
+      <div class="fortified-landing-hero__footer">
+        {% if section.settings.asterisk_disclaimer != blank %}
+          <p class="fortified-landing-hero__disclaimer">{{ section.settings.asterisk_disclaimer }}</p>
+        {% endif %}
+        {% if section.settings.cta_label != blank %}
+          <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-landing-hero__btn">{{ section.settings.cta_label }}</a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>
@@ -62,125 +69,151 @@
   .fortified-landing-hero {
     background: var(--color-background);
     color: var(--color-foreground);
-    overflow: hidden;
+  }
+  .fortified-landing-hero__frame {
     position: relative;
-  }
-  .fortified-landing-hero__inner {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: clamp(24px, 4vw, 56px);
+    width: 100%;
+    min-height: 662px;
+    border-radius: 20px;
+    overflow: hidden;
+    isolation: isolate;
+    display: flex;
     align-items: center;
-    min-height: clamp(440px, 52vw, 600px);
-    max-width: var(--fortified-container);
-    margin-inline: auto;
-    padding-inline: clamp(16px, 3vw, 48px);
   }
-  @media (min-width: 990px) {
-    .fortified-landing-hero__inner { grid-template-columns: 1.1fr 1fr; }
+  .fortified-landing-hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
   }
-  .fortified-landing-hero__text {
+  .fortified-landing-hero__content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 460px;
+    padding: 62px 40px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
-    text-align: left;
+    gap: 42px;
+    color: var(--color-foreground);
   }
-  .fortified-landing-hero__text .fortified-heading {
+  .fortified-landing-hero__headline {
+    width: 423px;
+    max-width: 100%;
+  }
+  .fortified-landing-hero__line {
     font-family: var(--font-fortified-display);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: clamp(44px, 7vw, 80px);
-    line-height: 0.94;
-    letter-spacing: -0.015em;
-    margin: 0;
+    font-size: 72px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     color: var(--color-foreground-heading);
+    text-transform: uppercase;
+    margin: 0;
   }
-  .fortified-landing-hero__line { display: block; }
-  .fortified-landing-hero__line:nth-child(2) {
-    color: var(--fortified-accent, var(--color-foreground-heading));
-    font-style: italic;
-  }
+  .fortified-landing-hero__accent { color: var(--fortified-accent); }
+
   .fortified-landing-hero__benefits {
     list-style: none;
+    margin: 0;
     padding: 0;
-    margin: 4px 0 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    align-items: flex-start;
+    gap: 16px;
+    width: 394px;
+    max-width: 100%;
   }
-  .fortified-landing-hero__benefit {
-    display: inline-flex;
+  .fortified-landing-hero__benefits li {
+    display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.4;
+    gap: 18px;
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+    text-transform: capitalize;
   }
   .fortified-landing-hero__icon {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--color-foreground) 8%, transparent);
-    color: var(--fortified-accent, var(--color-foreground));
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-  .fortified-landing-hero__cta {
-    background: var(--color-primary-button-background);
-    color: var(--color-primary-button-text);
-    border: 1.5px solid var(--color-primary-button-border);
-    border-radius: 999px;
-    padding: 14px 32px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    align-self: flex-start;
-    margin-top: 8px;
-    min-height: 48px;
-    transition: transform .15s ease, filter .15s ease;
-  }
-  .fortified-landing-hero__cta:hover {  filter: brightness(1.1); }
-  .fortified-landing-hero__disclaimer {
-    font-size: 11.5px;
-    opacity: 0.7;
-    margin: 0;
-    font-style: italic;
-  }
-
-  .fortified-landing-hero__media {
-    position: relative;
-    display: flex;
-    justify-content: center;
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    display: inline-flex;
     align-items: center;
-    min-height: 320px;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--fortified-accent);
+    color: var(--color-background);
+    font-weight: 700;
+    font-size: 24px;
   }
-  .fortified-landing-hero__product {
-    position: absolute;
-    max-width: 240px;
-    width: 35%;
-    height: auto;
+  .fortified-landing-hero__icon img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.25));
+    border-radius: 50%;
   }
-  .fortified-landing-hero__product--1 { transform: none; z-index: 1; }
-  .fortified-landing-hero__product--2 { transform: none; z-index: 3; }
-  .fortified-landing-hero__product--3 { transform: none; z-index: 2; }
 
-  /* Decorative bubble shapes */
+  .fortified-landing-hero__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 394px;
+    max-width: 100%;
+  }
+  .fortified-landing-hero__disclaimer {
+    font-family: var(--font-fortified-body);
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+    text-transform: capitalize;
+    margin: 0;
+  }
+  .fortified-landing-hero__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    padding: 18px 32px;
+    border: 1.5px solid var(--color-primary-button-background, var(--color-foreground));
+    border-radius: 8px;
+    background: var(--color-primary-button-background, var(--color-foreground));
+    color: var(--color-primary-button-text, var(--color-background));
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-sizing: border-box;
+    width: 100%;
+  }
 
+  @media (max-width: 990px) {
+    .fortified-landing-hero__frame { min-height: 540px; }
+    .fortified-landing-hero__content { max-width: 100%; padding: 48px 32px; gap: 32px; }
+    .fortified-landing-hero__headline { width: 100%; }
+    .fortified-landing-hero__line { font-size: 48px; }
+    .fortified-landing-hero__benefits { width: 100%; }
+    .fortified-landing-hero__benefits li { font-size: 18px; }
+    .fortified-landing-hero__footer { width: 100%; }
+  }
   @media (max-width: 749px) {
-    .fortified-landing-hero__media { min-height: 280px; }
-    .fortified-landing-hero__product { max-width: 180px; }
+    .fortified-landing-hero__frame { min-height: 480px; border-radius: 16px; }
+    .fortified-landing-hero__content { padding: 40px 24px; gap: 24px; }
+    .fortified-landing-hero__line { font-size: 36px; }
+    .fortified-landing-hero__icon { flex: 0 0 40px; width: 40px; height: 40px; font-size: 18px; }
+    .fortified-landing-hero__btn { height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "LP Hero - Buy",
+  "name": "LP-01 — Landing Hero",
   "tag": "section",
   "class": "fortified-landing-hero-section",
   "max_blocks": 6,
@@ -199,6 +232,19 @@
     },
     {
       "type": "text",
+      "id": "highlight_word",
+      "label": "Highlight word",
+      "info": "Word in line 2 to color with the highlight/accent color.",
+      "default": "FREE*"
+    },
+    {
+      "type": "text",
+      "id": "asterisk_disclaimer",
+      "label": "Disclaimer",
+      "default": "* Just pay $1.99 for shipping"
+    },
+    {
+      "type": "text",
       "id": "cta_label",
       "label": "CTA label",
       "default": "TRY 3 STICKS FOR $1.99"
@@ -209,76 +255,15 @@
       "label": "CTA URL"
     },
     {
-      "type": "text",
-      "id": "asterisk_disclaimer",
-      "label": "Asterisk disclaimer",
-      "default": "*Just pay shipping. Limited time offer."
-    },
-    {
       "type": "image_picker",
       "id": "image_1",
-      "label": "Product image 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_2",
-      "label": "Product image 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_3",
-      "label": "Product image 3"
+      "label": "Background image"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
-    },
-    {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "Content alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "select",
-      "id": "blocks_alignment",
-      "label": "Blocks row position",
-      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
-      "options": [
-        {
-          "value": "flex-start",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "flex-end",
-          "label": "Right"
-        },
-        {
-          "value": "space-between",
-          "label": "Space between"
-        }
-      ],
-      "default": "center"
     },
     {
       "type": "header",
@@ -292,7 +277,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 24
     },
     {
       "type": "range",
@@ -302,7 +287,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 24
     },
     {
       "type": "range",
@@ -312,7 +297,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 24
     },
     {
       "type": "range",
@@ -322,154 +307,45 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
+      "default": 24
     },
     {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight / accent color",
-      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "info": "Used for highlight word + benefit icon circles. Default: Fortified Teal.",
       "default": "#1FA8A1"
     }
   ],
   "blocks": [
     {
       "type": "fortified-benefit-item",
-      "name": "Benefit item",
+      "name": "Benefit",
       "settings": [
         {
-          "type": "select",
-          "id": "icon",
-          "label": "Icon",
-          "options": [
-            {
-              "value": "checkmark",
-              "label": "Checkmark"
-            },
-            {
-              "value": "star",
-              "label": "Star"
-            }
-          ],
-          "default": "checkmark"
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "Optional. If empty, a circle with a checkmark is shown."
         },
         {
           "type": "text",
           "id": "text",
-          "label": "Text",
+          "label": "Benefit text",
           "default": "Premium Hydration + Performance"
-        },
-        {
-          "type": "select",
-          "id": "content_alignment",
-          "label": "Block alignment",
-          "options": [
-            {
-              "value": "inherit",
-              "label": "Inherit from section"
-            },
-            {
-              "value": "left",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ],
-          "default": "inherit"
-        },
-        {
-          "type": "header",
-          "content": "Spacing"
-        },
-        {
-          "type": "range",
-          "id": "padding-block-start",
-          "label": "Padding top",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-block-end",
-          "label": "Padding bottom",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-start",
-          "label": "Padding left",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-end",
-          "label": "Padding right",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "LP Hero - Buy",
+      "name": "LP-01 — Landing Hero",
       "category": "Fortified Landing",
       "settings": {},
       "blocks": [
-        {
-          "type": "fortified-benefit-item",
-          "settings": {
-            "text": "Premium Hydration + Performance"
-          }
-        },
-        {
-          "type": "fortified-benefit-item",
-          "settings": {
-            "text": "Zero Sugar, Zero Crash"
-          }
-        },
-        {
-          "type": "fortified-benefit-item",
-          "settings": {
-            "text": "Scientifically Dosed Ingredients"
-          }
-        }
+        { "type": "fortified-benefit-item", "settings": { "text": "Premium Hydration + Performance" } },
+        { "type": "fortified-benefit-item", "settings": { "text": "Zero sugar. Zero crash." } },
+        { "type": "fortified-benefit-item", "settings": { "text": "Scientifically backed ingredients" } }
       ]
     }
   ]
