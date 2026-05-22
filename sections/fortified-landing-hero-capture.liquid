@@ -8,7 +8,7 @@
 
 <section
   id="FortifiedLandingHeroCapture-{{ section.id }}"
-  class="fortified-landing-hero-capture color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-landing-hero-capture color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
   {{ section.shopify_attributes }}
 >
@@ -18,11 +18,11 @@
         <span class="fortified-eyebrow fortified-landing-hero-capture__eyebrow">{{ section.settings.eyebrow }}</span>
       {% endif %}
       <h1 class="fortified-heading fortified-h1 fortified-landing-hero-capture__heading">
-        {% if section.settings.headline_line_1 != blank %}<span class="fortified-landing-hero-capture__line">{{ section.settings.headline_line_1 }}</span>{% endif %}
-        {% if section.settings.headline_line_2 != blank %}<span class="fortified-landing-hero-capture__line">{{ section.settings.headline_line_2 }}</span>{% endif %}
+        {% if section.settings.headline_line_1 != blank %}<span class="fortified-landing-hero-capture__line">{% render 'fortified-accent-text', text: section.settings.headline_line_1 %}</span>{% endif %}
+        {% if section.settings.headline_line_2 != blank %}<span class="fortified-landing-hero-capture__line">{% render 'fortified-accent-text', text: section.settings.headline_line_2 %}</span>{% endif %}
       </h1>
       {% if section.settings.subhead != blank %}
-        <p class="fortified-body fortified-landing-hero-capture__subhead">{{ section.settings.subhead }}</p>
+        <p class="fortified-body fortified-landing-hero-capture__subhead">{% render 'fortified-accent-text', text: section.settings.subhead %}</p>
       {% endif %}
 
       <ul class="fortified-landing-hero-capture__benefits"
@@ -33,7 +33,7 @@
                 style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};"
                 {{ block.shopify_attributes }}>
               <span class="fortified-landing-hero-capture__check" aria-hidden="true">✓</span>
-              <span>{{ block.settings.text }}</span>
+              <span>{% render 'fortified-accent-text', text: block.settings.text %}</span>
             </li>
           {% endif %}
         {% endfor %}
@@ -75,7 +75,7 @@
       </form>
 
       {% if section.settings.disclaimer != blank %}
-        <p class="fortified-landing-hero-capture__disclaimer">{{ section.settings.disclaimer }}</p>
+        <p class="fortified-landing-hero-capture__disclaimer">{% render 'fortified-accent-text', text: section.settings.disclaimer %}</p>
       {% endif %}
     </div>
 
@@ -241,18 +241,21 @@
       "type": "text",
       "id": "headline_line_1",
       "label": "Headline line 1",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "FUEL YOUR"
     },
     {
       "type": "text",
       "id": "headline_line_2",
       "label": "Headline line 2",
-      "default": "EVERY MOVE."
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"every *move*.\".",
+      "default": "*EVERY MOVE.*"
     },
     {
       "type": "textarea",
       "id": "subhead",
       "label": "Subhead",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Drop your email and we'll send you a free sample plus 20% off your first order."
     },
     {
@@ -300,6 +303,7 @@
       "type": "richtext",
       "id": "disclaimer",
       "label": "Disclaimer / fine print",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "<p>By submitting your email you agree to receive marketing emails from Fortified. Unsubscribe at any time.</p>"
     },
     {
@@ -422,6 +426,13 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "blocks": [
@@ -433,6 +444,7 @@
           "type": "text",
           "id": "text",
           "label": "Text",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Free sample"
         },
         {

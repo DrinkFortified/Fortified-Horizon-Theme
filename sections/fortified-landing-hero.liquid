@@ -2,7 +2,7 @@
 
 <section
   id="FortifiedLandingHero-{{ section.id }}"
-  class="fortified-landing-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-landing-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 24 }}px {{ section.settings['padding-block-end'] | default: 24 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 24 }}px {{ section.settings['padding-inline-end'] | default: 24 }}px;"
 >
   <div class="fortified-landing-hero__frame">
@@ -19,16 +19,10 @@
     <div class="fortified-landing-hero__content">
       <div class="fortified-landing-hero__headline">
         {% if section.settings.headline_line_1 != blank %}
-          <p class="fortified-landing-hero__line">{{ section.settings.headline_line_1 }}</p>
+          <p class="fortified-landing-hero__line">{% render 'fortified-accent-text', text: section.settings.headline_line_1 %}</p>
         {% endif %}
         {% if section.settings.headline_line_2 != blank %}
-          {%- assign hl = section.settings.highlight_word | default: '' -%}
-          {%- if hl != blank -%}
-            {%- assign accented = '<span class="fortified-landing-hero__accent">' | append: hl | append: '</span>' -%}
-            <p class="fortified-landing-hero__line">{{ section.settings.headline_line_2 | replace: hl, accented }}</p>
-          {%- else -%}
-            <p class="fortified-landing-hero__line">{{ section.settings.headline_line_2 }}</p>
-          {%- endif -%}
+          <p class="fortified-landing-hero__line">{% render 'fortified-accent-text', text: section.settings.headline_line_2 %}</p>
         {% endif %}
       </div>
 
@@ -46,7 +40,7 @@
                         loading: 'lazy' }}
                   {% else %}✓{% endif %}
                 </span>
-                <span class="fortified-landing-hero__benefit-text">{{ block.settings.text }}</span>
+                <span class="fortified-landing-hero__benefit-text">{% render 'fortified-accent-text', text: block.settings.text %}</span>
               </li>
             {% endif %}
           {% endfor %}
@@ -55,7 +49,7 @@
 
       <div class="fortified-landing-hero__footer">
         {% if section.settings.asterisk_disclaimer != blank %}
-          <p class="fortified-landing-hero__disclaimer">{{ section.settings.asterisk_disclaimer }}</p>
+          <p class="fortified-landing-hero__disclaimer">{% render 'fortified-accent-text', text: section.settings.asterisk_disclaimer %}</p>
         {% endif %}
         {% if section.settings.cta_label != blank %}
           <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-landing-hero__btn">{{ section.settings.cta_label }}</a>
@@ -222,26 +216,22 @@
       "type": "text",
       "id": "headline_line_1",
       "label": "Headline line 1",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "TRY 3 STICKS"
     },
     {
       "type": "text",
       "id": "headline_line_2",
       "label": "Headline line 2",
-      "default": "FOR FREE*"
-    },
-    {
-      "type": "text",
-      "id": "highlight_word",
-      "label": "Highlight word",
-      "info": "Word in line 2 to color with the highlight/accent color.",
-      "default": "FREE*"
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"FOR *FREE*\".",
+      "default": "FOR *FREE*"
     },
     {
       "type": "text",
       "id": "asterisk_disclaimer",
       "label": "Disclaimer",
-      "default": "* Just pay $1.99 for shipping"
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
+      "default": "Just pay $1.99 for shipping"
     },
     {
       "type": "text",
@@ -315,6 +305,13 @@
       "label": "Highlight / accent color",
       "info": "Used for highlight word + benefit icon circles. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "blocks": [
@@ -332,6 +329,7 @@
           "type": "text",
           "id": "text",
           "label": "Benefit text",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Premium Hydration + Performance"
         }
       ]

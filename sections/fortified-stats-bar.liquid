@@ -2,7 +2,7 @@
 
 <section
   id="FortifiedStatsBar-{{ section.id }}"
-  class="fortified-stats-bar color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-stats-bar color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 40 }}px {{ section.settings['padding-block-end'] | default: 40 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
 >
   <div class="fortified-stats-bar__inner">
@@ -188,6 +188,13 @@
       "id": "highlight_color",
       "label": "Highlight / accent color",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "presets": [

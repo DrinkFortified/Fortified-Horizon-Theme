@@ -2,7 +2,7 @@
 
 <section
   id="FortifiedDayBenefits-{{ section.id }}"
-  class="fortified-day color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-day color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 80 }}px {{ section.settings['padding-block-end'] | default: 80 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
 >
   <div class="fortified-day__inner">
@@ -12,7 +12,7 @@
           <p class="fortified-day__eyebrow">{{ section.settings.eyebrow }}</p>
         {% endif %}
         {% if section.settings.heading != blank %}
-          <h2 class="fortified-day__heading">{{ section.settings.heading }}</h2>
+          <h2 class="fortified-day__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>
         {% endif %}
       </div>
 
@@ -30,7 +30,7 @@
                         loading: 'lazy' }}
                   {% else %}✓{% endif %}
                 </span>
-                <span class="fortified-day__text">{{ block.settings.heading | default: block.settings.day_label }}</span>
+                <span class="fortified-day__text">{% render 'fortified-accent-text', text: block.settings.heading | default: block.settings.day_label %}</span>
               </li>
             {% endif %}
           {% endfor %}
@@ -207,7 +207,8 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "your best day"
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
+      "default": "your *best day*"
     },
     {
       "type": "image_picker",
@@ -281,6 +282,13 @@
       "label": "Highlight / accent color",
       "info": "Used for the eyebrow and checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "blocks": [
@@ -297,6 +305,7 @@
           "type": "text",
           "id": "heading",
           "label": "Text",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Improve hydration"
         },
         {

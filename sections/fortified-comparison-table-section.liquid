@@ -2,7 +2,7 @@
 
 <section
   id="FortifiedComparison-{{ section.id }}"
-  class="fortified-comparison color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-comparison color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 100 }}px {{ section.settings['padding-block-end'] | default: 100 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
 >
   <div class="fortified-comparison__inner">
@@ -12,7 +12,7 @@
           <p class="fortified-comparison__eyebrow">{{ section.settings.eyebrow }}</p>
         {% endif %}
         {% if section.settings.heading != blank %}
-          <h2 class="fortified-comparison__heading">{{ section.settings.heading | newline_to_br }}</h2>
+          <h2 class="fortified-comparison__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>
         {% endif %}
       </header>
     {% endif %}
@@ -32,7 +32,7 @@
         <div class="fortified-comparison__label-head" aria-hidden="true"></div>
         {% for block in section.blocks %}
           {% if block.type == 'fortified-comparison-row' %}
-            <div class="fortified-comparison__label">{{ block.settings.label }}</div>
+            <div class="fortified-comparison__label">{% render 'fortified-accent-text', text: block.settings.label %}</div>
           {% endif %}
         {% endfor %}
       </div>
@@ -297,7 +297,8 @@
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "WHY WE BEAT THE REST\nelectrolytes"
+      "info": "Wrap text in *asterisks* to highlight in the accent color. Use line breaks to split into multiple lines.",
+      "default": "WHY WE BEAT THE REST\n*electrolytes*"
     },
     {
       "type": "header",
@@ -410,6 +411,13 @@
       "id": "highlight_color",
       "label": "Highlight / accent color",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "blocks": [
@@ -421,6 +429,7 @@
           "type": "text",
           "id": "label",
           "label": "Row label",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Sodium per serving"
         },
         {
