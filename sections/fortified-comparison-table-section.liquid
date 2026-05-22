@@ -51,55 +51,87 @@
 
 {% stylesheet %}
   .fortified-comparison {
-    background: var(--color-background, #fff);
-    color: var(--color-foreground, #0A0A0A);
-    padding-block: var(--fortified-section-py);
+    background: #1a1a1a;
+    color: #fff;
+    overflow: hidden;
   }
-  .fortified-comparison__heading { text-align: center; margin-bottom: 32px; }
-  .fortified-comparison__wrap { overflow-x: auto; }
+  .fortified-comparison__inner {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 3vw, 36px);
+  }
+  .fortified-comparison__heading {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .fortified-comparison__body {
+    text-align: center;
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+    max-width: 520px;
+    margin: 0 auto 16px;
+  }
+  .fortified-comparison__wrap {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
   .fortified-comparison__table {
     width: 100%;
     border-collapse: collapse;
-    font-family: var(--font-fortified-body);
-    min-width: 600px;
+    margin: 0;
+    background: transparent;
   }
-  .fortified-comparison__th {
-    padding: 14px 12px;
+  .fortified-comparison__th,
+  .fortified-comparison__table th {
+    padding: 16px 14px;
     text-align: center;
     font-family: var(--font-fortified-display);
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    background: var(--fortified-gray-light);
-    color: var(--fortified-black);
-    border-bottom: 2px solid var(--fortified-gray-light);
-  }
-  .fortified-comparison__th--ours { background: var(--fortified-teal); color: #fff; }
-  .fortified-comparison__row-label {
-    text-align: left;
-    padding: 14px 12px;
-    font-weight: 600;
-    font-size: 14px;
-    background: var(--fortified-off-white);
-    border-bottom: 1px solid var(--fortified-gray-light);
-  }
-  .fortified-comparison__td {
-    padding: 14px 12px;
-    text-align: center;
-    font-size: 14px;
-    border-bottom: 1px solid var(--fortified-gray-light);
-  }
-  .fortified-comparison__td--ours {
-    background: rgb(0 184 184 / .08);
+    font-size: 12px;
     font-weight: 700;
-    color: var(--fortified-teal);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
-  .fortified-comparison__check { color: var(--fortified-teal); font-weight: 700; font-size: 18px; }
-  .fortified-comparison__x { color: var(--fortified-gray-mid); font-size: 18px; }
+  .fortified-comparison__th--ours,
+  .fortified-comparison__table th:nth-child(2) {
+    background: #F2A93B;
+    color: #1a1a1a;
+  }
+  .fortified-comparison__table td {
+    padding: 14px;
+    text-align: center;
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.5);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .fortified-comparison__table td:first-child {
+    text-align: left;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+  }
+  .fortified-comparison__table td:nth-child(2) {
+    color: #fff;
+    font-weight: 600;
+    background: rgba(242,169,59,0.08);
+  }
+  .fortified-comparison__check {
+    color: #2BB673;
+    font-weight: 700;
+  }
+  .fortified-comparison__no {
+    color: rgba(224,112,112,0.7);
+    font-size: 18px;
+  }
   .fortified-comparison__cta {
-    display: flex;
-    justify-content: center;
-    margin-top: 32px;
+    margin-top: 4px;
+    background: #fff;
+    color: #1a1a1a;
+    align-self: center;
   }
 {% endstylesheet %}
 

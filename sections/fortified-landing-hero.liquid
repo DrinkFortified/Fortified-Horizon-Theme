@@ -62,90 +62,89 @@
   .fortified-landing-hero {
     background: linear-gradient(135deg, #00B8B8 0%, #008B8B 100%);
     color: #fff;
-    padding-block: var(--fortified-section-py);
     overflow: hidden;
+    position: relative;
   }
   .fortified-landing-hero__inner {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: clamp(24px, 4vw, 56px);
     align-items: center;
+    min-height: clamp(420px, 50vw, 580px);
   }
   @media (min-width: 750px) {
-    .fortified-landing-hero__inner { grid-template-columns: 1.1fr 1fr; }
+    .fortified-landing-hero__inner { grid-template-columns: 1.05fr 1fr; }
   }
   .fortified-landing-hero__text {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
+    align-items: inherit;
+    gap: 16px;
   }
-  .fortified-landing-hero__line { display: block; }
+  .fortified-landing-hero__line { display: block; line-height: 0.95; }
+  .fortified-landing-hero__line:nth-child(2) {
+    color: #FFD75A;
+    font-style: italic;
+  }
   .fortified-landing-hero__benefits {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 4px 0 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    width: 100%;
   }
   .fortified-landing-hero__benefit {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-fortified-body);
-    font-size: 16px;
-    font-weight: 600;
-  }
-  .fortified-landing-hero__icon {
-    background: #fff;
-    color: var(--fortified-teal);
-    width: 24px;
-    height: 24px;
-    border-radius: 999px;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    gap: 10px;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 500;
+    color: #fff;
   }
-  .fortified-landing-hero__cta { margin-top: 8px; }
+  .fortified-landing-hero__icon {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.45);
+    color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .fortified-landing-hero__cta {
+    background: #0A0A0A;
+    color: #fff;
+    border-radius: 999px;
+    padding: 12px 26px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    align-self: flex-start;
+    margin-top: 6px;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+  .fortified-landing-hero__cta:hover { transform: translateY(-1px); opacity: .92; }
   .fortified-landing-hero__disclaimer {
-    font-size: 12px;
-    opacity: .85;
-    margin: 0;
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 4px;
   }
   .fortified-landing-hero__media {
     position: relative;
-    min-height: 320px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .fortified-landing-hero__product {
-    position: relative;
-    max-width: 200px;
+    width: 100%;
+    max-width: 460px;
     height: auto;
-    margin: -20px;
-    filter: drop-shadow(0 20px 30px rgb(0 0 0 / .25));
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.18));
   }
-  .fortified-landing-hero__product--1 { transform: rotate(-12deg) translateY(8px); }
-  .fortified-landing-hero__product--2 { transform: rotate(4deg); z-index: 2; }
-  .fortified-landing-hero__product--3 { transform: rotate(14deg) translateY(-6px); }
-
-  /* center-aware block alignment — when section is centered, push block content to center */
-  [style*="text-align: center"] [class*="__card"],
-  [style*="text-align: center"] [class*="__item"],
-  [style*="text-align: center"] [class*="__panel"],
-  [style*="text-align: center"] [class*="__cell"] { align-items: center !important; }
-  [style*="text-align: left"] [class*="__card"],
-  [style*="text-align: left"] [class*="__item"],
-  [style*="text-align: left"] [class*="__panel"],
-  [style*="text-align: left"] [class*="__cell"] { align-items: flex-start !important; }
-  [style*="text-align: right"] [class*="__card"],
-  [style*="text-align: right"] [class*="__item"],
-  [style*="text-align: right"] [class*="__panel"],
-  [style*="text-align: right"] [class*="__cell"] { align-items: flex-end !important; }
 {% endstylesheet %}
 
 {% schema %}
