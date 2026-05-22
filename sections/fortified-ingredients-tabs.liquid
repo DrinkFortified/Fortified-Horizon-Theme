@@ -116,42 +116,69 @@
 
 {% stylesheet %}
   .fortified-ingredients {
-    background: var(--color-background, #fff);
-    color: var(--color-foreground, #0A0A0A);
-    padding-block: var(--fortified-section-py);
+    background: var(--color-background);
+    color: var(--color-foreground);
   }
   .fortified-ingredients__inner {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: clamp(24px, 3vw, 40px);
+    max-width: var(--fortified-container);
+    margin-inline: auto;
+    padding-inline: clamp(16px, 3vw, 48px);
   }
-  .fortified-ingredients__header { text-align: center; max-width: 800px; }
+  .fortified-ingredients__header {
+    text-align: center;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .fortified-ingredients__header .fortified-heading {
+    font-family: var(--font-fortified-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(28px, 4.5vw, 48px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: var(--color-foreground-heading);
+  }
+
+  /* Tab pill switcher */
   .fortified-ingredients__tabs {
     display: inline-flex;
-    background: rgb(0 0 0 / .04);
+    gap: 0;
+    background: color-mix(in srgb, var(--color-foreground) 5%, transparent);
     border-radius: 999px;
-    padding: 6px;
-    gap: 4px;
+    padding: 5px;
+    border: 1px solid var(--color-border);
   }
   .fortified-ingredients__tab {
     background: transparent;
-    color: currentColor;
     border: 0;
-    padding: 10px 20px;
-    border-radius: 999px;
+    padding: 10px 22px;
     font-family: var(--font-fortified-body);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
+    color: var(--color-foreground);
+    opacity: 0.55;
     cursor: pointer;
-    min-height: 44px;
+    border-radius: 999px;
+    transition: background .2s ease, color .2s ease, opacity .2s ease;
   }
+  .fortified-ingredients__tab:hover { opacity: 0.85; }
   .fortified-ingredients__tab.is-active {
-    background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground)));
-    color: var(--color-foreground, #fff);
+    background: var(--color-foreground);
+    color: var(--color-background);
+    opacity: 1;
   }
+
+  /* Ingredient panels — grid of cards */
   .fortified-ingredients__panels {
     display: grid;
     grid-template-columns: 1fr;
@@ -165,29 +192,73 @@
     .fortified-ingredients__panels { grid-template-columns: repeat(4, 1fr); }
   }
   .fortified-ingredients__panel {
-    background: var(--color-background);
+    background: color-mix(in srgb, var(--color-foreground) 3%, transparent);
+    border: 1px solid var(--color-border);
     border-radius: 16px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 14px;
+    transition: transform .25s ease, box-shadow .25s ease;
   }
-  .fortified-ingredients__img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 12px; }
+  .fortified-ingredients__panel:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--color-foreground) 8%, transparent);
+  }
+  .fortified-ingredients__panel[hidden] { display: none; }
+
+  .fortified-ingredients__media {
+    aspect-ratio: 1;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--color-foreground) 4%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .fortified-ingredients__img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+  }
+  .fortified-ingredients__body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
   .fortified-ingredients__name {
     font-family: var(--font-fortified-display);
-    font-size: 22px;
-    margin: 0;
+    font-weight: 800;
+    font-size: 16px;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.01em;
+    margin: 0;
+    color: var(--color-foreground-heading);
   }
   .fortified-ingredients__desc {
-    font-family: var(--font-fortified-body);
-    font-size: 14px;
+    font-size: 12.5px;
     line-height: 1.5;
     margin: 0;
-    opacity: .85;
+    opacity: 0.75;
   }
-  .fortified-ingredients__badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .fortified-ingredients__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .fortified-ingredients__badges .fortified-badge {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+  .fortified-ingredients__cta .fortified-btn {
+    padding: 14px 32px;
+    border-radius: 999px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    min-height: 48px;
+  }
 {% endstylesheet %}
 
 {% schema %}
