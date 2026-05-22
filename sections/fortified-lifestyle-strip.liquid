@@ -8,7 +8,7 @@
   <div class="fortified-lifestyle-strip__inner">
     <header class="fortified-lifestyle-strip__header">
       {% if section.settings.eyebrow != blank %}
-        <span class="fortified-lifestyle-strip__eyebrow">{{ section.settings.eyebrow }}</span>
+        <span class="fortified-lifestyle-strip__eyebrow">{{ section.settings.eyebrow | replace: '*', '' }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
         <h2 class="fortified-lifestyle-strip__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>

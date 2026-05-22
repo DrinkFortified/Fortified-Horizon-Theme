@@ -20,7 +20,7 @@
           {% endif %}
           <div class="fortified-b2b__content">
             {% if block.settings.eyebrow != blank %}
-              <span class="fortified-b2b__eyebrow">{{ block.settings.eyebrow }}</span>
+              <span class="fortified-b2b__eyebrow">{{ block.settings.eyebrow | replace: '*', '' }}</span>
             {% endif %}
             {% if block.settings.heading != blank %}
               <h3 class="fortified-b2b__heading">{% render 'fortified-accent-text', text: block.settings.heading %}</h3>
