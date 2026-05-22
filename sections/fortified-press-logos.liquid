@@ -30,40 +30,59 @@
 
 {% stylesheet %}
   .fortified-press {
-    background: var(--color-background, #fff);
-    padding-block: clamp(36px, 5vw, 64px);
+    background: var(--color-background);
+    color: var(--color-foreground);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .fortified-press .fortified-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(20px, 2.4vw, 32px);
+    max-width: var(--fortified-container);
+    margin-inline: auto;
+    padding-inline: clamp(16px, 3vw, 48px);
   }
   .fortified-press__heading {
-    text-align: center;
     font-family: var(--font-fortified-body);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-foreground);
-    margin: 0 0 24px;
+    opacity: 0.5;
+    text-align: center;
+    margin: 0;
   }
   .fortified-press__row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: clamp(20px, 4vw, 56px);
+    gap: clamp(28px, 5vw, 72px);
+    width: 100%;
   }
   .fortified-press__item {
     flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
   }
   .fortified-press__logo {
-    max-height: 36px;
+    max-height: 32px;
     width: auto;
     filter: grayscale(100%);
-    opacity: .65;
-    transition: filter .2s ease, opacity .2s ease;
+    opacity: 0.5;
+    transition: filter .2s ease, opacity .2s ease, transform .2s ease;
   }
-  .fortified-press__logo:hover { filter: grayscale(0); opacity: 1; }
+  .fortified-press__logo:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: translateY(-2px);
+  }
   @media (max-width: 749px) {
-    .fortified-press__row { gap: 20px; }
-    .fortified-press__logo { max-height: 26px; }
+    .fortified-press__row { gap: 24px; }
+    .fortified-press__logo { max-height: 24px; }
   }
 {% endstylesheet %}
 
