@@ -99,7 +99,7 @@
 
 {% stylesheet %}
   .fortified-landing-hero-capture {
-    background: var(--color-background, var(--fortified-off-white));
+    background: var(--color-background, var(--color-background));
     color: var(--color-foreground);
     padding-block: var(--fortified-section-py);
     overflow: hidden;
@@ -149,7 +149,7 @@
   .fortified-landing-hero-capture__check {
     width: 18px; height: 18px;
     border-radius: 50%;
-    background: var(--fortified-accent, var(--fortified-teal));
+    background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground)));
     color: var(--color-foreground, #fff);
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 11px; font-weight: 700;
@@ -172,15 +172,15 @@
     flex: 1;
     min-width: 0;
     padding: 14px 18px;
-    border: 1.5px solid var(--fortified-gray-light);
+    border: 1.5px solid var(--color-border);
     border-radius: var(--fortified-radius-pill);
     background: #fff;
     font-family: var(--font-fortified-body);
     font-size: 15px;
-    color: var(--fortified-black);
+    color: var(--color-foreground);
   }
   .fortified-landing-hero-capture__field input[type="email"]:focus {
-    outline: 2px solid var(--fortified-accent, var(--fortified-teal));
+    outline: 2px solid var(--fortified-accent, var(--fortified-accent, var(--color-foreground)));
     outline-offset: 2px;
   }
   .fortified-landing-hero-capture__submit { white-space: nowrap; }
@@ -196,7 +196,7 @@
   }
   .fortified-landing-hero-capture__disclaimer {
     font-size: 12px;
-    color: var(--fortified-gray-mid);
+    color: var(--color-foreground);
     margin-top: 12px;
     max-width: 56ch;
   }

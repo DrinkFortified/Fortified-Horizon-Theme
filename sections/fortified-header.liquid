@@ -87,7 +87,7 @@
 
 {% stylesheet %}
   .fortified-header {
-    background: var(--fortified-teal);
+    background: var(--fortified-accent, var(--color-foreground));
     color: var(--color-foreground, #fff);
     width: 100%;
   }
@@ -163,7 +163,7 @@
   }
   .fortified-header__cart-count {
     background: #fff;
-    color: var(--fortified-teal);
+    color: var(--fortified-accent, var(--color-foreground));
     border-radius: 999px;
     font-size: 11px;
     font-weight: 700;
@@ -202,7 +202,7 @@
   .fortified-header__drawer {
     position: fixed;
     inset: 64px 0 0 0;
-    background: var(--fortified-teal);
+    background: var(--fortified-accent, var(--color-foreground));
     z-index: 99;
     padding: 32px 24px;
   }

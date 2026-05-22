@@ -99,7 +99,7 @@
     font-size: clamp(28px, 3.6vw, 44px);
     letter-spacing: 0.04em;
     line-height: 1;
-    color: var(--fortified-teal);
+    color: var(--fortified-accent, var(--color-foreground));
   }
   .fortified-footer__logo { max-width: 200px; height: auto; }
   .fortified-footer__desc {
@@ -125,7 +125,7 @@
     justify-content: center;
     opacity: .9;
   }
-  .fortified-footer__socials a:hover { background: var(--fortified-teal); border-color: var(--fortified-teal); color: var(--color-foreground, #fff); }
+  .fortified-footer__socials a:hover { background: var(--fortified-accent, var(--color-foreground)); border-color: var(--fortified-accent, var(--color-foreground)); color: var(--color-foreground, #fff); }
   .fortified-footer__col-title {
     font-family: var(--font-fortified-body);
     font-size: 13px;
@@ -133,7 +133,7 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
     margin: 0 0 16px;
-    color: var(--fortified-teal);
+    color: var(--fortified-accent, var(--color-foreground));
   }
   .fortified-footer__col ul {
     list-style: none;
@@ -150,7 +150,7 @@
     font-size: 14px;
     opacity: .85;
   }
-  .fortified-footer__col a:hover { opacity: 1; color: var(--fortified-teal); }
+  .fortified-footer__col a:hover { opacity: 1; color: var(--fortified-accent, var(--color-foreground)); }
   .fortified-footer__newsletter-body {
     font-size: 14px;
     line-height: 1.55;

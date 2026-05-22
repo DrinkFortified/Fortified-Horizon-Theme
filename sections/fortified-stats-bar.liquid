@@ -23,7 +23,7 @@
 
 {% stylesheet %}
   .fortified-stats-bar {
-    background: var(--fortified-black);
+    background: var(--color-foreground);
     color: var(--color-foreground, #fff);
     padding-block: clamp(18px, 2.6vw, 32px);
   }
@@ -54,7 +54,7 @@
     font-weight: 600;
   }
   .fortified-stats-bar__sep {
-    color: var(--fortified-accent, var(--fortified-teal));
+    color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground)));
     opacity: .65;
     font-size: 14px;
   }

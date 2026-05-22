@@ -64,7 +64,7 @@
   }
   .fortified-featured-card__inner {
     background: #fff;
-    border: 1px solid var(--fortified-gray-light);
+    border: 1px solid var(--color-border);
     border-radius: 16px;
     overflow: hidden;
     display: grid;
@@ -112,9 +112,9 @@
   }
   .fortified-featured-card__rating {
     display: inline-flex; align-items: center; gap: 6px;
-    font-size: 12px; color: var(--fortified-gray-mid);
+    font-size: 12px; color: var(--color-foreground);
   }
-  .fortified-featured-card__stars { color: var(--fortified-accent, var(--fortified-teal)); letter-spacing: 2px; }
+  .fortified-featured-card__stars { color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); letter-spacing: 2px; }
   .fortified-featured-card__title {
     font-family: var(--font-fortified-display);
     font-size: clamp(26px, 3vw, 36px);
@@ -135,7 +135,7 @@
   }
   .fortified-featured-card__regular {
     font-size: 14px;
-    color: var(--fortified-gray-mid);
+    color: var(--color-foreground);
     text-decoration: line-through;
   }
   .fortified-featured-card__tags {
@@ -170,7 +170,7 @@
   .fortified-featured-card__cta:hover { transform: translateY(-1px); opacity: .92; }
   .fortified-featured-card__trust {
     font-size: 11px;
-    color: var(--fortified-gray-mid);
+    color: var(--color-foreground);
     margin-top: 4px;
     display: flex; align-items: center; gap: 6px;
   }

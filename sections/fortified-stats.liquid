@@ -77,7 +77,7 @@
     .fortified-stats__grid { grid-template-columns: repeat(3, 1fr); }
   }
   .fortified-stats__card {
-    background: var(--fortified-off-white);
+    background: var(--color-background);
     border-radius: 16px;
     padding: clamp(20px, 2.5vw, 32px);
     display: flex;
@@ -88,7 +88,7 @@
   .fortified-stats__number {
     font-family: var(--font-fortified-display);
     font-size: clamp(40px, 5vw, 64px);
-    color: var(--fortified-accent, var(--fortified-teal));
+    color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground)));
     line-height: 1;
     letter-spacing: 0.02em;
   }
@@ -110,10 +110,10 @@
   .fortified-stats__bar {
     flex: 1;
     height: var(--h, 50%);
-    background: var(--fortified-gray-light);
+    background: var(--color-border);
     border-radius: 8px 8px 0 0;
   }
-  .fortified-stats__bar--ours { background: var(--fortified-accent, var(--fortified-teal)); }
+  .fortified-stats__bar--ours { background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); }
 
   /* center-aware block alignment — when section is centered, push block content to center */
   [style*="text-align: center"] [class*="__card"],

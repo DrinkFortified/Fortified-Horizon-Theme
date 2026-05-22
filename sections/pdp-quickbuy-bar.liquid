@@ -36,31 +36,31 @@
 </aside>
 
 {% stylesheet %}
-  .pdp-qb { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--fortified-white); border-top: 1px solid var(--fortified-gray-light); box-shadow: 0 -8px 32px rgba(0,0,0,.08); font-family: var(--font-fortified-body); transform: translateY(110%); transition: transform .3s ease; }
+  .pdp-qb { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--color-background); border-top: 1px solid var(--color-border); box-shadow: 0 -8px 32px rgba(0,0,0,.08); font-family: var(--font-fortified-body); transform: translateY(110%); transition: transform .3s ease; }
   .pdp-qb.is-visible { transform: translateY(0); }
   .pdp-qb__bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 12px; }
   .pdp-qb__id { display: flex; flex-direction: column; min-width: 0; }
-  .pdp-qb__name { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--fortified-black); }
+  .pdp-qb__name { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-foreground); }
   body[data-product="energy"] .pdp-qb__name.p-everyday,
   body[data-product="everyday"] .pdp-qb__name.p-energy { display: none; }
-  .pdp-qb__summary { font-size: 12px; color: var(--fortified-gray-mid); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60vw; }
+  .pdp-qb__summary { font-size: 12px; color: var(--color-foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60vw; }
   .pdp-qb__actions { display: flex; align-items: center; gap: 10px; }
-  .pdp-qb__edit { background: transparent; border: 1px solid var(--fortified-gray-light); border-radius: 999px; padding: 10px 16px; font-family: var(--font-fortified-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; color: var(--fortified-black); }
-  .pdp-qb__cta { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px; border: 0; background: var(--fortified-black); color: var(--fortified-white); font-family: var(--font-fortified-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; }
-  body[data-product="energy"] .pdp-qb__cta { background: var(--fortified-gold); color: var(--fortified-black); }
-  body[data-product="everyday"] .pdp-qb__cta { background: var(--fortified-accent, var(--fortified-teal)); color: var(--fortified-white); }
+  .pdp-qb__edit { background: transparent; border: 1px solid var(--color-border); border-radius: 999px; padding: 10px 16px; font-family: var(--font-fortified-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; color: var(--color-foreground); }
+  .pdp-qb__cta { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px; border: 0; background: var(--color-foreground); color: var(--color-background); font-family: var(--font-fortified-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; }
+  body[data-product="energy"] .pdp-qb__cta { background: var(--fortified-accent, var(--color-foreground)); color: var(--color-foreground); }
+  body[data-product="everyday"] .pdp-qb__cta { background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); color: var(--color-background); }
   .pdp-qb__price { font-size: 14px; }
   @media (max-width: 640px) {
     .pdp-qb__edit { display: none; }
     .pdp-qb__summary { max-width: 45vw; }
   }
   .pdp-qb__scrim { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 1; }
-  .pdp-qb__drawer { position: fixed; right: 24px; bottom: 96px; width: min(420px, calc(100vw - 32px)); background: var(--fortified-white); border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 18px 20px; z-index: 2; }
+  .pdp-qb__drawer { position: fixed; right: 24px; bottom: 96px; width: min(420px, calc(100vw - 32px)); background: var(--color-background); border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 18px 20px; z-index: 2; }
   .pdp-qb__drawer-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .pdp-qb__drawer-head h3 { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; color: var(--fortified-black); }
-  .pdp-qb__close { background: transparent; border: 0; font-size: 26px; line-height: 1; cursor: pointer; color: var(--fortified-gray-mid); padding: 0; }
-  .pdp-qb__drawer-body p { color: var(--fortified-gray-mid); font-size: 13px; line-height: 1.5; margin: 0 0 12px; }
-  .pdp-qb__scroll-link { display: inline-flex; padding: 10px 18px; border-radius: 999px; background: var(--fortified-black); color: var(--fortified-white); text-decoration: none; font-family: var(--font-fortified-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .pdp-qb__drawer-head h3 { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; color: var(--color-foreground); }
+  .pdp-qb__close { background: transparent; border: 0; font-size: 26px; line-height: 1; cursor: pointer; color: var(--color-foreground); padding: 0; }
+  .pdp-qb__drawer-body p { color: var(--color-foreground); font-size: 13px; line-height: 1.5; margin: 0 0 12px; }
+  .pdp-qb__scroll-link { display: inline-flex; padding: 10px 18px; border-radius: 999px; background: var(--color-foreground); color: var(--color-background); text-decoration: none; font-family: var(--font-fortified-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
 {% endstylesheet %}
 
 <script>

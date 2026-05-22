@@ -36,7 +36,7 @@
 </section>
 
 {% stylesheet %}
-  .pdp-stats { background: var(--fortified-black); color: var(--fortified-white); padding-block: clamp(20px, 3vw, 36px); font-family: var(--font-fortified-body); }
+  .pdp-stats { background: var(--color-foreground); color: var(--color-background); padding-block: clamp(20px, 3vw, 36px); font-family: var(--font-fortified-body); }
   .pdp-stats__inner { display: flex; justify-content: center; }
   .pdp-stats__set { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: clamp(10px, 2vw, 28px); }
   body[data-product="energy"] .pdp-stats__set.p-everyday { display: none; }
@@ -44,8 +44,8 @@
   .pdp-stats__item { display: inline-flex; align-items: baseline; gap: 8px; }
   .pdp-stats__value { font-family: var(--font-fortified-display); font-size: clamp(20px, 2.8vw, 28px); letter-spacing: 0.02em; }
   .pdp-stats__label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,.75); font-weight: 600; }
-  body[data-product="energy"] .pdp-stats__sep { color: var(--fortified-orange); }
-  body[data-product="everyday"] .pdp-stats__sep { color: var(--fortified-accent, var(--fortified-teal)); }
+  body[data-product="energy"] .pdp-stats__sep { color: var(--fortified-accent, var(--color-foreground)); }
+  body[data-product="everyday"] .pdp-stats__sep { color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); }
 {% endstylesheet %}
 
 {% schema %}

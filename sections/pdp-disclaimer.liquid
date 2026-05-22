@@ -27,15 +27,15 @@
 </section>
 
 {% stylesheet %}
-  .pdp-disc { background: var(--fortified-white); padding-block: clamp(32px, 5vw, 64px); font-family: var(--font-fortified-body); color: var(--fortified-gray-mid); border-top: 1px solid var(--fortified-gray-light); }
+  .pdp-disc { background: var(--color-background); padding-block: clamp(32px, 5vw, 64px); font-family: var(--font-fortified-body); color: var(--color-foreground); border-top: 1px solid var(--color-border); }
   .pdp-disc__inner { max-width: 920px; margin: 0 auto; }
-  .pdp-disc__title { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--fortified-black); margin: 0 0 18px; text-align: center; }
+  .pdp-disc__title { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-foreground); margin: 0 0 18px; text-align: center; }
   .pdp-disc__warnings { display: grid; gap: 10px; margin-bottom: 20px; }
-  .pdp-disc__warn { background: var(--fortified-off-white); border-left: 3px solid var(--fortified-orange); padding: 12px 16px; border-radius: 0 10px 10px 0; }
-  .pdp-disc__warn-label { display: block; font-family: var(--font-fortified-display); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fortified-black); margin-bottom: 4px; }
+  .pdp-disc__warn { background: var(--color-background); border-left: 3px solid var(--fortified-accent, var(--color-foreground)); padding: 12px 16px; border-radius: 0 10px 10px 0; }
+  .pdp-disc__warn-label { display: block; font-family: var(--font-fortified-display); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-foreground); margin-bottom: 4px; }
   .pdp-disc__warn p { margin: 0; font-size: 13px; line-height: 1.5; }
   .pdp-disc__fda { font-size: 12px; line-height: 1.55; text-align: center; margin: 0 0 10px; }
-  .pdp-disc__fine { font-size: 11px; line-height: 1.5; text-align: center; margin: 0; color: var(--fortified-gray-mid); }
+  .pdp-disc__fine { font-size: 11px; line-height: 1.5; text-align: center; margin: 0; color: var(--color-foreground); }
 {% endstylesheet %}
 
 {% schema %}

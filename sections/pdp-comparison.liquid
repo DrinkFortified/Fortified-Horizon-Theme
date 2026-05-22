@@ -60,7 +60,7 @@
 </section>
 
 {% stylesheet %}
-  .pdp-cmp { background: var(--fortified-black); color: var(--fortified-white); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); }
+  .pdp-cmp { background: var(--color-foreground); color: var(--color-background); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); }
   .pdp-cmp__head { text-align: center; margin-bottom: 28px; }
   .pdp-cmp__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,.7); margin: 0 0 8px; }
   .pdp-cmp__title { font-family: var(--font-fortified-display); font-size: clamp(26px, 3.6vw, 40px); margin: 0; text-transform: uppercase; letter-spacing: 0.02em; }
@@ -68,15 +68,15 @@
   .pdp-cmp__table { width: 100%; border-collapse: collapse; min-width: 560px; }
   .pdp-cmp__table th, .pdp-cmp__table td { padding: 14px 16px; text-align: center; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,.1); }
   .pdp-cmp__table thead th { font-family: var(--font-fortified-display); text-transform: uppercase; letter-spacing: 0.06em; font-size: 12px; background: rgba(255,255,255,.04); color: rgba(255,255,255,.85); }
-  body[data-product="energy"] .pdp-cmp__th--ours { background: var(--fortified-orange); color: var(--fortified-black); }
-  body[data-product="everyday"] .pdp-cmp__th--ours { background: var(--fortified-accent, var(--fortified-teal)); color: var(--fortified-white); }
+  body[data-product="energy"] .pdp-cmp__th--ours { background: var(--fortified-accent, var(--color-foreground)); color: var(--color-foreground); }
+  body[data-product="everyday"] .pdp-cmp__th--ours { background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); color: var(--color-background); }
   body[data-product="energy"] .pdp-cmp__th--ours .p-everyday,
   body[data-product="everyday"] .pdp-cmp__th--ours .p-energy { display: none; }
   .pdp-cmp__row-label { text-align: left; font-weight: 600; color: rgba(255,255,255,.9); background: rgba(255,255,255,.03); }
-  body[data-product="energy"] .pdp-cmp__td--ours { background: rgba(242,169,59,.12); color: var(--fortified-orange); font-weight: 700; }
-  body[data-product="everyday"] .pdp-cmp__td--ours { background: rgba(31,168,161,.12); color: var(--fortified-accent, var(--fortified-teal)); font-weight: 700; }
-  .pdp-cmp__check { color: var(--fortified-accent, var(--fortified-teal)); font-weight: 700; font-size: 18px; }
-  body[data-product="energy"] .pdp-cmp__td--ours .pdp-cmp__check { color: var(--fortified-orange); }
+  body[data-product="energy"] .pdp-cmp__td--ours { background: rgba(242,169,59,.12); color: var(--fortified-accent, var(--color-foreground)); font-weight: 700; }
+  body[data-product="everyday"] .pdp-cmp__td--ours { background: rgba(31,168,161,.12); color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); font-weight: 700; }
+  .pdp-cmp__check { color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); font-weight: 700; font-size: 18px; }
+  body[data-product="energy"] .pdp-cmp__td--ours .pdp-cmp__check { color: var(--fortified-accent, var(--color-foreground)); }
   .pdp-cmp__x { color: rgba(255,255,255,.4); font-size: 18px; }
 {% endstylesheet %}
 

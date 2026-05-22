@@ -153,28 +153,28 @@
     font-size: 18px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    background: var(--fortified-gray-light);
-    color: var(--fortified-black);
-    border-bottom: 2px solid var(--fortified-gray-light);
+    background: var(--color-border);
+    color: var(--color-foreground);
+    border-bottom: 2px solid var(--color-border);
   }
-  .fortified-comparison__th--ours { background: var(--fortified-teal); color: var(--color-foreground, #fff); }
+  .fortified-comparison__th--ours { background: var(--fortified-accent, var(--color-foreground)); color: var(--color-foreground, #fff); }
   .fortified-comparison__row-label {
     text-align: left;
     padding: 14px 12px;
     font-weight: 600;
     font-size: 14px;
-    background: var(--fortified-off-white);
-    border-bottom: 1px solid var(--fortified-gray-light);
+    background: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
   }
   .fortified-comparison__td {
     padding: 14px 12px;
     text-align: center;
     font-size: 14px;
-    border-bottom: 1px solid var(--fortified-gray-light);
+    border-bottom: 1px solid var(--color-border);
   }
-  .fortified-comparison__td--ours { background: rgb(0 184 184 / .08); font-weight: 700; color: var(--fortified-teal); }
-  .fortified-comparison__check { color: var(--fortified-teal); font-weight: 700; font-size: 18px; }
-  .fortified-comparison__x { color: var(--fortified-gray-mid); font-size: 18px; }
+  .fortified-comparison__td--ours { background: rgb(0 184 184 / .08); font-weight: 700; color: var(--fortified-accent, var(--color-foreground)); }
+  .fortified-comparison__check { color: var(--fortified-accent, var(--color-foreground)); font-weight: 700; font-size: 18px; }
+  .fortified-comparison__x { color: var(--color-foreground); font-size: 18px; }
 {% endstylesheet %}
 
 {% schema %}

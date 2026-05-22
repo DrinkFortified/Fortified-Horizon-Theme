@@ -149,7 +149,7 @@
     min-height: 44px;
   }
   .fortified-ingredients__tab.is-active {
-    background: var(--fortified-accent, var(--fortified-teal));
+    background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground)));
     color: var(--color-foreground, #fff);
   }
   .fortified-ingredients__panels {
@@ -165,7 +165,7 @@
     .fortified-ingredients__panels { grid-template-columns: repeat(4, 1fr); }
   }
   .fortified-ingredients__panel {
-    background: var(--fortified-off-white);
+    background: var(--color-background);
     border-radius: 16px;
     padding: 20px;
     display: flex;

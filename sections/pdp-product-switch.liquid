@@ -40,8 +40,8 @@
     position: sticky;
     top: 0;
     z-index: 40;
-    background: var(--fortified-off-white);
-    border-bottom: 1px solid var(--fortified-gray-light);
+    background: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
     font-family: var(--font-fortified-body);
   }
   .pdp-switch__inner {
@@ -52,8 +52,8 @@
   .pdp-switch__tabs {
     position: relative;
     display: inline-flex;
-    background: var(--fortified-white);
-    border: 1px solid var(--fortified-gray-light);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
     border-radius: var(--fortified-radius-pill);
     padding: 4px;
   }
@@ -73,23 +73,23 @@
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--fortified-gray-mid);
+    color: var(--color-foreground);
     transition: color .25s ease;
   }
-  .pdp-switch__tab.is-active { color: var(--fortified-black); }
+  .pdp-switch__tab.is-active { color: var(--color-foreground); }
   .pdp-switch__sub {
     font-family: var(--font-fortified-body);
     font-weight: 500;
     font-size: 11px;
     letter-spacing: 0.04em;
     text-transform: none;
-    color: var(--fortified-gray-mid);
+    color: var(--color-foreground);
   }
   .pdp-switch__dot {
     width: 10px; height: 10px; border-radius: 50%;
   }
-  .pdp-switch__dot--energy { background: var(--fortified-orange); }
-  .pdp-switch__dot--everyday { background: var(--fortified-accent, var(--fortified-teal)); }
+  .pdp-switch__dot--energy { background: var(--fortified-accent, var(--color-foreground)); }
+  .pdp-switch__dot--everyday { background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); }
   @media (max-width: 600px) {
     .pdp-switch__sub { display: none; }
     .pdp-switch__tab { padding: 8px 14px; font-size: 12px; }

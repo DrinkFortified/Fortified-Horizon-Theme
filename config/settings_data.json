@@ -81,28 +81,28 @@
     "color_schemes": {
       "scheme-1": {
         "settings": {
-          "background": "#F4EEE7",
+          "background": "#FFFFFF",
           "foreground_heading": "#0A0A0A",
           "foreground": "#0A0A0A",
-          "primary": "#1FA8A1",
-          "primary_hover": "#168A84",
-          "border": "#E5DDD0",
+          "primary": "#0A0A0A",
+          "primary_hover": "#0A0A0A",
+          "border": "#E5E5E5",
           "shadow": "#000000",
           "primary_button_background": "#0A0A0A",
           "primary_button_text": "#FFFFFF",
           "primary_button_border": "#0A0A0A",
-          "primary_button_hover_background": "#1FA8A1",
+          "primary_button_hover_background": "#1A1A1A",
           "primary_button_hover_text": "#FFFFFF",
-          "primary_button_hover_border": "#1FA8A1",
+          "primary_button_hover_border": "#1A1A1A",
           "secondary_button_background": "rgba(0,0,0,0)",
           "secondary_button_text": "#0A0A0A",
           "secondary_button_border": "#0A0A0A",
-          "secondary_button_hover_background": "#fafafa",
+          "secondary_button_hover_background": "#FAFAFA",
           "secondary_button_hover_text": "#333333",
           "secondary_button_hover_border": "#333333",
           "input_background": "#FFFFFF",
           "input_text_color": "#0A0A0A",
-          "input_border_color": "#E5DDD0",
+          "input_border_color": "#E5E5E5",
           "input_hover_background": "#00000003",
           "variant_background_color": "#ffffff",
           "variant_text_color": "#000000",
@@ -117,7 +117,7 @@
           "selected_variant_hover_text_color": "#ffffff",
           "selected_variant_hover_border_color": "#1a1a1a"
         },
-        "name": "Fortified Cream"
+        "name": "Default (White)"
       },
       "scheme-2": {
         "settings": {
