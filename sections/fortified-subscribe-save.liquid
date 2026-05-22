@@ -2,7 +2,7 @@
 
 <section
   id="FortifiedSubscribe-{{ section.id }}"
-  class="fortified-subscribe color-{{ section.settings.color_scheme | default: 'scheme-2' }}"
+  class="fortified-subscribe color-{{ section.settings.color_scheme | default: 'scheme-2' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 0 }}px {{ section.settings['padding-block-end'] | default: 0 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 0 }}px {{ section.settings['padding-inline-end'] | default: 0 }}px;"
 >
   <div class="fortified-subscribe__frame">
@@ -20,7 +20,7 @@
         <span class="fortified-subscribe__eyebrow">{{ section.settings.eyebrow }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
-        <h2 class="fortified-subscribe__heading">{{ section.settings.heading | newline_to_br }}</h2>
+        <h2 class="fortified-subscribe__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>
       {% endif %}
       <ul class="fortified-subscribe__list">
         {% for i in (1..6) %}
@@ -29,7 +29,7 @@
           {% if val != blank %}
             <li>
               <span class="fortified-subscribe__check" aria-hidden="true">✓</span>
-              <span>{{ val }}</span>
+              <span>{% render 'fortified-accent-text', text: val %}</span>
             </li>
           {% endif %}
         {% endfor %}
@@ -183,7 +183,8 @@
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "subscribe\n& save 15%"
+      "info": "Wrap text in *asterisks* to highlight in the accent color. Use line breaks to split into multiple lines.",
+      "default": "subscribe\n*& save 15%*"
     },
     {
       "type": "text",
@@ -290,6 +291,13 @@
       "label": "Highlight / accent color",
       "info": "Used for the eyebrow and checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "presets": [

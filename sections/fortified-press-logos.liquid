@@ -2,11 +2,11 @@
 
 <section
   id="FortifiedPress-{{ section.id }}"
-  class="fortified-press color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-press color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container">
     {% if section.settings.heading != blank %}
-      <p class="fortified-press__heading">{{ section.settings.heading }}</p>
+      <p class="fortified-press__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</p>
     {% endif %}
     <div class="fortified-press__row">
       {% for i in (1..6) %}
@@ -88,6 +88,7 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "AS SEEN IN"
     },
     {
@@ -242,6 +243,13 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "presets": [

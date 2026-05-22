@@ -2,7 +2,7 @@
 
 <section
   id="FortifiedHero-{{ section.id }}"
-  class="fortified-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }} fortified-hero--align-{{ section.settings.content_alignment | default: 'left' }}"
+  class="fortified-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }} fortified-hero--align-{{ section.settings.content_alignment | default: 'left' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 24 }}px {{ section.settings['padding-block-end'] | default: 24 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 24 }}px {{ section.settings['padding-inline-end'] | default: 24 }}px;"
 >
   <div class="fortified-hero__frame">
@@ -23,10 +23,10 @@
         <span class="fortified-hero__eyebrow">{{ section.settings.eyebrow_text }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
-        <h1 class="fortified-hero__heading">{{ section.settings.heading | newline_to_br }}</h1>
+        <h1 class="fortified-hero__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h1>
       {% endif %}
       {% if section.settings.body_text != blank %}
-        <p class="fortified-hero__body">{{ section.settings.body_text }}</p>
+        <p class="fortified-hero__body">{% render 'fortified-accent-text', text: section.settings.body_text %}</p>
       {% endif %}
       {% if section.settings.cta_primary_label != blank or section.settings.cta_secondary_label != blank %}
         <div class="fortified-hero__ctas">
@@ -183,13 +183,14 @@
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "info": "Use line breaks to split into multiple lines (e.g. \"hydration\" + \"that hits\").",
-      "default": "hydration\nthat hits"
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\". Use line breaks to split into multiple lines.",
+      "default": "hydration\n*that hits*"
     },
     {
       "type": "textarea",
       "id": "body_text",
       "label": "Body text",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Premium electrolytes that fuel your every move. Clinically dosed, clean, and zero sugar."
     },
     {
@@ -286,6 +287,13 @@
       "label": "Highlight / accent color",
       "info": "Used for the eyebrow text. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "presets": [

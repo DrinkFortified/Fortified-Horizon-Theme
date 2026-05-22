@@ -2,17 +2,17 @@
 
 <section
   id="FortifiedStats-{{ section.id }}"
-  class="fortified-stats color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-stats color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; --fortified-stats-compare: {{ section.settings.compare_color | default: '#657582' }}; padding-block: {{ section.settings['padding-block-start'] | default: 100 }}px {{ section.settings['padding-block-end'] | default: 100 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
 >
   <div class="fortified-stats__inner">
     {% if section.settings.heading != blank or section.settings.body != blank %}
       <header class="fortified-stats__header">
         {% if section.settings.heading != blank %}
-          <h2 class="fortified-stats__heading">{{ section.settings.heading | newline_to_br }}</h2>
+          <h2 class="fortified-stats__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>
         {% endif %}
         {% if section.settings.body != blank %}
-          <p class="fortified-stats__body">{{ section.settings.body }}</p>
+          <p class="fortified-stats__body">{% render 'fortified-accent-text', text: section.settings.body %}</p>
         {% endif %}
       </header>
     {% endif %}
@@ -23,9 +23,9 @@
           <article class="fortified-stats__card" {{ block.shopify_attributes }}>
             <div class="fortified-stats__card-head">
               <div class="fortified-stats__number">{{ block.settings.stat_number }}</div>
-              <div class="fortified-stats__label">{{ block.settings.stat_label }}</div>
+              <div class="fortified-stats__label">{% render 'fortified-accent-text', text: block.settings.stat_label %}</div>
               {% if block.settings.stat_description != blank %}
-                <p class="fortified-stats__desc">{{ block.settings.stat_description }}</p>
+                <p class="fortified-stats__desc">{% render 'fortified-accent-text', text: block.settings.stat_description %}</p>
               {% endif %}
             </div>
             {% if block.settings.show_chart %}
@@ -37,16 +37,16 @@
               </div>
             {% endif %}
             {% if block.settings.footnote != blank %}
-              <p class="fortified-stats__footnote">{{ block.settings.footnote }}</p>
+              <p class="fortified-stats__footnote">{% render 'fortified-accent-text', text: block.settings.footnote %}</p>
             {% endif %}
           </article>
         {% elsif block.type == 'fortified-checklist-card' %}
           <article class="fortified-stats__card fortified-stats__card--list" {{ block.shopify_attributes }}>
             <div class="fortified-stats__card-head">
               <div class="fortified-stats__number">{{ block.settings.headline_number | default: '0%' }}</div>
-              <div class="fortified-stats__label">{{ block.settings.headline_label | default: 'No Sugar. No Crash.' }}</div>
+              <div class="fortified-stats__label">{% render 'fortified-accent-text', text: block.settings.headline_label | default: 'No Sugar. No Crash.' %}</div>
               {% if block.settings.description != blank %}
-                <p class="fortified-stats__desc">{{ block.settings.description }}</p>
+                <p class="fortified-stats__desc">{% render 'fortified-accent-text', text: block.settings.description %}</p>
               {% endif %}
             </div>
             <ul class="fortified-stats__list">
@@ -54,12 +54,12 @@
                 {%- assign key = 'item_' | append: i -%}
                 {%- assign val = block.settings[key] -%}
                 {% if val != blank %}
-                  <li><span class="fortified-stats__check" aria-hidden="true">✓</span>{{ val }}</li>
+                  <li><span class="fortified-stats__check" aria-hidden="true">✓</span>{% render 'fortified-accent-text', text: val %}</li>
                 {% endif %}
               {% endfor %}
             </ul>
             {% if block.settings.footnote != blank %}
-              <p class="fortified-stats__footnote">{{ block.settings.footnote }}</p>
+              <p class="fortified-stats__footnote">{% render 'fortified-accent-text', text: block.settings.footnote %}</p>
             {% endif %}
           </article>
         {% endif %}
@@ -272,12 +272,14 @@
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "WHY WE BEAT THE REST\nelectrolytes"
+      "info": "Wrap text in *asterisks* to highlight in the accent color. Use line breaks to split into multiple lines.",
+      "default": "WHY WE BEAT THE REST\n*electrolytes*"
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "Body text",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Electrolytes don't provide full recovery."
     },
     {
@@ -415,6 +417,13 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "blocks": [
@@ -432,13 +441,15 @@
           "type": "text",
           "id": "stat_label",
           "label": "Label",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Better Hydration"
         },
         {
           "type": "textarea",
           "id": "stat_description",
           "label": "Description",
-          "default": "vs. water alone *"
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "vs. water alone"
         },
         {
           "type": "checkbox",
@@ -480,7 +491,8 @@
           "type": "textarea",
           "id": "footnote",
           "label": "Footnote",
-          "default": "* Study: Journal of Strength & Conditioning Research"
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "Study: Journal of Strength & Conditioning Research"
         },
         {
           "type": "select",
@@ -566,13 +578,15 @@
           "type": "text",
           "id": "headline_label",
           "label": "Headline label",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "No Sugar. No Crash."
         },
         {
           "type": "textarea",
           "id": "description",
           "label": "Description",
-          "default": "in high intensity workouts *"
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "in high intensity workouts"
         },
         {
           "type": "text",
@@ -611,7 +625,8 @@
           "type": "textarea",
           "id": "footnote",
           "label": "Footnote",
-          "default": "* Study: Journal of Strength & Conditioning Research"
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "Study: Journal of Strength & Conditioning Research"
         }
       ]
     }

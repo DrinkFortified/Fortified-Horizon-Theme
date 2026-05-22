@@ -2,7 +2,7 @@
 
 <section
   id="FortifiedProductFeature-{{ section.id }}"
-  class="fortified-product-feature color-{{ section.settings.color_scheme | default: 'scheme-1' }} fortified-product-feature--align-{{ section.settings.content_alignment | default: 'left' }}"
+  class="fortified-product-feature color-{{ section.settings.color_scheme | default: 'scheme-1' }} fortified-product-feature--align-{{ section.settings.content_alignment | default: 'left' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 24 }}px {{ section.settings['padding-block-end'] | default: 24 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 24 }}px {{ section.settings['padding-inline-end'] | default: 24 }}px;"
 >
   <div class="fortified-product-feature__frame">
@@ -22,10 +22,10 @@
         <span class="fortified-product-feature__eyebrow">{{ section.settings.eyebrow }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
-        <h2 class="fortified-product-feature__heading">{{ section.settings.heading | newline_to_br }}</h2>
+        <h2 class="fortified-product-feature__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>
       {% endif %}
       {% if section.settings.body != blank %}
-        <p class="fortified-product-feature__body">{{ section.settings.body }}</p>
+        <p class="fortified-product-feature__body">{% render 'fortified-accent-text', text: section.settings.body %}</p>
       {% endif %}
       {% if section.settings.cta_label != blank %}
         <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-product-feature__btn">{{ section.settings.cta_label }}</a>
@@ -161,13 +161,14 @@
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "info": "Use line breaks to split into multiple lines.",
-      "default": "clean hydration\nmax performance."
+      "info": "Wrap text in *asterisks* to highlight in the accent color. Use line breaks to split into multiple lines.",
+      "default": "clean hydration\n*max performance.*"
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "Body text",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Electrolytes don't provide full recovery. Regenerate combines hydration with collagen supporting skin."
     },
     {
@@ -253,6 +254,13 @@
       "label": "Highlight / accent color",
       "info": "Used for the eyebrow. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "presets": [

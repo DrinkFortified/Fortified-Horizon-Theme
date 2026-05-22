@@ -2,16 +2,16 @@
 
 <section
   id="FortifiedFAQ-{{ section.id }}"
-  class="fortified-faq color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-faq color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 100 }}px {{ section.settings['padding-block-end'] | default: 100 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
 >
   <div class="fortified-faq__inner">
     <aside class="fortified-faq__side">
       {% if section.settings.heading != blank %}
-        <h2 class="fortified-faq__heading">{{ section.settings.heading | newline_to_br }}</h2>
+        <h2 class="fortified-faq__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>
       {% endif %}
       {% if section.settings.body != blank %}
-        <p class="fortified-faq__body">{{ section.settings.body }}</p>
+        <p class="fortified-faq__body">{% render 'fortified-accent-text', text: section.settings.body %}</p>
       {% endif %}
       {% if section.settings.cta_label != blank %}
         <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-faq__cta">{{ section.settings.cta_label }}</a>
@@ -23,10 +23,10 @@
         {% if block.type == 'fortified-faq-item' %}
           <details class="fortified-faq__item" {{ block.shopify_attributes }}>
             <summary class="fortified-faq__q">
-              <span class="fortified-faq__q-text">{{ block.settings.question }}</span>
+              <span class="fortified-faq__q-text">{% render 'fortified-accent-text', text: block.settings.question %}</span>
               <span class="fortified-faq__icon" aria-hidden="true"></span>
             </summary>
-            <div class="fortified-faq__a">{{ block.settings.answer }}</div>
+            <div class="fortified-faq__a">{% render 'fortified-accent-text', text: block.settings.answer %}</div>
           </details>
         {% endif %}
       {% endfor %}
@@ -191,12 +191,14 @@
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "Frequently asked\nquestions"
+      "info": "Wrap text in *asterisks* to highlight in the accent color. Use line breaks to split into multiple lines.",
+      "default": "Frequently asked\n*questions*"
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "Body text",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Electrolytes don't provide full recovery."
     },
     {
@@ -327,6 +329,13 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "blocks": [
@@ -338,12 +347,14 @@
           "type": "text",
           "id": "question",
           "label": "Question",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "What is Fortified?"
         },
         {
           "type": "richtext",
           "id": "answer",
           "label": "Answer",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "<p>Premium electrolytes formulated for performance.</p>"
         },
         {

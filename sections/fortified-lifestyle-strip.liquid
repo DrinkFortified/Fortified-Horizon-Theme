@@ -2,7 +2,7 @@
 
 <section
   id="FortifiedLifestyleStrip-{{ section.id }}"
-  class="fortified-lifestyle-strip color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-lifestyle-strip color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 100 }}px {{ section.settings['padding-block-end'] | default: 100 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 0 }}px {{ section.settings['padding-inline-end'] | default: 0 }}px;"
 >
   <div class="fortified-lifestyle-strip__inner">
@@ -11,10 +11,10 @@
         <span class="fortified-lifestyle-strip__eyebrow">{{ section.settings.eyebrow }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
-        <h2 class="fortified-lifestyle-strip__heading">{{ section.settings.heading | newline_to_br }}</h2>
+        <h2 class="fortified-lifestyle-strip__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>
       {% endif %}
       {% if section.settings.body != blank %}
-        <p class="fortified-lifestyle-strip__body">{{ section.settings.body }}</p>
+        <p class="fortified-lifestyle-strip__body">{% render 'fortified-accent-text', text: section.settings.body %}</p>
       {% endif %}
     </header>
 
@@ -45,7 +45,7 @@
                   <p class="fortified-lifestyle-strip__handle">{{ block.settings.handle }}</p>
                 {% endif %}
                 {% if block.settings.caption != blank %}
-                  <p class="fortified-lifestyle-strip__caption">{{ block.settings.caption }}</p>
+                  <p class="fortified-lifestyle-strip__caption">{% render 'fortified-accent-text', text: block.settings.caption %}</p>
                 {% endif %}
                 {% if block.settings.views != blank %}
                   <p class="fortified-lifestyle-strip__views">{{ block.settings.views }}</p>
@@ -258,12 +258,14 @@
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "More than hydration\nIt's daily support"
+      "info": "Wrap text in *asterisks* to highlight in the accent color. Use line breaks to split into multiple lines.",
+      "default": "More than hydration\n*It's daily support*"
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "Body text",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Electrolytes don't provide full recovery. UNDO® Regenerate combines hydration."
     },
     {
@@ -333,6 +335,13 @@
       "label": "Highlight / accent color",
       "info": "Used for the eyebrow. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "blocks": [
@@ -355,6 +364,7 @@
           "type": "text",
           "id": "caption",
           "label": "Caption",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "undo before the drinks changes everything"
         },
         {

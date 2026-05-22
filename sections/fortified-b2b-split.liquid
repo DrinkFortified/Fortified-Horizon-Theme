@@ -2,7 +2,7 @@
 
 <section
   id="FortifiedB2B-{{ section.id }}"
-  class="fortified-b2b color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-b2b color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 0 }}px {{ section.settings['padding-block-end'] | default: 0 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 0 }}px {{ section.settings['padding-inline-end'] | default: 0 }}px;"
 >
   <div class="fortified-b2b__inner">
@@ -23,10 +23,10 @@
               <span class="fortified-b2b__eyebrow">{{ block.settings.eyebrow }}</span>
             {% endif %}
             {% if block.settings.heading != blank %}
-              <h3 class="fortified-b2b__heading">{{ block.settings.heading | newline_to_br }}</h3>
+              <h3 class="fortified-b2b__heading">{% render 'fortified-accent-text', text: block.settings.heading %}</h3>
             {% endif %}
             {% if block.settings.body != blank %}
-              <p class="fortified-b2b__body">{{ block.settings.body }}</p>
+              <p class="fortified-b2b__body">{% render 'fortified-accent-text', text: block.settings.body %}</p>
             {% endif %}
             {% if block.settings.cta_label != blank %}
               <a href="{{ block.settings.cta_url | default: '#' }}" class="fortified-b2b__btn">{{ block.settings.cta_label }}</a>
@@ -210,6 +210,13 @@
       "label": "Highlight / accent color",
       "info": "Used for the light card eyebrow. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "blocks": [
@@ -242,12 +249,14 @@
           "type": "textarea",
           "id": "heading",
           "label": "Heading",
-          "default": "BECOME A\npartner"
+          "info": "Wrap text in *asterisks* to highlight in the accent color. Use line breaks to split into multiple lines.",
+          "default": "BECOME A\n*partner*"
         },
         {
           "type": "textarea",
           "id": "body",
           "label": "Body text",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Electrolytes don't provide full recovery. UNDO® Regenerate combines hydration."
         },
         {

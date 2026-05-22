@@ -12,7 +12,7 @@
 
 <section
   id="FortifiedIngredients-{{ section.id }}"
-  class="fortified-ingredients color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-ingredients color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   data-fortified-ingredients
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 100 }}px {{ section.settings['padding-block-end'] | default: 100 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
 >
@@ -22,10 +22,10 @@
         <span class="fortified-ingredients__eyebrow">{{ section.settings.eyebrow }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
-        <h2 class="fortified-ingredients__heading">{{ section.settings.heading | newline_to_br }}</h2>
+        <h2 class="fortified-ingredients__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>
       {% endif %}
       {% if section.settings.body != blank %}
-        <p class="fortified-ingredients__body">{{ section.settings.body }}</p>
+        <p class="fortified-ingredients__body">{% render 'fortified-accent-text', text: section.settings.body %}</p>
       {% endif %}
 
       {% if tab_array.size > 0 %}
@@ -70,9 +70,9 @@
                 {% endif %}
               </div>
               <div class="fortified-ingredients__info">
-                <h3 class="fortified-ingredients__name">{{ block.settings.ingredient_name }}</h3>
+                <h3 class="fortified-ingredients__name">{% render 'fortified-accent-text', text: block.settings.ingredient_name %}</h3>
                 {% if block.settings.description != blank %}
-                  <p class="fortified-ingredients__desc">{{ block.settings.description }}</p>
+                  <p class="fortified-ingredients__desc">{% render 'fortified-accent-text', text: block.settings.description %}</p>
                 {% endif %}
                 {% if block.settings.badge_label != blank %}
                   <span class="fortified-ingredients__badge">{{ block.settings.badge_label }}</span>
@@ -103,10 +103,10 @@
                 {% endif %}
                 <div class="fortified-ingredients__benefit-text">
                   {% if block.settings.benefit_title != blank %}
-                    <p class="fortified-ingredients__benefit-title">{{ block.settings.benefit_title }}</p>
+                    <p class="fortified-ingredients__benefit-title">{% render 'fortified-accent-text', text: block.settings.benefit_title %}</p>
                   {% endif %}
                   {% if block.settings.benefit_description != blank %}
-                    <p class="fortified-ingredients__benefit-desc">{{ block.settings.benefit_description | newline_to_br }}</p>
+                    <p class="fortified-ingredients__benefit-desc">{% render 'fortified-accent-text', text: block.settings.benefit_description %}</p>
                   {% endif %}
                 </div>
               </div>
@@ -423,12 +423,14 @@
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "WHY WE BEAT THE REST\nelectrolytes"
+      "info": "Wrap text in *asterisks* to highlight in the accent color. Use line breaks to split into multiple lines.",
+      "default": "WHY WE BEAT THE REST\n*electrolytes*"
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "Body text",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Electrolytes don't provide full recovery."
     },
     {
@@ -498,6 +500,13 @@
       "label": "Highlight / accent color",
       "info": "Used for the eyebrow. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "blocks": [
@@ -533,12 +542,14 @@
           "type": "text",
           "id": "ingredient_name",
           "label": "Ingredient name",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Sodium Citrate"
         },
         {
           "type": "textarea",
           "id": "description",
           "label": "Description",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Essential electrolyte to support fluid balance, hydration, and muscle function"
         },
         {
@@ -568,12 +579,14 @@
           "type": "text",
           "id": "benefit_title",
           "label": "Benefit title",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Hydration Facts"
         },
         {
           "type": "textarea",
           "id": "benefit_description",
           "label": "Benefit description",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Supports muscle function\nand reduces cramps"
         }
       ]
