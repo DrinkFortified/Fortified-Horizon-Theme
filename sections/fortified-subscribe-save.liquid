@@ -17,7 +17,7 @@
 
     <div class="fortified-subscribe__content">
       {% if section.settings.eyebrow != blank %}
-        <span class="fortified-subscribe__eyebrow">{{ section.settings.eyebrow }}</span>
+        <span class="fortified-subscribe__eyebrow">{{ section.settings.eyebrow | replace: '*', '' }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
         <h2 class="fortified-subscribe__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>

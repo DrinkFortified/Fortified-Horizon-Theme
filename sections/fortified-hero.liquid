@@ -20,7 +20,7 @@
 
     <div class="fortified-hero__content">
       {% if section.settings.eyebrow_text != blank %}
-        <span class="fortified-hero__eyebrow">{{ section.settings.eyebrow_text }}</span>
+        <span class="fortified-hero__eyebrow">{{ section.settings.eyebrow_text | replace: '*', '' }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
         <h1 class="fortified-hero__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h1>
