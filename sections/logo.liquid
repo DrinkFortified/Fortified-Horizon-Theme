@@ -1,3 +1,5 @@
+
+
 {% liquid
   assign section_settings = section.settings
   assign image = settings.logo
@@ -120,9 +122,7 @@
 {
   "name": "t:names.logo",
   "enabled_on": {
-    "groups": [
-      "footer"
-    ]
+    "groups": ["footer"]
   },
   "settings": [
     {
@@ -304,10 +304,6 @@
       "content": "t:content.padding"
     },
     {
-      "type": "header",
-      "content": "Spacing"
-    },
-    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top",
@@ -326,26 +322,6 @@
       "step": 1,
       "unit": "px",
       "default": 32
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "Padding left",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "Padding right",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
     }
   ],
   "presets": [

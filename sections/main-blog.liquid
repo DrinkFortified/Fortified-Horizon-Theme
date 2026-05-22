@@ -1,3 +1,5 @@
+
+
 <script
   src="{{ 'blog-posts-list.js' | asset_url }}"
   type="module"
@@ -5,11 +7,11 @@
 ></script>
 
 <blog-posts-list section-id="{{ section.id }}">
-  <div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
+  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
   <div
     class="
       section
-      color-{{ section.settings.color_scheme | default: 'scheme-1' }}
+      color-{{ section.settings.color_scheme }}
       blog-posts
       spacing-style
       size-style
@@ -186,9 +188,7 @@
     }
   ],
   "disabled_on": {
-    "groups": [
-      "header"
-    ]
+    "groups": ["header"]
   },
   "settings": [
     {
@@ -200,10 +200,6 @@
     {
       "type": "header",
       "content": "t:content.padding"
-    },
-    {
-      "type": "header",
-      "content": "Spacing"
     },
     {
       "type": "range",
@@ -224,42 +220,6 @@
       "step": 1,
       "unit": "px",
       "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "Padding left",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "Padding right",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
     }
   ]
 }

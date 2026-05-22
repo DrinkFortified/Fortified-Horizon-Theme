@@ -1,3 +1,5 @@
+
+
 <script type="application/ld+json">
   {{ closest.product | structured_data }}
 </script>
@@ -85,12 +87,12 @@
         data-singleton="{{ product.has_only_default_variant }}"
         data-single-option="{{ has_single_option }}"
       >
-        <h3
+        <p
           class="sticky-add-to-cart__title"
           data-testid="sticky-product-title"
         >
           {{ product.title | escape }}
-        </h3>
+        </p>
         <div
           class="sticky-add-to-cart__variant"
           data-testid="sticky-variant-title"
@@ -260,6 +262,7 @@
   .sticky-add-to-cart__title {
     font-size: var(--font-paragraph-medium--size);
     font-weight: var(--font-weight-semibold);
+    line-height: var(--font-paragraph--line-height);
     margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -367,10 +370,7 @@
     }
   ],
   "disabled_on": {
-    "groups": [
-      "header",
-      "footer"
-    ]
+    "groups": ["header", "footer"]
   },
   "settings": [
     {
@@ -449,10 +449,6 @@
       "content": "t:content.padding"
     },
     {
-      "type": "header",
-      "content": "Spacing"
-    },
-    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top",
@@ -471,42 +467,6 @@
       "step": 1,
       "unit": "px",
       "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "Padding left",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "Padding right",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
     }
   ],
   "presets": []

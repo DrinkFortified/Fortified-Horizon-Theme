@@ -1,3 +1,5 @@
+
+
 <script type="application/ld+json">
   {{ section.settings.product | structured_data }}
 </script>
@@ -40,10 +42,7 @@
     }
   ],
   "disabled_on": {
-    "groups": [
-      "header",
-      "footer"
-    ]
+    "groups": ["header", "footer"]
   },
   "settings": [
     {
@@ -121,10 +120,6 @@
       "content": "t:content.padding"
     },
     {
-      "type": "header",
-      "content": "Spacing"
-    },
-    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top",
@@ -143,42 +138,6 @@
       "step": 1,
       "unit": "px",
       "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "Padding left",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "Padding right",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
     }
   ],
   "presets": [
@@ -236,10 +195,7 @@
                   "name": "t:names.product_price"
                 }
               },
-              "block_order": [
-                "title",
-                "price"
-              ]
+              "block_order": ["title", "price"]
             },
             "review_stars": {
               "type": "review",
@@ -268,12 +224,7 @@
               }
             }
           },
-          "block_order": [
-            "header",
-            "review_stars",
-            "variant_picker",
-            "buy_buttons"
-          ]
+          "block_order": ["header", "review_stars", "variant_picker", "buy_buttons"]
         }
       }
     }

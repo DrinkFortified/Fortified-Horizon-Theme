@@ -1,3 +1,5 @@
+
+
 {% liquid
   assign media_class_modifier = 'media-with-content--' | append: section.settings.media_width
 
@@ -10,9 +12,9 @@
   endif
 %}
 
-<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} disable-section-top-offset media-with-content color-{{ section.settings.color_scheme | default: 'scheme-1' }} spacing-style {{ media_class_modifier }}"
+  class="section section--{{ section.settings.section_width }} disable-section-top-offset media-with-content color-{{ section.settings.color_scheme }} spacing-style {{ media_class_modifier }}"
   data-testid="media-with-content"
   style="
     {%- render 'spacing-style', settings: section.settings %}
@@ -199,9 +201,7 @@
 {
   "name": "t:names.media_with_text",
   "disabled_on": {
-    "groups": [
-      "header"
-    ]
+    "groups": ["header"]
   },
   "settings": [
     {
@@ -295,15 +295,11 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:settings.color_scheme",
-      "default": "scheme-1"
+      "default": "scheme-3"
     },
     {
       "type": "header",
       "content": "t:content.padding"
-    },
-    {
-      "type": "header",
-      "content": "Spacing"
     },
     {
       "type": "range",
@@ -322,26 +318,6 @@
       "min": 0,
       "max": 100,
       "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "Padding left",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "Padding right",
-      "min": 0,
-      "max": 100,
-      "step": 2,
       "unit": "px",
       "default": 0
     }
@@ -399,10 +375,7 @@
                   }
                 }
               },
-              "block_order": [
-                "heading",
-                "text"
-              ]
+              "block_order": ["heading", "text"]
             },
             "button": {
               "type": "button",
@@ -413,11 +386,7 @@
               }
             }
           },
-          "block_order": [
-            "caption",
-            "group",
-            "button"
-          ]
+          "block_order": ["caption", "group", "button"]
         }
       }
     },
@@ -456,9 +425,7 @@
               }
             }
           },
-          "block_order": [
-            "caption"
-          ]
+          "block_order": ["caption"]
         }
       }
     }

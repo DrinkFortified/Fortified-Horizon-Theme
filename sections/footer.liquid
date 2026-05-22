@@ -1,6 +1,8 @@
-<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
+
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
 >
   {% liquid
     assign total_blocks = section.blocks.size
@@ -51,6 +53,11 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--footer-gap);
+    align-items: start;
+  }
+
+  .footer-content .menu__heading__default {
+    font-weight: var(--font-heading--weight);
   }
 
   @media screen and (min-width: 750px) and (max-width: 989px) {
@@ -133,9 +140,7 @@
     }
   ],
   "enabled_on": {
-    "groups": [
-      "footer"
-    ]
+    "groups": ["footer"]
   },
   "settings": [
     {
@@ -175,10 +180,6 @@
       "content": "t:content.padding"
     },
     {
-      "type": "header",
-      "content": "Spacing"
-    },
-    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top",
@@ -197,26 +198,6 @@
       "step": 1,
       "unit": "px",
       "default": 20
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "Padding left",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "Padding right",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
     }
   ],
   "presets": [
@@ -261,10 +242,7 @@
               }
             }
           },
-          "block_order": [
-            "newsletter-heading",
-            "newsletter-text"
-          ]
+          "block_order": ["newsletter-heading", "newsletter-text"]
         },
         "newsletter-form": {
           "type": "email-signup",
@@ -273,10 +251,7 @@
           }
         }
       },
-      "block_order": [
-        "newsletter-group",
-        "newsletter-form"
-      ]
+      "block_order": ["newsletter-group", "newsletter-form"]
     }
   ]
 }

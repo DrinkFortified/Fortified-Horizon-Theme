@@ -1,0 +1,503 @@
+{% doc %}
+  @prompt
+    I want to generate horizontal bar chart that is animated , allow me to change the color for each bar
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-bar-chart-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.padding }}px;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-bar-chart__title-{{ ai_gen_id }} {
+    margin: 0 0 {{ block.settings.spacing }}px;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.title_size }}px;
+    text-align: {{ block.settings.title_alignment }};
+  }
+
+  .ai-bar-chart__bars-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.bar_gap }}px;
+  }
+
+  .ai-bar-chart__item-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-bar-chart__label-row-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ai-bar-chart__label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.label_size }}px;
+    color: {{ block.settings.text_color }};
+    font-weight: 500;
+  }
+
+  .ai-bar-chart__value-{{ ai_gen_id }} {
+    font-size: {{ block.settings.value_size }}px;
+    color: {{ block.settings.text_color }};
+    font-weight: 600;
+  }
+
+  .ai-bar-chart__bar-container-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.bar_height }}px;
+    background-color: {{ block.settings.bar_background_color }};
+    border-radius: {{ block.settings.bar_border_radius }}px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ai-bar-chart__bar-fill-{{ ai_gen_id }} {
+    height: 100%;
+    border-radius: {{ block.settings.bar_border_radius }}px;
+    width: 0;
+    transition: width {{ block.settings.animation_duration }}s ease-out;
+  }
+
+  .ai-bar-chart__bar-fill-{{ ai_gen_id }}.animated {
+    width: var(--bar-width);
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-bar-chart-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<horizontal-bar-chart-{{ ai_gen_id }}
+  class="ai-bar-chart-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.title != blank %}
+    <h3 class="ai-bar-chart__title-{{ ai_gen_id }}">{{ block.settings.title }}</h3>
+  {% endif %}
+
+  <div class="ai-bar-chart__bars-{{ ai_gen_id }}">
+    {% for i in (1..5) %}
+      {% liquid
+        assign label_key = 'bar_' | append: i | append: '_label'
+        assign value_key = 'bar_' | append: i | append: '_value'
+        assign color_key = 'bar_' | append: i | append: '_color'
+        assign label = block.settings[label_key]
+        assign value = block.settings[value_key]
+        assign color = block.settings[color_key]
+      %}
+
+      {% if label != blank and value > 0 %}
+        <div class="ai-bar-chart__item-{{ ai_gen_id }}">
+          <div class="ai-bar-chart__label-row-{{ ai_gen_id }}">
+            <span class="ai-bar-chart__label-{{ ai_gen_id }}">{{ label }}</span>
+            {% if block.settings.show_values %}
+              <span class="ai-bar-chart__value-{{ ai_gen_id }}">{{ value }}{{ block.settings.value_suffix }}</span>
+            {% endif %}
+          </div>
+          <div class="ai-bar-chart__bar-container-{{ ai_gen_id }}">
+            <div
+              class="ai-bar-chart__bar-fill-{{ ai_gen_id }}"
+              style="--bar-width: {{ value }}%; background-color: {{ color }};"
+              data-value="{{ value }}"
+            ></div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</horizontal-bar-chart-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class HorizontalBarChart{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.animated = false;
+      }
+
+      connectedCallback() {
+        this.setupIntersectionObserver();
+      }
+
+      setupIntersectionObserver() {
+        const options = {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !this.animated) {
+              this.animateBars();
+              this.animated = true;
+            }
+          });
+        }, options);
+
+        observer.observe(this);
+      }
+
+      animateBars() {
+        const bars = this.querySelectorAll('.ai-bar-chart__bar-fill-{{ ai_gen_id }}');
+        bars.forEach((bar, index) => {
+          setTimeout(() => {
+            bar.classList.add('animated');
+          }, index * {{ block.settings.stagger_delay }});
+        });
+      }
+    }
+
+    customElements.define('horizontal-bar-chart-{{ ai_gen_id }}', HorizontalBarChart{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Horizontal bar chart",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Performance metrics"
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Title alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_values",
+      "label": "Show values",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "value_suffix",
+      "label": "Value suffix",
+      "default": "%"
+    },
+    {
+      "type": "header",
+      "content": "Bar 1"
+    },
+    {
+      "type": "text",
+      "id": "bar_1_label",
+      "label": "Label",
+      "default": "Customer satisfaction"
+    },
+    {
+      "type": "range",
+      "id": "bar_1_value",
+      "label": "Value",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 85
+    },
+    {
+      "type": "color",
+      "id": "bar_1_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Bar 2"
+    },
+    {
+      "type": "text",
+      "id": "bar_2_label",
+      "label": "Label",
+      "default": "Product quality"
+    },
+    {
+      "type": "range",
+      "id": "bar_2_value",
+      "label": "Value",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 92
+    },
+    {
+      "type": "color",
+      "id": "bar_2_color",
+      "label": "Color",
+      "default": "#1a73e8"
+    },
+    {
+      "type": "header",
+      "content": "Bar 3"
+    },
+    {
+      "type": "text",
+      "id": "bar_3_label",
+      "label": "Label",
+      "default": "Delivery speed"
+    },
+    {
+      "type": "range",
+      "id": "bar_3_value",
+      "label": "Value",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 78
+    },
+    {
+      "type": "color",
+      "id": "bar_3_color",
+      "label": "Color",
+      "default": "#34a853"
+    },
+    {
+      "type": "header",
+      "content": "Bar 4"
+    },
+    {
+      "type": "text",
+      "id": "bar_4_label",
+      "label": "Label",
+      "default": "Value for money"
+    },
+    {
+      "type": "range",
+      "id": "bar_4_value",
+      "label": "Value",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 88
+    },
+    {
+      "type": "color",
+      "id": "bar_4_color",
+      "label": "Color",
+      "default": "#fbbc04"
+    },
+    {
+      "type": "header",
+      "content": "Bar 5"
+    },
+    {
+      "type": "text",
+      "id": "bar_5_label",
+      "label": "Label"
+    },
+    {
+      "type": "range",
+      "id": "bar_5_value",
+      "label": "Value",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "bar_5_color",
+      "label": "Color",
+      "default": "#ea4335"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Title spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "value_size",
+      "label": "Value size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Bar style"
+    },
+    {
+      "type": "range",
+      "id": "bar_height",
+      "label": "Bar height",
+      "min": 10,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "bar_gap",
+      "label": "Gap between bars",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "bar_border_radius",
+      "label": "Bar border radius",
+      "min": 0,
+      "max": 25,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "bar_background_color",
+      "label": "Bar background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "label": "Animation duration",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.5,
+      "unit": "s",
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "stagger_delay",
+      "label": "Stagger delay",
+      "min": 0,
+      "max": 500,
+      "step": 50,
+      "unit": "ms",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Horizontal bar chart"
+    }
+  ]
+}
+{% endschema %}

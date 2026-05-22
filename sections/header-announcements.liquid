@@ -1,3 +1,5 @@
+
+
 {% if section.blocks.size > 1 %}
   <script
     src="{{ 'announcement-bar.js' | asset_url }}"
@@ -6,9 +8,9 @@
   ></script>
 {% endif %}
 
-<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <aside
-  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
   style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;"
 >
   {% liquid
@@ -130,9 +132,7 @@
     }
   ],
   "enabled_on": {
-    "groups": [
-      "header"
-    ]
+    "groups": ["header"]
   },
   "settings": [
     {
@@ -167,7 +167,7 @@
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "default": "scheme-1",
+      "default": "scheme-4",
       "label": "t:settings.color_scheme"
     },
     {
@@ -183,10 +183,6 @@
     {
       "type": "header",
       "content": "t:content.padding"
-    },
-    {
-      "type": "header",
-      "content": "Spacing"
     },
     {
       "type": "range",
@@ -207,26 +203,6 @@
       "step": 1,
       "unit": "px",
       "default": 15
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "Padding left",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "Padding right",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
     }
   ],
   "presets": [
@@ -237,9 +213,7 @@
           "type": "_announcement"
         }
       },
-      "block_order": [
-        "announcement_1"
-      ]
+      "block_order": ["announcement_1"]
     }
   ]
 }

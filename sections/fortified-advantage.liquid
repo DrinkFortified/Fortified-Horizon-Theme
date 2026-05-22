@@ -1,0 +1,852 @@
+{% comment %}
+  Section: Fortified Advantage
+  Category: Fortified Elements
+  Purpose: Two-column section — animated statistics left, comparison bar chart right.
+           Designed for homepage or long-form product landing pages.
+{% endcomment %}
+
+{%- liquid
+  assign stat_blocks = section.blocks | where: "type", "stat"
+  assign bar_blocks  = section.blocks | where: "type", "chart_bar"
+
+  assign has_chart = false
+  if bar_blocks.size > 0 and section.settings.show_chart
+    assign has_chart = true
+  endif
+
+  if section.settings.section_width == "page"
+    assign fa_max_w = "var(--page-width, 1200px)"
+  else
+    assign fa_max_w = "100%"
+  endif
+
+  assign chart_label = section.settings.chart_aria_label
+  if chart_label == blank
+    assign chart_label = "Comparison bar chart"
+  endif
+-%}
+
+<div
+  class="fortified-advantage color-{{ section.settings.color_scheme }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="fortified-advantage"
+  style="
+    --fa-pt:       {{ section.settings.padding_top }}px;
+    --fa-pb:       {{ section.settings.padding_bottom }}px;
+    --fa-pt-m:     {{ section.settings.padding_top_mobile }}px;
+    --fa-pb-m:     {{ section.settings.padding_bottom_mobile }}px;
+    --fa-h-size:   {{ section.settings.heading_size }}px;
+    --fa-h-size-m: {{ section.settings.heading_size_mobile }}px;
+    --fa-sub-size:   {{ section.settings.subtitle_size }}px;
+    --fa-sub-size-m: {{ section.settings.subtitle_size_mobile }}px;
+    --fa-max-w:    {{ fa_max_w }};
+    --fa-accent:   {{ section.settings.accent_color }};
+  "
+>
+  <div class="fortified-advantage__inner{% unless has_chart %} fortified-advantage__inner--solo{% endunless %}">
+
+    {%- comment -%} ── Left column: heading + stat blocks ─────────────────── {%- endcomment -%}
+    <div class="fortified-advantage__content">
+
+      {%- if section.settings.heading != blank -%}
+        <div
+          class="fortified-advantage__heading rte"
+          data-fa-animate
+          data-fa-delay="0"
+        >
+          {{ section.settings.heading }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <p
+          class="fortified-advantage__subheading"
+          data-fa-animate
+          data-fa-delay="100"
+        >
+          {{- section.settings.subheading -}}
+        </p>
+      {%- endif -%}
+
+      {%- if stat_blocks.size > 0 -%}
+        <dl class="fortified-advantage__stats">
+          {%- for block in stat_blocks -%}
+            {%- assign stat_delay = forloop.index | times: 110 | plus: 200 -%}
+            <div
+              class="fortified-advantage__stat"
+              {{ block.shopify_attributes }}
+              data-block-id="{{ block.id }}"
+              data-fa-animate
+              data-fa-delay="{{ stat_delay }}"
+              data-fortified-track="stat"
+              style="--stat-val-size: {{ block.settings.stat_size }}px;"
+            >
+              <dt
+                class="fortified-advantage__stat-value"
+                {%- if block.settings.number != blank -%}
+                  data-count-up
+                  data-target="{{ block.settings.number }}"
+                  data-suffix="{{ block.settings.suffix | escape }}"
+                  data-block-id="{{ block.id }}"
+                {%- endif -%}
+              >
+                {%- if block.settings.number != blank -%}
+                  0{{ block.settings.suffix }}
+                {%- else -%}
+                  {{ block.settings.value }}
+                {%- endif -%}
+              </dt>
+              {%- if block.settings.subtext != blank -%}
+                <dd class="fortified-advantage__stat-subtext rte">
+                  {{- block.settings.subtext -}}
+                </dd>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </dl>
+      {%- endif -%}
+
+    </div>
+
+    {%- comment -%} ── Right column: bar chart blocks ──────────────────────── {%- endcomment -%}
+    {%- if has_chart -%}
+      <div
+        class="fortified-advantage__chart"
+        role="img"
+        aria-label="{{ chart_label | escape }}"
+        data-fa-animate
+        data-fa-delay="150"
+      >
+        <div class="fortified-advantage__bars">
+          {%- for block in bar_blocks -%}
+            <div
+              class="fortified-advantage__bar-group{% if block.settings.is_featured %} fortified-advantage__bar-group--featured{% endif %}"
+              {{ block.shopify_attributes }}
+              data-block-id="{{ block.id }}"
+              style="--bar-color: {{ block.settings.bar_color }}; --pill-text: {{ block.settings.pill_text_color }};"
+            >
+              <div class="fortified-advantage__bar-track">
+                <div
+                  class="fortified-advantage__bar"
+                  data-fa-bar
+                  style="--bar-target-h: {{ block.settings.height }}%;"
+                >
+                  {%- if block.settings.badge_text != blank -%}
+                    <span
+                      class="fortified-advantage__badge"
+                      data-fa-badge
+                      aria-hidden="true"
+                    >{{ block.settings.badge_text }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              <div class="fortified-advantage__bar-label">
+                {%- if block.settings.is_featured -%}
+                  <span class="fortified-advantage__pill">{{ block.settings.label }}</span>
+                {%- else -%}
+                  {{ block.settings.label }}
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% stylesheet %}
+
+/* ================================================================
+   Fortified Advantage — scoped to .fortified-advantage
+   ================================================================ */
+
+.fortified-advantage {
+  display: block;
+  padding-top: var(--fa-pt-m, 40px);
+  padding-bottom: var(--fa-pb-m, 40px);
+}
+
+/* ── Inner grid ─────────────────────────────────────────────────── */
+.fortified-advantage__inner {
+  max-width: var(--fa-max-w, var(--page-width, 1200px));
+  margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 48px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(40px, 6vw, 72px);
+  align-items: center;
+}
+
+.fortified-advantage__inner--solo {
+  max-width: min(var(--fa-max-w, 1200px), 760px);
+}
+
+/* ── Content column ─────────────────────────────────────────────── */
+.fortified-advantage__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.fortified-advantage__heading {
+  font-size: var(--fa-h-size-m, 34px);
+  font-weight: 700;
+  line-height: 1.08;
+  margin: 0 0 clamp(10px, 2vw, 18px);
+}
+
+.fortified-advantage__heading p {
+  margin: 0;
+}
+
+.fortified-advantage__subheading {
+  font-size: var(--fa-sub-size-m, 16px);
+  line-height: 1.65;
+  margin: 0 0 clamp(28px, 4vw, 44px);
+  opacity: 0.68;
+}
+
+/* ── Stats list ─────────────────────────────────────────────────── */
+.fortified-advantage__stats {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.fortified-advantage__stat {
+  padding: clamp(16px, 2.5vw, 24px) 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+  border-bottom: 1px solid color-mix(in srgb, currentColor 13%, transparent);
+}
+
+.fortified-advantage__stat:last-child {
+  border-bottom: none;
+}
+
+.fortified-advantage__stat-value {
+  display: block;
+  font-size: var(--stat-val-size, 28px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.fortified-advantage__stat-subtext {
+  display: block;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  opacity: 0.65;
+  margin: 0;
+}
+
+.fortified-advantage__stat-subtext p {
+  margin: 0;
+}
+
+/* ── Bar chart ──────────────────────────────────────────────────── */
+.fortified-advantage__chart {
+  position: relative;
+  width: 100%;
+}
+
+.fortified-advantage__bars {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(28px, 7vw, 80px);
+  height: clamp(200px, 38vw, 400px);
+  padding-top: clamp(32px, 5vw, 52px);
+  padding-bottom: clamp(44px, 5vw, 60px);
+  padding-inline: clamp(8px, 2vw, 24px);
+}
+
+.fortified-advantage__bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+
+.fortified-advantage__bar-track {
+  width: clamp(48px, 7vw, 96px);
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.fortified-advantage__bar {
+  width: 100%;
+  height: 0;
+  background-color: var(--bar-color, currentColor);
+  border-radius: 5px 5px 0 0;
+  position: relative;
+  transition: height 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fortified-advantage__bar.is-visible {
+  height: var(--bar-target-h, 50%);
+}
+
+.fortified-advantage__badge {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(0.875rem, 2vw, 1.35rem);
+  font-weight: 800;
+  color: var(--fa-accent, currentColor);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.fortified-advantage__badge.is-visible {
+  opacity: 1;
+}
+
+.fortified-advantage__bar-label {
+  font-size: clamp(0.75rem, 1.5vw, 0.9375rem);
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.fortified-advantage__pill {
+  display: inline-block;
+  background-color: var(--bar-color, currentColor);
+  color: var(--pill-text, #fff);
+  padding: 5px 16px;
+  border-radius: 999px;
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+  font-weight: 600;
+}
+
+/* ── Scroll animations (activated via JS class) ──────────────────── */
+.fortified-advantage--animated [data-fa-animate] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.fortified-advantage--animated [data-fa-animate].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .fortified-advantage__bar {
+    transition: none !important;
+  }
+
+  .fortified-advantage__badge {
+    transition: none !important;
+  }
+
+  .fortified-advantage--animated [data-fa-animate] {
+    transition: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Desktop breakpoints (mobile-first) ─────────────────────────── */
+@media (min-width: 750px) {
+  .fortified-advantage {
+    padding-top: var(--fa-pt, 80px);
+    padding-bottom: var(--fa-pb, 80px);
+  }
+
+  .fortified-advantage__inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .fortified-advantage__heading {
+    font-size: var(--fa-h-size, 56px);
+  }
+
+  .fortified-advantage__subheading {
+    font-size: var(--fa-sub-size, 18px);
+  }
+}
+
+@media (min-width: 990px) {
+  .fortified-advantage__inner {
+    grid-template-columns: 55fr 45fr;
+  }
+}
+
+{% endstylesheet %}
+
+<script>
+(function () {
+  var root = document.querySelector('[data-section-id="{{ section.id }}"]');
+  if (!root) return;
+
+  var animationsEnabled = {{ section.settings.enable_animations | json }};
+  var reducedMotion     = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  window.dataLayer = window.dataLayer || [];
+
+  /* ── Helpers ─────────────────────────────────────────────── */
+
+  function makeAllVisible() {
+    root.querySelectorAll('[data-fa-animate]').forEach(function (el) {
+      el.classList.add('is-visible');
+    });
+    root.querySelectorAll('[data-fa-bar]').forEach(function (el) {
+      el.classList.add('is-visible');
+    });
+    root.querySelectorAll('[data-fa-badge]').forEach(function (el) {
+      el.classList.add('is-visible');
+    });
+    root.querySelectorAll('[data-count-up]').forEach(function (el) {
+      el.textContent = el.dataset.target + (el.dataset.suffix || '');
+    });
+  }
+
+  function runCountUp(el) {
+    var target  = parseInt(el.dataset.target, 10);
+    var suffix  = el.dataset.suffix || '';
+    var blockId = el.dataset.blockId || '';
+    if (isNaN(target)) return;
+
+    var duration  = 1450;
+    var startTime = null;
+
+    function tick(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var elapsed  = timestamp - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased    = 1 - Math.pow(1 - progress, 4);
+
+      el.textContent = Math.round(eased * target) + suffix;
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = target + suffix;
+        window.dataLayer.push({
+          event:        'fortified_advantage_countup_complete',
+          section_id:   '{{ section.id }}',
+          section_type: 'fortified-advantage',
+          block_id:     blockId,
+          label:        target + suffix
+        });
+      }
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  function animateIn() {
+    /* Staggered text/content fade-ins */
+    root.querySelectorAll('[data-fa-animate]').forEach(function (el) {
+      var delay = parseInt(el.dataset.faDelay, 10) || 0;
+      setTimeout(function () {
+        el.classList.add('is-visible');
+      }, delay);
+    });
+
+    /* Bar growth — slight lead-in */
+    setTimeout(function () {
+      root.querySelectorAll('[data-fa-bar]').forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+    }, 280);
+
+    /* Badges appear after bars have grown */
+    setTimeout(function () {
+      root.querySelectorAll('[data-fa-badge]').forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+    }, 1700);
+
+    /* Count-ups timed to match each stat's fade-in delay */
+    root.querySelectorAll('[data-count-up]').forEach(function (el) {
+      var wrapper = el.closest('[data-fa-delay]');
+      var delay   = wrapper ? (parseInt(wrapper.dataset.faDelay, 10) || 0) : 200;
+      setTimeout(function () { runCountUp(el); }, delay + 80);
+    });
+
+    /* GA4: section entered viewport */
+    window.dataLayer.push({
+      event:        'fortified_advantage_section_viewed',
+      section_id:   '{{ section.id }}',
+      section_type: 'fortified-advantage',
+      label:        'Fortified Advantage section entered viewport'
+    });
+  }
+
+  /* ── Init ────────────────────────────────────────────────── */
+
+  if (!animationsEnabled || reducedMotion) {
+    makeAllVisible();
+    return;
+  }
+
+  /* Enable CSS hidden-initial state only when JS is active */
+  root.classList.add('fortified-advantage--animated');
+
+  var fired    = false;
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !fired) {
+          fired = true;
+          animateIn();
+          observer.unobserve(root);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  observer.observe(root);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Fortified Advantage",
+  "class": "fortified-advantage-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Water is <u>Dead</u></p>",
+      "info": "Use the rich text editor to underline or style individual words."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Stop diluting yourself. Start hydrating with real minerals."
+    },
+    {
+      "type": "header",
+      "content": "Bar Chart"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_chart",
+      "label": "Show bar chart",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "chart_aria_label",
+      "label": "Chart accessibility label",
+      "default": "Comparison bar chart showing Fortified vs Spring Water electrolyte content",
+      "info": "Describes the chart for screen readers. Write a short plain-text summary."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#000000",
+      "info": "Used for the percentage badge above the featured bar."
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size — desktop",
+      "min": 28,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size — mobile",
+      "min": 20,
+      "max": 56,
+      "step": 2,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subheading size — desktop",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "label": "Subheading size — mobile",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Content width",
+      "options": [
+        { "value": "page", "label": "Page width" },
+        { "value": "full", "label": "Full width" }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding — desktop",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding — desktop",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding — mobile",
+      "min": 0,
+      "max": 80,
+      "step": 8,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding — mobile",
+      "min": 0,
+      "max": 80,
+      "step": 8,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Animations"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animations",
+      "label": "Enable scroll animations",
+      "default": true,
+      "info": "Count-up numbers, bar growth, and staggered fade-ins. Always disabled for visitors who prefer reduced motion."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Statistic",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Value"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "info": "Digits only (e.g. 500). Enables the count-up animation. Leave blank to display the static value below instead."
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix",
+          "default": "x More Electrolytes",
+          "info": "Appended directly after the number — e.g. \"x More\" or \"mg\"."
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Static value",
+          "default": "0 Sugar",
+          "info": "Shown as-is when Number is blank."
+        },
+        {
+          "type": "header",
+          "content": "Description"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "label": "Subtext",
+          "default": "<p>Than a bottle of spring water.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Size"
+        },
+        {
+          "type": "range",
+          "id": "stat_size",
+          "label": "Value font size",
+          "min": 16,
+          "max": 52,
+          "step": 2,
+          "unit": "px",
+          "default": 28
+        }
+      ]
+    },
+    {
+      "type": "chart_bar",
+      "name": "Chart Bar",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Bar"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Spring Water"
+        },
+        {
+          "type": "range",
+          "id": "height",
+          "label": "Height",
+          "min": 5,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 15,
+          "info": "Percentage of the chart area this bar fills."
+        },
+        {
+          "type": "color",
+          "id": "bar_color",
+          "label": "Bar color",
+          "default": "#d4d4d4"
+        },
+        {
+          "type": "header",
+          "content": "Featured Styling"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_featured",
+          "label": "Featured bar",
+          "default": false,
+          "info": "Wraps the label in a pill badge using the bar color."
+        },
+        {
+          "type": "color",
+          "id": "pill_text_color",
+          "label": "Pill text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge above bar",
+          "info": "e.g. \"+500%\". Leave blank to hide."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fortified Advantage",
+      "category": "Fortified Elements",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "number": "500",
+            "suffix": "x More Electrolytes",
+            "subtext": "<p>Than a bottle of spring water.</p>",
+            "stat_size": 30
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "",
+            "value": "0 Sugar",
+            "subtext": "<p>Sweetened with Monk Fruit and OnonSweet.</p>",
+            "stat_size": 30
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "1550",
+            "suffix": "mg Total Electrolytes",
+            "subtext": "<p>Sodium, Potassium, and Magnesium.</p>",
+            "stat_size": 30
+          }
+        },
+        {
+          "type": "chart_bar",
+          "settings": {
+            "label": "Spring Water",
+            "height": 10,
+            "bar_color": "#d4d4d4",
+            "is_featured": false,
+            "badge_text": ""
+          }
+        },
+        {
+          "type": "chart_bar",
+          "settings": {
+            "label": "Fortified",
+            "height": 100,
+            "bar_color": "#111111",
+            "is_featured": true,
+            "pill_text_color": "#ffffff",
+            "badge_text": "+500%"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

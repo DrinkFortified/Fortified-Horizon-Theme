@@ -1,0 +1,11 @@
+{
+  "name": "Fortified Elements",
+  "type": "header",
+  "sections": {
+    "fortified-advantage": {
+      "type": "fortified-advantage",
+      "settings": {}
+    }
+  },
+  "order": ["fortified-advantage"]
+}

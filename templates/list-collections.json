@@ -6,8 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
- {
+ */{
   "sections": {
     "collection_list_Wfgh3m": {
       "type": "main-collection-list",
@@ -16,7 +15,6 @@
           "type": "group",
           "name": "t:names.header",
           "settings": {
-            "link": "",
             "open_in_new_tab": false,
             "content_direction": "column",
             "vertical_on_mobile": true,
@@ -55,7 +53,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<h1>Shop by collection</h1>",
+                "text": "<h1>Collections</h1>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -150,7 +148,7 @@
       "block_order": [
         "group_4FtiAg"
       ],
-      "name": "t:names.collection_list",
+      "name": "Collection list",
       "settings": {
         "layout_type": "grid",
         "carousel_on_mobile": false,

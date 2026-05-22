@@ -1,3 +1,4 @@
+
 <script
   src="{{ 'product-recommendations.js' | asset_url }}"
   type="module"
@@ -24,6 +25,9 @@
   endcapture
 %}
 
+{% render 'quick-add-styles' %}
+{% render 'quick-add-modal-styles' %}
+{% render 'product-badges-styles' %}
 <product-recommendations
   id="product-recommendations-{{ section.id }}"
   class="product-recommendations"
@@ -33,14 +37,15 @@
   data-intent="{{ section.settings.recommendation_type }}"
   data-testid="product-recommendations-section"
   data-recommendations-performed="{{ recommendations.performed }}"
+  data-hydration-key="product-recommendations-{{ section.id }}"
   {{ section.shopify_attributes }}
 >
-  <div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
+  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
   <div
     class="
       section
       section--{{ section.settings.section_width }}
-      color-{{ section.settings.color_scheme | default: 'scheme-1' }}
+      color-{{ section.settings.color_scheme }}
       section-resource-list
       spacing-style
       gap-style
@@ -171,10 +176,7 @@
 {
   "name": "t:names.product_recommendations",
   "disabled_on": {
-    "groups": [
-      "header",
-      "footer"
-    ]
+    "groups": ["header", "footer"]
   },
   "blocks": [
     {
@@ -414,10 +416,6 @@
       "content": "t:content.padding"
     },
     {
-      "type": "header",
-      "content": "Spacing"
-    },
-    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top",
@@ -434,26 +432,6 @@
       "min": 0,
       "max": 100,
       "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "Padding left",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "Padding right",
-      "min": 0,
-      "max": 100,
-      "step": 2,
       "unit": "px",
       "default": 0
     }
@@ -485,7 +463,8 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "t:html_defaults.related_product"
+            "text": "t:html_defaults.related_product",
+            "type_preset": "h3"
           }
         },
         "static-product-card": {
@@ -518,7 +497,7 @@
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "rte",
+                "type_preset": "paragraph",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -558,16 +537,10 @@
               }
             }
           },
-          "block_order": [
-            "product-card-gallery",
-            "product_title",
-            "price"
-          ]
+          "block_order": ["product-card-gallery", "product_title", "price"]
         }
       },
-      "block_order": [
-        "header"
-      ]
+      "block_order": ["header"]
     }
   ]
 }

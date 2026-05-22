@@ -1,3 +1,5 @@
+
+
 {% liquid
   if section.settings.collection_list != blank
     assign section_collections = section.settings.collection_list
@@ -13,13 +15,13 @@
   endif
 %}
 
-<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 
 <div
   class="
     section
     section--{{ section.settings.section_width }}
-    color-{{ section.settings.color_scheme | default: 'scheme-1' }}
+    color-{{ section.settings.color_scheme }}
     section-resource-list
     spacing-style
     gap-style
@@ -106,10 +108,7 @@
     }
   ],
   "disabled_on": {
-    "groups": [
-      "header",
-      "footer"
-    ]
+    "groups": ["header", "footer"]
   },
   "settings": [
     {
@@ -335,10 +334,6 @@
       "content": "t:content.padding"
     },
     {
-      "type": "header",
-      "content": "Spacing"
-    },
-    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top",
@@ -355,26 +350,6 @@
       "min": 0,
       "max": 100,
       "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "Padding left",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "Padding right",
-      "min": 0,
-      "max": 100,
-      "step": 2,
       "unit": "px",
       "default": 0
     }
@@ -446,9 +421,7 @@
               }
             }
           },
-          "block_order": [
-            "text_bc98Wh"
-          ]
+          "block_order": ["text_bc98Wh"]
         },
         "static-collection-card": {
           "type": "_collection-card",
@@ -497,14 +470,10 @@
               }
             }
           },
-          "block_order": [
-            "collection-title"
-          ]
+          "block_order": ["collection-title"]
         }
       },
-      "block_order": [
-        "group_Lg9LkF"
-      ]
+      "block_order": ["group_Lg9LkF"]
     },
     {
       "name": "t:names.collections_grid",
@@ -564,9 +533,7 @@
               }
             }
           },
-          "block_order": [
-            "text_bc98Wh"
-          ]
+          "block_order": ["text_bc98Wh"]
         },
         "static-collection-card": {
           "type": "_collection-card",
@@ -615,14 +582,10 @@
               }
             }
           },
-          "block_order": [
-            "collection-title"
-          ]
+          "block_order": ["collection-title"]
         }
       },
-      "block_order": [
-        "group_Lg9LkF"
-      ],
+      "block_order": ["group_Lg9LkF"],
       "settings": {
         "collection_list": [],
         "layout_type": "grid",
@@ -698,9 +661,7 @@
               }
             }
           },
-          "block_order": [
-            "text_nQEaGV"
-          ]
+          "block_order": ["text_nQEaGV"]
         },
         "static-collection-card": {
           "type": "_collection-card",
@@ -747,14 +708,10 @@
               }
             }
           },
-          "block_order": [
-            "collection-title"
-          ]
+          "block_order": ["collection-title"]
         }
       },
-      "block_order": [
-        "group_EYUh3J"
-      ],
+      "block_order": ["group_EYUh3J"],
       "settings": {
         "collection_list": [],
         "layout_type": "carousel",
@@ -842,9 +799,7 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "text"
-          ]
+          "block_order": ["text"]
         },
         "static-collection-card": {
           "type": "_collection-card",
@@ -906,14 +861,10 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "collection-title"
-          ]
+          "block_order": ["collection-title"]
         }
       },
-      "block_order": [
-        "group"
-      ],
+      "block_order": ["group"],
       "settings": {
         "collection_list": [],
         "layout_type": "editorial",

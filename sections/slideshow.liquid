@@ -1,3 +1,5 @@
+
+
 {% if section.blocks.size > 1 %}
   {% if section.settings.display_mode == 'full_frame' %}
     {% assign autoplay = section.settings.autoplay %}
@@ -59,11 +61,12 @@
   endif
 %}
 
-<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
-  class="slideshow-section spacing-style section {{ section_width_class }} color-{{ section.settings.color_scheme | default: 'scheme-1' }} disable-section-top-offset"
+  class="slideshow-section spacing-style section {{ section_width_class }} color-{{ section.settings.color_scheme }} disable-section-top-offset"
   style="{% render 'spacing-padding', settings: section.settings %}; --slideshow-gap: {{ section.settings.slideshow_gap }}px;{% if rounded_slide_corners %} --corner-radius: {{ section.settings.corner_radius }}px;{% endif %}"
 >
+  <h2 class="visually-hidden">{{ 'accessibility.slideshow' | t }}</h2>
   {% render 'slideshow',
     class: slideshow_class,
     controls: controls,
@@ -176,10 +179,7 @@
     }
   ],
   "disabled_on": {
-    "groups": [
-      "header",
-      "footer"
-    ]
+    "groups": ["header", "footer"]
   },
   "settings": [
     {
@@ -288,7 +288,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:settings.color_scheme",
-      "default": "scheme-1"
+      "default": "primary"
     },
     {
       "type": "header",
@@ -386,10 +386,6 @@
       "content": "t:content.padding"
     },
     {
-      "type": "header",
-      "content": "Spacing"
-    },
-    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top",
@@ -406,26 +402,6 @@
       "min": 0,
       "max": 100,
       "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "Padding left",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "Padding right",
-      "min": 0,
-      "max": 100,
-      "step": 2,
       "unit": "px",
       "default": 0
     }
@@ -451,7 +427,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "t:html_defaults.new_arrivals_h2"
+                "text": "t:html_defaults.new_arrivals_h3"
               }
             },
             "text": {
@@ -469,11 +445,7 @@
               }
             }
           },
-          "block_order": [
-            "heading",
-            "text",
-            "button"
-          ]
+          "block_order": ["heading", "text", "button"]
         },
         "slide_2": {
           "type": "_slide",
@@ -509,17 +481,10 @@
               }
             }
           },
-          "block_order": [
-            "heading",
-            "text",
-            "button"
-          ]
+          "block_order": ["heading", "text", "button"]
         }
       },
-      "block_order": [
-        "slide_1",
-        "slide_2"
-      ]
+      "block_order": ["slide_1", "slide_2"]
     },
     {
       "name": "t:names.slideshow_inset",
@@ -540,7 +505,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "t:html_defaults.new_arrivals_h2"
+                "text": "t:html_defaults.new_arrivals_h3"
               }
             },
             "text": {
@@ -558,11 +523,7 @@
               }
             }
           },
-          "block_order": [
-            "heading",
-            "text",
-            "button"
-          ]
+          "block_order": ["heading", "text", "button"]
         },
         "slide_2": {
           "type": "_slide",
@@ -597,17 +558,10 @@
               }
             }
           },
-          "block_order": [
-            "heading",
-            "text",
-            "button"
-          ]
+          "block_order": ["heading", "text", "button"]
         }
       },
-      "block_order": [
-        "slide_1",
-        "slide_2"
-      ],
+      "block_order": ["slide_1", "slide_2"],
       "settings": {
         "display_mode": "with_hints",
         "slideshow_gap": 18,

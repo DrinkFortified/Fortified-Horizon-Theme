@@ -5,102 +5,72 @@
   {% endif %}
   lang="{{ request.locale.iso_code }}"
 >
-  <head>
-    {%- if settings.favicon != blank -%}
-      <link
-        rel="icon"
-        type="image/png"
-        href="{{ settings.favicon | image_url: width: 32, height: 32 }}"
-      >
-    {%- endif -%}
+<head>
+  <link rel="stylesheet" href="https://use.typekit.net/utb5zek.css">
 
-    {% comment %} This a way to wait for main content to load when navigating to a new page so that the view transitions can work consistently {% endcomment %}
-    {% if settings.transition_to_main_product or settings.page_transition_enabled %}
-      <link
-        rel="expect"
-        href="#MainContent"
-        blocking="render"
-        id="view-transition-render-blocker"
-      >
-    {% endif %}
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
 
-    {%- render 'meta-tags' -%}
-    {%- render 'stylesheets' -%}
-    {%- render 'fonts' -%}
-    {%- render 'scripts' -%}
-    {%- render 'theme-styles-variables' -%}
-    {%- render 'color-schemes' -%}
+  {% if settings.transition_to_main_product or settings.page_transition_enabled %}
+    <link rel="expect" href="#MainContent" blocking="render" id="view-transition-render-blocker">
+  {% endif %}
 
-    {% comment %} FORTIFIED brand fonts — Brother 1816 {% endcomment %}
-    <style>
-      @font-face {
-        font-family: "Brother 1816";
-        src: url("{{ 'Brother1816-Regular.otf' | asset_url }}") format("opentype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Brother 1816";
-        src: url("{{ 'Brother1816-RegularItalic.otf' | asset_url }}") format("opentype");
-        font-weight: 400;
-        font-style: italic;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Brother 1816";
-        src: url("{{ 'Brother1816-Medium.otf' | asset_url }}") format("opentype");
-        font-weight: 500;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Brother 1816";
-        src: url("{{ 'Brother1816-Bold.otf' | asset_url }}") format("opentype");
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Brother 1816";
-        src: url("{{ 'Brother1816-Black.otf' | asset_url }}") format("opentype");
-        font-weight: 900;
-        font-style: normal;
-        font-display: swap;
-      }
-      :root {
-        --font-fortified-display: "Brother 1816", "Helvetica Neue", Arial, sans-serif;
-        --font-fortified-body: "Brother 1816", "Helvetica Neue", Arial, sans-serif;
-        --fortified-teal: #00B8B8;
-        --fortified-teal-dark: #009A9A;
-        --fortified-black: #0A0A0A;
-        --fortified-dark: #111111;
-        --fortified-white: #FFFFFF;
-        --fortified-off-white: #F7F7F7;
-        --fortified-gray-light: #EBEBEB;
-        --fortified-gray-mid: #999999;
-        --fortified-orange: #E8821A;
-        --fortified-purple: #7B3FA0;
-        --fortified-gold: #D4A017;
-        --fortified-success: #2ECC71;
-        --fortified-container: 1280px;
-        --fortified-section-py: clamp(48px, 8vw, 120px);
-        --fortified-radius-pill: 100px;
-      }
-    </style>
+  {%- render 'meta-tags' -%}
+  {%- render 'stylesheets' -%}
+  {%- render 'fonts' -%}
+  {%- render 'scripts' -%}
+  {%- render 'theme-styles-variables' -%}
+  {%- render 'color-schemes' -%}
 
-    {% comment %} Loop Subscriptions {% endcomment %}
-    {% unless loop_script_loaded %}
-      <script src="https://cdn.loopwork.co/loop.js" defer></script>
-      {% assign loop_script_loaded = true %}
-    {% endunless %}
+  {% if request.design_mode %}
+    {%- render 'theme-editor' -%}
+  {% endif %}
 
-    {% if request.design_mode %}
-      {%- render 'theme-editor' -%}
-    {% endif %}
+  {# Fortified overrides — must come AFTER Horizon's font/variable renders so :root wins the cascade #}
+  <style>
+    @font-face {
+      font-family: "Brother 1816";
+      src: url("{{ 'Brother1816-Regular.otf' | asset_url }}") format("opentype");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Brother 1816";
+      src: url("{{ 'Brother1816-RegularItalic.otf' | asset_url }}") format("opentype");
+      font-weight: 400; font-style: italic; font-display: swap;
+    }
+    @font-face {
+      font-family: "Brother 1816";
+      src: url("{{ 'Brother1816-Medium.otf' | asset_url }}") format("opentype");
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Brother 1816";
+      src: url("{{ 'Brother1816-Bold.otf' | asset_url }}") format("opentype");
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Brother 1816";
+      src: url("{{ 'Brother1816-Black.otf' | asset_url }}") format("opentype");
+      font-weight: 900; font-style: normal; font-display: swap;
+    }
 
-    {{ content_for_header }}
-  </head>
+    :root {
+      --font-body--family: "Brother 1816", "Helvetica Neue", Arial, sans-serif;
+      --font-heading--family: "Brother 1816", "Helvetica Neue", Arial, sans-serif;
+      --font-subheading--family: "Brother 1816", "Helvetica Neue", Arial, sans-serif;
+      --font-accent--family: "Brother 1816", "Helvetica Neue", Arial, sans-serif;
+      --font-navigation--family: "Brother 1816", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .fortified-accent-text {
+      color: #1FA8A1;
+      font-style: normal;
+    }
+  </style>
+
+  {{ content_for_header }}
+</head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
@@ -175,7 +145,70 @@
         }
       })();
     </script>
+<script>
+  (function () {
+    function transformAsterisks(root) {
+      // Walk only TEXT nodes — never touches scripts, styles, inputs, or attribute values
+      var walker = document.createTreeWalker(
+        root,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode: function (node) {
+            // Skip text inside <script>, <style>, <textarea>, <input>, <code>, contenteditable
+            var p = node.parentNode;
+            if (!p) return NodeFilter.FILTER_REJECT;
+            var tag = p.nodeName;
+            if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'CODE' || tag === 'PRE') {
+              return NodeFilter.FILTER_REJECT;
+            }
+            if (p.closest && p.closest('[contenteditable="true"]')) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            // Skip if no paired asterisks
+            return /\*[^*]+\*/.test(node.nodeValue)
+              ? NodeFilter.FILTER_ACCEPT
+              : NodeFilter.FILTER_REJECT;
+          }
+        }
+      );
 
+      var nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+
+      nodes.forEach(function (node) {
+        var parts = node.nodeValue.split('*');
+        if (parts.length < 3) return;
+        var frag = document.createDocumentFragment();
+        parts.forEach(function (part, i) {
+          if (i % 2 === 1) {
+            var span = document.createElement('span');
+            span.className = 'fortified-accent-text';
+            span.textContent = part;
+            frag.appendChild(span);
+          } else {
+            frag.appendChild(document.createTextNode(part));
+          }
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+    }
+
+    function run() {
+      transformAsterisks(document.body);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run);
+    } else {
+      run();
+    }
+
+    // Re-run when Shopify sections are re-rendered in the theme editor (live preview)
+    document.addEventListener('shopify:section:load', function (e) {
+      if (e.target) transformAsterisks(e.target);
+    });
+  })();
+</script>
     <main
       id="MainContent"
       class="content-for-layout"

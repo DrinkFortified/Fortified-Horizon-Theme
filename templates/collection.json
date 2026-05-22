@@ -6,8 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
- {
+ */{
   "sections": {
     "section": {
       "type": "section",
@@ -202,24 +201,12 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "swatches": {
-              "type": "swatches",
-              "name": "t:names.swatches",
-              "settings": {
-                "product_swatches_alignment": "flex-start",
-                "product_swatches_padding_top": 4,
-                "product_swatches_padding_bottom": 0,
-                "product_swatches_padding_left": 0,
-                "product_swatches_padding_right": 0
-              }
             }
           },
           "block_order": [
             "card-gallery",
             "product_title_4nY4eT",
-            "price_EzJzMm",
-            "swatches"
+            "price_EzJzMm"
           ]
         }
       },

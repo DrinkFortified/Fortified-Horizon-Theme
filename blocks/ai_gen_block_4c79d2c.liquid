@@ -1,0 +1,599 @@
+{% doc %}
+  @prompt
+    Create a fully editable Shopify theme block that replicates a hydration comparison chart. The block should include:
+    
+    **Content settings (all editable):**
+    - Top headline number (e.g. "2.3x") with font size and color settings
+    - Headline text below the number (e.g. "Better Hydration")
+    - Subtitle/disclaimer text (e.g. "vs. water alone *")
+    - Two bars with individual labels, values (0–100 scale), and colors
+    - Y-axis reference lines at 0, 50, and 100
+    
+    **Bar chart:**
+    - Two vertical bars side by side, with editable heights based on numeric values (e.g. water = 38, FORTIFIED = 93)
+    - Each bar has an editable color, label below, and editable numeric value
+    - The taller bar displays a logo/brand label at the top — toggle setting to switch between showing a custom icon image or plain text (e.g. "FORTIFIED" with a shield icon prefix)
+    
+    **Animations:**
+    - On scroll into view, the bars animate upward from 0 to their target height (smooth grow animation)
+    - The top headline number counts up from 0 to its value (e.g. 0x → 2.3x) with a smooth counter animation
+    
+    **Design:**
+    - Clean, minimal card style with light background
+    - Dashed horizontal reference lines at 50 and 100
+    - Responsive layout
+    - All colors, fonts, and values fully editable via theme block settings, There are no bars, the block needs to be 30% shorter in height, the text needs alignment options, there is no scale to the left to compare, it should have one per line.
+    
+    Water and Fortified need to be under the 3rd line. Lines are too far apart contributing to the execive height of the element., Remove top label text. Labels should be under the bottom line, the chart's bars are not animating or appearing, both bars should be the same width, the labels should be under the bar next to the 0
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-hydration-chart-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .ai-hydration-chart__container-{{ ai_gen_id }} {
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.padding }}px;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-hydration-chart__header-{{ ai_gen_id }} {
+    margin-bottom: 24px;
+  }
+
+  .ai-hydration-chart__number-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_number_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.headline_number_color }};
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .ai-hydration-chart__headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_text_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.headline_text_color }};
+    margin-bottom: 4px;
+  }
+
+  .ai-hydration-chart__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+  }
+
+  .ai-hydration-chart__chart-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .ai-hydration-chart__y-scale-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 210px;
+    padding-top: 0;
+    flex-shrink: 0;
+  }
+
+  .ai-hydration-chart__scale-label-{{ ai_gen_id }} {
+    font-size: 12px;
+    color: {{ block.settings.scale_label_color }};
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .ai-hydration-chart__chart-{{ ai_gen_id }} {
+    position: relative;
+    height: 210px;
+    flex-grow: 1;
+  }
+
+  .ai-hydration-chart__y-axis-{{ ai_gen_id }} {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px dashed {{ block.settings.grid_line_color }};
+  }
+
+  .ai-hydration-chart__y-axis-{{ ai_gen_id }}--0 {
+    bottom: 0;
+  }
+
+  .ai-hydration-chart__y-axis-{{ ai_gen_id }}--50 {
+    bottom: 50%;
+  }
+
+  .ai-hydration-chart__y-axis-{{ ai_gen_id }}--100 {
+    top: 0;
+  }
+
+  .ai-hydration-chart__bars-{{ ai_gen_id }} {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: {{ block.settings.bar_gap }}px;
+    height: 100%;
+    padding: 0 20px;
+  }
+
+  .ai-hydration-chart__bar-wrapper-{{ ai_gen_id }} {
+    width: {{ block.settings.bar_width }}px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    position: relative;
+  }
+
+  .ai-hydration-chart__bar-container-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .ai-hydration-chart__bar-{{ ai_gen_id }} {
+    width: 100%;
+    background-color: var(--bar-color);
+    border-radius: {{ block.settings.bar_border_radius }}px {{ block.settings.bar_border_radius }}px 0 0;
+    position: relative;
+    transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 0%;
+  }
+
+  .ai-hydration-chart__bar-{{ ai_gen_id }}.animated {
+    height: var(--bar-height);
+  }
+
+  .ai-hydration-chart__bar-label-bottom-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: {{ block.settings.bar_label_size }}px;
+    font-weight: 500;
+    color: {{ block.settings.bar_label_color }};
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-hydration-chart__container-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding | times: 0.7 }}px;
+    }
+
+    .ai-hydration-chart__number-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_number_size | times: 0.7 }}px;
+    }
+
+    .ai-hydration-chart__headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_text_size | times: 0.8 }}px;
+    }
+
+    .ai-hydration-chart__subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.9 }}px;
+    }
+
+    .ai-hydration-chart__y-scale-{{ ai_gen_id }} {
+      height: 175px;
+    }
+
+    .ai-hydration-chart__chart-{{ ai_gen_id }} {
+      height: 175px;
+    }
+
+    .ai-hydration-chart__bar-wrapper-{{ ai_gen_id }} {
+      width: {{ block.settings.bar_width | times: 0.7 }}px;
+    }
+  }
+{% endstyle %}
+
+<hydration-chart-{{ ai_gen_id }}
+  class="ai-hydration-chart-{{ ai_gen_id }}"
+  data-headline-number="{{ block.settings.headline_number }}"
+  data-bar1-value="{{ block.settings.bar1_value }}"
+  data-bar2-value="{{ block.settings.bar2_value }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-hydration-chart__container-{{ ai_gen_id }}">
+    <div class="ai-hydration-chart__header-{{ ai_gen_id }}">
+      <div class="ai-hydration-chart__number-{{ ai_gen_id }}" data-counter>0x</div>
+      {% if block.settings.headline_text != blank %}
+        <div class="ai-hydration-chart__headline-{{ ai_gen_id }}">{{ block.settings.headline_text }}</div>
+      {% endif %}
+      {% if block.settings.subtitle_text != blank %}
+        <div class="ai-hydration-chart__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle_text }}</div>
+      {% endif %}
+    </div>
+
+    <div class="ai-hydration-chart__chart-wrapper-{{ ai_gen_id }}">
+      <div class="ai-hydration-chart__y-scale-{{ ai_gen_id }}">
+        <div class="ai-hydration-chart__scale-label-{{ ai_gen_id }}">100</div>
+        <div class="ai-hydration-chart__scale-label-{{ ai_gen_id }}">50</div>
+        <div class="ai-hydration-chart__scale-label-{{ ai_gen_id }}">0</div>
+      </div>
+
+      <div class="ai-hydration-chart__chart-{{ ai_gen_id }}">
+        <div class="ai-hydration-chart__y-axis-{{ ai_gen_id }} ai-hydration-chart__y-axis-{{ ai_gen_id }}--0"></div>
+        <div class="ai-hydration-chart__y-axis-{{ ai_gen_id }} ai-hydration-chart__y-axis-{{ ai_gen_id }}--50"></div>
+        <div class="ai-hydration-chart__y-axis-{{ ai_gen_id }} ai-hydration-chart__y-axis-{{ ai_gen_id }}--100"></div>
+
+        <div class="ai-hydration-chart__bars-{{ ai_gen_id }}">
+          <div class="ai-hydration-chart__bar-wrapper-{{ ai_gen_id }}">
+            <div class="ai-hydration-chart__bar-container-{{ ai_gen_id }}">
+              <div
+                class="ai-hydration-chart__bar-{{ ai_gen_id }}"
+                style="--bar-color: {{ block.settings.bar1_color }}; --bar-height: {{ block.settings.bar1_value }}%;"
+                data-bar="1"
+              ></div>
+            </div>
+            {% if block.settings.bar1_label != blank %}
+              <div class="ai-hydration-chart__bar-label-bottom-{{ ai_gen_id }}">{{ block.settings.bar1_label }}</div>
+            {% endif %}
+          </div>
+
+          <div class="ai-hydration-chart__bar-wrapper-{{ ai_gen_id }}">
+            <div class="ai-hydration-chart__bar-container-{{ ai_gen_id }}">
+              <div
+                class="ai-hydration-chart__bar-{{ ai_gen_id }}"
+                style="--bar-color: {{ block.settings.bar2_color }}; --bar-height: {{ block.settings.bar2_value }}%;"
+                data-bar="2"
+              ></div>
+            </div>
+            {% if block.settings.bar2_label != blank %}
+              <div class="ai-hydration-chart__bar-label-bottom-{{ ai_gen_id }}">{{ block.settings.bar2_label }}</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</hydration-chart-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class HydrationChart{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.animated = false;
+      }
+
+      connectedCallback() {
+        this.headlineNumber = parseFloat(this.dataset.headlineNumber) || 2.3;
+        this.bar1Value = parseFloat(this.dataset.bar1Value) || 38;
+        this.bar2Value = parseFloat(this.dataset.bar2Value) || 93;
+        
+        this.counterElement = this.querySelector('[data-counter]');
+        this.bars = this.querySelectorAll('[data-bar]');
+        
+        this.setupIntersectionObserver();
+      }
+
+      setupIntersectionObserver() {
+        const options = {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !this.animated) {
+              this.animated = true;
+              this.animateChart();
+            }
+          });
+        }, options);
+
+        observer.observe(this);
+      }
+
+      animateChart() {
+        this.animateCounter();
+        this.animateBars();
+      }
+
+      animateCounter() {
+        const duration = 1500;
+        const startTime = performance.now();
+        const startValue = 0;
+        const endValue = this.headlineNumber;
+
+        const animate = (currentTime) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+          const currentValue = startValue + (endValue - startValue) * easeOutQuart;
+          
+          this.counterElement.textContent = currentValue.toFixed(1) + 'x';
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            this.counterElement.textContent = endValue.toFixed(1) + 'x';
+          }
+        };
+
+        requestAnimationFrame(animate);
+      }
+
+      animateBars() {
+        setTimeout(() => {
+          this.bars.forEach(bar => {
+            bar.classList.add('animated');
+          });
+        }, 100);
+      }
+    }
+
+    customElements.define('hydration-chart-{{ ai_gen_id }}', HydrationChart{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hydration chart",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "text",
+      "id": "headline_number",
+      "label": "Number",
+      "default": "2.3"
+    },
+    {
+      "type": "range",
+      "id": "headline_number_size",
+      "label": "Number size",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "color",
+      "id": "headline_number_color",
+      "label": "Number color",
+      "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "headline_text",
+      "label": "Headline text",
+      "default": "Better Hydration"
+    },
+    {
+      "type": "range",
+      "id": "headline_text_size",
+      "label": "Headline size",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "headline_text_color",
+      "label": "Headline color",
+      "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_text",
+      "label": "Subtitle",
+      "default": "vs. water alone *"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#666666"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Bar 1"
+    },
+    {
+      "type": "text",
+      "id": "bar1_label",
+      "label": "Label",
+      "default": "Water"
+    },
+    {
+      "type": "range",
+      "id": "bar1_value",
+      "label": "Value",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 38
+    },
+    {
+      "type": "color",
+      "id": "bar1_color",
+      "label": "Color",
+      "default": "#1498b5"
+    },
+    {
+      "type": "header",
+      "content": "Bar 2"
+    },
+    {
+      "type": "text",
+      "id": "bar2_label",
+      "label": "Label",
+      "default": "FORTIFIED"
+    },
+    {
+      "type": "range",
+      "id": "bar2_value",
+      "label": "Value",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 93
+    },
+    {
+      "type": "color",
+      "id": "bar2_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Chart style"
+    },
+    {
+      "type": "range",
+      "id": "bar_width",
+      "label": "Bar width",
+      "min": 40,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "bar_gap",
+      "label": "Bar spacing",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bar_border_radius",
+      "label": "Bar corner radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "bar_label_size",
+      "label": "Label size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "bar_label_color",
+      "label": "Label color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "grid_line_color",
+      "label": "Grid line color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "scale_label_color",
+      "label": "Scale label color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Container"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f9f9fa"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hydration chart"
+    }
+  ]
+}
+{% endschema %}

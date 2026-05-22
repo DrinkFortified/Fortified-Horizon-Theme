@@ -1,14 +1,16 @@
+
+
 {% liquid
   assign max_items = section.settings.max_products
 %}
 
-<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
   data-testid="product-list"
   class="
     section
     section--{{ section.settings.section_width }}
-    color-{{ section.settings.color_scheme | default: 'scheme-1' }}
+    color-{{ section.settings.color_scheme }}
     section-resource-list
     spacing-style
     gap-style
@@ -94,10 +96,7 @@
     }
   ],
   "disabled_on": {
-    "groups": [
-      "header",
-      "footer"
-    ]
+    "groups": ["header", "footer"]
   },
   "settings": [
     {
@@ -323,10 +322,6 @@
       "content": "t:content.padding"
     },
     {
-      "type": "header",
-      "content": "Spacing"
-    },
-    {
       "type": "range",
       "id": "padding-block-start",
       "label": "t:settings.top",
@@ -343,26 +338,6 @@
       "min": 0,
       "max": 100,
       "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "Padding left",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "Padding right",
-      "min": 0,
-      "max": 100,
-      "step": 2,
       "unit": "px",
       "default": 0
     }
@@ -458,10 +433,7 @@
               }
             }
           },
-          "block_order": [
-            "product_list_text",
-            "product_list_button"
-          ]
+          "block_order": ["product_list_text", "product_list_button"]
         },
         "static-product-card": {
           "type": "_product-card",
@@ -503,7 +475,7 @@
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "rte",
+                "type_preset": "paragraph",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -543,11 +515,7 @@
               }
             }
           },
-          "block_order": [
-            "product-card-gallery",
-            "product_title",
-            "price"
-          ]
+          "block_order": ["product-card-gallery", "product_title", "price"]
         }
       },
       "block_order": []
@@ -611,8 +579,8 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
-                "type_preset": "rte",
+                "text": "<h2>{{ closest.collection.title }}</h2>",
+                "type_preset": "h3",
                 "font": "var(--font-body--family)",
                 "font_size": "",
                 "line_height": "normal",
@@ -642,10 +610,7 @@
               }
             }
           },
-          "block_order": [
-            "product_list_text",
-            "product_list_button"
-          ]
+          "block_order": ["product_list_text", "product_list_button"]
         },
         "static-product-card": {
           "type": "_product-card",
@@ -687,7 +652,7 @@
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "rte",
+                "type_preset": "paragraph",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -727,11 +692,7 @@
               }
             }
           },
-          "block_order": [
-            "product-card-gallery",
-            "product_title",
-            "price"
-          ]
+          "block_order": ["product-card-gallery", "product_title", "price"]
         }
       },
       "block_order": []
@@ -831,10 +792,7 @@
               }
             }
           },
-          "block_order": [
-            "product_list_text",
-            "product_list_button"
-          ]
+          "block_order": ["product_list_text", "product_list_button"]
         },
         "static-product-card": {
           "type": "_product-card",
@@ -876,7 +834,7 @@
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "rte",
+                "type_preset": "paragraph",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -916,11 +874,7 @@
               }
             }
           },
-          "block_order": [
-            "product-card-gallery",
-            "product_title",
-            "price"
-          ]
+          "block_order": ["product-card-gallery", "product_title", "price"]
         }
       },
       "block_order": []
