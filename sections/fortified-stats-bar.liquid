@@ -2,20 +2,33 @@
 
 <section
   id="FortifiedStatsBar-{{ section.id }}"
-  class="fortified-stats-bar color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container fortified-stats-bar__inner">
+  class="fortified-stats-bar color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 40 }}px {{ section.settings['padding-block-end'] | default: 40 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
+>
+  <div class="fortified-stats-bar__inner">
     {% for i in (1..6) %}
       {%- assign val_key = 'stat_' | append: i | append: '_value' -%}
       {%- assign lbl_key = 'stat_' | append: i | append: '_label' -%}
+      {%- assign icon_key = 'stat_' | append: i | append: '_icon' -%}
       {%- assign val = section.settings[val_key] -%}
       {%- assign lbl = section.settings[lbl_key] -%}
-      {% if val != blank %}
+      {%- assign icon = section.settings[icon_key] -%}
+      {% if val != blank or lbl != blank %}
         <div class="fortified-stats-bar__item">
-          <span class="fortified-stats-bar__value">{{ val }}</span>
-          <span class="fortified-stats-bar__label">{{ lbl }}</span>
+          <div class="fortified-stats-bar__icon" aria-hidden="true">
+            {% if icon != blank %}
+              {{ icon | image_url: width: 124 | image_tag:
+                  widths: '62, 124',
+                  sizes: '62px',
+                  alt: lbl,
+                  loading: 'lazy' }}
+            {% endif %}
+          </div>
+          <div class="fortified-stats-bar__text">
+            <p class="fortified-stats-bar__value">{{ val }}</p>
+            <p class="fortified-stats-bar__label">{{ lbl }}</p>
+          </div>
         </div>
-        {% unless forloop.last %}<span class="fortified-stats-bar__sep" aria-hidden="true">·</span>{% endunless %}
       {% endif %}
     {% endfor %}
   </div>
@@ -25,162 +38,107 @@
   .fortified-stats-bar {
     background: var(--color-background);
     color: var(--color-foreground);
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
   }
   .fortified-stats-bar__inner {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-around;
-    gap: clamp(16px, 2vw, 32px);
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 32px;
+    width: 100%;
     max-width: var(--fortified-container);
     margin-inline: auto;
-    padding-inline: clamp(16px, 3vw, 48px);
-    padding-block: clamp(18px, 2.4vw, 28px);
   }
   .fortified-stats-bar__item {
-    display: inline-flex;
-    flex-direction: column;
+    display: flex;
     align-items: center;
-    gap: 2px;
-    min-width: 80px;
+    gap: 24px;
+  }
+  .fortified-stats-bar__icon {
+    flex: 0 0 62px;
+    width: 62px;
+    height: 62px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--fortified-accent) 15%, transparent);
+    color: var(--fortified-accent);
+  }
+  .fortified-stats-bar__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+  .fortified-stats-bar__text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-transform: uppercase;
+    color: var(--color-foreground);
   }
   .fortified-stats-bar__value {
     font-family: var(--font-fortified-display);
-    font-weight: 800;
-    font-size: clamp(16px, 1.6vw, 22px);
+    font-size: 28px;
+    font-weight: 600;
     line-height: 1;
-    color: var(--color-foreground-heading);
-    letter-spacing: -0.005em;
+    letter-spacing: -0.03em;
+    margin: 0;
   }
   .fortified-stats-bar__label {
     font-family: var(--font-fortified-body);
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-foreground);
-    opacity: 0.6;
-    text-align: center;
-  }
-  .fortified-stats-bar__sep {
-    color: var(--color-foreground);
-    opacity: 0.25;
     font-size: 18px;
+    font-weight: 400;
     line-height: 1;
+    margin: 0;
   }
+
   @media (max-width: 749px) {
-    .fortified-stats-bar__sep { display: none; }
-    .fortified-stats-bar__inner {
-      justify-content: center;
-      gap: 18px 12px;
-    }
+    .fortified-stats-bar__inner { justify-content: center; gap: 20px; }
+    .fortified-stats-bar__item { gap: 14px; }
+    .fortified-stats-bar__icon { flex: 0 0 48px; width: 48px; height: 48px; }
+    .fortified-stats-bar__value { font-size: 22px; }
+    .fortified-stats-bar__label { font-size: 14px; }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "14 \u2014 Stats Bar",
+  "name": "LP-02 — Stats Bar",
   "tag": "section",
   "class": "fortified-stats-bar-section",
   "settings": [
-    {
-      "type": "text",
-      "id": "stat_1_value",
-      "label": "Stat 1 value",
-      "default": "1200MG"
-    },
-    {
-      "type": "text",
-      "id": "stat_1_label",
-      "label": "Stat 1 label",
-      "default": "Sodium"
-    },
-    {
-      "type": "text",
-      "id": "stat_2_value",
-      "label": "Stat 2 value",
-      "default": "200MG"
-    },
-    {
-      "type": "text",
-      "id": "stat_2_label",
-      "label": "Stat 2 label",
-      "default": "Mag Cit"
-    },
-    {
-      "type": "text",
-      "id": "stat_3_value",
-      "label": "Stat 3 value",
-      "default": "150MG"
-    },
-    {
-      "type": "text",
-      "id": "stat_3_label",
-      "label": "Stat 3 label",
-      "default": "Potassium"
-    },
-    {
-      "type": "text",
-      "id": "stat_4_value",
-      "label": "Stat 4 value",
-      "default": "100MG"
-    },
-    {
-      "type": "text",
-      "id": "stat_4_label",
-      "label": "Stat 4 label",
-      "default": "Calcium"
-    },
-    {
-      "type": "text",
-      "id": "stat_5_value",
-      "label": "Stat 5 value",
-      "default": "300MG"
-    },
-    {
-      "type": "text",
-      "id": "stat_5_label",
-      "label": "Stat 5 label",
-      "default": "Per Cap"
-    },
-    {
-      "type": "text",
-      "id": "stat_6_value",
-      "label": "Stat 6 value"
-    },
-    {
-      "type": "text",
-      "id": "stat_6_label",
-      "label": "Stat 6 label"
-    },
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
     },
-    {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "Content alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "center"
-    },
+    { "type": "header", "content": "Stat 1" },
+    { "type": "image_picker", "id": "stat_1_icon", "label": "Icon 1" },
+    { "type": "text", "id": "stat_1_value", "label": "Value 1", "default": "1,200mg" },
+    { "type": "text", "id": "stat_1_label", "label": "Label 1", "default": "Sodium" },
+    { "type": "header", "content": "Stat 2" },
+    { "type": "image_picker", "id": "stat_2_icon", "label": "Icon 2" },
+    { "type": "text", "id": "stat_2_value", "label": "Value 2", "default": "200mg" },
+    { "type": "text", "id": "stat_2_label", "label": "Label 2", "default": "Potassium" },
+    { "type": "header", "content": "Stat 3" },
+    { "type": "image_picker", "id": "stat_3_icon", "label": "Icon 3" },
+    { "type": "text", "id": "stat_3_value", "label": "Value 3", "default": "150mg" },
+    { "type": "text", "id": "stat_3_label", "label": "Label 3", "default": "Magnesium" },
+    { "type": "header", "content": "Stat 4" },
+    { "type": "image_picker", "id": "stat_4_icon", "label": "Icon 4" },
+    { "type": "text", "id": "stat_4_value", "label": "Value 4", "default": "100mg" },
+    { "type": "text", "id": "stat_4_label", "label": "Label 4", "default": "Vitamin D3" },
+    { "type": "header", "content": "Stat 5" },
+    { "type": "image_picker", "id": "stat_5_icon", "label": "Icon 5" },
+    { "type": "text", "id": "stat_5_value", "label": "Value 5", "default": "300mg" },
+    { "type": "text", "id": "stat_5_label", "label": "Label 5", "default": "Calcium" },
+    { "type": "header", "content": "Stat 6 (optional)" },
+    { "type": "image_picker", "id": "stat_6_icon", "label": "Icon 6" },
+    { "type": "text", "id": "stat_6_value", "label": "Value 6" },
+    { "type": "text", "id": "stat_6_label", "label": "Label 6" },
     {
       "type": "header",
       "content": "Spacing"
@@ -213,7 +171,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 40
     },
     {
       "type": "range",
@@ -223,41 +181,31 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
+      "default": 40
     },
     {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight / accent color",
-      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "presets": [
     {
-      "name": "14 \u2014 Stats Bar",
+      "name": "LP-02 — Stats Bar",
       "category": "Fortified Landing",
       "settings": {},
       "blocks": []
     },
     {
-      "name": "14 \u2014 Stats Bar",
+      "name": "LP-02 — Stats Bar",
       "category": "Fortified PDP",
       "settings": {},
       "blocks": []

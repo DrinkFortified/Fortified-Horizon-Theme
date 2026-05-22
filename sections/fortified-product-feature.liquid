@@ -2,43 +2,35 @@
 
 <section
   id="FortifiedProductFeature-{{ section.id }}"
-  class="fortified-product-feature color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container fortified-product-feature__inner">
-    <header class="fortified-product-feature__header">
+  class="fortified-product-feature color-{{ section.settings.color_scheme | default: 'scheme-1' }} fortified-product-feature--align-{{ section.settings.content_alignment | default: 'left' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 24 }}px {{ section.settings['padding-block-end'] | default: 24 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 24 }}px {{ section.settings['padding-inline-end'] | default: 24 }}px;"
+>
+  <div class="fortified-product-feature__frame">
+    {% if section.settings.background_image != blank %}
+      {{ section.settings.background_image | image_url: width: 2880 | image_tag:
+          widths: '720, 1080, 1440, 1920, 2400, 2880',
+          sizes: '100vw',
+          class: 'fortified-product-feature__bg',
+          alt: section.settings.background_image.alt | default: section.settings.heading,
+          loading: 'lazy' }}
+    {% else %}
+      <div class="fortified-product-feature__bg fortified-product-feature__bg--placeholder"></div>
+    {% endif %}
+
+    <div class="fortified-product-feature__content">
       {% if section.settings.eyebrow != blank %}
-        <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
+        <span class="fortified-product-feature__eyebrow">{{ section.settings.eyebrow }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
-        <h2 class="fortified-heading fortified-h2">{{ section.settings.heading }}</h2>
+        <h2 class="fortified-product-feature__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>
       {% endif %}
       {% if section.settings.body != blank %}
-        <p class="fortified-body fortified-product-feature__body">{{ section.settings.body }}</p>
+        <p class="fortified-product-feature__body">{% render 'fortified-accent-text', text: section.settings.body %}</p>
       {% endif %}
-    </header>
-
-    <div class="fortified-product-feature__products">
-      {% for i in (1..4) %}
-        {%- assign key = 'product_image_' | append: i -%}
-        {%- assign img = section.settings[key] -%}
-        {% if img != blank %}
-          <div class="fortified-product-feature__item fortified-product-feature__item--{{ i }}">
-            {{ img | image_url: width: 700 | image_tag:
-                widths: '300, 500, 700',
-                sizes: '(min-width: 750px) 22vw, 60vw',
-                class: 'fortified-product-feature__img',
-                alt: img.alt | default: 'Fortified product',
-                loading: 'lazy' }}
-          </div>
-        {% endif %}
-      {% endfor %}
+      {% if section.settings.cta_label != blank %}
+        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-product-feature__btn">{{ section.settings.cta_label }}</a>
+      {% endif %}
     </div>
-
-    {% if section.settings.cta_label != blank %}
-      <div class="fortified-product-feature__cta">
-        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ section.settings.cta_label }}</a>
-      </div>
-    {% endif %}
   </div>
 </section>
 
@@ -46,93 +38,116 @@
   .fortified-product-feature {
     background: var(--color-background);
     color: var(--color-foreground);
+  }
+  .fortified-product-feature__frame {
     position: relative;
+    width: 100%;
+    border-radius: 20px;
     overflow: hidden;
+    isolation: isolate;
+    min-height: 533px;
+    display: flex;
+    align-items: stretch;
   }
-  .fortified-product-feature__inner {
+  .fortified-product-feature__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .fortified-product-feature__bg--placeholder {
+    background: color-mix(in srgb, var(--color-foreground) 6%, transparent);
+  }
+  .fortified-product-feature__content {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: clamp(32px, 4vw, 56px);
-    max-width: var(--fortified-container);
-    margin-inline: auto;
-    padding-inline: clamp(16px, 3vw, 48px);
+    justify-content: center;
+    gap: 18px;
+    padding: 100px 40px;
+    max-width: 560px;
+    color: var(--color-foreground);
+    align-items: flex-start;
+    text-align: left;
   }
-  .fortified-product-feature__header {
-    text-align: center;
-    max-width: 700px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .fortified-product-feature__header .fortified-heading {
+  .fortified-product-feature--align-center .fortified-product-feature__frame { justify-content: center; }
+  .fortified-product-feature--align-center .fortified-product-feature__content { align-items: center; text-align: center; margin-inline: auto; }
+  .fortified-product-feature--align-right .fortified-product-feature__frame { justify-content: flex-end; }
+  .fortified-product-feature--align-right .fortified-product-feature__content { align-items: flex-end; text-align: right; margin-left: auto; }
+
+  .fortified-product-feature__eyebrow {
     font-family: var(--font-fortified-display);
-    font-weight: 900;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--fortified-accent);
     text-transform: uppercase;
-    font-size: clamp(32px, 5vw, 56px);
-    line-height: 0.98;
-    letter-spacing: -0.01em;
     margin: 0;
+  }
+  .fortified-product-feature__heading {
+    font-family: var(--font-fortified-display);
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     color: var(--color-foreground-heading);
+    text-transform: lowercase;
+    margin: 0;
   }
   .fortified-product-feature__body {
-    font-size: clamp(14px, 1vw, 16px);
-    line-height: 1.55;
-    opacity: 0.8;
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-foreground);
     margin: 0;
-    max-width: 56ch;
   }
-
-  /* 4 product packaging shots fanned into a hero composition */
-  .fortified-product-feature__products {
-    position: relative;
-    display: flex;
+  .fortified-product-feature__btn {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    min-height: clamp(320px, 36vw, 440px);
-    padding: 24px 0;
-  }
-  .fortified-product-feature__item {
-    flex: 0 0 auto;
-    width: clamp(140px, 22vw, 240px);
-    transition: transform .35s ease;
-  }
-  .fortified-product-feature__item--1 { transform: none; z-index: 1; }
-  .fortified-product-feature__item--2 { transform: none; z-index: 2; margin-left: -8%; }
-  .fortified-product-feature__item--3 { transform: none; z-index: 3; margin-left: -8%; }
-  .fortified-product-feature__item--4 { transform: none; z-index: 2; margin-left: -8%; }
-  .fortified-product-feature__products:hover .fortified-product-feature__item--1 { transform: none; }
-  .fortified-product-feature__products:hover .fortified-product-feature__item--4 { transform: none; }
-
-  .fortified-product-feature__img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 24px 48px rgba(0,0,0,0.2));
-  }
-
-  /* Subtle warm-tinted ambient glow behind the products */
-
-  .fortified-product-feature__cta .fortified-btn {
-    padding: 14px 32px;
-    border-radius: 999px;
-    font-size: 13px;
-    letter-spacing: 0.06em;
+    width: 411px;
+    max-width: 100%;
+    height: 70px;
+    padding: 18px;
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
     text-transform: uppercase;
-    min-height: 48px;
+    text-decoration: none;
+    box-sizing: border-box;
   }
 
+  @media (max-width: 990px) {
+    .fortified-product-feature__frame { min-height: 440px; }
+    .fortified-product-feature__content { padding: 64px 32px; max-width: 100%; }
+    .fortified-product-feature__heading { font-size: 48px; }
+    .fortified-product-feature__eyebrow { font-size: 22px; }
+    .fortified-product-feature__body { font-size: 18px; }
+  }
   @media (max-width: 749px) {
-    .fortified-product-feature__products { gap: 0; min-height: 280px; }
-    .fortified-product-feature__item { width: clamp(110px, 30vw, 160px); margin-left: -10%; }
+    .fortified-product-feature__frame { min-height: 400px; border-radius: 16px; }
+    .fortified-product-feature__content { padding: 48px 24px; gap: 14px; }
+    .fortified-product-feature__heading { font-size: 38px; }
+    .fortified-product-feature__eyebrow { font-size: 18px; }
+    .fortified-product-feature__body { font-size: 16px; }
+    .fortified-product-feature__btn { width: 100%; height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "03 \u2014 Product Feature",
+  "name": "03 — Product Feature",
   "tag": "section",
   "class": "fortified-product-feature-section",
   "settings": [
@@ -140,18 +155,21 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "FORMULATED FOR"
+      "default": "Formulated for"
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "CLEAN HYDRATION MAX PERFORMANCE"
+      "info": "Wrap text in *asterisks* to highlight in the accent color. Use line breaks to split into multiple lines.",
+      "default": "clean hydration\n*max performance.*"
     },
     {
       "type": "textarea",
       "id": "body",
-      "label": "Body text"
+      "label": "Body text",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
+      "default": "Electrolytes don't provide full recovery. Regenerate combines hydration with collagen supporting skin."
     },
     {
       "type": "text",
@@ -166,23 +184,8 @@
     },
     {
       "type": "image_picker",
-      "id": "product_image_1",
-      "label": "Product image 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "product_image_2",
-      "label": "Product image 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "product_image_3",
-      "label": "Product image 3"
-    },
-    {
-      "type": "image_picker",
-      "id": "product_image_4",
-      "label": "Product image 4"
+      "id": "background_image",
+      "label": "Background image"
     },
     {
       "type": "color_scheme",
@@ -195,20 +198,11 @@
       "id": "content_alignment",
       "label": "Content alignment",
       "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
       ],
-      "default": "center"
+      "default": "left"
     },
     {
       "type": "header",
@@ -222,7 +216,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 24
     },
     {
       "type": "range",
@@ -232,7 +226,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 24
     },
     {
       "type": "range",
@@ -242,7 +236,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 24
     },
     {
       "type": "range",
@@ -252,47 +246,38 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
+      "default": 24
     },
     {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight / accent color",
-      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "info": "Used for the eyebrow. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "presets": [
     {
-      "name": "03 \u2014 Product Feature",
+      "name": "03 — Product Feature",
       "category": "Fortified Home",
       "settings": {},
       "blocks": []
     },
     {
-      "name": "03 \u2014 Product Feature",
+      "name": "03 — Product Feature",
       "category": "Fortified PDP",
       "settings": {},
       "blocks": []
     },
     {
-      "name": "03 \u2014 Product Feature",
+      "name": "03 — Product Feature",
       "category": "Fortified Landing",
       "settings": {},
       "blocks": []

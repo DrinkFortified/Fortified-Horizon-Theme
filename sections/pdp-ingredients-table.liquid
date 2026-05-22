@@ -2,19 +2,19 @@
 
 <section
   id="PdpIngredients-{{ section.id }}"
-  class="pdp-ingredients"
+  class="pdp-ingredients color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container">
     <header class="pdp-ingredients__head">
       <p class="pdp-ingredients__eyebrow">{{ section.settings.eyebrow }}</p>
       <h2 class="pdp-ingredients__title">
-        <span class="p-energy">{{ section.settings.energy_title }}</span>
-        <span class="p-everyday">{{ section.settings.everyday_title }}</span>
+        <span class="p-energy">{% render 'fortified-accent-text', text: section.settings.energy_title %}</span>
+        <span class="p-everyday">{% render 'fortified-accent-text', text: section.settings.everyday_title %}</span>
       </h2>
       <p class="pdp-ingredients__intro">
-        <span class="p-energy">{{ section.settings.energy_intro }}</span>
-        <span class="p-everyday">{{ section.settings.everyday_intro }}</span>
+        <span class="p-energy">{% render 'fortified-accent-text', text: section.settings.energy_intro %}</span>
+        <span class="p-everyday">{% render 'fortified-accent-text', text: section.settings.everyday_intro %}</span>
       </p>
     </header>
 
@@ -31,15 +31,15 @@
           {% for block in section.blocks %}
             {% if block.type == 'ing_energy' %}
               <tr class="p-energy" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-                <td><strong>{{ block.settings.name }}</strong></td>
+                <td><strong>{% render 'fortified-accent-text', text: block.settings.name %}</strong></td>
                 <td>{{ block.settings.dose }}</td>
-                <td>{{ block.settings.why }}</td>
+                <td>{% render 'fortified-accent-text', text: block.settings.why %}</td>
               </tr>
             {% elsif block.type == 'ing_everyday' %}
               <tr class="p-everyday" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-                <td><strong>{{ block.settings.name }}</strong></td>
+                <td><strong>{% render 'fortified-accent-text', text: block.settings.name %}</strong></td>
                 <td>{{ block.settings.dose }}</td>
-                <td>{{ block.settings.why }}</td>
+                <td>{% render 'fortified-accent-text', text: block.settings.why %}</td>
               </tr>
             {% endif %}
           {% endfor %}
@@ -50,15 +50,81 @@
 </section>
 
 {% stylesheet %}
-  .pdp-ingredients { background: var(--color-background); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); color: var(--color-foreground); }
-  .pdp-ingredients__head { text-align: center; margin-bottom: 28px; }
-  .pdp-ingredients__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-foreground); margin: 0 0 8px; }
-  .pdp-ingredients__title { font-family: var(--font-fortified-display); font-size: clamp(26px, 3.6vw, 40px); margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.02em; }
-  .pdp-ingredients__intro { color: var(--color-foreground); max-width: 64ch; margin: 0 auto; font-size: 14px; }
-  .pdp-ingredients__table-wrap { border: 1px solid var(--color-border); border-radius: 18px; overflow: hidden; }
-  .pdp-ingredients__table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  .pdp-ingredients__table th { text-align: left; padding: 14px 18px; background: var(--color-background); font-family: var(--font-fortified-display); text-transform: uppercase; letter-spacing: 0.06em; font-size: 12px; border-bottom: 1px solid var(--color-border); }
-  .pdp-ingredients__table td { padding: 14px 18px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .pdp-ingredients {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-body);
+  }
+  .pdp-ingredients__head {
+    text-align: center;
+    margin-bottom: 42px;
+    display: flex; flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .pdp-ingredients__eyebrow {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--fortified-accent);
+    margin: 0;
+  }
+  .pdp-ingredients__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 62px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+  .pdp-ingredients__intro {
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    max-width: 64ch;
+    margin: 0;
+  }
+  .pdp-ingredients__table-wrap {
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .pdp-ingredients__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-fortified-body);
+    font-size: 18px;
+  }
+  .pdp-ingredients__table th {
+    text-align: left;
+    padding: 18px 22px;
+    background: color-mix(in srgb, var(--color-foreground) 4%, var(--color-background));
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    border-bottom: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+  .pdp-ingredients__table td {
+    padding: 18px 22px;
+    border-bottom: 1.5px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .pdp-ingredients__table td strong {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
   .pdp-ingredients__table tbody tr:last-child td { border-bottom: 0; }
   body[data-product="energy"] .pdp-ingredients__table tr.p-everyday { display: none; }
   body[data-product="everyday"] .pdp-ingredients__table tr.p-energy { display: none; }
@@ -85,24 +151,28 @@
       "type": "text",
       "id": "energy_title",
       "label": "Energy title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "WHAT'S IN FORTIFIED ENERGY"
     },
     {
       "type": "text",
       "id": "everyday_title",
       "label": "Everyday title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "WHAT'S IN FORTIFIED EVERYDAY"
     },
     {
       "type": "textarea",
       "id": "energy_intro",
       "label": "Energy intro",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Every dose disclosed \u2014 no proprietary blends, no hidden anything."
     },
     {
       "type": "textarea",
       "id": "everyday_intro",
       "label": "Everyday intro",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Mineral-rich hydration, fully transparent. Here's exactly what you're drinking."
     },
     {
@@ -234,6 +304,19 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     }
   ],
   "blocks": [
@@ -245,6 +328,7 @@
           "type": "text",
           "id": "name",
           "label": "Name",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Caffeine (from green coffee bean)"
         },
         {
@@ -257,6 +341,7 @@
           "type": "text",
           "id": "why",
           "label": "Why",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Clinically proven dose for focus and performance."
         },
         {
@@ -337,6 +422,7 @@
           "type": "text",
           "id": "name",
           "label": "Name",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Sodium (sea salt)"
         },
         {
@@ -349,6 +435,7 @@
           "type": "text",
           "id": "why",
           "label": "Why",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Primary extracellular electrolyte \u2014 drives hydration."
         },
         {

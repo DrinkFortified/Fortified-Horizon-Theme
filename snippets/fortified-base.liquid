@@ -320,5 +320,28 @@
       flex-wrap: wrap;
       gap: clamp(16px, 2vw, 32px);
     }
+
+    /* Asterisk-delimited highlights: wrap text in *...* in any text field to
+       render that span in the section's accent color. The .fortified--keep-italics
+       class is added to the section wrapper when the per-section
+       "Render highlighted text in italic" toggle is on. */
+    .fortified-accent-text {
+      color: var(--fortified-accent);
+      font-style: normal;
+    }
+    .fortified--keep-italics .fortified-accent-text,
+    [class*="fortified-"] em,
+    [class*="fortified-"] i {
+      color: var(--fortified-accent);
+    }
+    .fortified--keep-italics .fortified-accent-text,
+    .fortified--keep-italics em,
+    .fortified--keep-italics i {
+      font-style: italic;
+    }
+    [class*="fortified-"] em,
+    [class*="fortified-"] i {
+      font-style: normal;
+    }
   </style>
 {% endunless %}

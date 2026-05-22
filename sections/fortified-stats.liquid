@@ -2,54 +2,72 @@
 
 <section
   id="FortifiedStats-{{ section.id }}"
-  class="fortified-stats color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container fortified-stats__inner">
-    {% if section.settings.heading != blank %}
+  class="fortified-stats color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; --fortified-stats-compare: {{ section.settings.compare_color | default: '#657582' }}; padding-block: {{ section.settings['padding-block-start'] | default: 100 }}px {{ section.settings['padding-block-end'] | default: 100 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 40 }}px {{ section.settings['padding-inline-end'] | default: 40 }}px;"
+>
+  <div class="fortified-stats__inner">
+    {% if section.settings.heading != blank or section.settings.body != blank %}
       <header class="fortified-stats__header">
-        {% if section.settings.eyebrow != blank %}
-          <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
+        {% if section.settings.heading != blank %}
+          <h2 class="fortified-stats__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h2>
         {% endif %}
-        <h2 class="fortified-heading fortified-h2">{{ section.settings.heading }}</h2>
+        {% if section.settings.body != blank %}
+          <p class="fortified-stats__body">{% render 'fortified-accent-text', text: section.settings.body %}</p>
+        {% endif %}
       </header>
     {% endif %}
 
-    <div class="fortified-stats__grid" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
+    <div class="fortified-stats__grid">
       {% for block in section.blocks %}
         {% if block.type == 'fortified-stat' %}
-          <div class="fortified-stats__card" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-            <div class="fortified-stats__number">{{ block.settings.stat_number }}</div>
-            <div class="fortified-stats__label">{{ block.settings.stat_label }}</div>
-            {% if block.settings.stat_description != blank %}
-              <p class="fortified-stats__desc">{{ block.settings.stat_description }}</p>
-            {% endif %}
+          <article class="fortified-stats__card" {{ block.shopify_attributes }}>
+            <div class="fortified-stats__card-head">
+              <div class="fortified-stats__number">{{ block.settings.stat_number }}</div>
+              <div class="fortified-stats__label">{% render 'fortified-accent-text', text: block.settings.stat_label %}</div>
+              {% if block.settings.stat_description != blank %}
+                <p class="fortified-stats__desc">{% render 'fortified-accent-text', text: block.settings.stat_description %}</p>
+              {% endif %}
+            </div>
             {% if block.settings.show_chart %}
+              {%- assign their_h = block.settings.their_value | default: 40 -%}
+              {%- assign ours_h = block.settings.ours_value | default: 100 -%}
               <div class="fortified-stats__chart" aria-hidden="true">
-                <div class="fortified-stats__bar" style="--h: 40%"></div>
-                <div class="fortified-stats__bar fortified-stats__bar--ours" style="--h: 92%"></div>
+                <div class="fortified-stats__bar fortified-stats__bar--theirs" style="height: {{ their_h }}%"><span>{{ block.settings.their_label | default: 'water' }}</span></div>
+                <div class="fortified-stats__bar fortified-stats__bar--ours" style="height: {{ ours_h }}%"><span>{{ block.settings.ours_label | default: 'us' }}</span></div>
               </div>
             {% endif %}
-          </div>
+            {% if block.settings.footnote != blank %}
+              <p class="fortified-stats__footnote">{% render 'fortified-accent-text', text: block.settings.footnote %}</p>
+            {% endif %}
+          </article>
         {% elsif block.type == 'fortified-checklist-card' %}
-          <div class="fortified-stats__card fortified-stats__card--list" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-            <div class="fortified-stats__number">{{ block.settings.headline_number | default: "0%" }}</div>
-            <div class="fortified-stats__label">{{ block.settings.headline_label | default: "No Sugar." }}</div>
-            <ul class="fortified-checklist">
+          <article class="fortified-stats__card fortified-stats__card--list" {{ block.shopify_attributes }}>
+            <div class="fortified-stats__card-head">
+              <div class="fortified-stats__number">{{ block.settings.headline_number | default: '0%' }}</div>
+              <div class="fortified-stats__label">{% render 'fortified-accent-text', text: block.settings.headline_label | default: 'No Sugar. No Crash.' %}</div>
+              {% if block.settings.description != blank %}
+                <p class="fortified-stats__desc">{% render 'fortified-accent-text', text: block.settings.description %}</p>
+              {% endif %}
+            </div>
+            <ul class="fortified-stats__list">
               {% for i in (1..6) %}
                 {%- assign key = 'item_' | append: i -%}
                 {%- assign val = block.settings[key] -%}
-                {% if val != blank %}<li>{{ val }}</li>{% endif %}
+                {% if val != blank %}
+                  <li><span class="fortified-stats__check" aria-hidden="true">✓</span>{% render 'fortified-accent-text', text: val %}</li>
+                {% endif %}
               {% endfor %}
             </ul>
-          </div>
+            {% if block.settings.footnote != blank %}
+              <p class="fortified-stats__footnote">{% render 'fortified-accent-text', text: block.settings.footnote %}</p>
+            {% endif %}
+          </article>
         {% endif %}
       {% endfor %}
     </div>
 
     {% if section.settings.cta_label != blank %}
-      <div class="fortified-stats__cta">
-        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--primary">{{ section.settings.cta_label }}</a>
-      </div>
+      <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-stats__btn">{{ section.settings.cta_label }}</a>
     {% endif %}
   </div>
 </section>
@@ -63,124 +81,183 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(28px, 4vw, 48px);
+    gap: 42px;
+    width: 100%;
     max-width: var(--fortified-container);
     margin-inline: auto;
-    padding-inline: clamp(16px, 3vw, 48px);
   }
   .fortified-stats__header {
-    text-align: center;
-    max-width: 760px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    gap: 12px;
+    max-width: 720px;
+    text-align: center;
   }
-  .fortified-stats__header .fortified-heading {
+  .fortified-stats__heading {
     font-family: var(--font-fortified-display);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: clamp(28px, 4.5vw, 48px);
-    line-height: 1.02;
-    letter-spacing: -0.01em;
-    margin: 0;
+    font-size: 62px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     color: var(--color-foreground-heading);
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .fortified-stats__body {
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    margin: 0;
   }
   .fortified-stats__grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 18px;
     width: 100%;
   }
-  @media (min-width: 750px) {
-    .fortified-stats__grid { grid-template-columns: repeat(4, 1fr); }
-  }
   .fortified-stats__card {
-    background: color-mix(in srgb, var(--color-foreground) 4%, transparent);
-    border: 1px solid var(--color-border);
-    border-radius: 16px;
-    padding: clamp(20px, 2.4vw, 28px);
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 14px;
+    padding: 52px 42px;
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+    color: var(--color-foreground);
+    background: transparent;
+  }
+  .fortified-stats__card-head {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
-    min-height: 220px;
-    position: relative;
-    transition: transform .25s ease, box-shadow .25s ease;
+    gap: 4px;
   }
-  
   .fortified-stats__number {
     font-family: var(--font-fortified-display);
-    font-weight: 900;
-    font-size: clamp(40px, 5vw, 64px);
-    line-height: 1;
-    color: var(--fortified-accent, var(--color-foreground-heading));
-    letter-spacing: -0.02em;
+    font-size: 62px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground-heading);
   }
   .fortified-stats__label {
     font-family: var(--font-fortified-display);
-    font-weight: 700;
-    font-size: clamp(15px, 1.4vw, 18px);
-    text-transform: uppercase;
-    line-height: 1.15;
+    font-size: 38px;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     color: var(--color-foreground-heading);
-    margin-top: 4px;
   }
   .fortified-stats__desc {
-    font-size: 12px;
-    line-height: 1.5;
-    opacity: 0.65;
-    margin: 0;
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1.2;
+    color: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+    margin: 8px 0 0;
   }
   .fortified-stats__chart {
-    margin-top: auto;
     display: flex;
     align-items: flex-end;
-    gap: 8px;
-    height: 80px;
+    justify-content: space-around;
+    gap: 24px;
+    height: 240px;
     width: 100%;
-    padding-top: 16px;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
+    padding: 0 12px;
   }
   .fortified-stats__bar {
-    flex: 1;
-    height: var(--h, 50%);
-    background: color-mix(in srgb, var(--color-foreground) 15%, transparent);
-    border-radius: 6px 6px 0 0;
-    transition: height .35s ease;
-  }
-  .fortified-stats__bar--ours {
-    background: var(--fortified-accent, var(--color-foreground));
-  }
-  .fortified-stats__card--list {
-    background: var(--color-foreground);
-    color: var(--color-background);
-    border-color: transparent;
-  }
-  .fortified-stats__card--list .fortified-stats__number,
-  .fortified-stats__card--list .fortified-stats__label { color: var(--color-background); }
-  .fortified-stats__card--list .fortified-checklist {
-    margin-top: 8px;
-    width: 100%;
-  }
-  .fortified-stats__card--list .fortified-checklist li {
-    color: var(--color-background);
-    font-size: 13px;
-    line-height: 1.4;
-  }
-  .fortified-stats__card--list .fortified-checklist li::before {
-    color: var(--fortified-accent, var(--color-background));
-  }
-  .fortified-stats__cta {
+    position: relative;
+    width: 30%;
     display: flex;
+    align-items: flex-end;
     justify-content: center;
-    margin-top: 8px;
+    color: transparent;
   }
-  .fortified-stats__cta .fortified-btn {
-    padding: 14px 32px;
-    border-radius: 999px;
-    font-size: 13px;
-    letter-spacing: 0.06em;
+  .fortified-stats__bar span {
+    position: absolute;
+    bottom: -28px;
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-body);
+    font-size: 16px;
+    line-height: 1.2;
+  }
+  .fortified-stats__bar--theirs { background: var(--fortified-stats-compare, #657582); }
+  .fortified-stats__bar--ours { background: var(--fortified-accent); }
+  .fortified-stats__footnote {
+    font-family: var(--font-fortified-body);
+    font-size: 18px;
+    line-height: 1.2;
+    color: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+    margin: 24px 0 0;
+  }
+  .fortified-stats__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .fortified-stats__list li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-fortified-body);
+    font-size: 22px;
+    line-height: 1.1;
+    color: var(--color-foreground);
+    text-transform: capitalize;
+  }
+  .fortified-stats__check {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--fortified-accent);
+    color: var(--color-background);
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .fortified-stats__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 411px;
+    max-width: 100%;
+    height: 70px;
+    padding: 18px;
+    border-radius: 8px;
+    background: var(--color-primary-button-background, var(--color-foreground));
+    color: var(--color-primary-button-text, var(--color-background));
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
     text-transform: uppercase;
-    min-height: 48px;
+    text-decoration: none;
+    border: none;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 990px) {
+    .fortified-stats__grid { grid-template-columns: 1fr; }
+    .fortified-stats__heading { font-size: 44px; }
+    .fortified-stats__body { font-size: 18px; }
+    .fortified-stats__number { font-size: 48px; }
+    .fortified-stats__label { font-size: 28px; }
+    .fortified-stats__card { padding: 36px 32px; gap: 32px; }
+  }
+  @media (max-width: 749px) {
+    .fortified-stats__heading { font-size: 32px; }
+    .fortified-stats__card { padding: 28px 24px; }
+    .fortified-stats__btn { width: 100%; height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
@@ -189,18 +266,21 @@
   "name": "05 \u2014 Stats",
   "tag": "section",
   "class": "fortified-stats-section",
-  "max_blocks": 4,
+  "max_blocks": 6,
   "settings": [
     {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow"
-    },
-    {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "WHY WE BEAT THE REST ELECTROLYTES"
+      "info": "Wrap text in *asterisks* to highlight in the accent color. Use line breaks to split into multiple lines.",
+      "default": "WHY WE BEAT THE REST\n*electrolytes*"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
+      "default": "Electrolytes don't provide full recovery."
     },
     {
       "type": "text",
@@ -276,7 +356,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 100
     },
     {
       "type": "range",
@@ -286,7 +366,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 100
     },
     {
       "type": "range",
@@ -296,7 +376,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 40
     },
     {
       "type": "range",
@@ -306,7 +386,14 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "compare_color",
+      "label": "Comparison bar color",
+      "info": "Color for the 'theirs' bar in stat comparison charts.",
+      "default": "#657582"
     },
     {
       "type": "select",
@@ -330,6 +417,13 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "blocks": [
@@ -347,18 +441,58 @@
           "type": "text",
           "id": "stat_label",
           "label": "Label",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Better Hydration"
         },
         {
           "type": "textarea",
           "id": "stat_description",
-          "label": "Description"
+          "label": "Description",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "vs. water alone"
         },
         {
           "type": "checkbox",
           "id": "show_chart",
           "label": "Show comparison bar chart",
           "default": true
+        },
+        {
+          "type": "text",
+          "id": "their_label",
+          "label": "Comparison bar label",
+          "default": "water"
+        },
+        {
+          "type": "range",
+          "id": "their_value",
+          "label": "Comparison bar height (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 40
+        },
+        {
+          "type": "text",
+          "id": "ours_label",
+          "label": "Our bar label",
+          "default": "us"
+        },
+        {
+          "type": "range",
+          "id": "ours_value",
+          "label": "Our bar height (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 100
+        },
+        {
+          "type": "textarea",
+          "id": "footnote",
+          "label": "Footnote",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "Study: Journal of Strength & Conditioning Research"
         },
         {
           "type": "select",
@@ -444,7 +578,15 @@
           "type": "text",
           "id": "headline_label",
           "label": "Headline label",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "No Sugar. No Crash."
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "in high intensity workouts"
         },
         {
           "type": "text",
@@ -480,72 +622,11 @@
           "label": "Item 6"
         },
         {
-          "type": "select",
-          "id": "content_alignment",
-          "label": "Block alignment",
-          "options": [
-            {
-              "value": "inherit",
-              "label": "Inherit from section"
-            },
-            {
-              "value": "left",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ],
-          "default": "inherit"
-        },
-        {
-          "type": "header",
-          "content": "Spacing"
-        },
-        {
-          "type": "range",
-          "id": "padding-block-start",
-          "label": "Padding top",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-block-end",
-          "label": "Padding bottom",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-start",
-          "label": "Padding left",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-end",
-          "label": "Padding right",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
+          "type": "textarea",
+          "id": "footnote",
+          "label": "Footnote",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "Study: Journal of Strength & Conditioning Research"
         }
       ]
     }

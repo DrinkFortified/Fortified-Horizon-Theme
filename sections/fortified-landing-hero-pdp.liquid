@@ -13,7 +13,7 @@
 
 <section
   id="FortifiedLandingHeroPDP-{{ section.id }}"
-  class="fortified-landing-hero-pdp color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="fortified-landing-hero-pdp color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
   data-fortified-landing-pdp
   data-default-plan="{{ default_plan_id }}"
@@ -43,7 +43,7 @@
                 style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};"
                 {{ block.shopify_attributes }}>
               <span class="fortified-landing-hero-pdp__usp-check" aria-hidden="true">✓</span>
-              <span>{{ block.settings.text }}</span>
+              <span>{% render 'fortified-accent-text', text: block.settings.text %}</span>
             </li>
           {% endif %}
         {% endfor %}
@@ -55,7 +55,7 @@
         <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
-        <h1 class="fortified-heading fortified-h1 fortified-landing-hero-pdp__heading">{{ section.settings.heading }}</h1>
+        <h1 class="fortified-heading fortified-h1 fortified-landing-hero-pdp__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h1>
       {% endif %}
 
       {% if section.settings.rating_text != blank %}
@@ -66,7 +66,7 @@
       {% endif %}
 
       {% if section.settings.body != blank %}
-        <div class="fortified-landing-hero-pdp__body fortified-body">{{ section.settings.body }}</div>
+        <div class="fortified-landing-hero-pdp__body fortified-body">{% render 'fortified-accent-text', text: section.settings.body %}</div>
       {% endif %}
 
       <fieldset class="fortified-landing-hero-pdp__plans">
@@ -92,8 +92,8 @@
                 {% if block.settings.badge != blank %}
                   <span class="fortified-landing-hero-pdp__plan-badge">{{ block.settings.badge }}</span>
                 {% endif %}
-                <span class="fortified-landing-hero-pdp__plan-title">{{ block.settings.label }}</span>
-                <span class="fortified-landing-hero-pdp__plan-detail">{{ block.settings.detail }}</span>
+                <span class="fortified-landing-hero-pdp__plan-title">{% render 'fortified-accent-text', text: block.settings.label %}</span>
+                <span class="fortified-landing-hero-pdp__plan-detail">{% render 'fortified-accent-text', text: block.settings.detail %}</span>
                 <span class="fortified-landing-hero-pdp__plan-price">
                   {{ block.settings.price_display }}
                   {% if block.settings.compare_at != blank %}
@@ -119,13 +119,13 @@
       </a>
 
       <ul class="fortified-landing-hero-pdp__trust">
-        {% if section.settings.trust_1 != blank %}<li>{{ section.settings.trust_1 }}</li>{% endif %}
-        {% if section.settings.trust_2 != blank %}<li>{{ section.settings.trust_2 }}</li>{% endif %}
-        {% if section.settings.trust_3 != blank %}<li>{{ section.settings.trust_3 }}</li>{% endif %}
+        {% if section.settings.trust_1 != blank %}<li>{% render 'fortified-accent-text', text: section.settings.trust_1 %}</li>{% endif %}
+        {% if section.settings.trust_2 != blank %}<li>{% render 'fortified-accent-text', text: section.settings.trust_2 %}</li>{% endif %}
+        {% if section.settings.trust_3 != blank %}<li>{% render 'fortified-accent-text', text: section.settings.trust_3 %}</li>{% endif %}
       </ul>
 
       {% if section.settings.loop_note != blank %}
-        <p class="fortified-landing-hero-pdp__loop-note">{{ section.settings.loop_note }}</p>
+        <p class="fortified-landing-hero-pdp__loop-note">{% render 'fortified-accent-text', text: section.settings.loop_note %}</p>
       {% endif %}
     </div>
   </div>
@@ -198,7 +198,7 @@
   }
   .fortified-landing-hero-pdp__usp-check {
     width: 16px; height: 16px;
-    background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); color: var(--color-foreground, #fff);
+    background: var(--fortified-accent, var(--color-foreground)); color: var(--color-foreground, #fff);
     border-radius: 50%;
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 10px; font-weight: 700;
@@ -248,19 +248,17 @@
     flex-direction: column;
     gap: 4px;
     position: relative;
-    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    transition: border-color .15s ease;
   }
-  .fortified-landing-hero-pdp__plan:hover { border-color: var(--color-foreground);  }
   .fortified-landing-hero-pdp__plan.is-selected {
-    border-color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground)));
-    box-shadow: 0 0 0 2px rgba(31, 168, 161, 0.18);
+    border-color: var(--fortified-accent, var(--color-foreground));
   }
   .fortified-landing-hero-pdp__plan input[type="radio"] {
     position: absolute; opacity: 0; pointer-events: none;
   }
   .fortified-landing-hero-pdp__plan-badge {
     align-self: flex-start;
-    background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); color: var(--color-foreground, #fff);
+    background: var(--fortified-accent, var(--color-foreground)); color: var(--color-foreground, #fff);
     font-size: 10px; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase;
     padding: 3px 8px; border-radius: 100px;
@@ -307,7 +305,7 @@
 
 {% schema %}
 {
-  "name": "LP Hero - PDP",
+  "name": "LP-04b — Landing Hero (PDP)",
   "tag": "section",
   "class": "fortified-section fortified-section--landing-hero-pdp",
   "settings": [
@@ -325,7 +323,8 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "HYDRATION THAT HITS"
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
+      "default": "HYDRATION *THAT HITS*"
     },
     {
       "type": "text",
@@ -337,6 +336,7 @@
       "type": "richtext",
       "id": "body",
       "label": "Body",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "<p>1,200mg sodium \u00b7 150mg magnesium glycinate \u00b7 300mg potassium. Zero sugar. Clinically dosed for real performance.</p>"
     },
     {
@@ -387,6 +387,7 @@
       "type": "richtext",
       "id": "loop_note",
       "label": "Loop note",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "<p>Subscriptions managed by Loop. Pause, skip, or cancel anytime from your account.</p>"
     },
     {
@@ -509,6 +510,13 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     }
   ],
   "blocks": [
@@ -526,12 +534,14 @@
           "type": "text",
           "id": "label",
           "label": "Plan name",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Monthly subscription"
         },
         {
           "type": "text",
           "id": "detail",
           "label": "Plan detail",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "1 pouch \u00b7 ships every 30 days"
         },
         {
@@ -640,6 +650,7 @@
           "type": "text",
           "id": "text",
           "label": "Text",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Free U.S. shipping"
         },
         {
@@ -715,7 +726,7 @@
   ],
   "presets": [
     {
-      "name": "LP Hero - PDP",
+      "name": "LP-04b — Landing Hero (PDP)",
       "category": "Fortified Landing",
       "settings": {},
       "blocks": [

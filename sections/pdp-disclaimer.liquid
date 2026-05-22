@@ -2,40 +2,97 @@
 
 <section
   id="PdpDisclaimer-{{ section.id }}"
-  class="pdp-disc"
+  class="pdp-disc color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container pdp-disc__inner">
-    <h2 class="pdp-disc__title">{{ section.settings.title }}</h2>
+    <h2 class="pdp-disc__title">{% render 'fortified-accent-text', text: section.settings.title %}</h2>
 
     <div class="pdp-disc__warnings">
       {% for block in section.blocks %}
         {% if block.type == 'warning' %}
           <div class="pdp-disc__warn" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-            <strong class="pdp-disc__warn-label">{{ block.settings.label }}</strong>
-            <p>{{ block.settings.body }}</p>
+            <strong class="pdp-disc__warn-label">{% render 'fortified-accent-text', text: block.settings.label %}</strong>
+            <p>{% render 'fortified-accent-text', text: block.settings.body %}</p>
           </div>
         {% endif %}
       {% endfor %}
     </div>
 
-    <p class="pdp-disc__fda">{{ section.settings.fda_text }}</p>
+    <p class="pdp-disc__fda">{% render 'fortified-accent-text', text: section.settings.fda_text %}</p>
     {% if section.settings.fineprint != blank %}
-      <p class="pdp-disc__fine">{{ section.settings.fineprint }}</p>
+      <p class="pdp-disc__fine">{% render 'fortified-accent-text', text: section.settings.fineprint %}</p>
     {% endif %}
   </div>
 </section>
 
 {% stylesheet %}
-  .pdp-disc { background: var(--color-background); padding-block: clamp(32px, 5vw, 64px); font-family: var(--font-fortified-body); color: var(--color-foreground); border-top: 1px solid var(--color-border); }
-  .pdp-disc__inner { max-width: 920px; margin: 0 auto; }
-  .pdp-disc__title { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-foreground); margin: 0 0 18px; text-align: center; }
-  .pdp-disc__warnings { display: grid; gap: 10px; margin-bottom: 20px; }
-  .pdp-disc__warn { background: var(--color-background); border-left: 3px solid var(--fortified-accent, var(--color-foreground)); padding: 12px 16px; border-radius: 0 10px 10px 0; }
-  .pdp-disc__warn-label { display: block; font-family: var(--font-fortified-display); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-foreground); margin-bottom: 4px; }
-  .pdp-disc__warn p { margin: 0; font-size: 13px; line-height: 1.5; }
-  .pdp-disc__fda { font-size: 12px; line-height: 1.55; text-align: center; margin: 0 0 10px; }
-  .pdp-disc__fine { font-size: 11px; line-height: 1.5; text-align: center; margin: 0; color: var(--color-foreground); }
+  .pdp-disc {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-body);
+    border-top: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+  .pdp-disc__inner {
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .pdp-disc__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    margin: 0;
+    text-align: center;
+  }
+  .pdp-disc__warnings {
+    display: flex; flex-direction: column;
+    gap: 12px;
+  }
+  .pdp-disc__warn {
+    background: color-mix(in srgb, var(--fortified-accent) 4%, var(--color-background));
+    border-left: 4px solid var(--fortified-accent);
+    padding: 16px 20px;
+    border-radius: 0 14px 14px 0;
+  }
+  .pdp-disc__warn-label {
+    display: block;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    margin-bottom: 6px;
+  }
+  .pdp-disc__warn p {
+    margin: 0;
+    font-family: var(--font-fortified-body);
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .pdp-disc__fda {
+    font-family: var(--font-fortified-body);
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+    margin: 0;
+    color: color-mix(in srgb, var(--color-foreground) 65%, transparent);
+  }
+  .pdp-disc__fine {
+    font-family: var(--font-fortified-body);
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+    margin: 0;
+    color: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -49,18 +106,21 @@
       "type": "text",
       "id": "title",
       "label": "Title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "Important to know"
     },
     {
       "type": "textarea",
       "id": "fda_text",
       "label": "FDA disclaimer",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease."
     },
     {
       "type": "textarea",
       "id": "fineprint",
       "label": "Fine print (optional)",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Consult your physician before using if you are pregnant, nursing, have a medical condition, or take any medication."
     },
     {
@@ -174,6 +234,19 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     }
   ],
   "blocks": [
@@ -185,12 +258,14 @@
           "type": "text",
           "id": "label",
           "label": "Label",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Contains caffeine"
         },
         {
           "type": "textarea",
           "id": "body",
           "label": "Body",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Fortified Energy contains 200mg of caffeine per pouch. Not recommended for children, pregnant women, or anyone sensitive to caffeine."
         },
         {

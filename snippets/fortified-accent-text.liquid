@@ -1,0 +1,21 @@
+{%- comment -%}
+  Parses asterisk-delimited highlight markers in the given text.
+
+  Usage:
+    {% render 'fortified-accent-text', text: section.settings.heading %}
+
+  Merchant content syntax:
+    "hydration *that hits*"  → "that hits" wrapped in <span class="fortified-accent-text">
+
+  Pairs of asterisks toggle the highlight. Newlines are converted to <br>.
+  Honors the per-section "Render highlighted text in italic" toggle via the
+  .fortified--keep-italics class applied to the section wrapper (handled by
+  rules in snippets/fortified-base.liquid).
+{%- endcomment -%}
+{%- assign parts = text | split: '*' -%}
+{%- capture output -%}
+  {%- for part in parts -%}
+    {%- if forloop.index0 | modulo: 2 == 1 -%}<span class="fortified-accent-text">{{ part }}</span>{%- else -%}{{ part }}{%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{{- output | newline_to_br -}}

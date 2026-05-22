@@ -2,14 +2,14 @@
 
 <section
   id="PdpSuppFacts-{{ section.id }}"
-  class="pdp-facts"
+  class="pdp-facts color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container pdp-facts__grid" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
     <div class="pdp-facts__panel">
       {%- for variant in 'energy,everyday' | split: ',' -%}
         <div class="pdp-facts__sheet p-{{ variant }}">
-          <h2 class="pdp-facts__title">{{ section.settings.panel_title }}</h2>
+          <h2 class="pdp-facts__title">{% render 'fortified-accent-text', text: section.settings.panel_title %}</h2>
           {% if variant == 'energy' %}
             <p class="pdp-facts__serving">{{ section.settings.energy_serving }}</p>
           {% else %}
@@ -35,26 +35,26 @@
             {% endif %}
           {% endfor %}
           <div class="pdp-facts__divider pdp-facts__divider--thick"></div>
-          <p class="pdp-facts__foot">{{ section.settings.foot_note }}</p>
+          <p class="pdp-facts__foot">{% render 'fortified-accent-text', text: section.settings.foot_note %}</p>
         </div>
       {%- endfor -%}
     </div>
 
     <aside class="pdp-facts__callouts">
       <h3 class="pdp-facts__callout-title">
-        <span class="p-energy">{{ section.settings.energy_callout_title }}</span>
-        <span class="p-everyday">{{ section.settings.everyday_callout_title }}</span>
+        <span class="p-energy">{% render 'fortified-accent-text', text: section.settings.energy_callout_title %}</span>
+        <span class="p-everyday">{% render 'fortified-accent-text', text: section.settings.everyday_callout_title %}</span>
       </h3>
       {% for block in section.blocks %}
         {% if block.type == 'callout_energy' %}
           <div class="pdp-facts__callout p-energy" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-            <h4>{{ block.settings.title }}</h4>
-            <p>{{ block.settings.body }}</p>
+            <h4>{% render 'fortified-accent-text', text: block.settings.title %}</h4>
+            <p>{% render 'fortified-accent-text', text: block.settings.body %}</p>
           </div>
         {% elsif block.type == 'callout_everyday' %}
           <div class="pdp-facts__callout p-everyday" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-            <h4>{{ block.settings.title }}</h4>
-            <p>{{ block.settings.body }}</p>
+            <h4>{% render 'fortified-accent-text', text: block.settings.title %}</h4>
+            <p>{% render 'fortified-accent-text', text: block.settings.body %}</p>
           </div>
         {% endif %}
       {% endfor %}
@@ -63,30 +63,103 @@
 </section>
 
 {% stylesheet %}
-  .pdp-facts { background: var(--color-background); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); color: var(--color-foreground); }
-  .pdp-facts__grid { display: grid; grid-template-columns: 380px 1fr; gap: 32px; align-items: start; }
-  @media (max-width: 800px) { .pdp-facts__grid { grid-template-columns: 1fr; } }
-  .pdp-facts__panel { background: var(--color-background); border: 2px solid var(--color-foreground); border-radius: 6px; padding: 18px 22px; }
+  .pdp-facts {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-body);
+  }
+  .pdp-facts__grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 52px;
+    align-items: start;
+  }
+  @media (max-width: 960px) { .pdp-facts__grid { grid-template-columns: 1fr; gap: 32px; } }
+  .pdp-facts__panel {
+    background: var(--color-background);
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 14px;
+    padding: 24px 28px;
+  }
   body[data-product="energy"] .pdp-facts__sheet.p-everyday,
   body[data-product="everyday"] .pdp-facts__sheet.p-energy { display: none; }
-  .pdp-facts__title { font-family: var(--font-fortified-display); font-size: 22px; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 4px; }
-  .pdp-facts__serving { font-size: 12px; color: var(--color-foreground); margin: 0 0 8px; }
-  .pdp-facts__divider { height: 1px; background: var(--color-foreground); margin: 6px 0; }
+  .pdp-facts__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0 0 4px;
+    color: var(--color-foreground);
+  }
+  .pdp-facts__serving {
+    font-family: var(--font-fortified-body);
+    font-size: 14px;
+    color: color-mix(in srgb, var(--color-foreground) 65%, transparent);
+    margin: 0 0 8px;
+  }
+  .pdp-facts__divider { height: 1.5px; background: var(--color-foreground); margin: 6px 0; }
   .pdp-facts__divider--thick { height: 6px; background: var(--color-foreground); margin: 8px 0; }
-  .pdp-facts__row { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--color-border); font-size: 13px; }
-  .pdp-facts__row--head { font-weight: 700; border-bottom: 0; padding-bottom: 0; }
-  .pdp-facts__name em { font-style: normal; font-weight: 600; margin-left: 6px; }
-  .pdp-facts__dv { font-weight: 700; }
-  .pdp-facts__foot { font-size: 11px; color: var(--color-foreground); margin: 8px 0 0; line-height: 1.4; }
-  .pdp-facts__callouts { display: grid; gap: 12px; }
-  .pdp-facts__callout-title { font-family: var(--font-fortified-display); font-size: 18px; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 4px; }
-  .pdp-facts__callout { background: var(--color-background); border: 1px solid var(--color-border); border-radius: 14px; padding: 16px 18px; }
-  .pdp-facts__callout h4 { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 6px; }
+  .pdp-facts__row {
+    display: flex; justify-content: space-between; gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
+    font-family: var(--font-fortified-body);
+    font-size: 15px;
+    line-height: 1.3;
+  }
+  .pdp-facts__row--head { font-family: var(--font-fortified-display); font-weight: 500; font-size: 14px; letter-spacing: -0.02em; text-transform: uppercase; border-bottom: 0; padding-bottom: 0; }
+  .pdp-facts__name em {
+    font-style: normal;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    margin-left: 8px;
+  }
+  .pdp-facts__dv { font-family: var(--font-fortified-display); font-weight: 500; }
+  .pdp-facts__foot {
+    font-family: var(--font-fortified-body);
+    font-size: 12px;
+    color: color-mix(in srgb, var(--color-foreground) 65%, transparent);
+    margin: 12px 0 0;
+    line-height: 1.4;
+  }
+  .pdp-facts__callouts { display: flex; flex-direction: column; gap: 18px; }
+  .pdp-facts__callout-title {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+  .pdp-facts__callout {
+    background: var(--color-background);
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    border-radius: 14px;
+    padding: 24px 28px;
+  }
+  .pdp-facts__callout h4 {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0 0 8px;
+    color: var(--fortified-accent);
+  }
   body[data-product="energy"] .pdp-facts__callout.p-everyday,
   body[data-product="everyday"] .pdp-facts__callout.p-energy { display: none; }
-  body[data-product="energy"] .pdp-facts__callout h4 { color: var(--fortified-accent, var(--color-foreground)); }
-  body[data-product="everyday"] .pdp-facts__callout h4 { color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); }
-  .pdp-facts__callout p { color: var(--color-foreground); font-size: 14px; margin: 0; line-height: 1.5; }
+  .pdp-facts__callout p {
+    font-family: var(--font-fortified-body);
+    font-size: 16px;
+    color: var(--color-foreground);
+    margin: 0;
+    line-height: 1.4;
+  }
   body[data-product="energy"] .pdp-facts__callout-title .p-everyday,
   body[data-product="everyday"] .pdp-facts__callout-title .p-energy { display: none; }
 {% endstylesheet %}
@@ -102,6 +175,7 @@
       "type": "text",
       "id": "panel_title",
       "label": "Panel title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "Supplement Facts"
     },
     {
@@ -132,6 +206,7 @@
       "type": "textarea",
       "id": "foot_note",
       "label": "Footnote",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Percent Daily Values are based on a 2,000 calorie diet. Daily Value not established for some ingredients."
     },
     {
@@ -142,12 +217,14 @@
       "type": "text",
       "id": "energy_callout_title",
       "label": "Energy callouts title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "WHY THESE DOSES"
     },
     {
       "type": "text",
       "id": "everyday_callout_title",
       "label": "Everyday callouts title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "WHY THESE DOSES"
     },
     {
@@ -261,6 +338,19 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     }
   ],
   "blocks": [
@@ -456,12 +546,14 @@
           "type": "text",
           "id": "title",
           "label": "Title",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Clinically-dosed caffeine"
         },
         {
           "type": "textarea",
           "id": "body",
           "label": "Body",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "200mg is the sweet spot for cognition and performance without overshoot."
         },
         {
@@ -542,12 +634,14 @@
           "type": "text",
           "id": "title",
           "label": "Title",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Athlete-grade sodium"
         },
         {
           "type": "textarea",
           "id": "body",
           "label": "Body",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "1,200mg matches what you actually lose during a hot training session."
         },
         {

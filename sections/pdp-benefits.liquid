@@ -2,54 +2,202 @@
 
 <section
   id="PdpBenefits-{{ section.id }}"
-  class="pdp-benefits"
+  class="pdp-benefits color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container">
-    <header class="pdp-benefits__head">
-      <p class="pdp-benefits__eyebrow p-energy">{{ section.settings.energy_eyebrow }}</p>
-      <p class="pdp-benefits__eyebrow p-everyday">{{ section.settings.everyday_eyebrow }}</p>
-      <h2 class="pdp-benefits__title">
-        <span class="p-energy">{{ section.settings.energy_title }}</span>
-        <span class="p-everyday">{{ section.settings.everyday_title }}</span>
-      </h2>
-    </header>
+  <div class="pdp-benefits__layout">
+    {% if section.settings.feature_image != blank %}
+      <div class="pdp-benefits__media">
+        <img src="{{ section.settings.feature_image | image_url: width: 1200 }}" alt="{{ section.settings.feature_image_alt }}" loading="lazy">
+      </div>
+    {% endif %}
 
-    <div class="pdp-benefits__grid" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
-      {% for block in section.blocks %}
-        {% if block.type == 'benefit_energy' %}
-          <article class="pdp-benefit p-energy" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-            <div class="pdp-benefit__icon">{{ block.settings.icon }}</div>
-            <h3 class="pdp-benefit__title">{{ block.settings.title }}</h3>
-            <p class="pdp-benefit__body">{{ block.settings.body }}</p>
-          </article>
-        {% elsif block.type == 'benefit_everyday' %}
-          <article class="pdp-benefit p-everyday" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-            <div class="pdp-benefit__icon">{{ block.settings.icon }}</div>
-            <h3 class="pdp-benefit__title">{{ block.settings.title }}</h3>
-            <p class="pdp-benefit__body">{{ block.settings.body }}</p>
-          </article>
-        {% endif %}
-      {% endfor %}
+    <div class="pdp-benefits__content">
+      <header class="pdp-benefits__head">
+        <h2 class="pdp-benefits__title">
+          <span class="p-energy">{% render 'fortified-accent-text', text: section.settings.energy_title %}</span>
+          <span class="p-everyday">{% render 'fortified-accent-text', text: section.settings.everyday_title %}</span>
+        </h2>
+        <p class="pdp-benefits__desc">
+          <span class="p-energy">{% render 'fortified-accent-text', text: section.settings.energy_desc %}</span>
+          <span class="p-everyday">{% render 'fortified-accent-text', text: section.settings.everyday_desc %}</span>
+        </p>
+      </header>
+
+      <div class="pdp-benefits__grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'benefit_energy' %}
+            <article class="pdp-benefit p-energy" {{ block.shopify_attributes }}>
+              <div class="pdp-benefit__icon">
+                {% if block.settings.icon_image != blank %}
+                  <img src="{{ block.settings.icon_image | image_url: width: 164 }}" alt="" width="82" height="82" loading="lazy">
+                {% else %}
+                  <span class="pdp-benefit__icon-text">{{ block.settings.icon }}</span>
+                {% endif %}
+              </div>
+              <div class="pdp-benefit__text">
+                <h3 class="pdp-benefit__title">{% render 'fortified-accent-text', text: block.settings.title %}</h3>
+                <p class="pdp-benefit__body">{% render 'fortified-accent-text', text: block.settings.body %}</p>
+              </div>
+            </article>
+          {% elsif block.type == 'benefit_everyday' %}
+            <article class="pdp-benefit p-everyday" {{ block.shopify_attributes }}>
+              <div class="pdp-benefit__icon">
+                {% if block.settings.icon_image != blank %}
+                  <img src="{{ block.settings.icon_image | image_url: width: 164 }}" alt="" width="82" height="82" loading="lazy">
+                {% else %}
+                  <span class="pdp-benefit__icon-text">{{ block.settings.icon }}</span>
+                {% endif %}
+              </div>
+              <div class="pdp-benefit__text">
+                <h3 class="pdp-benefit__title">{% render 'fortified-accent-text', text: block.settings.title %}</h3>
+                <p class="pdp-benefit__body">{% render 'fortified-accent-text', text: block.settings.body %}</p>
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if section.settings.cta_label != blank %}
+        <a class="pdp-benefits__cta" href="{{ section.settings.cta_url | default: '#' }}">{{ section.settings.cta_label }}</a>
+      {% endif %}
     </div>
   </div>
 </section>
 
 {% stylesheet %}
-  .pdp-benefits { background: var(--color-background); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); color: var(--color-foreground); }
-  .pdp-benefits__head { text-align: center; margin-bottom: 32px; }
-  .pdp-benefits__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-foreground); margin: 0 0 8px; }
-  body[data-product="energy"] .pdp-benefits__eyebrow.p-energy { color: var(--fortified-accent, var(--color-foreground)); }
-  body[data-product="everyday"] .pdp-benefits__eyebrow.p-everyday { color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); }
-  .pdp-benefits__title { font-family: var(--font-fortified-display); font-size: clamp(26px, 3.6vw, 40px); margin: 0; text-transform: uppercase; letter-spacing: 0.02em; }
-  .pdp-benefits__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  @media (max-width: 800px) { .pdp-benefits__grid { grid-template-columns: 1fr; } }
-  .pdp-benefit { background: var(--color-background); border: 1px solid var(--color-border); border-radius: 18px; padding: 24px; }
-  .pdp-benefit__icon { font-size: 28px; margin-bottom: 12px; line-height: 1; }
-  .pdp-benefit__title { font-family: var(--font-fortified-display); font-size: 16px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px; }
-  .pdp-benefit__body { color: var(--color-foreground); font-size: 14px; line-height: 1.55; margin: 0; }
+  .pdp-benefits {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-body);
+  }
+  .pdp-benefits__layout {
+    display: flex;
+    align-items: center;
+    gap: 52px;
+  }
+  .pdp-benefits__media {
+    flex: 1;
+    min-width: 0;
+    height: 700px;
+    overflow: hidden;
+  }
+  .pdp-benefits__media img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .pdp-benefits__content {
+    flex: 0 0 auto;
+    width: 678px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 62px;
+  }
+  .pdp-benefits__head {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .pdp-benefits__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 62px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+  .pdp-benefits__desc {
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    margin: 0;
+  }
+  .pdp-benefits__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 42px 32px;
+    width: 669px;
+    max-width: 100%;
+  }
+  .pdp-benefit {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+  }
+  .pdp-benefit__icon {
+    flex-shrink: 0;
+    width: 82px; height: 82px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pdp-benefit__icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .pdp-benefit__icon-text { font-size: 36px; line-height: 1; }
+  .pdp-benefit__text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .pdp-benefit__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+  .pdp-benefit__body {
+    font-family: var(--font-fortified-body);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    color: color-mix(in srgb, var(--color-foreground) 65%, transparent);
+    margin: 0;
+  }
+  .pdp-benefits__cta {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 350px;
+    max-width: 100%;
+    height: 70px;
+    padding: 18px;
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
   body[data-product="energy"] .p-everyday { display: none; }
   body[data-product="everyday"] .p-energy { display: none; }
+  @media (max-width: 1200px) {
+    .pdp-benefits__layout { flex-direction: column; align-items: stretch; }
+    .pdp-benefits__media { width: 100%; height: 420px; }
+    .pdp-benefits__content { width: 100%; gap: 42px; }
+    .pdp-benefits__grid { width: 100%; }
+  }
+  @media (max-width: 700px) {
+    .pdp-benefits__title { font-size: 42px; }
+    .pdp-benefits__grid { grid-template-columns: 1fr; gap: 24px; }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -59,6 +207,8 @@
   "class": "pdp-section pdp-section--benefits",
   "max_blocks": 12,
   "settings": [
+    { "type": "image_picker", "id": "feature_image", "label": "Feature image (left)" },
+    { "type": "text", "id": "feature_image_alt", "label": "Feature image alt", "default": "Clinically backed ingredients" },
     {
       "type": "text",
       "id": "energy_eyebrow",
@@ -69,7 +219,15 @@
       "type": "text",
       "id": "energy_title",
       "label": "Energy title",
-      "default": "POWER YOUR PERFORMANCE"
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
+      "default": "CLINICALLY BACKED INGREDIENTS"
+    },
+    {
+      "type": "textarea",
+      "id": "energy_desc",
+      "label": "Energy description",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
+      "default": "Electrolytes don't provide full recovery. Regenerate hydration."
     },
     {
       "type": "text",
@@ -81,8 +239,18 @@
       "type": "text",
       "id": "everyday_title",
       "label": "Everyday title",
-      "default": "HYDRATE LIKE YOU MEAN IT"
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
+      "default": "CLINICALLY BACKED INGREDIENTS"
     },
+    {
+      "type": "textarea",
+      "id": "everyday_desc",
+      "label": "Everyday description",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
+      "default": "Electrolytes don't provide full recovery. Regenerate hydration."
+    },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FORTIFIED NOW" },
+    { "type": "url", "id": "cta_url", "label": "CTA url" },
     {
       "type": "select",
       "id": "content_alignment",
@@ -194,6 +362,19 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     }
   ],
   "blocks": [
@@ -201,23 +382,26 @@
       "type": "benefit_energy",
       "name": "Energy benefit",
       "settings": [
+        { "type": "image_picker", "id": "icon_image", "label": "Icon image" },
         {
           "type": "text",
           "id": "icon",
-          "label": "Icon (emoji)",
+          "label": "Icon fallback (emoji)",
           "default": "\u26a1"
         },
         {
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "Clean caffeine"
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "SODIUM"
         },
         {
           "type": "textarea",
           "id": "body",
           "label": "Body",
-          "default": "200mg from green coffee bean \u2014 no jitters, no crash."
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "Supports body hydration"
         },
         {
           "type": "select",
@@ -303,13 +487,15 @@
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "Real electrolytes"
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "MAGNESIUM"
         },
         {
           "type": "textarea",
           "id": "body",
           "label": "Body",
-          "default": "1,200mg sodium, magnesium glycinate, and potassium for daily hydration."
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
+          "default": "Supports muscle function"
         },
         {
           "type": "select",

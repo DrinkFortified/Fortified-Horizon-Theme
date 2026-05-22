@@ -2,7 +2,7 @@
 
 <section
   id="PdpProductSwitch-{{ section.id }}"
-  class="pdp-switch"
+  class="pdp-switch color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   data-pdp-switch
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
@@ -41,21 +41,23 @@
     top: 0;
     z-index: 40;
     background: var(--color-background);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
     font-family: var(--font-fortified-body);
+    color: var(--color-foreground);
   }
   .pdp-switch__inner {
     display: flex;
     justify-content: center;
-    padding-block: 10px;
+    padding-block: 14px;
   }
   .pdp-switch__tabs {
     position: relative;
     display: inline-flex;
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
-    border-radius: var(--fortified-radius-pill);
-    padding: 4px;
+    gap: 8px;
+    background: transparent;
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 999px;
+    padding: 6px;
   }
   .pdp-switch__tab {
     position: relative;
@@ -63,36 +65,50 @@
     border: 0;
     background: transparent;
     cursor: pointer;
-    padding: 10px 22px;
-    border-radius: var(--fortified-radius-pill);
+    padding: 12px 24px;
+    border-radius: 999px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-family: var(--font-fortified-display);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
     text-transform: uppercase;
     color: var(--color-foreground);
-    transition: color .25s ease;
+    transition: color .2s ease, background .2s ease;
   }
-  .pdp-switch__tab.is-active { color: var(--color-foreground); }
+  .pdp-switch__tab.is-active {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+  .pdp-switch__label {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
   .pdp-switch__sub {
     font-family: var(--font-fortified-body);
-    font-weight: 500;
-    font-size: 11px;
-    letter-spacing: 0.04em;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: -0.02em;
     text-transform: none;
-    color: var(--color-foreground);
+    color: inherit;
+    opacity: 0.85;
   }
   .pdp-switch__dot {
-    width: 10px; height: 10px; border-radius: 50%;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--fortified-accent);
   }
-  .pdp-switch__dot--energy { background: var(--fortified-accent, var(--color-foreground)); }
-  .pdp-switch__dot--everyday { background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); }
+  .pdp-switch__tab.is-active .pdp-switch__dot {
+    background: var(--color-background);
+  }
   @media (max-width: 600px) {
     .pdp-switch__sub { display: none; }
-    .pdp-switch__tab { padding: 8px 14px; font-size: 12px; }
+    .pdp-switch__tab { padding: 10px 16px; font-size: 14px; gap: 8px; }
+    .pdp-switch__label { font-size: 14px; }
   }
 {% endstylesheet %}
 
@@ -239,6 +255,19 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     }
   ],
   "presets": [
