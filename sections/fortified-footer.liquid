@@ -2,7 +2,7 @@
 
 <footer
   id="FortifiedFooter-{{ section.id }}"
-  class="fortified-footer color-{{ section.settings.color_scheme }}"
+  class="fortified-footer color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
 >
   <div class="fortified-container fortified-footer__inner">
     <div class="fortified-footer__brand">

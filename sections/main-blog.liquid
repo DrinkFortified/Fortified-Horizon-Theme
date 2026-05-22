@@ -5,11 +5,11 @@
 ></script>
 
 <blog-posts-list section-id="{{ section.id }}">
-  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+  <div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
   <div
     class="
       section
-      color-{{ section.settings.color_scheme }}
+      color-{{ section.settings.color_scheme | default: 'scheme-1' }}
       blog-posts
       spacing-style
       size-style

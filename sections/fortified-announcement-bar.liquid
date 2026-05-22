@@ -2,7 +2,7 @@
 
 <div
   id="FortifiedAnnouncement-{{ section.id }}"
-  class="fortified-announcement color-{{ section.settings.color_scheme }}"
+  class="fortified-announcement color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
   style="--fa-bg: {{ section.settings.background_color }}; --fa-text: {{ section.settings.text_color }}; --fa-speed: {{ section.settings.speed }}s;"
 >
   <div class="fortified-announcement__track" aria-hidden="false">

@@ -4,14 +4,14 @@
   fetchpriority="low"
 ></script>
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
 
 <div
   class="
     section
     section--{{ section.settings.section_width }}
     section-product-hotspots
-    color-{{ section.settings.color_scheme }}
+    color-{{ section.settings.color_scheme | default: 'scheme-1' }}
     spacing-style
     gap-style
   "

@@ -6,13 +6,13 @@
   assign product = section.settings.product
   assign gallery_aspect_ratio = product.featured_media.preview_image.aspect_ratio | default: 1
 -%}
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
 <div
   class="
     featured-product-section
     section
     section--full-width
-    color-{{ section.settings.color_scheme }}
+    color-{{ section.settings.color_scheme | default: 'scheme-1' }}
   "
   style="--gallery-aspect-ratio: {{ gallery_aspect_ratio }};"
   data-testid="featured-product-{{ section.id }}"

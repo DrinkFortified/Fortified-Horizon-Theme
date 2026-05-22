@@ -2,7 +2,7 @@
 
 <header
   id="FortifiedHeader-{{ section.id }}"
-  class="fortified-header color-{{ section.settings.color_scheme }}"
+  class="fortified-header color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
   data-sticky="{{ section.settings.sticky }}"
 >
   <div class="fortified-header__inner fortified-container">

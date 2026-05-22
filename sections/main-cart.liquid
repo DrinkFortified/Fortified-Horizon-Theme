@@ -9,9 +9,9 @@
   data-section-id="{{ section.id }}"
 >
   <template id="empty-cart-template">
-    <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+    <div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
     <div
-      class="section color-{{ section.settings.color_scheme }} section--{{ section.settings.section_width }}"
+      class="section color-{{ section.settings.color_scheme | default: 'scheme-1' }} section--{{ section.settings.section_width }}"
     >
       <div
         class="cart-page spacing-style{% if cart.empty? %} cart-page--empty{% endif %}"
@@ -29,9 +29,9 @@
   </template>
 
   {% # theme-check-disable UniqueStaticBlockId %}
-  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+  <div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
   <div
-    class="section color-{{ section.settings.color_scheme }} section--{{ section.settings.section_width }}"
+    class="section color-{{ section.settings.color_scheme | default: 'scheme-1' }} section--{{ section.settings.section_width }}"
   >
     <div
       class="cart-page spacing-style{% if cart.empty? %} cart-page--empty{% endif %}"

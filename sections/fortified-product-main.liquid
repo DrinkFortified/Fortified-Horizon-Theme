@@ -7,7 +7,7 @@
 
 <section
   id="FortifiedProductMain-{{ section.id }}"
-  class="fortified-product-main color-{{ section.settings.color_scheme }}"
+  class="fortified-product-main color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
 >
   <div class="fortified-container fortified-product-main__hero">
     {% comment %} Top of PDP — gallery + form column {% endcomment %}
@@ -64,7 +64,7 @@
       {% when 'fortified-flavors-cta' %}
         {% render 'fortified-flavors-cta', block: block %}
       {% when 'fortified-comparison-table' %}
-        <div class="fortified-comparison color-{{ section.settings.color_scheme }}">
+        <div class="fortified-comparison color-{{ section.settings.color_scheme | default: 'scheme-1' }}">
           <div class="fortified-container">
             <h2 class="fortified-heading fortified-h2 fortified-comparison__heading">{{ block.settings.heading }}</h2>
             <div class="fortified-comparison__wrap">

@@ -1,7 +1,7 @@
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
 <div
   class="
-    section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}
+    section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme | default: 'scheme-1' }}
     {% if section.settings.section_height != "" %} {{ section.settings.section_height | prepend: "section--height-" }}{% endif %}
   "
 >

@@ -9,17 +9,44 @@
       --fortified-container: 1240px;
       --fortified-section-py: clamp(40px, 5vw, 72px);
       --fortified-radius-pill: 999px;
+      --fortified-radius-button: 10px;
+      --fortified-radius-card: 14px;
 
-      --fortified-black: #0A0A0A;
-      --fortified-white: #FFFFFF;
-      --fortified-off-white: #F4EEE7;
-      --fortified-gray-light: #E5E5E5;
-      --fortified-gray-mid: #6B6B6B;
-      --fortified-teal: #1FA8A1;
-      --fortified-teal-dark: #168A84;
-      --fortified-orange: #F2A93B;
-      --fortified-gold: #D9A24A;
-      --fortified-success: #2BB673;
+      /* === Brand palette (matches Figma) === */
+      --fortified-white:        #FFFFFF;
+      --fortified-cream:        #FDFAF5;
+      --fortified-parchment:    #F7F2E8;
+      --fortified-stone:        #EAE4D8;
+      --fortified-border:       #DDD7CA;
+      --fortified-muted:        #A09488;
+      --fortified-ink:          #3D3830;
+      --fortified-charcoal:     #2A2520;
+      --fortified-black:        #2A2520;
+      --fortified-off-white:    #FDFAF5;
+      --fortified-gray-light:   #DDD7CA;
+      --fortified-gray-mid:     #A09488;
+
+      --fortified-sage:         #6B9478;
+      --fortified-sage-tint:    #EDF4EF;
+      --fortified-sage-border:  #C2D9C9;
+      --fortified-sage-dark:    #2D5C3A;
+
+      --fortified-saffron:      #C97A0A;
+      --fortified-saffron-tint: #FBF4E4;
+      --fortified-saffron-border:#E8C87A;
+      --fortified-saffron-dark: #7A4A05;
+
+      --fortified-mauve:        #8C5F7A;
+      --fortified-mauve-tint:   #F5EEF3;
+      --fortified-mauve-border: #D4B4C8;
+      --fortified-mauve-dark:   #5A2E4A;
+
+      /* Legacy aliases mapped to new tokens — keeps existing CSS working */
+      --fortified-teal:         var(--fortified-sage);
+      --fortified-teal-dark:    var(--fortified-sage-dark);
+      --fortified-orange:       var(--fortified-saffron);
+      --fortified-gold:         var(--fortified-saffron-dark);
+      --fortified-success:      var(--fortified-sage-dark);
 
       --font-fortified-display: 'Brother 1816', 'Helvetica Neue', Arial, sans-serif;
       --font-fortified-body: 'Brother 1816', 'Helvetica Neue', Arial, sans-serif;
@@ -27,7 +54,7 @@
 
     .fortified {
       font-family: var(--font-fortified-body);
-      color: var(--color-foreground);
+      color: var(--color-foreground, var(--fortified-ink));
     }
     .fortified-container {
       width: 100%;
@@ -45,7 +72,7 @@
       font-weight: 700;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--fortified-teal);
+      color: var(--fortified-muted);
       margin: 0 0 10px;
     }
     .fortified-heading {
@@ -55,7 +82,7 @@
       letter-spacing: -0.005em;
       line-height: 1;
       margin: 0 0 12px;
-      color: var(--color-foreground-heading, currentColor);
+      color: var(--color-foreground-heading, var(--fortified-charcoal));
     }
     .fortified-h1 { font-size: clamp(32px, 5vw, 56px); line-height: 0.98; }
     .fortified-h2 { font-size: clamp(26px, 3.5vw, 40px); }
@@ -64,45 +91,55 @@
       font-family: var(--font-fortified-body);
       font-size: clamp(14px, 1vw, 16px);
       font-weight: 400;
-      line-height: 1.5;
-      color: var(--color-foreground);
+      line-height: 1.55;
+      color: var(--color-foreground, var(--fortified-ink));
     }
     .fortified-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      border-radius: var(--fortified-radius-pill);
-      padding: 10px 22px;
+      border-radius: var(--fortified-radius-button);
+      padding: 12px 22px;
       font-family: var(--font-fortified-body);
       font-size: clamp(11px, 0.9vw, 13px);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: none;
       text-decoration: none;
       cursor: pointer;
-      transition: transform .15s ease, opacity .15s ease, background-color .15s ease;
-      border: 2px solid transparent;
-      min-height: 38px;
+      transition: filter .15s ease, transform .15s ease, background-color .15s ease;
+      border: 1.5px solid transparent;
+      min-height: 40px;
     }
-    .fortified-btn:hover { transform: translateY(-1px); opacity: .92; }
+    .fortified-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
     .fortified-btn--primary {
-      background: var(--fortified-teal);
-      color: var(--fortified-white);
+      background: var(--fortified-charcoal);
+      color: var(--fortified-cream);
     }
-    .fortified-btn--primary:hover { background: var(--fortified-teal-dark); }
+    .fortified-btn--primary:hover { background: #1A1510; }
     .fortified-btn--ghost {
       background: transparent;
-      color: var(--fortified-teal);
-      border-color: var(--fortified-teal);
+      color: var(--fortified-charcoal);
+      border-color: var(--fortified-border);
     }
+    .fortified-btn--ghost:hover { background: var(--fortified-parchment); }
     .fortified-btn--dark {
-      background: var(--fortified-black);
+      background: var(--fortified-charcoal);
+      color: var(--fortified-cream);
+    }
+    .fortified-btn--accent {
+      background: var(--fortified-saffron);
+      color: var(--fortified-white);
+    }
+    .fortified-btn--sage {
+      background: var(--fortified-sage);
       color: var(--fortified-white);
     }
     .fortified-btn--white {
       background: var(--fortified-white);
-      color: var(--fortified-black);
+      color: var(--fortified-charcoal);
+      border-color: var(--fortified-border);
     }
     .fortified-checklist {
       list-style: none;

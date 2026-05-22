@@ -2,7 +2,7 @@
 
 <section
   id="FortifiedDayBenefits-{{ section.id }}"
-  class="fortified-day color-{{ section.settings.color_scheme }}"
+  class="fortified-day color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
  style="text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   {% if section.settings.image != blank %}
     {{ section.settings.image | image_url: width: 2400 | image_tag:

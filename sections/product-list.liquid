@@ -2,13 +2,13 @@
   assign max_items = section.settings.max_products
 %}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
 <div
   data-testid="product-list"
   class="
     section
     section--{{ section.settings.section_width }}
-    color-{{ section.settings.color_scheme }}
+    color-{{ section.settings.color_scheme | default: 'scheme-1' }}
     section-resource-list
     spacing-style
     gap-style

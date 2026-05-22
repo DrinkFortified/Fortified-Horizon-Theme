@@ -20,9 +20,9 @@
   fetchpriority="low"
 ></script>
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style"
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme | default: 'scheme-1' }} spacing-style"
   style="{% render 'spacing-style', settings: section.settings %}"
   data-testid="collection-links-{{ section.id }}"
 >

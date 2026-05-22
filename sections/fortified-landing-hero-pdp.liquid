@@ -13,7 +13,7 @@
 
 <section
   id="FortifiedLandingHeroPDP-{{ section.id }}"
-  class="fortified-landing-hero-pdp color-{{ section.settings.color_scheme }}"
+  class="fortified-landing-hero-pdp color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
   style="text-align: {{ content_align }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;"
   data-fortified-landing-pdp
   data-default-plan="{{ default_plan_id }}"

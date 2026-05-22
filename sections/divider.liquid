@@ -4,9 +4,9 @@
   {% assign full_width = true %}
 {% endif %}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
   data-testid="divider-{{ section.id }}"
 >
   {% render 'divider', id: section.id, settings: section.settings, attributes: true, full_width: full_width %}
