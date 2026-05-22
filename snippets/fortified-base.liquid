@@ -54,7 +54,7 @@
 
     .fortified {
       font-family: var(--font-fortified-body);
-      color: var(--color-foreground, var(--fortified-ink));
+      color: var(--color-foreground);
     }
     .fortified-container {
       width: 100%;
@@ -72,7 +72,8 @@
       font-weight: 700;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--fortified-muted);
+      color: var(--color-foreground);
+      opacity: 0.55;
       margin: 0 0 10px;
     }
     .fortified-heading {
@@ -82,7 +83,7 @@
       letter-spacing: -0.005em;
       line-height: 1;
       margin: 0 0 12px;
-      color: var(--color-foreground-heading, var(--fortified-charcoal));
+      color: var(--color-foreground-heading);
     }
     .fortified-h1 { font-size: clamp(32px, 5vw, 56px); line-height: 0.98; }
     .fortified-h2 { font-size: clamp(26px, 3.5vw, 40px); }
@@ -92,7 +93,7 @@
       font-size: clamp(14px, 1vw, 16px);
       font-weight: 400;
       line-height: 1.55;
-      color: var(--color-foreground, var(--fortified-ink));
+      color: var(--color-foreground);
     }
     .fortified-btn {
       display: inline-flex;
@@ -114,32 +115,42 @@
     }
     .fortified-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
     .fortified-btn--primary {
-      background: var(--fortified-charcoal);
-      color: var(--fortified-cream);
+      background: var(--color-primary-button-background);
+      color: var(--color-primary-button-text);
+      border-color: var(--color-primary-button-border);
     }
-    .fortified-btn--primary:hover { background: #1A1510; }
-    .fortified-btn--ghost {
-      background: transparent;
-      color: var(--fortified-charcoal);
-      border-color: var(--fortified-border);
+    .fortified-btn--primary:hover {
+      background: var(--color-primary-button-hover-background, var(--color-primary-button-background));
+      color: var(--color-primary-button-hover-text, var(--color-primary-button-text));
+      border-color: var(--color-primary-button-hover-border, var(--color-primary-button-border));
     }
-    .fortified-btn--ghost:hover { background: var(--fortified-parchment); }
+    .fortified-btn--ghost,
+    .fortified-btn--secondary {
+      background: var(--color-secondary-button-background, transparent);
+      color: var(--color-secondary-button-text, var(--color-foreground));
+      border-color: var(--color-secondary-button-border, var(--color-foreground));
+    }
+    .fortified-btn--ghost:hover,
+    .fortified-btn--secondary:hover {
+      background: var(--color-secondary-button-hover-background, transparent);
+      color: var(--color-secondary-button-hover-text, var(--color-foreground));
+    }
     .fortified-btn--dark {
-      background: var(--fortified-charcoal);
-      color: var(--fortified-cream);
+      background: var(--color-foreground);
+      color: var(--color-background);
     }
     .fortified-btn--accent {
-      background: var(--fortified-saffron);
-      color: var(--fortified-white);
+      background: var(--fortified-accent, var(--color-primary-button-background));
+      color: var(--color-primary-button-text);
     }
-    .fortified-btn--sage {
-      background: var(--fortified-sage);
-      color: var(--fortified-white);
+    .fortified-btn--sage { /* legacy alias */
+      background: var(--fortified-accent, var(--color-primary-button-background));
+      color: var(--color-primary-button-text);
     }
     .fortified-btn--white {
-      background: var(--fortified-white);
-      color: var(--fortified-charcoal);
-      border-color: var(--fortified-border);
+      background: var(--color-background);
+      color: var(--color-foreground);
+      border-color: var(--color-border);
     }
     .fortified-checklist {
       list-style: none;
@@ -155,10 +166,11 @@
       gap: 10px;
       font-family: var(--font-fortified-body);
       font-size: 15px;
+      color: var(--color-foreground);
     }
     .fortified-checklist li::before {
       content: "✓";
-      color: var(--fortified-teal);
+      color: var(--fortified-accent, var(--color-foreground));
       font-weight: 700;
       flex-shrink: 0;
       width: 20px;
@@ -179,9 +191,9 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
-    .fortified-badge--teal { background: var(--fortified-teal); color: #fff; }
-    .fortified-badge--dark { background: var(--fortified-black); color: #fff; }
-    .fortified-badge--white { background: #fff; color: var(--fortified-black); }
+    .fortified-badge--teal { background: var(--fortified-accent, var(--color-foreground)); color: var(--color-background); }
+    .fortified-badge--dark { background: var(--color-foreground); color: var(--color-background); }
+    .fortified-badge--white { background: var(--color-background); color: var(--color-foreground); border: 1px solid var(--color-border); }
 
     /* === Centering for Fortified content (conservative) === */
 
