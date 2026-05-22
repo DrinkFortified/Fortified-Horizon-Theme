@@ -2,43 +2,62 @@
 
 <section
   id="FortifiedDarkLifestyle-{{ section.id }}"
-  class="fortified-dark-lifestyle color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container fortified-dark-lifestyle__inner">
-    <header class="fortified-dark-lifestyle__header">
-      {% if section.settings.eyebrow != blank %}
-        <span class="fortified-eyebrow">{{ section.settings.eyebrow }}</span>
-      {% endif %}
-      {% if section.settings.heading != blank %}
-        <h2 class="fortified-heading fortified-h2">{{ section.settings.heading | newline_to_br }}</h2>
-      {% endif %}
-    </header>
-
-    <div class="fortified-dark-lifestyle__grid" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
-      {% for block in section.blocks %}
-        {% if block.type == 'fortified-lifestyle-photo' %}
-          <div class="fortified-dark-lifestyle__item" style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-            {% if block.settings.image != blank %}
-              {{ block.settings.image | image_url: width: 800 | image_tag:
-                  widths: '300, 500, 800',
-                  sizes: '(min-width: 1024px) 22vw, 50vw',
-                  class: 'fortified-dark-lifestyle__img',
-                  alt: block.settings.image.alt | default: block.settings.benefit_label,
-                  loading: 'lazy' }}
-            {% endif %}
-            {% if block.settings.benefit_label != blank %}
-              <span class="fortified-dark-lifestyle__badge">{{ block.settings.benefit_label }}</span>
-            {% endif %}
-          </div>
-        {% endif %}
-      {% endfor %}
-    </div>
-
-    {% if section.settings.cta_label != blank %}
-      <div class="fortified-dark-lifestyle__cta">
-        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-btn fortified-btn--white">{{ section.settings.cta_label }}</a>
-      </div>
+  class="fortified-dark-lifestyle color-{{ section.settings.color_scheme | default: 'scheme-2' }}"
+  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 24 }}px {{ section.settings['padding-block-end'] | default: 24 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 24 }}px {{ section.settings['padding-inline-end'] | default: 24 }}px;"
+>
+  <div class="fortified-dark-lifestyle__frame">
+    {% if section.settings.background_image != blank %}
+      {{ section.settings.background_image | image_url: width: 2880 | image_tag:
+          widths: '720, 1080, 1440, 1920, 2400, 2880',
+          sizes: '100vw',
+          class: 'fortified-dark-lifestyle__bg',
+          alt: '',
+          loading: 'lazy' }}
     {% endif %}
+
+    <div class="fortified-dark-lifestyle__inner">
+      <header class="fortified-dark-lifestyle__header">
+        {% if section.settings.eyebrow != blank %}
+          <span class="fortified-dark-lifestyle__eyebrow">{{ section.settings.eyebrow }}</span>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="fortified-dark-lifestyle__heading">{{ section.settings.heading | newline_to_br }}</h2>
+        {% endif %}
+        {% if section.settings.body != blank %}
+          <p class="fortified-dark-lifestyle__body">{{ section.settings.body }}</p>
+        {% endif %}
+      </header>
+
+      <div class="fortified-dark-lifestyle__grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'fortified-lifestyle-photo' %}
+            <article class="fortified-dark-lifestyle__card" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 900 | image_tag:
+                    widths: '300, 500, 700, 900',
+                    sizes: '(min-width: 750px) 22vw, 50vw',
+                    class: 'fortified-dark-lifestyle__card-bg',
+                    alt: block.settings.image.alt | default: block.settings.benefit_label,
+                    loading: 'lazy' }}
+              {% endif %}
+              <div class="fortified-dark-lifestyle__card-content">
+                <div class="fortified-dark-lifestyle__card-mark">+</div>
+                {% if block.settings.benefit_label != blank %}
+                  <h3 class="fortified-dark-lifestyle__card-label">{{ block.settings.benefit_label }}</h3>
+                {% endif %}
+                {% if block.settings.body != blank %}
+                  <p class="fortified-dark-lifestyle__card-body">{{ block.settings.body }}</p>
+                {% endif %}
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if section.settings.cta_label != blank %}
+        <a href="{{ section.settings.cta_url | default: '#' }}" class="fortified-dark-lifestyle__btn">{{ section.settings.cta_label }}</a>
+      {% endif %}
+    </div>
   </div>
 </section>
 
@@ -47,101 +66,185 @@
     background: var(--color-background);
     color: var(--color-foreground);
   }
-  .fortified-dark-lifestyle__inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: clamp(28px, 4vw, 48px);
-    max-width: var(--fortified-container);
-    margin-inline: auto;
-    padding-inline: clamp(16px, 3vw, 48px);
-  }
-  .fortified-dark-lifestyle__header {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    max-width: 720px;
-  }
-  .fortified-dark-lifestyle__header .fortified-heading {
-    font-family: var(--font-fortified-display);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: clamp(28px, 4.5vw, 48px);
-    line-height: 1.02;
-    letter-spacing: -0.01em;
-    color: var(--color-foreground-heading);
-    margin: 0;
-  }
-  .fortified-dark-lifestyle__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    width: 100%;
-  }
-  @media (min-width: 750px) {
-    .fortified-dark-lifestyle__grid { grid-template-columns: repeat(4, 1fr); }
-  }
-  .fortified-dark-lifestyle__item {
+  .fortified-dark-lifestyle__frame {
     position: relative;
-    aspect-ratio: 4/5;
-    border-radius: 14px;
+    width: 100%;
+    border-radius: 20px;
     overflow: hidden;
-    background: color-mix(in srgb, var(--color-foreground) 8%, transparent);
-    cursor: pointer;
-    transition: transform .35s ease;
+    isolation: isolate;
   }
-  
-  .fortified-dark-lifestyle__item::after {
-    content: '';
+  .fortified-dark-lifestyle__bg {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg,
-      transparent 50%,
-      color-mix(in srgb, var(--color-foreground) 70%, transparent) 100%);
-    pointer-events: none;
-  }
-  .fortified-dark-lifestyle__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+    z-index: 0;
   }
-  .fortified-dark-lifestyle__badge {
-    position: absolute;
-    left: 14px;
-    bottom: 14px;
-    z-index: 2;
-    background: color-mix(in srgb, var(--color-background) 88%, transparent);
-    
-    color: var(--color-foreground-heading);
-    font-family: var(--font-fortified-display);
-    font-weight: 700;
-    font-size: 11.5px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 6px 12px;
-    border-radius: 999px;
-    border: 1px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
-  }
-  .fortified-dark-lifestyle__cta {
+  .fortified-dark-lifestyle__inner {
+    position: relative;
+    z-index: 1;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 72px;
+    padding: 100px 40px;
+    color: var(--color-foreground);
   }
-  .fortified-dark-lifestyle__cta .fortified-btn {
-    padding: 14px 32px;
-    border-radius: 999px;
-    font-size: 13px;
-    letter-spacing: 0.06em;
+  .fortified-dark-lifestyle__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 929px;
+    text-align: center;
+  }
+  .fortified-dark-lifestyle__eyebrow {
+    font-family: var(--font-fortified-display);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--fortified-accent);
     text-transform: uppercase;
-    min-height: 48px;
+    margin: 0;
+  }
+  .fortified-dark-lifestyle__heading {
+    font-family: var(--font-fortified-display);
+    font-size: 62px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground-heading);
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .fortified-dark-lifestyle__body {
+    font-family: var(--font-fortified-body);
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    max-width: 581px;
+    margin: 0;
+  }
+
+  .fortified-dark-lifestyle__grid {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    align-items: stretch;
+  }
+  .fortified-dark-lifestyle__card {
+    flex: 1 0 0;
+    min-width: 0;
+    position: relative;
+    height: 480px;
+    border-radius: 14px;
+    overflow: hidden;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 32px 45px 32px 24px;
+  }
+  .fortified-dark-lifestyle__card-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .fortified-dark-lifestyle__card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 54%, rgba(0,0,0,0.7) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .fortified-dark-lifestyle__card-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    color: var(--color-foreground);
+  }
+  .fortified-dark-lifestyle__card-mark {
+    font-family: var(--font-fortified-display);
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-foreground);
+    margin-bottom: 6px;
+  }
+  .fortified-dark-lifestyle__card-label {
+    font-family: var(--font-fortified-display);
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .fortified-dark-lifestyle__card-body {
+    font-family: var(--font-fortified-body);
+    font-size: 18px;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    margin: 0;
+    max-width: 241px;
+  }
+
+  .fortified-dark-lifestyle__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 411px;
+    max-width: 100%;
+    height: 70px;
+    padding: 18px;
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 990px) {
+    .fortified-dark-lifestyle__inner { padding: 72px 32px; gap: 48px; }
+    .fortified-dark-lifestyle__heading { font-size: 44px; }
+    .fortified-dark-lifestyle__eyebrow { font-size: 22px; }
+    .fortified-dark-lifestyle__body { font-size: 18px; }
+    .fortified-dark-lifestyle__grid { flex-wrap: wrap; }
+    .fortified-dark-lifestyle__card { flex: 1 0 calc(50% - 5px); height: 380px; }
+  }
+  @media (max-width: 749px) {
+    .fortified-dark-lifestyle__inner { padding: 56px 24px; gap: 32px; }
+    .fortified-dark-lifestyle__frame { border-radius: 16px; }
+    .fortified-dark-lifestyle__heading { font-size: 32px; }
+    .fortified-dark-lifestyle__eyebrow { font-size: 16px; }
+    .fortified-dark-lifestyle__body { font-size: 16px; }
+    .fortified-dark-lifestyle__card { flex: 1 0 100%; height: 320px; padding: 24px; }
+    .fortified-dark-lifestyle__card-label { font-size: 26px; }
+    .fortified-dark-lifestyle__card-body { font-size: 15px; }
+    .fortified-dark-lifestyle__btn { width: 100%; height: 60px; font-size: 20px; }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "04 \u2014 Dark Lifestyle",
+  "name": "04 — Dark Lifestyle",
   "tag": "section",
   "class": "fortified-dark-lifestyle-section",
   "max_blocks": 8,
@@ -156,7 +259,18 @@
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT"
+      "default": "More than hydration\nIt's daily support"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Electrolytes don't provide full recovery. UNDO® Regenerate combines hydration."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image"
     },
     {
       "type": "text",
@@ -173,52 +287,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "Content alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "select",
-      "id": "blocks_alignment",
-      "label": "Blocks row position",
-      "info": "How the row/grid of blocks sits inside the section. Use Center to push blocks to the middle of the section width.",
-      "options": [
-        {
-          "value": "flex-start",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "flex-end",
-          "label": "Right"
-        },
-        {
-          "value": "space-between",
-          "label": "Space between"
-        }
-      ],
-      "default": "center"
+      "default": "scheme-2"
     },
     {
       "type": "header",
@@ -232,7 +301,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 24
     },
     {
       "type": "range",
@@ -242,7 +311,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 24
     },
     {
       "type": "range",
@@ -252,7 +321,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 24
     },
     {
       "type": "range",
@@ -262,29 +331,13 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ],
-      "default": "page-width"
+      "default": 24
     },
     {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight / accent color",
-      "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
+      "info": "Used for the eyebrow. Default: Fortified Teal.",
       "default": "#1FA8A1"
     }
   ],
@@ -302,109 +355,27 @@
           "type": "text",
           "id": "benefit_label",
           "label": "Benefit label",
-          "default": "+ENERGY"
+          "default": "+ ENERGY"
         },
         {
-          "type": "select",
-          "id": "content_alignment",
-          "label": "Block alignment",
-          "options": [
-            {
-              "value": "inherit",
-              "label": "Inherit from section"
-            },
-            {
-              "value": "left",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ],
-          "default": "inherit"
-        },
-        {
-          "type": "header",
-          "content": "Spacing"
-        },
-        {
-          "type": "range",
-          "id": "padding-block-start",
-          "label": "Padding top",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-block-end",
-          "label": "Padding bottom",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-start",
-          "label": "Padding left",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "padding-inline-end",
-          "label": "Padding right",
-          "min": 0,
-          "max": 100,
-          "step": 2,
-          "unit": "px",
-          "default": 0
+          "type": "textarea",
+          "id": "body",
+          "label": "Body text",
+          "default": "Electrolytes don't provide full recovery."
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "04 \u2014 Dark Lifestyle",
+      "name": "04 — Dark Lifestyle",
       "category": "Fortified Home",
       "settings": {},
       "blocks": [
-        {
-          "type": "fortified-lifestyle-photo",
-          "settings": {
-            "benefit_label": "+ENERGY"
-          }
-        },
-        {
-          "type": "fortified-lifestyle-photo",
-          "settings": {
-            "benefit_label": "+PERFORMANCE"
-          }
-        },
-        {
-          "type": "fortified-lifestyle-photo",
-          "settings": {
-            "benefit_label": "+HYDRATION"
-          }
-        },
-        {
-          "type": "fortified-lifestyle-photo",
-          "settings": {
-            "benefit_label": "+FOCUS"
-          }
-        }
+        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+ ENERGY" } },
+        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+ PERFORMANCE" } },
+        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+ HYDRATION" } },
+        { "type": "fortified-lifestyle-photo", "settings": { "benefit_label": "+ FOCUS" } }
       ]
     }
   ]
