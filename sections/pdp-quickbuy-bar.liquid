@@ -36,8 +36,8 @@
 </aside>
 
 {% stylesheet %}
-  .pdp-qb { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--color-background); border-top: 1px solid var(--color-border); box-shadow: 0 -8px 32px rgba(0,0,0,.08); font-family: var(--font-fortified-body); transform: translateY(110%); transition: transform .3s ease; }
-  .pdp-qb.is-visible { transform: translateY(0); }
+  .pdp-qb { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--color-background); border-top: 1px solid var(--color-border); box-shadow: 0 -8px 32px rgba(0,0,0,.08); font-family: var(--font-fortified-body);  transition: transform .3s ease; }
+  .pdp-qb
   .pdp-qb__bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 12px; }
   .pdp-qb__id { display: flex; flex-direction: column; min-width: 0; }
   .pdp-qb__name { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-foreground); }
@@ -55,7 +55,7 @@
     .pdp-qb__summary { max-width: 45vw; }
   }
   .pdp-qb__scrim { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 1; }
-  .pdp-qb__drawer { position: fixed; right: 24px; bottom: 96px; width: min(420px, calc(100vw - 32px)); background: var(--color-background); border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 18px 20px; z-index: 2; }
+  .pdp-qb__drawer { position: fixed; right: 24px; bottom: 96px; width: min(420px, calc(100vw - 32px)); background: var(--color-background); border-radius: 18px;  padding: 18px 20px; z-index: 2; }
   .pdp-qb__drawer-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
   .pdp-qb__drawer-head h3 { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; color: var(--color-foreground); }
   .pdp-qb__close { background: transparent; border: 0; font-size: 26px; line-height: 1; cursor: pointer; color: var(--color-foreground); padding: 0; }

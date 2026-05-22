@@ -99,12 +99,12 @@
     width: clamp(140px, 22vw, 240px);
     transition: transform .35s ease;
   }
-  .fortified-product-feature__item--1 { transform: rotate(-10deg) translateX(-12%); z-index: 1; }
-  .fortified-product-feature__item--2 { transform: rotate(-3deg) translateX(-4%); z-index: 2; margin-left: -8%; }
-  .fortified-product-feature__item--3 { transform: rotate(5deg) translateX(4%); z-index: 3; margin-left: -8%; }
-  .fortified-product-feature__item--4 { transform: rotate(12deg) translateX(12%); z-index: 2; margin-left: -8%; }
-  .fortified-product-feature__products:hover .fortified-product-feature__item--1 { transform: rotate(-14deg) translateX(-18%); }
-  .fortified-product-feature__products:hover .fortified-product-feature__item--4 { transform: rotate(16deg) translateX(18%); }
+  .fortified-product-feature__item--1 { transform: none; z-index: 1; }
+  .fortified-product-feature__item--2 { transform: none; z-index: 2; margin-left: -8%; }
+  .fortified-product-feature__item--3 { transform: none; z-index: 3; margin-left: -8%; }
+  .fortified-product-feature__item--4 { transform: none; z-index: 2; margin-left: -8%; }
+  .fortified-product-feature__products:hover .fortified-product-feature__item--1 { transform: none; }
+  .fortified-product-feature__products:hover .fortified-product-feature__item--4 { transform: none; }
 
   .fortified-product-feature__img {
     width: 100%;
@@ -114,18 +114,6 @@
   }
 
   /* Subtle warm-tinted ambient glow behind the products */
-  .fortified-product-feature__products::before {
-    content: '';
-    position: absolute;
-    width: 70%;
-    height: 70%;
-    border-radius: 50%;
-    background: radial-gradient(circle,
-      color-mix(in srgb, var(--fortified-accent, var(--color-foreground)) 12%, transparent) 0%,
-      transparent 70%);
-    z-index: 0;
-    pointer-events: none;
-  }
 
   .fortified-product-feature__cta .fortified-btn {
     padding: 14px 32px;
