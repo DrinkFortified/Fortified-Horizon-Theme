@@ -19,14 +19,16 @@
     {% endif %}
 
     <div class="fortified-hero__content">
-      {% if section.settings.eyebrow_text != blank %}
-        <span class="fortified-hero__eyebrow">{{ section.settings.eyebrow_text | replace: '*', '' }}</span>
+      {%- assign hero_eyebrow = section.settings.eyebrow | default: section.settings.eyebrow_text -%}
+      {%- assign hero_body = section.settings.body | default: section.settings.body_text -%}
+      {% if hero_eyebrow != blank %}
+        <span class="fortified-hero__eyebrow">{{ hero_eyebrow | replace: '*', '' }}</span>
       {% endif %}
       {% if section.settings.heading != blank %}
         <h1 class="fortified-hero__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</h1>
       {% endif %}
-      {% if section.settings.body_text != blank %}
-        <p class="fortified-hero__body">{% render 'fortified-accent-text', text: section.settings.body_text %}</p>
+      {% if hero_body != blank %}
+        <p class="fortified-hero__body">{% render 'fortified-accent-text', text: hero_body %}</p>
       {% endif %}
       {% if section.settings.cta_primary_label != blank or section.settings.cta_secondary_label != blank %}
         <div class="fortified-hero__ctas">
@@ -63,10 +65,14 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: right center;
     z-index: 0;
   }
   .fortified-hero__bg--placeholder {
-    background: color-mix(in srgb, var(--color-foreground) 6%, transparent);
+    background:
+      linear-gradient(135deg,
+        color-mix(in srgb, var(--color-foreground) 4%, transparent),
+        color-mix(in srgb, var(--color-foreground) 14%, transparent));
   }
   .fortified-hero__content {
     position: relative;
@@ -175,7 +181,7 @@
   "settings": [
     {
       "type": "text",
-      "id": "eyebrow_text",
+      "id": "eyebrow",
       "label": "Eyebrow",
       "default": "Formulated for"
     },
@@ -188,7 +194,7 @@
     },
     {
       "type": "textarea",
-      "id": "body_text",
+      "id": "body",
       "label": "Body text",
       "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Premium electrolytes that fuel your every move. Clinically dosed, clean, and zero sugar."
