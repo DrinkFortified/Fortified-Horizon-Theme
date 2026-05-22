@@ -38,26 +38,44 @@
 
 {% stylesheet %}
   .fortified-b2b {
-    background: var(--color-background, #fff);
-    padding-block: var(--fortified-section-py);
+    background: var(--color-background);
+    color: var(--color-foreground);
   }
   .fortified-b2b__inner {
     display: grid;
     grid-template-columns: 1fr;
-    gap: clamp(14px, 2vw, 24px);
+    gap: 16px;
+    max-width: var(--fortified-container);
+    margin-inline: auto;
+    padding-inline: clamp(16px, 3vw, 48px);
   }
   @media (min-width: 750px) {
-    .fortified-b2b__inner { grid-template-columns: repeat(2, 1fr); }
+    .fortified-b2b__inner { grid-template-columns: 1fr 1fr; }
   }
+
   .fortified-b2b__card {
     position: relative;
-    min-height: 420px;
-    border-radius: 20px;
     overflow: hidden;
+    border-radius: 18px;
+    min-height: clamp(360px, 40vw, 480px);
     display: flex;
     align-items: flex-end;
-    color: var(--color-foreground, #fff);
+    padding: clamp(24px, 3vw, 40px);
     isolation: isolate;
+    background: color-mix(in srgb, var(--color-foreground) 12%, transparent);
+    color: var(--color-background);
+    transition: transform .35s ease;
+  }
+  .fortified-b2b__card:hover { transform: translateY(-4px); }
+  .fortified-b2b__card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--color-foreground) 10%, transparent) 0%,
+      color-mix(in srgb, var(--color-foreground) 75%, transparent) 100%);
+    z-index: 0;
+    pointer-events: none;
   }
   .fortified-b2b__bg {
     position: absolute;
@@ -65,46 +83,57 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -2;
-  }
-  .fortified-b2b__card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgb(0 0 0 / var(--overlay, 0.5));
     z-index: -1;
   }
   .fortified-b2b__content {
-    padding: clamp(24px, 3vw, 40px);
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
-    width: 100%;
+    max-width: 90%;
   }
-  .fortified-b2b__content .fortified-eyebrow { color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); }
+  .fortified-b2b__content .fortified-eyebrow {
+    color: var(--color-background);
+    opacity: 0.85;
+    margin: 0;
+  }
+  .fortified-b2b__content .fortified-heading {
+    color: var(--color-background);
+    font-family: var(--font-fortified-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(24px, 3vw, 36px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
   .fortified-b2b__body {
-    margin: 0 0 8px;
-    font-family: var(--font-fortified-body);
-    font-size: 15px;
+    font-size: clamp(13px, 1vw, 15px);
     line-height: 1.55;
-    max-width: 380px;
-    opacity: .9;
+    color: var(--color-background);
+    opacity: 0.9;
+    margin: 0;
+    max-width: 42ch;
   }
-
-  /* center-aware block alignment — when section is centered, push block content to center */
-  [style*="text-align: center"] [class*="__card"],
-  [style*="text-align: center"] [class*="__item"],
-  [style*="text-align: center"] [class*="__panel"],
-  [style*="text-align: center"] [class*="__cell"] { align-items: center !important; }
-  [style*="text-align: left"] [class*="__card"],
-  [style*="text-align: left"] [class*="__item"],
-  [style*="text-align: left"] [class*="__panel"],
-  [style*="text-align: left"] [class*="__cell"] { align-items: flex-start !important; }
-  [style*="text-align: right"] [class*="__card"],
-  [style*="text-align: right"] [class*="__item"],
-  [style*="text-align: right"] [class*="__panel"],
-  [style*="text-align: right"] [class*="__cell"] { align-items: flex-end !important; }
+  .fortified-b2b__content .fortified-btn {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    border: 0;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    min-height: 44px;
+  }
+  .fortified-b2b__content .fortified-btn:hover {
+    background: var(--fortified-accent, var(--color-foreground));
+    color: var(--color-background);
+  }
 {% endstylesheet %}
 
 {% schema %}
