@@ -2,15 +2,15 @@
 
 <section
   id="PdpFaq-{{ section.id }}"
-  class="pdp-faq color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="pdp-faq color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   data-pdp-faq
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="pdp-faq__inner">
     <div class="pdp-faq__lead">
       <header class="pdp-faq__head">
-        <h2 class="pdp-faq__title">{{ section.settings.title }}</h2>
-        {% if section.settings.desc != blank %}<p class="pdp-faq__desc">{{ section.settings.desc }}</p>{% endif %}
+        <h2 class="pdp-faq__title">{% render 'fortified-accent-text', text: section.settings.title %}</h2>
+        {% if section.settings.desc != blank %}<p class="pdp-faq__desc">{% render 'fortified-accent-text', text: section.settings.desc %}</p>{% endif %}
       </header>
 
       {% if section.settings.cta_label != blank %}
@@ -33,14 +33,14 @@
           {% if block.type == 'qa' %}
             <details class="pdp-faq__item{% if forloop.first %} is-open{% endif %}" {% if forloop.first %}open{% endif %} data-faq-category="{{ block.settings.category }}" {{ block.shopify_attributes }}>
               <summary class="pdp-faq__q">
-                <span>{{ block.settings.question }}</span>
+                <span>{% render 'fortified-accent-text', text: block.settings.question %}</span>
                 <span class="pdp-faq__chev" aria-hidden="true">
                   <svg width="19" height="11" viewBox="0 0 19 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 1L9.5 9.5L18 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                   </svg>
                 </span>
               </summary>
-              <div class="pdp-faq__a">{{ block.settings.answer }}</div>
+              <div class="pdp-faq__a">{% render 'fortified-accent-text', text: block.settings.answer %}</div>
             </details>
           {% endif %}
         {% endfor %}
@@ -222,12 +222,14 @@
       "type": "text",
       "id": "title",
       "label": "Title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "Frequently asked questions"
     },
     {
       "type": "textarea",
       "id": "desc",
       "label": "Description",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Electrolytes don't provide full recovery."
     },
     { "type": "text", "id": "cta_label", "label": "CTA label", "default": "READ ALL REVIEW" },
@@ -375,6 +377,13 @@
       "default": "#1FA8A1"
     },
     {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
@@ -414,12 +423,14 @@
           "type": "text",
           "id": "question",
           "label": "Question",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "How is Fortified different?"
         },
         {
           "type": "richtext",
           "id": "answer",
           "label": "Answer",
+          "info": "Wrap text in *asterisks* to highlight in the accent color. HTML formatting is preserved.",
           "default": "<p>We publish every dose on the label. No proprietary blends, no fillers, no surprises.</p>"
         },
         {

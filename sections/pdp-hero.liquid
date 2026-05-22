@@ -2,7 +2,7 @@
 
 <section
   id="PdpHero-{{ section.id }}"
-  class="pdp-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="pdp-hero color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   data-pdp-hero
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
@@ -49,13 +49,13 @@
         </div>
 
         <h1 class="pdp-hero__title">
-          <span class="p-energy">{{ section.settings.energy_title }}</span>
-          <span class="p-everyday">{{ section.settings.everyday_title }}</span>
+          <span class="p-energy">{% render 'fortified-accent-text', text: section.settings.energy_title %}</span>
+          <span class="p-everyday">{% render 'fortified-accent-text', text: section.settings.everyday_title %}</span>
         </h1>
 
         <p class="pdp-hero__desc">
-          <span class="p-energy">{{ section.settings.energy_desc }}</span>
-          <span class="p-everyday">{{ section.settings.everyday_desc }}</span>
+          <span class="p-energy">{% render 'fortified-accent-text', text: section.settings.energy_desc %}</span>
+          <span class="p-everyday">{% render 'fortified-accent-text', text: section.settings.everyday_desc %}</span>
         </p>
       </div>
 
@@ -64,7 +64,7 @@
         <header class="pdp-step__head">
           <div class="pdp-step__head-left">
             <span class="pdp-step__num">1</span>
-            <h2 id="StepPlan-{{ section.id }}" class="pdp-step__title">{{ section.settings.step1_title }}</h2>
+            <h2 id="StepPlan-{{ section.id }}" class="pdp-step__title">{% render 'fortified-accent-text', text: section.settings.step1_title %}</h2>
           </div>
           {% if section.settings.step1_meta != blank %}<span class="pdp-step__meta">{{ section.settings.step1_meta }}</span>{% endif %}
         </header>
@@ -113,13 +113,13 @@
         <header class="pdp-step__head">
           <div class="pdp-step__head-left">
             <span class="pdp-step__num">2</span>
-            <h2 id="StepFF-{{ section.id }}" class="pdp-step__title">{{ section.settings.step2_title }}</h2>
+            <h2 id="StepFF-{{ section.id }}" class="pdp-step__title">{% render 'fortified-accent-text', text: section.settings.step2_title %}</h2>
           </div>
           {% if section.settings.step2_meta != blank %}<span class="pdp-step__meta">{{ section.settings.step2_meta }}</span>{% endif %}
         </header>
         <div class="pdp-step__body" data-pouches-host>
           {%- comment -%} Pouches rendered by JS based on plan {%- endcomment -%}
-          <p class="pdp-step__hint">{{ section.settings.step2_hint }}</p>
+          <p class="pdp-step__hint">{% render 'fortified-accent-text', text: section.settings.step2_hint %}</p>
         </div>
       </section>
 
@@ -128,31 +128,31 @@
         <header class="pdp-step__head">
           <div class="pdp-step__head-left">
             <span class="pdp-step__num">3</span>
-            <h2 id="StepC-{{ section.id }}" class="pdp-step__title">{{ section.settings.step3_title }}</h2>
+            <h2 id="StepC-{{ section.id }}" class="pdp-step__title">{% render 'fortified-accent-text', text: section.settings.step3_title %}</h2>
           </div>
         </header>
         <div class="pdp-step__body">
           <div class="pdp-creatine">
             <div class="pdp-creatine__row pdp-creatine__row--free" data-creatine-row="free" hidden>
               <div>
-                <div class="pdp-creatine__title">{{ section.settings.creatine_free_title }}</div>
-                <div class="pdp-creatine__meta">{{ section.settings.creatine_free_meta }}</div>
+                <div class="pdp-creatine__title">{% render 'fortified-accent-text', text: section.settings.creatine_free_title %}</div>
+                <div class="pdp-creatine__meta">{% render 'fortified-accent-text', text: section.settings.creatine_free_meta %}</div>
               </div>
               <div class="pdp-creatine__price"><s>{{ section.settings.creatine_compare }}</s> <strong>FREE</strong></div>
             </div>
             <label class="pdp-creatine__row" data-creatine-row="extra" hidden>
               <input type="checkbox" data-creatine-extra>
               <div>
-                <div class="pdp-creatine__title">{{ section.settings.creatine_extra_title }}</div>
-                <div class="pdp-creatine__meta">{{ section.settings.creatine_extra_meta }}</div>
+                <div class="pdp-creatine__title">{% render 'fortified-accent-text', text: section.settings.creatine_extra_title %}</div>
+                <div class="pdp-creatine__meta">{% render 'fortified-accent-text', text: section.settings.creatine_extra_meta %}</div>
               </div>
               <div class="pdp-creatine__price">+{{ section.settings.creatine_extra_price }}</div>
             </label>
             <label class="pdp-creatine__row" data-creatine-row="sub" hidden>
               <input type="checkbox" data-creatine-sub>
               <div>
-                <div class="pdp-creatine__title">{{ section.settings.creatine_sub_title }}</div>
-                <div class="pdp-creatine__meta">{{ section.settings.creatine_sub_meta }}</div>
+                <div class="pdp-creatine__title">{% render 'fortified-accent-text', text: section.settings.creatine_sub_title %}</div>
+                <div class="pdp-creatine__meta">{% render 'fortified-accent-text', text: section.settings.creatine_sub_meta %}</div>
               </div>
               <div class="pdp-creatine__price">+{{ section.settings.creatine_sub_price }}</div>
             </label>
@@ -179,9 +179,9 @@
       </div>
 
       <ul class="pdp-trust">
-        {% if section.settings.trust_1 != blank %}<li>{{ section.settings.trust_1 }}</li>{% endif %}
-        {% if section.settings.trust_2 != blank %}<li>{{ section.settings.trust_2 }}</li>{% endif %}
-        {% if section.settings.trust_3 != blank %}<li>{{ section.settings.trust_3 }}</li>{% endif %}
+        {% if section.settings.trust_1 != blank %}<li>{% render 'fortified-accent-text', text: section.settings.trust_1 %}</li>{% endif %}
+        {% if section.settings.trust_2 != blank %}<li>{% render 'fortified-accent-text', text: section.settings.trust_2 %}</li>{% endif %}
+        {% if section.settings.trust_3 != blank %}<li>{% render 'fortified-accent-text', text: section.settings.trust_3 %}</li>{% endif %}
       </ul>
     </div>
   </div>
@@ -894,12 +894,14 @@
       "type": "text",
       "id": "energy_title",
       "label": "Title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "FORTIFIED ENERGY"
     },
     {
       "type": "textarea",
       "id": "energy_desc",
       "label": "Description",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Clean caffeine plus electrolytes for pre-workout focus and pump. No sugar, no junk."
     },
     {
@@ -916,12 +918,14 @@
       "type": "text",
       "id": "everyday_title",
       "label": "Title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "FORTIFIED EVERYDAY"
     },
     {
       "type": "textarea",
       "id": "everyday_desc",
       "label": "Description",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Mineral-rich hydration for the rest of the day. Caffeine-free, sugar-free, ready when you are."
     },
     {
@@ -1243,6 +1247,13 @@
       "label": "Highlight / accent color",
       "info": "Used for accent bars, CTA backgrounds, checkmarks. Default: Fortified Teal.",
       "default": "#1FA8A1"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
     },
     {
       "type": "color_scheme",

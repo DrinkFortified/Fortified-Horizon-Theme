@@ -2,13 +2,13 @@
 
 <section
   id="PdpComparison-{{ section.id }}"
-  class="pdp-cmp color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="pdp-cmp color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="pdp-cmp__inner">
     <header class="pdp-cmp__head">
       <p class="pdp-cmp__eyebrow">{{ section.settings.eyebrow }}</p>
-      <h2 class="pdp-cmp__title">{{ section.settings.title }}</h2>
+      <h2 class="pdp-cmp__title">{% render 'fortified-accent-text', text: section.settings.title %}</h2>
     </header>
 
     <div class="pdp-cmp__board">
@@ -17,7 +17,7 @@
         <div class="pdp-cmp__labels-spacer" aria-hidden="true"></div>
         {% for block in section.blocks %}
           {% if block.type == 'cmp_row' %}
-            <div class="pdp-cmp__label" {{ block.shopify_attributes }}>{{ block.settings.row_label }}</div>
+            <div class="pdp-cmp__label" {{ block.shopify_attributes }}>{% render 'fortified-accent-text', text: block.settings.row_label %}</div>
           {% endif %}
         {% endfor %}
       </div>
@@ -295,6 +295,7 @@
       "type": "text",
       "id": "title",
       "label": "Title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "WHY WE BEAT THE REST"
     },
     { "type": "image_picker", "id": "our_logo", "label": "Our column logo" },
@@ -446,6 +447,13 @@
       "default": "#1FA8A1"
     },
     {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
@@ -461,6 +469,7 @@
           "type": "text",
           "id": "row_label",
           "label": "Row label",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Sodium per serving"
         },
         {

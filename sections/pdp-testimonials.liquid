@@ -2,14 +2,14 @@
 
 <section
   id="PdpTestimonials-{{ section.id }}"
-  class="pdp-testi color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="pdp-testi color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="pdp-testi__inner">
     <header class="pdp-testi__head">
       <p class="pdp-testi__eyebrow">{{ section.settings.eyebrow }}</p>
-      <h2 class="pdp-testi__title">{{ section.settings.title }}</h2>
-      {% if section.settings.sub != blank %}<p class="pdp-testi__sub">{{ section.settings.sub }}</p>{% endif %}
+      <h2 class="pdp-testi__title">{% render 'fortified-accent-text', text: section.settings.title %}</h2>
+      {% if section.settings.sub != blank %}<p class="pdp-testi__sub">{% render 'fortified-accent-text', text: section.settings.sub %}</p>{% endif %}
     </header>
 
     <div class="pdp-testi__grid">
@@ -21,9 +21,9 @@
                 {% for i in (1..5) %}{% if i <= block.settings.stars %}<span class="pdp-testi__star is-on">★</span>{% else %}<span class="pdp-testi__star">★</span>{% endif %}{% endfor %}
               </div>
               {% if block.settings.headline != blank %}
-                <h3 class="pdp-testi__card-title">{{ block.settings.headline }}</h3>
+                <h3 class="pdp-testi__card-title">{% render 'fortified-accent-text', text: block.settings.headline %}</h3>
               {% endif %}
-              <blockquote class="pdp-testi__quote">{{ block.settings.quote }}</blockquote>
+              <blockquote class="pdp-testi__quote">{% render 'fortified-accent-text', text: block.settings.quote %}</blockquote>
             </div>
             <div class="pdp-testi__byline">
               {% if block.settings.avatar != blank %}
@@ -243,12 +243,14 @@
       "type": "text",
       "id": "title",
       "label": "Title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "12,400+ customer reviews"
     },
     {
       "type": "text",
       "id": "sub",
       "label": "Subtitle",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": ""
     },
     { "type": "text", "id": "cta_primary_label", "label": "CTA 1 label", "default": "READ ALL REVIEW" },
@@ -368,6 +370,13 @@
       "default": "#1FA8A1"
     },
     {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
@@ -392,12 +401,14 @@
           "type": "text",
           "id": "headline",
           "label": "Headline",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Game changer!"
         },
         {
           "type": "textarea",
           "id": "quote",
           "label": "Quote",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "I feel the difference in my workouts and recovery. No more cramps."
         },
         { "type": "image_picker", "id": "avatar", "label": "Avatar" },

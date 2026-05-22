@@ -2,7 +2,7 @@
 
 <section
   id="PdpCreatine-{{ section.id }}"
-  class="pdp-cr color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="pdp-cr color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="fortified-container pdp-cr__grid" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">
@@ -21,13 +21,13 @@
 
     <div class="pdp-cr__copy">
       <p class="pdp-cr__eyebrow">{{ section.settings.eyebrow }}</p>
-      <h2 class="pdp-cr__title">{{ section.settings.title }}</h2>
-      <p class="pdp-cr__desc">{{ section.settings.desc }}</p>
+      <h2 class="pdp-cr__title">{% render 'fortified-accent-text', text: section.settings.title %}</h2>
+      <p class="pdp-cr__desc">{% render 'fortified-accent-text', text: section.settings.desc %}</p>
 
       <ul class="pdp-cr__bullets">
         {% for block in section.blocks %}
           {% if block.type == 'bullet' %}
-            <li style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}><strong>{{ block.settings.label }}</strong> {{ block.settings.body }}</li>
+            <li style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}><strong>{% render 'fortified-accent-text', text: block.settings.label %}</strong> {% render 'fortified-accent-text', text: block.settings.body %}</li>
           {% endif %}
         {% endfor %}
       </ul>
@@ -36,24 +36,24 @@
         <label class="pdp-cr__opt is-selected">
           <input type="radio" name="pdp-cr-{{ section.id }}" value="bundle" checked>
           <div>
-            <div class="pdp-cr__opt-title">{{ section.settings.opt_bundle_title }}</div>
-            <div class="pdp-cr__opt-meta">{{ section.settings.opt_bundle_meta }}</div>
+            <div class="pdp-cr__opt-title">{% render 'fortified-accent-text', text: section.settings.opt_bundle_title %}</div>
+            <div class="pdp-cr__opt-meta">{% render 'fortified-accent-text', text: section.settings.opt_bundle_meta %}</div>
           </div>
           <div class="pdp-cr__opt-price"><s>{{ section.settings.opt_bundle_compare }}</s> <strong>FREE</strong></div>
         </label>
         <label class="pdp-cr__opt">
           <input type="radio" name="pdp-cr-{{ section.id }}" value="sub">
           <div>
-            <div class="pdp-cr__opt-title">{{ section.settings.opt_sub_title }}</div>
-            <div class="pdp-cr__opt-meta">{{ section.settings.opt_sub_meta }}</div>
+            <div class="pdp-cr__opt-title">{% render 'fortified-accent-text', text: section.settings.opt_sub_title %}</div>
+            <div class="pdp-cr__opt-meta">{% render 'fortified-accent-text', text: section.settings.opt_sub_meta %}</div>
           </div>
           <div class="pdp-cr__opt-price">{{ section.settings.opt_sub_price }}</div>
         </label>
         <label class="pdp-cr__opt">
           <input type="radio" name="pdp-cr-{{ section.id }}" value="one">
           <div>
-            <div class="pdp-cr__opt-title">{{ section.settings.opt_one_title }}</div>
-            <div class="pdp-cr__opt-meta">{{ section.settings.opt_one_meta }}</div>
+            <div class="pdp-cr__opt-title">{% render 'fortified-accent-text', text: section.settings.opt_one_title %}</div>
+            <div class="pdp-cr__opt-meta">{% render 'fortified-accent-text', text: section.settings.opt_one_meta %}</div>
           </div>
           <div class="pdp-cr__opt-price">{{ section.settings.opt_one_price }}</div>
         </label>
@@ -275,12 +275,14 @@
       "type": "text",
       "id": "title",
       "label": "Title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "ADD CREATINE TO YOUR STACK"
     },
     {
       "type": "textarea",
       "id": "desc",
       "label": "Description",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "5g of micronized creatine monohydrate \u2014 the most-researched strength supplement on Earth. Quietly does the work in the background."
     },
     {
@@ -465,6 +467,13 @@
       "default": "#1FA8A1"
     },
     {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
@@ -480,12 +489,14 @@
           "type": "text",
           "id": "label",
           "label": "Bold label",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "5g per scoop."
         },
         {
           "type": "text",
           "id": "body",
           "label": "Body",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "The clinically-studied dose, every single day."
         },
         {

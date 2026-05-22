@@ -2,7 +2,7 @@
 
 <section
   id="PdpBenefits-{{ section.id }}"
-  class="pdp-benefits color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+  class="pdp-benefits color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
   <div class="pdp-benefits__layout">
@@ -15,12 +15,12 @@
     <div class="pdp-benefits__content">
       <header class="pdp-benefits__head">
         <h2 class="pdp-benefits__title">
-          <span class="p-energy">{{ section.settings.energy_title }}</span>
-          <span class="p-everyday">{{ section.settings.everyday_title }}</span>
+          <span class="p-energy">{% render 'fortified-accent-text', text: section.settings.energy_title %}</span>
+          <span class="p-everyday">{% render 'fortified-accent-text', text: section.settings.everyday_title %}</span>
         </h2>
         <p class="pdp-benefits__desc">
-          <span class="p-energy">{{ section.settings.energy_desc }}</span>
-          <span class="p-everyday">{{ section.settings.everyday_desc }}</span>
+          <span class="p-energy">{% render 'fortified-accent-text', text: section.settings.energy_desc %}</span>
+          <span class="p-everyday">{% render 'fortified-accent-text', text: section.settings.everyday_desc %}</span>
         </p>
       </header>
 
@@ -36,8 +36,8 @@
                 {% endif %}
               </div>
               <div class="pdp-benefit__text">
-                <h3 class="pdp-benefit__title">{{ block.settings.title }}</h3>
-                <p class="pdp-benefit__body">{{ block.settings.body }}</p>
+                <h3 class="pdp-benefit__title">{% render 'fortified-accent-text', text: block.settings.title %}</h3>
+                <p class="pdp-benefit__body">{% render 'fortified-accent-text', text: block.settings.body %}</p>
               </div>
             </article>
           {% elsif block.type == 'benefit_everyday' %}
@@ -50,8 +50,8 @@
                 {% endif %}
               </div>
               <div class="pdp-benefit__text">
-                <h3 class="pdp-benefit__title">{{ block.settings.title }}</h3>
-                <p class="pdp-benefit__body">{{ block.settings.body }}</p>
+                <h3 class="pdp-benefit__title">{% render 'fortified-accent-text', text: block.settings.title %}</h3>
+                <p class="pdp-benefit__body">{% render 'fortified-accent-text', text: block.settings.body %}</p>
               </div>
             </article>
           {% endif %}
@@ -219,12 +219,14 @@
       "type": "text",
       "id": "energy_title",
       "label": "Energy title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "CLINICALLY BACKED INGREDIENTS"
     },
     {
       "type": "textarea",
       "id": "energy_desc",
       "label": "Energy description",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Electrolytes don't provide full recovery. Regenerate hydration."
     },
     {
@@ -237,12 +239,14 @@
       "type": "text",
       "id": "everyday_title",
       "label": "Everyday title",
+      "info": "Wrap text in *asterisks* to highlight in the accent color, e.g. \"hydration *that hits*\".",
       "default": "CLINICALLY BACKED INGREDIENTS"
     },
     {
       "type": "textarea",
       "id": "everyday_desc",
       "label": "Everyday description",
+      "info": "Wrap text in *asterisks* to highlight in the accent color.",
       "default": "Electrolytes don't provide full recovery. Regenerate hydration."
     },
     { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FORTIFIED NOW" },
@@ -360,6 +364,13 @@
       "default": "#1FA8A1"
     },
     {
+      "type": "checkbox",
+      "id": "accent_italic",
+      "label": "Render highlighted text in italic style",
+      "info": "When off, *highlighted* text is upright in the accent color. When on, it stays italic.",
+      "default": false
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
@@ -382,12 +393,14 @@
           "type": "text",
           "id": "title",
           "label": "Title",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "SODIUM"
         },
         {
           "type": "textarea",
           "id": "body",
           "label": "Body",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Supports body hydration"
         },
         {
@@ -474,12 +487,14 @@
           "type": "text",
           "id": "title",
           "label": "Title",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "MAGNESIUM"
         },
         {
           "type": "textarea",
           "id": "body",
           "label": "Body",
+          "info": "Wrap text in *asterisks* to highlight in the accent color.",
           "default": "Supports muscle function"
         },
         {
