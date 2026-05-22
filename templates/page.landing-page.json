@@ -1,277 +1,415 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "landing_hero": {
-      "type": "fortified-landing-hero",
+    "marquee_top_lp_Hv8Wpx": {
+      "type": "marquee",
+      "name": "LP — Top Announcement Strip",
       "blocks": {
-        "b1": {
-          "type": "fortified-benefit-item",
+        "text_lp_top_Mn4Vpr": {
+          "type": "text",
           "settings": {
-            "text": "Premium Hydration + Performance"
-          },
-          "name": "LP-01 \u2014 Landing Hero"
-        },
-        "b2": {
-          "type": "fortified-benefit-item",
-          "settings": {
-            "text": "Zero Sugar, Zero Crash"
-          }
-        },
-        "b3": {
-          "type": "fortified-benefit-item",
-          "settings": {
-            "text": "Scientifically Dosed Ingredients"
+            "text": "<p>✓ No Crash &nbsp;&nbsp; ✓ Zero Sugar &nbsp;&nbsp; ✓ Clean Ingredients &nbsp;&nbsp; ✓ Science Backed</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-fortified-display)",
+            "font_size": "22px",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "uppercase",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           }
         }
       },
-      "block_order": [
-        "b1",
-        "b2",
-        "b3"
-      ],
+      "block_order": ["text_lp_top_Mn4Vpr"],
       "settings": {
-        "headline_line_1": "TRY 3 STICKS",
-        "headline_line_2": "FOR $1.99",
-        "cta_label": "CLAIM YOUR TRIAL \u2014 $1.99",
-        "cta_url": "/products/trial-pack",
-        "asterisk_disclaimer": "*Just pay shipping. One trial per customer. Limited time.",
+        "movement_direction": "normal",
         "color_scheme": "scheme-3",
-        "content_alignment": "center",
-        "blocks_alignment": "center"
-      },
-      "name": "LP-01 \u2014 Landing Hero"
+        "padding-block-start": 14,
+        "padding-block-end": 14,
+        "gap_between_elements": 62
+      }
     },
-    "stats_bar": {
+    "section_lp_hero_Kp4Mvr": {
+      "type": "section",
+      "name": "LP-01 — Hero",
+      "blocks": {
+        "group_lp_hero_root_Mp7Wxr": {
+          "type": "group",
+          "name": "Hero Content",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 20,
+            "width": "custom",
+            "custom_width": 60,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 120,
+            "padding-block-end": 120,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_lp_heading_Wp4Vmr": {
+              "type": "text",
+              "name": "Headline",
+              "settings": {
+                "text": "<h1>TRY 3 STICKS<br>FOR $1.99</h1>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-fortified-display)",
+                "font_size": "72px",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "uppercase",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "text_lp_benefits_Yp3Vpr": {
+              "type": "text",
+              "name": "Benefits",
+              "settings": {
+                "text": "<ul style=\"list-style:none;padding:0;text-align:center;\"><li>✓ Premium Hydration + Performance</li><li>✓ Zero Sugar, Zero Crash</li><li>✓ Scientifically Dosed Ingredients</li></ul>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-fortified-body)",
+                "font_size": "20px",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 8,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "button_lp_cta_Jp4Mwr": {
+              "type": "button",
+              "name": "CTA",
+              "settings": {
+                "label": "CLAIM YOUR TRIAL — $1.99",
+                "link": "/products/trial-pack",
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "width": "custom",
+                "custom_width": 30,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              }
+            },
+            "text_lp_disclaimer_Yp7Pmr": {
+              "type": "text",
+              "name": "Disclaimer",
+              "settings": {
+                "text": "<p><em>*Just pay shipping. One trial per customer. Limited time.</em></p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-fortified-body)",
+                "font_size": "14px",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": [
+            "text_lp_heading_Wp4Vmr",
+            "text_lp_benefits_Yp3Vpr",
+            "button_lp_cta_Jp4Mwr",
+            "text_lp_disclaimer_Yp7Pmr"
+          ]
+        }
+      },
+      "block_order": ["group_lp_hero_root_Mp7Wxr"],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "full-width",
+        "section_height": "custom",
+        "section_height_custom": 60,
+        "color_scheme": "scheme-3",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "fortified_stats_bar_lp02": {
       "type": "fortified-stats-bar",
+      "name": "LP-02 — Stats Bar",
       "settings": {
         "stat_1_value": "1,200MG",
         "stat_1_label": "Sodium",
-        "stat_2_value": "150MG",
-        "stat_2_label": "Magnesium Glycinate",
-        "stat_3_value": "300MG",
-        "stat_3_label": "Potassium",
-        "stat_4_value": "0G",
-        "stat_4_label": "Sugar",
-        "stat_5_value": "45",
-        "stat_5_label": "Servings per Pouch",
+        "stat_2_value": "200MG",
+        "stat_2_label": "Potassium",
+        "stat_3_value": "150MG",
+        "stat_3_label": "Magnesium",
+        "stat_4_value": "100MG",
+        "stat_4_label": "Vitamin D3",
+        "stat_5_value": "300MG",
+        "stat_5_label": "Calcium",
         "color_scheme": "scheme-2",
         "content_alignment": "center"
-      },
-      "name": "LP-02 \u2014 Stats Bar"
+      }
     },
-    "reviews_carousel": {
+    "fortified_reviews_lp03": {
       "type": "fortified-reviews-section",
+      "name": "LP-03 — Customer Reviews",
       "settings": {
-        "eyebrow": "REAL CUSTOMERS",
-        "heading": "12,400+ FIVE-STAR REVIEWS",
+        "eyebrow": "THE TRUTH",
+        "heading": "12,400+ CUSTOMER REVIEWS",
         "color_scheme": "scheme-1",
         "content_alignment": "center"
-      },
-      "name": "LP-03 \u2014 Customer Reviews"
+      }
     },
-    "featured_card": {
+    "fortified_featured_card_lp04": {
       "type": "fortified-featured-product-card",
+      "name": "LP-04 — Featured Product Card",
       "blocks": {
-        "i1": {
+        "include_i1_Mp8Vrx": {
           "type": "fortified-include-item",
           "settings": {
-            "text": "Energy Hydration Stick \u2014 Salty Orange K2"
-          },
-          "name": "LP-04 \u2014 Featured Product Card"
-        },
-        "i2": {
-          "type": "fortified-include-item",
-          "settings": {
-            "text": "Energy Hydration Stick \u2014 Salty Palau K2"
+            "text": "Energy Hydration Stick — Salty Orange x2",
+            "subtitle": "200mg caffeine, 1000mg electrolytes"
           }
         },
-        "i3": {
+        "include_i2_Wp4Lvr": {
           "type": "fortified-include-item",
           "settings": {
-            "text": "Free USA Shipping"
+            "text": "Energy Hydration Stick — Salty Melon x2",
+            "subtitle": "200mg caffeine, 1000mg electrolytes"
           }
         },
-        "i4": {
+        "include_i3_Kp7Vmr": {
           "type": "fortified-include-item",
           "settings": {
-            "text": "Money-Back Guarantee"
+            "text": "Free USA Shipping",
+            "subtitle": "Ships in 24 hours"
+          }
+        },
+        "include_i4_Bp4Lvr": {
+          "type": "fortified-include-item",
+          "settings": {
+            "text": "Money-back guarantee",
+            "subtitle": "Don't love it? Get a refund"
           }
         }
       },
-      "block_order": [
-        "i1",
-        "i2",
-        "i3",
-        "i4"
-      ],
+      "block_order": ["include_i1_Mp8Vrx", "include_i2_Wp4Lvr", "include_i3_Kp7Vmr", "include_i4_Bp4Lvr"],
       "settings": {
-        "fallback_title": "EVERYDAY HYDRATION TRIAL",
-        "badge_text": "TRIAL OFFER",
+        "fallback_title": "EVERYDAY HYDRATION",
+        "badge_text": "BESTSELLER",
         "show_rating": true,
-        "rating_text": "4.9 \u2605\u2605\u2605\u2605\u2605 \u2014 12,400+ verified reviews",
+        "rating_text": "4.9 ★★★★★ — 12,400+ verified reviews",
         "bestseller": true,
         "sale_label": "$1.99",
-        "regular_price_label": "$9.97",
-        "cta_label": "CLAIM TRIAL \u2014 $1.99",
+        "regular_price_label": "$10.97",
+        "you_pay_label": "You pay today:",
+        "cta_label": "SHOP FORTIFIED",
         "cta_url": "/products/trial-pack",
-        "trust_line": "Free U.S. shipping in 1\u20134 days. Cancel anytime.",
+        "trust_line": "Fast shipping within US (under 24 hours)",
         "color_scheme": "scheme-1",
-        "content_alignment": "center",
-        "blocks_alignment": "center"
-      },
-      "name": "LP-04 \u2014 Featured Product Card"
+        "content_alignment": "left",
+        "blocks_alignment": "left"
+      }
     },
-    "day_benefits": {
+    "fortified_day_benefits_lp05": {
       "type": "fortified-day-benefits",
+      "name": "LP-05 — Day Benefits",
       "blocks": {
-        "d1": {
+        "day_d1_Mp7Vrx": {
           "type": "fortified-day-column",
-          "settings": {
-            "day_label": "Day 1-3",
-            "heading": "Hydrate"
-          },
-          "name": "LP-05 \u2014 Day Benefits"
+          "settings": { "day_label": "Day 1-3", "heading": "Hydrate" }
         },
-        "d2": {
+        "day_d2_Wp4Lvr": {
           "type": "fortified-day-column",
-          "settings": {
-            "day_label": "Day 4-7",
-            "heading": "Energize"
-          }
+          "settings": { "day_label": "Day 4-7", "heading": "Energize" }
         },
-        "d3": {
+        "day_d3_Kp7Vmr": {
           "type": "fortified-day-column",
-          "settings": {
-            "day_label": "Day 8-14",
-            "heading": "Strengthen"
-          }
+          "settings": { "day_label": "Day 8-14", "heading": "Strengthen" }
         },
-        "d4": {
+        "day_d4_Bp4Lvr": {
           "type": "fortified-day-column",
-          "settings": {
-            "day_label": "Day 15-21",
-            "heading": "Recover"
-          }
+          "settings": { "day_label": "Day 15-21", "heading": "Recover" }
         },
-        "d5": {
+        "day_d5_Lp8Vrx": {
           "type": "fortified-day-column",
-          "settings": {
-            "day_label": "Day 22-30",
-            "heading": "Sustain"
-          }
+          "settings": { "day_label": "Day 22-30", "heading": "Sustain" }
         }
       },
-      "block_order": [
-        "d1",
-        "d2",
-        "d3",
-        "d4",
-        "d5"
-      ],
+      "block_order": ["day_d1_Mp7Vrx", "day_d2_Wp4Lvr", "day_d3_Kp7Vmr", "day_d4_Bp4Lvr", "day_d5_Lp8Vrx"],
       "settings": {
         "heading": "A BETTER DAY, FROM FIRST SIP TO LAST SET",
-        "cta_label": "CLAIM TRIAL \u2014 $1.99",
+        "cta_label": "CLAIM TRIAL — $1.99",
         "cta_url": "/products/trial-pack",
         "color_scheme": "scheme-2",
         "content_alignment": "center",
         "blocks_alignment": "center"
-      },
-      "name": "LP-05 \u2014 Day Benefits"
+      }
     },
-    "ingredients_tabs": {
+    "fortified_ingredients_lp06": {
       "type": "fortified-ingredients-tabs",
+      "name": "LP-06 — Ingredients",
       "blocks": {
-        "t1": {
-          "type": "fortified-tab",
-          "settings": {
-            "tab_label": "Hydration"
-          },
-          "name": "LP-06 \u2014 Ingredients"
-        },
-        "t2": {
-          "type": "fortified-tab",
-          "settings": {
-            "tab_label": "Performance"
-          }
-        },
-        "i1": {
+        "tab_t1_Mp7Vrx": { "type": "fortified-tab", "settings": { "tab_label": "Hydration" } },
+        "tab_t2_Wp4Lvr": { "type": "fortified-tab", "settings": { "tab_label": "Performance" } },
+        "ing_i1_Kp7Vmr": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Hydration",
             "ingredient_name": "Sodium Citrate",
-            "dosage_badge": "1200MG"
+            "dosage_badge": "1,200MG",
+            "description": "Essential electrolyte to support fluid balance, hydration, and muscle function.",
+            "benefit_badge": "HYDRATION"
           }
         },
-        "i2": {
+        "ing_i2_Bp4Lvr": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Hydration",
             "ingredient_name": "Magnesium Glycinate",
-            "dosage_badge": "200MG"
+            "dosage_badge": "150MG",
+            "description": "Supports muscle function and reduces cramps.",
+            "benefit_badge": "HYDRATION"
           }
         },
-        "i3": {
+        "ing_i3_Lp7Vmr": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Hydration",
             "ingredient_name": "Potassium",
-            "dosage_badge": "150MG"
+            "dosage_badge": "200MG",
+            "description": "Maintains fluid balance and supports muscle/nerve function.",
+            "benefit_badge": "HYDRATION"
           }
         },
-        "i4": {
+        "ing_i4_Vp4Lvr": {
           "type": "fortified-ingredient",
           "settings": {
             "tab": "Performance",
             "ingredient_name": "Creatine",
-            "dosage_badge": "3G"
+            "dosage_badge": "3G",
+            "description": "Supports strength and recovery in high-intensity workouts.",
+            "benefit_badge": "PERFORMANCE"
           }
         }
       },
-      "block_order": [
-        "t1",
-        "t2",
-        "i1",
-        "i2",
-        "i3",
-        "i4"
-      ],
+      "block_order": ["tab_t1_Mp7Vrx", "tab_t2_Wp4Lvr", "ing_i1_Kp7Vmr", "ing_i2_Bp4Lvr", "ing_i3_Lp7Vmr", "ing_i4_Vp4Lvr"],
       "settings": {
         "eyebrow": "THE TRUTH",
         "heading": "CLINICALLY BACKED INGREDIENTS",
-        "cta_label": "TRY 3 STICKS \u2014 $1.99",
+        "body": "Electrolytes don't provide full recovery.",
+        "cta_label": "TRY 3 STICKS — $1.99",
         "cta_url": "/products/trial-pack",
         "color_scheme": "scheme-1",
-        "content_alignment": "center",
-        "blocks_alignment": "center"
-      },
-      "name": "LP-06 \u2014 Ingredients"
+        "content_alignment": "center"
+      }
     },
-    "comparison_table": {
+    "fortified_comparison_lp07": {
       "type": "fortified-comparison-table-section",
+      "name": "LP-07 — Comparison Table",
       "blocks": {
-        "r1": {
+        "row_r1_Mp7Vrx": {
           "type": "fortified-comparison-row",
           "settings": {
             "row_label": "Sodium per serving",
-            "fortified_value": "1200MG",
+            "fortified_value": "1000MG",
             "comp_1_value": "500MG",
-            "comp_2_value": "500MG",
-            "comp_3_value": "500MG"
-          },
-          "name": "LP-07 \u2014 Comparison Table"
+            "comp_2_value": "1000MG",
+            "comp_3_value": "270MG"
+          }
         },
-        "r2": {
+        "row_r2_Wp4Lvr": {
           "type": "fortified-comparison-row",
           "settings": {
             "row_label": "Sugar-free",
+            "is_checkmark_row": true,
+            "fortified_value": "yes",
+            "comp_1_value": "no",
+            "comp_2_value": "yes",
+            "comp_3_value": "yes"
+          }
+        },
+        "row_r3_Kp7Vmr": {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Energy version (caffeine)",
             "is_checkmark_row": true,
             "fortified_value": "yes",
             "comp_1_value": "no",
@@ -279,7 +417,18 @@
             "comp_3_value": "no"
           }
         },
-        "r3": {
+        "row_r4_Bp4Lvr": {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Real fruit flavor",
+            "is_checkmark_row": true,
+            "fortified_value": "yes",
+            "comp_1_value": "no",
+            "comp_2_value": "no",
+            "comp_3_value": "no"
+          }
+        },
+        "row_r5_Lp7Vmr": {
           "type": "fortified-comparison-row",
           "settings": {
             "row_label": "Magnesium glycinate",
@@ -290,10 +439,10 @@
             "comp_3_value": "yes"
           }
         },
-        "r4": {
+        "row_r6_Vp4Lvr": {
           "type": "fortified-comparison-row",
           "settings": {
-            "row_label": "Trial price",
+            "row_label": "Trial price (3 sticks)",
             "fortified_value": "$1.99",
             "comp_1_value": "$8.97",
             "comp_2_value": "$5.97",
@@ -301,90 +450,590 @@
           }
         }
       },
-      "block_order": [
-        "r1",
-        "r2",
-        "r3",
-        "r4"
-      ],
+      "block_order": ["row_r1_Mp7Vrx", "row_r2_Wp4Lvr", "row_r3_Kp7Vmr", "row_r4_Bp4Lvr", "row_r5_Lp7Vmr", "row_r6_Vp4Lvr"],
       "settings": {
-        "heading": "WHY WE BEAT THE REST",
-        "competitor_1_name": "LMNT",
-        "competitor_2_name": "Liquid IV",
+        "eyebrow": "THE TRUTH",
+        "heading": "WHY WE BEAT THE REST ELECTROLYTES",
+        "competitor_1_name": "Liquid IV",
+        "competitor_2_name": "LMNT",
         "competitor_3_name": "Drip Drop",
-        "cta_label": "TRY 3 STICKS \u2014 $1.99",
-        "cta_url": "/products/trial-pack",
-        "color_scheme": "scheme-2",
-        "content_alignment": "center",
-        "blocks_alignment": "center"
-      },
-      "name": "LP-07 \u2014 Comparison Table"
-    },
-    "product_feature": {
-      "type": "fortified-product-feature",
-      "settings": {
-        "heading": "YOUR BEST DAY",
-        "eyebrow": "FORMULATED FOR",
-        "body": "Whether you're training hard, working long, or just trying to stay sharp \u2014 Fortified delivers the minerals your body actually needs. Clinically dosed sodium, magnesium glycinate, potassium, and prebiotic fiber. Zero sugar. Zero crash.",
-        "cta_label": "CLAIM TRIAL \u2014 $1.99",
+        "cta_label": "SHOP FORTIFIED NOW",
         "cta_url": "/products/trial-pack",
         "color_scheme": "scheme-1",
         "content_alignment": "center"
-      },
-      "name": "LP-08 \u2014 Product Feature"
+      }
     },
-    "faq": {
-      "type": "fortified-faq",
+    "section_lp_product_feature_Mp4Vrx": {
+      "type": "section",
+      "name": "LP-08 — Product Feature: Your Best Day",
       "blocks": {
-        "q1": {
-          "type": "fortified-faq-item",
+        "group_lp_pf_text_Wp3Mvr": {
+          "type": "group",
+          "name": "Text Column",
           "settings": {
-            "question": "What is Fortified?",
-            "answer": "<p>Premium electrolytes formulated for performance.</p>"
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 20,
+            "width": "custom",
+            "custom_width": 40,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 40,
+            "padding-block-end": 40,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
-          "name": "LP-09 \u2014 FAQ"
+          "blocks": {
+            "text_lp_pf_eyebrow_Pp4Wxr": {
+              "type": "text",
+              "name": "Eyebrow",
+              "settings": {
+                "text": "<p>FORMULATED FOR</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-fortified-display)",
+                "font_size": "28px",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "uppercase",
+                "wrap": "pretty",
+                "color": "#1FA8A1",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "text_lp_pf_heading_Vr3Wpx": {
+              "type": "text",
+              "name": "Heading",
+              "settings": {
+                "text": "<h2>YOUR BEST DAY</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-fortified-display)",
+                "font_size": "62px",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "uppercase",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "text_lp_pf_benefits_Yp7Lvr": {
+              "type": "text",
+              "name": "Benefit list",
+              "settings": {
+                "text": "<ul><li>Improve hydration</li><li>Boost energy naturally</li><li>Support muscle function</li><li>Reduce fatigue</li><li>Gut friendly formula</li></ul>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-fortified-body)",
+                "font_size": "20px",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 8,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "button_lp_pf_cta_Mp8Lvr": {
+              "type": "button",
+              "name": "CTA",
+              "settings": {
+                "label": "ADD TO CART — $28.99",
+                "link": "/products/trial-pack",
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "width": "custom",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              }
+            }
+          },
+          "block_order": [
+            "text_lp_pf_eyebrow_Pp4Wxr",
+            "text_lp_pf_heading_Vr3Wpx",
+            "text_lp_pf_benefits_Yp7Lvr",
+            "button_lp_pf_cta_Mp8Lvr"
+          ]
         },
-        "q2": {
-          "type": "fortified-faq-item",
+        "image_lp_pf_Bn8Lvr": {
+          "type": "image",
+          "name": "Product Image",
           "settings": {
-            "question": "Why is it Important?",
-            "answer": "<p>Proper hydration supports daily performance.</p>"
-          }
-        },
-        "q3": {
-          "type": "fortified-faq-item",
-          "settings": {
-            "question": "Who should take it?",
-            "answer": "<p>Active adults of any age.</p>"
-          }
-        },
-        "q4": {
-          "type": "fortified-faq-item",
-          "settings": {
-            "question": "What is the recommended dosage?",
-            "answer": "<p>1 stick daily with 16oz of water.</p>"
+            "image": "",
+            "link": "",
+            "image_ratio": "landscape",
+            "width": "custom",
+            "custom_width": 55,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 16,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           }
         }
       },
-      "block_order": [
-        "q1",
-        "q2",
-        "q3",
-        "q4"
-      ],
+      "block_order": ["group_lp_pf_text_Wp3Mvr", "image_lp_pf_Bn8Lvr"],
       "settings": {
-        "eyebrow": "TRIAL FAQ",
-        "heading": "EVERYTHING YOU NEED TO KNOW",
-        "cta_label": "READ ALL REVIEWS",
-        "cta_url": "/pages/reviews",
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "space-between",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 60,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
         "color_scheme": "scheme-1",
-        "content_alignment": "center",
-        "blocks_alignment": "center"
-      },
-      "name": "LP-09 \u2014 FAQ"
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
     },
-    "subscribe_save": {
+    "section_lp_faq_Rp7Vmr": {
+      "type": "section",
+      "name": "LP-09 — FAQ",
+      "blocks": {
+        "group_lp_faq_root_Kp4Lvr": {
+          "type": "group",
+          "name": "FAQ Layout",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "flex-start",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 60,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "group_lp_faq_left_Dn4Wpv": {
+              "type": "group",
+              "name": "Header + CTA",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "flex-start",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 20,
+                "width": "custom",
+                "custom_width": 38,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_lp_faq_heading_Pl7Vnz": {
+                  "type": "text",
+                  "name": "Heading",
+                  "settings": {
+                    "text": "<h2>Frequently asked questions</h2>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-fortified-display)",
+                    "font_size": "62px",
+                    "line_height": "tight",
+                    "letter_spacing": "tight",
+                    "case": "uppercase",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  }
+                },
+                "text_lp_faq_body_Yn3Wpx": {
+                  "type": "text",
+                  "name": "Body",
+                  "settings": {
+                    "text": "<p>Everything you need to know about the trial.</p>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-fortified-body)",
+                    "font_size": "20px",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  }
+                },
+                "button_lp_faq_cta_Wt4Lmn": {
+                  "type": "button",
+                  "name": "CTA",
+                  "settings": {
+                    "label": "READ ALL REVIEWS",
+                    "link": "/pages/reviews",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  }
+                }
+              },
+              "block_order": ["text_lp_faq_heading_Pl7Vnz", "text_lp_faq_body_Yn3Wpx", "button_lp_faq_cta_Wt4Lmn"]
+            },
+            "accordion_lp_faq_Br9Knx": {
+              "type": "accordion",
+              "name": "FAQ List",
+              "settings": {
+                "icon": "plus",
+                "dividers": true,
+                "type_preset": "h5",
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "row_lp_q1_Vk3Mnx": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "What is Fortified?" },
+                  "blocks": {
+                    "text_lp_a1_Hp4Vrz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Premium electrolytes formulated for performance — clinically dosed, zero sugar, clean ingredients.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_lp_a1_Hp4Vrz"]
+                },
+                "row_lp_q2_Tw9Lpx": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "Why is it important?" },
+                  "blocks": {
+                    "text_lp_a2_Mn4Bvz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Proper hydration supports daily performance, energy, and recovery.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_lp_a2_Mn4Bvz"]
+                },
+                "row_lp_q3_Yp8Lkr": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "Who should take it?" },
+                  "blocks": {
+                    "text_lp_a3_Jp4Lvz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Active adults of any age — anyone training, working, or staying hydrated.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_lp_a3_Jp4Lvz"]
+                },
+                "row_lp_q4_Rv3Wpx": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "What is the recommended dosage?" },
+                  "blocks": {
+                    "text_lp_a4_Kp7Lvr": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>1 stick daily with 16oz of water.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_lp_a4_Kp7Lvr"]
+                },
+                "row_lp_q5_Mv9Lkr": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "How do I cancel my subscription?" },
+                  "blocks": {
+                    "text_lp_a5_Bp4Lvz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Cancel anytime via your account or through our Loop subscription portal — no questions asked.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_lp_a5_Bp4Lvz"]
+                },
+                "row_lp_q6_Lw3Lpx": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "How long does shipping take?" },
+                  "blocks": {
+                    "text_lp_a6_Rp7Lvz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Free U.S. shipping in 1–4 days. International orders ship in 7–10 days.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_lp_a6_Rp7Lvz"]
+                }
+              },
+              "block_order": [
+                "row_lp_q1_Vk3Mnx",
+                "row_lp_q2_Tw9Lpx",
+                "row_lp_q3_Yp8Lkr",
+                "row_lp_q4_Rv3Wpx",
+                "row_lp_q5_Mv9Lkr",
+                "row_lp_q6_Lw3Lpx"
+              ]
+            }
+          },
+          "block_order": ["group_lp_faq_left_Dn4Wpv", "accordion_lp_faq_Br9Knx"]
+        }
+      },
+      "block_order": ["group_lp_faq_root_Kp4Lvr"],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 100,
+        "padding-block-end": 100
+      }
+    },
+    "fortified_subscribe_save_lp10": {
       "type": "fortified-subscribe-save",
+      "name": "LP-10 — Subscribe & Save",
       "settings": {
         "eyebrow": "AFTER YOUR TRIAL",
         "heading": "SUBSCRIBE & SAVE 15%",
@@ -396,20 +1045,20 @@
         "cta_url": "/pages/subscribe",
         "color_scheme": "scheme-2",
         "content_alignment": "center"
-      },
-      "name": "LP-10 \u2014 Subscribe & Save"
+      }
     }
   },
   "order": [
-    "landing_hero",
-    "stats_bar",
-    "reviews_carousel",
-    "featured_card",
-    "day_benefits",
-    "ingredients_tabs",
-    "comparison_table",
-    "product_feature",
-    "faq",
-    "subscribe_save"
+    "marquee_top_lp_Hv8Wpx",
+    "section_lp_hero_Kp4Mvr",
+    "fortified_stats_bar_lp02",
+    "fortified_reviews_lp03",
+    "fortified_featured_card_lp04",
+    "fortified_day_benefits_lp05",
+    "fortified_ingredients_lp06",
+    "fortified_comparison_lp07",
+    "section_lp_product_feature_Mp4Vrx",
+    "section_lp_faq_Rp7Vmr",
+    "fortified_subscribe_save_lp10"
   ]
 }

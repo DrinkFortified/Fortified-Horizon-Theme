@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "pdp_product_switch_MyzMsx": {
@@ -77,23 +68,23 @@
         "benefit_e_MtYHLu": {
           "type": "benefit_energy",
           "settings": {
-            "icon": "\u26a1",
+            "icon": "⚡",
             "title": "Real Caffeine, Real Source",
-            "description": "152mg Natural Caffeine from whole coffee beans \u2014 not synthetic."
+            "description": "152mg Natural Caffeine from whole coffee beans — not synthetic."
           }
         },
         "benefit_e_hhZDaM": {
           "type": "benefit_energy",
           "settings": {
-            "icon": "\ud83d\udd0b",
-            "title": "Magnesium Malate \u2014 Energy's Co-Factor",
-            "description": "Magnesium Malate pairs magnesium with malic acid \u2014 a direct Krebs cycle intermediate."
+            "icon": "🔋",
+            "title": "Magnesium Malate — Energy's Co-Factor",
+            "description": "Magnesium Malate pairs magnesium with malic acid — a direct Krebs cycle intermediate."
           }
         },
         "benefit_e_UHNCqb": {
           "type": "benefit_energy",
           "settings": {
-            "icon": "\ud83d\udca7",
+            "icon": "💧",
             "title": "Complete Electrolyte Replacement",
             "description": "1,200mg sodium + 200mg potassium + chloride + coconut water powder."
           }
@@ -101,25 +92,25 @@
         "benefit_g_pHUidT": {
           "type": "benefit_everyday",
           "settings": {
-            "icon": "\u2600\ufe0f",
-            "title": "Vitamin D3 \u2014 The Deficiency Nobody Talks About",
-            "description": "42% of US adults are vitamin D deficient. 25mcg D3 (130% DV) \u2014 clinically meaningful."
+            "icon": "☀️",
+            "title": "Vitamin D3 — The Deficiency Nobody Talks About",
+            "description": "42% of US adults are vitamin D deficient. 25mcg D3 (130% DV) — clinically meaningful."
           }
         },
         "benefit_g_Axmjsm": {
           "type": "benefit_everyday",
           "settings": {
-            "icon": "\ud83e\uddb4",
-            "title": "K2 MK-7 \u2014 D3's Missing Partner",
+            "icon": "🦴",
+            "title": "K2 MK-7 — D3's Missing Partner",
             "description": "D3 increases calcium absorption. K2 directs it into bones, away from arteries."
           }
         },
         "benefit_g_cZPdNF": {
           "type": "benefit_everyday",
           "settings": {
-            "icon": "\ud83d\udca7",
+            "icon": "💧",
             "title": "Complete Electrolytes. Zero Caffeine.",
-            "description": "Same 1,200mg sodium matrix \u2014 without caffeine. Safe for the whole family."
+            "description": "Same 1,200mg sodium matrix — without caffeine. Safe for the whole family."
           }
         }
       },
@@ -301,14 +292,14 @@
           "settings": {
             "nutrient": "Vitamin K2 (MK-7)",
             "amount": "120mcg",
-            "daily_value": "\u2020"
+            "daily_value": "†"
           }
         },
         "callout_e_eiJCTa": {
           "type": "callout_energy",
           "settings": {
             "title": "Why 1,210mg sodium?",
-            "body": "Sodium is the primary electrolyte lost in sweat. From Pink Himalayan Salt \u2014 traceable, microplastic-free."
+            "body": "Sodium is the primary electrolyte lost in sweat. From Pink Himalayan Salt — traceable, microplastic-free."
           }
         },
         "callout_e_efdGQR": {
@@ -322,7 +313,7 @@
           "type": "callout_everyday",
           "settings": {
             "title": "Why 25mcg D3 (130% DV)?",
-            "body": "42% of US adults deficient. 1,000 IU as cholecalciferol \u2014 the form your skin produces."
+            "body": "42% of US adults deficient. 1,000 IU as cholecalciferol — the form your skin produces."
           }
         },
         "callout_g_bsrQpJ": {
@@ -466,7 +457,7 @@
         "bullet_IHjIqC": {
           "type": "bullet",
           "settings": {
-            "text": "1 ingredient \u2014 Creatine Monohydrate"
+            "text": "1 ingredient — Creatine Monohydrate"
           }
         }
       },
@@ -588,7 +579,7 @@
           "settings": {
             "quote": "I've been reading labels for 10 years and I've never seen a supplement this transparent.",
             "author": "Sarah B.",
-            "subtitle": "Mom of 3 \u00b7 Phoenix, AZ",
+            "subtitle": "Mom of 3 · Phoenix, AZ",
             "product": "energy"
           }
         },
@@ -597,7 +588,7 @@
           "settings": {
             "quote": "As a physician I finally found electrolytes I can recommend. The D3+K2 pairing is clinically sound.",
             "author": "Dr. Rachel M., MD",
-            "subtitle": "Seattle, WA \u00b7 Internist",
+            "subtitle": "Seattle, WA · Internist",
             "product": "everyday"
           }
         },
@@ -606,16 +597,16 @@
           "settings": {
             "quote": "I've tried four other electrolyte brands. The only one I give my kids without Googling every ingredient.",
             "author": "Melissa K.",
-            "subtitle": "Mom of 2 \u00b7 Nashville, TN",
+            "subtitle": "Mom of 2 · Nashville, TN",
             "product": "everyday"
           }
         },
         "review_hfSoXE": {
           "type": "review",
           "settings": {
-            "quote": "The creatine is just creatine. One ingredient. This is what the research recommends \u2014 5g monohydrate.",
+            "quote": "The creatine is just creatine. One ingredient. This is what the research recommends — 5g monohydrate.",
             "author": "Marcus T.",
-            "subtitle": "Strength coach \u00b7 Denver, CO",
+            "subtitle": "Strength coach · Denver, CO",
             "product": "creatine"
           }
         }
@@ -638,7 +629,7 @@
           "type": "qa",
           "settings": {
             "question": "Why Natural Caffeine in Energy but not Everyday?",
-            "answer": "<p>Energy is for performance moments. Everyday is your daily foundation \u2014 caffeine-free for any time use.</p>",
+            "answer": "<p>Energy is for performance moments. Everyday is your daily foundation — caffeine-free for any time use.</p>",
             "category": "everyday"
           }
         },
@@ -678,7 +669,7 @@
           "type": "qa",
           "settings": {
             "question": "Why only 5g Creatine?",
-            "answer": "<p>ACSM, ISSN, and 500+ studies converge on 3\u20135g daily. We use 5g \u2014 the dose the research uses.</p>",
+            "answer": "<p>ACSM, ISSN, and 500+ studies converge on 3–5g daily. We use 5g — the dose the research uses.</p>",
             "category": "creatine"
           }
         },
@@ -717,7 +708,7 @@
         "warning_HPsyXC": {
           "type": "warning",
           "settings": {
-            "text": "Caffeine (Energy only): 152mg per serving. FDA advises \u2264400mg/day. Not for children, under 18, pregnant or nursing women."
+            "text": "Caffeine (Energy only): 152mg per serving. FDA advises ≤400mg/day. Not for children, under 18, pregnant or nursing women."
           }
         },
         "warning_rRdJCz": {
@@ -746,15 +737,96 @@
       "settings": {
         "energy_name": "Fortified Energy",
         "everyday_name": "Fortified Everyday",
-        "default_summary": "Monthly \u00b7 10% off \u00b7 Tap to customise",
+        "default_summary": "Monthly · 10% off · Tap to customise",
         "default_price": "$53.10",
-        "edit_label": "Change \u2191",
+        "edit_label": "Change ↑",
         "cta_label": "Subscribe",
         "color_scheme": "scheme-1"
+      }
+    },
+    "marquee_omni_top_Mp7Vrx": {
+      "type": "marquee",
+      "name": "OmniPDP — Announcement Strip",
+      "blocks": {
+        "text_omni_top_Pk4Vmr": {
+          "type": "text",
+          "settings": {
+            "text": "<p>✓ No Crash &nbsp;&nbsp; ✓ Zero Sugar &nbsp;&nbsp; ✓ Clean Ingredients &nbsp;&nbsp; ✓ Science Backed</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-fortified-display)",
+            "font_size": "22px",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "uppercase",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        }
+      },
+      "block_order": [
+        "text_omni_top_Pk4Vmr"
+      ],
+      "settings": {
+        "movement_direction": "normal",
+        "color_scheme": "scheme-3",
+        "padding-block-start": 14,
+        "padding-block-end": 14,
+        "gap_between_elements": 62
+      }
+    },
+    "marquee_omni_bottom_Wp4Lvr": {
+      "type": "marquee",
+      "name": "OmniPDP — Announcement Strip",
+      "blocks": {
+        "text_omni_bot_Kp7Vmr": {
+          "type": "text",
+          "settings": {
+            "text": "<p>✓ No Crash &nbsp;&nbsp; ✓ Zero Sugar &nbsp;&nbsp; ✓ Clean Ingredients &nbsp;&nbsp; ✓ Science Backed</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-fortified-display)",
+            "font_size": "22px",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "uppercase",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        }
+      },
+      "block_order": [
+        "text_omni_bot_Kp7Vmr"
+      ],
+      "settings": {
+        "movement_direction": "normal",
+        "color_scheme": "scheme-3",
+        "padding-block-start": 14,
+        "padding-block-end": 14,
+        "gap_between_elements": 62
       }
     }
   },
   "order": [
+    "marquee_omni_top_Mp7Vrx",
     "pdp_product_switch_MyzMsx",
     "pdp_hero_LqQrtQ",
     "pdp_stats_strip_EUWZZp",
@@ -767,6 +839,7 @@
     "pdp_testimonials_PrkpJd",
     "pdp_faq_YRDwvk",
     "pdp_disclaimer_qNZIsF",
-    "pdp_quickbuy_bar_aJyEgr"
+    "pdp_quickbuy_bar_aJyEgr",
+    "marquee_omni_bottom_Wp4Lvr"
   ]
 }

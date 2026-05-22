@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -67,7 +58,7 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "group_icgrde": {
+            "group_pdp_header_Kp8Vrx": {
               "type": "group",
               "name": "Header",
               "settings": {
@@ -105,22 +96,45 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "text_xrnftG": {
-                  "type": "text",
-                  "name": "Product title",
+                "review_pdp_Mp4Wxr": {
+                  "type": "review",
+                  "name": "Review widget",
+                  "settings": {}
+                },
+                "product_title_pdp_Wp8Vrx": {
+                  "type": "product-title",
+                  "name": "Title",
                   "settings": {
-                    "text": "<h1>{{ closest.product.title }}</h1>",
+                    "type_preset": "custom",
+                    "font": "var(--font-fortified-display)",
+                    "font_size": "62px",
+                    "line_height": "tight",
+                    "letter_spacing": "tight",
+                    "case": "uppercase",
+                    "color": "var(--color-foreground)",
+                    "alignment": "left",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  }
+                },
+                "text_subtitle_Kp7Vmr": {
+                  "type": "text",
+                  "name": "Subtitle",
+                  "settings": {
+                    "text": "<p>Electrolytes + D3 + K2</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "h3",
-                    "font": "var(--font-primary--family)",
-                    "font_size": "",
+                    "type_preset": "custom",
+                    "font": "var(--font-fortified-body)",
+                    "font_size": "24px",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "color": "",
+                    "color": "var(--color-foreground)",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -128,51 +142,72 @@
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "price_tVjtKg": {
-                  "type": "price",
-                  "settings": {
-                    "show_sale_price_first": true,
-                    "show_installments": false,
-                    "show_tax_info": false,
-                    "type_preset": "paragraph",
-                    "width": "100%",
-                    "alignment": "left",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "color": "var(--color-foreground)",
-                    "padding-block-start": 4,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
+                  }
                 }
               },
-              "block_order": [
-                "text_xrnftG",
-                "price_tVjtKg"
-              ]
+              "block_order": ["review_pdp_Mp4Wxr", "product_title_pdp_Wp8Vrx", "text_subtitle_Kp7Vmr"]
             },
-            "divider_VJhene": {
+            "divider_pdp_Vk8Mvr": {
               "type": "_divider",
-              "name": "t:names.divider",
+              "name": "Divider",
               "settings": {
                 "thickness": 1,
                 "corner_radius": "square",
                 "width_percent": 100,
                 "padding-block-start": 0,
                 "padding-block-end": 0
-              },
-              "blocks": {}
+              }
             },
-            "variant_picker_R3rGDr": {
+            "text_benefits_pdp_Bp7Vmr": {
+              "type": "text",
+              "name": "Benefits",
+              "settings": {
+                "text": "<ul><li>Supports mood &amp; focus</li><li>Plant-based</li><li>No jitters or crash</li></ul>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-fortified-body)",
+                "font_size": "18px",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "price_pdp_Yp4Wxr": {
+              "type": "price",
+              "name": "Price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "paragraph",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-fortified-display)",
+                "font_size": "32px",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 8,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "variant_picker_pdp_Mp8Vrx": {
               "type": "variant-picker",
+              "name": "Variants",
               "settings": {
                 "variant_style": "buttons",
                 "show_swatches": false,
@@ -181,11 +216,11 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              },
-              "blocks": {}
+              }
             },
-            "buy_buttons_eYQEYi": {
+            "buy_buttons_pdp_Wp4Lvr": {
               "type": "buy-buttons",
+              "name": "Buy",
               "settings": {
                 "stacking": true,
                 "show_pickup_availability": false,
@@ -198,36 +233,31 @@
                 "quantity": {
                   "type": "quantity",
                   "static": true,
-                  "settings": {},
-                  "blocks": {}
+                  "settings": {}
                 },
                 "add-to-cart": {
                   "type": "add-to-cart",
                   "static": true,
-                  "settings": {
-                    "style_class": "button"
-                  },
-                  "blocks": {}
+                  "settings": { "style_class": "button" }
                 },
                 "accelerated-checkout": {
                   "type": "accelerated-checkout",
                   "static": true,
-                  "settings": {},
-                  "blocks": {}
+                  "settings": {}
                 }
               },
               "block_order": []
             },
-            "text_aEtTtq": {
+            "text_description_pdp_Lp7Vmr": {
               "type": "text",
-              "name": "Product description",
+              "name": "Description",
               "settings": {
                 "text": "{{ closest.product.description }}",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
                 "type_preset": "rte",
-                "font": "var(--font-primary--family)",
+                "font": "var(--font-fortified-body)",
                 "font_size": "",
                 "line_height": "normal",
                 "letter_spacing": "normal",
@@ -241,16 +271,17 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              },
-              "blocks": {}
+              }
             }
           },
           "block_order": [
-            "group_icgrde",
-            "divider_VJhene",
-            "variant_picker_R3rGDr",
-            "buy_buttons_eYQEYi",
-            "text_aEtTtq"
+            "group_pdp_header_Kp8Vrx",
+            "divider_pdp_Vk8Mvr",
+            "text_benefits_pdp_Bp7Vmr",
+            "price_pdp_Yp4Wxr",
+            "variant_picker_pdp_Mp8Vrx",
+            "buy_buttons_pdp_Wp4Lvr",
+            "text_description_pdp_Lp7Vmr"
           ]
         }
       },
@@ -266,398 +297,595 @@
       },
       "name": "01-PDP-Product Information"
     },
-    "fortified_product_feature_zNIBcr": {
-      "type": "fortified-product-feature",
+    "section_pdp_feature_Mp7Vrx": {
+      "type": "section",
       "name": "02-PDP-Feature: Your Best Day",
-      "settings": {
-        "eyebrow": "FORMULATED FOR",
-        "heading": "YOUR BEST DAY",
-        "body": "Whether you're training hard, working long, or just trying to stay sharp \u2014 Fortified delivers the minerals your body actually needs.",
-        "cta_label": "SHOP NOW",
-        "cta_url": "/collections/all",
-        "color_scheme": "scheme-1"
-      }
-    },
-    "fortified_ingredients_tabs_YDatKz": {
-      "type": "fortified-ingredients-tabs",
-      "name": "03-PDP-Clinically Backed Ingredients",
-      "settings": {
-        "eyebrow": "THE TRUTH",
-        "heading": "CLINICALLY BACKED INGREDIENTS",
-        "cta_label": "SHOP FORTIFIED NOW",
-        "cta_url": "/collections/all",
-        "color_scheme": "scheme-1"
-      },
       "blocks": {
-        "fortified_tab_GDBuaW": {
-          "type": "fortified-tab",
+        "group_pdp_pf_root_Kp4Wvr": {
+          "type": "group",
+          "name": "Layout",
           "settings": {
-            "tab_label": "Hydration"
-          }
-        },
-        "fortified_tab_EHmraG": {
-          "type": "fortified-tab",
-          "settings": {
-            "tab_label": "Performance"
-          }
-        },
-        "fortified_ingredient_BLjKso": {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Sodium Citrate",
-            "dosage_badge": "1,200MG",
-            "description": "Essential electrolyte for hydration.",
-            "benefit_badge": "HYDRATION FACTS"
-          }
-        },
-        "fortified_ingredient_POgFfg": {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Magnesium Glycinate",
-            "dosage_badge": "150MG",
-            "description": "Supports muscle function.",
-            "benefit_badge": "HYDRATION FACTS"
-          }
-        },
-        "fortified_ingredient_HRBHvI": {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Hydration",
-            "ingredient_name": "Potassium",
-            "dosage_badge": "300MG",
-            "description": "Maintains fluid balance.",
-            "benefit_badge": "HYDRATION FACTS"
-          }
-        },
-        "fortified_ingredient_Akrfyo": {
-          "type": "fortified-ingredient",
-          "settings": {
-            "tab": "Performance",
-            "ingredient_name": "Creatine",
-            "dosage_badge": "3G",
-            "description": "Supports recovery in high-intensity workouts.",
-            "benefit_badge": "HYDRATION FACTS"
-          }
-        }
-      },
-      "block_order": [
-        "fortified_tab_GDBuaW",
-        "fortified_tab_EHmraG",
-        "fortified_ingredient_BLjKso",
-        "fortified_ingredient_POgFfg",
-        "fortified_ingredient_HRBHvI",
-        "fortified_ingredient_Akrfyo"
-      ]
-    },
-    "fortified_product_feature_WTYHUL": {
-      "type": "fortified-product-feature",
-      "name": "04-PDP-Testimonial: Alex Friedman",
-      "settings": {
-        "eyebrow": "ALEX FRIEDMAN \u2014 HBO MAX CHAMPION",
-        "heading": "I feel the difference in my workouts and recovery. No more cramps.",
-        "body": "Real athletes. Real results. Fortified is the daily ritual trusted by performers who push their limits.",
-        "cta_label": "READ MORE STORIES",
-        "cta_url": "/pages/athletes",
-        "color_scheme": "scheme-1"
-      }
-    },
-    "fortified_stats_edTyqy": {
-      "type": "fortified-stats",
-      "name": "05-PDP-Research Stats",
-      "settings": {
-        "heading": "BACKED BY RESEARCH",
-        "cta_label": "EXPLORE ALL FLAVORS",
-        "cta_url": "/collections/all",
-        "color_scheme": "scheme-1",
-        "content_alignment": "center"
-      },
-      "blocks": {
-        "fortified_stat_WsQVvY": {
-          "type": "fortified-stat",
-          "settings": {
-            "stat_number": "18+",
-            "stat_label": "Years of Research",
-            "stat_description": "into electrolyte science",
-            "show_chart": true
-          }
-        },
-        "fortified_stat_lQGhLP": {
-          "type": "fortified-stat",
-          "settings": {
-            "stat_number": "600+",
-            "stat_label": "Hours of Testing",
-            "stat_description": "across athletes & everyday users",
-            "show_chart": true
-          }
-        },
-        "fortified_stat_njgfZR": {
-          "type": "fortified-stat",
-          "settings": {
-            "stat_number": "95.6%",
-            "stat_label": "Reported Improvement",
-            "stat_description": "in hydration and recovery *",
-            "show_chart": true
-          }
-        }
-      },
-      "block_order": [
-        "fortified_stat_WsQVvY",
-        "fortified_stat_lQGhLP",
-        "fortified_stat_njgfZR"
-      ]
-    },
-    "fortified_comparison_table_section_ATOXeE": {
-      "type": "fortified-comparison-table-section",
-      "name": "06-PDP-Comparison Table",
-      "settings": {
-        "heading": "WHY WE BEAT THE REST ELECTROLYTES",
-        "competitor_1_name": "LMNT",
-        "competitor_2_name": "Liquid IV",
-        "competitor_3_name": "Drip Drop",
-        "cta_label": "SHOP FORTIFIED NOW",
-        "cta_url": "/collections/all",
-        "color_scheme": "scheme-2"
-      },
-      "blocks": {
-        "fortified_comparison_row_NIEZSU": {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Sodium per serving",
-            "fortified_value": "1,200mg",
-            "comp_1_value": "1,000mg",
-            "comp_2_value": "500mg",
-            "comp_3_value": "330mg",
-            "is_checkmark_row": false
-          }
-        },
-        "fortified_comparison_row_bUasrj": {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Sugar-free",
-            "fortified_value": "yes",
-            "comp_1_value": "yes",
-            "comp_2_value": "no",
-            "comp_3_value": "no",
-            "is_checkmark_row": true
-          }
-        },
-        "fortified_comparison_row_Bhbsiq": {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Energy version available",
-            "fortified_value": "yes",
-            "comp_1_value": "no",
-            "comp_2_value": "yes",
-            "comp_3_value": "no",
-            "is_checkmark_row": true
-          }
-        },
-        "fortified_comparison_row_XPfLzh": {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Magnesium glycinate",
-            "fortified_value": "yes",
-            "comp_1_value": "no",
-            "comp_2_value": "no",
-            "comp_3_value": "yes",
-            "is_checkmark_row": true
-          }
-        },
-        "fortified_comparison_row_ZLIsnI": {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Servings per pouch",
-            "fortified_value": "45",
-            "comp_1_value": "30",
-            "comp_2_value": "30",
-            "comp_3_value": "30",
-            "is_checkmark_row": false
-          }
-        },
-        "fortified_comparison_row_uJniMx": {
-          "type": "fortified-comparison-row",
-          "settings": {
-            "row_label": "Trial price (3 sticks)",
-            "fortified_value": "$1.99",
-            "comp_1_value": "$8.97",
-            "comp_2_value": "$5.97",
-            "comp_3_value": "$5.97",
-            "is_checkmark_row": false
-          }
-        }
-      },
-      "block_order": [
-        "fortified_comparison_row_NIEZSU",
-        "fortified_comparison_row_bUasrj",
-        "fortified_comparison_row_Bhbsiq",
-        "fortified_comparison_row_XPfLzh",
-        "fortified_comparison_row_ZLIsnI",
-        "fortified_comparison_row_uJniMx"
-      ]
-    },
-    "fortified_lifestyle_strip_asEWJS": {
-      "type": "fortified-lifestyle-strip",
-      "name": "07-PDP-Lifestyle Strip",
-      "settings": {
-        "eyebrow": "THE TRUTH",
-        "heading": "MORE THAN HYDRATION \u2014 IT'S DAILY SUPPORT",
-        "cta_label": "SHOP FORTIFIED NOW",
-        "cta_url": "/collections/all",
-        "color_scheme": "scheme-1",
-        "content_alignment": "center"
-      },
-      "blocks": {
-        "fortified_strip_image_zWaQsS": {
-          "type": "fortified-strip-image",
-          "settings": {}
-        },
-        "fortified_strip_image_FCvCif": {
-          "type": "fortified-strip-image",
-          "settings": {}
-        },
-        "fortified_strip_image_MLdagb": {
-          "type": "fortified-strip-image",
-          "settings": {}
-        },
-        "fortified_strip_image_bomiuH": {
-          "type": "fortified-strip-image",
-          "settings": {}
-        },
-        "fortified_strip_image_WvTuxM": {
-          "type": "fortified-strip-image",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "fortified_strip_image_zWaQsS",
-        "fortified_strip_image_FCvCif",
-        "fortified_strip_image_MLdagb",
-        "fortified_strip_image_bomiuH",
-        "fortified_strip_image_WvTuxM"
-      ]
-    },
-    "fortified_reviews_section_eDurnk": {
-      "type": "fortified-reviews-section",
-      "name": "08-PDP-Customer Reviews (Judge.me)",
-      "settings": {
-        "eyebrow": "VERIFIED REVIEWS",
-        "heading": "12,400+ CUSTOMER REVIEWS",
-        "color_scheme": "scheme-1"
-      }
-    },
-    "fortified_faq_iQMTYd": {
-      "type": "fortified-faq",
-      "name": "09-PDP-FAQ",
-      "settings": {
-        "heading": "FREQUENTLY ASKED QUESTIONS",
-        "cta_label": "READ ALL REVIEWS",
-        "cta_url": "/pages/reviews",
-        "color_scheme": "scheme-1"
-      },
-      "blocks": {
-        "fortified_faq_item_jspXRc": {
-          "type": "fortified-faq-item",
-          "settings": {
-            "question": "What are electrolytes and why do they matter?",
-            "answer": "<p>Electrolytes are essential minerals \u2014 sodium, potassium, magnesium \u2014 that regulate fluid balance, muscle function, and nerve signaling.</p>"
-          }
-        },
-        "fortified_faq_item_zQxCJp": {
-          "type": "fortified-faq-item",
-          "settings": {
-            "question": "Why is Fortified different?",
-            "answer": "<p>Most hydration drinks underdose sodium and skip key minerals. Fortified is clinically dosed, zero sugar, clean ingredients.</p>"
-          }
-        },
-        "fortified_faq_item_LSDoLh": {
-          "type": "fortified-faq-item",
-          "settings": {
-            "question": "What is the recommended dosage?",
-            "answer": "<p>1 stick in 12\u201316oz of water, once a day. Active days or hot conditions? Take a second.</p>"
-          }
-        },
-        "fortified_faq_item_ngwdAM": {
-          "type": "fortified-faq-item",
-          "settings": {
-            "question": "Who should take Fortified?",
-            "answer": "<p>Anyone training hard, working long hours, traveling, or trying to stay properly hydrated.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "fortified_faq_item_jspXRc",
-        "fortified_faq_item_zQxCJp",
-        "fortified_faq_item_LSDoLh",
-        "fortified_faq_item_ngwdAM"
-      ]
-    },
-    "fortified_subscribe_save_lKZDxV": {
-      "type": "fortified-subscribe-save",
-      "name": "10-PDP-Subscribe & Save (Loop)",
-      "settings": {
-        "heading": "SUBSCRIBE & SAVE 15%",
-        "benefit_1": "Save 15% on every order",
-        "benefit_2": "Boost Energy Naturally",
-        "benefit_3": "Support Muscle Function",
-        "cta_label": "SUBSCRIBE NOW",
-        "cta_url": "/pages/subscribe",
-        "color_scheme": "scheme-2"
-      }
-    },
-    "product_recommendations_qggXJq": {
-      "type": "product-recommendations",
-      "blocks": {
-        "text_cbcgyb": {
-          "type": "text",
-          "name": "t:names.header",
-          "settings": {
-            "text": "<h3>You may also like </h3>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h4",
-            "font": "var(--font-primary--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 60,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {}
-        },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
+          "blocks": {
+            "group_pdp_pf_text_Wp7Vmr": {
+              "type": "group",
+              "name": "Text",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "custom",
+                "custom_width": 45,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_pdp_pf_eyebrow_Kp4Mrx": {
+                  "type": "text",
+                  "name": "Eyebrow",
+                  "settings": {
+                    "text": "<p>FORMULATED FOR</p>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-fortified-display)",
+                    "font_size": "28px",
+                    "line_height": "tight",
+                    "letter_spacing": "tight",
+                    "case": "uppercase",
+                    "wrap": "pretty",
+                    "color": "#1FA8A1",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  }
+                },
+                "text_pdp_pf_heading_Wp3Vmr": {
+                  "type": "text",
+                  "name": "Heading",
+                  "settings": {
+                    "text": "<h2>YOUR BEST DAY</h2>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-fortified-display)",
+                    "font_size": "62px",
+                    "line_height": "tight",
+                    "letter_spacing": "tight",
+                    "case": "uppercase",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  }
+                },
+                "text_pdp_pf_body_Lp7Vmr": {
+                  "type": "text",
+                  "name": "Body",
+                  "settings": {
+                    "text": "<p>Premium electrolytes formulated for full recovery. Hydration, energy, and muscle function in every stick — clean ingredients you can taste.</p>",
+                    "width": "fit-content",
+                    "max_width": "narrow",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-fortified-body)",
+                    "font_size": "20px",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  }
+                },
+                "button_pdp_pf_cta_Mp4Lvr": {
+                  "type": "button",
+                  "name": "CTA",
+                  "settings": {
+                    "label": "ADD TO CART",
+                    "link": "#shopify-section-main",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  }
+                }
+              },
+              "block_order": [
+                "text_pdp_pf_eyebrow_Kp4Mrx",
+                "text_pdp_pf_heading_Wp3Vmr",
+                "text_pdp_pf_body_Lp7Vmr",
+                "button_pdp_pf_cta_Mp4Lvr"
+              ]
+            },
+            "image_pdp_pf_Mp4Wkn": {
+              "type": "image",
+              "name": "Image",
+              "settings": {
+                "image": "",
+                "link": "",
+                "image_ratio": "landscape",
+                "width": "custom",
+                "custom_width": 50,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 16,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": ["group_pdp_pf_text_Wp7Vmr", "image_pdp_pf_Mp4Wkn"]
+        }
+      },
+      "block_order": ["group_pdp_pf_root_Kp4Wvr"],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 80,
+        "padding-block-end": 80
+      }
+    },
+    "fortified_ingredients_pdp03": {
+      "type": "fortified-ingredients-tabs",
+      "name": "03-PDP-Clinically Backed Ingredients",
+      "blocks": {
+        "tab_pdp_t1_Mp7Vrx": { "type": "fortified-tab", "settings": { "tab_label": "Hydration" } },
+        "tab_pdp_t2_Wp4Lvr": { "type": "fortified-tab", "settings": { "tab_label": "Performance" } },
+        "ing_pdp_i1_Kp7Vmr": {
+          "type": "fortified-ingredient",
           "settings": {
-            "product_card_gap": 8,
+            "tab": "Hydration",
+            "ingredient_name": "Sodium Citrate",
+            "dosage_badge": "1,200MG",
+            "description": "Essential electrolyte to support fluid balance, hydration, and muscle function.",
+            "benefit_badge": "HYDRATION"
+          }
+        },
+        "ing_pdp_i2_Bp4Lvr": {
+          "type": "fortified-ingredient",
+          "settings": {
+            "tab": "Hydration",
+            "ingredient_name": "Magnesium Glycinate",
+            "dosage_badge": "150MG",
+            "description": "Supports muscle function and reduces cramps.",
+            "benefit_badge": "HYDRATION"
+          }
+        },
+        "ing_pdp_i3_Lp7Vmr": {
+          "type": "fortified-ingredient",
+          "settings": {
+            "tab": "Hydration",
+            "ingredient_name": "Potassium",
+            "dosage_badge": "300MG",
+            "description": "Maintains fluid balance and supports muscle/nerve function.",
+            "benefit_badge": "HYDRATION"
+          }
+        },
+        "ing_pdp_i4_Vp4Lvr": {
+          "type": "fortified-ingredient",
+          "settings": {
+            "tab": "Performance",
+            "ingredient_name": "Creatine",
+            "dosage_badge": "3G",
+            "description": "Supports strength and recovery in high-intensity workouts.",
+            "benefit_badge": "PERFORMANCE"
+          }
+        }
+      },
+      "block_order": ["tab_pdp_t1_Mp7Vrx", "tab_pdp_t2_Wp4Lvr", "ing_pdp_i1_Kp7Vmr", "ing_pdp_i2_Bp4Lvr", "ing_pdp_i3_Lp7Vmr", "ing_pdp_i4_Vp4Lvr"],
+      "settings": {
+        "eyebrow": "THE TRUTH",
+        "heading": "CLINICALLY BACKED INGREDIENTS",
+        "body": "Electrolytes don't provide full recovery.",
+        "cta_label": "ADD TO CART",
+        "cta_url": "#shopify-section-main",
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
+      }
+    },
+    "fortified_stats_pdp05": {
+      "type": "fortified-stats",
+      "name": "04-PDP-Research Stats",
+      "settings": {
+        "eyebrow": "THE TRUTH",
+        "heading": "WHY WE BEAT THE REST ELECTROLYTES",
+        "body": "Electrolytes don't provide full recovery.",
+        "cta_label": "ADD TO CART",
+        "cta_url": "#shopify-section-main",
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
+      },
+      "blocks": {
+        "stat_pdp_s1_Mp7Vrx": {
+          "type": "fortified-stat",
+          "settings": {
+            "stat_number": "2.3x",
+            "stat_label": "Better Hydration",
+            "stat_description": "vs. water alone *",
+            "show_chart": true
+          }
+        },
+        "stat_pdp_s2_Wp4Lvr": {
+          "type": "fortified-stat",
+          "settings": {
+            "stat_number": "+24%",
+            "stat_label": "Improved Endurance",
+            "stat_description": "in high-intensity workouts *",
+            "show_chart": true
+          }
+        },
+        "checklist_pdp_Kp7Vmr": {
+          "type": "fortified-checklist-card",
+          "settings": {
+            "headline_number": "0%",
+            "headline_label": "No Sugar. No Crash.",
+            "item_1": "Improve Hydration",
+            "item_2": "Boost Energy Naturally",
+            "item_3": "Support Muscle Function"
+          }
+        }
+      },
+      "block_order": ["stat_pdp_s1_Mp7Vrx", "stat_pdp_s2_Wp4Lvr", "checklist_pdp_Kp7Vmr"]
+    },
+    "fortified_comparison_pdp06": {
+      "type": "fortified-comparison-table-section",
+      "name": "05-PDP-Comparison Table",
+      "blocks": {
+        "row_pdp_r1_Mp7Vrx": {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Sodium per serving",
+            "fortified_value": "1,200MG",
+            "comp_1_value": "500MG",
+            "comp_2_value": "500MG",
+            "comp_3_value": "270MG"
+          }
+        },
+        "row_pdp_r2_Wp4Lvr": {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Sugar-free",
+            "is_checkmark_row": true,
+            "fortified_value": "yes",
+            "comp_1_value": "no",
+            "comp_2_value": "yes",
+            "comp_3_value": "yes"
+          }
+        },
+        "row_pdp_r3_Kp7Vmr": {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Magnesium glycinate",
+            "is_checkmark_row": true,
+            "fortified_value": "yes",
+            "comp_1_value": "no",
+            "comp_2_value": "no",
+            "comp_3_value": "yes"
+          }
+        },
+        "row_pdp_r4_Bp4Lvr": {
+          "type": "fortified-comparison-row",
+          "settings": {
+            "row_label": "Vitamin D3 + K2",
+            "is_checkmark_row": true,
+            "fortified_value": "yes",
+            "comp_1_value": "no",
+            "comp_2_value": "no",
+            "comp_3_value": "no"
+          }
+        }
+      },
+      "block_order": ["row_pdp_r1_Mp7Vrx", "row_pdp_r2_Wp4Lvr", "row_pdp_r3_Kp7Vmr", "row_pdp_r4_Bp4Lvr"],
+      "settings": {
+        "eyebrow": "THE TRUTH",
+        "heading": "WHY WE BEAT THE REST",
+        "competitor_1_name": "Liquid IV",
+        "competitor_2_name": "LMNT",
+        "competitor_3_name": "Drip Drop",
+        "cta_label": "ADD TO CART",
+        "cta_url": "#shopify-section-main",
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
+      }
+    },
+    "fortified_lifestyle_strip_pdp07": {
+      "type": "fortified-lifestyle-strip",
+      "name": "06-PDP-Lifestyle Strip",
+      "blocks": {
+        "strip_pdp_s1_Mp7Vrx": { "type": "fortified-strip-image", "settings": {} },
+        "strip_pdp_s2_Wp4Lvr": { "type": "fortified-strip-image", "settings": {} },
+        "strip_pdp_s3_Kp7Vmr": { "type": "fortified-strip-image", "settings": {} },
+        "strip_pdp_s4_Bp4Lvr": { "type": "fortified-strip-image", "settings": {} },
+        "strip_pdp_s5_Lp7Vmr": { "type": "fortified-strip-image", "settings": {} }
+      },
+      "block_order": ["strip_pdp_s1_Mp7Vrx", "strip_pdp_s2_Wp4Lvr", "strip_pdp_s3_Kp7Vmr", "strip_pdp_s4_Bp4Lvr", "strip_pdp_s5_Lp7Vmr"],
+      "settings": {
+        "eyebrow": "THE TRUTH",
+        "heading": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT",
+        "cta_label": "ADD TO CART",
+        "cta_url": "#shopify-section-main",
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
+      }
+    },
+    "fortified_reviews_pdp08": {
+      "type": "fortified-reviews-section",
+      "name": "07-PDP-Customer Reviews",
+      "settings": {
+        "eyebrow": "THE TRUTH",
+        "heading": "12,400+ CUSTOMER REVIEWS",
+        "color_scheme": "scheme-1",
+        "content_alignment": "center"
+      }
+    },
+    "section_pdp_faq_Lp7Vmr": {
+      "type": "section",
+      "name": "08-PDP-FAQ",
+      "blocks": {
+        "group_pdp_faq_root_Mp4Vrx": {
+          "type": "group",
+          "name": "FAQ Layout",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "flex-start",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 60,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
             "inherit_color_scheme": true,
             "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
             "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
             "padding-block-start": 0,
-            "padding-block-end": 8,
+            "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
           "blocks": {
-            "product_card_gallery_DNizbJ": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
+            "group_pdp_faq_header_Pp4Vmr": {
+              "type": "group",
+              "name": "Header + CTA",
               "settings": {
-                "image_ratio": "adapt",
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "flex-start",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 20,
+                "width": "custom",
+                "custom_width": 38,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_pdp_faq_heading_Mp4Vrx": {
+                  "type": "text",
+                  "name": "Heading",
+                  "settings": {
+                    "text": "<h2>Frequently asked questions</h2>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-fortified-display)",
+                    "font_size": "62px",
+                    "line_height": "tight",
+                    "letter_spacing": "tight",
+                    "case": "uppercase",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  }
+                },
+                "text_pdp_faq_body_Yp7Vmr": {
+                  "type": "text",
+                  "name": "Body",
+                  "settings": {
+                    "text": "<p>Everything you need to know about Fortified.</p>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-fortified-body)",
+                    "font_size": "20px",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  }
+                },
+                "button_pdp_faq_cta_Mp4Lvr": {
+                  "type": "button",
+                  "name": "CTA",
+                  "settings": {
+                    "label": "READ ALL REVIEWS",
+                    "link": "/pages/reviews",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  }
+                }
+              },
+              "block_order": ["text_pdp_faq_heading_Mp4Vrx", "text_pdp_faq_body_Yp7Vmr", "button_pdp_faq_cta_Mp4Lvr"]
+            },
+            "accordion_pdp_faq_Br9Knx": {
+              "type": "accordion",
+              "name": "FAQ List",
+              "settings": {
+                "icon": "plus",
+                "dividers": true,
+                "type_preset": "h5",
+                "inherit_color_scheme": true,
+                "color_scheme": "",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -667,98 +895,242 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {}
-            },
-            "product_title_M7MJkb": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+              "blocks": {
+                "row_pdp_q1_Vk3Mnx": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "What are Timeline and Mitopure?" },
+                  "blocks": {
+                    "text_pdp_a1_Hp4Vrz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Electrolytes don't provide full recovery. UNDO® Regenerate combines hydration with collagen, supporting skin, joints and muscles, and tastes like peach tea.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_pdp_a1_Hp4Vrz"]
+                },
+                "row_pdp_q2_Tw9Lpx": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "Why is it important?" },
+                  "blocks": {
+                    "text_pdp_a2_Mn4Bvz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Proper electrolyte balance regulates hydration, muscle function, and nerve signaling.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_pdp_a2_Mn4Bvz"]
+                },
+                "row_pdp_q3_Yp8Lkr": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "Who should take it?" },
+                  "blocks": {
+                    "text_pdp_a3_Jp4Lvz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Anyone training hard, working long hours, traveling, or just trying to stay properly hydrated.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_pdp_a3_Jp4Lvz"]
+                },
+                "row_pdp_q4_Rv3Wpx": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "What is the recommended dosage?" },
+                  "blocks": {
+                    "text_pdp_a4_Kp7Lvr": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>1 stick in 12–16oz of water, once a day.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_pdp_a4_Kp7Lvr"]
+                },
+                "row_pdp_q5_Mv9Lkr": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "Why is Fortified different?" },
+                  "blocks": {
+                    "text_pdp_a5_Bp4Lvz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Most hydration drinks underdose sodium and skip key minerals like magnesium glycinate.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_pdp_a5_Bp4Lvz"]
+                },
+                "row_pdp_q6_Lw3Lpx": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "How do I store it?" },
+                  "blocks": {
+                    "text_pdp_a6_Rp7Lvz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Store in a cool, dry place. No refrigeration needed.</p>",
+                        "type_preset": "rte",
+                        "font": "var(--font-fortified-body)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["text_pdp_a6_Rp7Lvz"]
+                }
               },
-              "blocks": {}
-            },
-            "price_gLWgA6": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "color": "var(--color-foreground)",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
+              "block_order": [
+                "row_pdp_q1_Vk3Mnx",
+                "row_pdp_q2_Tw9Lpx",
+                "row_pdp_q3_Yp8Lkr",
+                "row_pdp_q4_Rv3Wpx",
+                "row_pdp_q5_Mv9Lkr",
+                "row_pdp_q6_Lw3Lpx"
+              ]
             }
           },
-          "block_order": [
-            "product_card_gallery_DNizbJ",
-            "product_title_M7MJkb",
-            "price_gLWgA6"
-          ]
+          "block_order": ["group_pdp_faq_header_Pp4Vmr", "accordion_pdp_faq_Br9Knx"]
         }
       },
-      "block_order": [
-        "text_cbcgyb"
-      ],
-      "name": "11-PDP-You May Also Like",
+      "block_order": ["group_pdp_faq_root_Mp4Vrx"],
       "settings": {
-        "product": "{{ closest.product }}",
-        "recommendation_type": "related",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 4,
-        "columns": 4,
-        "mobile_columns": "2",
-        "columns_gap": 12,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 32,
         "section_width": "page-width",
-        "gap": 28,
+        "section_height": "",
+        "section_height_custom": 50,
         "color_scheme": "scheme-1",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 100,
+        "padding-block-end": 100
       }
+    },
+    "fortified_subscribe_save_pdp10": {
+      "type": "fortified-subscribe-save",
+      "name": "09-PDP-Subscribe & Save",
+      "settings": {
+        "heading": "SUBSCRIBE & SAVE 15%",
+        "benefit_1": "Save 15% on every order",
+        "benefit_2": "Free U.S. shipping",
+        "benefit_3": "Cancel or pause anytime",
+        "cta_label": "SUBSCRIBE NOW",
+        "cta_url": "/pages/subscribe",
+        "color_scheme": "scheme-2",
+        "content_alignment": "center"
+      }
+    },
+    "product_recommendations_pdp11": {
+      "type": "product-recommendations",
+      "name": "10-PDP-You May Also Like",
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "fortified_product_feature_zNIBcr",
-    "fortified_ingredients_tabs_YDatKz",
-    "fortified_product_feature_WTYHUL",
-    "fortified_stats_edTyqy",
-    "fortified_comparison_table_section_ATOXeE",
-    "fortified_lifestyle_strip_asEWJS",
-    "fortified_reviews_section_eDurnk",
-    "fortified_faq_iQMTYd",
-    "fortified_subscribe_save_lKZDxV",
-    "product_recommendations_qggXJq"
+    "section_pdp_feature_Mp7Vrx",
+    "fortified_ingredients_pdp03",
+    "fortified_stats_pdp05",
+    "fortified_comparison_pdp06",
+    "fortified_lifestyle_strip_pdp07",
+    "fortified_reviews_pdp08",
+    "section_pdp_faq_Lp7Vmr",
+    "fortified_subscribe_save_pdp10",
+    "product_recommendations_pdp11"
   ]
 }
