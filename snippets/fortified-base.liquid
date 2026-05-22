@@ -12,41 +12,51 @@
       --fortified-radius-button: 10px;
       --fortified-radius-card: 14px;
 
-      /* === Brand palette (matches Figma) === */
+      /* === Brand palette (neutral / schema-driven) ===
+         All Fortified tokens here are NEUTRAL by default so any
+         section CSS that still references them produces a neutral
+         (not warm) result. Branded color comes from:
+           --color-* (Shopify color schemes)
+           --fortified-accent (per-section Highlight color picker)
+      */
       --fortified-white:        #FFFFFF;
-      --fortified-cream:        #FDFAF5;
-      --fortified-parchment:    #F7F2E8;
-      --fortified-stone:        #EAE4D8;
-      --fortified-border:       #DDD7CA;
-      --fortified-muted:        #A09488;
-      --fortified-ink:          #3D3830;
-      --fortified-charcoal:     #2A2520;
-      --fortified-black:        #2A2520;
-      --fortified-off-white:    #FDFAF5;
-      --fortified-gray-light:   #DDD7CA;
-      --fortified-gray-mid:     #A09488;
+      --fortified-cream:        #FFFFFF;
+      --fortified-parchment:    #FFFFFF;
+      --fortified-stone:        #F5F5F5;
+      --fortified-border:       #E5E5E5;
+      --fortified-muted:        #6B6B6B;
+      --fortified-ink:          #0A0A0A;
+      --fortified-charcoal:     #0A0A0A;
+      --fortified-black:        #0A0A0A;
+      --fortified-off-white:    #FFFFFF;
+      --fortified-gray-light:   #E5E5E5;
+      --fortified-gray-mid:     #6B6B6B;
 
-      --fortified-sage:         #6B9478;
-      --fortified-sage-tint:    #EDF4EF;
-      --fortified-sage-border:  #C2D9C9;
-      --fortified-sage-dark:    #2D5C3A;
+      /* Accent palette — only used when section's Highlight color isn't set.
+         All map to currentColor so they inherit the schema foreground. */
+      --fortified-sage:         currentColor;
+      --fortified-sage-tint:    transparent;
+      --fortified-sage-border:  currentColor;
+      --fortified-sage-dark:    currentColor;
 
-      --fortified-saffron:      #C97A0A;
-      --fortified-saffron-tint: #FBF4E4;
-      --fortified-saffron-border:#E8C87A;
-      --fortified-saffron-dark: #7A4A05;
+      --fortified-saffron:      currentColor;
+      --fortified-saffron-tint: transparent;
+      --fortified-saffron-border:currentColor;
+      --fortified-saffron-dark: currentColor;
 
-      --fortified-mauve:        #8C5F7A;
-      --fortified-mauve-tint:   #F5EEF3;
-      --fortified-mauve-border: #D4B4C8;
-      --fortified-mauve-dark:   #5A2E4A;
+      --fortified-mauve:        currentColor;
+      --fortified-mauve-tint:   transparent;
+      --fortified-mauve-border: currentColor;
+      --fortified-mauve-dark:   currentColor;
 
-      /* Legacy aliases mapped to new tokens — keeps existing CSS working */
-      --fortified-teal:         var(--fortified-sage);
-      --fortified-teal-dark:    var(--fortified-sage-dark);
-      --fortified-orange:       var(--fortified-saffron);
-      --fortified-gold:         var(--fortified-saffron-dark);
-      --fortified-success:      var(--fortified-sage-dark);
+      /* Legacy aliases mapped to currentColor — so any leftover
+         var(--fortified-teal) reference inherits the schema's
+         foreground color instead of producing a warm brand color. */
+      --fortified-teal:         currentColor;
+      --fortified-teal-dark:    currentColor;
+      --fortified-orange:       currentColor;
+      --fortified-gold:         currentColor;
+      --fortified-success:      currentColor;
 
       --font-fortified-display: 'Brother 1816', 'Helvetica Neue', Arial, sans-serif;
       --font-fortified-body: 'Brother 1816', 'Helvetica Neue', Arial, sans-serif;
