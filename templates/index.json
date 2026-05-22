@@ -13,23 +13,22 @@
       "type": "fortified-hero",
       "name": "01 — Hero",
       "settings": {
-        "eyebrow_text": "*FORMULATED FOR*",
+        "eyebrow": "Formulated for",
         "heading": "HYDRATION THAT HITS",
-        "body_text": "Premium electrolytes that fuel your every move. Clinically dosed, clean, and zero sugar.",
+        "body": "Premium electrolytes that fuel your every move. Clinically dosed, clean, and zero sugar.",
         "cta_primary_label": "SHOP NOW",
         "cta_primary_url": "/collections/all",
         "cta_secondary_label": "LEARN MORE",
         "cta_secondary_url": "/pages/about",
         "image": "shopify://shop_images/Fortified_HP_Hero.png",
-        "image_position": "right",
         "color_scheme": "scheme-1",
         "content_alignment": "center",
         "padding-block-start": 40,
         "padding-block-end": 0,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
-        "section_width": "page-width",
-        "highlight_color": "#1fa8a1"
+        "highlight_color": "#1fa8a1",
+        "accent_italic": false
       }
     },
     "fortified_press_logos_SzIWbP": {
@@ -67,45 +66,33 @@
         "fortified_lifestyle_photo_zsVdFe": {
           "type": "fortified-lifestyle-photo",
           "settings": {
+            "image": "shopify://shop_images/43129a00f94903cc302d2c3aca789d4bfa796563_1.png",
             "benefit_label": "+ENERGY",
-            "content_alignment": "inherit",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "body": "Electrolytes don't provide full recovery."
           }
         },
         "fortified_lifestyle_photo_BJbmTH": {
           "type": "fortified-lifestyle-photo",
           "settings": {
+            "image": "shopify://shop_images/0810d3861d5a2750e46e61c03c106748c9913344.png",
             "benefit_label": "+PERFORMANCE",
-            "content_alignment": "inherit",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "body": "Electrolytes don't provide full recovery."
           }
         },
         "fortified_lifestyle_photo_dtWYCT": {
           "type": "fortified-lifestyle-photo",
           "settings": {
+            "image": "shopify://shop_images/e602e879f62d7e595954de6d5dc1313087bb7bd6_1.png",
             "benefit_label": "+HYDRATION",
-            "content_alignment": "inherit",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "body": "Electrolytes don't provide full recovery."
           }
         },
         "fortified_lifestyle_photo_MVVmEo": {
           "type": "fortified-lifestyle-photo",
           "settings": {
+            "image": "shopify://shop_images/6265651b2046bc68254b7b78fd0b8a083d4e94ab.png",
             "benefit_label": "+FOCUS",
-            "content_alignment": "inherit",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "body": "Electrolytes don't provide full recovery."
           }
         }
       },
@@ -119,17 +106,16 @@
       "settings": {
         "eyebrow": "THE TRUTH",
         "heading": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT",
+        "body": "Electrolytes don't provide full recovery. UNDO® Regenerate combines hydration.",
         "cta_label": "EXPLORE ALL FLAVORS",
         "cta_url": "/collections/all",
         "color_scheme": "scheme-2",
-        "content_alignment": "center",
-        "blocks_alignment": "center",
         "padding-block-start": 40,
         "padding-block-end": 40,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
-        "section_width": "page-width",
-        "highlight_color": "#1fa8a1"
+        "highlight_color": "#1fa8a1",
+        "accent_italic": false
       }
     },
     "fortified_stats_cNKnRQ": {
@@ -192,15 +178,13 @@
         "fortified_tab_tDCzsO": {
           "type": "fortified-tab",
           "settings": {
-            "tab_label": "Hydration",
-            "content_alignment": "inherit"
+            "tab_label": "Hydration"
           }
         },
         "fortified_tab_SyLbQS": {
           "type": "fortified-tab",
           "settings": {
-            "tab_label": "Performance",
-            "content_alignment": "inherit"
+            "tab_label": "Performance"
           }
         },
         "fortified_ingredient_NsjZEU": {
@@ -209,9 +193,11 @@
             "tab": "Hydration",
             "ingredient_name": "Sodium Citrate",
             "description": "Essential electrolyte for fluid balance, hydration, and muscle function.",
-            "dosage_badge": "1,200MG",
-            "benefit_badge": "HYDRATION FACTS",
-            "content_alignment": "inherit"
+            "badge_label": "HYDRATION",
+            "dosage_amount": "1200MG",
+            "dosage_unit": "PER SERVINGS",
+            "benefit_title": "Hydration Facts",
+            "benefit_description": "Supports muscle function\nand reduces cramps"
           }
         },
         "fortified_ingredient_chOGbQ": {
@@ -220,9 +206,11 @@
             "tab": "Hydration",
             "ingredient_name": "Magnesium Glycinate",
             "description": "Supports muscle function and reduces cramps.",
-            "dosage_badge": "150MG",
-            "benefit_badge": "HYDRATION FACTS",
-            "content_alignment": "inherit"
+            "badge_label": "HYDRATION",
+            "dosage_amount": "1200MG",
+            "dosage_unit": "PER SERVINGS",
+            "benefit_title": "Hydration Facts",
+            "benefit_description": "Supports muscle function\nand reduces cramps"
           }
         },
         "fortified_ingredient_reiuyA": {
@@ -231,9 +219,11 @@
             "tab": "Hydration",
             "ingredient_name": "Potassium",
             "description": "Maintains fluid balance and supports muscle/nerve function.",
-            "dosage_badge": "300MG",
-            "benefit_badge": "HYDRATION FACTS",
-            "content_alignment": "inherit"
+            "badge_label": "HYDRATION",
+            "dosage_amount": "1200MG",
+            "dosage_unit": "PER SERVINGS",
+            "benefit_title": "Hydration Facts",
+            "benefit_description": "Supports muscle function\nand reduces cramps"
           }
         },
         "fortified_ingredient_aMVNVf": {
@@ -242,9 +232,11 @@
             "tab": "Performance",
             "ingredient_name": "Creatine",
             "description": "Supports strength and recovery in high-intensity workouts.",
-            "dosage_badge": "3G",
-            "benefit_badge": "HYDRATION FACTS",
-            "content_alignment": "inherit"
+            "badge_label": "HYDRATION",
+            "dosage_amount": "1200MG",
+            "dosage_unit": "PER SERVINGS",
+            "benefit_title": "Hydration Facts",
+            "benefit_description": "Supports muscle function\nand reduces cramps"
           }
         }
       },
@@ -260,11 +252,16 @@
       "settings": {
         "eyebrow": "THE TRUTH",
         "heading": "CLINICALLY BACKED INGREDIENTS",
+        "body": "Electrolytes don't provide full recovery.",
         "cta_label": "SHOP FORTIFIED NOW",
         "cta_url": "/collections/all",
         "color_scheme": "scheme-1",
-        "content_alignment": "center",
-        "blocks_alignment": "center"
+        "padding-block-start": 100,
+        "padding-block-end": 100,
+        "padding-inline-start": 40,
+        "padding-inline-end": 40,
+        "highlight_color": "#1fa8a1",
+        "accent_italic": false
       }
     },
     "fortified_lifestyle_strip_ZDuzBI": {
@@ -273,31 +270,46 @@
         "fortified_strip_image_hedlND": {
           "type": "fortified-strip-image",
           "settings": {
-            "content_alignment": "inherit"
+            "handle": "@madselly",
+            "caption": "undo before the drinks changes everything",
+            "views": "2.1k views",
+            "video_url": ""
           }
         },
         "fortified_strip_image_HRVREM": {
           "type": "fortified-strip-image",
           "settings": {
-            "content_alignment": "inherit"
+            "handle": "@madselly",
+            "caption": "undo before the drinks changes everything",
+            "views": "2.1k views",
+            "video_url": ""
           }
         },
         "fortified_strip_image_eTCxat": {
           "type": "fortified-strip-image",
           "settings": {
-            "content_alignment": "inherit"
+            "handle": "@madselly",
+            "caption": "undo before the drinks changes everything",
+            "views": "2.1k views",
+            "video_url": ""
           }
         },
         "fortified_strip_image_nOeeZV": {
           "type": "fortified-strip-image",
           "settings": {
-            "content_alignment": "inherit"
+            "handle": "@madselly",
+            "caption": "undo before the drinks changes everything",
+            "views": "2.1k views",
+            "video_url": ""
           }
         },
         "fortified_strip_image_HvsasE": {
           "type": "fortified-strip-image",
           "settings": {
-            "content_alignment": "inherit"
+            "handle": "@madselly",
+            "caption": "undo before the drinks changes everything",
+            "views": "2.1k views",
+            "video_url": ""
           }
         }
       },
@@ -312,11 +324,16 @@
       "settings": {
         "eyebrow": "THE TRUTH",
         "heading": "MORE THAN HYDRATION\nIT'S DAILY SUPPORT",
+        "body": "Electrolytes don't provide full recovery. UNDO® Regenerate combines hydration.",
         "cta_label": "SHOP FORTIFIED NOW",
         "cta_url": "/collections/all",
         "color_scheme": "scheme-1",
-        "content_alignment": "center",
-        "blocks_alignment": "center"
+        "padding-block-start": 100,
+        "padding-block-end": 100,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "highlight_color": "#1fa8a1",
+        "accent_italic": false
       }
     },
     "fortified_faq_wEkbLR": {
@@ -378,33 +395,25 @@
         "fortified_b2b_card_GPygWB": {
           "type": "fortified-b2b-card",
           "settings": {
+            "tone": "light",
+            "image": "shopify://shop_images/2cb6a9adb0a6ec7ca88cbc4c05082130429fc1ca.png",
             "eyebrow": "THE TRUTH",
             "heading": "BECOME A WHOLESALER",
             "body": "Bring Fortified to your shelves. Bulk pricing, full marketing support, quick reorders.",
             "cta_label": "APPLY NOW",
-            "cta_url": "/pages/wholesale",
-            "bg_overlay_opacity": 50,
-            "content_alignment": "inherit",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "cta_url": "/pages/wholesale"
           }
         },
         "fortified_b2b_card_PLsNPR": {
           "type": "fortified-b2b-card",
           "settings": {
+            "tone": "light",
+            "image": "shopify://shop_images/4f639bc47fc4667f50613ccb44c7f0338b27c846_1.png",
             "eyebrow": "THE TRUTH",
             "heading": "BECOME A PARTNER",
             "body": "Gym, studio, or team? Get co-branded packs, ambassador codes, and revenue share.",
             "cta_label": "APPLY NOW",
-            "cta_url": "/pages/partners",
-            "bg_overlay_opacity": 50,
-            "content_alignment": "inherit",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "cta_url": "/pages/partners"
           }
         }
       },
@@ -415,14 +424,12 @@
       "name": "09 — B2B Split",
       "settings": {
         "color_scheme": "scheme-1",
-        "content_alignment": "center",
-        "blocks_alignment": "center",
         "padding-block-start": 40,
         "padding-block-end": 40,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
-        "section_width": "page-width",
-        "highlight_color": "#1fa8a1"
+        "highlight_color": "#1fa8a1",
+        "accent_italic": false
       }
     },
     "fortified_subscribe_save_Rzsdod": {
@@ -437,6 +444,7 @@
         "benefit_4": "",
         "cta_label": "SUBSCRIBE NOW",
         "cta_url": "/pages/subscribe",
+        "background_image": "shopify://shop_images/88588dc4ec1159c1c0561ae6b16ace7fb988b0f6.png",
         "color_scheme": "scheme-2",
         "content_alignment": "center"
       }
