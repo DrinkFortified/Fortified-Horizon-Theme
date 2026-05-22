@@ -2,7 +2,6 @@
 
 {%- liquid
   assign img_pos = section.settings.image_position | default: 'right'
-  assign bg = section.settings.bg_color
 -%}
 
 <section
@@ -48,7 +47,7 @@
 
 {% stylesheet %}
   .fortified-hero {
-    background: var(--fortified-hero-bg, var(--color-background, var(--fortified-accent, var(--fortified-accent, var(--color-foreground)))));
+    background: var(--color-background);
     color: var(--color-foreground, #fff);
     padding-block: var(--fortified-section-py);
     overflow: hidden;
@@ -174,11 +173,6 @@
         }
       ],
       "default": "right"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background color (optional override)"
     },
     {
       "type": "color_scheme",
