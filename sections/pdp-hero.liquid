@@ -43,8 +43,10 @@
     {%- comment -%} ============= BUY MODULE ============= {%- endcomment -%}
     <div class="pdp-hero__buy">
       <div class="pdp-hero__head">
-        <p class="pdp-hero__eyebrow p-energy">{{ section.settings.energy_eyebrow }}</p>
-        <p class="pdp-hero__eyebrow p-everyday">{{ section.settings.everyday_eyebrow }}</p>
+        <div class="pdp-hero__reviews">
+          <span class="pdp-hero__stars" aria-hidden="true">★★★★★</span>
+          <span>{{ section.settings.review_text }}</span>
+        </div>
 
         <h1 class="pdp-hero__title">
           <span class="p-energy">{{ section.settings.energy_title }}</span>
@@ -55,18 +57,16 @@
           <span class="p-energy">{{ section.settings.energy_desc }}</span>
           <span class="p-everyday">{{ section.settings.everyday_desc }}</span>
         </p>
-
-        <div class="pdp-hero__reviews">
-          <span class="pdp-hero__stars" aria-hidden="true">★★★★★</span>
-          <span>{{ section.settings.review_text }}</span>
-        </div>
       </div>
 
       {%- comment -%} ===== STEP 1: PLAN ===== {%- endcomment -%}
       <section class="pdp-step is-active" data-step="1" aria-labelledby="StepPlan-{{ section.id }}">
         <header class="pdp-step__head">
-          <span class="pdp-step__num">1</span>
-          <h2 id="StepPlan-{{ section.id }}" class="pdp-step__title">{{ section.settings.step1_title }}</h2>
+          <div class="pdp-step__head-left">
+            <span class="pdp-step__num">1</span>
+            <h2 id="StepPlan-{{ section.id }}" class="pdp-step__title">{{ section.settings.step1_title }}</h2>
+          </div>
+          {% if section.settings.step1_meta != blank %}<span class="pdp-step__meta">{{ section.settings.step1_meta }}</span>{% endif %}
         </header>
         <div class="pdp-step__body">
           <div class="pdp-plan" role="radiogroup" aria-label="Plan">
@@ -77,7 +77,7 @@
                   data-plan="{{ block.settings.plan_id | default: block.id }}"
                   data-pouches="{{ block.settings.pouch_count }}"
                   data-price="{{ block.settings.price_cents }}"
-                  style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}
+                  {{ block.shopify_attributes }}
                 >
                   <input type="radio" name="pdp-plan-{{ section.id }}" value="{{ block.settings.plan_id | default: block.id }}" {% if block.settings.is_default %}checked{% endif %}>
                   <span class="pdp-plan__main">
@@ -86,9 +86,19 @@
                     <span class="pdp-plan__detail">{{ block.settings.detail }}</span>
                   </span>
                   <span class="pdp-plan__price">
-                    <span class="pdp-plan__price-now">{{ block.settings.price_display }}</span>
+                    <span class="pdp-plan__price-now">
+                      {{ block.settings.price_display }}
+                      {% if block.settings.price_unit != blank %}<span class="pdp-plan__price-was">{{ block.settings.price_unit }}</span>{% endif %}
+                    </span>
                     {% if block.settings.compare_at != blank %}
                       <span class="pdp-plan__price-was">{{ block.settings.compare_at }}</span>
+                    {% endif %}
+                    {% if block.settings.perk_1 != blank or block.settings.perk_2 != blank or block.settings.perk_3 != blank %}
+                      <ul class="pdp-plan__perks">
+                        {% if block.settings.perk_1 != blank %}<li>{{ block.settings.perk_1 }}</li>{% endif %}
+                        {% if block.settings.perk_2 != blank %}<li>{{ block.settings.perk_2 }}</li>{% endif %}
+                        {% if block.settings.perk_3 != blank %}<li>{{ block.settings.perk_3 }}</li>{% endif %}
+                      </ul>
                     {% endif %}
                   </span>
                 </label>
@@ -101,8 +111,11 @@
       {%- comment -%} ===== STEP 2: FUNCTION + FLAVOR ===== {%- endcomment -%}
       <section class="pdp-step is-locked" data-step="2" aria-labelledby="StepFF-{{ section.id }}">
         <header class="pdp-step__head">
-          <span class="pdp-step__num">2</span>
-          <h2 id="StepFF-{{ section.id }}" class="pdp-step__title">{{ section.settings.step2_title }}</h2>
+          <div class="pdp-step__head-left">
+            <span class="pdp-step__num">2</span>
+            <h2 id="StepFF-{{ section.id }}" class="pdp-step__title">{{ section.settings.step2_title }}</h2>
+          </div>
+          {% if section.settings.step2_meta != blank %}<span class="pdp-step__meta">{{ section.settings.step2_meta }}</span>{% endif %}
         </header>
         <div class="pdp-step__body" data-pouches-host>
           {%- comment -%} Pouches rendered by JS based on plan {%- endcomment -%}
@@ -113,8 +126,10 @@
       {%- comment -%} ===== STEP 3: CREATINE ===== {%- endcomment -%}
       <section class="pdp-step is-locked" data-step="3" aria-labelledby="StepC-{{ section.id }}">
         <header class="pdp-step__head">
-          <span class="pdp-step__num">3</span>
-          <h2 id="StepC-{{ section.id }}" class="pdp-step__title">{{ section.settings.step3_title }}</h2>
+          <div class="pdp-step__head-left">
+            <span class="pdp-step__num">3</span>
+            <h2 id="StepC-{{ section.id }}" class="pdp-step__title">{{ section.settings.step3_title }}</h2>
+          </div>
         </header>
         <div class="pdp-step__body">
           <div class="pdp-creatine">
@@ -152,9 +167,16 @@
         <div class="pdp-summary__row pdp-summary__row--total"><span>{{ section.settings.summary_label_total }}</span><span data-sum-total>—</span></div>
       </div>
 
-      <button type="button" class="pdp-cta" data-cta disabled>
-        <span data-cta-label>{{ section.settings.cta_incomplete }}</span>
-      </button>
+      <div class="pdp-atc-row">
+        <div class="pdp-qty" role="group" aria-label="Quantity">
+          <button type="button" class="pdp-qty__btn" data-qty-dec aria-label="Decrease quantity">&minus;</button>
+          <span class="pdp-qty__val" data-qty-val>1</span>
+          <button type="button" class="pdp-qty__btn" data-qty-inc aria-label="Increase quantity">+</button>
+        </div>
+        <button type="button" class="pdp-cta" data-cta disabled>
+          <span data-cta-label>{{ section.settings.cta_incomplete }}</span>
+        </button>
+      </div>
 
       <ul class="pdp-trust">
         {% if section.settings.trust_1 != blank %}<li>{{ section.settings.trust_1 }}</li>{% endif %}
@@ -181,77 +203,451 @@
 </template>
 
 {% stylesheet %}
-  .pdp-hero { background: var(--color-background); padding-block: clamp(28px, 5vw, 64px); font-family: var(--font-fortified-body); color: var(--color-foreground); }
-  .pdp-hero__grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
-  @media (max-width: 960px) { .pdp-hero__grid { grid-template-columns: 1fr; } }
+  .pdp-hero {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-body);
+  }
+  .pdp-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 52px;
+    align-items: start;
+  }
+  @media (max-width: 960px) {
+    .pdp-hero__grid { grid-template-columns: 1fr; gap: 32px; }
+  }
 
-  .pdp-hero__main { background: var(--color-background); border: 1px solid var(--color-border); border-radius: 24px; overflow: hidden; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; }
+  /* ===== GALLERY ===== */
+  .pdp-hero__gallery { display: flex; flex-direction: column; gap: 12px; }
+  .pdp-hero__main {
+    background: var(--color-background);
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 1/1;
+    display: flex; align-items: center; justify-content: center;
+  }
   .pdp-hero__main img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .pdp-hero__placeholder { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-family: var(--font-fortified-display); font-size: 28px; letter-spacing: 0.06em; text-transform: uppercase; }
-  .pdp-hero__placeholder--energy { background: linear-gradient(180deg, var(--fortified-accent, var(--color-foreground)), var(--fortified-accent, var(--color-foreground))); color: var(--color-foreground); }
-  .pdp-hero__placeholder--everyday { background: linear-gradient(180deg, var(--fortified-accent, var(--fortified-accent, var(--color-foreground))), var(--fortified-accent, var(--fortified-accent, var(--color-foreground)))); color: var(--color-background); }
-  .pdp-hero__thumbs { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 12px; }
-  .pdp-hero__thumb { border: 1px solid var(--color-border); border-radius: 14px; overflow: hidden; padding: 0; cursor: pointer; background: var(--color-background); aspect-ratio: 1/1; }
+  .pdp-hero__placeholder {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; height: 100%;
+    font-family: var(--font-fortified-display);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+  .pdp-hero__thumbs { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+  .pdp-hero__thumb {
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    border-radius: 14px;
+    overflow: hidden; padding: 0; cursor: pointer;
+    background: var(--color-background);
+    aspect-ratio: 1/1;
+  }
   .pdp-hero__thumb.is-active { border-color: var(--color-foreground); }
   .pdp-hero__thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-  .pdp-hero__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-foreground); margin: 0 0 8px; }
-  body[data-product="energy"] .pdp-hero__eyebrow.p-energy { color: var(--fortified-accent, var(--color-foreground)); }
-  body[data-product="everyday"] .pdp-hero__eyebrow.p-everyday { color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); }
-  .pdp-hero__title { font-family: var(--font-fortified-display); font-size: clamp(28px, 4vw, 44px); line-height: 1.05; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.01em; }
-  .pdp-hero__desc { color: var(--color-foreground); margin: 0 0 16px; font-size: 15px; line-height: 1.5; max-width: 52ch; }
-  .pdp-hero__reviews { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--color-foreground); margin-bottom: 24px; }
-  .pdp-hero__stars { color: var(--fortified-accent, var(--color-foreground)); letter-spacing: 2px; }
+  /* ===== BUY MODULE HEAD ===== */
+  .pdp-hero__buy { display: flex; flex-direction: column; gap: 28px; }
+  .pdp-hero__head { display: flex; flex-direction: column; gap: 12px; }
+  .pdp-hero__reviews {
+    display: inline-flex; align-items: center; gap: 14px;
+    font-size: 18px; line-height: 1.1;
+    color: var(--color-foreground);
+    order: -1;
+  }
+  .pdp-hero__stars {
+    letter-spacing: 1px;
+    color: var(--fortified-accent);
+    font-size: 18px;
+  }
+  .pdp-hero__reviews > span:last-child {
+    text-decoration: underline;
+    font-family: var(--font-fortified-body);
+    font-size: 18px;
+  }
+  .pdp-hero__eyebrow {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--fortified-accent);
+    margin: 0;
+  }
+  .pdp-hero__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 58px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+  .pdp-hero__desc {
+    font-family: var(--font-fortified-body);
+    font-size: 32px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+    margin: 0;
+  }
 
-  .pdp-step { border: 1px solid var(--color-border); border-radius: 18px; background: var(--color-background); margin-bottom: 14px; transition: opacity .2s ease; }
+  /* ===== STEP CONTAINER ===== */
+  .pdp-step {
+    display: flex; flex-direction: column;
+    gap: 24px;
+    border-radius: 8px;
+    padding-block: 12px;
+    transition: opacity .2s ease;
+  }
   .pdp-step.is-locked { opacity: .5; pointer-events: none; }
-  .pdp-step__head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--color-border); }
-  .pdp-step__num { width: 28px; height: 28px; border-radius: 50%; background: var(--color-foreground); color: var(--color-background); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-fortified-display); font-size: 14px; }
-  .pdp-step__title { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; }
-  .pdp-step__body { padding: 16px 18px; }
-  .pdp-step__hint { color: var(--color-foreground); font-size: 13px; margin: 0; }
+  .pdp-step__head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 18px;
+  }
+  .pdp-step__head-left {
+    display: flex; align-items: flex-end; gap: 18px;
+  }
+  .pdp-step__num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--color-foreground);
+    color: var(--color-background);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+  .pdp-step__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+  .pdp-step__meta {
+    font-family: var(--font-fortified-body);
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+  .pdp-step__body { width: 100%; }
+  .pdp-step__hint { color: var(--color-foreground); font-size: 16px; margin: 0; }
 
-  .pdp-plan { display: grid; gap: 10px; }
-  .pdp-plan__opt { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 14px 16px; border: 1.5px solid var(--color-border); border-radius: 14px; cursor: pointer; transition: border-color .15s ease, background .15s ease; }
+  /* ===== PLAN CARDS ===== */
+  .pdp-plan {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .pdp-plan__opt {
+    position: relative;
+    display: flex; flex-direction: column;
+    gap: 24px;
+    background: var(--color-background);
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: border-color .15s ease;
+    overflow: hidden;
+  }
   .pdp-plan__opt:hover { border-color: var(--color-foreground); }
-  .pdp-plan__opt.is-selected { border-color: var(--color-foreground); background: rgba(10,10,10,.025); }
+  .pdp-plan__opt.is-selected {
+    border-color: var(--fortified-accent);
+    border-width: 2px;
+  }
   .pdp-plan__opt input { position: absolute; opacity: 0; pointer-events: none; }
-  .pdp-plan__badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: var(--color-foreground); color: var(--color-background); padding: 3px 8px; border-radius: 999px; margin-bottom: 6px; }
-  body[data-product="energy"] .pdp-plan__opt.is-selected .pdp-plan__badge { background: var(--fortified-accent, var(--color-foreground)); }
-  body[data-product="everyday"] .pdp-plan__opt.is-selected .pdp-plan__badge { background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); }
-  .pdp-plan__name { display: block; font-family: var(--font-fortified-display); font-size: 15px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .pdp-plan__detail { display: block; color: var(--color-foreground); font-size: 12px; margin-top: 2px; }
-  .pdp-plan__price { text-align: right; }
-  .pdp-plan__price-now { display: block; font-family: var(--font-fortified-display); font-size: 18px; }
-  .pdp-plan__price-was { display: block; font-size: 12px; color: var(--color-foreground); text-decoration: line-through; }
+  .pdp-plan__main {
+    display: flex; flex-direction: column;
+    gap: 18px;
+    padding: 14px 14px 0;
+  }
+  .pdp-plan__badge {
+    align-self: flex-start;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 8px 24px;
+    border: 1.5px solid var(--fortified-accent);
+    border-radius: 8px;
+    background: transparent;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--fortified-accent);
+  }
+  .pdp-plan__name {
+    display: block;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
+  .pdp-plan__detail {
+    display: block;
+    font-family: var(--font-fortified-body);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
+  .pdp-plan__price {
+    background: color-mix(in srgb, var(--color-foreground) 4%, var(--color-background));
+    display: flex; flex-direction: column;
+    gap: 16px;
+    padding: 24px 14px;
+    border-radius: 0 0 14px 14px;
+  }
+  .pdp-plan__price-now {
+    display: inline-flex; align-items: flex-end; gap: 4px;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+  .pdp-plan__price-was {
+    display: block;
+    font-family: var(--font-fortified-body);
+    font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-decoration: line-through;
+    color: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+  }
+  .pdp-plan__perks {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .pdp-plan__perks li {
+    display: flex; align-items: center; gap: 14px;
+    font-family: var(--font-fortified-body);
+    font-size: 16px;
+    line-height: 1;
+    color: var(--color-foreground);
+  }
+  .pdp-plan__perks li::before {
+    content: "";
+    width: 14px; height: 9px;
+    flex-shrink: 0;
+    background: var(--fortified-accent);
+    clip-path: polygon(0 50%, 38% 100%, 100% 0, 100% 18%, 38% 100%, 0 68%);
+  }
 
-  .pdp-pouch { padding: 14px; border: 1px dashed var(--color-border); border-radius: 12px; margin-bottom: 10px; }
-  .pdp-pouch__num { display: inline-block; font-family: var(--font-fortified-display); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-foreground); margin-bottom: 8px; }
-  .pdp-pouch__lbl { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-foreground); margin: 8px 0 6px; }
-  .pdp-pouch__opts { display: flex; flex-wrap: wrap; gap: 6px; }
-  .pdp-chip { border: 1px solid var(--color-border); border-radius: 999px; background: var(--color-background); padding: 7px 12px; font-size: 12px; cursor: pointer; font-family: var(--font-fortified-body); transition: all .12s ease; }
+  /* ===== POUCH BUILDER ===== */
+  .pdp-pouch {
+    display: flex; flex-direction: column;
+    gap: 18px;
+    padding: 18px 14px;
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    border-radius: 14px;
+    background: var(--color-background);
+    margin-bottom: 18px;
+  }
+  .pdp-pouch__head {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .pdp-pouch__num {
+    display: inline-block;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+  .pdp-pouch__group { display: flex; flex-direction: column; gap: 14px; }
+  .pdp-pouch__lbl {
+    display: block;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+  .pdp-pouch__opts { display: flex; flex-direction: column; gap: 8px; }
+  .pdp-chip {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    width: 100%;
+    background: var(--color-background);
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    border-radius: 8px;
+    padding: 12px 10px;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color .15s ease;
+    color: var(--color-foreground);
+  }
   .pdp-chip:hover { border-color: var(--color-foreground); }
-  .pdp-chip.is-selected { background: var(--color-foreground); color: var(--color-background); border-color: var(--color-foreground); }
+  .pdp-chip.is-selected {
+    border-color: var(--color-foreground);
+    font-weight: 600;
+  }
 
-  .pdp-creatine { display: grid; gap: 8px; }
-  .pdp-creatine__row { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--color-border); border-radius: 12px; cursor: pointer; }
-  .pdp-creatine__row--free { grid-template-columns: 1fr auto; background: rgba(31,168,161,.06); border-color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); cursor: default; }
-  .pdp-creatine__title { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .pdp-creatine__meta { color: var(--color-foreground); font-size: 12px; margin-top: 2px; }
-  .pdp-creatine__price { font-family: var(--font-fortified-display); font-size: 15px; }
+  /* ===== CREATINE ROWS ===== */
+  .pdp-creatine { display: flex; flex-direction: column; gap: 8px; }
+  .pdp-creatine__row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding: 14px 16px;
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    border-radius: 14px;
+    cursor: pointer;
+    background: var(--color-background);
+  }
+  .pdp-creatine__row--free {
+    grid-template-columns: 1fr auto;
+    background: color-mix(in srgb, var(--fortified-accent) 8%, var(--color-background));
+    border-color: var(--fortified-accent);
+    cursor: default;
+  }
+  .pdp-creatine__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+  .pdp-creatine__meta {
+    font-family: var(--font-fortified-body);
+    font-size: 16px;
+    line-height: 1.2;
+    color: color-mix(in srgb, var(--color-foreground) 65%, transparent);
+    margin-top: 4px;
+  }
+  .pdp-creatine__price {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
 
-  .pdp-summary { background: var(--color-background); border: 1px solid var(--color-border); border-radius: 14px; padding: 14px 18px; margin: 18px 0 12px; font-size: 14px; }
-  .pdp-summary__row { display: flex; justify-content: space-between; padding: 6px 0; }
-  .pdp-summary__row--total { border-top: 1px solid var(--color-border); margin-top: 6px; padding-top: 12px; font-family: var(--font-fortified-display); font-size: 18px; }
+  /* ===== SUMMARY + CTA ===== */
+  .pdp-summary {
+    background: var(--color-background);
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin: 0;
+    font-family: var(--font-fortified-body);
+    font-size: 18px;
+  }
+  .pdp-summary__row { display: flex; justify-content: space-between; padding: 8px 0; color: var(--color-foreground); }
+  .pdp-summary__row--total {
+    border-top: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    margin-top: 6px;
+    padding-top: 14px;
+    font-family: var(--font-fortified-display);
+    font-size: 24px;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
 
-  .pdp-cta { width: 100%; padding: 16px 20px; border-radius: 999px; border: 0; cursor: pointer; font-family: var(--font-fortified-display); font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; background: var(--color-foreground); color: var(--color-background); transition: background .15s ease; }
-  .pdp-cta:disabled { background: var(--color-border); color: var(--color-foreground); cursor: not-allowed; }
-  body[data-product="energy"] .pdp-cta:not(:disabled) { background: var(--fortified-accent, var(--color-foreground)); color: var(--color-foreground); }
-  body[data-product="everyday"] .pdp-cta:not(:disabled) { background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); color: var(--color-background); }
+  /* ===== ATC ROW: Qty stepper + CTA ===== */
+  .pdp-atc-row {
+    display: flex; align-items: center; gap: 21px;
+    width: 100%;
+  }
+  .pdp-qty {
+    display: flex; align-items: center; gap: 32px;
+    height: 70px;
+    padding: 18px;
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    border-radius: 8px;
+    background: var(--color-background);
+  }
+  .pdp-qty__btn {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-display);
+    font-size: 18px;
+    line-height: 1;
+    padding: 4px;
+  }
+  .pdp-qty__val {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    min-width: 16px;
+    text-align: center;
+  }
+  .pdp-cta {
+    flex: 1;
+    height: 70px;
+    padding: 18px;
+    border-radius: 8px;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    background: var(--color-foreground);
+    color: var(--color-background);
+    transition: background .15s ease, opacity .15s ease;
+  }
+  .pdp-cta:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
-  .pdp-trust { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--color-foreground); }
-  .pdp-trust li::before { content: "✓"; color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); margin-right: 6px; font-weight: 700; }
+  /* ===== TRUST / PAYMENT ICONS ===== */
+  .pdp-trust {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+    font-family: var(--font-fortified-body);
+    font-size: 16px;
+    color: var(--color-foreground);
+  }
+  .pdp-trust li::before {
+    content: "";
+    width: 14px; height: 9px;
+    display: inline-block;
+    background: var(--fortified-accent);
+    clip-path: polygon(0 50%, 38% 100%, 100% 0, 100% 18%, 38% 100%, 0 68%);
+    margin-right: 8px;
+  }
 
+  /* product variant switching */
   body[data-product="energy"] .p-everyday { display: none; }
   body[data-product="everyday"] .p-energy { display: none; }
 {% endstylesheet %}
@@ -284,8 +680,15 @@
       plan: null,
       pouches: [],
       creatineExtra: false,
-      creatineSub: false
+      creatineSub: false,
+      qty: 1
     };
+
+    var qtyVal = root.querySelector('[data-qty-val]');
+    var qtyInc = root.querySelector('[data-qty-inc]');
+    var qtyDec = root.querySelector('[data-qty-dec]');
+    if (qtyInc) qtyInc.addEventListener('click', function(){ state.qty += 1; if(qtyVal) qtyVal.textContent = state.qty; updateSummary(); });
+    if (qtyDec) qtyDec.addEventListener('click', function(){ if (state.qty > 1) { state.qty -= 1; if(qtyVal) qtyVal.textContent = state.qty; updateSummary(); } });
 
     function currentProduct() { return document.body.dataset.product || 'energy'; }
     function fmt(c) { return '$' + (c/100).toFixed(2); }
@@ -543,9 +946,21 @@
     },
     {
       "type": "text",
+      "id": "step1_meta",
+      "label": "Step 1 meta (right side)",
+      "default": "Monthly 10% off"
+    },
+    {
+      "type": "text",
       "id": "step2_title",
       "label": "Step 2 title",
-      "default": "Pick function & flavor"
+      "default": "Build 1-pouch bundle"
+    },
+    {
+      "type": "text",
+      "id": "step2_meta",
+      "label": "Step 2 meta (right side)",
+      "default": "1/1 pouches"
     },
     {
       "type": "text",
@@ -695,13 +1110,13 @@
       "type": "text",
       "id": "cta_incomplete",
       "label": "CTA \u2014 incomplete",
-      "default": "Complete your selection"
+      "default": "ADD TO CART"
     },
     {
       "type": "text",
       "id": "cta_complete",
       "label": "CTA \u2014 complete",
-      "default": "Subscribe & save"
+      "default": "ADD TO CART - $28.99"
     },
     {
       "type": "text",
@@ -876,8 +1291,33 @@
         },
         {
           "type": "text",
+          "id": "price_unit",
+          "label": "Price unit (e.g. / month)",
+          "default": "/ month"
+        },
+        {
+          "type": "text",
           "id": "compare_at",
-          "label": "Compare-at (optional)"
+          "label": "Compare-at (optional)",
+          "default": "was $59.00/mo"
+        },
+        {
+          "type": "text",
+          "id": "perk_1",
+          "label": "Perk 1",
+          "default": "Save 15% on every order"
+        },
+        {
+          "type": "text",
+          "id": "perk_2",
+          "label": "Perk 2",
+          "default": "Free shipping always"
+        },
+        {
+          "type": "text",
+          "id": "perk_3",
+          "label": "Perk 3",
+          "default": "Flexible, cancel / pause any time"
         },
         {
           "type": "number",
