@@ -27,15 +27,72 @@
 </section>
 
 {% stylesheet %}
-  .pdp-disc { background: var(--color-background); padding-block: clamp(32px, 5vw, 64px); font-family: var(--font-fortified-body); color: var(--color-foreground); border-top: 1px solid var(--color-border); }
-  .pdp-disc__inner { max-width: 920px; margin: 0 auto; }
-  .pdp-disc__title { font-family: var(--font-fortified-display); font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-foreground); margin: 0 0 18px; text-align: center; }
-  .pdp-disc__warnings { display: grid; gap: 10px; margin-bottom: 20px; }
-  .pdp-disc__warn { background: var(--color-background); border-left: 3px solid var(--fortified-accent, var(--color-foreground)); padding: 12px 16px; border-radius: 0 10px 10px 0; }
-  .pdp-disc__warn-label { display: block; font-family: var(--font-fortified-display); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-foreground); margin-bottom: 4px; }
-  .pdp-disc__warn p { margin: 0; font-size: 13px; line-height: 1.5; }
-  .pdp-disc__fda { font-size: 12px; line-height: 1.55; text-align: center; margin: 0 0 10px; }
-  .pdp-disc__fine { font-size: 11px; line-height: 1.5; text-align: center; margin: 0; color: var(--color-foreground); }
+  .pdp-disc {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-body);
+    border-top: 1.5px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+  .pdp-disc__inner {
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .pdp-disc__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    margin: 0;
+    text-align: center;
+  }
+  .pdp-disc__warnings {
+    display: flex; flex-direction: column;
+    gap: 12px;
+  }
+  .pdp-disc__warn {
+    background: color-mix(in srgb, var(--fortified-accent) 4%, var(--color-background));
+    border-left: 4px solid var(--fortified-accent);
+    padding: 16px 20px;
+    border-radius: 0 14px 14px 0;
+  }
+  .pdp-disc__warn-label {
+    display: block;
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    margin-bottom: 6px;
+  }
+  .pdp-disc__warn p {
+    margin: 0;
+    font-family: var(--font-fortified-body);
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .pdp-disc__fda {
+    font-family: var(--font-fortified-body);
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+    margin: 0;
+    color: color-mix(in srgb, var(--color-foreground) 65%, transparent);
+  }
+  .pdp-disc__fine {
+    font-family: var(--font-fortified-body);
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+    margin: 0;
+    color: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+  }
 {% endstylesheet %}
 
 {% schema %}
