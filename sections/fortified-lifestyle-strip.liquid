@@ -22,7 +22,7 @@
       <div class="fortified-lifestyle-strip__row">
         {% for block in section.blocks %}
           {% if block.type == 'fortified-strip-image' %}
-            <article class="fortified-lifestyle-strip__card" {{ block.shopify_attributes }}>
+            <article class="fortified-lifestyle-strip__card{% if block.settings.image == blank %} fortified-lifestyle-strip__card--placeholder{% endif %}" {{ block.shopify_attributes }}>
               {% if block.settings.image != blank %}
                 {{ block.settings.image | image_url: width: 700 | image_tag:
                     widths: '300, 500, 700',
@@ -145,7 +145,14 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     z-index: 0;
+  }
+  .fortified-lifestyle-strip__card--placeholder {
+    background:
+      linear-gradient(160deg,
+        color-mix(in srgb, var(--color-foreground) 18%, transparent) 0%,
+        color-mix(in srgb, var(--color-foreground) 38%, transparent) 100%);
   }
   .fortified-lifestyle-strip__card::after {
     content: '';
