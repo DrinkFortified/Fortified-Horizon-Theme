@@ -44,40 +44,101 @@
 
 {% stylesheet %}
   .fortified-product-feature {
-    background: var(--color-background, #fff);
-    color: var(--color-foreground, #0A0A0A);
-    padding-block: var(--fortified-section-py);
+    background: var(--color-background);
+    color: var(--color-foreground);
+    position: relative;
+    overflow: hidden;
   }
   .fortified-product-feature__inner {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(28px, 4vw, 48px);
+    gap: clamp(32px, 4vw, 56px);
+    max-width: var(--fortified-container);
+    margin-inline: auto;
+    padding-inline: clamp(16px, 3vw, 48px);
   }
-  .fortified-product-feature__header { text-align: center; max-width: 760px; }
-  .fortified-product-feature__body { margin: 12px 0 0; }
-  .fortified-product-feature__products {
+  .fortified-product-feature__header {
+    text-align: center;
+    max-width: 700px;
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    width: 100%;
-    gap: clamp(8px, 1.4vw, 24px);
-    justify-content: center;
-    padding-bottom: 8px;
-    scrollbar-width: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
   }
-  .fortified-product-feature__products::-webkit-scrollbar { display: none; }
+  .fortified-product-feature__header .fortified-heading {
+    font-family: var(--font-fortified-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 0.98;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: var(--color-foreground-heading);
+  }
+  .fortified-product-feature__body {
+    font-size: clamp(14px, 1vw, 16px);
+    line-height: 1.55;
+    opacity: 0.8;
+    margin: 0;
+    max-width: 56ch;
+  }
+
+  /* 4 product packaging shots fanned into a hero composition */
+  .fortified-product-feature__products {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: clamp(320px, 36vw, 440px);
+    padding: 24px 0;
+  }
   .fortified-product-feature__item {
     flex: 0 0 auto;
-    width: clamp(180px, 22vw, 320px);
+    width: clamp(140px, 22vw, 240px);
+    transition: transform .35s ease;
   }
-  .fortified-product-feature__item--2 { transform: translateY(-12px) rotate(-2deg); }
-  .fortified-product-feature__item--3 { transform: translateY(8px) rotate(1deg); }
-  .fortified-product-feature__item--4 { transform: translateY(-6px) rotate(2deg); }
-  .fortified-product-feature__img { width: 100%; height: auto; display: block; }
+  .fortified-product-feature__item--1 { transform: rotate(-10deg) translateX(-12%); z-index: 1; }
+  .fortified-product-feature__item--2 { transform: rotate(-3deg) translateX(-4%); z-index: 2; margin-left: -8%; }
+  .fortified-product-feature__item--3 { transform: rotate(5deg) translateX(4%); z-index: 3; margin-left: -8%; }
+  .fortified-product-feature__item--4 { transform: rotate(12deg) translateX(12%); z-index: 2; margin-left: -8%; }
+  .fortified-product-feature__products:hover .fortified-product-feature__item--1 { transform: rotate(-14deg) translateX(-18%); }
+  .fortified-product-feature__products:hover .fortified-product-feature__item--4 { transform: rotate(16deg) translateX(18%); }
+
+  .fortified-product-feature__img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 24px 48px rgba(0,0,0,0.2));
+  }
+
+  /* Subtle warm-tinted ambient glow behind the products */
+  .fortified-product-feature__products::before {
+    content: '';
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+      color-mix(in srgb, var(--fortified-accent, var(--color-foreground)) 12%, transparent) 0%,
+      transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .fortified-product-feature__cta .fortified-btn {
+    padding: 14px 32px;
+    border-radius: 999px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    min-height: 48px;
+  }
+
   @media (max-width: 749px) {
-    .fortified-product-feature__products { justify-content: flex-start; }
-    .fortified-product-feature__item { transform: none !important; width: 200px; }
+    .fortified-product-feature__products { gap: 0; min-height: 280px; }
+    .fortified-product-feature__item { width: clamp(110px, 30vw, 160px); margin-left: -10%; }
   }
 {% endstylesheet %}
 
