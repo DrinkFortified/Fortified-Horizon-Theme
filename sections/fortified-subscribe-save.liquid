@@ -5,7 +5,7 @@
   class="fortified-subscribe color-{{ section.settings.color_scheme | default: 'scheme-2' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
   style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; padding-block: {{ section.settings['padding-block-start'] | default: 0 }}px {{ section.settings['padding-block-end'] | default: 0 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 0 }}px {{ section.settings['padding-inline-end'] | default: 0 }}px;"
 >
-  <div class="fortified-subscribe__frame">
+  <div class="fortified-subscribe__frame{% if section.settings.background_image == blank %} fortified-subscribe__frame--placeholder{% endif %}">
     {% if section.settings.background_image != blank %}
       {{ section.settings.background_image | image_url: width: 2880 | image_tag:
           widths: '800, 1200, 1800, 2400, 2880',
@@ -61,7 +61,17 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: right center;
     z-index: 0;
+  }
+  .fortified-subscribe__frame--placeholder {
+    background:
+      radial-gradient(circle at 80% 50%,
+        color-mix(in srgb, var(--fortified-accent) 24%, transparent) 0%,
+        transparent 60%),
+      linear-gradient(135deg,
+        color-mix(in srgb, var(--color-foreground) 6%, transparent),
+        color-mix(in srgb, var(--color-foreground) 14%, transparent));
   }
   .fortified-subscribe__content {
     position: relative;

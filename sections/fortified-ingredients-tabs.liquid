@@ -58,6 +58,8 @@
             {% unless tab_handle == first_tab %}hidden{% endunless %}
             {{ block.shopify_attributes }}
           >
+            {%- assign ing_badge = block.settings.badge_label | default: block.settings.benefit_badge -%}
+            {%- assign ing_dose_amount = block.settings.dosage_amount | default: block.settings.dosage_badge -%}
             <div class="fortified-ingredients__row-main">
               <div class="fortified-ingredients__media">
                 {% if block.settings.image != blank %}
@@ -67,6 +69,8 @@
                       class: 'fortified-ingredients__img',
                       alt: block.settings.ingredient_name,
                       loading: 'lazy' }}
+                {% else %}
+                  <div class="fortified-ingredients__img fortified-ingredients__img--placeholder" aria-hidden="true"></div>
                 {% endif %}
               </div>
               <div class="fortified-ingredients__info">
@@ -74,16 +78,16 @@
                 {% if block.settings.description != blank %}
                   <p class="fortified-ingredients__desc">{% render 'fortified-accent-text', text: block.settings.description %}</p>
                 {% endif %}
-                {% if block.settings.badge_label != blank %}
-                  <span class="fortified-ingredients__badge">{{ block.settings.badge_label }}</span>
+                {% if ing_badge != blank %}
+                  <span class="fortified-ingredients__badge">{{ ing_badge }}</span>
                 {% endif %}
               </div>
             </div>
-            {% if block.settings.dosage_amount != blank or block.settings.dosage_unit != blank %}
+            {% if ing_dose_amount != blank or block.settings.dosage_unit != blank %}
               <div class="fortified-ingredients__divider" aria-hidden="true"></div>
               <div class="fortified-ingredients__dosage">
-                {% if block.settings.dosage_amount != blank %}
-                  <p class="fortified-ingredients__dosage-amount">{{ block.settings.dosage_amount }}</p>
+                {% if ing_dose_amount != blank %}
+                  <p class="fortified-ingredients__dosage-amount">{{ ing_dose_amount }}</p>
                 {% endif %}
                 {% if block.settings.dosage_unit != blank %}
                   <p class="fortified-ingredients__dosage-unit">{{ block.settings.dosage_unit }}</p>
@@ -260,6 +264,13 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+  .fortified-ingredients__img--placeholder {
+    background:
+      linear-gradient(135deg,
+        color-mix(in srgb, var(--color-foreground) 4%, transparent),
+        color-mix(in srgb, var(--color-foreground) 14%, transparent));
+    border-radius: 10px;
   }
   .fortified-ingredients__info {
     flex: 1 1 0;

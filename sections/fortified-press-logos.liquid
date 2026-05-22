@@ -3,7 +3,7 @@
 <section
   id="FortifiedPress-{{ section.id }}"
   class="fortified-press color-{{ section.settings.color_scheme | default: 'scheme-1' }}{% if section.settings.accent_italic %} fortified--keep-italics{% endif %}"
- style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
+ style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings['padding-block-start'] | default: 40 }}px {{ section.settings['padding-block-end'] | default: 40 }}px; padding-inline: {{ section.settings['padding-inline-start'] | default: 0 }}px {{ section.settings['padding-inline-end'] | default: 0 }}px;">
   <div class="fortified-container">
     {% if section.settings.heading != blank %}
       <p class="fortified-press__heading">{% render 'fortified-accent-text', text: section.settings.heading %}</p>
