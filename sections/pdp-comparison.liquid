@@ -5,79 +5,279 @@
   class="pdp-cmp"
   {{ section.shopify_attributes }}
  style="--fortified-accent: {{ section.settings.highlight_color | default: '#1FA8A1' }}; text-align: {{ section.settings.content_alignment | default: 'center' }}; padding-block: {{ section.settings["padding-block-start"] | default: 40 }}px {{ section.settings["padding-block-end"] | default: 40 }}px; padding-inline: {{ section.settings["padding-inline-start"] | default: 0 }}px {{ section.settings["padding-inline-end"] | default: 0 }}px;">
-  <div class="fortified-container">
+  <div class="pdp-cmp__inner">
     <header class="pdp-cmp__head">
       <p class="pdp-cmp__eyebrow">{{ section.settings.eyebrow }}</p>
       <h2 class="pdp-cmp__title">{{ section.settings.title }}</h2>
     </header>
 
-    <div class="pdp-cmp__table-wrap">
-      <table class="pdp-cmp__table">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col" class="pdp-cmp__th--ours">
-              <span class="p-energy">{{ section.settings.energy_col_name }}</span>
-              <span class="p-everyday">{{ section.settings.everyday_col_name }}</span>
-            </th>
-            <th scope="col">{{ section.settings.competitor_1_name }}</th>
-            <th scope="col">{{ section.settings.competitor_2_name }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for block in section.blocks %}
-            {% if block.type == 'cmp_row' %}
-              <tr style="text-align: {%- if block.settings.content_alignment == 'inherit' or block.settings.content_alignment == blank -%}inherit{%- else -%}{{ block.settings.content_alignment }}{%- endif -%};" {{ block.shopify_attributes }}>
-                <th scope="row" class="pdp-cmp__row-label" style="justify-content: {{ section.settings.blocks_alignment | default: 'center' }}; justify-items: {%- if section.settings.blocks_alignment == 'space-between' -%}stretch{%- else -%}{{ section.settings.blocks_alignment | default: 'center' }}{%- endif -%};">{{ block.settings.row_label }}</th>
-                <td class="pdp-cmp__td pdp-cmp__td--ours">
-                  {% if block.settings.is_checkmark %}
-                    {% if block.settings.ours == 'yes' %}<span class="pdp-cmp__check">✓</span>{% else %}<span class="pdp-cmp__x">×</span>{% endif %}
-                  {% else %}
-                    {{ block.settings.ours }}
-                  {% endif %}
-                </td>
-                <td class="pdp-cmp__td">
-                  {% if block.settings.is_checkmark %}
-                    {% if block.settings.comp1 == 'yes' %}<span class="pdp-cmp__check">✓</span>{% else %}<span class="pdp-cmp__x">×</span>{% endif %}
-                  {% else %}
-                    {{ block.settings.comp1 }}
-                  {% endif %}
-                </td>
-                <td class="pdp-cmp__td">
-                  {% if block.settings.is_checkmark %}
-                    {% if block.settings.comp2 == 'yes' %}<span class="pdp-cmp__check">✓</span>{% else %}<span class="pdp-cmp__x">×</span>{% endif %}
-                  {% else %}
-                    {{ block.settings.comp2 }}
-                  {% endif %}
-                </td>
-              </tr>
+    <div class="pdp-cmp__board">
+      {%- comment -%} Row labels column (no header to align with brand row) {%- endcomment -%}
+      <div class="pdp-cmp__labels">
+        <div class="pdp-cmp__labels-spacer" aria-hidden="true"></div>
+        {% for block in section.blocks %}
+          {% if block.type == 'cmp_row' %}
+            <div class="pdp-cmp__label" {{ block.shopify_attributes }}>{{ block.settings.row_label }}</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {%- comment -%} Brand columns: Ours + 3 competitors {%- endcomment -%}
+      <div class="pdp-cmp__cols">
+        <div class="pdp-cmp__col pdp-cmp__col--ours">
+          <div class="pdp-cmp__col-head">
+            {% if section.settings.our_logo != blank %}
+              <img class="pdp-cmp__col-logo" src="{{ section.settings.our_logo | image_url: width: 380 }}" alt="">
+            {% else %}
+              <span class="pdp-cmp__col-name pdp-cmp__col-name--ours">
+                <span class="p-energy">{{ section.settings.energy_col_name }}</span>
+                <span class="p-everyday">{{ section.settings.everyday_col_name }}</span>
+              </span>
             {% endif %}
-          {% endfor %}
-        </tbody>
-      </table>
+          </div>
+          <div class="pdp-cmp__col-body">
+            {% for block in section.blocks %}
+              {% if block.type == 'cmp_row' %}
+                <div class="pdp-cmp__cell">
+                  {% if block.settings.is_checkmark %}
+                    {% if block.settings.ours == 'yes' %}<span class="pdp-cmp__check" aria-label="yes">✓</span>{% else %}<span class="pdp-cmp__x" aria-label="no">×</span>{% endif %}
+                  {% else %}
+                    <span class="pdp-cmp__val">{{ block.settings.ours }}</span>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+
+        {% for competitor_index in (1..3) %}
+          {% assign name_key = 'competitor_' | append: competitor_index | append: '_name' %}
+          {% assign logo_key = 'competitor_' | append: competitor_index | append: '_logo' %}
+          <div class="pdp-cmp__col pdp-cmp__col--comp">
+            <div class="pdp-cmp__col-head">
+              {% if section.settings[logo_key] != blank %}
+                <img class="pdp-cmp__col-logo" src="{{ section.settings[logo_key] | image_url: width: 380 }}" alt="">
+              {% else %}
+                <span class="pdp-cmp__col-name">{{ section.settings[name_key] }}</span>
+              {% endif %}
+            </div>
+            <div class="pdp-cmp__col-body">
+              {% for block in section.blocks %}
+                {% if block.type == 'cmp_row' %}
+                  {% assign cmp_key = 'comp' | append: competitor_index %}
+                  <div class="pdp-cmp__cell">
+                    {% if block.settings.is_checkmark %}
+                      {% if block.settings[cmp_key] == 'yes' %}<span class="pdp-cmp__check" aria-label="yes">✓</span>{% else %}<span class="pdp-cmp__x" aria-label="no">×</span>{% endif %}
+                    {% else %}
+                      <span class="pdp-cmp__val">{{ block.settings[cmp_key] }}</span>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
     </div>
+
+    {% if section.settings.cta_label != blank %}
+      <a class="pdp-cmp__cta" href="{{ section.settings.cta_url | default: '#' }}">{{ section.settings.cta_label }}</a>
+    {% endif %}
   </div>
 </section>
 
 {% stylesheet %}
-  .pdp-cmp { background: var(--color-foreground); color: var(--color-background); padding-block: clamp(40px, 6vw, 84px); font-family: var(--font-fortified-body); }
-  .pdp-cmp__head { text-align: center; margin-bottom: 28px; }
-  .pdp-cmp__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,.7); margin: 0 0 8px; }
-  .pdp-cmp__title { font-family: var(--font-fortified-display); font-size: clamp(26px, 3.6vw, 40px); margin: 0; text-transform: uppercase; letter-spacing: 0.02em; }
-  .pdp-cmp__table-wrap { overflow-x: auto; border-radius: 18px; border: 1px solid rgba(255,255,255,.12); }
-  .pdp-cmp__table { width: 100%; border-collapse: collapse; min-width: 560px; }
-  .pdp-cmp__table th, .pdp-cmp__table td { padding: 14px 16px; text-align: center; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,.1); }
-  .pdp-cmp__table thead th { font-family: var(--font-fortified-display); text-transform: uppercase; letter-spacing: 0.06em; font-size: 12px; background: rgba(255,255,255,.04); color: rgba(255,255,255,.85); }
-  body[data-product="energy"] .pdp-cmp__th--ours { background: var(--fortified-accent, var(--color-foreground)); color: var(--color-foreground); }
-  body[data-product="everyday"] .pdp-cmp__th--ours { background: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); color: var(--color-background); }
-  body[data-product="energy"] .pdp-cmp__th--ours .p-everyday,
-  body[data-product="everyday"] .pdp-cmp__th--ours .p-energy { display: none; }
-  .pdp-cmp__row-label { text-align: left; font-weight: 600; color: rgba(255,255,255,.9); background: rgba(255,255,255,.03); }
-  body[data-product="energy"] .pdp-cmp__td--ours { background: rgba(242,169,59,.12); color: var(--fortified-accent, var(--color-foreground)); font-weight: 700; }
-  body[data-product="everyday"] .pdp-cmp__td--ours { background: rgba(31,168,161,.12); color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); font-weight: 700; }
-  .pdp-cmp__check { color: var(--fortified-accent, var(--fortified-accent, var(--color-foreground))); font-weight: 700; font-size: 18px; }
-  body[data-product="energy"] .pdp-cmp__td--ours .pdp-cmp__check { color: var(--fortified-accent, var(--color-foreground)); }
-  .pdp-cmp__x { color: rgba(255,255,255,.4); font-size: 18px; }
+  .pdp-cmp {
+    background: color-mix(in srgb, var(--color-foreground) 5%, var(--color-background));
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-body);
+  }
+  .pdp-cmp__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 72px;
+    width: 100%;
+  }
+  .pdp-cmp__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    max-width: 641px;
+    text-align: center;
+  }
+  .pdp-cmp__eyebrow {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--fortified-accent);
+    margin: 0;
+  }
+  .pdp-cmp__title {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 62px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    margin: 0;
+  }
+  .pdp-cmp__board {
+    display: grid;
+    grid-template-columns: 25.93% 1fr;
+    width: 100%;
+    max-width: 1200px;
+    gap: 0;
+    align-items: stretch;
+  }
+  .pdp-cmp__labels {
+    display: flex;
+    flex-direction: column;
+    padding: 52px 0;
+    gap: 64px;
+    font-family: var(--font-fortified-body);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
+  .pdp-cmp__labels-spacer { height: 32px; }
+  .pdp-cmp__label { min-height: 42px; display: flex; align-items: center; }
+  .pdp-cmp__cols {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: stretch;
+  }
+  .pdp-cmp__col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 52px 42px;
+    border-radius: 14px;
+    gap: 58px;
+  }
+  .pdp-cmp__col--ours {
+    background: var(--color-foreground);
+    color: var(--color-background);
+    margin-right: -9.2px;
+    z-index: 1;
+  }
+  .pdp-cmp__col--ours .pdp-cmp__cell,
+  .pdp-cmp__col--ours .pdp-cmp__col-name { color: var(--color-background); }
+  .pdp-cmp__col--comp { background: transparent; color: var(--color-foreground); }
+  .pdp-cmp__col-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 100%;
+  }
+  .pdp-cmp__col-logo { height: 32px; width: auto; display: block; }
+  .pdp-cmp__col-name {
+    font-family: var(--font-fortified-body);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-foreground);
+  }
+  .pdp-cmp__col-name--ours {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .pdp-cmp__col-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 58px;
+    width: 106px;
+  }
+  .pdp-cmp__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    width: 100%;
+  }
+  .pdp-cmp__val {
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-align: center;
+  }
+  .pdp-cmp__col--comp .pdp-cmp__val {
+    font-weight: 400;
+    font-family: var(--font-fortified-body);
+  }
+  .pdp-cmp__check {
+    width: 42px; height: 42px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: var(--fortified-accent);
+    color: var(--color-background);
+    font-family: var(--font-fortified-display);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1;
+  }
+  .pdp-cmp__col--ours .pdp-cmp__check { background: var(--fortified-accent); color: var(--color-foreground); }
+  .pdp-cmp__x {
+    width: 42px; height: 42px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: transparent;
+    border: 1.5px solid color-mix(in srgb, var(--color-foreground) 30%, transparent);
+    color: color-mix(in srgb, var(--color-foreground) 50%, transparent);
+    font-family: var(--font-fortified-display);
+    font-size: 24px;
+    line-height: 1;
+  }
+  .pdp-cmp__col--ours .pdp-cmp__x {
+    border-color: color-mix(in srgb, var(--color-background) 35%, transparent);
+    color: color-mix(in srgb, var(--color-background) 60%, transparent);
+  }
+  .pdp-cmp__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 412px;
+    max-width: 100%;
+    height: 70px;
+    padding: 18px;
+    border: 1.5px solid var(--color-foreground);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-foreground);
+    font-family: var(--font-fortified-display);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease;
+  }
+  .pdp-cmp__cta:hover { background: var(--color-foreground); color: var(--color-background); }
+  body[data-product="energy"] .pdp-cmp__col--ours .p-everyday,
+  body[data-product="everyday"] .pdp-cmp__col--ours .p-energy { display: none; }
+
+  @media (max-width: 960px) {
+    .pdp-cmp__title { font-size: 42px; }
+    .pdp-cmp__board { grid-template-columns: 1fr; }
+    .pdp-cmp__labels { padding: 0; gap: 24px; font-size: 22px; }
+    .pdp-cmp__cols { gap: 12px; }
+    .pdp-cmp__col { padding: 24px 16px; gap: 28px; }
+    .pdp-cmp__col-body { gap: 28px; width: 100%; }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -91,14 +291,15 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "Side by side"
+      "default": "THE TRUTH"
     },
     {
       "type": "text",
       "id": "title",
       "label": "Title",
-      "default": "WHY WE BEAT THE COMPETITION"
+      "default": "WHY WE BEAT THE REST"
     },
+    { "type": "image_picker", "id": "our_logo", "label": "Our column logo" },
     {
       "type": "text",
       "id": "energy_col_name",
@@ -111,18 +312,29 @@
       "label": "Everyday column header",
       "default": "Fortified Everyday"
     },
+    { "type": "image_picker", "id": "competitor_1_logo", "label": "Competitor 1 logo" },
     {
       "type": "text",
       "id": "competitor_1_name",
       "label": "Competitor 1",
       "default": "Liquid IV"
     },
+    { "type": "image_picker", "id": "competitor_2_logo", "label": "Competitor 2 logo" },
     {
       "type": "text",
       "id": "competitor_2_name",
       "label": "Competitor 2",
-      "default": "LMNT"
+      "default": "Liquid IV"
     },
+    { "type": "image_picker", "id": "competitor_3_logo", "label": "Competitor 3 logo" },
+    {
+      "type": "text",
+      "id": "competitor_3_name",
+      "label": "Competitor 3",
+      "default": "Liquid IV"
+    },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SHOP FORTIFIED NOW" },
+    { "type": "url", "id": "cta_url", "label": "CTA url" },
     {
       "type": "select",
       "id": "content_alignment",
@@ -266,6 +478,12 @@
           "default": "1,000mg"
         },
         {
+          "type": "text",
+          "id": "comp3",
+          "label": "Competitor 3",
+          "default": "270mg"
+        },
+        {
           "type": "checkbox",
           "id": "is_checkmark",
           "label": "Render as \u2713 / \u00d7",
@@ -348,54 +566,12 @@
       "category": "Fortified Omni",
       "settings": {},
       "blocks": [
-        {
-          "type": "cmp_row",
-          "settings": {
-            "row_label": "Sodium per serving",
-            "ours": "1,200mg",
-            "comp1": "500mg",
-            "comp2": "1,000mg"
-          }
-        },
-        {
-          "type": "cmp_row",
-          "settings": {
-            "row_label": "Magnesium glycinate",
-            "is_checkmark": true,
-            "ours": "yes",
-            "comp1": "no",
-            "comp2": "no"
-          }
-        },
-        {
-          "type": "cmp_row",
-          "settings": {
-            "row_label": "Sugar-free",
-            "is_checkmark": true,
-            "ours": "yes",
-            "comp1": "no",
-            "comp2": "yes"
-          }
-        },
-        {
-          "type": "cmp_row",
-          "settings": {
-            "row_label": "Artificial dyes",
-            "is_checkmark": true,
-            "ours": "no",
-            "comp1": "yes",
-            "comp2": "no"
-          }
-        },
-        {
-          "type": "cmp_row",
-          "settings": {
-            "row_label": "Price per serving",
-            "ours": "$1.07",
-            "comp1": "$1.50",
-            "comp2": "$1.95"
-          }
-        }
+        { "type": "cmp_row", "settings": { "row_label": "Sodium per serving", "ours": "1000mg", "comp1": "500mg", "comp2": "1000mg", "comp3": "270mg" } },
+        { "type": "cmp_row", "settings": { "row_label": "Sugar-free", "is_checkmark": true, "ours": "yes", "comp1": "no", "comp2": "no", "comp3": "no" } },
+        { "type": "cmp_row", "settings": { "row_label": "Energy version (caffeine)", "is_checkmark": true, "ours": "yes", "comp1": "no", "comp2": "no", "comp3": "no" } },
+        { "type": "cmp_row", "settings": { "row_label": "Real fruit flavor", "is_checkmark": true, "ours": "yes", "comp1": "no", "comp2": "no", "comp3": "no" } },
+        { "type": "cmp_row", "settings": { "row_label": "Magnesium glycinate", "is_checkmark": true, "ours": "yes", "comp1": "no", "comp2": "no", "comp3": "no" } },
+        { "type": "cmp_row", "settings": { "row_label": "Trial price (3 sticks)", "ours": "$1.99", "comp1": "$8.97", "comp2": "$5.97", "comp3": "$5.97" } }
       ]
     }
   ]
