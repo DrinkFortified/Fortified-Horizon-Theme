@@ -39,7 +39,7 @@
     width: 100%;
     margin: 0 auto;
     max-width: {{ section.settings.max_width }}px;
-    padding: {{ section.settings.outer_padding_v }}px {{ section.settings.outer_padding_h }}px;
+    padding: {{ section.settings['padding-block-start'] | default: section.settings.outer_padding_v }}px {{ section.settings['padding-inline-end'] | default: section.settings.outer_padding_h }}px {{ section.settings['padding-block-end'] | default: section.settings.outer_padding_v }}px {{ section.settings['padding-inline-start'] | default: section.settings.outer_padding_h }}px;
     box-sizing: border-box;
   }
   .{{ root }}__frame {
@@ -187,7 +187,7 @@
   }
 </style>
 
-<section class="{{ root }}" {{ section.shopify_attributes }}>
+<section class="{{ root }}{% unless section.settings.inherit_color_scheme %} color-{{ section.settings.color_scheme }}{% endunless %}" {{ section.shopify_attributes }}>
   <div class="{{ root }}__frame">
     {% if section.settings.background_image != blank %}
       {{ section.settings.background_image | image_url: width: 2880 | image_tag:
@@ -298,15 +298,23 @@
 
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "max_width",          "label": "Section max width (px)",     "min": 1000, "max": 1800, "step": 20, "default": 1440 },
-    { "type": "range", "id": "outer_padding_v",    "label": "Outer padding vertical (px)","min": 0,    "max": 60,   "step": 4,  "default": 0 },
-    { "type": "range", "id": "outer_padding_h",    "label": "Outer padding horizontal (px)","min": 0,  "max": 80,   "step": 4,  "default": 40 },
     { "type": "range", "id": "min_height",         "label": "Min height desktop (px)",    "min": 400,  "max": 900,  "step": 2, "default": 662 },
     { "type": "range", "id": "min_height_mobile",  "label": "Min height mobile (px)",     "min": 300,  "max": 700,  "step": 10, "default": 500 },
     { "type": "range", "id": "corner_radius",      "label": "Corner radius (px)",         "min": 0,    "max": 40,   "step": 1,  "default": 20 },
     { "type": "range", "id": "content_max_width",  "label": "Content column max (px)",    "min": 320,  "max": 700,  "step": 10, "default": 440 },
     { "type": "range", "id": "content_padding_v",  "label": "Content padding vertical",   "min": 24,   "max": 120,  "step": 2,  "default": 62 },
     { "type": "range", "id": "content_padding_h",  "label": "Content padding horizontal", "min": 0,    "max": 80,   "step": 4,  "default": 0 },
-    { "type": "range", "id": "content_gap",        "label": "Content vertical gap (px)",  "min": 16,   "max": 80,   "step": 2,  "default": 42 }
+    { "type": "range", "id": "content_gap",        "label": "Content vertical gap (px)",  "min": 16,   "max": 80,   "step": 2,  "default": 42 },
+
+    { "type": "header", "content": "Appearance" },
+    { "type": "checkbox", "id": "inherit_color_scheme", "label": "Inherit color scheme from theme", "default": true, "info": "When off, the section uses the color scheme selected below." },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start",  "label": "Top padding",    "min": 0, "max": 100, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-block-end",    "label": "Bottom padding", "min": 0, "max": 100, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-start", "label": "Left padding",   "min": 0, "max": 100, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding-inline-end",   "label": "Right padding",  "min": 0, "max": 100, "step": 2, "unit": "px", "default": 40 }
   ],
   "blocks": [
     {
