@@ -1,0 +1,65 @@
+{% comment %}
+  Fortified Checkmark Item
+  ----------------------------------------------------------------------
+  A single check icon + text line. Only valid as a child of
+  fortified-checkmark-list.
+{% endcomment %}
+
+{% liquid
+  assign id = block.id | replace: '_', '' | downcase
+  assign root = 'fci-' | append: id
+%}
+
+<style>
+  .{{ root }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.gap }}px;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+    line-height: 1.4;
+    margin: 0;
+  }
+  .{{ root }} svg {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    flex-shrink: 0;
+    color: {{ block.settings.icon_color }};
+  }
+</style>
+
+<li class="{{ root }}" {{ block.shopify_attributes }}>
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M7 12.5L10.5 16L17 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span>{{ block.settings.text }}</span>
+</li>
+
+{% schema %}
+{
+  "name": "Checkmark Item",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Text", "default": "Improve Hydration" },
+
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "text_size", "label": "Text size (px)", "min": 12, "max": 24, "step": 1, "default": 16 },
+    {
+      "type": "select", "id": "text_weight", "label": "Text weight", "default": "500",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#0A0A0A" },
+
+    { "type": "header", "content": "Icon" },
+    { "type": "range", "id": "icon_size",  "label": "Icon size (px)", "min": 12, "max": 32, "step": 1, "default": 20 },
+    { "type": "color", "id": "icon_color", "label": "Icon color",     "default": "#1FA8A1" },
+    { "type": "range", "id": "gap",        "label": "Gap (px)",       "min": 4,  "max": 20, "step": 1, "default": 10 }
+  ]
+}
+{% endschema %}
