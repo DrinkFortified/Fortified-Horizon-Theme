@@ -2264,7 +2264,7 @@
                         "gap_after_heading": 20,
                         "item_gap": 12,
                         "match_sibling_height": true,
-                        "background_color": "#ffffff",
+                        "background_color": "#f9f9fa",
                         "border_color": "#e5e7eb",
                         "border_width": 1,
                         "border_radius": 16,
