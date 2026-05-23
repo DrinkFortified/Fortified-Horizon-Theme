@@ -2224,7 +2224,7 @@
                     "custom_width": 100,
                     "width_mobile": "fill",
                     "custom_width_mobile": 100,
-                    "height": "fit",
+                    "height": "fill",
                     "custom_height": 100,
                     "inherit_color_scheme": true,
                     "color_scheme": "",
@@ -2254,22 +2254,22 @@
                       "settings": {
                         "headline_number": "0%",
                         "headline_number_size": 72,
-                        "headline_number_color": "#0A0A0A",
+                        "headline_number_color": "#0a0a0a",
                         "headline_text": "No Sugar. No Crash.",
                         "headline_size": 24,
-                        "headline_color": "#0A0A0A",
+                        "headline_color": "#0a0a0a",
                         "subtitle": "in high intensity workouts *",
                         "subtitle_size": 14,
                         "subtitle_color": "#666666",
                         "gap_after_heading": 20,
                         "item_gap": 12,
                         "match_sibling_height": true,
-                        "background_color": "#FFFFFF",
-                        "border_color": "#E5E7EB",
+                        "background_color": "#ffffff",
+                        "border_color": "#e5e7eb",
                         "border_width": 1,
                         "border_radius": 16,
                         "padding": 32,
-                        "text_color": "#0A0A0A",
+                        "text_color": "#0a0a0a",
                         "text_alignment": "left"
                       },
                       "blocks": {
@@ -2279,9 +2279,9 @@
                             "text": "Improve Hydration",
                             "text_size": 16,
                             "text_weight": "500",
-                            "text_color": "#0A0A0A",
+                            "text_color": "#0a0a0a",
                             "icon_size": 20,
-                            "icon_color": "#1FA8A1",
+                            "icon_color": "#1fa8a1",
                             "gap": 10
                           },
                           "blocks": {}
@@ -2292,9 +2292,9 @@
                             "text": "Boost Energy Naturally",
                             "text_size": 16,
                             "text_weight": "500",
-                            "text_color": "#0A0A0A",
+                            "text_color": "#0a0a0a",
                             "icon_size": 20,
-                            "icon_color": "#1FA8A1",
+                            "icon_color": "#1fa8a1",
                             "gap": 10
                           },
                           "blocks": {}
@@ -2305,9 +2305,9 @@
                             "text": "Support Muscle Function",
                             "text_size": 16,
                             "text_weight": "500",
-                            "text_color": "#0A0A0A",
+                            "text_color": "#0a0a0a",
                             "icon_size": 20,
-                            "icon_color": "#1FA8A1",
+                            "icon_color": "#1fa8a1",
                             "gap": 10
                           },
                           "blocks": {}
