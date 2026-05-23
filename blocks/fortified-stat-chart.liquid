@@ -188,7 +188,9 @@
   .{{ root }} .fsc-bar {
     width: var(--fsc-bar-w);
     max-width: 38%;
-    height: 0;
+    /* Height is set inline per-bar via style="height:N%". This guarantees
+       the bar renders at its target height even if JS never fires
+       (e.g. theme editor iframe quirks). JS only re-animates from 0. */
     border-radius: var(--fsc-bar-r) var(--fsc-bar-r) 0 0;
     transition: height 1100ms cubic-bezier(0.22, 0.61, 0.36, 1);
     will-change: height;
@@ -211,9 +213,6 @@
     text-align: center;
   }
 
-  /* Animation init state — bars stay at 0 until JS reveals them */
-  .{{ root }}[data-animate="pending"] .fsc-bar { height: 0 !important; }
-
   @media (prefers-reduced-motion: reduce) {
     .{{ root }} .fsc-bar { transition: none !important; }
   }
@@ -227,7 +226,6 @@
 <div
   class="{{ root }}"
   data-block-id="{{ block.id }}"
-  data-animate="pending"
   role="img"
   aria-label="{{ aria | strip_newlines | strip }}"
   {{ block.shopify_attributes }}
@@ -253,8 +251,8 @@
       <div class="fsc-grid fsc-grid--0"   aria-hidden="true"></div>
 
       <div class="fsc-bars" aria-hidden="true">
-        <div class="fsc-bar" data-target="{{ b1v }}"></div>
-        <div class="fsc-bar" data-target="{{ b2v }}"></div>
+        <div class="fsc-bar" data-target="{{ b1v }}" style="height: {{ b1v }}%;"></div>
+        <div class="fsc-bar" data-target="{{ b2v }}" style="height: {{ b2v }}%;"></div>
       </div>
     </div>
 
@@ -278,15 +276,17 @@
   var numberEl = root.querySelector('.fsc-num');
   var reduce   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function paintBars () {
-    bars.forEach(function (bar) {
-      var v = parseFloat(bar.getAttribute('data-target')) || 0;
-      if (v < 0) v = 0;
-      if (v > 100) v = 100;
-      bar.style.height = v + '%';
-    });
-    root.removeAttribute('data-animate');
-  }
+  // Bars already render at their target height inline. If reduced motion
+  // is on or IntersectionObserver isn't available, leave them as-is —
+  // they're already correct.
+  if (reduce || !('IntersectionObserver' in window)) return;
+
+  // Save target heights, briefly snap to 0, then on scroll-in animate up.
+  var targets = [];
+  bars.forEach(function (bar) {
+    targets.push(bar.style.height || '0%');
+    bar.style.height = '0%';
+  });
 
   function countUp () {
     if (!numberEl) return;
@@ -298,11 +298,6 @@
     var prefix   = raw.slice(0, match.index);
     var suffix   = raw.slice(match.index + match[0].length);
     var decimals = (match[0].split('.')[1] || '').length;
-
-    if (reduce) {
-      numberEl.textContent = raw;
-      return;
-    }
 
     var start    = performance.now();
     var duration = 1200;
@@ -319,14 +314,12 @@
   }
 
   function reveal () {
+    // Force reflow so the transition catches the height change.
     void root.offsetWidth;
-    paintBars();
+    bars.forEach(function (bar, i) {
+      bar.style.height = targets[i];
+    });
     countUp();
-  }
-
-  if (reduce || !('IntersectionObserver' in window)) {
-    reveal();
-    return;
   }
 
   var io = new IntersectionObserver(function (entries) {
@@ -336,9 +329,22 @@
         io.disconnect();
       }
     });
-  }, { threshold: 0.25 });
+  }, { threshold: 0.15 });
 
   io.observe(root);
+
+  // Failsafe: if the observer hasn't fired within 2 seconds, just paint
+  // the bars at their target heights. Catches edge cases like Shopify
+  // theme editor iframes that don't always trigger IO.
+  setTimeout(function () {
+    var anyAt0 = false;
+    bars.forEach(function (bar) {
+      if (bar.style.height === '0%') anyAt0 = true;
+    });
+    if (anyAt0) {
+      bars.forEach(function (bar, i) { bar.style.height = targets[i]; });
+    }
+  }, 2000);
 })();
 </script>
 
