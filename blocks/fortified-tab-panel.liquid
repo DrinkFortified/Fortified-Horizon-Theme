@@ -1,0 +1,52 @@
+{% comment %}
+  Fortified Tab Panel
+  ----------------------------------------------------------------------
+  One panel inside a fortified-tabs section. The tab label becomes the
+  button text; the panel's children render the actual content.
+
+  Accepts any theme block as a child — drop in native group/text/image
+  blocks, or the custom fortified-checkmark-list block for a checkmark
+  column.
+
+  The panel's visibility is controlled by the parent section's JS: it
+  toggles .is-active based on data-panel-id matching the active tab's
+  data-tab-target.
+{% endcomment %}
+
+<div
+  class="ft-tabs__panel{% if block.settings.start_active %} is-active{% endif %}"
+  role="tabpanel"
+  data-panel-id="{{ block.id }}"
+  aria-labelledby="ft-tabs-{{ section.id | replace: '_', '' | downcase }}-btn-{{ block.id }}"
+  style="
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.row_gap }}px;
+    padding: {{ block.settings.padding_top }}px 0 {{ block.settings.padding_bottom }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  {% content_for 'blocks' %}
+</div>
+
+{% schema %}
+{
+  "name": "Tab Panel",
+  "settings": [
+    { "type": "text", "id": "tab_label", "label": "Tab label", "default": "Hydration" },
+    { "type": "checkbox", "id": "start_active", "label": "Show this tab by default", "default": false, "info": "If multiple panels have this enabled, the first one wins." },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "row_gap",         "label": "Gap between child blocks (px)", "min": 0, "max": 80, "step": 4, "default": 24 },
+    { "type": "range", "id": "padding_top",     "label": "Padding top (px)",              "min": 0, "max": 80, "step": 4, "default": 16 },
+    { "type": "range", "id": "padding_bottom",  "label": "Padding bottom (px)",           "min": 0, "max": 80, "step": 4, "default": 16 }
+  ],
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "presets": [
+    { "name": "Tab Panel" }
+  ]
+}
+{% endschema %}

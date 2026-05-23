@@ -1,0 +1,140 @@
+{% comment %}
+  Fortified Checkmark List
+  ----------------------------------------------------------------------
+  A heading + a list of checkmark items. Each item is a child block of
+  type "fortified-checkmark-item" — the merchant adds/removes/reorders
+  items in the editor.
+
+  Designed as a drop-in replacement for any "row" of content inside a
+  Tab Panel — for example, swap an ingredient row with this for a
+  "Improve Hydration / Boost Energy / Support Muscle Function" list.
+{% endcomment %}
+
+{% liquid
+  assign id = block.id | replace: '_', '' | downcase
+  assign root = 'fcl-' | append: id
+%}
+
+<style>
+  .{{ root }} {
+    width: 100%;
+    background: {{ block.settings.background_color }};
+    border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.padding }}px;
+    box-sizing: border-box;
+    font-family: var(--font-body--family, inherit);
+    color: {{ block.settings.text_color }};
+    text-align: {{ block.settings.text_alignment }};
+  }
+  .{{ root }} .fcl-head {
+    margin: 0 0 {{ block.settings.gap_after_heading }}px;
+  }
+  .{{ root }} .fcl-num {
+    font-family: var(--font-heading--family, inherit);
+    font-size: {{ block.settings.headline_number_size }}px;
+    font-weight: 800;
+    line-height: 1;
+    color: {{ block.settings.headline_number_color }};
+    margin: 0 0 8px;
+    letter-spacing: -0.02em;
+  }
+  .{{ root }} .fcl-headline {
+    font-family: var(--font-heading--family, inherit);
+    font-size: {{ block.settings.headline_size }}px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: {{ block.settings.headline_color }};
+    margin: 0;
+  }
+  .{{ root }} .fcl-subtitle {
+    font-family: var(--font-body--family, inherit);
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    line-height: 1.4;
+    margin: 6px 0 0;
+  }
+  .{{ root }} .fcl-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.item_gap }}px;
+  }
+</style>
+
+<div class="{{ root }}" {{ block.shopify_attributes }}>
+  {% if block.settings.headline_number != blank
+        or block.settings.headline_text != blank
+        or block.settings.subtitle != blank %}
+    <div class="fcl-head">
+      {% if block.settings.headline_number != blank %}
+        <p class="fcl-num">{{ block.settings.headline_number }}</p>
+      {% endif %}
+      {% if block.settings.headline_text != blank %}
+        <p class="fcl-headline">{{ block.settings.headline_text }}</p>
+      {% endif %}
+      {% if block.settings.subtitle != blank %}
+        <p class="fcl-subtitle">{{ block.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if block.blocks.size > 0 %}
+    <ul class="fcl-items">
+      {% content_for 'blocks' %}
+    </ul>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Checkmark List",
+  "settings": [
+    { "type": "header", "content": "Headline (optional)" },
+    { "type": "text",  "id": "headline_number",       "label": "Number",       "default": "0%" },
+    { "type": "range", "id": "headline_number_size",  "label": "Number size",  "min": 32, "max": 120, "step": 2, "unit": "px", "default": 72 },
+    { "type": "color", "id": "headline_number_color", "label": "Number color", "default": "#0A0A0A" },
+    { "type": "text",  "id": "headline_text",         "label": "Headline",     "default": "No Sugar. No Crash." },
+    { "type": "range", "id": "headline_size",         "label": "Headline size","min": 12, "max": 48, "step": 1, "unit": "px", "default": 24 },
+    { "type": "color", "id": "headline_color",        "label": "Headline color","default": "#0A0A0A" },
+    { "type": "text",  "id": "subtitle",              "label": "Subtitle",     "default": "in high intensity workouts *" },
+    { "type": "range", "id": "subtitle_size",         "label": "Subtitle size","min": 10, "max": 24, "step": 1, "unit": "px", "default": 14 },
+    { "type": "color", "id": "subtitle_color",        "label": "Subtitle color","default": "#666666" },
+    { "type": "range", "id": "gap_after_heading",     "label": "Gap below heading (px)", "min": 8, "max": 40, "step": 2, "default": 20 },
+
+    { "type": "header", "content": "Items" },
+    { "type": "range", "id": "item_gap", "label": "Gap between items (px)", "min": 4, "max": 28, "step": 2, "default": 12 },
+
+    { "type": "header", "content": "Card style" },
+    { "type": "color", "id": "background_color", "label": "Background",      "default": "#FFFFFF" },
+    { "type": "color", "id": "border_color",     "label": "Border color",    "default": "#E5E7EB" },
+    { "type": "range", "id": "border_width",     "label": "Border width",    "min": 0, "max": 4, "step": 1, "unit": "px", "default": 1 },
+    { "type": "range", "id": "border_radius",    "label": "Corner radius",   "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
+    { "type": "range", "id": "padding",          "label": "Padding",         "min": 8, "max": 64, "step": 2, "unit": "px", "default": 32 },
+    { "type": "color", "id": "text_color",       "label": "Default text color","default": "#0A0A0A" },
+    {
+      "type": "select", "id": "text_alignment", "label": "Text alignment", "default": "left",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right" }
+      ]
+    }
+  ],
+  "blocks": [
+    { "type": "fortified-checkmark-item" }
+  ],
+  "presets": [
+    {
+      "name": "Checkmark List",
+      "blocks": [
+        { "type": "fortified-checkmark-item", "settings": { "text": "Improve Hydration" } },
+        { "type": "fortified-checkmark-item", "settings": { "text": "Boost Energy Naturally" } },
+        { "type": "fortified-checkmark-item", "settings": { "text": "Support Muscle Function" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
