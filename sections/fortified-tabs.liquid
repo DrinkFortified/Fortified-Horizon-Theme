@@ -4,12 +4,16 @@
   A tabbed content section. Each child "fortified-tab-panel" block is
   rendered as one tab. The section auto-generates a button per tab.
 
-  The first panel is shown by default. Clicking a button hides all
-  panels and shows the matching one (matched via block.id).
+  The first panel (or the one with start_active=true) is shown by
+  default. Clicking a button hides all panels and shows the matching
+  one (matched via block.id).
 
-  Tab panels accept any theme block as their children (native group,
-  text, image — plus the custom fortified-checkmark-list / -ingredient
-  blocks). So a single panel can hold a mix of layouts.
+  Tab panels accept any theme block as their children — drop in native
+  group/text/image blocks, or custom blocks (e.g. checkmark-list). So
+  one panel can hold any composition the merchant builds.
+
+  No section-level CTA — add a native Button block inside a tab panel
+  or in a separate section below if you want a CTA.
 
   Accessibility:
     - Buttons have role="tab" + aria-selected
@@ -29,11 +33,10 @@
     margin: 0 auto;
     padding: {{ section.settings.padding_top }}px {{ section.settings.padding_h }}px {{ section.settings.padding_bottom }}px;
     box-sizing: border-box;
-    color: var(--color-foreground, #0A0A0A);
+    color: {{ section.settings.heading_color }};
     background: {{ section.settings.background_color }};
     font-family: var(--font-body--family, inherit);
   }
-
   .{{ root }}__inner {
     max-width: {{ section.settings.max_width }}px;
     margin: 0 auto;
@@ -42,7 +45,6 @@
     gap: 32px;
     text-align: center;
   }
-
   .{{ root }}__eyebrow {
     font-family: var(--font-heading--family, inherit);
     font-size: 14px;
@@ -105,7 +107,7 @@
     border-radius: 2px;
   }
 
-  /* Tab panels area */
+  /* Panels area */
   .{{ root }}__panels {
     text-align: left;
   }
@@ -114,27 +116,6 @@
   }
   .{{ root }}__panels > [role="tabpanel"].is-active {
     display: block;
-  }
-
-  /* CTA */
-  .{{ root }}__cta {
-    display: inline-flex;
-    align-self: center;
-    align-items: center;
-    justify-content: center;
-    min-width: 220px;
-    padding: 18px 32px;
-    background: {{ section.settings.cta_bg }};
-    color: {{ section.settings.cta_color }};
-    font-family: var(--font-heading--family, inherit);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 0;
-    border-radius: 999px;
-    margin-top: 16px;
   }
 
   @media (max-width: 600px) {
@@ -146,7 +127,6 @@
 <section
   id="{{ root }}"
   class="{{ root }}"
-  data-section-root
   {{ section.shopify_attributes }}
 >
   <div class="{{ root }}__inner">
@@ -164,7 +144,6 @@
     {% endif %}
 
     {% if panels.size > 0 %}
-      {%- comment -%} Tab buttons — one per panel block {%- endcomment -%}
       <div class="{{ root }}__tabs" role="tablist" aria-label="{{ section.settings.aria_label | default: 'Information tabs' }}">
         {% for block in panels %}
           <button
@@ -183,62 +162,71 @@
       </div>
     {% endif %}
 
-    <div class="{{ root }}__panels" data-tabs-panel-container>
+    <div class="{{ root }}__panels">
       {% content_for 'blocks' %}
     </div>
-
-    {% if section.settings.cta_label != blank %}
-      <a href="{{ section.settings.cta_url | default: '#' }}" class="{{ root }}__cta">
-        {{ section.settings.cta_label }}
-      </a>
-    {% endif %}
   </div>
 </section>
 
 <script>
-(function () {
-  var root = document.getElementById('{{ root }}');
-  if (!root) return;
+  (function () {
+    var section = document.getElementById({{ root | json }});
+    if (!section) return;
 
-  var buttons = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
-  var panels  = Array.prototype.slice.call(root.querySelectorAll('[role="tabpanel"]'));
+    function init () {
+      var buttons = Array.prototype.slice.call(section.querySelectorAll('[role="tab"]'));
+      var panels  = Array.prototype.slice.call(section.querySelectorAll('[role="tabpanel"]'));
 
-  // On init, make the first panel visible if none is marked active.
-  if (panels.length && !panels.some(function (p) { return p.classList.contains('is-active'); })) {
-    panels[0].classList.add('is-active');
-  }
+      if (!buttons.length || !panels.length) return;
 
-  function activate (btn) {
-    var target = btn.getAttribute('data-tab-target');
-    buttons.forEach(function (b) {
-      var on = b === btn;
-      b.setAttribute('aria-selected', on ? 'true' : 'false');
-      b.setAttribute('tabindex', on ? '0' : '-1');
+      // Ensure exactly one panel starts active.
+      var hasActive = panels.some(function (p) { return p.classList.contains('is-active'); });
+      if (!hasActive) panels[0].classList.add('is-active');
+
+      function activate (btn) {
+        var target = btn.getAttribute('data-tab-target');
+        buttons.forEach(function (b) {
+          var on = b === btn;
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+          b.setAttribute('tabindex', on ? '0' : '-1');
+        });
+        panels.forEach(function (p) {
+          p.classList.toggle('is-active', p.getAttribute('data-panel-id') === target);
+        });
+      }
+
+      buttons.forEach(function (btn) {
+        // Avoid double-binding if init runs twice
+        if (btn.dataset.tabsBound === '1') return;
+        btn.dataset.tabsBound = '1';
+        btn.addEventListener('click', function () { activate(btn); });
+      });
+
+      section.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+        var current = document.activeElement;
+        var i = buttons.indexOf(current);
+        if (i === -1) return;
+        e.preventDefault();
+        var next = e.key === 'ArrowRight'
+          ? (i + 1) % buttons.length
+          : (i - 1 + buttons.length) % buttons.length;
+        buttons[next].focus();
+        activate(buttons[next]);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+    // Re-init when Shopify re-renders the section in the editor
+    document.addEventListener('shopify:section:load', function (e) {
+      if (e.target && e.target.contains(section)) init();
     });
-    panels.forEach(function (p) {
-      var on = p.getAttribute('data-panel-id') === target;
-      p.classList.toggle('is-active', on);
-    });
-  }
-
-  buttons.forEach(function (btn) {
-    btn.addEventListener('click', function () { activate(btn); });
-  });
-
-  // Keyboard navigation: arrow left/right cycles through tabs
-  root.addEventListener('keydown', function (e) {
-    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-    var current = document.activeElement;
-    var i = buttons.indexOf(current);
-    if (i === -1) return;
-    e.preventDefault();
-    var next = e.key === 'ArrowRight'
-      ? (i + 1) % buttons.length
-      : (i - 1 + buttons.length) % buttons.length;
-    buttons[next].focus();
-    activate(buttons[next]);
-  });
-})();
+  })();
 </script>
 
 {% schema %}
@@ -248,23 +236,17 @@
   "class": "fortified-tabs-section",
   "settings": [
     { "type": "header", "content": "Heading" },
-    { "type": "text",  "id": "eyebrow",  "label": "Eyebrow",  "default": "THE TRUTH" },
-    { "type": "text",  "id": "heading",  "label": "Heading",  "default": "WHY WE BEAT THE REST ELECTROLYTES" },
+    { "type": "text",     "id": "eyebrow",  "label": "Eyebrow",  "default": "THE TRUTH" },
+    { "type": "text",     "id": "heading",  "label": "Heading",  "default": "WHY WE BEAT THE REST ELECTROLYTES" },
     { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "Electrolytes don't provide full recovery." },
 
-    { "type": "header", "content": "CTA (optional)" },
-    { "type": "text", "id": "cta_label", "label": "Button label", "default": "SHOP FORTIFIED NOW" },
-    { "type": "url",  "id": "cta_url",   "label": "Button URL" },
-
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "accent_color",         "label": "Accent",           "default": "#1FA8A1" },
-    { "type": "color", "id": "heading_color",        "label": "Heading",          "default": "#0A0A0A" },
-    { "type": "color", "id": "subtitle_color",       "label": "Subtitle",         "default": "#444444" },
-    { "type": "color", "id": "tab_inactive_color",   "label": "Inactive tab",     "default": "#888888" },
-    { "type": "color", "id": "tab_line_color",       "label": "Tab divider line", "default": "#E5E7EB" },
-    { "type": "color", "id": "background_color",     "label": "Background",       "default": "#FFFFFF" },
-    { "type": "color", "id": "cta_bg",               "label": "CTA background",   "default": "#0A0A0A" },
-    { "type": "color", "id": "cta_color",            "label": "CTA text",         "default": "#FFFFFF" },
+    { "type": "color", "id": "accent_color",        "label": "Accent",           "default": "#1FA8A1" },
+    { "type": "color", "id": "heading_color",       "label": "Heading",          "default": "#0A0A0A" },
+    { "type": "color", "id": "subtitle_color",      "label": "Subtitle",         "default": "#444444" },
+    { "type": "color", "id": "tab_inactive_color",  "label": "Inactive tab",     "default": "#888888" },
+    { "type": "color", "id": "tab_line_color",      "label": "Tab divider line", "default": "#E5E7EB" },
+    { "type": "color", "id": "background_color",    "label": "Background",       "default": "#FFFFFF" },
 
     { "type": "header", "content": "Accessibility" },
     { "type": "text", "id": "aria_label", "label": "ARIA label for the tab group", "default": "Information tabs" },
@@ -282,8 +264,78 @@
     {
       "name": "Tabbed Content",
       "blocks": [
-        { "type": "fortified-tab-panel" },
-        { "type": "fortified-tab-panel" }
+        {
+          "type": "fortified-tab-panel",
+          "settings": { "tab_label": "Hydration", "start_active": true },
+          "blocks": [
+            {
+              "type": "group",
+              "settings": { "content_direction": "row", "gap": 24, "vertical_alignment": "center" },
+              "blocks": [
+                { "type": "image", "settings": { "image_ratio": "square", "width": "fixed", "custom_width": 30 } },
+                {
+                  "type": "group",
+                  "settings": { "content_direction": "column", "gap": 8, "width": "fill" },
+                  "blocks": [
+                    { "type": "text", "settings": { "text": "<h3>Ingredient name</h3>", "type_preset": "h3" } },
+                    { "type": "text", "settings": { "text": "<p>Short description of what this ingredient does.</p>", "type_preset": "rte" } }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "settings": { "content_direction": "row", "gap": 24, "vertical_alignment": "center" },
+              "blocks": [
+                { "type": "image", "settings": { "image_ratio": "square", "width": "fixed", "custom_width": 30 } },
+                {
+                  "type": "group",
+                  "settings": { "content_direction": "column", "gap": 8, "width": "fill" },
+                  "blocks": [
+                    { "type": "text", "settings": { "text": "<h3>Ingredient name</h3>", "type_preset": "h3" } },
+                    { "type": "text", "settings": { "text": "<p>Short description of what this ingredient does.</p>", "type_preset": "rte" } }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "fortified-tab-panel",
+          "settings": { "tab_label": "Performance" },
+          "blocks": [
+            {
+              "type": "group",
+              "settings": { "content_direction": "row", "gap": 24, "vertical_alignment": "center" },
+              "blocks": [
+                { "type": "image", "settings": { "image_ratio": "square", "width": "fixed", "custom_width": 30 } },
+                {
+                  "type": "group",
+                  "settings": { "content_direction": "column", "gap": 8, "width": "fill" },
+                  "blocks": [
+                    { "type": "text", "settings": { "text": "<h3>Ingredient name</h3>", "type_preset": "h3" } },
+                    { "type": "text", "settings": { "text": "<p>Short description of what this ingredient does.</p>", "type_preset": "rte" } }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "settings": { "content_direction": "row", "gap": 24, "vertical_alignment": "center" },
+              "blocks": [
+                { "type": "image", "settings": { "image_ratio": "square", "width": "fixed", "custom_width": 30 } },
+                {
+                  "type": "group",
+                  "settings": { "content_direction": "column", "gap": 8, "width": "fill" },
+                  "blocks": [
+                    { "type": "text", "settings": { "text": "<h3>Ingredient name</h3>", "type_preset": "h3" } },
+                    { "type": "text", "settings": { "text": "<p>Short description of what this ingredient does.</p>", "type_preset": "rte" } }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       ]
     }
   ]
