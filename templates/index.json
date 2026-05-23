@@ -1561,18 +1561,19 @@
                     "vertical_alignment": "center",
                     "align_baseline": false,
                     "horizontal_alignment_flex_direction_column": "flex-start",
-                    "vertical_alignment_flex_direction_column": "center",
+                    "vertical_alignment_flex_direction_column": "flex-end",
                     "gap": 12,
                     "width": "fill",
                     "custom_width": 100,
                     "width_mobile": "fill",
                     "custom_width_mobile": 100,
-                    "height": "fit",
+                    "height": "custom",
                     "custom_height": 100,
                     "inherit_color_scheme": true,
                     "color_scheme": "",
-                    "background_media": "none",
+                    "background_media": "image",
                     "video_position": "cover",
+                    "background_image": "shopify://shop_images/6265651b2046bc68254b7b78fd0b8a083d4e94ab.png",
                     "background_image_position": "cover",
                     "border": "none",
                     "border_width": 1,
@@ -1586,14 +1587,27 @@
                     "open_in_new_tab": false,
                     "placeholder": "",
                     "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
+                    "padding-block-end": 32,
+                    "padding-inline-start": 24,
+                    "padding-inline-end": 45
                   },
                   "blocks": {
+                    "icon_JwNXAt": {
+                      "type": "icon",
+                      "name": "t:names.icon",
+                      "settings": {
+                        "icon": "price_tag",
+                        "image_upload": "shopify://shop_images/Fortified_-_Shield.svg",
+                        "width": 70,
+                        "link": "",
+                        "open_in_new_tab": false
+                      },
+                      "blocks": {}
+                    },
                     "image_pj498D": {
                       "type": "image",
                       "name": "t:names.image",
+                      "disabled": true,
                       "settings": {
                         "image": "shopify://shop_images/6265651b2046bc68254b7b78fd0b8a083d4e94ab.png",
                         "link": "",
@@ -1614,11 +1628,37 @@
                       },
                       "blocks": {}
                     },
+                    "text_ijbX7N": {
+                      "type": "text",
+                      "name": "t:names.text",
+                      "settings": {
+                        "text": "<h3>+Focus</h3>",
+                        "width": "fit-content",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    },
                     "text_Dhyiqb": {
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                        "text": "<p>Electrolytes don't provide full recovery.</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -1642,7 +1682,9 @@
                     }
                   },
                   "block_order": [
+                    "icon_JwNXAt",
                     "image_pj498D",
+                    "text_ijbX7N",
                     "text_Dhyiqb"
                   ]
                 }
