@@ -2170,11 +2170,11 @@
                         "sub_case": "none",
                         "sub_color": "#666666",
                         "bar1_label": "Water",
-                        "bar1_value": 100,
-                        "bar1_color": "#1498b5",
+                        "bar1_value": 51,
+                        "bar1_color": "#333333",
                         "bar2_label": "FORTIFIED",
                         "bar2_value": 93,
-                        "bar2_color": "#000000",
+                        "bar2_color": "#1498b5",
                         "lbl_font": "var(--font-body--family)",
                         "lbl_size": 14,
                         "lbl_weight": "500",
@@ -2248,80 +2248,80 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {
-                    "fortified_checkmark_list_pcHYeX": {
+                    "fortified_checkmark_list_6iE9iB": {
                       "type": "fortified-checkmark-list",
                       "name": "Checkmark List",
                       "settings": {
                         "headline_number": "0%",
                         "headline_number_size": 72,
-                        "headline_number_color": "#0a0a0a",
+                        "headline_number_color": "#0A0A0A",
                         "headline_text": "No Sugar. No Crash.",
                         "headline_size": 24,
-                        "headline_color": "#0a0a0a",
+                        "headline_color": "#0A0A0A",
                         "subtitle": "in high intensity workouts *",
                         "subtitle_size": 14,
                         "subtitle_color": "#666666",
                         "gap_after_heading": 20,
                         "item_gap": 12,
                         "match_sibling_height": true,
-                        "background_color": "#f9f9fa",
-                        "border_color": "#e5e7eb",
+                        "background_color": "#FFFFFF",
+                        "border_color": "#E5E7EB",
                         "border_width": 1,
                         "border_radius": 16,
                         "padding": 32,
-                        "text_color": "#0a0a0a",
+                        "text_color": "#0A0A0A",
                         "text_alignment": "left"
                       },
                       "blocks": {
-                        "fortified_checkmark_item_qUw96J": {
+                        "fortified_checkmark_item_PkCCqB": {
                           "type": "fortified-checkmark-item",
                           "settings": {
                             "text": "Improve Hydration",
                             "text_size": 16,
                             "text_weight": "500",
-                            "text_color": "#0a0a0a",
+                            "text_color": "#0A0A0A",
                             "icon_size": 20,
-                            "icon_color": "#1fa8a1",
+                            "icon_color": "#1FA8A1",
                             "gap": 10
                           },
                           "blocks": {}
                         },
-                        "fortified_checkmark_item_X6tqhJ": {
+                        "fortified_checkmark_item_VzzGDD": {
                           "type": "fortified-checkmark-item",
                           "settings": {
                             "text": "Boost Energy Naturally",
                             "text_size": 16,
                             "text_weight": "500",
-                            "text_color": "#0a0a0a",
+                            "text_color": "#0A0A0A",
                             "icon_size": 20,
-                            "icon_color": "#1fa8a1",
+                            "icon_color": "#1FA8A1",
                             "gap": 10
                           },
                           "blocks": {}
                         },
-                        "fortified_checkmark_item_bRfQ8k": {
+                        "fortified_checkmark_item_YiDqGw": {
                           "type": "fortified-checkmark-item",
                           "settings": {
                             "text": "Support Muscle Function",
                             "text_size": 16,
                             "text_weight": "500",
-                            "text_color": "#0a0a0a",
+                            "text_color": "#0A0A0A",
                             "icon_size": 20,
-                            "icon_color": "#1fa8a1",
+                            "icon_color": "#1FA8A1",
                             "gap": 10
                           },
                           "blocks": {}
                         }
                       },
                       "block_order": [
-                        "fortified_checkmark_item_qUw96J",
-                        "fortified_checkmark_item_X6tqhJ",
-                        "fortified_checkmark_item_bRfQ8k"
+                        "fortified_checkmark_item_PkCCqB",
+                        "fortified_checkmark_item_VzzGDD",
+                        "fortified_checkmark_item_YiDqGw"
                       ]
                     }
                   },
                   "block_order": [
-                    "fortified_checkmark_list_pcHYeX"
+                    "fortified_checkmark_list_6iE9iB"
                   ]
                 }
               },
