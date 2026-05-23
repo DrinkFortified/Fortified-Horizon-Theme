@@ -1,0 +1,340 @@
+{% comment %}
+  Fortified Stat Chart
+  ----------------------------------------------------------------------
+  A comparison chart with a large headline number (with count-up
+  animation), descriptive text, and two horizontal-baseline vertical bars
+  with reference lines at 0 / 50 / 100. Designed to compare a competitor
+  metric to a Fortified metric.
+
+  Animations:
+    - Headline number counts up from 0 to its target value on scroll-in.
+    - Both bars grow from 0 to their target height on scroll-in.
+    - Honors prefers-reduced-motion.
+
+  Accessibility:
+    - Chart is wrapped in role="img" with an auto-generated aria-label
+      that describes both bars and their values.
+{% endcomment %}
+
+{% liquid
+  assign id = block.id | replace: '_', '' | downcase
+  assign root = 'fsc-' | append: id
+
+  assign hn   = block.settings.headline_number
+  assign ht   = block.settings.headline_text
+  assign sub  = block.settings.subtitle_text
+  assign b1l  = block.settings.bar1_label
+  assign b1v  = block.settings.bar1_value
+  assign b2l  = block.settings.bar2_label
+  assign b2v  = block.settings.bar2_value
+
+  capture aria
+    echo 'Comparison chart. '
+    echo b1l | append: ': ' | append: b1v | append: '. '
+    echo b2l | append: ': ' | append: b2v | append: '.'
+  endcapture
+%}
+
+<style>
+  .{{ root }} {
+    --fsc-bg:        {{ block.settings.background_color }};
+    --fsc-grid:      {{ block.settings.grid_line_color }};
+    --fsc-scale:     {{ block.settings.scale_label_color }};
+    --fsc-bar-label: {{ block.settings.bar_label_color }};
+    --fsc-bar1:      {{ block.settings.bar1_color }};
+    --fsc-bar2:      {{ block.settings.bar2_color }};
+    --fsc-bar-w:     {{ block.settings.bar_width }}px;
+    --fsc-bar-gap:   {{ block.settings.bar_gap }}px;
+    --fsc-bar-r:     {{ block.settings.bar_border_radius }}px;
+    --fsc-bar-lbl:   {{ block.settings.bar_label_size }}px;
+    --fsc-pad:       {{ block.settings.padding }}px;
+    --fsc-radius:    {{ block.settings.border_radius }}px;
+
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    background: var(--fsc-bg);
+    border-radius: var(--fsc-radius);
+    padding: var(--fsc-pad);
+    box-sizing: border-box;
+    text-align: {{ block.settings.text_alignment }};
+    font-family: var(--font-body--family, inherit);
+  }
+
+  .{{ root }} .fsc-head {
+    margin: 0 0 28px;
+  }
+  .{{ root }} .fsc-num {
+    font-size: {{ block.settings.headline_number_size }}px;
+    color: {{ block.settings.headline_number_color }};
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .{{ root }} .fsc-headline {
+    font-size: {{ block.settings.headline_text_size }}px;
+    color: {{ block.settings.headline_text_color }};
+    font-weight: 700;
+    margin: 6px 0 0;
+    line-height: 1.2;
+  }
+  .{{ root }} .fsc-sub {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 6px 0 0;
+    line-height: 1.4;
+  }
+
+  /* Chart: 3 grid lines, 2 bars rising from the bottom line */
+  .{{ root }} .fsc-chart {
+    --fsc-chart-h: 220px;
+    position: relative;
+    height: var(--fsc-chart-h);
+    margin: 0 auto;
+    /* Reserve space for the labels below the bottom grid line */
+    padding-bottom: calc(var(--fsc-bar-lbl) * 1.4 + 14px);
+  }
+  .{{ root }} .fsc-grid {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 0;
+    border-top: 1px dashed var(--fsc-grid);
+  }
+  .{{ root }} .fsc-grid--0   { top: calc(var(--fsc-chart-h) - 1px); }
+  .{{ root }} .fsc-grid--50  { top: calc(var(--fsc-chart-h) * 0.5 - 1px); }
+  .{{ root }} .fsc-grid--100 { top: 0; }
+
+  .{{ root }} .fsc-bars {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: var(--fsc-bar-gap);
+    height: var(--fsc-chart-h);
+    pointer-events: none;
+  }
+  .{{ root }} .fsc-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: var(--fsc-bar-w);
+    max-width: 35%;
+    pointer-events: auto;
+  }
+  .{{ root }} .fsc-bar {
+    width: 100%;
+    height: 0;
+    border-radius: var(--fsc-bar-r) var(--fsc-bar-r) 0 0;
+    transition: height 1100ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: height;
+  }
+  .{{ root }} .fsc-col:nth-child(1) .fsc-bar { background: var(--fsc-bar1); }
+  .{{ root }} .fsc-col:nth-child(2) .fsc-bar { background: var(--fsc-bar2); }
+
+  /* Labels sit underneath the 0 grid line */
+  .{{ root }} .fsc-lbls {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    gap: var(--fsc-bar-gap);
+  }
+  .{{ root }} .fsc-lbl {
+    width: var(--fsc-bar-w);
+    max-width: 35%;
+    text-align: center;
+    color: var(--fsc-bar-label);
+    font-size: var(--fsc-bar-lbl);
+    font-weight: 600;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 0;
+  }
+
+  /* Animation init state */
+  .{{ root }}[data-animate="pending"] .fsc-bar { height: 0 !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .{{ root }} .fsc-bar { transition: none !important; }
+  }
+
+  @media (max-width: 600px) {
+    .{{ root }} { padding: max(20px, calc(var(--fsc-pad) * 0.6)); }
+    .{{ root }} .fsc-chart { --fsc-chart-h: 180px; }
+  }
+</style>
+
+<div
+  class="{{ root }}"
+  data-block-id="{{ block.id }}"
+  data-animate="pending"
+  role="img"
+  aria-label="{{ aria | strip_newlines | strip }}"
+  {{ block.shopify_attributes }}
+>
+  {% if hn != blank or ht != blank or sub != blank %}
+    <div class="fsc-head">
+      {% if hn != blank %}
+        <p class="fsc-num" data-target="{{ hn | strip }}">{{ hn }}</p>
+      {% endif %}
+      {% if ht != blank %}<p class="fsc-headline">{{ ht }}</p>{% endif %}
+      {% if sub != blank %}<p class="fsc-sub">{{ sub }}</p>{% endif %}
+    </div>
+  {% endif %}
+
+  <div class="fsc-chart">
+    <div class="fsc-grid fsc-grid--100" aria-hidden="true"></div>
+    <div class="fsc-grid fsc-grid--50"  aria-hidden="true"></div>
+    <div class="fsc-grid fsc-grid--0"   aria-hidden="true"></div>
+
+    <div class="fsc-bars" aria-hidden="true">
+      <div class="fsc-col">
+        <div class="fsc-bar" data-target="{{ b1v }}"></div>
+      </div>
+      <div class="fsc-col">
+        <div class="fsc-bar" data-target="{{ b2v }}"></div>
+      </div>
+    </div>
+
+    <div class="fsc-lbls" aria-hidden="true">
+      <p class="fsc-lbl">{{ b1l }}</p>
+      <p class="fsc-lbl">{{ b2l }}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('[data-block-id="{{ block.id }}"]');
+  if (!root) return;
+
+  var bars      = root.querySelectorAll('.fsc-bar');
+  var numberEl  = root.querySelector('.fsc-num');
+  var reduce    = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function paintBars () {
+    bars.forEach(function (bar) {
+      var v = parseFloat(bar.getAttribute('data-target')) || 0;
+      // clamp 0-100
+      if (v < 0) v = 0; if (v > 100) v = 100;
+      bar.style.height = v + '%';
+    });
+    root.removeAttribute('data-animate');
+  }
+
+  function countUp () {
+    if (!numberEl) return;
+    var raw    = numberEl.getAttribute('data-target') || '';
+    var match  = raw.match(/-?\d+(\.\d+)?/);
+    if (!match) return;
+    var target = parseFloat(match[0]);
+    if (isNaN(target)) return;
+    var prefix = raw.slice(0, match.index);
+    var suffix = raw.slice(match.index + match[0].length);
+    var decimals = (match[0].split('.')[1] || '').length;
+
+    if (reduce) {
+      numberEl.textContent = raw;
+      return;
+    }
+
+    var start    = performance.now();
+    var duration = 1200;
+
+    function frame (now) {
+      var t = Math.min(1, (now - start) / duration);
+      // easeOutCubic
+      var eased = 1 - Math.pow(1 - t, 3);
+      var current = (target * eased).toFixed(decimals);
+      numberEl.textContent = prefix + current + suffix;
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    numberEl.textContent = prefix + (0).toFixed(decimals) + suffix;
+    requestAnimationFrame(frame);
+  }
+
+  function reveal () {
+    // Reflow before setting heights so the transition kicks in.
+    void root.offsetWidth;
+    paintBars();
+    countUp();
+  }
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    reveal();
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        reveal();
+        io.disconnect();
+      }
+    });
+  }, { threshold: 0.25 });
+
+  io.observe(root);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Stat Chart",
+  "settings": [
+    { "type": "header", "content": "Headline" },
+    { "type": "text",  "id": "headline_number",        "label": "Number",            "default": "2.3" },
+    { "type": "range", "id": "headline_number_size",   "label": "Number size",       "min": 32, "max": 120, "step": 2, "unit": "px", "default": 72 },
+    { "type": "color", "id": "headline_number_color",  "label": "Number color",      "default": "#000000" },
+    { "type": "text",  "id": "headline_text",          "label": "Headline text",     "default": "Better Hydration" },
+    { "type": "range", "id": "headline_text_size",     "label": "Headline size",     "min": 12, "max": 48, "step": 1, "unit": "px", "default": 24 },
+    { "type": "color", "id": "headline_text_color",    "label": "Headline color",    "default": "#000000" },
+    { "type": "text",  "id": "subtitle_text",          "label": "Subtitle",          "default": "vs. water alone *" },
+    { "type": "range", "id": "subtitle_size",          "label": "Subtitle size",     "min": 10, "max": 24, "step": 1, "unit": "px", "default": 14 },
+    { "type": "color", "id": "subtitle_color",         "label": "Subtitle color",    "default": "#666666" },
+    {
+      "type": "select", "id": "text_alignment", "label": "Text alignment", "default": "center",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right" }
+      ]
+    },
+
+    { "type": "header", "content": "Bar 1" },
+    { "type": "text",  "id": "bar1_label", "label": "Label", "default": "Water" },
+    { "type": "range", "id": "bar1_value", "label": "Value", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 38 },
+    { "type": "color", "id": "bar1_color", "label": "Color", "default": "#1498b5" },
+
+    { "type": "header", "content": "Bar 2" },
+    { "type": "text",  "id": "bar2_label", "label": "Label", "default": "FORTIFIED" },
+    { "type": "range", "id": "bar2_value", "label": "Value", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 93 },
+    { "type": "color", "id": "bar2_color", "label": "Color", "default": "#000000" },
+
+    { "type": "header", "content": "Chart style" },
+    { "type": "range", "id": "bar_width",         "label": "Bar width",        "min": 40, "max": 200, "step": 4, "unit": "px", "default": 100 },
+    { "type": "range", "id": "bar_gap",           "label": "Bar spacing",      "min": 8,  "max": 120, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "bar_border_radius", "label": "Bar corner radius","min": 0,  "max": 30,  "step": 1, "unit": "px", "default": 8 },
+    { "type": "range", "id": "bar_label_size",    "label": "Label size",       "min": 10, "max": 24,  "step": 1, "unit": "px", "default": 14 },
+    { "type": "color", "id": "bar_label_color",   "label": "Label color",      "default": "#000000" },
+    { "type": "color", "id": "grid_line_color",   "label": "Grid line color",  "default": "#e0e0e0" },
+    { "type": "color", "id": "scale_label_color", "label": "Scale label color","default": "#666666" },
+
+    { "type": "header", "content": "Container" },
+    { "type": "color", "id": "background_color",        "label": "Background",        "default": "#f9f9fa" },
+    { "type": "range", "id": "border_radius",           "label": "Corner radius",     "min": 0, "max": 40, "step": 1, "unit": "px", "default": 16 },
+    { "type": "range", "id": "padding",                 "label": "Padding",           "min": 0, "max": 80, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "desktop_width_percent",   "label": "Desktop width",     "min": 30, "max": 100, "step": 5, "unit": "%", "default": 100 }
+  ],
+  "presets": [
+    { "name": "Stat Chart" }
+  ]
+}
+{% endschema %}
