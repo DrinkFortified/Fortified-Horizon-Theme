@@ -172,51 +172,57 @@
 
 <script>
   (function () {
-    var section = document.getElementById({{ root | json }});
-    if (!section) return;
+    var ROOT_ID = {{ root | json }};
+
+    function activate (panels, buttons, btn) {
+      var target = btn.getAttribute('data-tab-target');
+      buttons.forEach(function (b) {
+        var on = b === btn;
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+        b.setAttribute('tabindex', on ? '0' : '-1');
+      });
+      panels.forEach(function (p) {
+        p.classList.toggle('is-active', p.getAttribute('data-panel-id') === target);
+      });
+    }
 
     function init () {
-      var buttons = Array.prototype.slice.call(section.querySelectorAll('[role="tab"]'));
-      // Query by class (more stable than role across Shopify's block wrapping)
-      var panels  = Array.prototype.slice.call(section.querySelectorAll('.ft-tabs__panel'));
+      // Re-query the section each time so we never hold a stale/null ref.
+      var section = document.getElementById(ROOT_ID);
+      if (!section) return;
 
+      var buttons = Array.prototype.slice.call(section.querySelectorAll('[role="tab"]'));
+      var panels  = Array.prototype.slice.call(section.querySelectorAll('.ft-tabs__panel'));
       if (!buttons.length || !panels.length) return;
 
-      // Ensure exactly one panel starts active.
-      var hasActive = panels.some(function (p) { return p.classList.contains('is-active'); });
-      if (!hasActive) panels[0].classList.add('is-active');
-
-      function activate (btn) {
-        var target = btn.getAttribute('data-tab-target');
-        buttons.forEach(function (b) {
-          var on = b === btn;
-          b.setAttribute('aria-selected', on ? 'true' : 'false');
-          b.setAttribute('tabindex', on ? '0' : '-1');
-        });
-        panels.forEach(function (p) {
-          p.classList.toggle('is-active', p.getAttribute('data-panel-id') === target);
-        });
-      }
+      // Make sure exactly one panel is visible on load.
+      var activeIdx = -1;
+      panels.forEach(function (p, i) { if (p.classList.contains('is-active')) activeIdx = i; });
+      if (activeIdx === -1) { panels[0].classList.add('is-active'); }
 
       buttons.forEach(function (btn) {
-        // Avoid double-binding if init runs twice
-        if (btn.dataset.tabsBound === '1') return;
+        if (btn.dataset.tabsBound === '1') return;  // avoid double-binding
         btn.dataset.tabsBound = '1';
-        btn.addEventListener('click', function () { activate(btn); });
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          activate(panels, buttons, btn);
+        });
       });
 
-      section.addEventListener('keydown', function (e) {
-        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-        var current = document.activeElement;
-        var i = buttons.indexOf(current);
-        if (i === -1) return;
-        e.preventDefault();
-        var next = e.key === 'ArrowRight'
-          ? (i + 1) % buttons.length
-          : (i - 1 + buttons.length) % buttons.length;
-        buttons[next].focus();
-        activate(buttons[next]);
-      });
+      if (section.dataset.keysBound !== '1') {
+        section.dataset.keysBound = '1';
+        section.addEventListener('keydown', function (e) {
+          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+          var i = buttons.indexOf(document.activeElement);
+          if (i === -1) return;
+          e.preventDefault();
+          var next = e.key === 'ArrowRight'
+            ? (i + 1) % buttons.length
+            : (i - 1 + buttons.length) % buttons.length;
+          buttons[next].focus();
+          activate(panels, buttons, buttons[next]);
+        });
+      }
     }
 
     if (document.readyState === 'loading') {
@@ -225,10 +231,9 @@
       init();
     }
 
-    // Re-init when Shopify re-renders the section in the editor
-    document.addEventListener('shopify:section:load', function (e) {
-      if (e.target && e.target.contains(section)) init();
-    });
+    // Re-init when Shopify re-renders this (or a parent) section in the editor.
+    document.addEventListener('shopify:section:load', init);
+    document.addEventListener('shopify:block:select', init);
   })();
 </script>
 
