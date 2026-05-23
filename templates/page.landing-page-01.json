@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -46,40 +55,9 @@
         "padding-block-start": 40,
         "padding-block-end": 80
       }
-    },
-    "landing_hero_main": {
-      "type": "fortified-landing-hero",
-      "name": "LP-01 Landing Hero",
-      "blocks": {
-        "benefit_a": {
-          "type": "benefit",
-          "settings": {
-            "text": "Premium Hydration + Performance"
-          }
-        },
-        "benefit_b": {
-          "type": "benefit",
-          "settings": {
-            "text": "Zero sugar. Zero crash."
-          }
-        },
-        "benefit_c": {
-          "type": "benefit",
-          "settings": {
-            "text": "Scientifically backed ingredients"
-          }
-        }
-      },
-      "block_order": [
-        "benefit_a",
-        "benefit_b",
-        "benefit_c"
-      ],
-      "settings": {}
     }
   },
   "order": [
-    "landing_hero_main",
     "main"
   ]
 }
