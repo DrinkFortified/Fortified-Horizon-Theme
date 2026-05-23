@@ -111,10 +111,12 @@
   .{{ root }}__panels {
     text-align: left;
   }
-  .{{ root }}__panels > [role="tabpanel"] {
+  /* Use descendant + class selectors so Shopify's per-block wrapper
+     div doesn't break the show/hide rules. */
+  .{{ root }} .ft-tabs__panel {
     display: none;
   }
-  .{{ root }}__panels > [role="tabpanel"].is-active {
+  .{{ root }} .ft-tabs__panel.is-active {
     display: block;
   }
 
@@ -175,7 +177,8 @@
 
     function init () {
       var buttons = Array.prototype.slice.call(section.querySelectorAll('[role="tab"]'));
-      var panels  = Array.prototype.slice.call(section.querySelectorAll('[role="tabpanel"]'));
+      // Query by class (more stable than role across Shopify's block wrapping)
+      var panels  = Array.prototype.slice.call(section.querySelectorAll('.ft-tabs__panel'));
 
       if (!buttons.length || !panels.length) return;
 
