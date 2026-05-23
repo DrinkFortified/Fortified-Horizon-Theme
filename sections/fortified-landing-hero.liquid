@@ -1,0 +1,332 @@
+{% comment %}
+  Fortified Landing Hero
+  ----------------------------------------------------------------------
+  Full-bleed image hero with text content on the left.
+  Figma node 52:1624.
+
+  Structure:
+  - Background image (rounded 20px corners, object-position adjustable)
+  - Left content column:
+    - Two-line heading. One word in the heading can render in the
+      accent color (set via highlight_word).
+    - Benefit rows (icon + text) — added as section blocks.
+    - Footnote text
+    - Full-width CTA button
+
+  Designed to drop into page.landing-page-01 as section 1.
+{% endcomment %}
+
+{% liquid
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'flh-' | append: sid
+  assign benefits = section.blocks | where: 'type', 'benefit'
+
+  assign h1 = section.settings.heading_line_1
+  assign h2 = section.settings.heading_line_2
+  assign hi = section.settings.highlight_word
+
+  if hi != blank and h2 contains hi
+    assign accent_open = '<span class="' | append: root | append: '__accent">'
+    assign h2_rendered = h2 | replace: hi, accent_open | append: hi | append: '</span>'
+  else
+    assign h2_rendered = h2
+  endif
+%}
+
+<style>
+  .{{ root }} {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    max-width: {{ section.settings.max_width }}px;
+    padding: {{ section.settings.outer_padding_v }}px {{ section.settings.outer_padding_h }}px;
+    box-sizing: border-box;
+  }
+  .{{ root }}__frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ section.settings.corner_radius }}px;
+    min-height: {{ section.settings.min_height }}px;
+    display: flex;
+    align-items: stretch;
+  }
+  .{{ root }}__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.image_position }};
+    z-index: 0;
+  }
+  .{{ root }}__bg--placeholder {
+    background: linear-gradient(135deg, #e5e7eb, #cbd5e1);
+  }
+
+  .{{ root }}__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: {{ section.settings.content_gap }}px;
+    padding: {{ section.settings.content_padding_v }}px {{ section.settings.content_padding_h }}px;
+    width: 100%;
+    max-width: {{ section.settings.content_max_width }}px;
+    align-items: flex-start;
+    color: {{ section.settings.text_color }};
+    font-family: var(--font-body--family, inherit);
+  }
+
+  .{{ root }}__heading {
+    font-family: var(--font-heading--family, inherit);
+    font-size: clamp(40px, 6vw, {{ section.settings.heading_size }}px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    color: {{ section.settings.heading_color }};
+    margin: 0;
+    width: {{ section.settings.heading_width }}px;
+    max-width: 100%;
+  }
+  .{{ root }}__accent {
+    color: {{ section.settings.accent_color }};
+  }
+
+  .{{ root }}__benefits {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: {{ section.settings.benefit_gap }}px;
+    width: {{ section.settings.benefit_width }}px;
+    max-width: 100%;
+  }
+  .{{ root }}__benefit {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .{{ root }}__benefit-icon {
+    width: {{ section.settings.benefit_icon_size }}px;
+    height: {{ section.settings.benefit_icon_size }}px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: {{ section.settings.benefit_icon_bg }};
+    color: {{ section.settings.benefit_icon_color }};
+    overflow: hidden;
+  }
+  .{{ root }}__benefit-icon img,
+  .{{ root }}__benefit-icon svg {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+  }
+  .{{ root }}__benefit-text {
+    font-size: {{ section.settings.benefit_text_size }}px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: {{ section.settings.benefit_text_color }};
+    text-transform: capitalize;
+    margin: 0;
+  }
+
+  .{{ root }}__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: {{ section.settings.cta_width }}px;
+    max-width: 100%;
+  }
+  .{{ root }}__footnote {
+    font-size: {{ section.settings.footnote_size }}px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: {{ section.settings.footnote_color }};
+    margin: 0;
+    text-transform: capitalize;
+  }
+  .{{ root }}__cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    width: 100%;
+    padding: 18px 32px;
+    background: {{ section.settings.cta_bg }};
+    color: {{ section.settings.cta_text_color }};
+    border: 1.5px solid {{ section.settings.cta_bg }};
+    border-radius: {{ section.settings.cta_radius }}px;
+    font-family: var(--font-heading--family, inherit);
+    font-size: {{ section.settings.cta_size }}px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .{{ root }}__cta:hover { opacity: 0.9; }
+
+  @media (max-width: 900px) {
+    .{{ root }}__content { padding: 40px 24px; max-width: 100%; }
+    .{{ root }}__heading { width: 100%; }
+    .{{ root }}__benefits, .{{ root }}__footer { width: 100%; }
+  }
+  @media (max-width: 600px) {
+    .{{ root }} { padding: 16px; }
+    .{{ root }}__frame { min-height: {{ section.settings.min_height_mobile }}px; }
+    .{{ root }}__heading { font-size: 38px; }
+    .{{ root }}__benefit-text { font-size: 16px; }
+    .{{ root }}__cta { font-size: 18px; height: 60px; }
+  }
+</style>
+
+<section class="{{ root }}" {{ section.shopify_attributes }}>
+  <div class="{{ root }}__frame">
+    {% if section.settings.background_image != blank %}
+      {{ section.settings.background_image | image_url: width: 2880 | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          class: root | append: '__bg',
+          alt: section.settings.heading_line_1,
+          widths: '720, 1080, 1440, 2160, 2880',
+          sizes: '100vw' }}
+    {% else %}
+      <div class="{{ root }}__bg {{ root }}__bg--placeholder"></div>
+    {% endif %}
+
+    <div class="{{ root }}__content">
+      {% if h1 != blank or h2 != blank %}
+        <h1 class="{{ root }}__heading">
+          {% if h1 != blank %}{{ h1 }}{% endif %}
+          {% if h1 != blank and h2 != blank %}<br>{% endif %}
+          {% if h2 != blank %}{{ h2_rendered }}{% endif %}
+        </h1>
+      {% endif %}
+
+      {% if benefits.size > 0 %}
+        <ul class="{{ root }}__benefits">
+          {% for block in benefits %}
+            <li class="{{ root }}__benefit" {{ block.shopify_attributes }}>
+              <span class="{{ root }}__benefit-icon" aria-hidden="true">
+                {% if block.settings.icon != blank %}
+                  {{ block.settings.icon | image_url: width: 120 | image_tag:
+                      loading: 'lazy', alt: '', widths: '52, 104, 120' }}
+                {% else %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 8"/></svg>
+                {% endif %}
+              </span>
+              <p class="{{ root }}__benefit-text">{{ block.settings.text }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if section.settings.footnote != blank or section.settings.cta_label != blank %}
+        <div class="{{ root }}__footer">
+          {% if section.settings.footnote != blank %}
+            <p class="{{ root }}__footnote">{{ section.settings.footnote }}</p>
+          {% endif %}
+          {% if section.settings.cta_label != blank %}
+            <a class="{{ root }}__cta" href="{{ section.settings.cta_url | default: '#' }}">
+              {{ section.settings.cta_label }}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Landing Hero",
+  "tag": "section",
+  "class": "fortified-landing-hero-section",
+  "settings": [
+    { "type": "header", "content": "Background" },
+    { "type": "image_picker", "id": "background_image", "label": "Image" },
+    {
+      "type": "select", "id": "image_position", "label": "Image focal point", "default": "right center",
+      "options": [
+        { "value": "left center",   "label": "Left center" },
+        { "value": "center center", "label": "Center" },
+        { "value": "right center",  "label": "Right center" },
+        { "value": "center top",    "label": "Top center" },
+        { "value": "center bottom", "label": "Bottom center" }
+      ]
+    },
+
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "heading_line_1", "label": "Line 1", "default": "try 3 sticks" },
+    { "type": "text", "id": "heading_line_2", "label": "Line 2", "default": "for FREE*" },
+    { "type": "text", "id": "highlight_word", "label": "Highlight word (in line 2)", "default": "FREE*", "info": "This exact substring of Line 2 is rendered in the accent color." },
+    { "type": "range", "id": "heading_size",  "label": "Max heading size (px)", "min": 40, "max": 120, "step": 2, "default": 72 },
+    { "type": "range", "id": "heading_width", "label": "Heading max width (px)", "min": 280, "max": 700, "step": 10, "default": 430 },
+
+    { "type": "header", "content": "Benefit rows" },
+    { "type": "range", "id": "benefit_gap",        "label": "Gap between rows (px)",  "min": 4,  "max": 32, "step": 2, "default": 16 },
+    { "type": "range", "id": "benefit_width",      "label": "Benefit column width (px)", "min": 280, "max": 600, "step": 2, "default": 394 },
+    { "type": "range", "id": "benefit_icon_size",  "label": "Icon size (px)",   "min": 24, "max": 80, "step": 2, "default": 52 },
+    { "type": "color", "id": "benefit_icon_bg",    "label": "Icon background",  "default": "#1FA8A1" },
+    { "type": "color", "id": "benefit_icon_color", "label": "Icon color",       "default": "#FFFFFF" },
+    { "type": "range", "id": "benefit_text_size",  "label": "Benefit text (px)","min": 14, "max": 32, "step": 1, "default": 24 },
+    { "type": "color", "id": "benefit_text_color", "label": "Benefit text color","default": "#121212" },
+
+    { "type": "header", "content": "CTA + footnote" },
+    { "type": "text",  "id": "footnote",        "label": "Footnote",         "default": "* Just pay $1.99 for shipping" },
+    { "type": "range", "id": "footnote_size",   "label": "Footnote size (px)","min": 12, "max": 26, "step": 1, "default": 20 },
+    { "type": "color", "id": "footnote_color",  "label": "Footnote color",   "default": "#121212" },
+    { "type": "text",  "id": "cta_label",       "label": "Button label",     "default": "TRY 3 STICKS FOR $1.99" },
+    { "type": "url",   "id": "cta_url",         "label": "Button URL" },
+    { "type": "range", "id": "cta_size",        "label": "Button text size", "min": 16, "max": 32, "step": 1, "default": 26 },
+    { "type": "range", "id": "cta_width",       "label": "CTA column width (px)", "min": 280, "max": 600, "step": 2, "default": 394 },
+    { "type": "range", "id": "cta_radius",      "label": "Button radius (px)", "min": 0, "max": 40, "step": 1, "default": 8 },
+    { "type": "color", "id": "cta_bg",          "label": "Button background","default": "#000000" },
+    { "type": "color", "id": "cta_text_color",  "label": "Button text",      "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "accent_color",  "label": "Highlight accent",       "default": "#1498B5" },
+    { "type": "color", "id": "heading_color", "label": "Heading color",          "default": "#0A0A0A" },
+    { "type": "color", "id": "text_color",    "label": "Default text color",     "default": "#0A0A0A" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width",          "label": "Section max width (px)",     "min": 1000, "max": 1800, "step": 20, "default": 1440 },
+    { "type": "range", "id": "outer_padding_v",    "label": "Outer padding vertical (px)","min": 0,    "max": 60,   "step": 4,  "default": 0 },
+    { "type": "range", "id": "outer_padding_h",    "label": "Outer padding horizontal (px)","min": 0,  "max": 80,   "step": 4,  "default": 40 },
+    { "type": "range", "id": "min_height",         "label": "Min height desktop (px)",    "min": 400,  "max": 900,  "step": 2, "default": 662 },
+    { "type": "range", "id": "min_height_mobile",  "label": "Min height mobile (px)",     "min": 300,  "max": 700,  "step": 10, "default": 500 },
+    { "type": "range", "id": "corner_radius",      "label": "Corner radius (px)",         "min": 0,    "max": 40,   "step": 1,  "default": 20 },
+    { "type": "range", "id": "content_max_width",  "label": "Content column max (px)",    "min": 320,  "max": 700,  "step": 10, "default": 440 },
+    { "type": "range", "id": "content_padding_v",  "label": "Content padding vertical",   "min": 24,   "max": 120,  "step": 2,  "default": 62 },
+    { "type": "range", "id": "content_padding_h",  "label": "Content padding horizontal", "min": 0,    "max": 80,   "step": 4,  "default": 0 },
+    { "type": "range", "id": "content_gap",        "label": "Content vertical gap (px)",  "min": 16,   "max": 80,   "step": 2,  "default": 42 }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit row",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon (optional)" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Premium Hydration + Performance" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Landing Hero",
+      "blocks": [
+        { "type": "benefit", "settings": { "text": "Premium Hydration + Performance" } },
+        { "type": "benefit", "settings": { "text": "Zero sugar. Zero crash." } },
+        { "type": "benefit", "settings": { "text": "Scientifically backed ingredients" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
