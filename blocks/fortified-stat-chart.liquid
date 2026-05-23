@@ -79,6 +79,33 @@
     gap: var(--fsc-gap);
   }
 
+  /* ── Equal-width fix ──────────────────────────────────────────────
+     This card is wrapped by Horizon's group block:
+       .group-block--width-fill  (the flex item, gets `flex: 1`)
+         > .group-block-content.layout-panel-flex--column
+             > .{{ root }}  (this card)
+     The flex item that's actually distributed is the WRAPPER, not this
+     card. `flex: 1` resolves to `flex: 1 1 0%` but the wrapper keeps the
+     default `min-width: auto`, so its min-content width (driven by this
+     card's fixed-px bars + Y-axis padding + card padding) sets a floor it
+     refuses to shrink below. A sibling card with small content (the
+     checkmark list) shrinks freely, so the columns end up unequal.
+     Setting min-width:0 on the wrapper + its content lets the flex
+     algorithm distribute all columns to an equal 1/3 share. */
+  .group-block--width-fill:has(> .group-block-content > .{{ root }}),
+  .group-block--width-fill:has(> .group-block-content > .{{ root }}) > .group-block-content {
+    min-width: 0;
+  }
+
+  /* Let the card's own internal flex children shrink too, so the card's
+     min-content width isn't pinned wide by the bar/label rows. */
+  .{{ root }} .fsc-chart,
+  .{{ root }} .fsc-chart-wrap,
+  .{{ root }} .fsc-bars,
+  .{{ root }} .fsc-lbls {
+    min-width: 0;
+  }
+
   /* ── Typography (per-element, generated from schema settings) ── */
   .{{ root }} .fsc-num {
     font-family: {{ block.settings.num_font }};

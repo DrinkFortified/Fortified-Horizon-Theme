@@ -16,6 +16,21 @@
 %}
 
 <style>
+  /* ── Equal-width fix ──────────────────────────────────────────────
+     This card is wrapped by Horizon's group block:
+       .group-block--width-fill  (the flex item, gets `flex: 1`)
+         > .group-block-content
+             > .{{ root }}  (this card)
+     The distributed flex item is the WRAPPER, whose default
+     `min-width: auto` lets a sibling card with wide content (the stat
+     chart) keep this column narrower than its 1/3 share. Force the
+     wrapper + its content to min-width:0 so every column gets an equal
+     share regardless of intrinsic content width. */
+  .group-block--width-fill:has(> .group-block-content > .{{ root }}),
+  .group-block--width-fill:has(> .group-block-content > .{{ root }}) > .group-block-content {
+    min-width: 0;
+  }
+
   .{{ root }} {
     /* Fill the column when this block sits inside a flex row.
        flex: 1 1 0 + min-width: 0 ensures equal share with sibling cards
