@@ -5,26 +5,59 @@
   rendered as one tab. The section auto-generates a button per tab.
 
   The first panel (or the one with start_active=true) is shown by
-  default. Clicking a button hides all panels and shows the matching
-  one (matched via block.id).
+  default. Selecting a tab shows the matching panel.
 
   Tab panels accept any theme block as their children — drop in native
   group/text/image blocks, or custom blocks (e.g. checkmark-list). So
   one panel can hold any composition the merchant builds.
 
-  No section-level CTA — add a native Button block inside a tab panel
-  or in a separate section below if you want a CTA.
+  IMPLEMENTATION — pure-CSS tabs (no JS required)
+  ----------------------------------------------------------------------
+  Switching is driven entirely by hidden radio inputs + the CSS
+  `:checked ~` sibling combinator, so it is immune to the JS-execution /
+  theme-editor-iframe timing issues that broke previous attempts.
+
+  Why the OLD approach failed: the panel block emitted an inline
+  `style="display: flex; ..."` on its root <div class="ft-tabs__panel">.
+  An inline `display:flex` ALWAYS beats a stylesheet rule, so the
+  `.ft-tabs__panel { display: none }` / `.is-active { display: block }`
+  rules could never hide/show anything — every panel stayed visible and
+  clicking a tab appeared to do nothing. (The JS index-matching itself
+  was fine; the CSS just couldn't take effect.)
+
+  DOM layout that makes the pure-CSS selectors work:
+    .{root}__panels
+      > input.{root}__radio  (one per panel, in block order; first checked)
+      > .{root}__tabs > label.{root}__btn ...
+      > {% content_for 'blocks' %}  -> N sibling <div class="ft-tabs__panel">
+  Because the panels are DIRECT children of .{root}__panels (custom
+  section-level blocks render their own root element with NO Shopify
+  wrapper), `:nth-of-type` against `.ft-tabs__panel` lines up 1:1 with
+  the radios. Radio #N checked -> show the Nth panel.
+
+  No-JS spacing detail: each panel's flex/gap/padding is applied via the
+  stylesheet (NOT inline) so the show/hide rule can win.
 
   Accessibility:
-    - Buttons have role="tab" + aria-selected
-    - Panels have role="tabpanel" + aria-labelledby
-    - Keyboard arrow navigation between tabs
+    - Radios are visually hidden but focusable; labels are the tabs.
+    - role="tab"/role="tablist"/role="tabpanel" preserved.
 {% endcomment %}
 
 {% liquid
   assign sid = section.id | replace: '_', '' | downcase
   assign root = 'ft-tabs-' | append: sid
   assign panels = section.blocks | where: 'type', 'fortified-tab-panel'
+
+  # Determine which panel index should start active (first with start_active,
+  # else the first panel).
+  assign active_index = 0
+  assign found_active = false
+  for block in panels
+    if block.settings.start_active and found_active == false
+      assign active_index = forloop.index0
+      assign found_active = true
+    endif
+  endfor
 %}
 
 <style>
@@ -72,6 +105,20 @@
     margin: 0;
   }
 
+  /* Visually-hidden radio inputs that drive the tab state. Kept in the
+     DOM (not display:none) so they stay focusable for keyboard users. */
+  .{{ root }}__radio {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   /* Tab button row */
   .{{ root }}__tabs {
     display: flex;
@@ -96,29 +143,63 @@
     border-bottom: 2px solid transparent;
     cursor: pointer;
     transition: color 0.18s, border-color 0.18s;
-  }
-  .{{ root }}__btn[aria-selected="true"] {
-    color: {{ section.settings.accent_color }};
-    border-bottom-color: {{ section.settings.accent_color }};
-  }
-  .{{ root }}__btn:focus-visible {
-    outline: 2px solid {{ section.settings.accent_color }};
-    outline-offset: 4px;
-    border-radius: 2px;
+    display: inline-block;
+    user-select: none;
   }
 
   /* Panels area */
   .{{ root }}__panels {
     text-align: left;
   }
-  /* Use descendant + class selectors so Shopify's per-block wrapper
-     div doesn't break the show/hide rules. */
+
+  /* ── Panel base layout (applied here, NOT inline, so the show/hide
+     rules below can actually win). Each panel sets its own gap/padding
+     via CSS variables emitted on the panel element. ── */
   .{{ root }} .ft-tabs__panel {
     display: none;
+    flex-direction: column;
+    gap: var(--ftp-gap, 24px);
+    padding: var(--ftp-pad-top, 16px) 0 var(--ftp-pad-bottom, 16px);
   }
-  .{{ root }} .ft-tabs__panel.is-active {
-    display: block;
+
+  /* ── Pure-CSS switching ──────────────────────────────────────────
+     Radio #N checked -> activate label #N and show panel #N.
+     The radios, the .__tabs label row, and the panels are all
+     descendants of .__panels, so the `~` sibling combinator reaches
+     both the matching label and the matching panel.
+
+     We match panels by an explicit [data-ftp-index] attribute rather
+     than :nth-of-type, because the .__tabs <div> is also a sibling
+     <div> of the panels and would throw nth-of-type counting off.
+     Attribute matching is exact and order-independent. */
+  {% for block in panels %}
+    {% assign n = forloop.index %}
+    /* Active label highlight */
+    #{{ root }}-radio-{{ n }}:checked ~ .{{ root }}__tabs .{{ root }}__btn--{{ n }} {
+      color: {{ section.settings.accent_color }};
+      border-bottom-color: {{ section.settings.accent_color }};
+    }
+    /* Show the matching panel */
+    #{{ root }}-radio-{{ n }}:checked ~ .ft-tabs__panel[data-ftp-index="{{ n }}"] {
+      display: flex;
+    }
+  {% endfor %}
+
+  /* Focus ring on the label when its radio is focused via keyboard */
+  .{{ root }}__radio:focus-visible ~ .{{ root }}__tabs label[for]:hover,
+  .{{ root }}__btn:focus-visible {
+    outline: 2px solid {{ section.settings.accent_color }};
+    outline-offset: 4px;
+    border-radius: 2px;
   }
+  {% for block in panels %}
+    {% assign n = forloop.index %}
+    #{{ root }}-radio-{{ n }}:focus-visible ~ .{{ root }}__tabs .{{ root }}__btn--{{ n }} {
+      outline: 2px solid {{ section.settings.accent_color }};
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+  {% endfor %}
 
   @media (max-width: 600px) {
     .{{ root }}__tabs { gap: 24px; }
@@ -145,108 +226,43 @@
       <p class="{{ root }}__subtitle">{{ section.settings.subtitle }}</p>
     {% endif %}
 
-    {% if panels.size > 0 %}
-      <div class="{{ root }}__tabs" role="tablist" aria-label="{{ section.settings.aria_label | default: 'Information tabs' }}">
-        {% for block in panels %}
-          <button
-            type="button"
-            class="{{ root }}__btn"
-            role="tab"
-            id="{{ root }}-btn-{{ block.id }}"
-            data-tab-target="{{ block.id }}"
-            data-tab-index="{{ forloop.index0 }}"
-            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-            aria-controls="{{ root }}-panel-{{ block.id }}"
-            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
-          >
-            {{ block.settings.tab_label | default: 'Tab' }}
-          </button>
-        {% endfor %}
-      </div>
-    {% endif %}
+    {%- comment -%}
+      Radios, the tab/label row, and the panels are ALL direct children of
+      .__panels so the `:checked ~` sibling combinator can reach the matching
+      label and panel. The radio for the active index is `checked` so the
+      correct panel shows with zero JS. Labels point at their radio via `for`.
+    {%- endcomment -%}
+    <div class="{{ root }}__panels" role="tablist" aria-label="{{ section.settings.aria_label | default: 'Information tabs' }}">
 
-    <div class="{{ root }}__panels">
+      {%- comment -%} Hidden radios — one per panel, first/active one checked. {%- endcomment -%}
+      {% for block in panels %}
+        <input
+          type="radio"
+          class="{{ root }}__radio"
+          name="{{ root }}__state"
+          id="{{ root }}-radio-{{ forloop.index }}"
+          {% if forloop.index0 == active_index %}checked{% endif %}
+        >
+      {% endfor %}
+
+      {% if panels.size > 0 %}
+        <div class="{{ root }}__tabs">
+          {% for block in panels %}
+            <label
+              class="{{ root }}__btn {{ root }}__btn--{{ forloop.index }}"
+              for="{{ root }}-radio-{{ forloop.index }}"
+              role="tab"
+            >
+              {{ block.settings.tab_label | default: 'Tab' }}
+            </label>
+          {% endfor %}
+        </div>
+      {% endif %}
+
       {% content_for 'blocks' %}
     </div>
   </div>
 </section>
-
-<script>
-  (function () {
-    var ROOT_ID = {{ root | json }};
-
-    // Match buttons to panels by ARRAY INDEX (DOM order), NOT by block.id.
-    // Both the buttons loop (section.blocks where type == fortified-tab-panel)
-    // and {% content_for 'blocks' %} emit their items in the same block order,
-    // so buttons[i] always controls panels[i]. This sidesteps any difference in
-    // how block.id is rendered across the section vs. block contexts.
-    function activate (panels, buttons, index) {
-      buttons.forEach(function (b, i) {
-        var on = i === index;
-        b.setAttribute('aria-selected', on ? 'true' : 'false');
-        b.setAttribute('tabindex', on ? '0' : '-1');
-      });
-      panels.forEach(function (p, i) {
-        p.classList.toggle('is-active', i === index);
-      });
-    }
-
-    function init () {
-      // Re-query the section each time so we never hold a stale/null ref.
-      var section = document.getElementById(ROOT_ID);
-      if (!section) return;
-
-      var buttons = Array.prototype.slice.call(section.querySelectorAll('[role="tab"]'));
-      // Scope the panel query to THIS section's panels area so a nested tabs
-      // section can never capture a descendant section's panels.
-      var panelsArea = section.querySelector('.' + ROOT_ID + '__panels') || section;
-      var panels = Array.prototype.slice.call(panelsArea.querySelectorAll('.ft-tabs__panel'));
-      if (!buttons.length || !panels.length) return;
-
-      // Determine which panel should start active. Prefer a panel already
-      // flagged .is-active (start_active checkbox); otherwise default to 0.
-      var activeIdx = -1;
-      panels.forEach(function (p, i) { if (p.classList.contains('is-active')) activeIdx = i; });
-      if (activeIdx === -1) activeIdx = 0;
-      // Normalize so exactly one panel/button is active and they agree.
-      activate(panels, buttons, activeIdx);
-
-      buttons.forEach(function (btn, i) {
-        if (btn.dataset.tabsBound === '1') return;  // avoid double-binding
-        btn.dataset.tabsBound = '1';
-        btn.addEventListener('click', function (e) {
-          e.preventDefault();
-          activate(panels, buttons, i);
-        });
-      });
-
-      if (section.dataset.keysBound !== '1') {
-        section.dataset.keysBound = '1';
-        section.addEventListener('keydown', function (e) {
-          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-          var i = buttons.indexOf(document.activeElement);
-          if (i === -1) return;
-          e.preventDefault();
-          var next = e.key === 'ArrowRight'
-            ? (i + 1) % buttons.length
-            : (i - 1 + buttons.length) % buttons.length;
-          buttons[next].focus();
-          activate(panels, buttons, next);
-        });
-      }
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-
-    // Re-init when Shopify re-renders this (or a parent) section in the editor.
-    document.addEventListener('shopify:section:load', init);
-    document.addEventListener('shopify:block:select', init);
-  })();
-</script>
 
 {% schema %}
 {
