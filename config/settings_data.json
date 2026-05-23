@@ -97,6 +97,24 @@
           "button_vertical_position": "lowest",
           "greeting_message": ""
         }
+      },
+      "2567389343055140935": {
+        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      },
+      "2200952712151285029": {
+        "type": "shopify://apps/microsoft-clarity/blocks/brandAgents_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      },
+      "9880403401104739693": {
+        "type": "shopify://apps/sparklayer-b2b-wholesale/blocks/sparklayer_core_script/019bbd73-3010-74e2-b9bd-86c9cb3ee550",
+        "disabled": false,
+        "settings": {
+          "css-variables": "",
+          "css-display-none": ""
+        }
       }
     },
     "color_schemes": {
