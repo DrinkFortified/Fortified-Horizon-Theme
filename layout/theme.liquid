@@ -27,7 +27,7 @@
     {%- render 'theme-editor' -%}
   {% endif %}
 
-  {# Fortified overrides — must come AFTER Horizon's font/variable renders so :root wins the cascade #}
+  {%- comment -%} Fortified overrides — must come AFTER Horizon's font/variable renders so :root wins the cascade {%- endcomment -%}
   <style>
     @font-face {
       font-family: "Brother 1816";
