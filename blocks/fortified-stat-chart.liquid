@@ -22,6 +22,22 @@
   assign id = block.id | replace: '_', '' | downcase
   assign root = 'fsc-' | append: id
 
+  # Canonical 4-way padding (Horizon standard IDs). Fall back to the legacy
+  # single `padding` on any side whose 4-way control is still 0, so existing
+  # blocks that only saved `padding` keep their look.
+  assign pad_legacy = block.settings.padding
+  assign pad_top = block.settings['padding-block-start']
+  assign pad_bottom = block.settings['padding-block-end']
+  assign pad_left = block.settings['padding-inline-start']
+  assign pad_right = block.settings['padding-inline-end']
+  assign pad_sum = pad_top | plus: pad_bottom | plus: pad_left | plus: pad_right
+  if pad_sum == 0
+    assign pad_top = pad_legacy
+    assign pad_bottom = pad_legacy
+    assign pad_left = pad_legacy
+    assign pad_right = pad_legacy
+  endif
+
   assign hn   = block.settings.headline_number
   assign ht   = block.settings.headline_text
   assign sub  = block.settings.subtitle_text
@@ -51,7 +67,7 @@
     --fsc-border:    {{ block.settings.border_color }};
     --fsc-border-w:  {{ block.settings.border_width }}px;
     --fsc-radius:    {{ block.settings.border_radius }}px;
-    --fsc-pad:       {{ block.settings.padding }}px;
+    --fsc-pad:       {{ pad_top }}px {{ pad_right }}px {{ pad_bottom }}px {{ pad_left }}px;
     --fsc-gap:       {{ block.settings.section_gap }}px;
 
     --fsc-grid:      {{ block.settings.grid_line_color }};
@@ -80,21 +96,34 @@
   }
 
   /* ── Equal-width fix ──────────────────────────────────────────────
-     This card is wrapped by Horizon's group block:
-       .group-block--width-fill  (the flex item, gets `flex: 1`)
-         > .group-block-content.layout-panel-flex--column
-             > .{{ root }}  (this card)
-     The flex item that's actually distributed is the WRAPPER, not this
-     card. `flex: 1` resolves to `flex: 1 1 0%` but the wrapper keeps the
-     default `min-width: auto`, so its min-content width (driven by this
-     card's fixed-px bars + Y-axis padding + card padding) sets a floor it
-     refuses to shrink below. A sibling card with small content (the
-     checkmark list) shrinks freely, so the columns end up unequal.
-     Setting min-width:0 on the wrapper + its content lets the flex
-     algorithm distribute all columns to an equal 1/3 share. */
+     VERIFIED against snippets/group.liquid, which emits for every group
+     block:
+         <div class="group-block group-block--width-fill ...">   (flex item)
+           <div class="group-block-content layout-panel-flex layout-panel-flex--column ...">
+             {{ children }}   <-- this card, .{{ root }}
+     and base.css line 3824:
+         .layout-panel-flex--row > .group-block--width-fill { flex: 1; }
+     So the element the parent row distributes is the WRAPPER
+     (.group-block--width-fill), NOT this card. `flex: 1` == `flex: 1 1 0%`,
+     but flex items keep `min-width: auto`, whose min-content width here is
+     driven by this card's fixed-px bars (bar_width + bar_gap + Y-axis pad +
+     card padding ~ 280px+). That sets a floor the wrapper refuses to shrink
+     below, while a lighter sibling (the checkmark list) shrinks freely — so
+     columns end up unequal.
+
+     Fix: clear the min-width floor on (a) the wrapper, (b) its content
+     panel, AND (c) clear it on EVERY width-fill sibling in any row that
+     contains this card. (c) guarantees all three columns equalize even
+     though the lighter sibling cards don't emit their own rule for the
+     heavy card. */
   .group-block--width-fill:has(> .group-block-content > .{{ root }}),
   .group-block--width-fill:has(> .group-block-content > .{{ root }}) > .group-block-content {
     min-width: 0;
+  }
+  .layout-panel-flex--row:has(> .group-block--width-fill > .group-block-content > .{{ root }}) > .group-block--width-fill,
+  .layout-panel-flex--row:has(> .group-block--width-fill > .group-block-content > .{{ root }}) > .group-block--width-fill > .group-block-content {
+    min-width: 0;
+    flex-basis: 0;
   }
 
   /* Let the card's own internal flex children shrink too, so the card's
@@ -247,13 +276,22 @@
   }
 
   @media (max-width: 600px) {
-    .{{ root }} { padding: max(20px, calc(var(--fsc-pad) * 0.6)); }
+    /* Tighten padding on small screens. --fsc-pad is now a 4-value
+       shorthand, so scale each side individually rather than calc()-ing
+       the whole var. */
+    .{{ root }} {
+      padding:
+        max(20px, calc({{ pad_top }}px * 0.6))
+        max(16px, calc({{ pad_right }}px * 0.6))
+        max(20px, calc({{ pad_bottom }}px * 0.6))
+        max(16px, calc({{ pad_left }}px * 0.6));
+    }
     .{{ root }} .fsc-chart { height: calc(var(--fsc-chart-h) * 0.8); }
   }
 </style>
 
 <div
-  class="{{ root }}"
+  class="{{ root }}{% if block.settings.color_scheme != blank %} color-{{ block.settings.color_scheme }}{% endif %}"
   data-block-id="{{ block.id }}"
   role="img"
   aria-label="{{ aria | strip_newlines | strip }}"
@@ -397,7 +435,7 @@
     { "type": "color", "id": "border_color",     "label": "Border color",       "default": "#0A0A0A" },
     { "type": "range", "id": "border_width",     "label": "Border width",       "min": 0, "max": 4, "step": 1, "unit": "px", "default": 1 },
     { "type": "range", "id": "border_radius",    "label": "Corner radius",      "min": 0, "max": 40, "step": 1, "unit": "px", "default": 24 },
-    { "type": "range", "id": "padding",          "label": "Padding",            "min": 12, "max": 80, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding",          "label": "Padding (legacy / fallback)", "min": 12, "max": 80, "step": 2, "unit": "px", "default": 40, "info": "Used as the card padding on all sides unless you set per-side values in the Padding group at the bottom." },
 
     { "type": "header", "content": "Headline number" },
     { "type": "text",  "id": "headline_number", "label": "Number", "default": "2.3x" },
@@ -663,7 +701,16 @@
         { "value": "\"Brother 1816\", sans-serif",   "label": "Brother 1816" }
       ]
     },
-    { "type": "range", "id": "scale_size", "label": "Scale label size", "min": 10, "max": 18, "step": 1, "unit": "px", "default": 12 }
+    { "type": "range", "id": "scale_size", "label": "Scale label size", "min": 10, "max": 18, "step": 1, "unit": "px", "default": 12 },
+
+    { "type": "header", "content": "Appearance" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start",  "label": "Top",    "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-block-end",    "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-start", "label": "Left",   "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-end",   "label": "Right",  "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 }
   ],
   "presets": [
     { "name": "Stat Chart" }
