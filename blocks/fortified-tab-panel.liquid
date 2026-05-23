@@ -15,6 +15,7 @@
 
 <div
   class="ft-tabs__panel{% if block.settings.start_active %} is-active{% endif %}"
+  id="ft-tabs-{{ section.id | replace: '_', '' | downcase }}-panel-{{ block.id }}"
   role="tabpanel"
   data-panel-id="{{ block.id }}"
   aria-labelledby="ft-tabs-{{ section.id | replace: '_', '' | downcase }}-btn-{{ block.id }}"

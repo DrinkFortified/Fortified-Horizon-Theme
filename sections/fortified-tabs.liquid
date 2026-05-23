@@ -154,6 +154,7 @@
             role="tab"
             id="{{ root }}-btn-{{ block.id }}"
             data-tab-target="{{ block.id }}"
+            data-tab-index="{{ forloop.index0 }}"
             aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
             aria-controls="{{ root }}-panel-{{ block.id }}"
             tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
@@ -174,15 +175,19 @@
   (function () {
     var ROOT_ID = {{ root | json }};
 
-    function activate (panels, buttons, btn) {
-      var target = btn.getAttribute('data-tab-target');
-      buttons.forEach(function (b) {
-        var on = b === btn;
+    // Match buttons to panels by ARRAY INDEX (DOM order), NOT by block.id.
+    // Both the buttons loop (section.blocks where type == fortified-tab-panel)
+    // and {% content_for 'blocks' %} emit their items in the same block order,
+    // so buttons[i] always controls panels[i]. This sidesteps any difference in
+    // how block.id is rendered across the section vs. block contexts.
+    function activate (panels, buttons, index) {
+      buttons.forEach(function (b, i) {
+        var on = i === index;
         b.setAttribute('aria-selected', on ? 'true' : 'false');
         b.setAttribute('tabindex', on ? '0' : '-1');
       });
-      panels.forEach(function (p) {
-        p.classList.toggle('is-active', p.getAttribute('data-panel-id') === target);
+      panels.forEach(function (p, i) {
+        p.classList.toggle('is-active', i === index);
       });
     }
 
@@ -192,20 +197,26 @@
       if (!section) return;
 
       var buttons = Array.prototype.slice.call(section.querySelectorAll('[role="tab"]'));
-      var panels  = Array.prototype.slice.call(section.querySelectorAll('.ft-tabs__panel'));
+      // Scope the panel query to THIS section's panels area so a nested tabs
+      // section can never capture a descendant section's panels.
+      var panelsArea = section.querySelector('.' + ROOT_ID + '__panels') || section;
+      var panels = Array.prototype.slice.call(panelsArea.querySelectorAll('.ft-tabs__panel'));
       if (!buttons.length || !panels.length) return;
 
-      // Make sure exactly one panel is visible on load.
+      // Determine which panel should start active. Prefer a panel already
+      // flagged .is-active (start_active checkbox); otherwise default to 0.
       var activeIdx = -1;
       panels.forEach(function (p, i) { if (p.classList.contains('is-active')) activeIdx = i; });
-      if (activeIdx === -1) { panels[0].classList.add('is-active'); }
+      if (activeIdx === -1) activeIdx = 0;
+      // Normalize so exactly one panel/button is active and they agree.
+      activate(panels, buttons, activeIdx);
 
-      buttons.forEach(function (btn) {
+      buttons.forEach(function (btn, i) {
         if (btn.dataset.tabsBound === '1') return;  // avoid double-binding
         btn.dataset.tabsBound = '1';
         btn.addEventListener('click', function (e) {
           e.preventDefault();
-          activate(panels, buttons, btn);
+          activate(panels, buttons, i);
         });
       });
 
@@ -220,7 +231,7 @@
             ? (i + 1) % buttons.length
             : (i - 1 + buttons.length) % buttons.length;
           buttons[next].focus();
-          activate(panels, buttons, buttons[next]);
+          activate(panels, buttons, next);
         });
       }
     }
