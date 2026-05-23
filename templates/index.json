@@ -2003,6 +2003,40 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {
+                    "fortified_stat_chart_UWVHht": {
+                      "type": "fortified-stat-chart",
+                      "name": "Stat Chart",
+                      "settings": {
+                        "headline_number": "2.3x",
+                        "headline_number_size": 72,
+                        "headline_number_color": "#000000",
+                        "headline_text": "Better Hydration",
+                        "headline_text_size": 24,
+                        "headline_text_color": "#000000",
+                        "subtitle_text": "vs. water alone *",
+                        "subtitle_size": 14,
+                        "subtitle_color": "#666666",
+                        "text_alignment": "center",
+                        "bar1_label": "Water",
+                        "bar1_value": 38,
+                        "bar1_color": "#1498b5",
+                        "bar2_label": "FORTIFIED",
+                        "bar2_value": 93,
+                        "bar2_color": "#000000",
+                        "bar_width": 100,
+                        "bar_gap": 40,
+                        "bar_border_radius": 8,
+                        "bar_label_size": 14,
+                        "bar_label_color": "#000000",
+                        "grid_line_color": "#e0e0e0",
+                        "scale_label_color": "#666666",
+                        "background_color": "#f9f9fa",
+                        "border_radius": 16,
+                        "padding": 40,
+                        "desktop_width_percent": 100
+                      },
+                      "blocks": {}
+                    },
                     "text_HpkWfg": {
                       "type": "text",
                       "name": "t:names.text",
@@ -2031,6 +2065,7 @@
                     }
                   },
                   "block_order": [
+                    "fortified_stat_chart_UWVHht",
                     "text_HpkWfg"
                   ]
                 },
@@ -2074,6 +2109,40 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {
+                    "fortified_stat_chart_XgiGqp": {
+                      "type": "fortified-stat-chart",
+                      "name": "Stat Chart",
+                      "settings": {
+                        "headline_number": "+24%",
+                        "headline_number_size": 72,
+                        "headline_number_color": "#000000",
+                        "headline_text": "Better Hydration",
+                        "headline_text_size": 24,
+                        "headline_text_color": "#000000",
+                        "subtitle_text": "vs. water alone *",
+                        "subtitle_size": 14,
+                        "subtitle_color": "#666666",
+                        "text_alignment": "center",
+                        "bar1_label": "Water",
+                        "bar1_value": 100,
+                        "bar1_color": "#1498b5",
+                        "bar2_label": "FORTIFIED",
+                        "bar2_value": 93,
+                        "bar2_color": "#000000",
+                        "bar_width": 100,
+                        "bar_gap": 40,
+                        "bar_border_radius": 8,
+                        "bar_label_size": 14,
+                        "bar_label_color": "#000000",
+                        "grid_line_color": "#e0e0e0",
+                        "scale_label_color": "#666666",
+                        "background_color": "#f9f9fa",
+                        "border_radius": 16,
+                        "padding": 40,
+                        "desktop_width_percent": 100
+                      },
+                      "blocks": {}
+                    },
                     "text_Nz4hQL": {
                       "type": "text",
                       "name": "t:names.text",
@@ -2102,6 +2171,7 @@
                     }
                   },
                   "block_order": [
+                    "fortified_stat_chart_XgiGqp",
                     "text_Nz4hQL"
                   ]
                 },
