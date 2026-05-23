@@ -67,6 +67,11 @@
       color: #1FA8A1;
       font-style: normal;
     }
+
+    .fortified-accent-green {
+      color: #C4E1C5;
+      font-style: normal;
+    }
   </style>
 
   {{ content_for_header }}
@@ -147,6 +152,10 @@
     </script>
 <script>
   (function () {
+    // Match **double** first (longer), then *single*. Newlines and stray
+    // asterisks can't span a highlight.
+    var RE = /\*\*([^*\n]+)\*\*|\*([^*\n]+)\*/g;
+
     function transformAsterisks(root) {
       // Walk only TEXT nodes — never touches scripts, styles, inputs, or attribute values
       var walker = document.createTreeWalker(
@@ -176,19 +185,35 @@
       while (walker.nextNode()) nodes.push(walker.currentNode);
 
       nodes.forEach(function (node) {
-        var parts = node.nodeValue.split('*');
-        if (parts.length < 3) return;
+        var text = node.nodeValue;
+        RE.lastIndex = 0;
+        if (!RE.test(text)) return;
+        RE.lastIndex = 0;
+
         var frag = document.createDocumentFragment();
-        parts.forEach(function (part, i) {
-          if (i % 2 === 1) {
-            var span = document.createElement('span');
-            span.className = 'fortified-accent-text';
-            span.textContent = part;
-            frag.appendChild(span);
-          } else {
-            frag.appendChild(document.createTextNode(part));
+        var lastIndex = 0;
+        var m;
+
+        while ((m = RE.exec(text)) !== null) {
+          if (m.index > lastIndex) {
+            frag.appendChild(document.createTextNode(text.slice(lastIndex, m.index)));
           }
-        });
+          var span = document.createElement('span');
+          if (m[1] !== undefined) {
+            // **double** → green
+            span.className = 'fortified-accent-green';
+            span.textContent = m[1];
+          } else {
+            // *single* → teal
+            span.className = 'fortified-accent-text';
+            span.textContent = m[2];
+          }
+          frag.appendChild(span);
+          lastIndex = m.index + m[0].length;
+        }
+        if (lastIndex < text.length) {
+          frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+        }
         node.parentNode.replaceChild(frag, node);
       });
     }
