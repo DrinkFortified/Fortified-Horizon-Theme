@@ -17,7 +17,18 @@
 
 <style>
   .{{ root }} {
+    /* Fill the column when this block sits inside a flex row.
+       flex: 1 1 0 + min-width: 0 ensures equal share with sibling cards
+       (e.g. fortified-stat-chart). width: 100% is the fallback when the
+       parent isn't a flex container. */
+    flex: 1 1 0;
+    min-width: 0;
     width: 100%;
+    {% if block.settings.match_sibling_height %}
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    {% endif %}
     background: {{ block.settings.background_color }};
     border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
     border-radius: {{ block.settings.border_radius }}px;
@@ -27,6 +38,11 @@
     color: {{ block.settings.text_color }};
     text-align: {{ block.settings.text_alignment }};
   }
+  {% if block.settings.match_sibling_height %}
+  .{{ root }} .fcl-items {
+    margin-top: auto;
+  }
+  {% endif %}
   .{{ root }} .fcl-head {
     margin: 0 0 {{ block.settings.gap_after_heading }}px;
   }
@@ -106,6 +122,7 @@
 
     { "type": "header", "content": "Items" },
     { "type": "range", "id": "item_gap", "label": "Gap between items (px)", "min": 4, "max": 28, "step": 2, "default": 12 },
+    { "type": "checkbox", "id": "match_sibling_height", "label": "Match height of sibling cards", "default": true, "info": "When this card sits beside taller cards in a row layout, push the checkmarks to the bottom so the card fills the row height." },
 
     { "type": "header", "content": "Card style" },
     { "type": "color", "id": "background_color", "label": "Background",      "default": "#FFFFFF" },
