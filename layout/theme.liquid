@@ -72,6 +72,13 @@
       color: #C4E1C5;
       font-style: normal;
     }
+
+    /* Force all headings to display uppercase visually.
+       The HTML source keeps its original casing for SEO and accessibility. */
+    h1, h2, h3, h4, h5, h6,
+    .h1, .h2, .h3, .h4, .h5, .h6 {
+      text-transform: uppercase;
+    }
   </style>
 
   {{ content_for_header }}
