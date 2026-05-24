@@ -15,7 +15,6 @@
 {%- liquid
   assign sid             = section.id
   assign function_blocks = section.blocks | where: "type", "function_item"
-  assign flavor_blocks   = section.blocks | where: "type", "flavor_item"
   assign benefit_blocks  = section.blocks | where: "type", "benefit_item"
   assign cert_blocks     = section.blocks | where: "type", "cert_badge"
   assign gallery_blocks  = section.blocks | where: "type", "gallery_image"
@@ -229,7 +228,7 @@
           <div class="fe-fcards" data-config="monthly">
             {%- for fb in function_blocks -%}
               {%- if fb.settings.enabled -%}
-                {%- render 'fortified-fn-card', card_block: fb, config: 'monthly', flavors: flavor_blocks, flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
+                {%- render 'fortified-fn-card', card_block: fb, config: 'monthly', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
               {%- endif -%}
             {%- endfor -%}
           </div>
@@ -243,7 +242,7 @@
               <div class="fe-fcards" data-config="q{{ i }}">
                 {%- for fb in function_blocks -%}
                   {%- if fb.settings.enabled -%}
-                    {%- render 'fortified-fn-card', card_block: fb, config: 'q', flavors: flavor_blocks, flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
+                    {%- render 'fortified-fn-card', card_block: fb, config: 'q', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
                   {%- endif -%}
                 {%- endfor -%}
               </div>
@@ -466,6 +465,7 @@
 .fe-spec { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; padding: 0.2em 0.45em; border-radius: 4px; border: 1px solid var(--fe-selection-color, rgb(var(--color-button))); color: var(--fe-selection-color, rgb(var(--color-button))); }
 .fe-fcard-desc { margin: 0; font-size: 0.7rem; line-height: 1.4; opacity: 0.6; color: rgb(var(--color-foreground)); }
 .fe-fcard-flavor-label { margin: 0.15rem 0 0; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.55; color: rgb(var(--color-foreground)); }
+.fe-fcard-hint { margin: 0.15rem 0 0; font-size: 0.68rem; font-style: italic; opacity: 0.5; color: rgb(var(--color-foreground)); }
 .fe-fcard-flavors { display: flex; flex-direction: column; gap: 0.4rem; }
 .fe-flavor-opt {
   display: flex; align-items: center; gap: 0.5rem; width: 100%; cursor: pointer; text-align: left;
@@ -957,20 +957,14 @@
         { "type": "textarea", "id": "description", "label": "Description", "default": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix." },
         { "type": "image_picker", "id": "thumbnail_image", "label": "Summary thumbnail" },
         { "type": "image_picker", "id": "pill_icon", "label": "Icon (optional)" },
+        { "type": "header", "content": "Flavors" },
+        { "type": "paragraph", "content": "Flavors come from this product's variants. Pick the variant option that holds the flavor below (leave blank to use the product's first option)." },
+        { "type": "text", "id": "flavor_option", "label": "Flavor option name", "info": "e.g. Flavor. Must match the product's option name. Blank = first option." },
+        { "type": "textarea", "id": "manual_flavors", "label": "Manual flavors (fallback)", "info": "One per line. Only used when no product is set, so the card can still preview." },
         { "type": "header", "content": "Loop Subscription Plan IDs" },
         { "type": "paragraph", "content": "In Shopify Admin open the product, scroll to Purchase options, click a selling plan, and copy the ID from the end of the URL." },
         { "type": "text", "id": "loop_plan_monthly", "label": "Monthly plan ID" },
         { "type": "text", "id": "loop_plan_quarterly", "label": "Every 3 months plan ID" }
-      ]
-    },
-    {
-      "type": "flavor_item",
-      "name": "Flavor",
-      "settings": [
-        { "type": "checkbox", "id": "enabled", "label": "Enable this flavor", "default": true },
-        { "type": "text", "id": "flavor_name", "label": "Flavor name", "info": "Must match (or partially match) the variant option in Shopify.", "default": "Salty Orange" },
-        { "type": "image_picker", "id": "pill_icon", "label": "Swatch icon" },
-        { "type": "image_picker", "id": "thumbnail_image", "label": "Flavor image", "info": "Shown in the gallery when this flavor is selected." }
       ]
     },
     {
@@ -1006,10 +1000,8 @@
         { "type": "benefit_item", "settings": { "text": "Supports Mood & Focus" } },
         { "type": "benefit_item", "settings": { "text": "Plant-Based" } },
         { "type": "benefit_item", "settings": { "text": "No Jitters Or Crash" } },
-        { "type": "function_item", "settings": { "function_label": "Fortified Everyday", "enabled": true } },
-        { "type": "function_item", "settings": { "function_label": "Fortified Energy", "enabled": true } },
-        { "type": "flavor_item", "settings": { "flavor_name": "Salty Orange", "enabled": true } },
-        { "type": "flavor_item", "settings": { "flavor_name": "Wild Berry", "enabled": true } }
+        { "type": "function_item", "settings": { "function_label": "Fortified Everyday", "enabled": true, "manual_flavors": "Original\nMango\nBerry" } },
+        { "type": "function_item", "settings": { "function_label": "Fortified Energy", "enabled": true, "manual_flavors": "Original\nMango\nBerry" } }
       ]
     }
   ]

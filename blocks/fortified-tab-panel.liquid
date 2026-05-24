@@ -8,17 +8,18 @@
   blocks, or the custom fortified-checkmark-list block for a checkmark
   column.
 
-  Visibility is driven PURELY by CSS in the parent section
-  (sections/fortified-tabs.liquid): a hidden radio input + the
-  `:checked ~ .ft-tabs__panel[data-ftp-index="N"]` selector shows the
-  matching panel. This block therefore:
+  Visibility is driven by JavaScript in the parent section
+  (sections/fortified-tabs.liquid): clicking a tab toggles the
+  `is-active` class on the panel whose `data-ftp-index` matches. This
+  block therefore:
     1. Emits a stable `data-ftp-index` (1-based position among the
-       section's fortified-tab-panel blocks) for the selector to match.
-    2. Does NOT set `display` inline — an inline `display:flex` would beat
-       the stylesheet's `display:none` base rule and keep every panel
-       visible (this was the original bug). The base layout
-       (flex/gap/padding) is applied by the section stylesheet; the
-       per-panel gap/padding values are passed via CSS custom properties.
+       section's fortified-tab-panel blocks) so the section's JS and tab
+       buttons can target it.
+    2. Does NOT set `display` inline — an inline `display` would beat the
+       section's `.ft-tabs__panel { display:none }` / `.is-active
+       { display:flex }` rules and keep every panel visible. Padding, gap
+       and alignment are applied via an ID-scoped <style> (never inline
+       display) so the show/hide rules always win.
 {% endcomment %}
 
 {%- liquid

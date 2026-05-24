@@ -4,29 +4,56 @@
   Renders one selectable "function" product card (image + name + spec tags
   + description + flavor chooser) for the Product Selector section.
 
-  Reused for every pouch slot, so the owning grid passes a unique `config`
-  id (e.g. "monthly", "q1") that JS uses to scope the selection. The card
-  itself is the function selector; the flavor buttons inside set both the
-  function (this card) and the flavor for that pouch.
+  Flavors are read from the function's PRODUCT variants — pick the product
+  on the function block and its variant options become the flavor buttons.
+  Choose which variant option is the flavor with "Flavor option name"
+  (defaults to the first option). If no product is set yet, the optional
+  "Manual flavors" list is used so the card still previews.
+
+  Reused for every pouch slot; the owning .fe-fcards wrapper carries the
+  unique `config` id that JS uses to scope the selection.
 
   Accepted params:
     card_block       - the function_item block
-    config           - config/pouch id string
-    flavors          - array of flavor_item blocks
+    config           - config/pouch id string (wrapper carries the real one)
     flavor_label     - heading text above the flavor buttons
     coming_soon_text - badge text for coming-soon functions
 {% endcomment %}
 
 {%- liquid
   assign fb = card_block
+  assign prod = fb.settings.product
   assign cardimg = fb.settings.card_image | default: fb.settings.thumbnail_image
+  if cardimg == blank and prod != blank
+    assign cardimg = prod.featured_image
+  endif
+
+  # Resolve which product option holds the flavors.
+  assign flavor_opt = null
+  if prod != blank and prod.options_with_values.size > 0
+    assign want = fb.settings.flavor_option | downcase | strip
+    if want != blank
+      for opt in prod.options_with_values
+        assign have = opt.name | downcase | strip
+        if have == want
+          assign flavor_opt = opt
+        endif
+      endfor
+    endif
+    if flavor_opt == null
+      assign flavor_opt = prod.options_with_values.first
+    endif
+  endif
+
+  assign manual_raw = fb.settings.manual_flavors | strip
+  assign manual_flavors = fb.settings.manual_flavors | newline_to_br | split: '<br />'
 -%}
 
 <div
   class="fe-fcard"
   data-config="{{ config }}"
   data-function-id="{{ fb.id }}"
-  data-product-handle="{{ fb.settings.product.handle }}"
+  data-product-handle="{{ prod.handle }}"
   data-function-label="{{ fb.settings.function_label | escape }}"
   data-plan-monthly="{{ fb.settings.loop_plan_monthly }}"
   data-plan-quarterly="{{ fb.settings.loop_plan_quarterly }}"
@@ -65,27 +92,39 @@
       <p class="fe-fcard-desc">{{ fb.settings.description }}</p>
     {%- endif -%}
 
-    {%- if flavors.size > 0 -%}
+    {%- if flavor_opt != null and flavor_opt.values.size > 0 -%}
       <p class="fe-fcard-flavor-label">{{ flavor_label | default: 'Choose Flavor:' }}</p>
       <div class="fe-fcard-flavors" role="group" aria-label="{{ flavor_label | default: 'Flavor' | escape }}">
-        {%- for fl in flavors -%}
-          {%- if fl.settings.enabled -%}
-            <button
-              type="button"
-              class="fe-flavor-opt"
-              data-flavor-name="{{ fl.settings.flavor_name | escape }}"
-              data-thumbnail="{% if fl.settings.thumbnail_image != blank %}{{ fl.settings.thumbnail_image | image_url: width: 160 }}{% endif %}"
-              aria-pressed="false"
-            >
-              {%- if fl.settings.pill_icon != blank -%}
-                <span class="fe-flavor-swatch"><img src="{{ fl.settings.pill_icon | image_url: width: 48 }}" alt="" width="20" height="20"></span>
-              {%- endif -%}
-              <span class="fe-flavor-name">{{ fl.settings.flavor_name }}</span>
+        {%- for val in flavor_opt.values -%}
+          {%- assign vthumb = '' -%}
+          {%- for v in prod.variants -%}
+            {%- if v.options contains val -%}
+              {%- if v.featured_image != blank -%}{%- assign vthumb = v.featured_image | image_url: width: 80 -%}{%- endif -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+          <button type="button" class="fe-flavor-opt" data-flavor-name="{{ val | escape }}" data-thumbnail="{{ vthumb }}" aria-pressed="false">
+            {%- if vthumb != blank -%}<span class="fe-flavor-swatch"><img src="{{ vthumb }}" alt="" width="20" height="20"></span>{%- endif -%}
+            <span class="fe-flavor-name">{{ val }}</span>
+            <span class="fe-flavor-radio" aria-hidden="true"></span>
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- elsif manual_raw != blank -%}
+      <p class="fe-fcard-flavor-label">{{ flavor_label | default: 'Choose Flavor:' }}</p>
+      <div class="fe-fcard-flavors" role="group" aria-label="{{ flavor_label | default: 'Flavor' | escape }}">
+        {%- for m in manual_flavors -%}
+          {%- assign mt = m | strip -%}
+          {%- if mt != blank -%}
+            <button type="button" class="fe-flavor-opt" data-flavor-name="{{ mt | escape }}" data-thumbnail="" aria-pressed="false">
+              <span class="fe-flavor-name">{{ mt }}</span>
               <span class="fe-flavor-radio" aria-hidden="true"></span>
             </button>
           {%- endif -%}
         {%- endfor -%}
       </div>
+    {%- elsif prod == blank -%}
+      <p class="fe-fcard-hint">Add a product to load flavors.</p>
     {%- endif -%}
   </div>
 </div>
