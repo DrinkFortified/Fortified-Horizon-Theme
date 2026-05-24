@@ -1,7 +1,15 @@
 {% comment %}
   Section: Product Selector
   Category: Fortified Elements
-  Purpose: Function + Flavor product configurator with Loop subscriptions
+  Purpose: Subscription-first configurator.
+    Flow (inverted): Step 1 Purchase Option (1 a month / 3 every 3 months)
+    -> Step 2 Function + Flavor.
+      - 1 a month  : pick one function + one flavor. Optional creatine
+                     add-on (50% off) + free shipping (messaging).
+      - 3 every 3  : pick a function + flavor for EACH pouch in the box.
+                     Free creatine + free sample pack + free shipping
+                     (messaging).
+    Under Add to Cart: "Or purchase once: <price>".
 {% endcomment %}
 
 {%- liquid
@@ -9,12 +17,22 @@
   assign heading         = section.settings.heading
   assign subheading      = section.settings.subheading
   assign show_monthly    = section.settings.show_monthly
-  assign show_3months    = section.settings.show_3months
+  assign show_quarterly  = section.settings.show_quarterly
   assign img_position    = section.settings.image_position | default: 'center center'
   assign img_padding     = section.settings.image_padding | default: 0
   assign btn_style       = section.settings.button_style | default: 'filled'
   assign function_blocks = section.blocks | where: "type", "function_item"
   assign flavor_blocks   = section.blocks | where: "type", "flavor_item"
+
+  assign bundle_count = section.settings.bundle_count | default: 3
+  assign show_addon   = section.settings.show_addon
+  assign addon        = section.settings.addon_product
+  assign addon_variant_id = ''
+  if addon != blank
+    assign addon_variant_id = addon.selected_or_first_available_variant.id
+  endif
+
+  assign perks = section.settings.bundle_perks | newline_to_br | split: '<br />'
 -%}
 
 <section
@@ -41,7 +59,6 @@
     <div class="fe-media-cover" id="fe-media-cover-{{ section_id }}">
       <div class="fe-media-inner">
 
-        {%- comment %} DEFAULT SLIDE — shown before any function is chosen {%- endcomment %}
         <div class="fe-media-slide fe-media-default is-active" id="fe-media-default-{{ section_id }}">
           {%- if section.settings.cover_image != blank -%}
             <img
@@ -58,24 +75,10 @@
           {%- endif -%}
         </div>
 
-        {%- comment %} FUNCTION SLIDES — image comes from the product's featured image via JS {%- endcomment %}
         {%- for block in function_blocks -%}
           {%- if block.settings.enabled -%}
-            <div
-              class="fe-media-slide"
-              data-function-media="{{ block.id }}"
-              {{ block.shopify_attributes }}
-            >
-              {%- comment %} Placeholder until JS loads the product image {%- endcomment %}
-              <img
-                class="fe-cover-img"
-                data-base-src=""
-                src=""
-                alt="{{ block.settings.function_label | escape }}"
-                loading="lazy"
-                width="1400" height="700"
-                style="opacity:0;"
-              >
+            <div class="fe-media-slide" data-function-media="{{ block.id }}">
+              <img class="fe-cover-img" data-base-src="" src="" alt="{{ block.settings.function_label | escape }}" loading="lazy" width="1400" height="700" style="opacity:0;">
             </div>
           {%- endif -%}
         {%- endfor -%}
@@ -93,140 +96,42 @@
         </div>
       {%- endif -%}
 
-      {%- comment %} STEP 1: FUNCTION {%- endcomment %}
-      <div class="fe-group fe-step" id="fe-function-group-{{ section_id }}" data-step="function">
+      {%- comment %} ───── STEP 1: PURCHASE OPTION ───── {%- endcomment %}
+      <div class="fe-group fe-step" id="fe-plan-group-{{ section_id }}" data-step="plan">
         <p class="fe-group-label">
           <span class="fe-step-num">1</span>
-          {{ section.settings.function_label | default: 'Choose Your Function' }}
-        </p>
-        <div class="fe-selector-grid fe-selector-grid--function" role="group" aria-label="Function">
-          {%- for block in function_blocks -%}
-            {%- if block.settings.enabled -%}
-              <button
-                class="fe-selector-card"
-                data-function-id="{{ block.id }}"
-                data-product-handle="{{ block.settings.product.handle }}"
-                data-function-label="{{ block.settings.function_label | escape }}"
-                data-loop-plan-monthly="{{ block.settings.loop_plan_monthly }}"
-                data-loop-plan-quarterly="{{ block.settings.loop_plan_quarterly }}"
-                data-thumbnail="{% if block.settings.thumbnail_image != blank %}{{ block.settings.thumbnail_image | image_url: width: 160 }}{% endif %}"
-                aria-pressed="false"
-                {%- if block.settings.coming_soon %}data-coming-soon="true" aria-disabled="true"{%- endif %}
-                {{ block.shopify_attributes }}
-              >
-                {%- if block.settings.pill_icon != blank -%}
-                  <span class="fe-card-icon" aria-hidden="true">
-                    <img src="{{ block.settings.pill_icon | image_url: width: 64 }}" alt="" width="24" height="24">
-                  </span>
-                {%- endif -%}
-                <span class="fe-card-label">
-                  {{ block.settings.function_label }}
-                  {%- if block.settings.coming_soon -%}
-                    <em class="fe-badge">{{ section.settings.coming_soon_text | default: 'Soon' }}</em>
-                  {%- endif -%}
-                </span>
-                <span class="fe-card-check" aria-hidden="true">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-              </button>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-      </div>
-
-      {%- comment %} STEP 2: FLAVOR — locked until function chosen {%- endcomment %}
-      <div class="fe-group fe-step fe-step--locked" id="fe-flavor-group-{{ section_id }}" data-step="flavor" aria-disabled="true">
-        <p class="fe-group-label">
-          <span class="fe-step-num">2</span>
-          {{ section.settings.flavor_label | default: 'Choose Your Flavor' }}
-        </p>
-        <div class="fe-selector-grid fe-selector-grid--flavor" role="group" aria-label="Flavor">
-          {%- for block in flavor_blocks -%}
-            {%- if block.settings.enabled -%}
-              <button
-                class="fe-selector-card"
-                data-flavor-id="{{ block.id }}"
-                data-flavor-name="{{ block.settings.flavor_name | escape }}"
-                data-thumbnail="{% if block.settings.thumbnail_image != blank %}{{ block.settings.thumbnail_image | image_url: width: 160 }}{% endif %}"
-                aria-pressed="false"
-                disabled
-                {{ block.shopify_attributes }}
-              >
-                {%- if block.settings.pill_icon != blank -%}
-                  <span class="fe-card-icon" aria-hidden="true">
-                    <img src="{{ block.settings.pill_icon | image_url: width: 64 }}" alt="" width="24" height="24">
-                  </span>
-                {%- endif -%}
-                <span class="fe-card-label">{{ block.settings.flavor_name }}</span>
-                <span class="fe-card-check" aria-hidden="true">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-              </button>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-      </div>
-
-      {%- comment %} STEP 3: PURCHASE — locked until flavor chosen {%- endcomment %}
-      <div class="fe-group fe-step fe-step--locked" id="fe-purchase-group-{{ section_id }}" data-step="purchase" aria-disabled="true">
-        <p class="fe-group-label">
-          <span class="fe-step-num">3</span>
-          {{ section.settings.purchase_label | default: 'Purchase Option' }}
+          {{ section.settings.purchase_step_label | default: 'Choose Your Plan' }}
         </p>
         <div class="fe-purchase-options" role="group" aria-label="Purchase option">
 
-          <label class="fe-purchase-option">
-            <input type="radio" name="fe-purchase-{{ section_id }}" value="onetime" disabled>
-            <span class="fe-radio-dot" aria-hidden="true"></span>
-            <span class="fe-purchase-inner">
-              <span class="fe-purchase-top">
-                <span class="fe-purchase-title">{{ section.settings.onetime_label | default: 'Buy Once' }}</span>
-                <span class="fe-purchase-price" data-price-type="onetime">--</span>
-              </span>
-              {%- if section.settings.onetime_description != blank -%}
-                <span class="fe-purchase-desc">{{ section.settings.onetime_description }}</span>
-              {%- endif -%}
-            </span>
-          </label>
-
           {%- if show_monthly -%}
-          <label class="fe-purchase-option">
-            <input type="radio" name="fe-purchase-{{ section_id }}" value="monthly" disabled>
+          <label class="fe-purchase-option" data-plan="monthly">
+            <input type="radio" name="fe-plan-{{ section_id }}" value="monthly">
             <span class="fe-radio-dot" aria-hidden="true"></span>
             <span class="fe-purchase-inner">
               <span class="fe-purchase-top">
                 <span class="fe-purchase-title">
-                  {{ section.settings.monthly_label | default: 'Monthly' }}
-                  {%- if section.settings.monthly_badge != blank -%}
-                    <em class="fe-save-badge">{{ section.settings.monthly_badge }}</em>
-                  {%- endif -%}
+                  {{ section.settings.monthly_label | default: '1 a Month' }}
+                  {%- if section.settings.monthly_badge != blank -%}<em class="fe-save-badge">{{ section.settings.monthly_badge }}</em>{%- endif -%}
                 </span>
-                <span class="fe-purchase-price" data-price-type="monthly">--</span>
               </span>
-              {%- if section.settings.monthly_description != blank -%}
-                <span class="fe-purchase-desc">{{ section.settings.monthly_description }}</span>
-              {%- endif -%}
+              {%- if section.settings.monthly_desc != blank -%}<span class="fe-purchase-desc">{{ section.settings.monthly_desc }}</span>{%- endif -%}
             </span>
           </label>
           {%- endif -%}
 
-          {%- if show_3months -%}
-          <label class="fe-purchase-option">
-            <input type="radio" name="fe-purchase-{{ section_id }}" value="quarterly" disabled>
+          {%- if show_quarterly -%}
+          <label class="fe-purchase-option" data-plan="quarterly">
+            <input type="radio" name="fe-plan-{{ section_id }}" value="quarterly">
             <span class="fe-radio-dot" aria-hidden="true"></span>
             <span class="fe-purchase-inner">
               <span class="fe-purchase-top">
                 <span class="fe-purchase-title">
-                  {{ section.settings.quarterly_label | default: 'Every 3 Months' }}
-                  {%- if section.settings.quarterly_badge != blank -%}
-                    <em class="fe-save-badge">{{ section.settings.quarterly_badge }}</em>
-                  {%- endif -%}
+                  {{ section.settings.quarterly_label | default: '3 Every 3 Months' }}
+                  {%- if section.settings.quarterly_badge != blank -%}<em class="fe-save-badge">{{ section.settings.quarterly_badge }}</em>{%- endif -%}
                 </span>
-                <span class="fe-purchase-price" data-price-type="quarterly">--</span>
               </span>
-              {%- if section.settings.quarterly_description != blank -%}
-                <span class="fe-purchase-desc">{{ section.settings.quarterly_description }}</span>
-              {%- endif -%}
+              {%- if section.settings.quarterly_desc != blank -%}<span class="fe-purchase-desc">{{ section.settings.quarterly_desc }}</span>{%- endif -%}
             </span>
           </label>
           {%- endif -%}
@@ -234,7 +139,131 @@
         </div>
       </div>
 
-      {%- comment %} PRODUCT SUMMARY {%- endcomment %}
+      {%- comment %}
+        Capture the function + flavor button sets ONCE, then reuse them in
+        each configurator slot (monthly + each quarterly pouch). The owning
+        grid carries data-config so JS knows which slot a click belongs to.
+        shopify_attributes is intentionally omitted on the buttons to avoid
+        duplicate editor ids across the repeated grids — blocks are still
+        configured from the section's block list.
+      {%- endcomment %}
+      {%- capture function_buttons -%}
+        {%- for block in function_blocks -%}
+          {%- if block.settings.enabled -%}
+            <button
+              type="button"
+              class="fe-selector-card"
+              data-function-id="{{ block.id }}"
+              data-product-handle="{{ block.settings.product.handle }}"
+              data-function-label="{{ block.settings.function_label | escape }}"
+              data-plan-monthly="{{ block.settings.loop_plan_monthly }}"
+              data-plan-quarterly="{{ block.settings.loop_plan_quarterly }}"
+              data-thumbnail="{% if block.settings.thumbnail_image != blank %}{{ block.settings.thumbnail_image | image_url: width: 160 }}{% endif %}"
+              aria-pressed="false"
+              {%- if block.settings.coming_soon %} data-coming-soon="true" aria-disabled="true"{%- endif %}
+            >
+              {%- if block.settings.pill_icon != blank -%}
+                <span class="fe-card-icon" aria-hidden="true"><img src="{{ block.settings.pill_icon | image_url: width: 64 }}" alt="" width="24" height="24"></span>
+              {%- endif -%}
+              <span class="fe-card-label">
+                {{ block.settings.function_label }}
+                {%- if block.settings.coming_soon -%}<em class="fe-badge">{{ section.settings.coming_soon_text | default: 'Soon' }}</em>{%- endif -%}
+              </span>
+              <span class="fe-card-check" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {%- capture flavor_buttons -%}
+        {%- for block in flavor_blocks -%}
+          {%- if block.settings.enabled -%}
+            <button
+              type="button"
+              class="fe-selector-card"
+              data-flavor-id="{{ block.id }}"
+              data-flavor-name="{{ block.settings.flavor_name | escape }}"
+              data-thumbnail="{% if block.settings.thumbnail_image != blank %}{{ block.settings.thumbnail_image | image_url: width: 160 }}{% endif %}"
+              aria-pressed="false"
+            >
+              {%- if block.settings.pill_icon != blank -%}
+                <span class="fe-card-icon" aria-hidden="true"><img src="{{ block.settings.pill_icon | image_url: width: 64 }}" alt="" width="24" height="24"></span>
+              {%- endif -%}
+              <span class="fe-card-label">{{ block.settings.flavor_name }}</span>
+              <span class="fe-card-check" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {%- comment %} ───── STEP 2: FUNCTION & FLAVOR ───── {%- endcomment %}
+      <div class="fe-group fe-step fe-step--locked" id="fe-config-group-{{ section_id }}" data-step="config" aria-disabled="true">
+        <p class="fe-group-label">
+          <span class="fe-step-num">2</span>
+          {{ section.settings.config_step_label | default: 'Build Your Box' }}
+        </p>
+
+        {%- comment %} Monthly: single function + single flavor {%- endcomment %}
+        <div class="fe-config fe-config--monthly" data-config-view="monthly">
+          <div class="fe-subgroup">
+            <p class="fe-subgroup-label">{{ section.settings.function_label | default: 'Choose Your Function' }}</p>
+            <div class="fe-selector-grid" data-role="function" data-config="monthly" role="group" aria-label="Function">{{ function_buttons }}</div>
+          </div>
+          <div class="fe-subgroup">
+            <p class="fe-subgroup-label">{{ section.settings.flavor_label | default: 'Choose Your Flavor' }}</p>
+            <div class="fe-selector-grid" data-role="flavor" data-config="monthly" role="group" aria-label="Flavor">{{ flavor_buttons }}</div>
+          </div>
+        </div>
+
+        {%- comment %} Quarterly: one function + one flavor per pouch {%- endcomment %}
+        <div class="fe-config fe-config--quarterly" data-config-view="quarterly">
+          {%- for i in (1..bundle_count) -%}
+            <div class="fe-unit" data-unit="q{{ i }}">
+              <p class="fe-unit-title">{{ section.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
+              <div class="fe-subgroup">
+                <p class="fe-subgroup-label">{{ section.settings.function_label | default: 'Choose Your Function' }}</p>
+                <div class="fe-selector-grid" data-role="function" data-config="q{{ i }}" role="group" aria-label="Function pouch {{ i }}">{{ function_buttons }}</div>
+              </div>
+              <div class="fe-subgroup">
+                <p class="fe-subgroup-label">{{ section.settings.flavor_label | default: 'Choose Your Flavor' }}</p>
+                <div class="fe-selector-grid" data-role="flavor" data-config="q{{ i }}" role="group" aria-label="Flavor pouch {{ i }}">{{ flavor_buttons }}</div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- comment %} ───── EXTRAS ───── {%- endcomment %}
+      {%- if show_addon and addon != blank -%}
+        <div class="fe-extras fe-extras--monthly" data-extras-view="monthly">
+          <label class="fe-addon">
+            <input type="checkbox" id="fe-addon-{{ section_id }}" data-addon-variant="{{ addon_variant_id }}">
+            <span class="fe-addon-box" aria-hidden="true"></span>
+            <span class="fe-addon-text">
+              <span class="fe-addon-title">{{ section.settings.addon_label | default: 'Add Creatine — 50% off' }}</span>
+              {%- if section.settings.addon_desc != blank -%}<span class="fe-addon-desc">{{ section.settings.addon_desc }}</span>{%- endif -%}
+            </span>
+          </label>
+          {%- if section.settings.monthly_shipping_note != blank -%}
+            <p class="fe-perk-line"><span class="fe-perk-check" aria-hidden="true">✓</span>{{ section.settings.monthly_shipping_note }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if perks.size > 0 -%}
+        <div class="fe-extras fe-extras--quarterly" data-extras-view="quarterly">
+          <ul class="fe-perks">
+            {%- for perk in perks -%}
+              {%- assign perk_text = perk | strip -%}
+              {%- if perk_text != blank -%}
+                <li class="fe-perk-line"><span class="fe-perk-check" aria-hidden="true">✓</span>{{ perk_text }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      {%- comment %} ───── SUMMARY ───── {%- endcomment %}
       <div class="fe-group">
         <p class="fe-group-label">{{ section.settings.summary_label | default: 'Your Order' }}</p>
         <div class="fe-product-summary" id="fe-product-summary-{{ section_id }}" aria-live="polite">
@@ -245,12 +274,17 @@
             <p class="fe-product-name" id="fe-product-name-{{ section_id }}">--</p>
             <p class="fe-product-variant" id="fe-product-variant-{{ section_id }}">--</p>
           </div>
+          <div class="fe-summary-price-wrap">
+            <span class="fe-summary-price" id="fe-summary-price-{{ section_id }}">--</span>
+            <span class="fe-summary-period" id="fe-summary-period-{{ section_id }}"></span>
+          </div>
         </div>
       </div>
 
-      {%- comment %} ADD TO CART {%- endcomment %}
+      {%- comment %} ───── ADD TO CART ───── {%- endcomment %}
       <div class="fe-atc-wrap">
         <button
+          type="button"
           class="fe-atc-btn fe-atc-btn--{{ btn_style }}"
           id="fe-atc-{{ section_id }}"
           data-section-id="{{ section_id }}"
@@ -260,6 +294,14 @@
           <span class="fe-atc-label">{{ section.settings.atc_label | default: 'Add to Cart' }}</span>
           <span class="fe-atc-loading" aria-hidden="true"></span>
         </button>
+
+        {%- if section.settings.onetime_prefix != blank or section.settings.onetime_price_text != blank -%}
+          <button type="button" class="fe-onetime" id="fe-onetime-{{ section_id }}" {% unless section.settings.onetime_clickable %}data-static="true"{% endunless %}>
+            <span class="fe-onetime-prefix">{{ section.settings.onetime_prefix | default: 'Or purchase once:' }}</span>
+            <span class="fe-onetime-price">{{ section.settings.onetime_price_text | default: '$59.00 + $8.99 shipping' }}</span>
+          </button>
+        {%- endif -%}
+
         <p class="fe-atc-message" id="fe-atc-msg-{{ section_id }}" aria-live="polite"></p>
       </div>
 
@@ -291,343 +333,258 @@
 }
 
 @media (min-width: 900px) {
-  .fe-container {
-    grid-template-columns: 1fr var(--fe-panel-width, 420px);
-  }
-
-  /* Panel on the left: swap column order */
-  .fe-container[data-layout="panel-left"] {
-    grid-template-columns: var(--fe-panel-width, 420px) 1fr;
-  }
-
-  .fe-container[data-layout="panel-left"] .fe-media-cover {
-    order: 2;
-  }
-
-  .fe-container[data-layout="panel-left"] .fe-panel {
-    order: 1;
-    border-left: none;
-    border-right: 1px solid rgba(var(--color-foreground), 0.06);
-  }
+  .fe-container { grid-template-columns: 1fr var(--fe-panel-width, 420px); }
+  .fe-container[data-layout="panel-left"] { grid-template-columns: var(--fe-panel-width, 420px) 1fr; }
+  .fe-container[data-layout="panel-left"] .fe-media-cover { order: 2; }
+  .fe-container[data-layout="panel-left"] .fe-panel { order: 1; border-left: none; border-right: 1px solid rgba(var(--color-foreground), 0.06); }
 }
 
 /* ── Media column ── */
 .fe-media-cover {
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
   height: var(--fe-media-height-mobile, 420px);
   background: rgb(var(--color-background));
 }
-
 @media (min-width: 900px) {
-  .fe-media-cover {
-    height: var(--fe-media-height-desktop, 560px);
-    min-height: 300px;
-  }
+  .fe-media-cover { height: var(--fe-media-height-desktop, 560px); min-height: 300px; }
 }
-
 .fe-media-inner { position: absolute; inset: 0; background: rgb(var(--color-background)); }
-
 .fe-media-slide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.55s ease;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgb(var(--color-background));
-  padding: var(--fe-img-padding, 0px);
+  position: absolute; inset: 0; opacity: 0; transition: opacity 0.55s ease;
+  pointer-events: none; display: flex; align-items: center; justify-content: center;
+  background: rgb(var(--color-background)); padding: var(--fe-img-padding, 0px);
 }
-
 .fe-media-slide.is-active { opacity: 1; pointer-events: auto; }
-
 .fe-cover-img {
-  width: 100%; height: 100%;
-  object-fit: contain;
-  object-position: var(--fe-img-position, center center);
-  display: block;
+  width: 100%; height: 100%; object-fit: contain;
+  object-position: var(--fe-img-position, center center); display: block;
   transition: opacity 0.35s ease;
 }
-
-.fe-video {
-  width: 100%; height: 100%;
-  object-fit: contain;
-  object-position: var(--fe-img-position, center center);
-  display: block;
-}
-
 .fe-media-placeholder {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  color: rgba(var(--color-foreground), 0.25);
-  font-size: 1rem; letter-spacing: 0.08em;
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  color: rgba(var(--color-foreground), 0.25); font-size: 1rem; letter-spacing: 0.08em;
 }
 
 /* ── Panel ── */
 .fe-panel {
-  background: rgb(var(--color-background));
-  padding: 2rem 1.5rem;
+  background: rgb(var(--color-background)); padding: 2rem 1.5rem;
   display: flex; flex-direction: column; gap: 1.75rem;
   border-left: 1px solid rgba(var(--color-foreground), 0.06);
 }
-
 @media (min-width: 900px) { .fe-panel { padding: 2.5rem 2rem; } }
-
 .fe-panel-heading { padding-bottom: 1.25rem; border-bottom: 1px solid rgba(var(--color-foreground), 0.08); }
-
-.fe-heading {
-  margin: 0 0 0.3em;
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
-  font-weight: 700; line-height: 1.1;
-  color: rgb(var(--color-foreground));
-}
-
+.fe-heading { margin: 0 0 0.3em; font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700; line-height: 1.1; color: rgb(var(--color-foreground)); }
 .fe-subheading { margin: 0; font-size: 0.88rem; line-height: 1.5; opacity: 0.6; color: rgb(var(--color-foreground)); }
 
 /* ── Step groups ── */
 .fe-group-label {
-  display: flex; align-items: center; gap: 0.5rem;
-  margin: 0 0 0.85rem;
+  display: flex; align-items: center; gap: 0.5rem; margin: 0 0 0.85rem;
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
   text-transform: uppercase; color: rgb(var(--color-foreground));
 }
-
 .fe-step-num {
   display: inline-flex; align-items: center; justify-content: center;
   width: 20px; height: 20px; border-radius: 50%;
   background: rgb(var(--color-button)); color: rgb(var(--color-button-label));
   font-size: 0.65rem; font-weight: 800; flex-shrink: 0;
 }
+.fe-step--locked { opacity: 0.38; pointer-events: none; user-select: none; }
+.fe-step--locked .fe-step-num { background: rgba(var(--color-foreground), 0.2); color: rgba(var(--color-foreground), 0.6); }
 
-/* Locked state — grayed out, non-interactive */
-.fe-step--locked {
-  opacity: 0.38;
-  pointer-events: none;
-  user-select: none;
+/* ── Configurator (function + flavor) ── */
+.fe-config { display: none; }
+.fe-config.is-active { display: block; }
+.fe-subgroup + .fe-subgroup { margin-top: 1.25rem; }
+.fe-subgroup-label {
+  margin: 0 0 0.6rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(var(--color-foreground), 0.65);
+}
+.fe-unit { padding-top: 1.25rem; }
+.fe-unit + .fe-unit { margin-top: 1.25rem; border-top: 1px solid rgba(var(--color-foreground), 0.1); }
+.fe-unit:first-child { padding-top: 0; }
+.fe-unit-title {
+  margin: 0 0 0.75rem; font-size: 0.82rem; font-weight: 800;
+  letter-spacing: 0.04em; color: rgb(var(--color-foreground));
+  display: inline-flex; align-items: center; gap: 0.4rem;
 }
 
-.fe-step--locked .fe-step-num {
-  background: rgba(var(--color-foreground), 0.2);
-  color: rgba(var(--color-foreground), 0.6);
-}
-
-/* ── Selector cards (functions + flavors) ── */
-.fe-selector-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
+/* ── Selector cards ── */
+.fe-selector-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .fe-selector-card {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 1rem;
-  border-radius: 9999px;
-  border: 2px solid rgba(var(--color-foreground), 0.15);
-  background: transparent;
-  color: rgba(var(--color-foreground), 0.7);
-  font-size: 0.85rem; font-weight: 500;
+  position: relative; display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.55rem 1rem; border-radius: 9999px;
+  border: 2px solid rgba(var(--color-foreground), 0.15); background: transparent;
+  color: rgba(var(--color-foreground), 0.7); font-size: 0.85rem; font-weight: 500;
   cursor: pointer; white-space: nowrap;
   transition: border-color 0.18s, color 0.18s, background 0.18s, box-shadow 0.18s;
 }
-
 .fe-selector-card:hover:not(:disabled):not([data-coming-soon]) {
-  border-color: rgba(var(--color-foreground), 0.4);
-  color: rgb(var(--color-foreground));
+  border-color: rgba(var(--color-foreground), 0.4); color: rgb(var(--color-foreground));
 }
-
-/* Selected state — border + fill using customisable selection color */
 .fe-selector-card.is-active {
   border-color: var(--fe-selection-color, rgb(var(--color-button)));
   background: var(--fe-selection-color, rgb(var(--color-button)));
-  color: rgb(var(--color-button-label));
-  font-weight: 700;
+  color: rgb(var(--color-button-label)); font-weight: 700;
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 25%, transparent);
 }
-
-/* Checkmark — hidden by default, shown when active */
 .fe-card-check {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px; height: 16px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.25);
-  opacity: 0;
-  transform: scale(0.5);
-  transition: opacity 0.18s, transform 0.18s;
-  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,0.25);
+  opacity: 0; transform: scale(0.5); transition: opacity 0.18s, transform 0.18s; flex-shrink: 0;
 }
-
-.fe-selector-card.is-active .fe-card-check {
-  opacity: 1;
-  transform: scale(1);
-}
-
+.fe-selector-card.is-active .fe-card-check { opacity: 1; transform: scale(1); }
 .fe-selector-card[data-coming-soon] { opacity: 0.4; cursor: not-allowed; }
 .fe-selector-card:disabled { cursor: not-allowed; }
-
-/* Icon — left side, square container */
 .fe-card-icon {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 24px; height: 24px;
-  flex-shrink: 0; overflow: hidden; border-radius: 4px;
+  width: 24px; height: 24px; flex-shrink: 0; overflow: hidden; border-radius: 4px;
 }
-
 .fe-card-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
-
 .fe-card-label { flex: 1; display: inline-flex; align-items: center; gap: 0.35rem; }
-
 .fe-badge {
-  font-style: normal; font-size: 0.58rem; font-weight: 700;
-  letter-spacing: 0.07em; text-transform: uppercase;
-  padding: 0.12em 0.5em; border-radius: 9999px;
+  font-style: normal; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; padding: 0.12em 0.5em; border-radius: 9999px;
   background: rgba(var(--color-foreground), 0.15); color: inherit;
 }
 
-/* ── Purchase options ── */
+/* ── Purchase / plan options ── */
 .fe-purchase-options { display: flex; flex-direction: column; gap: 0.6rem; }
-
 .fe-purchase-option {
-  display: flex; align-items: flex-start; gap: 0.85rem;
-  padding: 1rem 1.1rem;
+  display: flex; align-items: flex-start; gap: 0.85rem; padding: 1rem 1.1rem;
   border: 2px solid rgba(var(--color-foreground), 0.12);
   border-radius: var(--fe-border-radius, 12px);
   background: transparent; cursor: pointer; position: relative;
   transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
 }
-
-.fe-purchase-option:hover:not(:has(input:disabled)) {
-  border-color: rgba(var(--color-foreground), 0.3);
-}
-
+.fe-purchase-option:hover { border-color: rgba(var(--color-foreground), 0.3); }
 .fe-purchase-option.is-active {
   border-color: var(--fe-selection-color, rgb(var(--color-button)));
   background: color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 8%, transparent);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 18%, transparent),
               inset 4px 0 0 var(--fe-selection-color, rgb(var(--color-button)));
 }
-
 .fe-purchase-option input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
-
 .fe-radio-dot {
   flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%;
-  border: 2px solid rgba(var(--color-foreground), 0.25);
-  margin-top: 2px; position: relative; transition: border-color 0.18s;
+  border: 2px solid rgba(var(--color-foreground), 0.25); margin-top: 2px;
+  position: relative; transition: border-color 0.18s;
 }
-
 .fe-radio-dot::after {
   content: ''; position: absolute; inset: 3px; border-radius: 50%;
-  background: var(--fe-selection-color, rgb(var(--color-button))); opacity: 0; transform: scale(0.4);
-  transition: opacity 0.18s, transform 0.18s;
+  background: var(--fe-selection-color, rgb(var(--color-button)));
+  opacity: 0; transform: scale(0.4); transition: opacity 0.18s, transform 0.18s;
 }
-
 .fe-purchase-option.is-active .fe-radio-dot { border-color: var(--fe-selection-color, rgb(var(--color-button))); }
 .fe-purchase-option.is-active .fe-radio-dot::after { opacity: 1; transform: scale(1); }
-
 .fe-purchase-inner { display: flex; flex-direction: column; gap: 0.2rem; flex: 1; min-width: 0; }
 .fe-purchase-top { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .fe-purchase-title { font-size: 0.9rem; font-weight: 700; color: rgb(var(--color-foreground)); display: flex; align-items: center; gap: 0.4rem; }
 .fe-purchase-desc { font-size: 0.75rem; opacity: 0.5; color: rgb(var(--color-foreground)); line-height: 1.4; }
-
 .fe-save-badge {
-  font-style: normal; font-size: 0.6rem; font-weight: 700;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 0.15em 0.6em; border-radius: 9999px;
+  font-style: normal; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 0.15em 0.6em; border-radius: 9999px;
   background: rgb(var(--color-button)); color: rgb(var(--color-button-label));
 }
 
-.fe-purchase-price { font-size: 0.92rem; font-weight: 800; color: rgb(var(--color-button)); white-space: nowrap; flex-shrink: 0; }
-
-/* ── Product summary ── */
-.fe-product-summary {
-  display: flex; align-items: center; gap: 1rem; padding: 1rem;
-  border-radius: var(--fe-border-radius, 12px);
-  background: rgba(var(--color-foreground), 0.04);
-  border: 1px solid rgba(var(--color-foreground), 0.08); min-height: 80px;
+/* ── Extras (add-on + perks) ── */
+.fe-extras { display: none; flex-direction: column; gap: 0.75rem; }
+.fe-extras.is-active { display: flex; }
+.fe-addon {
+  display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.9rem 1rem;
+  border: 2px dashed rgba(var(--color-foreground), 0.2);
+  border-radius: var(--fe-border-radius, 12px); cursor: pointer;
+  transition: border-color 0.18s, background 0.18s;
+}
+.fe-addon:hover { border-color: rgba(var(--color-foreground), 0.4); }
+.fe-addon:has(input:checked) {
+  border-style: solid;
+  border-color: var(--fe-selection-color, rgb(var(--color-button)));
+  background: color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 6%, transparent);
+}
+.fe-addon input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
+.fe-addon-box {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 5px; margin-top: 1px;
+  border: 2px solid rgba(var(--color-foreground), 0.3); position: relative; transition: all 0.18s;
+}
+.fe-addon-box::after {
+  content: ''; position: absolute; left: 5px; top: 1px; width: 6px; height: 11px;
+  border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg) scale(0); transition: transform 0.18s;
+}
+.fe-addon:has(input:checked) .fe-addon-box {
+  background: var(--fe-selection-color, rgb(var(--color-button)));
+  border-color: var(--fe-selection-color, rgb(var(--color-button)));
+}
+.fe-addon:has(input:checked) .fe-addon-box::after { transform: rotate(45deg) scale(1); }
+.fe-addon-text { display: flex; flex-direction: column; gap: 0.15rem; }
+.fe-addon-title { font-size: 0.85rem; font-weight: 700; color: rgb(var(--color-foreground)); }
+.fe-addon-desc { font-size: 0.72rem; opacity: 0.55; color: rgb(var(--color-foreground)); }
+.fe-perks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+.fe-perk-line {
+  display: flex; align-items: center; gap: 0.5rem; margin: 0;
+  font-size: 0.82rem; font-weight: 600; color: rgb(var(--color-foreground));
+}
+.fe-perk-check {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; font-size: 0.7rem; font-weight: 800;
+  background: var(--fe-selection-color, rgb(var(--color-button))); color: rgb(var(--color-button-label));
 }
 
+/* ── Summary ── */
+.fe-product-summary {
+  display: flex; align-items: center; gap: 1rem; padding: 1rem;
+  border-radius: var(--fe-border-radius, 12px); background: rgba(var(--color-foreground), 0.04);
+  border: 1px solid rgba(var(--color-foreground), 0.08); min-height: 80px;
+}
 .fe-product-thumb-wrap { flex-shrink: 0; width: 64px; height: 64px; border-radius: 8px; overflow: hidden; background: rgba(var(--color-foreground), 0.06); }
 .fe-product-thumb { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.3s; }
 .fe-product-thumb.is-loaded { opacity: 1; }
 .fe-product-info { flex: 1; min-width: 0; }
-.fe-product-name { margin: 0 0 0.2em; font-size: 0.88rem; font-weight: 700; color: rgb(var(--color-foreground)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fe-product-variant { margin: 0; font-size: 0.75rem; opacity: 0.5; color: rgb(var(--color-foreground)); }
+.fe-product-name { margin: 0 0 0.2em; font-size: 0.88rem; font-weight: 700; color: rgb(var(--color-foreground)); }
+.fe-product-variant { margin: 0; font-size: 0.75rem; opacity: 0.5; color: rgb(var(--color-foreground)); line-height: 1.4; }
+.fe-summary-price-wrap { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+.fe-summary-price { font-size: 1.05rem; font-weight: 800; color: rgb(var(--color-foreground)); white-space: nowrap; }
+.fe-summary-period { font-size: 0.68rem; opacity: 0.55; color: rgb(var(--color-foreground)); }
 
-/* ── ATC button ── */
+/* ── ATC ── */
 .fe-atc-wrap { display: flex; flex-direction: column; gap: 0.5rem; }
-
 .fe-atc-btn {
   display: flex; align-items: center; justify-content: center; gap: 0.75rem;
-  width: 100%; padding: 0.9rem 1.5rem;
-  border-radius: var(--fe-btn-radius, var(--buttons-radius, 9999px));
-  font-size: 0.95rem; font-weight: 700;
-  letter-spacing: 0.06em; text-transform: uppercase;
+  width: 100%; padding: 0.9rem 1.5rem; border-radius: var(--fe-btn-radius, var(--buttons-radius, 9999px));
+  font-size: 0.95rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
   cursor: pointer; overflow: hidden;
   transition: filter 0.2s, transform 0.15s, background 0.2s, color 0.2s, border-color 0.2s;
 }
-
-/* Filled — uses the scheme's button token exactly as Horizon does */
 .fe-atc-btn--filled {
-  background: rgb(var(--color-button));
-  color: rgb(var(--color-button-label));
-  border: none;
+  background: rgb(var(--color-button)); color: rgb(var(--color-button-label)); border: none;
   box-shadow: 0 0 0 var(--buttons-border-width, 0px) rgba(var(--color-button), var(--buttons-border-opacity, 0));
 }
-
-.fe-atc-btn--filled:hover:not([disabled]):not([aria-disabled="true"]) {
-  filter: brightness(1.08);
-  transform: translateY(-1px);
-}
-
-/* Outline — border in button color, transparent background */
-.fe-atc-btn--outline {
-  background: transparent;
-  color: rgb(var(--color-button));
-  border: 2px solid rgb(var(--color-button));
-}
-
-.fe-atc-btn--outline:hover:not([disabled]):not([aria-disabled="true"]) {
-  background: rgb(var(--color-button));
-  color: rgb(var(--color-button-label));
-  transform: translateY(-1px);
-}
-
-/* Ghost — no border, foreground color text */
-.fe-atc-btn--ghost {
-  background: transparent;
-  color: rgb(var(--color-foreground));
-  border: none;
-}
-
-.fe-atc-btn--ghost:hover:not([disabled]):not([aria-disabled="true"]) {
-  background: rgba(var(--color-foreground), 0.06);
-  transform: translateY(-1px);
-}
-
-.fe-atc-btn[disabled],
-.fe-atc-btn[aria-disabled="true"] {
-  opacity: 0.35;
-  cursor: not-allowed;
-  transform: none;
-  filter: none;
-}
-
+.fe-atc-btn--filled:hover:not([disabled]):not([aria-disabled="true"]) { filter: brightness(1.08); transform: translateY(-1px); }
+.fe-atc-btn--outline { background: transparent; color: rgb(var(--color-button)); border: 2px solid rgb(var(--color-button)); }
+.fe-atc-btn--outline:hover:not([disabled]):not([aria-disabled="true"]) { background: rgb(var(--color-button)); color: rgb(var(--color-button-label)); transform: translateY(-1px); }
+.fe-atc-btn--ghost { background: transparent; color: rgb(var(--color-foreground)); border: none; }
+.fe-atc-btn--ghost:hover:not([disabled]):not([aria-disabled="true"]) { background: rgba(var(--color-foreground), 0.06); transform: translateY(-1px); }
+.fe-atc-btn[disabled], .fe-atc-btn[aria-disabled="true"] { opacity: 0.35; cursor: not-allowed; transform: none; filter: none; }
 .fe-atc-loading { width: 16px; height: 16px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; display: none; animation: fe-spin 0.7s linear infinite; }
 .fe-atc-btn.is-loading .fe-atc-loading { display: block; }
 .fe-atc-btn.is-loading .fe-atc-label { opacity: 0.5; }
 @keyframes fe-spin { to { transform: rotate(360deg); } }
+
+.fe-onetime {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+  background: none; border: none; padding: 0.25rem; cursor: pointer;
+  font-size: 0.82rem; color: rgba(var(--color-foreground), 0.7); font-family: inherit;
+}
+.fe-onetime:not([data-static="true"]) .fe-onetime-price { text-decoration: underline; text-underline-offset: 2px; }
+.fe-onetime[data-static="true"] { cursor: default; }
+.fe-onetime-price { font-weight: 700; color: rgb(var(--color-foreground)); }
+.fe-onetime:hover:not([data-static="true"]) { color: rgb(var(--color-foreground)); }
 
 .fe-atc-message { margin: 0; font-size: 0.8rem; text-align: center; min-height: 1.2em; color: rgb(var(--color-button)); }
 .fe-atc-message.is-error { color: rgb(var(--color-error, 176 0 0)); }
 
 @media (prefers-reduced-motion: reduce) {
   .fe-media-slide, .fe-cover-img, .fe-selector-card,
-  .fe-purchase-option, .fe-radio-dot::after, .fe-card-check { transition: none; }
+  .fe-purchase-option, .fe-radio-dot::after, .fe-card-check, .fe-addon-box::after { transition: none; }
 }
 </style>
 
@@ -635,52 +592,12 @@
 (function () {
   'use strict';
 
-  var SECTION_ID   = {{ section_id | json }};
-  var SHOW_MONTHLY = {{ show_monthly | json }};
-  var SHOW_3MONTHS = {{ show_3months | json }};
+  var SECTION_ID    = {{ section_id | json }};
+  var SHOW_MONTHLY  = {{ show_monthly | json }};
+  var SHOW_QUARTERLY= {{ show_quarterly | json }};
+  var BUNDLE_COUNT  = {{ bundle_count | json }};
 
-  var FUNCTIONS = [
-    {%- for block in function_blocks -%}
-      {%- if block.settings.enabled -%}
-        {
-          id:            {{ block.id | json }},
-          label:         {{ block.settings.function_label | json }},
-          handle:        {{ block.settings.product.handle | json }},
-          comingSoon:    {{ block.settings.coming_soon | json }},
-          planMonthly:   {{ block.settings.loop_plan_monthly | json }},
-          planQuarterly: {{ block.settings.loop_plan_quarterly | json }},
-          thumbnail:     "{% if block.settings.thumbnail_image != blank %}{{ block.settings.thumbnail_image | image_url: width: 160 }}{% endif %}",
-        },
-      {%- endif -%}
-    {%- endfor -%}
-  ];
-
-  var FLAVORS = [
-    {%- for block in flavor_blocks -%}
-      {%- if block.settings.enabled -%}
-        {
-          id:        {{ block.id | json }},
-          name:      {{ block.settings.flavor_name | json }},
-          thumbnail: "{% if block.settings.thumbnail_image != blank %}{{ block.settings.thumbnail_image | image_url: width: 160 }}{% endif %}",
-        },
-      {%- endif -%}
-    {%- endfor -%}
-  ];
-
-  /* ── State ── */
-  var state = {
-    functionId:    null,   /* null = not yet chosen */
-    handle:        null,
-    planMonthly:   null,
-    planQuarterly: null,
-    flavorName:    null,   /* null = not yet chosen */
-    purchaseType:  null,   /* null = not yet chosen */
-    product:       null,
-    variant:       null,
-  };
-
-  /* ── DOM ── */
-  var root    = document.getElementById('fe-' + SECTION_ID);
+  var root = document.getElementById('fe-' + SECTION_ID);
   if (!root) return;
 
   var atcBtn  = root.querySelector('#fe-atc-' + SECTION_ID);
@@ -688,75 +605,67 @@
   var thumbEl = root.querySelector('#fe-product-thumb-' + SECTION_ID);
   var nameEl  = root.querySelector('#fe-product-name-' + SECTION_ID);
   var varEl   = root.querySelector('#fe-product-variant-' + SECTION_ID);
+  var priceEl = root.querySelector('#fe-summary-price-' + SECTION_ID);
+  var periodEl= root.querySelector('#fe-summary-period-' + SECTION_ID);
+  var addonInput = root.querySelector('#fe-addon-' + SECTION_ID);
+  var oneTimeBtn = root.querySelector('#fe-onetime-' + SECTION_ID);
 
-  var flavorGroup   = root.querySelector('#fe-flavor-group-' + SECTION_ID);
-  var purchaseGroup = root.querySelector('#fe-purchase-group-' + SECTION_ID);
+  var configGroup = root.querySelector('#fe-config-group-' + SECTION_ID);
+  var monthlyView = root.querySelector('.fe-config--monthly');
+  var quarterlyView = root.querySelector('.fe-config--quarterly');
+
+  /* ── State ──
+     slots keyed by config id: 'monthly', 'q1'..'qN'. Each holds the
+     function/flavor selection plus the resolved product + variant. */
+  var state = { purchaseType: null };
+  var slots = {};
+  function newSlot() {
+    return { functionId: null, handle: null, label: null, planMonthly: null,
+             planQuarterly: null, flavorName: null, product: null, variant: null };
+  }
+  slots.monthly = newSlot();
+  for (var i = 1; i <= BUNDLE_COUNT; i++) { slots['q' + i] = newSlot(); }
 
   /* ── Utilities ── */
   function formatMoney(cents) {
     return (cents / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
   }
-
   function setAtcMsg(msg, isError) {
     if (!atcMsg) return;
-    atcMsg.textContent = msg;
+    atcMsg.textContent = msg || '';
     atcMsg.classList.toggle('is-error', !!isError);
   }
-
   function pushEvent(event, data) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({ event: event, section_id: SECTION_ID, section_type: 'fortified-elements' }, data));
   }
-
   function cleanSrc(src) { return (src || '').split('?')[0]; }
-
-  /* ── Step locking ── */
-  function unlockGroup(group) {
-    if (!group) return;
-    group.classList.remove('fe-step--locked');
-    group.removeAttribute('aria-disabled');
-    group.querySelectorAll('button, input').forEach(function(el) {
-      el.removeAttribute('disabled');
-    });
+  function setAtcEnabled(enabled) {
+    if (!atcBtn) return;
+    if (enabled) { atcBtn.removeAttribute('disabled'); atcBtn.removeAttribute('aria-disabled'); }
+    else { atcBtn.setAttribute('disabled', ''); atcBtn.setAttribute('aria-disabled', 'true'); }
   }
 
-  function lockGroup(group) {
-    if (!group) return;
-    group.classList.add('fe-step--locked');
-    group.setAttribute('aria-disabled', 'true');
-    group.querySelectorAll('button, input').forEach(function(el) {
-      el.setAttribute('disabled', '');
-    });
-  }
-
-  /* ── Product cache ── */
+  /* ── Product cache + fetch ── */
   var productCache = {};
-
   function fetchProduct(handle) {
     if (!handle) return Promise.resolve(null);
     if (productCache[handle]) return Promise.resolve(productCache[handle]);
     return fetch('/products/' + handle + '.js')
-      .then(function(res) { return res.ok ? res.json() : null; })
-      .then(function(data) { if (data) productCache[handle] = data; return data; })
-      .catch(function() { return null; });
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .then(function (data) { if (data) productCache[handle] = data; return data; })
+      .catch(function () { return null; });
   }
 
   /* ── Variant resolution ── */
   function findVariant(product, flavorName) {
     if (!product || !product.variants.length) return null;
     var fl = (flavorName || '').toLowerCase().trim();
-    if (!fl) return product.variants.find(function(v) { return v.available; }) || product.variants[0];
-
-    var match = product.variants.find(function(v) {
-      return v.options.some(function(o) { return o.toLowerCase() === fl; }) && v.available;
-    });
-    if (!match) match = product.variants.find(function(v) {
-      return v.options.some(function(o) { return o.toLowerCase() === fl; });
-    });
-    if (!match) match = product.variants.find(function(v) {
-      return v.title.toLowerCase().indexOf(fl) !== -1 && v.available;
-    });
-    if (!match) match = product.variants.find(function(v) { return v.available; });
+    if (!fl) return product.variants.find(function (v) { return v.available; }) || product.variants[0];
+    var match = product.variants.find(function (v) { return v.options.some(function (o) { return o.toLowerCase() === fl; }) && v.available; });
+    if (!match) match = product.variants.find(function (v) { return v.options.some(function (o) { return o.toLowerCase() === fl; }); });
+    if (!match) match = product.variants.find(function (v) { return v.title.toLowerCase().indexOf(fl) !== -1 && v.available; });
+    if (!match) match = product.variants.find(function (v) { return v.available; });
     return match || product.variants[0];
   }
 
@@ -767,15 +676,13 @@
     var groups = product.selling_plan_groups || [];
     for (var i = 0; i < groups.length; i++) {
       var plans = groups[i].selling_plans || [];
-      for (var j = 0; j < plans.length; j++) {
-        if (plans[j].id === id) return plans[j].id;
-      }
+      for (var j = 0; j < plans.length; j++) { if (plans[j].id === id) return plans[j].id; }
     }
     return null;
   }
-
   function getSubscriptionPrice(product, variant, loopPlanId) {
-    if (!product || !variant || !loopPlanId) return null;
+    if (!product || !variant) return null;
+    if (!loopPlanId) return variant.price;
     var planId = parseInt(loopPlanId, 10);
     var groups = product.selling_plan_groups || [];
     for (var i = 0; i < groups.length; i++) {
@@ -790,390 +697,264 @@
         return variant.price;
       }
     }
-    return null;
+    return variant.price;
   }
 
-  /* ── Prices ── */
-  function updatePrices(product, variant) {
-    var oneTimeEl   = root.querySelector('[data-price-type="onetime"]');
-    var monthlyEl   = root.querySelector('[data-price-type="monthly"]');
-    var quarterlyEl = root.querySelector('[data-price-type="quarterly"]');
-
-    if (!variant) {
-      [oneTimeEl, monthlyEl, quarterlyEl].forEach(function(el) { if (el) el.textContent = '--'; });
-      return;
+  /* ── Active config slot ids for the current purchase type ── */
+  function activeSlotIds() {
+    if (state.purchaseType === 'monthly') return ['monthly'];
+    if (state.purchaseType === 'quarterly') {
+      var ids = [];
+      for (var i = 1; i <= BUNDLE_COUNT; i++) ids.push('q' + i);
+      return ids;
     }
-
-    if (oneTimeEl) oneTimeEl.textContent = formatMoney(variant.price);
-    if (monthlyEl && SHOW_MONTHLY) {
-      var pm = getSubscriptionPrice(product, variant, state.planMonthly);
-      monthlyEl.textContent = pm !== null ? formatMoney(pm) : formatMoney(variant.price);
-    }
-    if (quarterlyEl && SHOW_3MONTHS) {
-      var pq = getSubscriptionPrice(product, variant, state.planQuarterly);
-      quarterlyEl.textContent = pq !== null ? formatMoney(pq) : formatMoney(variant.price);
-    }
+    return [];
   }
 
-  /* ── Media column image swap ── */
-  function switchFunctionMedia(functionId, productFeaturedImage) {
-    /* Hide default cover */
+  /* ── Media swap (shows the last-selected function's product image) ── */
+  function switchFunctionMedia(functionId, featured) {
     var defaultSlide = root.querySelector('#fe-media-default-' + SECTION_ID);
     if (defaultSlide) defaultSlide.classList.remove('is-active');
-
-    root.querySelectorAll('[data-function-media]').forEach(function(slide) {
+    root.querySelectorAll('[data-function-media]').forEach(function (slide) {
       var active = slide.dataset.functionMedia === functionId;
       slide.classList.toggle('is-active', active);
-      if (active && productFeaturedImage) {
+      if (active && featured) {
         var img = slide.querySelector('.fe-cover-img');
-        if (img) {
-          img.dataset.baseSrc = productFeaturedImage;
-          if (cleanSrc(img.src) !== cleanSrc(productFeaturedImage)) {
-            img.style.opacity = '0';
-            img.onload = function() { img.style.opacity = '1'; };
-            img.src = productFeaturedImage;
-          }
+        if (img && cleanSrc(img.src) !== cleanSrc(featured)) {
+          img.dataset.baseSrc = featured;
+          img.style.opacity = '0';
+          img.onload = function () { img.style.opacity = '1'; };
+          img.src = featured;
         }
       }
     });
   }
 
-  function showVariantImage(variant) {
-    var activeSlide = root.querySelector('[data-function-media].is-active');
-    if (!activeSlide) return;
-    var img = activeSlide.querySelector('.fe-cover-img');
-    if (!img) return;
+  /* ── Recompute readiness, price, summary, ATC state ── */
+  function recompute() {
+    var ids = activeSlotIds();
+    var ready = ids.length > 0;
+    var total = 0;
+    var names = [];
+    var lastSlotWithProduct = null;
 
-    /*
-      Priority:
-      1. Active flavor pill's data-thumbnail (set from block thumbnail_image)
-      2. Variant's own featured_image from Shopify
-      3. Base function image (data-base-src — the product featured image)
-    */
-    var nextSrc = '';
-
-    var flavorBtn = root.querySelector('[data-flavor-id].is-active');
-    if (flavorBtn && flavorBtn.dataset.thumbnail) {
-      nextSrc = flavorBtn.dataset.thumbnail;
-    } else if (variant && variant.featured_image && variant.featured_image.src) {
-      nextSrc = variant.featured_image.src;
-    }
-
-    /* Fall back to the function's base image */
-    if (!nextSrc) nextSrc = img.dataset.baseSrc || '';
-
-    if (!nextSrc) {
-      img.style.opacity = '1';
-      return;
-    }
-
-    /* If already showing this image just make sure it's visible */
-    if (cleanSrc(img.src) === cleanSrc(nextSrc)) {
-      img.style.opacity = '1';
-      return;
-    }
-
-    img.style.opacity = '0';
-    img.onload  = function() { img.style.opacity = '1'; };
-    img.onerror = function() { img.style.opacity = '1'; };
-    img.src = nextSrc;
-    img.alt = variant ? variant.title : '';
-  }
-
-  /* ── Summary thumbnail ── */
-  function getActiveThumbnail(variant, product) {
-    /* Priority: flavor thumbnail > function thumbnail > variant image > product image */
-    var flavorBtn = root.querySelector('[data-flavor-id].is-active');
-    if (flavorBtn && flavorBtn.dataset.thumbnail) return flavorBtn.dataset.thumbnail;
-
-    var fnBtn = root.querySelector('[data-function-id].is-active');
-    if (fnBtn && fnBtn.dataset.thumbnail) return fnBtn.dataset.thumbnail;
-
-    if (variant && variant.featured_image && variant.featured_image.src) return variant.featured_image.src;
-    if (product && product.featured_image) return product.featured_image;
-    return '';
-  }
-
-  function updateSummary(product, variant) {
-    if (!product || !variant) {
-      if (nameEl)  nameEl.textContent = '--';
-      if (varEl)   varEl.textContent  = '--';
-      if (thumbEl) { thumbEl.src = ''; thumbEl.classList.remove('is-loaded'); }
-      return;
-    }
-
-    if (nameEl) nameEl.textContent = product.title;
-    if (varEl)  varEl.textContent  = variant.title;
-
-    if (thumbEl) {
-      var src = getActiveThumbnail(variant, product);
-      if (src && cleanSrc(src) !== cleanSrc(thumbEl.src)) {
-        thumbEl.classList.remove('is-loaded');
-        thumbEl.onload = function() { thumbEl.classList.add('is-loaded'); };
-        thumbEl.src = src;
-      }
-      thumbEl.alt = product.title + ' - ' + variant.title;
-    }
-  }
-
-  /* ── ATC enable/disable ── */
-  function setAtcEnabled(enabled) {
-    if (!atcBtn) return;
-    if (enabled) {
-      atcBtn.removeAttribute('disabled');
-      atcBtn.removeAttribute('aria-disabled');
-    } else {
-      atcBtn.setAttribute('disabled', '');
-      atcBtn.setAttribute('aria-disabled', 'true');
-    }
-  }
-
-  /* ── Apply variant (prices, image, summary) ── */
-  function applyVariant(product, variant) {
-    state.product = product;
-    state.variant = variant;
-    updateSummary(product, variant);
-    updatePrices(product, variant);
-    showVariantImage(variant);
-
-    if (state.purchaseType) {
-      var isComing = FUNCTIONS.some(function(f) { return f.id === state.functionId && f.comingSoon; });
-      setAtcEnabled(!isComing && !!product);
-    }
-  }
-
-  /* ── Load product for selected function ── */
-  function loadProduct() {
-    if (!state.handle) return;
-    setAtcMsg('');
-    setAtcEnabled(false);
-
-    fetchProduct(state.handle).then(function(product) {
-      if (!product) {
-        setAtcMsg('Product not found. Check the product handle in theme settings.', true);
-        return;
-      }
-
-      /* Set the cover image from the product featured image */
-      var featured = product.featured_image || (product.images && product.images[0] && product.images[0].src) || '';
-      switchFunctionMedia(state.functionId, featured);
-
-      var variant = findVariant(product, state.flavorName);
-      applyVariant(product, variant);
-
-      pushEvent('fe_product_loaded', {
-        function_id: state.functionId,
-        flavor:      state.flavorName,
-        variant_id:  variant && variant.id,
-        product:     product.title,
-      });
+    ids.forEach(function (id) {
+      var s = slots[id];
+      if (!s.functionId || !s.product || !s.variant) { ready = false; return; }
+      var planId = state.purchaseType === 'monthly' ? s.planMonthly : s.planQuarterly;
+      var price = getSubscriptionPrice(s.product, s.variant, planId);
+      if (price == null) price = s.variant.price;
+      total += price;
+      names.push(s.label + (s.flavorName ? ' · ' + s.flavorName : ''));
+      lastSlotWithProduct = s;
     });
+
+    /* Summary */
+    if (ready && lastSlotWithProduct) {
+      if (nameEl) nameEl.textContent = state.purchaseType === 'monthly'
+        ? lastSlotWithProduct.product.title
+        : (BUNDLE_COUNT + '-Pouch Box');
+      if (varEl) varEl.textContent = names.join('  |  ');
+      if (priceEl) priceEl.textContent = formatMoney(total);
+      if (periodEl) periodEl.textContent = state.purchaseType === 'monthly' ? '/ month' : '/ 3 months';
+      updateThumb(lastSlotWithProduct);
+    } else {
+      if (priceEl) priceEl.textContent = '--';
+      if (periodEl) periodEl.textContent = '';
+    }
+
+    var addonChecked = !!(addonInput && addonInput.checked);
+    pushEvent('fe_recompute', { purchase_type: state.purchaseType, ready: ready, total: total, addon: addonChecked });
+    setAtcEnabled(ready);
+    return ready;
+  }
+
+  function updateThumb(s) {
+    if (!thumbEl || !s) return;
+    var src = '';
+    if (s._configId) {
+      var fnBtn = root.querySelector('.fe-selector-grid[data-config="' + s._configId + '"][data-role="function"] .is-active');
+      var flBtn = root.querySelector('.fe-selector-grid[data-config="' + s._configId + '"][data-role="flavor"] .is-active');
+      if (flBtn && flBtn.dataset.thumbnail) src = flBtn.dataset.thumbnail;
+      else if (fnBtn && fnBtn.dataset.thumbnail) src = fnBtn.dataset.thumbnail;
+    }
+    if (!src && s.variant && s.variant.featured_image && s.variant.featured_image.src) src = s.variant.featured_image.src;
+    else if (!src && s.product && s.product.featured_image) src = s.product.featured_image;
+    if (src && cleanSrc(src) !== cleanSrc(thumbEl.src)) {
+      thumbEl.classList.remove('is-loaded');
+      thumbEl.onload = function () { thumbEl.classList.add('is-loaded'); };
+      thumbEl.src = src;
+    }
+  }
+
+  /* ── Load product for a slot, then recompute ── */
+  function loadSlotProduct(slotId) {
+    var s = slots[slotId];
+    if (!s.handle) return;
+    fetchProduct(s.handle).then(function (product) {
+      if (!product) { setAtcMsg('Product not found. Check the product handle in theme settings.', true); return; }
+      s.product = product;
+      s.variant = findVariant(product, s.flavorName);
+      var featured = product.featured_image || (product.images && product.images[0] && product.images[0].src) || '';
+      switchFunctionMedia(s.functionId, featured);
+      recompute();
+    });
+  }
+
+  /* ── Step locking ── */
+  function unlockConfig() {
+    if (!configGroup) return;
+    configGroup.classList.remove('fe-step--locked');
+    configGroup.removeAttribute('aria-disabled');
+  }
+
+  /* ── Show the right configurator + extras for the chosen plan ── */
+  function applyPurchaseType(type) {
+    state.purchaseType = type;
+    if (monthlyView) monthlyView.classList.toggle('is-active', type === 'monthly');
+    if (quarterlyView) quarterlyView.classList.toggle('is-active', type === 'quarterly');
+    root.querySelectorAll('.fe-extras').forEach(function (ex) {
+      ex.classList.toggle('is-active', ex.dataset.extrasView === type);
+    });
+    unlockConfig();
+    recompute();
+  }
+
+  /* ── Plan radios ── */
+  root.querySelectorAll('input[name="fe-plan-' + SECTION_ID + '"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      root.querySelectorAll('.fe-purchase-option').forEach(function (l) { l.classList.remove('is-active'); });
+      var label = radio.closest('.fe-purchase-option');
+      if (label) label.classList.add('is-active');
+      pushEvent('fe_plan_selected', { plan: radio.value });
+      applyPurchaseType(radio.value);
+    });
+  });
+
+  /* ── Function buttons (delegated) ── */
+  root.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-function-id]');
+    if (!btn || !root.contains(btn)) return;
+    if (btn.dataset.comingSoon === 'true') return;
+    var grid = btn.closest('.fe-selector-grid');
+    if (!grid) return;
+    var cfg = grid.dataset.config;
+    var s = slots[cfg];
+    if (!s) return;
+    s._configId = cfg;
+
+    grid.querySelectorAll('[data-function-id]').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+    btn.classList.add('is-active'); btn.setAttribute('aria-pressed', 'true');
+
+    s.functionId    = btn.dataset.functionId;
+    s.handle        = btn.dataset.productHandle;
+    s.label         = btn.dataset.functionLabel;
+    s.planMonthly   = btn.dataset.planMonthly   || null;
+    s.planQuarterly = btn.dataset.planQuarterly || null;
+
+    pushEvent('fe_function_selected', { config: cfg, function_id: s.functionId, label: s.label });
+    loadSlotProduct(cfg);
+  });
+
+  /* ── Flavor buttons (delegated) ── */
+  root.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-flavor-id]');
+    if (!btn || !root.contains(btn)) return;
+    var grid = btn.closest('.fe-selector-grid');
+    if (!grid) return;
+    var cfg = grid.dataset.config;
+    var s = slots[cfg];
+    if (!s) return;
+    s._configId = cfg;
+
+    grid.querySelectorAll('[data-flavor-id]').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+    btn.classList.add('is-active'); btn.setAttribute('aria-pressed', 'true');
+
+    s.flavorName = btn.dataset.flavorName;
+    if (s.product) s.variant = findVariant(s.product, s.flavorName);
+    pushEvent('fe_flavor_selected', { config: cfg, flavor: s.flavorName });
+    recompute();
+  });
+
+  /* ── Add-on checkbox ── */
+  if (addonInput) addonInput.addEventListener('change', function () {
+    pushEvent('fe_addon_toggled', { checked: addonInput.checked });
+    recompute();
+  });
+
+  /* ── Build cart line items ── */
+  function buildItems() {
+    var items = [];
+    var ids = activeSlotIds();
+    for (var k = 0; k < ids.length; k++) {
+      var s = slots[ids[k]];
+      if (!s.variant) return null;
+      var item = { id: s.variant.id, quantity: 1 };
+      var planRaw = state.purchaseType === 'monthly' ? s.planMonthly : s.planQuarterly;
+      var planId = findSellingPlanId(s.product, planRaw);
+      if (planId) item.selling_plan = planId;
+      items.push(item);
+    }
+    /* Monthly creatine add-on */
+    if (state.purchaseType === 'monthly' && addonInput && addonInput.checked) {
+      var addonVariant = parseInt(addonInput.dataset.addonVariant, 10);
+      if (addonVariant) items.push({ id: addonVariant, quantity: 1 });
+    }
+    return items;
   }
 
   /* ── Add to cart ── */
-  function addToCart() {
-    /* Re-resolve variant at click time to ensure it's current */
-    if (state.product && state.flavorName) {
-      state.variant = findVariant(state.product, state.flavorName);
-    }
+  function addToCart(oneTime) {
+    setAtcMsg('');
+    var items;
 
-    if (!state.product) {
-      setAtcMsg('Please select a function first.', true);
-      return;
+    if (oneTime) {
+      /* One-time: add the first selected slot's variant with no selling plan */
+      var ids = activeSlotIds();
+      var firstReady = ids.map(function (id) { return slots[id]; }).find(function (s) { return s && s.variant; });
+      if (!firstReady) { setAtcMsg('Select a function and flavor first.', true); return; }
+      items = [{ id: firstReady.variant.id, quantity: 1 }];
+    } else {
+      if (!state.purchaseType) { setAtcMsg('Please choose a plan.', true); return; }
+      items = buildItems();
+      if (!items) { setAtcMsg('Please complete every pouch (function + flavor).', true); return; }
     }
-    if (!state.variant) {
-      setAtcMsg('Could not find this variant. Please try again.', true);
-      return;
-    }
-
-    var checkedRadio = root.querySelector('input[name="fe-purchase-' + SECTION_ID + '"]:checked');
-    var purchaseType = state.purchaseType || (checkedRadio && checkedRadio.value);
-    if (!purchaseType) {
-      setAtcMsg('Please select a purchase option.', true);
-      return;
-    }
-
-    pushEvent('fe_add_to_cart_attempt', {
-      variant_id: state.variant.id, purchase_type: purchaseType,
-      function_id: state.functionId, flavor: state.flavorName,
-    });
 
     atcBtn.classList.add('is-loading');
     setAtcEnabled(false);
-    setAtcMsg('');
 
-    var body, planId, resolvedPlanId;
-
-    if (purchaseType === 'monthly' || purchaseType === 'quarterly') {
-      planId         = purchaseType === 'monthly' ? state.planMonthly : state.planQuarterly;
-      resolvedPlanId = findSellingPlanId(state.product, planId);
-
-      if (!resolvedPlanId) {
-        atcBtn.classList.remove('is-loading');
-        setAtcEnabled(true);
-        setAtcMsg('Subscription plan not found. Check the Loop Plan IDs in theme settings.', true);
-        return;
-      }
-      body = JSON.stringify({ id: state.variant.id, quantity: 1, selling_plan: resolvedPlanId });
-    } else {
-      body = JSON.stringify({ id: state.variant.id, quantity: 1 });
-    }
+    pushEvent('fe_add_to_cart_attempt', { purchase_type: oneTime ? 'onetime' : state.purchaseType, items: items.length });
 
     fetch('/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: body,
+      body: JSON.stringify({ items: items })
     })
-    .then(function(res) {
-      if (!res.ok) return res.json().then(function(e) { throw new Error(e.description || 'Cart error'); });
-
-      pushEvent(purchaseType !== 'onetime' ? 'fe_subscription_added' : 'fe_add_to_cart_success', {
-        variant_id: state.variant.id, purchase_type: purchaseType,
-      });
-
-      /*
-        Open Horizon's cart drawer.
-
-        From the actual Horizon source (cart-drawer.js):
-          - The element is <cart-drawer-component>
-          - It has a public .open() method that calls this.showDialog()
-          - It listens for CartAddEvent ('cart:add') to auto-open if
-            the auto-open attribute is present AND to update the count
-
-        We call .open() directly first (no attribute check needed),
-        then dispatch 'cart:add' so Horizon re-renders the drawer
-        contents and updates the cart bubble count in the header.
-      */
-      fetch('/cart.js')
-        .then(function(r) { return r.json(); })
-        .then(function(cart) {
-          var cartDrawer = document.querySelector('cart-drawer-component');
-
-          /* Open the drawer immediately */
-          if (cartDrawer && typeof cartDrawer.open === 'function') {
-            cartDrawer.open();
-          }
-
-          /* Then dispatch cart:add so Horizon refreshes drawer contents + count */
-          document.dispatchEvent(new CustomEvent('cart:add', {
-            bubbles: true,
-            detail: { resource: { item_count: cart.item_count } }
-          }));
-        })
-        .catch(function() {
-          /* /cart.js failed — open drawer with stale content */
-          var cartDrawer = document.querySelector('cart-drawer-component');
-          if (cartDrawer && typeof cartDrawer.open === 'function') {
-            cartDrawer.open();
-          }
-        });
-
+    .then(function (res) {
+      if (!res.ok) return res.json().then(function (er) { throw new Error(er.description || 'Cart error'); });
+      pushEvent('fe_add_to_cart_success', { purchase_type: oneTime ? 'onetime' : state.purchaseType });
+      return fetch('/cart.js').then(function (r) { return r.json(); });
+    })
+    .then(function (cart) {
+      var cartDrawer = document.querySelector('cart-drawer-component');
+      if (cartDrawer && typeof cartDrawer.open === 'function') cartDrawer.open();
+      document.dispatchEvent(new CustomEvent('cart:add', { bubbles: true, detail: { resource: { item_count: cart ? cart.item_count : 0 } } }));
       setAtcMsg('');
     })
-    .catch(function(err) {
+    .catch(function (err) {
       setAtcMsg(err.message || 'Something went wrong. Please try again.', true);
-      pushEvent('fe_add_to_cart_error', { variant_id: state.variant.id, error: err.message });
+      pushEvent('fe_add_to_cart_error', { error: err.message });
     })
-    .finally(function() {
+    .finally(function () {
       atcBtn.classList.remove('is-loading');
-      var isComing = FUNCTIONS.some(function(f) { return f.id === state.functionId && f.comingSoon; });
-      setAtcEnabled(!isComing && !!state.purchaseType);
+      recompute();
     });
   }
 
-  /* ── Event: Function cards ── */
-  root.querySelectorAll('[data-function-id]').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      if (btn.dataset.comingSoon === 'true') return;
-
-      /* Mark selected */
-      root.querySelectorAll('[data-function-id]').forEach(function(b) {
-        b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false');
-      });
-      btn.classList.add('is-active'); btn.setAttribute('aria-pressed', 'true');
-
-      state.functionId    = btn.dataset.functionId;
-      state.handle        = btn.dataset.productHandle;
-      state.planMonthly   = btn.dataset.loopPlanMonthly   || null;
-      state.planQuarterly = btn.dataset.loopPlanQuarterly || null;
-
-      /* Unlock flavors, reset downstream selections */
-      unlockGroup(flavorGroup);
-
-      /* Reset flavor + purchase selections when function changes */
-      root.querySelectorAll('[data-flavor-id]').forEach(function(b) {
-        b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false');
-      });
-      root.querySelectorAll('.fe-purchase-option').forEach(function(l) { l.classList.remove('is-active'); });
-      root.querySelectorAll('input[name="fe-purchase-' + SECTION_ID + '"]').forEach(function(r) { r.checked = false; });
-
-      state.flavorName   = null;
-      state.purchaseType = null;
-      lockGroup(purchaseGroup);
-      setAtcEnabled(false);
-
-      pushEvent('fe_function_selected', { function_id: state.functionId, label: btn.dataset.functionLabel });
-      loadProduct();
-    });
-  });
-
-  /* ── Event: Flavor cards ── */
-  root.querySelectorAll('[data-flavor-id]').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      /* Mark selected */
-      root.querySelectorAll('[data-flavor-id]').forEach(function(b) {
-        b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false');
-      });
-      btn.classList.add('is-active'); btn.setAttribute('aria-pressed', 'true');
-
-      state.flavorName = btn.dataset.flavorName;
-
-      /* Unlock purchase options */
-      unlockGroup(purchaseGroup);
-
-      /* Reset purchase selection when flavor changes */
-      root.querySelectorAll('.fe-purchase-option').forEach(function(l) { l.classList.remove('is-active'); });
-      root.querySelectorAll('input[name="fe-purchase-' + SECTION_ID + '"]').forEach(function(r) { r.checked = false; });
-      state.purchaseType = null;
-      setAtcEnabled(false);
-
-      pushEvent('fe_flavor_selected', { flavor: state.flavorName });
-
-      if (state.product) {
-        var variant = findVariant(state.product, state.flavorName);
-        applyVariant(state.product, variant);
-      }
-    });
-  });
-
-  /* ── Event: Purchase options ──
-     Bound on document so pointer-events:none on the locked group
-     never blocks the event from being captured. We check the group
-     is not locked before acting.
-  ── */
-  document.addEventListener('click', function(e) {
-    var label = e.target.closest('.fe-purchase-option');
-    if (!label) return;
-    if (!root.contains(label)) return;
-    if (purchaseGroup && purchaseGroup.classList.contains('fe-step--locked')) return;
-
-    var radio = label.querySelector('input[type="radio"]');
-    if (!radio) return;
-
-    radio.disabled = false;
-    radio.checked  = true;
-
-    root.querySelectorAll('.fe-purchase-option').forEach(function(l) { l.classList.remove('is-active'); });
-    label.classList.add('is-active');
-
-    state.purchaseType = radio.value;
-    pushEvent('fe_purchase_type_selected', { type: radio.value });
-
-    var isComing = FUNCTIONS.some(function(f) { return f.id === state.functionId && f.comingSoon; });
-    setAtcEnabled(!isComing);
-  });
-
-  if (atcBtn) atcBtn.addEventListener('click', addToCart);
+  if (atcBtn) atcBtn.addEventListener('click', function () { addToCart(false); });
+  if (oneTimeBtn && oneTimeBtn.dataset.static !== 'true') {
+    oneTimeBtn.addEventListener('click', function () { addToCart(true); });
+  }
 
 })();
 </script>
@@ -1183,10 +964,7 @@
   "name": "Product Selector",
   "class": "fortified-elements-section",
   "settings": [
-    {
-      "type": "header",
-      "content": "Layout"
-    },
+    { "type": "header", "content": "Layout" },
     {
       "type": "select",
       "id": "layout_direction",
@@ -1197,108 +975,65 @@
       ],
       "default": "image-left"
     },
+    { "type": "range", "id": "content_max_width", "label": "Section max width", "info": "How wide the section gets before centering.", "min": 600, "max": 1600, "step": 40, "unit": "px", "default": 1400 },
+    { "type": "range", "id": "panel_width", "label": "Selector panel width", "info": "Width of the selector panel on desktop. The image fills the rest.", "min": 300, "max": 700, "step": 20, "unit": "px", "default": 460 },
+
+    { "type": "header", "content": "Content" },
+    { "type": "image_picker", "id": "cover_image", "label": "Default cover image", "info": "Shown before a function is selected. Once a function is chosen the product image loads automatically." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Built for Every Body" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Pick your plan, then build your box." },
+    { "type": "text", "id": "summary_label", "label": "Order summary label", "default": "Your Order" },
+    { "type": "text", "id": "coming_soon_text", "label": "Coming Soon badge text", "default": "Soon" },
+
+    { "type": "header", "content": "Step 1 — Purchase Option" },
+    { "type": "text", "id": "purchase_step_label", "label": "Step label", "default": "Choose Your Plan" },
+    { "type": "checkbox", "id": "show_monthly", "label": "Show \"1 a Month\" plan", "default": true },
+    { "type": "text", "id": "monthly_label", "label": "Monthly title", "default": "1 a Month" },
+    { "type": "text", "id": "monthly_badge", "label": "Monthly badge", "default": "Most Flexible" },
+    { "type": "text", "id": "monthly_desc", "label": "Monthly description", "default": "One pouch delivered monthly. Cancel anytime." },
+    { "type": "checkbox", "id": "show_quarterly", "label": "Show \"3 Every 3 Months\" plan", "default": true },
+    { "type": "text", "id": "quarterly_label", "label": "Quarterly title", "default": "3 Every 3 Months" },
+    { "type": "text", "id": "quarterly_badge", "label": "Quarterly badge", "default": "Best Value" },
+    { "type": "text", "id": "quarterly_desc", "label": "Quarterly description", "default": "Three pouches every 3 months. Best value." },
+    { "type": "range", "id": "bundle_count", "label": "Pouches in the box", "info": "How many function + flavor selections the quarterly box requires.", "min": 2, "max": 6, "step": 1, "default": 3 },
+
+    { "type": "header", "content": "Step 2 — Function & Flavor" },
+    { "type": "text", "id": "config_step_label", "label": "Step label", "default": "Build Your Box" },
+    { "type": "text", "id": "function_label", "label": "Function selector label", "default": "Choose Your Function" },
+    { "type": "text", "id": "flavor_label", "label": "Flavor selector label", "default": "Choose Your Flavor" },
+    { "type": "text", "id": "unit_label_prefix", "label": "Pouch label prefix", "info": "Shown before each pouch number in the quarterly box (e.g. \"Pouch 1\").", "default": "Pouch" },
+
+    { "type": "header", "content": "Monthly Add-on" },
+    { "type": "checkbox", "id": "show_addon", "label": "Show creatine add-on (monthly only)", "default": true },
+    { "type": "product", "id": "addon_product", "label": "Add-on product", "info": "Added to the cart when the shopper ticks the add-on box. Configure the 50% discount as an automatic discount in Shopify." },
+    { "type": "text", "id": "addon_label", "label": "Add-on title", "default": "Add Creatine — 50% off" },
+    { "type": "text", "id": "addon_desc", "label": "Add-on description", "default": "50% off applied automatically at checkout." },
+    { "type": "text", "id": "monthly_shipping_note", "label": "Monthly shipping note", "default": "Free shipping included" },
+
+    { "type": "header", "content": "Bundle Perks (3 every 3 months)" },
+    { "type": "textarea", "id": "bundle_perks", "label": "Perks", "info": "One per line. Shown as a checklist when the quarterly box is selected.", "default": "Free Creatine\nFree Sample Pack\nFree Shipping" },
+
+    { "type": "header", "content": "Add to Cart Button" },
+    { "type": "text", "id": "atc_label", "label": "Button label", "default": "Add to Cart" },
     {
-      "type": "range",
-      "id": "content_max_width",
-      "label": "Section max width",
-      "info": "How wide the section gets before centering. Lower this to stop it stretching edge to edge.",
-      "min": 600,
-      "max": 1600,
-      "step": 40,
-      "unit": "px",
-      "default": 1400
+      "type": "select", "id": "button_style", "label": "Button style", "default": "filled",
+      "options": [
+        { "value": "filled",  "label": "Filled (solid color)" },
+        { "value": "outline", "label": "Outline (border only)" },
+        { "value": "ghost",   "label": "Ghost (text only)" }
+      ]
     },
+
+    { "type": "header", "content": "One-time Purchase Note" },
+    { "type": "text", "id": "onetime_prefix", "label": "Prefix text", "default": "Or purchase once:" },
+    { "type": "text", "id": "onetime_price_text", "label": "Price text", "default": "$59.00 + $8.99 shipping" },
+    { "type": "checkbox", "id": "onetime_clickable", "label": "Make it add a one-time purchase on click", "info": "Adds the selected function + flavor as a one-time (no subscription) purchase.", "default": true },
+
+    { "type": "header", "content": "Image" },
+    { "type": "range", "id": "media_height_mobile", "label": "Image height — mobile", "min": 200, "max": 700, "step": 20, "unit": "px", "default": 420 },
+    { "type": "range", "id": "media_height_desktop", "label": "Image height — desktop", "min": 300, "max": 900, "step": 20, "unit": "px", "default": 560 },
     {
-      "type": "range",
-      "id": "panel_width",
-      "label": "Selector panel width",
-      "info": "Width of the selector panel on desktop. The image fills the rest.",
-      "min": 300,
-      "max": 700,
-      "step": 20,
-      "unit": "px",
-      "default": 420
-    },
-    {
-      "type": "header",
-      "content": "Content"
-    },
-    {
-      "type": "image_picker",
-      "id": "cover_image",
-      "label": "Default cover image",
-      "info": "Shown in the left image area before a function is selected. Once a function is selected the product image loads automatically."
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Built for Every Body"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Choose your function. Choose your flavor."
-    },
-    {
-      "type": "text",
-      "id": "summary_label",
-      "label": "Order summary label",
-      "default": "Your Order"
-    },
-    {
-      "type": "text",
-      "id": "function_label",
-      "label": "Function selector label",
-      "default": "Choose Your Function"
-    },
-    {
-      "type": "text",
-      "id": "flavor_label",
-      "label": "Flavor selector label",
-      "default": "Choose Your Flavor"
-    },
-    {
-      "type": "text",
-      "id": "purchase_label",
-      "label": "Purchase option label",
-      "default": "Purchase Option"
-    },
-    {
-      "type": "text",
-      "id": "coming_soon_text",
-      "label": "Coming Soon badge text",
-      "default": "Soon"
-    },
-    {
-      "type": "header",
-      "content": "Image"
-    },
-    {
-      "type": "range",
-      "id": "media_height_mobile",
-      "label": "Image height — mobile",
-      "min": 200,
-      "max": 700,
-      "step": 20,
-      "unit": "px",
-      "default": 420
-    },
-    {
-      "type": "range",
-      "id": "media_height_desktop",
-      "label": "Image height — desktop",
-      "min": 300,
-      "max": 900,
-      "step": 20,
-      "unit": "px",
-      "default": 560
-    },
-    {
-      "type": "select",
-      "id": "image_position",
-      "label": "Image position",
+      "type": "select", "id": "image_position", "label": "Image position", "default": "center center",
       "options": [
         { "value": "top left",      "label": "Top left" },
         { "value": "top center",    "label": "Top center" },
@@ -1309,273 +1044,48 @@
         { "value": "bottom left",   "label": "Bottom left" },
         { "value": "bottom center", "label": "Bottom center" },
         { "value": "bottom right",  "label": "Bottom right" }
-      ],
-      "default": "center center"
+      ]
     },
-    {
-      "type": "range",
-      "id": "image_padding",
-      "label": "Image padding",
-      "info": "Space between the image and the edges of its container.",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "Purchase Options"
-    },
-    {
-      "type": "text",
-      "id": "onetime_label",
-      "label": "One-time label",
-      "default": "Buy Once"
-    },
-    {
-      "type": "text",
-      "id": "onetime_description",
-      "label": "One-time description",
-      "default": "One purchase, no commitment."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_monthly",
-      "label": "Show Monthly option",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "monthly_label",
-      "label": "Monthly label",
-      "default": "Monthly"
-    },
-    {
-      "type": "text",
-      "id": "monthly_description",
-      "label": "Monthly description",
-      "default": "Delivered every month. Cancel anytime."
-    },
-    {
-      "type": "text",
-      "id": "monthly_badge",
-      "label": "Monthly savings badge",
-      "default": "Save 15%"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_3months",
-      "label": "Show Every 3 Months option",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "quarterly_label",
-      "label": "Every 3 Months label",
-      "default": "Every 3 Months"
-    },
-    {
-      "type": "text",
-      "id": "quarterly_description",
-      "label": "Every 3 Months description",
-      "default": "3 boxes delivered quarterly. Best value."
-    },
-    {
-      "type": "text",
-      "id": "quarterly_badge",
-      "label": "Quarterly savings badge",
-      "default": "Save 20%"
-    },
-    {
-      "type": "header",
-      "content": "Add to Cart Button"
-    },
-    {
-      "type": "text",
-      "id": "atc_label",
-      "label": "Button label",
-      "default": "Add to Cart"
-    },
-    {
-      "type": "select",
-      "id": "button_style",
-      "label": "Button style",
-      "options": [
-        { "value": "filled",  "label": "Filled (solid color)" },
-        { "value": "outline", "label": "Outline (border only)" },
-        { "value": "ghost",   "label": "Ghost (text only)" }
-      ],
-      "default": "filled"
-    },
-    {
-      "type": "header",
-      "content": "Color Scheme"
-    },
-    {
-      "type": "color",
-      "id": "selection_color",
-      "label": "Selection highlight color",
-      "info": "Border and fill color for selected functions, flavors, and purchase options.",
-      "default": "#000000"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Section color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "color_scheme",
-      "id": "panel_color_scheme",
-      "label": "Panel color scheme",
-      "info": "Applied to the right selector panel.",
-      "default": "scheme-2"
-    },
-    {
-      "type": "header",
-      "content": "Spacing and Shape"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "label": "Top padding",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "label": "Bottom padding",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "button_radius",
-      "label": "Button border radius",
-      "min": 0,
-      "max": 60,
-      "step": 2,
-      "unit": "px",
-      "default": 60
-    },
-    {
-      "type": "range",
-      "id": "card_radius",
-      "label": "Card border radius",
-      "min": 0,
-      "max": 32,
-      "step": 2,
-      "unit": "px",
-      "default": 12
-    }
+    { "type": "range", "id": "image_padding", "label": "Image padding", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 0 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "selection_color", "label": "Selection highlight color", "info": "Border and fill color for selected plans, functions, and flavors.", "default": "#1FA8A1" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Section color scheme", "default": "scheme-1" },
+    { "type": "color_scheme", "id": "panel_color_scheme", "label": "Panel color scheme", "info": "Applied to the right selector panel.", "default": "scheme-2" },
+
+    { "type": "header", "content": "Spacing and Shape" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "button_radius", "label": "Button border radius", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 60 },
+    { "type": "range", "id": "card_radius", "label": "Card border radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 12 }
   ],
   "blocks": [
     {
       "type": "function_item",
       "name": "Function",
       "settings": [
-        {
-          "type": "header",
-          "content": "Product"
-        },
-        {
-          "type": "checkbox",
-          "id": "enabled",
-          "label": "Enable this function",
-          "default": true
-        },
-        {
-          "type": "text",
-          "id": "function_label",
-          "label": "Function name",
-          "default": "Everyday"
-        },
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Product"
-        },
-        {
-          "type": "checkbox",
-          "id": "coming_soon",
-          "label": "Mark as Coming Soon",
-          "default": false
-        },
-        {
-          "type": "header",
-          "content": "Selector"
-        },
-        {
-          "type": "image_picker",
-          "id": "pill_icon",
-          "label": "Icon",
-          "info": "Optional. Shown to the left of the function name in the selector."
-        },
-        {
-          "type": "image_picker",
-          "id": "thumbnail_image",
-          "label": "Summary thumbnail",
-          "info": "Shown in the summary card when this function is selected. Falls back to the product featured image."
-        },
-        {
-          "type": "header",
-          "content": "Loop Subscription Plan IDs"
-        },
-        {
-          "type": "paragraph",
-          "content": "In Shopify Admin open the product, scroll to Purchase options, click a selling plan, and copy the ID number from the end of the URL. Each product has its own unique plan IDs."
-        },
-        {
-          "type": "text",
-          "id": "loop_plan_monthly",
-          "label": "Monthly plan ID",
-          "info": "e.g. 12345678"
-        },
-        {
-          "type": "text",
-          "id": "loop_plan_quarterly",
-          "label": "Every 3 months plan ID",
-          "info": "e.g. 87654321"
-        }
+        { "type": "header", "content": "Product" },
+        { "type": "checkbox", "id": "enabled", "label": "Enable this function", "default": true },
+        { "type": "text", "id": "function_label", "label": "Function name", "default": "Everyday" },
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "checkbox", "id": "coming_soon", "label": "Mark as Coming Soon", "default": false },
+        { "type": "header", "content": "Selector" },
+        { "type": "image_picker", "id": "pill_icon", "label": "Icon", "info": "Optional. Shown to the left of the function name." },
+        { "type": "image_picker", "id": "thumbnail_image", "label": "Summary thumbnail", "info": "Shown in the summary card. Falls back to the product featured image." },
+        { "type": "header", "content": "Loop Subscription Plan IDs" },
+        { "type": "paragraph", "content": "In Shopify Admin open the product, scroll to Purchase options, click a selling plan, and copy the ID number from the end of the URL." },
+        { "type": "text", "id": "loop_plan_monthly", "label": "Monthly plan ID", "info": "Used by the \"1 a Month\" plan." },
+        { "type": "text", "id": "loop_plan_quarterly", "label": "Every 3 months plan ID", "info": "Used by the \"3 Every 3 Months\" plan." }
       ]
     },
     {
       "type": "flavor_item",
       "name": "Flavor",
       "settings": [
-        {
-          "type": "checkbox",
-          "id": "enabled",
-          "label": "Enable this flavor",
-          "default": true
-        },
-        {
-          "type": "text",
-          "id": "flavor_name",
-          "label": "Flavor name",
-          "info": "Must match the variant option in Shopify. Partial match works — Mango matches Mango Citrus.",
-          "default": "Original"
-        },
-        {
-          "type": "image_picker",
-          "id": "pill_icon",
-          "label": "Icon",
-          "info": "Optional. Shown to the left of the flavor name in the selector."
-        },
-        {
-          "type": "image_picker",
-          "id": "thumbnail_image",
-          "label": "Summary thumbnail",
-          "info": "Shown in the summary card when this flavor is selected. Falls back to the variant image."
-        }
+        { "type": "checkbox", "id": "enabled", "label": "Enable this flavor", "default": true },
+        { "type": "text", "id": "flavor_name", "label": "Flavor name", "info": "Must match the variant option in Shopify. Partial match works — Mango matches Mango Citrus.", "default": "Original" },
+        { "type": "image_picker", "id": "pill_icon", "label": "Icon", "info": "Optional. Shown to the left of the flavor name." },
+        { "type": "image_picker", "id": "thumbnail_image", "label": "Summary thumbnail", "info": "Shown in the summary card. Falls back to the variant image." }
       ]
     }
   ],
@@ -1584,34 +1094,12 @@
       "name": "Product Selector",
       "category": "Fortified Elements",
       "blocks": [
-        {
-          "type": "function_item",
-          "settings": { "function_label": "Everyday", "enabled": true, "coming_soon": false }
-        },
-        {
-          "type": "function_item",
-          "settings": { "function_label": "Energy", "enabled": true, "coming_soon": false }
-        },
-        {
-          "type": "function_item",
-          "settings": { "function_label": "Focus", "enabled": true, "coming_soon": true }
-        },
-        {
-          "type": "function_item",
-          "settings": { "function_label": "Performance", "enabled": true, "coming_soon": true }
-        },
-        {
-          "type": "flavor_item",
-          "settings": { "flavor_name": "Original", "enabled": true }
-        },
-        {
-          "type": "flavor_item",
-          "settings": { "flavor_name": "Mango", "enabled": true }
-        },
-        {
-          "type": "flavor_item",
-          "settings": { "flavor_name": "Berry", "enabled": true }
-        }
+        { "type": "function_item", "settings": { "function_label": "Everyday", "enabled": true, "coming_soon": false } },
+        { "type": "function_item", "settings": { "function_label": "Energy", "enabled": true, "coming_soon": false } },
+        { "type": "function_item", "settings": { "function_label": "Focus", "enabled": true, "coming_soon": true } },
+        { "type": "flavor_item", "settings": { "flavor_name": "Original", "enabled": true } },
+        { "type": "flavor_item", "settings": { "flavor_name": "Mango", "enabled": true } },
+        { "type": "flavor_item", "settings": { "flavor_name": "Berry", "enabled": true } }
       ]
     }
   ]
