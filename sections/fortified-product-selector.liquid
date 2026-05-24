@@ -543,7 +543,7 @@
 
   var SID          = {{ sid | json }};
   var BUNDLE_COUNT = {{ bundle_count | json }};
-  var BUILD_LABEL  = {{ section.settings.build_step_label | default: 'Build {count}-Pouch Bundle' | json }};
+  var BUILD_LABEL  = {{ section.settings.build_step_label | json }} || 'Build {count}-Pouch Bundle';
   var POUCHES_WORD = {{ section.settings.pouches_word | default: 'Pouches' | json }};
   var SHOW_TOTAL   = {{ section.settings.show_total_on_button | json }};
 
