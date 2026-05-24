@@ -43,29 +43,50 @@
      fixed-px bars) keep this lighter column below its 1/3 share. Clear the
      min-width floor on the wrapper, its content, and (via the row-level
      :has) on every width-fill sibling so all columns equalize. */
+  /* ── Equal size: every card in the row gets the same width AND height ──
+     Each card sits in a .group-block--width-fill wrapper inside the row.
+     (a) divide width evenly (clear the min-width floor, flex-basis:0);
+     (b) force the row to stretch every wrapper to the tallest card;
+     (c) make each wrapper, its content panel, and the card itself fill
+     that height. These target EVERY width-fill sibling in the row, so the
+     stat-chart cards are equalised to match this list (and vice-versa). */
   .group-block--width-fill:has(> .group-block-content > .{{ root }}),
   .group-block--width-fill:has(> .group-block-content > .{{ root }}) > .group-block-content {
     min-width: 0;
   }
-  .layout-panel-flex--row:has(> .group-block--width-fill > .group-block-content > .{{ root }}) > .group-block--width-fill,
-  .layout-panel-flex--row:has(> .group-block--width-fill > .group-block-content > .{{ root }}) > .group-block--width-fill > .group-block-content {
+  .layout-panel-flex--row:has(> .group-block--width-fill > .group-block-content > .{{ root }}) {
+    align-items: stretch !important;
+  }
+  .layout-panel-flex--row:has(> .group-block--width-fill > .group-block-content > .{{ root }}) > .group-block--width-fill {
     min-width: 0;
     flex-basis: 0;
-  }
-
-  /* The card may be nested inside its own group wrapper (each card wrapped in
-     a single-child group). Force that wrapper + its content panel to fill
-     their flex track AND stretch to the row's full height so this card ends up
-     the same width and height as the sibling stat cards. */
-  .group-block--width-fill:has(> .group-block-content > .{{ root }}),
-  .group-block--width-fill:has(> .group-block-content > .{{ root }}) > .group-block-content {
     align-self: stretch;
-    width: 100%;
   }
-  {% if block.settings.match_sibling_height %}
-  .group-block--width-fill:has(> .group-block-content > .{{ root }}) > .group-block-content {
+  .layout-panel-flex--row:has(> .group-block--width-fill > .group-block-content > .{{ root }}) > .group-block--width-fill > .group-block-content {
+    min-width: 0;
+    height: 100%;
     display: flex;
     flex-direction: column;
+  }
+  .layout-panel-flex--row:has(> .group-block--width-fill > .group-block-content > .{{ root }}) > .group-block--width-fill > .group-block-content > * {
+    height: 100%;
+  }
+
+  {% if block.settings.mobile_scroll %}
+  /* ── Mobile: scroll the cards sideways instead of stacking ── */
+  @media (max-width: 749px) {
+    .layout-panel-flex--row:has(> .group-block--width-fill > .group-block-content > .{{ root }}) {
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-inline: 16px;
+    }
+    .layout-panel-flex--row:has(> .group-block--width-fill > .group-block-content > .{{ root }}) > .group-block--width-fill {
+      flex: 0 0 82% !important;
+      scroll-snap-align: start;
+    }
   }
   {% endif %}
 
@@ -192,6 +213,7 @@
       ],
       "info": "Fill makes the card share row width equally with sibling cards. Fit shrinks it to its content."
     },
+    { "type": "checkbox", "id": "mobile_scroll", "label": "Scroll cards sideways on mobile", "default": true, "info": "On phones, the cards in this row scroll horizontally (swipe) instead of stacking." },
 
     { "type": "header", "content": "Headline (optional)" },
     { "type": "text",  "id": "headline_number",       "label": "Number",       "default": "0%" },
