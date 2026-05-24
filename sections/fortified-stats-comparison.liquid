@@ -116,7 +116,7 @@
           {%- if block.settings.subtitle != blank -%}<p class="ftsc-card__sub">{{ block.settings.subtitle }}</p>{%- endif -%}
 
           <div class="ftsc-card__body">
-            {%- if block.type == 'checklist' -%}
+            {%- if block.settings.card_type == 'checklist' -%}
               {%- assign items = block.settings.items | newline_to_br | split: '<br />' -%}
               <ul class="ftsc-list">
                 {%- for item in items -%}
@@ -179,7 +179,7 @@
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "columns", "label": "Columns (desktop)", "min": 2, "max": 4, "step": 1, "default": 3 },
     { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 0, "max": 48, "step": 4, "unit": "px", "default": 20 },
-    { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1100 },
+    { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
     { "type": "checkbox", "id": "mobile_scroll", "label": "Scroll cards sideways on mobile", "default": true },
     { "type": "select", "id": "text_alignment", "label": "Card text alignment", "default": "left",
       "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ] },
