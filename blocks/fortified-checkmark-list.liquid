@@ -53,6 +53,22 @@
     flex-basis: 0;
   }
 
+  /* The card may be nested inside its own group wrapper (each card wrapped in
+     a single-child group). Force that wrapper + its content panel to fill
+     their flex track AND stretch to the row's full height so this card ends up
+     the same width and height as the sibling stat cards. */
+  .group-block--width-fill:has(> .group-block-content > .{{ root }}),
+  .group-block--width-fill:has(> .group-block-content > .{{ root }}) > .group-block-content {
+    align-self: stretch;
+    width: 100%;
+  }
+  {% if block.settings.match_sibling_height %}
+  .group-block--width-fill:has(> .group-block-content > .{{ root }}) > .group-block-content {
+    display: flex;
+    flex-direction: column;
+  }
+  {% endif %}
+
   .{{ root }} {
     /* Fill the column when this block sits inside a flex row.
        flex: 1 1 0 + min-width: 0 ensures equal share with sibling cards

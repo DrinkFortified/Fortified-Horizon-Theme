@@ -1884,7 +1884,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>New arrivals</h2>",
+                    "text": "<h2>WHY WE BEAT THE REST electrolytes</h2>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1910,7 +1910,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                    "text": "<p>Electrolytes don't provide full recovery.</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1926,7 +1926,7 @@
                     "background_color": "#00000026",
                     "corner_radius": 0,
                     "padding-block-start": 0,
-                    "padding-block-end": 0,
+                    "padding-block-end": 40,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
@@ -2264,11 +2264,11 @@
                         "gap_after_heading": 20,
                         "item_gap": 12,
                         "match_sibling_height": true,
-                        "background_color": "#ffffff",
-                        "border_color": "#e5e7eb",
+                        "background_color": "#f9f9fa",
+                        "border_color": "#0a0a0a",
                         "border_width": 1,
                         "border_radius": 16,
-                        "padding": 32,
+                        "padding": 40,
                         "text_color": "#0a0a0a",
                         "text_alignment": "left"
                       },
@@ -2365,7 +2365,7 @@
                 "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
-                "padding-block-start": 0,
+                "padding-block-start": 40,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
@@ -2431,61 +2431,81 @@
         "padding-block-end": 0
       }
     },
-    "fortified_product_selector_gweCDq": {
+    "fortified_product_selector_8gnqTm": {
       "type": "fortified-product-selector",
       "blocks": {
-        "function_item_GnbHyW": {
+        "function_item_p8qKwq": {
           "type": "function_item",
           "settings": {
             "enabled": true,
             "function_label": "Everyday",
-            "product": "everyday",
+            "product": "energy",
             "coming_soon": false,
-            "thumbnail_image": "shopify://shop_images/260401-FOR-EDY-30-ORG-2026_1-Front.webp",
-            "manual_flavors": "Original\nMango\nBerry",
             "loop_plan_monthly": "",
             "loop_plan_quarterly": ""
           }
         },
-        "function_item_CA8mXX": {
+        "function_item_G4k3jN": {
           "type": "function_item",
           "settings": {
             "enabled": true,
             "function_label": "Energy",
-            "product": "energy",
+            "product": "everyday",
             "coming_soon": false,
-            "manual_flavors": "Original\nMango\nBerry",
             "loop_plan_monthly": "",
             "loop_plan_quarterly": ""
+          }
+        },
+        "flavor_item_n887PD": {
+          "type": "flavor_item",
+          "settings": {
+            "enabled": true,
+            "flavor_name": "Salty Orange"
+          }
+        },
+        "flavor_item_NJmBTA": {
+          "type": "flavor_item",
+          "settings": {
+            "enabled": true,
+            "flavor_name": "Salty Watermelon"
           }
         }
       },
       "block_order": [
-        "function_item_GnbHyW",
-        "function_item_CA8mXX"
+        "function_item_p8qKwq",
+        "function_item_G4k3jN",
+        "flavor_item_n887PD",
+        "flavor_item_NJmBTA"
       ],
-      "name": "FTD - Product Selector",
+      "name": "Product Selector",
       "settings": {
         "layout_direction": "image-left",
         "content_max_width": 1400,
-        "panel_width": 420,
-        "heading": "Everyday Hydration",
-        "subheading": "Choose your function. Choose your flavor.",
+        "panel_width": 460,
+        "heading": "Built for Every Body",
+        "subheading": "Pick your plan, then build your box.",
+        "summary_label": "Your Order",
         "coming_soon_text": "Soon",
+        "purchase_step_label": "Choose Your Plan",
         "show_monthly": true,
-        "monthly_badge": "Save 15%",
+        "monthly_label": "1 a Month",
+        "monthly_badge": "Most Flexible",
         "monthly_desc": "One pouch delivered monthly. Cancel anytime.",
         "show_quarterly": true,
-        "quarterly_badge": "Save 20%",
+        "quarterly_label": "3 Every 3 Months",
+        "quarterly_badge": "Best Value",
         "quarterly_desc": "Three pouches every 3 months. Best value.",
         "bundle_count": 3,
+        "config_step_label": "Build Your Box",
         "function_label": "Choose Your Function",
         "flavor_label": "Choose Your Flavor",
         "unit_label_prefix": "Pouch",
         "show_addon": true,
-        "addon_product": "creatine",
+        "addon_product": "",
         "addon_label": "Add Creatine — 50% off",
         "addon_desc": "50% off applied automatically at checkout.",
+        "monthly_shipping_note": "Free shipping included",
+        "bundle_perks": "Free Creatine\nFree Sample Pack\nFree Shipping",
         "atc_label": "Add to Cart",
         "button_style": "filled",
         "onetime_prefix": "Or purchase once:",
@@ -2495,7 +2515,7 @@
         "media_height_desktop": 560,
         "image_position": "center center",
         "image_padding": 0,
-        "selection_color": "#000000",
+        "selection_color": "#1FA8A1",
         "color_scheme": "",
         "panel_color_scheme": "",
         "padding_top": 0,
@@ -3199,6 +3219,9 @@
         "tab_inactive_color": "#888888",
         "tab_line_color": "#e5e7eb",
         "background_color": "#ffffff",
+        "button_label": "Shop now",
+        "button_link": "",
+        "button_style": "filled",
         "aria_label": "Information tabs",
         "max_width": 1200,
         "padding_top": 80,
@@ -4337,9 +4360,9 @@
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
                 "gap": 12,
-                "width": "fill",
+                "width": "fit-content",
                 "custom_width": 100,
-                "width_mobile": "fill",
+                "width_mobile": "fit-content",
                 "custom_width_mobile": 100,
                 "height": "fit",
                 "custom_height": 100,
@@ -4593,16 +4616,17 @@
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
                 "gap": 12,
-                "width": "fill",
+                "width": "fit-content",
                 "custom_width": 100,
-                "width_mobile": "fill",
+                "width_mobile": "fit-content",
                 "custom_width_mobile": 100,
-                "height": "fill",
+                "height": "fit",
                 "custom_height": 100,
                 "inherit_color_scheme": true,
                 "color_scheme": "",
-                "background_media": "none",
+                "background_media": "image",
                 "video_position": "cover",
+                "background_image": "shopify://shop_images/4f639bc47fc4667f50613ccb44c7f0338b27c846.png",
                 "background_image_position": "cover",
                 "border": "none",
                 "border_width": 1,
@@ -4806,7 +4830,7 @@
                       "type": "image",
                       "name": "t:names.image",
                       "settings": {
-                        "image": "shopify://shop_images/4f639bc47fc4667f50613ccb44c7f0338b27c846_1.png",
+                        "image": "shopify://shop_images/Blank.webp",
                         "link": "",
                         "image_ratio": "adapt",
                         "width": "fill",
@@ -5531,7 +5555,7 @@
     "section_Bdmgw4",
     "section_6UE49d",
     "section_RM4hiK",
-    "fortified_product_selector_gweCDq",
+    "fortified_product_selector_8gnqTm",
     "fortified_tabs_Bwf6FU",
     "section_JeqbGN",
     "section_gkG4FQ",
