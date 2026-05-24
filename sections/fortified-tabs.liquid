@@ -1,27 +1,44 @@
 {% comment %}
-  Fortified Tabs Section
+  FTD - Tabbed Content
   ----------------------------------------------------------------------
   A tabbed content section. Each child "fortified-tab-panel" block is one
-  tab; the section auto-generates a button per tab.
+  tab; the section auto-generates a button per tab. Each panel accepts any
+  Horizon (@theme / @app) blocks as children.
 
-  SWITCHING — JavaScript, structure-independent
+  STRUCTURE (top to bottom):
+    - Eyebrow  <h4>
+    - Heading  <h2>
+    - Description  <p>
+    - Tab selector + tab content (panels)
+    - Bottom button (label + link + style)
+
+  SWITCHING — bulletproof JavaScript, structure independent
   ----------------------------------------------------------------------
-  Earlier attempts used the CSS `:checked ~ sibling` combinator. That only
-  works if the radio inputs and the panels are real DOM siblings. Inside
-  Horizon, `{% content_for 'blocks' %}` can wrap each block, which breaks
-  the sibling chain and the selector silently never matches — so panels
-  never switched.
+  In Horizon, `{% content_for 'blocks' %}` WRAPS each top-level block in a
+  Shopify-generated container element (it carries the block's editor
+  attributes). That wrapper — not the inner `.ft-tabs__panel` — is the
+  element that actually participates in the panels container's layout, so
+  toggling display only on the inner panel can leave the wrapper (and thus
+  the content) on screen. Earlier CSS `:checked ~ sibling` attempts also
+  broke because the wrapper severs the sibling chain.
 
-  This version does NOT depend on DOM structure at all:
-    - querySelectorAll('.ft-tabs__panel') finds every panel no matter how
-      deeply it is wrapped.
-    - Each panel carries data-ftp-index (1-based, set by the panel block).
-    - Each tab <button> carries a matching data-ft-tab index.
-    - Clicking a button toggles the `is-active` class on the matching
-      panel + button. Visibility is class-based (display:none / flex), so
-      no sibling relationship is required.
-    - Re-runs on every render (theme editor reload) and activates a panel
-      when its block is selected in the editor.
+  This version is wrapper agnostic:
+    - Everything is scoped to the section root by id.
+    - We find every `.ft-tabs__panel`, then resolve the element that is a
+      DIRECT child of the `__panels` container (the wrapper Shopify injected,
+      or the panel itself if there is no wrapper) and toggle visibility on
+      THAT element. So whichever element controls layout is the one hidden.
+    - Tab buttons use event delegation on the section root, so clicks work
+      no matter how the buttons end up wrapped.
+    - Buttons match panels by a shared 1-based index
+      (button data-ft-tab  <->  panel data-ftp-index). The button loop and
+      the panel block's index computation both iterate the SAME
+      `where: 'type', 'fortified-tab-panel'` set in the SAME order.
+    - Re-initialises immediately, on DOMContentLoaded, and on
+      shopify:section:load (theme editor re-render).
+    - shopify:block:select reveals the panel whose block (or descendant) is
+      being edited.
+    - On first paint exactly ONE panel is visible (start_active, else first).
 {% endcomment %}
 
 {% liquid
@@ -37,6 +54,8 @@
       assign found_active = true
     endif
   endfor
+
+  assign btn_style = section.settings.button_style
 %}
 
 <style>
@@ -68,10 +87,33 @@
 
   .{{ root }}__panels { text-align: left; }
 
-  /* Base: panels hidden; shown only when JS adds .is-active. The
-     section-scoped .is-active rule (0,3,0) beats the base (0,2,0). */
-  .{{ root }} .ft-tabs__panel { display: none; flex-direction: column; gap: var(--ftp-gap, 24px); padding: var(--ftp-pad-top, 16px) 0 var(--ftp-pad-bottom, 16px); }
-  .{{ root }} .ft-tabs__panel.is-active { display: flex; }
+  /* Wrapper-agnostic hide/show. The section JS adds .ft-is-hidden to
+     whichever element actually controls the panel's layout (the panel OR
+     the Shopify-injected wrapper around it). !important guarantees it beats
+     any inline display set by a wrapped child block. */
+  .{{ root }} .ft-is-hidden { display: none !important; }
+
+  .{{ root }} .ft-tabs__panel { flex-direction: column; gap: var(--ftp-gap, 24px); padding: var(--ftp-pad-top, 16px) 0 var(--ftp-pad-bottom, 16px); }
+
+  .{{ root }}__footer { display: flex; justify-content: center; }
+  .{{ root }}__cta {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-heading--family, inherit); font-size: 16px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none;
+    padding: 16px 36px; border-radius: 6px; cursor: pointer;
+    transition: background-color 0.18s, color 0.18s, border-color 0.18s;
+    border: 2px solid {{ section.settings.accent_color }};
+  }
+  {% if btn_style == 'outline' %}
+  .{{ root }}__cta { background: transparent; color: {{ section.settings.accent_color }}; }
+  .{{ root }}__cta:hover { background: {{ section.settings.accent_color }}; color: #ffffff; }
+  {% elsif btn_style == 'ghost' %}
+  .{{ root }}__cta { background: transparent; color: {{ section.settings.accent_color }}; border-color: transparent; }
+  .{{ root }}__cta:hover { color: {{ section.settings.heading_color }}; text-decoration: underline; }
+  {% else %}
+  .{{ root }}__cta { background: {{ section.settings.accent_color }}; color: #ffffff; }
+  .{{ root }}__cta:hover { filter: brightness(0.92); }
+  {% endif %}
 
   @media (max-width: 600px) {
     .{{ root }}__tabs { gap: 24px; }
@@ -82,85 +124,149 @@
 <section id="{{ root }}" class="{{ root }}" data-active-index="{{ active_index }}" {{ section.shopify_attributes }}>
   <div class="{{ root }}__inner">
 
-    {% if section.settings.eyebrow != blank %}<p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
+    {% if section.settings.eyebrow != blank %}<h4 class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</h4>{% endif %}
     {% if section.settings.heading != blank %}<h2 class="{{ root }}__heading">{{ section.settings.heading }}</h2>{% endif %}
     {% if section.settings.subtitle != blank %}<p class="{{ root }}__subtitle">{{ section.settings.subtitle }}</p>{% endif %}
 
-    <div class="{{ root }}__panels" role="tablist" aria-label="{{ section.settings.aria_label | default: 'Information tabs' }}">
-      {% if panels.size > 0 %}
-        <div class="{{ root }}__tabs">
-          {% for block in panels %}
-            <button
-              type="button"
-              class="{{ root }}__btn{% if forloop.index == active_index %} is-active{% endif %}"
-              data-ft-tab="{{ forloop.index }}"
-              role="tab"
-              aria-selected="{% if forloop.index == active_index %}true{% else %}false{% endif %}"
-            >{{ block.settings.tab_label | default: 'Tab' }}</button>
-          {% endfor %}
-        </div>
-      {% endif %}
+    {% if panels.size > 0 %}
+      <div class="{{ root }}__tabs" role="tablist" aria-label="{{ section.settings.aria_label | default: 'Information tabs' }}">
+        {% for block in panels %}
+          <button
+            type="button"
+            class="{{ root }}__btn{% if forloop.index == active_index %} is-active{% endif %}"
+            data-ft-tab="{{ forloop.index }}"
+            role="tab"
+            aria-selected="{% if forloop.index == active_index %}true{% else %}false{% endif %}"
+          >{{ block.settings.tab_label | default: 'Tab' }}</button>
+        {% endfor %}
+      </div>
+    {% endif %}
 
+    <div class="{{ root }}__panels">
       {% content_for 'blocks' %}
     </div>
+
+    {% if section.settings.button_label != blank %}
+      <div class="{{ root }}__footer">
+        <a
+          class="{{ root }}__cta"
+          {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
+        >{{ section.settings.button_label }}</a>
+      </div>
+    {% endif %}
+
   </div>
 </section>
 
 <script>
   (function () {
-    var root = document.getElementById('{{ root }}');
-    if (!root) return;
+    var ROOT_ID = '{{ root }}';
+    var SECTION_ID = {{ section.id | json }};
 
-    function tabs()   { return root.querySelectorAll('.{{ root }}__btn'); }
-    function panels() { return root.querySelectorAll('.ft-tabs__panel'); }
+    function init(root) {
+      if (!root || root.dataset.ftInit === '1') {
+        if (root) reflectInitial(root);
+        return;
+      }
+      root.dataset.ftInit = '1';
 
-    function activate(idx) {
-      idx = String(idx);
-      var any = false;
-      panels().forEach(function (p) {
-        var on = p.getAttribute('data-ftp-index') === idx;
-        p.classList.toggle('is-active', on);
-        if (on) any = true;
+      /* Event delegation: one listener on the root catches every tab click,
+         regardless of how the buttons get wrapped. */
+      root.addEventListener('click', function (e) {
+        var btn = e.target.closest('.' + ROOT_ID + '__btn');
+        if (!btn || !root.contains(btn)) return;
+        e.preventDefault();
+        activate(root, btn.getAttribute('data-ft-tab'));
       });
-      tabs().forEach(function (b) {
+
+      reflectInitial(root);
+    }
+
+    /* The element that actually controls a panel's layout: the direct child
+       of the __panels container. Shopify may wrap each block, so the panel
+       can be nested below that wrapper; we hide the wrapper, else the panel. */
+    function layoutEl(root, panel) {
+      var container = root.querySelector('.' + ROOT_ID + '__panels');
+      var el = panel;
+      while (el && el.parentElement && el.parentElement !== container) {
+        el = el.parentElement;
+      }
+      return (el && el.parentElement === container) ? el : panel;
+    }
+
+    function panels(root) { return root.querySelectorAll('.ft-tabs__panel'); }
+    function tabs(root)   { return root.querySelectorAll('.' + ROOT_ID + '__btn'); }
+
+    function activate(root, idx) {
+      idx = String(idx);
+      var matched = false;
+      panels(root).forEach(function (p) {
+        var on = p.getAttribute('data-ftp-index') === idx;
+        layoutEl(root, p).classList.toggle('ft-is-hidden', !on);
+        p.classList.toggle('is-active', on);
+        if (on) matched = true;
+      });
+      tabs(root).forEach(function (b) {
         var on = b.getAttribute('data-ft-tab') === idx;
         b.classList.toggle('is-active', on);
         b.setAttribute('aria-selected', on ? 'true' : 'false');
       });
-      return any;
+      return matched;
     }
 
-    tabs().forEach(function (b) {
-      b.addEventListener('click', function () { activate(b.getAttribute('data-ft-tab')); });
+    /* Force exactly one visible panel: the requested index, else the first. */
+    function reflectInitial(root) {
+      var wanted = root.getAttribute('data-active-index') || '1';
+      if (!activate(root, wanted)) {
+        var first = root.querySelector('.ft-tabs__panel');
+        if (first) {
+          activate(root, first.getAttribute('data-ftp-index'));
+        } else {
+          /* No panels matched and none exist: hide everything to avoid
+             showing all at once. */
+          panels(root).forEach(function (p) { layoutEl(root, p).classList.add('ft-is-hidden'); });
+        }
+      }
+    }
+
+    function boot() { init(document.getElementById(ROOT_ID)); }
+
+    /* Run immediately (script is inline, after the markup) ... */
+    boot();
+    /* ... and on full load ... */
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', boot);
+    }
+    /* ... and whenever the theme editor re-renders this section. */
+    document.addEventListener('shopify:section:load', function (e) {
+      if (!e.detail || e.detail.sectionId !== SECTION_ID) return;
+      var r = document.getElementById(ROOT_ID);
+      if (r) { r.dataset.ftInit = ''; init(r); }
     });
 
-    /* Initial state — fall back to the first panel if the chosen index
-       has no matching panel (e.g. a panel was deleted). */
-    var initIdx = root.getAttribute('data-active-index') || '1';
-    if (!activate(initIdx)) {
-      var first = root.querySelector('.ft-tabs__panel');
-      if (first) activate(first.getAttribute('data-ftp-index'));
-    }
-
-    /* Theme editor: reveal the panel whose block (or child block) is selected. */
+    /* Reveal a panel when its block (or a descendant block) is selected. */
     document.addEventListener('shopify:block:select', function (e) {
-      if (!e.target || !root.contains(e.target)) return;
+      var root = document.getElementById(ROOT_ID);
+      if (!root || !e.target || !root.contains(e.target)) return;
       var panel = e.target.closest('.ft-tabs__panel');
-      if (panel) activate(panel.getAttribute('data-ftp-index'));
+      if (!panel && e.target.classList && e.target.classList.contains('ft-tabs__panel')) {
+        panel = e.target;
+      }
+      if (panel) activate(root, panel.getAttribute('data-ftp-index'));
     });
   })();
 </script>
 
 {% schema %}
 {
-  "name": "Tabbed Content",
+  "name": "FTD - Tabbed Content",
   "tag": "section",
   "class": "fortified-tabs-section",
   "settings": [
     { "type": "header", "content": "Heading" },
     { "type": "text",     "id": "eyebrow",  "label": "Eyebrow",  "default": "THE TRUTH" },
     { "type": "text",     "id": "heading",  "label": "Heading",  "default": "WHY WE BEAT THE REST ELECTROLYTES" },
-    { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "Electrolytes don't provide full recovery." },
+    { "type": "textarea", "id": "subtitle", "label": "Description", "default": "Electrolytes don't provide full recovery." },
 
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "accent_color",        "label": "Accent",           "default": "#1FA8A1" },
@@ -169,6 +275,18 @@
     { "type": "color", "id": "tab_inactive_color",  "label": "Inactive tab",     "default": "#888888" },
     { "type": "color", "id": "tab_line_color",      "label": "Tab divider line", "default": "#E5E7EB" },
     { "type": "color", "id": "background_color",    "label": "Background",       "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Bottom button" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" },
+    { "type": "url",  "id": "button_link",  "label": "Button link" },
+    {
+      "type": "select", "id": "button_style", "label": "Button style", "default": "filled",
+      "options": [
+        { "value": "filled",  "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "ghost",   "label": "Ghost" }
+      ]
+    },
 
     { "type": "header", "content": "Accessibility" },
     { "type": "text", "id": "aria_label", "label": "ARIA label for the tab group", "default": "Information tabs" },
@@ -184,7 +302,8 @@
   ],
   "presets": [
     {
-      "name": "Tabbed Content",
+      "name": "FTD - Tabbed Content",
+      "category": "Fortified Sections",
       "blocks": [
         {
           "type": "fortified-tab-panel",

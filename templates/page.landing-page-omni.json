@@ -19,6 +19,7 @@
             "function_label": "Everyday",
             "product": "",
             "coming_soon": false,
+            "manual_flavors": "Original\nMango\nBerry",
             "loop_plan_monthly": "",
             "loop_plan_quarterly": ""
           }
@@ -30,6 +31,7 @@
             "function_label": "Energy",
             "product": "",
             "coming_soon": false,
+            "manual_flavors": "Original\nMango\nBerry",
             "loop_plan_monthly": "",
             "loop_plan_quarterly": ""
           }
@@ -41,60 +43,32 @@
             "function_label": "Focus",
             "product": "",
             "coming_soon": true,
+            "manual_flavors": "Original\nMango\nBerry",
             "loop_plan_monthly": "",
             "loop_plan_quarterly": ""
-          }
-        },
-        "flavor_item_PfDGgV": {
-          "type": "flavor_item",
-          "settings": {
-            "enabled": true,
-            "flavor_name": "Original"
-          }
-        },
-        "flavor_item_FG9fkD": {
-          "type": "flavor_item",
-          "settings": {
-            "enabled": true,
-            "flavor_name": "Mango"
-          }
-        },
-        "flavor_item_aJjzkz": {
-          "type": "flavor_item",
-          "settings": {
-            "enabled": true,
-            "flavor_name": "Berry"
           }
         }
       },
       "block_order": [
         "function_item_rBq7yt",
         "function_item_LmLhUr",
-        "function_item_qzKzVF",
-        "flavor_item_PfDGgV",
-        "flavor_item_FG9fkD",
-        "flavor_item_aJjzkz"
+        "function_item_qzKzVF"
       ],
-      "name": "Product Selector",
+      "name": "FTD - Product Selector",
       "settings": {
         "layout_direction": "image-left",
         "content_max_width": 1400,
         "panel_width": 460,
-        "heading": "Built for Every Body",
+        "heading": "Everyday Hydration",
         "subheading": "Pick your plan, then build your box.",
-        "summary_label": "Your Order",
         "coming_soon_text": "Soon",
-        "purchase_step_label": "Choose Your Plan",
         "show_monthly": true,
-        "monthly_label": "1 a Month",
         "monthly_badge": "Most Flexible",
         "monthly_desc": "One pouch delivered monthly. Cancel anytime.",
         "show_quarterly": true,
-        "quarterly_label": "3 Every 3 Months",
         "quarterly_badge": "Best Value",
         "quarterly_desc": "Three pouches every 3 months. Best value.",
         "bundle_count": 3,
-        "config_step_label": "Build Your Box",
         "function_label": "Choose Your Function",
         "flavor_label": "Choose Your Flavor",
         "unit_label_prefix": "Pouch",
@@ -102,8 +76,6 @@
         "addon_product": "",
         "addon_label": "Add Creatine — 50% off",
         "addon_desc": "50% off applied automatically at checkout.",
-        "monthly_shipping_note": "Free shipping included",
-        "bundle_perks": "Free Creatine\nFree Sample Pack\nFree Shipping",
         "atc_label": "Add to Cart",
         "button_style": "filled",
         "onetime_prefix": "Or purchase once:",

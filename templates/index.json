@@ -2442,6 +2442,7 @@
             "product": "everyday",
             "coming_soon": false,
             "thumbnail_image": "shopify://shop_images/260401-FOR-EDY-30-ORG-2026_1-Front.webp",
+            "manual_flavors": "Original\nMango\nBerry",
             "loop_plan_monthly": "",
             "loop_plan_quarterly": ""
           }
@@ -2453,51 +2454,31 @@
             "function_label": "Energy",
             "product": "energy",
             "coming_soon": false,
+            "manual_flavors": "Original\nMango\nBerry",
             "loop_plan_monthly": "",
             "loop_plan_quarterly": ""
-          }
-        },
-        "flavor_item_FRbUQ4": {
-          "type": "flavor_item",
-          "settings": {
-            "enabled": true,
-            "flavor_name": "Original"
-          }
-        },
-        "flavor_item_hxmp3p": {
-          "type": "flavor_item",
-          "settings": {
-            "enabled": true,
-            "flavor_name": "Mango"
           }
         }
       },
       "block_order": [
         "function_item_GnbHyW",
-        "function_item_CA8mXX",
-        "flavor_item_FRbUQ4",
-        "flavor_item_hxmp3p"
+        "function_item_CA8mXX"
       ],
-      "name": "Product Selector",
+      "name": "FTD - Product Selector",
       "settings": {
         "layout_direction": "image-left",
         "content_max_width": 1400,
         "panel_width": 420,
-        "heading": "Built for Every Body",
+        "heading": "Everyday Hydration",
         "subheading": "Choose your function. Choose your flavor.",
-        "summary_label": "Your Order",
         "coming_soon_text": "Soon",
-        "purchase_step_label": "Choose Your Plan",
         "show_monthly": true,
-        "monthly_label": "Monthly",
         "monthly_badge": "Save 15%",
         "monthly_desc": "One pouch delivered monthly. Cancel anytime.",
         "show_quarterly": true,
-        "quarterly_label": "Every 3 Months",
         "quarterly_badge": "Save 20%",
         "quarterly_desc": "Three pouches every 3 months. Best value.",
         "bundle_count": 3,
-        "config_step_label": "Build Your Box",
         "function_label": "Choose Your Function",
         "flavor_label": "Choose Your Flavor",
         "unit_label_prefix": "Pouch",
@@ -2505,8 +2486,6 @@
         "addon_product": "creatine",
         "addon_label": "Add Creatine — 50% off",
         "addon_desc": "50% off applied automatically at checkout.",
-        "monthly_shipping_note": "Free shipping included",
-        "bundle_perks": "Free Creatine\nFree Sample Pack\nFree Shipping",
         "atc_label": "Add to Cart",
         "button_style": "filled",
         "onetime_prefix": "Or purchase once:",
