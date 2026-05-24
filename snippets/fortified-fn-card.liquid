@@ -1,0 +1,91 @@
+{% comment %}
+  Fortified Function Card
+  ----------------------------------------------------------------------
+  Renders one selectable "function" product card (image + name + spec tags
+  + description + flavor chooser) for the Product Selector section.
+
+  Reused for every pouch slot, so the owning grid passes a unique `config`
+  id (e.g. "monthly", "q1") that JS uses to scope the selection. The card
+  itself is the function selector; the flavor buttons inside set both the
+  function (this card) and the flavor for that pouch.
+
+  Accepted params:
+    card_block       - the function_item block
+    config           - config/pouch id string
+    flavors          - array of flavor_item blocks
+    flavor_label     - heading text above the flavor buttons
+    coming_soon_text - badge text for coming-soon functions
+{% endcomment %}
+
+{%- liquid
+  assign fb = card_block
+  assign cardimg = fb.settings.card_image | default: fb.settings.thumbnail_image
+-%}
+
+<div
+  class="fe-fcard"
+  data-config="{{ config }}"
+  data-function-id="{{ fb.id }}"
+  data-product-handle="{{ fb.settings.product.handle }}"
+  data-function-label="{{ fb.settings.function_label | escape }}"
+  data-plan-monthly="{{ fb.settings.loop_plan_monthly }}"
+  data-plan-quarterly="{{ fb.settings.loop_plan_quarterly }}"
+  data-thumbnail="{% if fb.settings.thumbnail_image != blank %}{{ fb.settings.thumbnail_image | image_url: width: 200 }}{% elsif cardimg != blank %}{{ cardimg | image_url: width: 200 }}{% endif %}"
+  role="button"
+  tabindex="0"
+  aria-pressed="false"
+  {%- if fb.settings.coming_soon %} data-coming-soon="true" aria-disabled="true"{%- endif %}
+>
+  <div class="fe-fcard-media">
+    {%- if cardimg != blank -%}
+      <img src="{{ cardimg | image_url: width: 480 }}" alt="{{ fb.settings.function_label | escape }}" loading="lazy" width="240" height="240">
+    {%- else -%}
+      <div class="fe-fcard-ph"><span>{{ fb.settings.function_label }}</span></div>
+    {%- endif -%}
+    <span class="fe-fcard-tick" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </div>
+
+  <div class="fe-fcard-body">
+    <p class="fe-fcard-name">
+      {{ fb.settings.function_label }}
+      {%- if fb.settings.coming_soon -%}<em class="fe-badge">{{ coming_soon_text | default: 'Soon' }}</em>{%- endif -%}
+    </p>
+
+    {%- if fb.settings.spec_1 != blank or fb.settings.spec_2 != blank or fb.settings.spec_3 != blank -%}
+      <div class="fe-fcard-specs">
+        {%- if fb.settings.spec_1 != blank -%}<span class="fe-spec">{{ fb.settings.spec_1 }}</span>{%- endif -%}
+        {%- if fb.settings.spec_2 != blank -%}<span class="fe-spec">{{ fb.settings.spec_2 }}</span>{%- endif -%}
+        {%- if fb.settings.spec_3 != blank -%}<span class="fe-spec">{{ fb.settings.spec_3 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if fb.settings.description != blank -%}
+      <p class="fe-fcard-desc">{{ fb.settings.description }}</p>
+    {%- endif -%}
+
+    {%- if flavors.size > 0 -%}
+      <p class="fe-fcard-flavor-label">{{ flavor_label | default: 'Choose Flavor:' }}</p>
+      <div class="fe-fcard-flavors" role="group" aria-label="{{ flavor_label | default: 'Flavor' | escape }}">
+        {%- for fl in flavors -%}
+          {%- if fl.settings.enabled -%}
+            <button
+              type="button"
+              class="fe-flavor-opt"
+              data-flavor-name="{{ fl.settings.flavor_name | escape }}"
+              data-thumbnail="{% if fl.settings.thumbnail_image != blank %}{{ fl.settings.thumbnail_image | image_url: width: 160 }}{% endif %}"
+              aria-pressed="false"
+            >
+              {%- if fl.settings.pill_icon != blank -%}
+                <span class="fe-flavor-swatch"><img src="{{ fl.settings.pill_icon | image_url: width: 48 }}" alt="" width="20" height="20"></span>
+              {%- endif -%}
+              <span class="fe-flavor-name">{{ fl.settings.flavor_name }}</span>
+              <span class="fe-flavor-radio" aria-hidden="true"></span>
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
