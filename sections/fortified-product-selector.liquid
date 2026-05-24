@@ -563,6 +563,10 @@
   var monthlyView = root.querySelector('.fe-build-view--monthly');
   var quarterlyView = root.querySelector('.fe-build-view--quarterly');
 
+  /* Replace the {count} placeholder on load so it never shows literally
+     before a plan is picked. Updated again per-plan in applyPurchaseType. */
+  if (buildLabelEl) buildLabelEl.textContent = BUILD_LABEL.replace('{count}', BUNDLE_COUNT);
+
   var state = { purchaseType: null };
   var slots = {};
   function newSlot() { return { functionId: null, handle: null, label: null, planMonthly: null, planQuarterly: null, flavorName: null, product: null, variant: null, configId: null }; }
