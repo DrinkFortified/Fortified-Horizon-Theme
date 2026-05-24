@@ -8,18 +8,39 @@
 {% liquid
   assign id = block.id | replace: '_', '' | downcase
   assign root = 'fci-' | append: id
+
+  case block.settings.alignment
+    when 'center'
+      assign justify = 'center'
+    when 'right'
+      assign justify = 'flex-end'
+    else
+      assign justify = 'flex-start'
+  endcase
 %}
 
 <style>
   .{{ root }} {
     display: flex;
     align-items: center;
+    justify-content: {{ justify }};
     gap: {{ block.settings.gap }}px;
     color: {{ block.settings.text_color }};
+    font-family: var(--font-body--family, inherit);
     font-size: {{ block.settings.text_size }}px;
     font-weight: {{ block.settings.text_weight }};
     line-height: 1.4;
     margin: 0;
+    {% if block.settings.background %}
+    background: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.corner_radius }}px;
+    {% endif %}
+    padding:
+      {{ block.settings['padding-block-start'] }}px
+      {{ block.settings['padding-inline-end'] }}px
+      {{ block.settings['padding-block-end'] }}px
+      {{ block.settings['padding-inline-start'] }}px;
+    box-sizing: border-box;
   }
   .{{ root }} svg {
     width: {{ block.settings.icon_size }}px;
@@ -29,7 +50,7 @@
   }
 </style>
 
-<li class="{{ root }}" {{ block.shopify_attributes }}>
+<li class="{{ root }}{% if block.settings.color_scheme != blank %} color-{{ block.settings.color_scheme }}{% endif %}" {{ block.shopify_attributes }}>
   <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
     <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5"/>
     <path d="M7 12.5L10.5 16L17 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -42,6 +63,16 @@
   "name": "Checkmark Item",
   "settings": [
     { "type": "text", "id": "text", "label": "Text", "default": "Improve Hydration" },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select", "id": "alignment", "label": "Alignment", "default": "left",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right" }
+      ]
+    },
 
     { "type": "header", "content": "Typography" },
     { "type": "range", "id": "text_size", "label": "Text size (px)", "min": 12, "max": 24, "step": 1, "default": 16 },
@@ -59,7 +90,19 @@
     { "type": "header", "content": "Icon" },
     { "type": "range", "id": "icon_size",  "label": "Icon size (px)", "min": 12, "max": 32, "step": 1, "default": 20 },
     { "type": "color", "id": "icon_color", "label": "Icon color",     "default": "#1FA8A1" },
-    { "type": "range", "id": "gap",        "label": "Gap (px)",       "min": 4,  "max": 20, "step": 1, "default": 10 }
+    { "type": "range", "id": "gap",        "label": "Gap (px)",       "min": 4,  "max": 20, "step": 1, "default": 10 },
+
+    { "type": "header", "content": "Appearance" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "" },
+    { "type": "checkbox", "id": "background", "label": "Show background", "default": false },
+    { "type": "color", "id": "background_color", "label": "Background color", "alpha": true, "default": "#00000026", "visible_if": "{{ block.settings.background }}" },
+    { "type": "range", "id": "corner_radius", "label": "Corner radius", "min": 0, "max": 50, "step": 1, "unit": "px", "default": 0, "visible_if": "{{ block.settings.background }}" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start",  "label": "Top",    "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-block-end",    "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-start", "label": "Left",   "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-end",   "label": "Right",  "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 }
   ]
 }
 {% endschema %}

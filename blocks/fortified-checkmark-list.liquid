@@ -57,10 +57,16 @@
     /* Fill the column when this block sits inside a flex row.
        flex: 1 1 0 + min-width: 0 ensures equal share with sibling cards
        (e.g. fortified-stat-chart). width: 100% is the fallback when the
-       parent isn't a flex container. */
+       parent isn't a flex container. When "Fit content" is chosen the card
+       shrinks to its content instead of filling the row. */
+    {% if block.settings.block_width == 'fit' %}
+    flex: 0 0 auto;
+    width: auto;
+    {% else %}
     flex: 1 1 0;
     min-width: 0;
     width: 100%;
+    {% endif %}
     {% if block.settings.match_sibling_height %}
     align-self: stretch;
     display: flex;
@@ -161,6 +167,16 @@
 {
   "name": "Checkmark List",
   "settings": [
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select", "id": "block_width", "label": "Width", "default": "fill",
+      "options": [
+        { "value": "fill", "label": "Fill column" },
+        { "value": "fit",  "label": "Fit content" }
+      ],
+      "info": "Fill makes the card share row width equally with sibling cards. Fit shrinks it to its content."
+    },
+
     { "type": "header", "content": "Headline (optional)" },
     { "type": "text",  "id": "headline_number",       "label": "Number",       "default": "0%" },
     { "type": "range", "id": "headline_number_size",  "label": "Number size",  "min": 32, "max": 120, "step": 2, "unit": "px", "default": 72 },

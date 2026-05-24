@@ -35,18 +35,57 @@
       endif
     endif
   endfor
+
+  assign panel_uid = 'ft-tabs-' | append: section.id | replace: '_', '' | downcase | append: '-panel-' | append: block.id
+
+  # Canonical 4-way padding. Fall back to the legacy single-axis padding
+  # (padding_top / padding_bottom) on any block that pre-dates the 4-way
+  # control, so existing tab panels keep their spacing.
+  assign pad_top = block.settings['padding-block-start']
+  assign pad_bottom = block.settings['padding-block-end']
+  assign pad_left = block.settings['padding-inline-start']
+  assign pad_right = block.settings['padding-inline-end']
+  assign pad_sum = pad_top | plus: pad_bottom | plus: pad_left | plus: pad_right
+  if pad_sum == 0
+    assign pad_top = block.settings.padding_top | default: 16
+    assign pad_bottom = block.settings.padding_bottom | default: 16
+  endif
+
+  case block.settings.content_alignment
+    when 'center'
+      assign align_items = 'center'
+    when 'right'
+      assign align_items = 'flex-end'
+    else
+      assign align_items = 'stretch'
+  endcase
 -%}
 
+{%- comment -%}
+  Padding / gap / alignment are applied here via an ID-scoped <style> rule
+  (ID beats the section's class-based rules) — NOT inline `display`, which
+  would beat the stylesheet's display:none base rule and keep every panel
+  visible (the original tabs bug). Visibility stays 100% controlled by the
+  section's :checked ~ panel selector.
+{%- endcomment -%}
+<style>
+  #{{ panel_uid }} {
+    gap: {{ block.settings.row_gap }}px;
+    align-items: {{ align_items }};
+    padding: {{ pad_top }}px {{ pad_right }}px {{ pad_bottom }}px {{ pad_left }}px;
+  }
+</style>
+
 <div
-  class="ft-tabs__panel"
-  id="ft-tabs-{{ section.id | replace: '_', '' | downcase }}-panel-{{ block.id }}"
+  class="ft-tabs__panel{% if block.settings.color_scheme != blank %} color-{{ block.settings.color_scheme }}{% endif %}"
+  id="{{ panel_uid }}"
   role="tabpanel"
   data-panel-id="{{ block.id }}"
   data-ftp-index="{{ ftp_index }}"
   style="
     --ftp-gap: {{ block.settings.row_gap }}px;
-    --ftp-pad-top: {{ block.settings.padding_top }}px;
-    --ftp-pad-bottom: {{ block.settings.padding_bottom }}px;
+    --ftp-pad-top: {{ pad_top }}px;
+    --ftp-pad-bottom: {{ pad_bottom }}px;
   "
   {{ block.shopify_attributes }}
 >
@@ -60,10 +99,26 @@
     { "type": "text", "id": "tab_label", "label": "Tab label", "default": "Hydration" },
     { "type": "checkbox", "id": "start_active", "label": "Show this tab by default", "default": false, "info": "If multiple panels have this enabled, the first one wins." },
 
-    { "type": "header", "content": "Spacing" },
-    { "type": "range", "id": "row_gap",         "label": "Gap between child blocks (px)", "min": 0, "max": 80, "step": 4, "default": 24 },
-    { "type": "range", "id": "padding_top",     "label": "Padding top (px)",              "min": 0, "max": 80, "step": 4, "default": 16 },
-    { "type": "range", "id": "padding_bottom",  "label": "Padding bottom (px)",           "min": 0, "max": 80, "step": 4, "default": 16 }
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "row_gap", "label": "Gap between child blocks (px)", "min": 0, "max": 80, "step": 4, "default": 24 },
+    {
+      "type": "select", "id": "content_alignment", "label": "Content alignment", "default": "stretch",
+      "options": [
+        { "value": "stretch", "label": "Fill width" },
+        { "value": "left",    "label": "Left" },
+        { "value": "center",  "label": "Center" },
+        { "value": "right",   "label": "Right" }
+      ]
+    },
+
+    { "type": "header", "content": "Appearance" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start",  "label": "Top",    "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-block-end",    "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-start", "label": "Left",   "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-end",   "label": "Right",  "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 }
   ],
   "blocks": [
     { "type": "@theme" },
