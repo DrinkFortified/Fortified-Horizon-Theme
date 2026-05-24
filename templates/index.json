@@ -2439,8 +2439,9 @@
           "settings": {
             "enabled": true,
             "function_label": "Everyday",
-            "product": "",
+            "product": "everyday",
             "coming_soon": false,
+            "thumbnail_image": "shopify://shop_images/260401-FOR-EDY-30-ORG-2026_1-Front.webp",
             "loop_plan_monthly": "",
             "loop_plan_quarterly": ""
           }
@@ -2450,30 +2451,8 @@
           "settings": {
             "enabled": true,
             "function_label": "Energy",
-            "product": "",
+            "product": "energy",
             "coming_soon": false,
-            "loop_plan_monthly": "",
-            "loop_plan_quarterly": ""
-          }
-        },
-        "function_item_qkRDye": {
-          "type": "function_item",
-          "settings": {
-            "enabled": true,
-            "function_label": "Focus",
-            "product": "",
-            "coming_soon": true,
-            "loop_plan_monthly": "",
-            "loop_plan_quarterly": ""
-          }
-        },
-        "function_item_jgVKQU": {
-          "type": "function_item",
-          "settings": {
-            "enabled": true,
-            "function_label": "Performance",
-            "product": "",
-            "coming_soon": true,
             "loop_plan_monthly": "",
             "loop_plan_quarterly": ""
           }
@@ -2491,23 +2470,13 @@
             "enabled": true,
             "flavor_name": "Mango"
           }
-        },
-        "flavor_item_9xMURJ": {
-          "type": "flavor_item",
-          "settings": {
-            "enabled": true,
-            "flavor_name": "Berry"
-          }
         }
       },
       "block_order": [
         "function_item_GnbHyW",
         "function_item_CA8mXX",
-        "function_item_qkRDye",
-        "function_item_jgVKQU",
         "flavor_item_FRbUQ4",
-        "flavor_item_hxmp3p",
-        "flavor_item_9xMURJ"
+        "flavor_item_hxmp3p"
       ],
       "name": "Product Selector",
       "settings": {
@@ -2517,26 +2486,36 @@
         "heading": "Built for Every Body",
         "subheading": "Choose your function. Choose your flavor.",
         "summary_label": "Your Order",
+        "coming_soon_text": "Soon",
+        "purchase_step_label": "Choose Your Plan",
+        "show_monthly": true,
+        "monthly_label": "Monthly",
+        "monthly_badge": "Save 15%",
+        "monthly_desc": "One pouch delivered monthly. Cancel anytime.",
+        "show_quarterly": true,
+        "quarterly_label": "Every 3 Months",
+        "quarterly_badge": "Save 20%",
+        "quarterly_desc": "Three pouches every 3 months. Best value.",
+        "bundle_count": 3,
+        "config_step_label": "Build Your Box",
         "function_label": "Choose Your Function",
         "flavor_label": "Choose Your Flavor",
-        "purchase_label": "Purchase Option",
-        "coming_soon_text": "Soon",
+        "unit_label_prefix": "Pouch",
+        "show_addon": true,
+        "addon_product": "creatine",
+        "addon_label": "Add Creatine — 50% off",
+        "addon_desc": "50% off applied automatically at checkout.",
+        "monthly_shipping_note": "Free shipping included",
+        "bundle_perks": "Free Creatine\nFree Sample Pack\nFree Shipping",
+        "atc_label": "Add to Cart",
+        "button_style": "filled",
+        "onetime_prefix": "Or purchase once:",
+        "onetime_price_text": "$59.00 + $8.99 shipping",
+        "onetime_clickable": true,
         "media_height_mobile": 420,
         "media_height_desktop": 560,
         "image_position": "center center",
         "image_padding": 0,
-        "onetime_label": "Buy Once",
-        "onetime_description": "One purchase, no commitment.",
-        "show_monthly": true,
-        "monthly_label": "Monthly",
-        "monthly_description": "Delivered every month. Cancel anytime.",
-        "monthly_badge": "Save 15%",
-        "show_3months": true,
-        "quarterly_label": "Every 3 Months",
-        "quarterly_description": "3 boxes delivered quarterly. Best value.",
-        "quarterly_badge": "Save 20%",
-        "atc_label": "Add to Cart",
-        "button_style": "filled",
         "selection_color": "#000000",
         "color_scheme": "",
         "panel_color_scheme": "",
