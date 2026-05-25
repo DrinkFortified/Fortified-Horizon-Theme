@@ -84,9 +84,24 @@
   @media (max-width: 749px) {
     #{{ root }} .{{ root }}__tablist { gap: 22px; }
     #{{ root }} .{{ root }}__btn { font-size: 15px; }
-    #{{ root }} .{{ root }}__row { grid-template-columns: 96px 1fr; gap: 16px; }
-    #{{ root }} .{{ root }}__row-media { width: 96px; height: 96px; }
-    #{{ root }} .{{ root }}__row-stat, #{{ root }} .{{ root }}__row-fact { grid-column: 1 / -1; border-left: 0; padding-left: 0; border-top: 1px solid {{ section.settings.tab_line_color }}; padding-top: 12px; }
+
+    /* Rows become swipeable cards: horizontal snap-scroller, one card peeking each side. */
+    #{{ root }} .{{ root }}__rows {
+      display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch; scroll-padding-inline: 16px;
+      padding: 4px 16px 12px; margin: 0 -16px;
+    }
+    #{{ root }} .{{ root }}__rows::-webkit-scrollbar { height: 0; }
+    #{{ root }} .{{ root }}__row {
+      flex: 0 0 80%; scroll-snap-align: center;
+      grid-template-columns: 1fr; gap: 0; text-align: center;
+      border: 1px solid {{ section.settings.tab_line_color }}; border-radius: 16px; padding: 22px 18px;
+    }
+    #{{ root }} .{{ root }}__row + .{{ root }}__row { border-top: 1px solid {{ section.settings.tab_line_color }}; }
+    #{{ root }} .{{ root }}__row-media { width: 100%; max-width: 260px; height: 220px; margin: 0 auto 16px; }
+    #{{ root }} .{{ root }}__row-main { display: flex; flex-direction: column; align-items: center; }
+    #{{ root }} .{{ root }}__row-stat { border-left: 0; padding: 16px 0 0; margin-top: 16px; border-top: 1px dashed {{ section.settings.divider_color }}; }
+    #{{ root }} .{{ root }}__row-fact { flex-direction: column; align-items: center; text-align: center; gap: 10px; border-left: 0; padding: 16px 0 0; margin-top: 16px; border-top: 1px dashed {{ section.settings.divider_color }}; }
   }
 
   {{ section.settings.custom_css }}
@@ -124,10 +139,11 @@
           {%- assign ti = 0 -%}
           {%- for b in section.blocks -%}
             {%- if b.type == 'tab' -%}
-              {%- if ti > 0 -%}</div>{%- endif -%}
+              {%- if ti > 0 -%}</div></div>{%- endif -%}
               {%- assign ti = ti | plus: 1 -%}
               <div class="{{ root }}__panel {{ root }}__panel--{{ ti }}" role="tabpanel">
                 {%- if b.settings.intro != blank -%}<div class="{{ root }}__intro rte">{{ b.settings.intro }}</div>{%- endif -%}
+                <div class="{{ root }}__rows">
             {%- elsif b.type == 'row' and ti > 0 -%}
               <div class="{{ root }}__row" {{ b.shopify_attributes }}>
                 <div class="{{ root }}__row-media">{%- if b.settings.image != blank -%}<img src="{{ b.settings.image | image_url: width: 400 }}" alt="{{ b.settings.title | escape }}" loading="lazy" width="150" height="100">{%- endif -%}</div>
@@ -150,7 +166,7 @@
               </div>
             {%- endif -%}
           {%- endfor -%}
-          {%- if ti > 0 -%}</div>{%- endif -%}
+          {%- if ti > 0 -%}</div></div>{%- endif -%}
         </div>
       </div>
     {%- endif -%}
