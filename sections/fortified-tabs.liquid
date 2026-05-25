@@ -43,7 +43,7 @@
 -%}
 
 <style>
-  #{{ root }} { padding: {{ section.settings.padding_top }}px {{ section.settings.padding_h }}px {{ section.settings.padding_bottom }}px; background: rgb(var(--color-background)); }
+  #{{ root }} { background: rgb(var(--color-background)); }
   #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; }
   #{{ root }} .{{ root }}__head { text-align: center; max-width: 760px; margin: 0 auto 32px; display: flex; flex-direction: column; gap: 10px; }
   #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: {{ accent_c }}; }
@@ -116,7 +116,13 @@
   {{ section.settings.custom_css }}
 </style>
 
-<section id="{{ root }}" class="color-{{ section.settings.color_scheme }}" {{ section.shopify_attributes }}>
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="{{ root }}"
+  class="section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
   <div class="{{ root }}__inner">
 
     {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
@@ -218,10 +224,12 @@
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
 
     { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
     { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
-    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding_h", "label": "Padding sides", "min": 0, "max": 100, "step": 2, "unit": "px", "default": 16 },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 64 },
 
     { "type": "header", "content": "Advanced" },
     { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section. Use the selector prefix shown on its elements (e.g. .fttabs-… )." }

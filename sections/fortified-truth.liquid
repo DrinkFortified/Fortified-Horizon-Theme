@@ -34,7 +34,6 @@
 <style>
   #{{ root }} {
     background: var(--color-background, #ffffff);
-    padding: {{ section.settings.padding_top }}px {{ section.settings.padding_h }}px {{ section.settings.padding_bottom }}px;
   }
 
   /* Page-width dark content box */
@@ -204,7 +203,13 @@
 {%- assign bg_tex = section.settings.background_image -%}
 {%- assign cta_class = root | append: '__cta--' | append: section.settings.button_style -%}
 
-<section id="{{ root }}" class="ftd-truth color-{{ section.settings.color_scheme }}" {{ section.shopify_attributes }}>
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="{{ root }}"
+  class="ftd-truth section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
   <div class="{{ root }}__inner color-{{ section.settings.content_color_scheme }}">
 
     {%- if bg_tex != blank -%}
@@ -307,9 +312,11 @@
     { "type": "color", "id": "button_color", "label": "Button", "default": "" },
 
     { "type": "header", "content": "Layout" },
-    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding_h", "label": "Padding sides", "min": 0, "max": 100, "step": 2, "unit": "px", "default": 16 },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 72 },
 
     { "type": "header", "content": "Advanced" },
     { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }

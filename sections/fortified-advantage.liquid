@@ -14,10 +14,10 @@
     assign has_chart = true
   endif
 
-  if section.settings.section_width == "page"
-    assign fa_max_w = "var(--page-width, 1200px)"
-  else
+  if section.settings.section_width == "full-width"
     assign fa_max_w = "100%"
+  else
+    assign fa_max_w = "var(--page-width, 1200px)"
   endif
 
   assign chart_label = section.settings.chart_aria_label
@@ -32,15 +32,13 @@
   {{ section.settings.custom_css }}
 </style>
 
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
-  class="fortified-advantage color-{{ section.settings.color_scheme }}"
+  class="fortified-advantage section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }}"
   data-section-id="{{ section.id }}"
   data-section-type="fortified-advantage"
   style="
-    --fa-pt:       {{ section.settings.padding_top }}px;
-    --fa-pb:       {{ section.settings.padding_bottom }}px;
-    --fa-pt-m:     {{ section.settings.padding_top_mobile }}px;
-    --fa-pb-m:     {{ section.settings.padding_bottom_mobile }}px;
+    {% render 'spacing-padding', settings: section.settings %}
     --fa-h-size:   {{ section.settings.heading_size }}px;
     --fa-h-size-m: {{ section.settings.heading_size_mobile }}px;
     --fa-sub-size:   {{ section.settings.subtitle_size }}px;
@@ -171,8 +169,6 @@
 
 .fortified-advantage {
   display: block;
-  padding-top: var(--fa-pt-m, 40px);
-  padding-bottom: var(--fa-pb-m, 40px);
 }
 
 /* ── Inner grid ─────────────────────────────────────────────────── */
@@ -366,11 +362,6 @@
 
 /* ── Desktop breakpoints (mobile-first) ─────────────────────────── */
 @media (min-width: 750px) {
-  .fortified-advantage {
-    padding-top: var(--fa-pt, 80px);
-    padding-bottom: var(--fa-pb, 80px);
-  }
-
   .fortified-advantage__inner {
     grid-template-columns: 1fr 1fr;
   }
@@ -629,50 +620,34 @@
       "id": "section_width",
       "label": "Content width",
       "options": [
-        { "value": "page", "label": "Page width" },
-        { "value": "full", "label": "Full width" }
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
       ],
-      "default": "page"
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
     },
     {
       "type": "range",
-      "id": "padding_top",
-      "label": "Top padding — desktop",
+      "id": "padding-block-start",
+      "label": "Top",
       "min": 0,
-      "max": 120,
-      "step": 8,
+      "max": 100,
+      "step": 1,
       "unit": "px",
       "default": 80
     },
     {
       "type": "range",
-      "id": "padding_bottom",
-      "label": "Bottom padding — desktop",
+      "id": "padding-block-end",
+      "label": "Bottom",
       "min": 0,
-      "max": 120,
-      "step": 8,
+      "max": 100,
+      "step": 1,
       "unit": "px",
       "default": 80
-    },
-    {
-      "type": "range",
-      "id": "padding_top_mobile",
-      "label": "Top padding — mobile",
-      "min": 0,
-      "max": 80,
-      "step": 8,
-      "unit": "px",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom_mobile",
-      "label": "Bottom padding — mobile",
-      "min": 0,
-      "max": 80,
-      "step": 8,
-      "unit": "px",
-      "default": 40
     },
     {
       "type": "header",
