@@ -59,9 +59,9 @@
 
   /* ── Ingredient / fact row ── */
   #{{ root }} .{{ root }}__row { display: grid; grid-template-columns: 150px minmax(0,1fr) 150px minmax(0,1.1fr); gap: 28px; align-items: center; padding: 22px 0; }
+  #{{ root }} .{{ root }}__row--nomedia { grid-template-columns: minmax(0,1fr) 150px minmax(0,1.1fr); }
   #{{ root }} .{{ root }}__row + .{{ root }}__row { border-top: 1px solid {{ tab_line_c }}; }
   #{{ root }} .{{ root }}__row-media { width: 150px; height: 100px; border-radius: 8px; overflow: hidden; background: rgb(var(--color-foreground-rgb) / 0.06); }
-  #{{ root }} .{{ root }}__row-media:empty { display: none; }
   #{{ root }} .{{ root }}__row-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
   #{{ root }} .{{ root }}__row-title { margin: 0 0 4px; font-family: var(--font-heading--family, inherit); font-size: 19px; font-weight: 800; color: {{ heading_c }}; }
   #{{ root }} .{{ root }}__row-desc { margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: {{ subtitle_c }}; }
@@ -175,8 +175,8 @@
                 {%- if b.settings.intro != blank -%}<div class="{{ root }}__intro rte">{{ b.settings.intro }}</div>{%- endif -%}
                 <div class="{{ root }}__rows">
             {%- elsif b.type == 'row' and ti > 0 -%}
-              <div class="{{ root }}__row" {{ b.shopify_attributes }}>
-                <div class="{{ root }}__row-media">{%- if b.settings.image != blank -%}<img src="{{ b.settings.image | image_url: width: 400 }}" alt="{{ b.settings.title | escape }}" loading="lazy" width="150" height="100">{%- endif -%}</div>
+              <div class="{{ root }}__row{% if b.settings.image == blank %} {{ root }}__row--nomedia{% endif %}" {{ b.shopify_attributes }}>
+                {%- if b.settings.image != blank -%}<div class="{{ root }}__row-media"><img src="{{ b.settings.image | image_url: width: 400 }}" alt="{{ b.settings.title | escape }}" loading="lazy" width="150" height="100"></div>{%- endif -%}
                 <div class="{{ root }}__row-main">
                   {%- if b.settings.title != blank -%}<h3 class="{{ root }}__row-title">{{ b.settings.title }}</h3>{%- endif -%}
                   {%- if b.settings.description != blank -%}<p class="{{ root }}__row-desc">{{ b.settings.description }}</p>{%- endif -%}
