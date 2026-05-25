@@ -57,13 +57,25 @@
   {%- endif -%}
 {% endcapture %}
 
-{%- if block_settings.link != blank -%}
-  {%- if block_settings.link contains '?' -%}
-    {%- assign popup_src = block_settings.link | append: '&view=popup' -%}
-  {%- else -%}
-    {%- assign popup_src = block_settings.link | append: '?view=popup' -%}
-  {%- endif -%}
+{%- liquid
+  assign has_video = false
+  if block_settings.video != blank
+    assign has_video = true
+  endif
 
+  assign has_popup = false
+  if has_video or block_settings.link != blank
+    assign has_popup = true
+  endif
+
+  if block_settings.link contains '?'
+    assign popup_src = block_settings.link | append: '&view=popup'
+  else
+    assign popup_src = block_settings.link | append: '?view=popup'
+  endif
+-%}
+
+{%- if has_popup -%}
   <script
     src="{{ 'dialog.js' | asset_url }}"
     type="module"
@@ -85,18 +97,31 @@
 
     <dialog
       ref="dialog"
-      class="image-popup__content dialog-modal color-{{ settings.popover_color_scheme }}"
+      class="image-popup__content{% if has_video %} image-popup__content--video{% endif %} dialog-modal color-{{ settings.popover_color_scheme }}"
       scroll-lock
       aria-label="{{ block_settings.image.alt | default: 'Popup' | escape }}"
     >
-      <iframe
-        class="image-popup__iframe"
-        src="{{ popup_src }}"
-        title="{{ block_settings.image.alt | default: 'Popup' | escape }}"
-        loading="lazy"
-        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+      {%- if has_video -%}
+        {{
+          block_settings.video
+          | video_tag:
+            class: 'image-popup__video',
+            controls: true,
+            autoplay: block_settings.video_autoplay,
+            loop: block_settings.video_loop,
+            muted: block_settings.video_autoplay,
+            image_size: '1920x'
+        }}
+      {%- else -%}
+        <iframe
+          class="image-popup__iframe"
+          src="{{ popup_src }}"
+          title="{{ block_settings.image.alt | default: 'Popup' | escape }}"
+          loading="lazy"
+          allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      {%- endif -%}
       <button
         ref="closeButton"
         on:click="/closeDialog"
@@ -169,6 +194,29 @@
       padding: 0;
     }
   }
+
+  /* Video popup: size the modal to the video instead of a fixed box. */
+  .image-popup .image-popup__content--video {
+    width: min(1100px, 94vw);
+    height: auto;
+    background: #000;
+  }
+
+  .image-popup__video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 86vh;
+    object-fit: contain;
+    background: #000;
+  }
+
+  @media screen and (max-width: 749px) {
+    .image-popup .image-popup__content--video {
+      width: 100dvw;
+      height: auto;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -182,10 +230,35 @@
       "label": "t:settings.image"
     },
     {
+      "type": "header",
+      "content": "Popup content"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add a video to play it directly in the popup. If no video is set, the linked page below is shown instead (content only, no header/footer)."
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video file"
+    },
+    {
+      "type": "checkbox",
+      "id": "video_autoplay",
+      "label": "Autoplay (muted)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "video_loop",
+      "label": "Loop",
+      "default": false
+    },
+    {
       "type": "url",
       "id": "link",
       "label": "t:settings.link",
-      "info": "Page to open in the lightbox (e.g. a page containing a video). Shown using a content-only view, without the header/footer."
+      "info": "Used only when no video is set. Opens this page in the lightbox using a content-only view."
     },
     {
       "type": "header",
