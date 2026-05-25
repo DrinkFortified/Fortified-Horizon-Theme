@@ -236,20 +236,24 @@
           {%- endif -%}
           {%- assign img_class = root | append: '-card__img' -%}
           <{{ card_tag }} class="{{ root }}-card" {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} {{ block.shopify_attributes }}>
-            {%- if block.settings.image != blank -%}
+            {%- if block.settings.media_type == 'video' and block.settings.video != blank -%}
+              {{ block.settings.video | video_tag: image_size: '1100x', loop: true, autoplay: true, muted: true, controls: false, class: img_class }}
+            {%- elsif block.settings.image != blank -%}
               {{ block.settings.image | image_url: width: 900 | image_tag: class: img_class, loading: 'lazy', widths: '300,500,700,900,1100', alt: block.settings.category }}
             {%- endif -%}
 
             <div class="{{ root }}-card__overlay" aria-hidden="true"></div>
 
             <div class="{{ root }}-card__content">
-              <span class="{{ root }}-card__icon">
-                {%- if block.settings.icon != blank -%}
-                  {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy', widths: '40,80', alt: '' }}
-                {%- else -%}
-                  <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" opacity=".95"/><path d="M12.7 7.5 9 13h2.3l-.6 4 3.6-5.6H12l.7-3.9Z" fill="#0E0E0E"/></svg>
-                {%- endif -%}
-              </span>
+              {%- if block.settings.show_icon -%}
+                <span class="{{ root }}-card__icon">
+                  {%- if block.settings.icon != blank -%}
+                    {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy', widths: '40,80', alt: '' }}
+                  {%- else -%}
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" opacity=".95"/><path d="M12.7 7.5 9 13h2.3l-.6 4 3.6-5.6H12l.7-3.9Z" fill="#0E0E0E"/></svg>
+                  {%- endif -%}
+                </span>
+              {%- endif -%}
               <span class="{{ root }}-card__text">
                 {%- if block.settings.category != blank -%}<p class="{{ root }}-card__label">{{ block.settings.category }}</p>{%- endif -%}
                 {%- if block.settings.caption != blank -%}<p class="{{ root }}-card__caption">{{ block.settings.caption }}</p>{%- endif -%}
@@ -326,11 +330,16 @@
       "type": "card",
       "name": "Card",
       "settings": [
+        { "type": "select", "id": "media_type", "label": "Media type", "default": "image", "options": [ { "value": "image", "label": "Image" }, { "value": "video", "label": "Video" } ] },
         { "type": "image_picker", "id": "image", "label": "Card image", "info": "Tall portrait image. Fills the card (cover)." },
+        { "type": "video", "id": "video", "label": "Card video", "info": "Used when Media type is Video. Autoplays muted and loops, filling the card." },
         { "type": "text", "id": "category", "label": "Category label", "default": "+ ENERGY" },
         { "type": "text", "id": "caption", "label": "Caption", "default": "Electrolytes don't provide full recovery." },
+        { "type": "header", "content": "Icon" },
+        { "type": "checkbox", "id": "show_icon", "label": "Show icon", "default": true },
         { "type": "image_picker", "id": "icon", "label": "Icon override", "info": "Optional. Defaults to a shield + bolt icon." },
-        { "type": "url", "id": "link", "label": "Card link" }
+        { "type": "header", "content": "Link" },
+        { "type": "url", "id": "link", "label": "Card link", "info": "Links the whole card. Pick a product, collection, page, or paste a URL." }
       ]
     }
   ],
