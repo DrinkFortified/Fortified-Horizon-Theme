@@ -73,7 +73,7 @@
 
     {%- comment %} ───────── LEFT: GALLERY ───────── {%- endcomment %}
     <div class="fe-gallery" data-thumbpos="{{ section.settings.thumbnail_position | default: 'left' }}">
-      {%- if section.settings.show_thumbnails and gallery_blocks.size > 1 -%}
+      {%- if gallery_blocks.size > 1 and section.settings.show_thumbnails != false -%}
         <div class="fe-thumbs" role="group" aria-label="Product images">
           {%- for gb in gallery_blocks -%}
             {%- if gb.settings.image != blank -%}
@@ -419,7 +419,7 @@
 .fe-benefit-icon--dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--fe-selection-color, rgb(var(--color-button))); }
 
 /* ── Steps ── */
-.fe-step { border-top: 1px solid rgba(var(--color-foreground), 0.12); padding-top: 1.5rem; }
+.fe-step { border-top: 1px solid rgba(var(--color-foreground), 0.16); padding-top: 1.6rem; }
 .fe-step-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.9rem; }
 .fe-step-title { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(var(--color-foreground)); }
 .fe-step-num { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: rgb(var(--color-button)); color: rgb(var(--color-button-label)); font-size: 0.65rem; font-weight: 800; flex-shrink: 0; }
