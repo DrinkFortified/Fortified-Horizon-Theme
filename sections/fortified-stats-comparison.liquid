@@ -96,6 +96,8 @@
     #{{ root }} .{{ root }}__grid { grid-template-columns: 1fr; }
     {% endif %}
   }
+
+  {{ section.settings.custom_css }}
 </style>
 
 <section id="{{ root }}" class="color-{{ section.settings.color_scheme }}" {{ section.shopify_attributes }}>
@@ -222,7 +224,9 @@
 
     { "type": "header", "content": "Section padding" },
     { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 }
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
   ],
   "blocks": [
     {

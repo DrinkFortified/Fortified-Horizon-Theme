@@ -233,9 +233,11 @@
   @media (prefers-reduced-motion: reduce) {
     .pb-plan-card, .pb-function-card, .pb-flavor-opt, .pb-atc { transition: none !important; }
   }
+
+  {{ section.settings.custom_css }}
 </style>
 
-<div id="pb-{{ section.id }}">
+<div id="pb-{{ section.id }}" class="color-{{ section.settings.color_scheme }}">
 
   {%- comment -%} ── RATING ── {%- endcomment -%}
   {% if section.settings.rating_value != blank %}
@@ -554,12 +556,15 @@
     { "type": "color", "id": "color_muted",            "label": "Muted text",              "default": "#888888" },
     { "type": "color", "id": "color_border",           "label": "Border",                  "default": "#e0e0e0" },
     { "type": "color", "id": "color_card_bg",          "label": "Card background",         "default": "#f9f9f9" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "header", "content": "Layout" },
     { "type": "text",  "id": "font_family",    "label": "Font family",  "default": "inherit" },
     { "type": "range", "id": "max_width",      "label": "Max width (px)",          "min": 300, "max": 1000, "step": 10,  "default": 480 },
     { "type": "range", "id": "padding_top",    "label": "Padding top (px)",        "min": 0,   "max": 120,  "step": 4,   "default": 32 },
     { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)",     "min": 0,   "max": 120,  "step": 4,   "default": 32 },
-    { "type": "range", "id": "padding_h",      "label": "Padding horizontal (px)", "min": 0,   "max": 80,   "step": 4,   "default": 20 }
+    { "type": "range", "id": "padding_h",      "label": "Padding horizontal (px)", "min": 0,   "max": 80,   "step": 4,   "default": 20 },
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
   ],
   "blocks": [
     {

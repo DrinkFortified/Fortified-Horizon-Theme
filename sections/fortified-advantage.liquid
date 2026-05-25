@@ -26,6 +26,10 @@
   endif
 -%}
 
+<style>
+  {{ section.settings.custom_css }}
+</style>
+
 <div
   class="fortified-advantage color-{{ section.settings.color_scheme }}"
   data-section-id="{{ section.id }}"
@@ -678,7 +682,9 @@
       "label": "Enable scroll animations",
       "default": true,
       "info": "Count-up numbers, bar growth, and staggered fade-ins. Always disabled for visitors who prefer reduced motion."
-    }
+    },
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
   ],
   "blocks": [
     {

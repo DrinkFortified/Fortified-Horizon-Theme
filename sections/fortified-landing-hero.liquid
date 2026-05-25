@@ -185,6 +185,8 @@
     .{{ root }}__benefit-text { font-size: 16px; }
     .{{ root }}__cta { font-size: 18px; height: 60px; }
   }
+
+  {{ section.settings.custom_css }}
 </style>
 
 <section class="{{ root }}{% unless section.settings.inherit_color_scheme %} color-{{ section.settings.color_scheme }}{% endunless %}" {{ section.shopify_attributes }}>
@@ -314,7 +316,9 @@
     { "type": "range", "id": "padding-block-start",  "label": "Top padding",    "min": 0, "max": 100, "step": 2, "unit": "px", "default": 0 },
     { "type": "range", "id": "padding-block-end",    "label": "Bottom padding", "min": 0, "max": 100, "step": 2, "unit": "px", "default": 0 },
     { "type": "range", "id": "padding-inline-start", "label": "Left padding",   "min": 0, "max": 100, "step": 2, "unit": "px", "default": 40 },
-    { "type": "range", "id": "padding-inline-end",   "label": "Right padding",  "min": 0, "max": 100, "step": 2, "unit": "px", "default": 40 }
+    { "type": "range", "id": "padding-inline-end",   "label": "Right padding",  "min": 0, "max": 100, "step": 2, "unit": "px", "default": 40 },
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
   ],
   "blocks": [
     {
