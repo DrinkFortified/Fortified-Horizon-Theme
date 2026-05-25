@@ -61,6 +61,11 @@
 {% endcapture %}
 
 {% if block_settings.open_in_popup and block_settings.link != blank %}
+  {%- if block_settings.link contains '?' -%}
+    {%- assign popup_src = block_settings.link | append: '&view=popup' -%}
+  {%- else -%}
+    {%- assign popup_src = block_settings.link | append: '?view=popup' -%}
+  {%- endif -%}
   <script
     src="{{ 'dialog.js' | asset_url }}"
     type="module"
@@ -88,7 +93,7 @@
     >
       <iframe
         class="image-popup__iframe"
-        src="{{ block_settings.link }}"
+        src="{{ popup_src }}"
         title="{{ block_settings.image.alt | default: 'Popup' | escape }}"
         loading="lazy"
         allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
