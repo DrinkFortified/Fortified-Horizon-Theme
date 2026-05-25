@@ -325,6 +325,15 @@
 
     </div>
   </div>
+
+  {%- comment %} ───── MOBILE STICKY ADD-TO-CART BAR (mirrors the real button) ───── {%- endcomment %}
+  <div class="fe-stickybar color-{{ section.settings.panel_color_scheme }}" id="fe-stickybar-{{ sid }}">
+    <div class="fe-stickybar-info">
+      <span class="fe-stickybar-counter" id="fe-sb-counter-{{ sid }}"></span>
+      <span class="fe-stickybar-total" id="fe-sb-total-{{ sid }}" data-empty="{{ section.settings.plan_step_label | default: 'Choose your plan' | escape }}"></span>
+    </div>
+    <button type="button" class="fe-stickybar-btn" id="fe-sb-atc-{{ sid }}" disabled aria-disabled="true">{{ section.settings.atc_label | default: 'Add to Cart' }}</button>
+  </div>
 </section>
 
 <style>
@@ -593,6 +602,38 @@
 
 @media (prefers-reduced-motion: reduce) {
   .fe-main-img, .fe-fcard, .fe-plan, .fe-flavor-opt, .fe-plan-tick, .fe-fcard-tick { transition: none; }
+}
+
+/* ── Mobile sticky Add-to-Cart bar + collapsed wizard steps ── */
+.fe-stickybar { display: none; }
+@media (max-width: 899px) {
+  #fe-{{ sid }} .fe-panel { padding-bottom: 84px; }
+  .fe-stickybar.is-onscreen { display: flex; }
+  .fe-stickybar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    align-items: center; gap: 0.75rem;
+    padding: 0.6rem 1rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    background: rgb(var(--color-background));
+    border-top: 1px solid rgba(var(--color-foreground), 0.12);
+    box-shadow: 0 -6px 22px rgba(0, 0, 0, 0.14);
+  }
+  .fe-stickybar-info { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
+  .fe-stickybar-counter { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.65; color: rgb(var(--color-foreground)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fe-stickybar-total { font-size: 1.05rem; font-weight: 800; color: rgb(var(--color-foreground)); line-height: 1.1; }
+  .fe-stickybar-total:empty::before { content: attr(data-empty); font-size: 0.85rem; font-weight: 700; opacity: 0.6; }
+  .fe-stickybar-btn {
+    flex: 0 0 auto; min-width: 46%;
+    padding: 0.85rem 1.1rem; border: none; border-radius: var(--fe-btn-radius, 8px);
+    background: rgb(var(--color-button)); color: rgb(var(--color-button-label));
+    font-family: inherit; font-weight: 800; font-size: 0.95rem; letter-spacing: 0.02em;
+    cursor: pointer; transition: filter 0.2s, opacity 0.2s;
+  }
+  .fe-stickybar-btn:hover:not([disabled]) { filter: brightness(1.08); }
+  .fe-stickybar-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+  /* Collapse a locked step to just its header so the panel isn't a long scroll */
+  #fe-{{ sid }} .fe-step--locked { opacity: 1; }
+  #fe-{{ sid }} .fe-step--locked > :not(.fe-step-head) { display: none; }
+  #fe-{{ sid }} .fe-step--locked .fe-step-head { opacity: 0.5; margin-bottom: 0; }
 }
 {{ section.settings.custom_css }}
 </style>
@@ -947,6 +988,60 @@
   if (atcBtn) atcBtn.addEventListener('click', function () { addToCart(false); });
   if (oneTimeBtn && oneTimeBtn.dataset.static !== 'true') oneTimeBtn.addEventListener('click', function () { addToCart(true); });
 
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var SID = {{ sid | json }};
+  var root = document.getElementById('fe-' + SID);
+  if (!root) return;
+  var bar = document.getElementById('fe-stickybar-' + SID);
+  var realBtn = document.getElementById('fe-atc-' + SID);
+  if (!bar || !realBtn) return;
+  var realTotal = document.getElementById('fe-atc-total-' + SID);
+  var realCounter = document.getElementById('fe-counter-' + SID);
+  var buildGroup = document.getElementById('fe-build-group-' + SID);
+  var sbBtn = document.getElementById('fe-sb-atc-' + SID);
+  var sbTotal = document.getElementById('fe-sb-total-' + SID);
+  var sbCounter = document.getElementById('fe-sb-counter-' + SID);
+
+  function sync() {
+    var off = realBtn.hasAttribute('disabled') || realBtn.getAttribute('aria-disabled') === 'true';
+    if (off) { sbBtn.setAttribute('disabled', ''); sbBtn.setAttribute('aria-disabled', 'true'); }
+    else { sbBtn.removeAttribute('disabled'); sbBtn.removeAttribute('aria-disabled'); }
+    if (sbTotal) { sbTotal.textContent = realTotal ? realTotal.textContent.replace(/^[\s·•]+/, '') : ''; }
+    if (sbCounter && realCounter) { sbCounter.textContent = realCounter.textContent || ''; }
+  }
+
+  sbBtn.addEventListener('click', function () { realBtn.click(); });
+
+  if (window.MutationObserver) {
+    var mo = new MutationObserver(sync);
+    mo.observe(realBtn, { attributes: true, attributeFilter: ['disabled', 'aria-disabled'] });
+    if (realTotal) mo.observe(realTotal, { childList: true, characterData: true, subtree: true });
+    if (realCounter) mo.observe(realCounter, { childList: true, characterData: true, subtree: true });
+    if (buildGroup) {
+      var bo = new MutationObserver(function () {
+        if (!buildGroup.classList.contains('fe-step--locked') && window.matchMedia('(max-width: 899px)').matches) {
+          try { buildGroup.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+        }
+      });
+      bo.observe(buildGroup, { attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
+  if (window.IntersectionObserver) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { bar.classList.toggle('is-onscreen', e.isIntersecting); });
+    }, { rootMargin: '0px 0px -45% 0px' });
+    io.observe(root);
+  } else {
+    bar.classList.add('is-onscreen');
+  }
+
+  sync();
 })();
 </script>
 
