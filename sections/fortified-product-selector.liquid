@@ -254,7 +254,7 @@
       {%- comment %} ───── CREATINE ADD-ON (visible toggle card; adapts monthly / quarterly-2nd) ───── {%- endcomment %}
       {%- if section.settings.show_addon and addon != blank -%}
         {%- assign addon_img = section.settings.addon_image | default: addon.featured_image -%}
-        <div class="fe-creatine fe-step--locked" id="fe-creatine-{{ sid }}" aria-disabled="true">
+        <div class="fe-creatine" id="fe-creatine-{{ sid }}" hidden>
           <p class="fe-cr-free" id="fe-cr-free-{{ sid }}" hidden><span class="fe-cr-tick" aria-hidden="true">✓</span>{{ section.settings.quarterly_free_text | default: 'Free Creatine + Sample Pack included with your bundle' }}</p>
           <label class="fe-cr-card">
             <span class="fe-cr-media">
@@ -307,10 +307,17 @@
         </div>
 
         {%- if section.settings.onetime_prefix != blank or section.settings.onetime_price_text != blank -%}
-          <button type="button" class="fe-onetime" id="fe-onetime-{{ sid }}" {% unless section.settings.onetime_clickable %}data-static="true"{% endunless %}>
-            <span class="fe-onetime-prefix">{{ section.settings.onetime_prefix }}</span>
-            <span class="fe-onetime-price">{{ section.settings.onetime_price_text }}</span>
-          </button>
+          {%- if section.settings.onetime_link != blank -%}
+            <a class="fe-onetime" href="{{ section.settings.onetime_link }}">
+              <span class="fe-onetime-prefix">{{ section.settings.onetime_prefix }}</span>
+              <span class="fe-onetime-price">{{ section.settings.onetime_price_text }}</span>
+            </a>
+          {%- else -%}
+            <button type="button" class="fe-onetime" id="fe-onetime-{{ sid }}" {% unless section.settings.onetime_clickable %}data-static="true"{% endunless %}>
+              <span class="fe-onetime-prefix">{{ section.settings.onetime_prefix }}</span>
+              <span class="fe-onetime-price">{{ section.settings.onetime_price_text }}</span>
+            </button>
+          {%- endif -%}
         {%- endif -%}
 
         <p class="fe-atc-message" id="fe-atc-msg-{{ sid }}" aria-live="polite"></p>
@@ -506,10 +513,12 @@
 .fe-cr-tick { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; font-size: 0.7rem; font-weight: 800; background: var(--fe-selection-color, rgb(var(--color-button))); color: rgb(var(--color-button-label)); }
 .fe-cr-card {
   position: relative; display: flex; align-items: center; gap: 0.85rem; padding: 0.85rem 1rem; cursor: pointer;
-  border: 2px solid rgba(var(--color-foreground), 0.16); border-radius: var(--fe-card-radius, 12px);
-  background: rgb(var(--color-background)); transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+  border: 2px solid color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 45%, transparent);
+  border-radius: var(--fe-card-radius, 12px);
+  background: color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 5%, rgb(var(--color-background)));
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
 }
-.fe-cr-card:hover { border-color: rgba(var(--color-foreground), 0.3); }
+.fe-cr-card:hover { border-color: var(--fe-selection-color, rgb(var(--color-button))); }
 .fe-cr-card:has(input:checked) {
   border-color: var(--fe-selection-color, rgb(var(--color-button)));
   background: color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 7%, transparent);
@@ -537,8 +546,10 @@
 }
 .fe-ov-label { margin: 0 0 0.6rem; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(var(--color-foreground), 0.6); }
 .fe-ov-lines { list-style: none; margin: 0 0 0.6rem; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; }
-.fe-ov-line { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; font-size: 0.82rem; color: rgb(var(--color-foreground)); }
-.fe-ov-line-name { min-width: 0; }
+.fe-ov-line { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-size: 0.82rem; color: rgb(var(--color-foreground)); }
+.fe-ov-line-name { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+.fe-ov-thumb { width: 30px; height: 30px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: rgba(var(--color-foreground), 0.06); display: inline-block; }
+.fe-ov-line-txt { min-width: 0; }
 .fe-ov-line-sub { display: block; font-size: 0.7rem; opacity: 0.55; }
 .fe-ov-line-price { flex-shrink: 0; font-weight: 700; white-space: nowrap; }
 .fe-ov-line-price.is-free { color: var(--fe-selection-color, rgb(var(--color-button))); }
@@ -579,8 +590,9 @@
 .fe-atc-message.is-error { color: rgb(var(--color-error, 176 0 0)); }
 
 @media (prefers-reduced-motion: reduce) {
-  .fe-main-img, .fe-fcard, .fe-plan, .fe-flavor-opt, .fe-plan-tick, .fe-fcard-tick, .fe-addon-box::after { transition: none; }
+  .fe-main-img, .fe-fcard, .fe-plan, .fe-flavor-opt, .fe-plan-tick, .fe-fcard-tick { transition: none; }
 }
+{{ section.settings.custom_css }}
 </style>
 
 <script>
@@ -734,7 +746,7 @@
         var pr = subPrice(s.product, s.variant, slotPlanRaw(s));
         if (pr == null) pr = s.variant.price;
         pouchSubtotal += pr;
-        lines.push({ name: s.label, sub: s.flavorName, price: pr });
+        lines.push({ name: s.label, sub: s.flavorName, price: pr, thumb: slotImage(s) });
       } else { ready = false; }
     });
 
@@ -756,7 +768,8 @@
         html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + esc(state.purchaseType === 'quarterly' ? PLAN_LABEL_Q : PLAN_LABEL_M) + '</span></li>';
       }
       lines.forEach(function (l, i) {
-        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + esc(l.name || ('Pouch ' + (i + 1))) + (l.sub ? '<span class="fe-ov-line-sub">' + esc(l.sub) + '</span>' : '') + '</span><span class="fe-ov-line-price">' + formatMoney(l.price * qty) + '</span></li>';
+        var thumb = l.thumb ? '<img class="fe-ov-thumb" src="' + l.thumb + '" alt="">' : '<span class="fe-ov-thumb"></span>';
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + thumb + '<span class="fe-ov-line-txt">' + esc(l.name || ('Pouch ' + (i + 1))) + (l.sub ? '<span class="fe-ov-line-sub">' + esc(l.sub) + '</span>' : '') + '</span></span><span class="fe-ov-line-price">' + formatMoney(l.price * qty) + '</span></li>';
       });
       if (state.purchaseType === 'quarterly') {
         html += '<li class="fe-ov-line"><span class="fe-ov-line-name">Creatine<span class="fe-ov-line-sub">1st included free</span></span><span class="fe-ov-line-price is-free">FREE</span></li>';
@@ -795,7 +808,7 @@
 
     /* Creatine card: unlock + adapt copy. Quarterly shows the "1st free" line and offers a 2nd at 50%. */
     var q = type === 'quarterly';
-    if (creatineGroup) { creatineGroup.classList.remove('fe-step--locked'); creatineGroup.removeAttribute('aria-disabled'); }
+    if (creatineGroup) creatineGroup.hidden = false;
     if (crTitle) crTitle.textContent = q ? CR_LABEL_Q : CR_LABEL_M;
     if (crDesc)  crDesc.textContent  = q ? CR_DESC_Q : CR_DESC_M;
     if (crFree)  crFree.hidden = !q;
@@ -1025,7 +1038,8 @@
     },
     { "type": "text", "id": "onetime_prefix", "label": "One-time note prefix", "default": "Or purchase once:" },
     { "type": "text", "id": "onetime_price_text", "label": "One-time note price", "default": "$59.00 + $8.99 shipping" },
-    { "type": "checkbox", "id": "onetime_clickable", "label": "One-time note adds a one-time purchase on click", "default": true },
+    { "type": "url", "id": "onetime_link", "label": "One-time note link", "info": "If set, the note links here (e.g. a one-time product page). Leave blank to add a one-time purchase to the cart on click instead." },
+    { "type": "checkbox", "id": "onetime_clickable", "label": "One-time note adds a one-time purchase on click", "info": "Ignored when a link is set above.", "default": true },
 
     { "type": "header", "content": "Image" },
     { "type": "range", "id": "media_height_mobile", "label": "Image height — mobile", "min": 200, "max": 700, "step": 20, "unit": "px", "default": 380 },
@@ -1054,7 +1068,10 @@
     { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 },
     { "type": "range", "id": "button_radius", "label": "Button corner radius", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 8 },
-    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 12 }
+    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 12 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section only. Use the .fe- class names on its elements." }
   ],
   "blocks": [
     {

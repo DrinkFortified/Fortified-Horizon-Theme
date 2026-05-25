@@ -2,28 +2,31 @@
   Section: FTD - Tabbed Content
   Category: Fortified Sections
   ----------------------------------------------------------------------
-  Pure-CSS tabs, rebuilt to be bulletproof. Earlier versions relied on
-  JS or on `content_for` blocks staying siblings — both broke inside
-  Horizon's block wrapping. This version renders EVERYTHING itself with
-  classic section blocks (no content_for, no wrappers): a hidden radio
-  per tab, the label row, and the panels are all real siblings, so the
-  `#radio:checked ~ .panel` selector switches them with zero JavaScript.
-
-  Each "Tab" block holds a label + rich text content (text, images,
-  lists, links). Add as many tabs as you like.
+  Pure-CSS tabs (no JS) that hold STRUCTURED content. Two block types:
+    • "Tab"  — starts a new tab (label + optional rich intro).
+    • "Row"  — an ingredient/fact row (image, title, description, button,
+               per-serving stat, and a facts column). Rows belong to the
+               Tab that precedes them, so you build each tab by adding a
+               Tab block then any number of Row blocks under it.
+  Switching is hidden-radio + `:checked ~` CSS — rendered as real siblings,
+  so Horizon can't break it. Includes standard section options: width,
+  padding, color scheme, and custom CSS.
 {% endcomment %}
 
 {%- liquid
   assign sid  = section.id | replace: '_', '' | downcase
   assign root = 'fttabs-' | append: sid
-  assign tabs = section.blocks
 
+  assign tab_total = 0
   assign active = 1
   assign found = false
-  for block in tabs
-    if block.settings.start_active and found == false
-      assign active = forloop.index
-      assign found = true
+  for b in section.blocks
+    if b.type == 'tab'
+      assign tab_total = tab_total | plus: 1
+      if b.settings.start_active and found == false
+        assign active = tab_total
+        assign found = true
+      endif
     endif
   endfor
 
@@ -31,54 +34,62 @@
 -%}
 
 <style>
-  #{{ root }} { padding: {{ section.settings.padding_top }}px 16px {{ section.settings.padding_bottom }}px; background: rgb(var(--color-background)); }
+  #{{ root }} { padding: {{ section.settings.padding_top }}px {{ section.settings.padding_h }}px {{ section.settings.padding_bottom }}px; background: rgb(var(--color-background)); }
   #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; }
   #{{ root }} .{{ root }}__head { text-align: center; max-width: 760px; margin: 0 auto 32px; display: flex; flex-direction: column; gap: 10px; }
   #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: {{ section.settings.accent_color }}; }
   #{{ root }} .{{ root }}__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(30px, 4.5vw, 52px); font-weight: 800; line-height: 1.05; text-transform: uppercase; color: {{ section.settings.heading_color }}; }
   #{{ root }} .{{ root }}__sub { margin: 0; font-size: 16px; line-height: 1.5; color: {{ section.settings.subtitle_color }}; }
 
-  /* The tab system — radios are visually hidden but keep working */
   #{{ root }} .{{ root }}__radio { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   #{{ root }} .{{ root }}__tablist { display: flex; flex-wrap: wrap; justify-content: center; gap: 48px; border-bottom: 1px solid {{ section.settings.tab_line_color }}; padding-top: 8px; margin-bottom: 8px; }
-  #{{ root }} .{{ root }}__btn {
-    display: inline-block; padding: 12px 4px; margin-bottom: -1px; cursor: pointer; user-select: none;
-    font-family: var(--font-heading--family, inherit); font-size: 18px; font-weight: 700;
-    letter-spacing: 0.05em; text-transform: uppercase; color: {{ section.settings.tab_inactive_color }};
-    border-bottom: 2px solid transparent; transition: color 0.18s, border-color 0.18s;
-  }
+  #{{ root }} .{{ root }}__btn { display: inline-block; padding: 12px 4px; margin-bottom: -1px; cursor: pointer; user-select: none; font-family: var(--font-heading--family, inherit); font-size: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: {{ section.settings.tab_inactive_color }}; border-bottom: 2px solid transparent; transition: color 0.18s, border-color 0.18s; }
   #{{ root }} .{{ root }}__btn:hover { color: {{ section.settings.heading_color }}; }
-  #{{ root }} .{{ root }}__panel { display: none; padding: 24px 0; }
-  #{{ root }} .{{ root }}__panel .rte > * { margin: 0 0 1em; }
-  #{{ root }} .{{ root }}__panel .rte > *:last-child { margin-bottom: 0; }
-  #{{ root }} .{{ root }}__panel img { max-width: 100%; height: auto; border-radius: 8px; }
+  #{{ root }} .{{ root }}__panel { display: none; padding: 8px 0 0; }
+  #{{ root }} .{{ root }}__intro { font-size: 15px; line-height: 1.6; color: {{ section.settings.subtitle_color }}; margin: 8px 0 16px; }
 
-  /* Pure-CSS switching: checked radio -> matching label active + matching panel shown.
-     Radios, tablist and panels are all direct children of .__tabwrap, so the
-     general-sibling combinator (~) reaches both. */
-  {% for block in tabs %}
-    {% assign n = forloop.index %}
-    #{{ root }}-r-{{ n }}:checked ~ .{{ root }}__tablist .{{ root }}__btn--{{ n }} { color: {{ section.settings.accent_color }}; border-bottom-color: {{ section.settings.accent_color }}; }
-    #{{ root }}-r-{{ n }}:checked ~ .{{ root }}__panels .{{ root }}__panel--{{ n }} { display: block; }
-    #{{ root }}-r-{{ n }}:focus-visible ~ .{{ root }}__tablist .{{ root }}__btn--{{ n }} { outline: 2px solid {{ section.settings.accent_color }}; outline-offset: 4px; }
-  {% endfor %}
+  /* ── Ingredient / fact row ── */
+  #{{ root }} .{{ root }}__row { display: grid; grid-template-columns: 150px minmax(0,1fr) 150px minmax(0,1.1fr); gap: 28px; align-items: center; padding: 22px 0; }
+  #{{ root }} .{{ root }}__row + .{{ root }}__row { border-top: 1px solid {{ section.settings.tab_line_color }}; }
+  #{{ root }} .{{ root }}__row-media { width: 150px; height: 100px; border-radius: 8px; overflow: hidden; background: rgba(var(--color-foreground), 0.06); }
+  #{{ root }} .{{ root }}__row-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #{{ root }} .{{ root }}__row-title { margin: 0 0 4px; font-family: var(--font-heading--family, inherit); font-size: 19px; font-weight: 800; color: {{ section.settings.heading_color }}; }
+  #{{ root }} .{{ root }}__row-desc { margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: {{ section.settings.subtitle_color }}; }
+  #{{ root }} .{{ root }}__row-btn { display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 16px; border: 1px solid {{ section.settings.heading_color }}; border-radius: 4px; color: {{ section.settings.heading_color }}; transition: background 0.18s, color 0.18s; }
+  #{{ root }} .{{ root }}__row-btn:hover { background: {{ section.settings.heading_color }}; color: rgb(var(--color-background)); }
+  #{{ root }} .{{ root }}__row-stat { border-left: 1px dashed {{ section.settings.divider_color }}; padding-left: 28px; }
+  #{{ root }} .{{ root }}__row-num { font-family: var(--font-heading--family, inherit); font-size: 26px; font-weight: 800; line-height: 1; color: {{ section.settings.heading_color }}; }
+  #{{ root }} .{{ root }}__row-num-label { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: {{ section.settings.subtitle_color }}; margin-top: 4px; }
+  #{{ root }} .{{ root }}__row-fact { display: flex; align-items: center; gap: 16px; border-left: 1px dashed {{ section.settings.divider_color }}; padding-left: 28px; }
+  #{{ root }} .{{ root }}__row-fact-icon { flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%; background: {{ section.settings.heading_color }}; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; }
+  #{{ root }} .{{ root }}__row-fact-icon img { width: 60%; height: 60%; object-fit: contain; }
+  #{{ root }} .{{ root }}__row-fact-title { font-family: var(--font-heading--family, inherit); font-size: 17px; font-weight: 800; color: {{ section.settings.heading_color }}; margin-bottom: 2px; }
+  #{{ root }} .{{ root }}__row-fact-desc { margin: 0; font-size: 12.5px; line-height: 1.45; color: {{ section.settings.subtitle_color }}; }
+
+  {%- assign ci = 0 -%}
+  {%- for b in section.blocks -%}{%- if b.type == 'tab' -%}{%- assign ci = ci | plus: 1 -%}
+    #{{ root }}-r-{{ ci }}:checked ~ .{{ root }}__tablist .{{ root }}__btn--{{ ci }} { color: {{ section.settings.accent_color }}; border-bottom-color: {{ section.settings.accent_color }}; }
+    #{{ root }}-r-{{ ci }}:checked ~ .{{ root }}__panels .{{ root }}__panel--{{ ci }} { display: block; }
+    #{{ root }}-r-{{ ci }}:focus-visible ~ .{{ root }}__tablist .{{ root }}__btn--{{ ci }} { outline: 2px solid {{ section.settings.accent_color }}; outline-offset: 4px; }
+  {%- endif -%}{%- endfor -%}
 
   #{{ root }} .{{ root }}__footer { display: flex; justify-content: center; margin-top: 36px; }
-  #{{ root }} .{{ root }}__cta {
-    display: inline-flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none;
-    font-family: var(--font-heading--family, inherit); font-size: 16px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
-    padding: 16px 40px; border-radius: 8px; border: 2px solid {{ section.settings.button_bg }};
+  #{{ root }} .{{ root }}__cta { display: inline-flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; font-family: var(--font-heading--family, inherit); font-size: 16px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 16px 40px; border-radius: 8px; border: 2px solid {{ section.settings.button_bg }};
     {% if btn_style == 'outline' %}background: transparent; color: {{ section.settings.button_bg }};
     {% elsif btn_style == 'ghost' %}background: transparent; color: {{ section.settings.button_bg }}; border-color: transparent; text-decoration: underline;
     {% else %}background: {{ section.settings.button_bg }}; color: {{ section.settings.button_text }};{% endif %}
-    transition: filter 0.18s;
-  }
+    transition: filter 0.18s; }
   #{{ root }} .{{ root }}__cta:hover { filter: brightness(1.1); }
 
-  @media (max-width: 600px) {
+  @media (max-width: 749px) {
     #{{ root }} .{{ root }}__tablist { gap: 22px; }
     #{{ root }} .{{ root }}__btn { font-size: 15px; }
+    #{{ root }} .{{ root }}__row { grid-template-columns: 96px 1fr; gap: 16px; }
+    #{{ root }} .{{ root }}__row-media { width: 96px; height: 96px; }
+    #{{ root }} .{{ root }}__row-stat, #{{ root }} .{{ root }}__row-fact { grid-column: 1 / -1; border-left: 0; padding-left: 0; border-top: 1px solid {{ section.settings.tab_line_color }}; padding-top: 12px; }
   }
+
+  {{ section.settings.custom_css }}
 </style>
 
 <section id="{{ root }}" class="color-{{ section.settings.color_scheme }}" {{ section.shopify_attributes }}>
@@ -92,27 +103,54 @@
       </div>
     {%- endif -%}
 
-    {%- if tabs.size > 0 -%}
+    {%- if tab_total > 0 -%}
       <div class="{{ root }}__tabwrap">
-        {%- comment -%} 1) Hidden radios — one per tab, the active one checked. {%- endcomment -%}
-        {%- for block in tabs -%}
-          <input type="radio" class="{{ root }}__radio" name="{{ root }}-state" id="{{ root }}-r-{{ forloop.index }}" {% if forloop.index == active %}checked{% endif %} {{ block.shopify_attributes }}>
-        {%- endfor -%}
+        {%- comment -%} 1) radios {%- endcomment -%}
+        {%- assign ci = 0 -%}
+        {%- for b in section.blocks -%}{%- if b.type == 'tab' -%}{%- assign ci = ci | plus: 1 -%}
+          <input type="radio" class="{{ root }}__radio" name="{{ root }}-state" id="{{ root }}-r-{{ ci }}" {% if ci == active %}checked{% endif %}>
+        {%- endif -%}{%- endfor -%}
 
-        {%- comment -%} 2) Tab buttons (labels point at their radio). {%- endcomment -%}
+        {%- comment -%} 2) tab buttons {%- endcomment -%}
         <div class="{{ root }}__tablist" role="tablist">
-          {%- for block in tabs -%}
-            <label class="{{ root }}__btn {{ root }}__btn--{{ forloop.index }}" for="{{ root }}-r-{{ forloop.index }}" role="tab">{{ block.settings.tab_label | default: 'Tab' }}</label>
-          {%- endfor -%}
+          {%- assign ci = 0 -%}
+          {%- for b in section.blocks -%}{%- if b.type == 'tab' -%}{%- assign ci = ci | plus: 1 -%}
+            <label class="{{ root }}__btn {{ root }}__btn--{{ ci }}" for="{{ root }}-r-{{ ci }}" role="tab" {{ b.shopify_attributes }}>{{ b.settings.tab_label | default: 'Tab' }}</label>
+          {%- endif -%}{%- endfor -%}
         </div>
 
-        {%- comment -%} 3) Panels. {%- endcomment -%}
+        {%- comment -%} 3) panels: open at each Tab, Rows belong to the current Tab {%- endcomment -%}
         <div class="{{ root }}__panels">
-          {%- for block in tabs -%}
-            <div class="{{ root }}__panel {{ root }}__panel--{{ forloop.index }}" role="tabpanel">
-              <div class="rte">{{ block.settings.content }}</div>
-            </div>
+          {%- assign ti = 0 -%}
+          {%- for b in section.blocks -%}
+            {%- if b.type == 'tab' -%}
+              {%- if ti > 0 -%}</div>{%- endif -%}
+              {%- assign ti = ti | plus: 1 -%}
+              <div class="{{ root }}__panel {{ root }}__panel--{{ ti }}" role="tabpanel">
+                {%- if b.settings.intro != blank -%}<div class="{{ root }}__intro rte">{{ b.settings.intro }}</div>{%- endif -%}
+            {%- elsif b.type == 'row' and ti > 0 -%}
+              <div class="{{ root }}__row" {{ b.shopify_attributes }}>
+                <div class="{{ root }}__row-media">{%- if b.settings.image != blank -%}<img src="{{ b.settings.image | image_url: width: 400 }}" alt="{{ b.settings.title | escape }}" loading="lazy" width="150" height="100">{%- endif -%}</div>
+                <div class="{{ root }}__row-main">
+                  {%- if b.settings.title != blank -%}<h3 class="{{ root }}__row-title">{{ b.settings.title }}</h3>{%- endif -%}
+                  {%- if b.settings.description != blank -%}<p class="{{ root }}__row-desc">{{ b.settings.description }}</p>{%- endif -%}
+                  {%- if b.settings.button_label != blank -%}<a class="{{ root }}__row-btn" {% if b.settings.button_link != blank %}href="{{ b.settings.button_link }}"{% else %}href="#"{% endif %}>{{ b.settings.button_label }}</a>{%- endif -%}
+                </div>
+                <div class="{{ root }}__row-stat">
+                  {%- if b.settings.stat_number != blank -%}<div class="{{ root }}__row-num">{{ b.settings.stat_number }}</div>{%- endif -%}
+                  {%- if b.settings.stat_label != blank -%}<div class="{{ root }}__row-num-label">{{ b.settings.stat_label }}</div>{%- endif -%}
+                </div>
+                <div class="{{ root }}__row-fact">
+                  <span class="{{ root }}__row-fact-icon">{%- if b.settings.icon != blank -%}<img src="{{ b.settings.icon | image_url: width: 80 }}" alt="">{%- endif -%}</span>
+                  <div class="{{ root }}__row-fact-text">
+                    {%- if b.settings.fact_title != blank -%}<div class="{{ root }}__row-fact-title">{{ b.settings.fact_title }}</div>{%- endif -%}
+                    {%- if b.settings.fact_text != blank -%}<p class="{{ root }}__row-fact-desc">{{ b.settings.fact_text }}</p>{%- endif -%}
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
           {%- endfor -%}
+          {%- if ti > 0 -%}</div>{%- endif -%}
         </div>
       </div>
     {%- endif -%}
@@ -137,11 +175,8 @@
     { "type": "text", "id": "heading", "label": "Heading (H2)", "default": "Why We Beat The Rest" },
     { "type": "textarea", "id": "subheading", "label": "Description", "default": "Electrolytes don't provide full recovery." },
 
-    { "type": "header", "content": "Layout" },
-    { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
-
     { "type": "header", "content": "Button" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Now" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Fortified Now" },
     { "type": "url", "id": "button_link", "label": "Button link" },
     { "type": "select", "id": "button_style", "label": "Button style", "default": "filled",
       "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" }, { "value": "ghost", "label": "Ghost" } ] },
@@ -151,23 +186,48 @@
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "accent_color", "label": "Accent (eyebrow + active tab)", "default": "#1FA8A1" },
     { "type": "color", "id": "heading_color", "label": "Heading / text", "default": "#0A0A0A" },
-    { "type": "color", "id": "subtitle_color", "label": "Subtitle", "default": "#444444" },
+    { "type": "color", "id": "subtitle_color", "label": "Body / muted text", "default": "#666666" },
     { "type": "color", "id": "tab_inactive_color", "label": "Inactive tab", "default": "#888888" },
-    { "type": "color", "id": "tab_line_color", "label": "Tab divider line", "default": "#E5E7EB" },
+    { "type": "color", "id": "tab_line_color", "label": "Lines & dividers", "default": "#E5E7EB" },
+    { "type": "color", "id": "divider_color", "label": "Row column dividers", "default": "#C9CDD2" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
 
-    { "type": "header", "content": "Section padding" },
-    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 }
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_h", "label": "Padding sides", "min": 0, "max": 100, "step": 2, "unit": "px", "default": 16 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section. Use the selector prefix shown on its elements (e.g. .fttabs-… )." }
   ],
   "blocks": [
     {
       "type": "tab",
       "name": "Tab",
       "settings": [
+        { "type": "paragraph", "content": "Add a Tab, then add Row blocks under it. Rows belong to the Tab above them." },
         { "type": "text", "id": "tab_label", "label": "Tab label", "default": "Hydration" },
-        { "type": "checkbox", "id": "start_active", "label": "Show this tab first", "default": false, "info": "If several are ticked, the first one wins." },
-        { "type": "richtext", "id": "content", "label": "Tab content", "default": "<p>Add this tab's content here — text, images, lists, and links.</p>" }
+        { "type": "checkbox", "id": "start_active", "label": "Show this tab first", "default": false },
+        { "type": "richtext", "id": "intro", "label": "Intro text (optional)" }
+      ]
+    },
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Sodium Citrate" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Essential electrolyte to support fluid balance, hydration, and muscle function" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Hydration" },
+        { "type": "url", "id": "button_link", "label": "Button link" },
+        { "type": "header", "content": "Stat column" },
+        { "type": "text", "id": "stat_number", "label": "Stat number", "default": "1200MG" },
+        { "type": "text", "id": "stat_label", "label": "Stat label", "default": "Per Serving" },
+        { "type": "header", "content": "Facts column" },
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "fact_title", "label": "Fact title", "default": "Hydration Facts" },
+        { "type": "textarea", "id": "fact_text", "label": "Fact text", "default": "Supports muscle function and reduces cramps" }
       ]
     }
   ],
@@ -176,8 +236,11 @@
       "name": "FTD - Tabbed Content",
       "category": "Fortified Sections",
       "blocks": [
-        { "type": "tab", "settings": { "tab_label": "Hydration", "start_active": true, "content": "<p><strong>Sodium Citrate</strong> — Essential electrolyte to support fluid balance, hydration, and muscle function.</p>" } },
-        { "type": "tab", "settings": { "tab_label": "Performance", "content": "<p><strong>Magnesium Malate</strong> — Supports energy production and reduces cramps during high-intensity workouts.</p>" } }
+        { "type": "tab", "settings": { "tab_label": "Hydration", "start_active": true } },
+        { "type": "row" },
+        { "type": "row" },
+        { "type": "tab", "settings": { "tab_label": "Performance" } },
+        { "type": "row", "settings": { "title": "Magnesium Malate", "description": "Supports energy production and reduces cramps in high-intensity workouts", "fact_title": "Performance Facts" } }
       ]
     }
   ]
