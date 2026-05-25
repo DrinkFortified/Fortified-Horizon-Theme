@@ -339,6 +339,19 @@
 <style>
 #fe-{{ sid }} *, #fe-{{ sid }} *::before, #fe-{{ sid }} *::after { box-sizing: border-box; }
 
+/* Theme-token compatibility.
+   This section's CSS uses Dawn-style bare-triplet tokens, e.g. rgb(var(--color-foreground)).
+   Horizon ships --color-foreground/--color-background already wrapped in rgb() and has no
+   --color-button*, so those declarations would be invalid (vanished borders, white button).
+   Re-alias the names to Horizon's bare-triplet tokens. Scoped with the universal selector so
+   it outranks Horizon's per-scheme .color-{id} blocks on nested panel/gallery containers. */
+#fe-{{ sid }}, #fe-{{ sid }} * {
+  --color-foreground: var(--color-foreground-rgb);
+  --color-background: var(--color-background-rgb);
+  --color-button: var(--color-primary-rgb);
+  --color-button-label: var(--color-background-rgb);
+}
+
 .fe-section {
   background: rgb(var(--color-background)); color: rgb(var(--color-foreground));
   font-family: inherit; overflow-x: clip;
@@ -584,10 +597,10 @@
   font-size: 0.95rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
   cursor: pointer; overflow: hidden; transition: filter 0.2s, transform 0.15s, background 0.2s, color 0.2s, border-color 0.2s;
 }
-.fe-atc-btn--filled { background: rgb(var(--color-button)); color: rgb(var(--color-button-label)); border: none; }
+.fe-atc-btn--filled { background: var(--color-primary-button-background, rgb(var(--color-button))); color: var(--color-primary-button-text, rgb(var(--color-button-label))); border: none; }
 .fe-atc-btn--filled:hover:not([disabled]):not([aria-disabled="true"]) { filter: brightness(1.1); }
-.fe-atc-btn--outline { background: transparent; color: rgb(var(--color-button)); border: 2px solid rgb(var(--color-button)); }
-.fe-atc-btn--outline:hover:not([disabled]):not([aria-disabled="true"]) { background: rgb(var(--color-button)); color: rgb(var(--color-button-label)); }
+.fe-atc-btn--outline { background: transparent; color: var(--color-primary-button-background, rgb(var(--color-button))); border: 2px solid var(--color-primary-button-background, rgb(var(--color-button))); }
+.fe-atc-btn--outline:hover:not([disabled]):not([aria-disabled="true"]) { background: var(--color-primary-button-background, rgb(var(--color-button))); color: var(--color-primary-button-text, rgb(var(--color-button-label))); }
 .fe-atc-btn--ghost { background: transparent; color: rgb(var(--color-foreground)); border: none; }
 .fe-atc-btn[disabled], .fe-atc-btn[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; filter: none; }
 .fe-atc-total { font-weight: 800; }
@@ -626,7 +639,7 @@
   .fe-stickybar-btn {
     flex: 0 0 auto; min-width: 46%;
     padding: 0.85rem 1.1rem; border: none; border-radius: var(--fe-btn-radius, 8px);
-    background: rgb(var(--color-button)); color: rgb(var(--color-button-label));
+    background: var(--color-primary-button-background, rgb(var(--color-button))); color: var(--color-primary-button-text, rgb(var(--color-button-label)));
     font-family: inherit; font-weight: 800; font-size: 0.95rem; letter-spacing: 0.02em;
     cursor: pointer; transition: filter 0.2s, opacity 0.2s;
   }
