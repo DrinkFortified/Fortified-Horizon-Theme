@@ -109,6 +109,15 @@
   .hero-responsive[data-height='custom'] {
     min-height: var(--hero-custom-height);
   }
+  /* Auto: section height follows the visible video's natural height. */
+  .hero-responsive[data-height='auto'] {
+    min-height: 0;
+  }
+  .hero-responsive[data-height='auto'] .hero-responsive__media,
+  .hero-responsive[data-height='auto'] .hero-responsive__video,
+  .hero-responsive[data-height='auto'] .hero-responsive__placeholder {
+    height: auto;
+  }
 
   .hero-responsive__media,
   .hero-responsive__overlay,
@@ -261,6 +270,7 @@
       "id": "section_height",
       "label": "t:settings.height",
       "options": [
+        { "value": "auto", "label": "Auto (fit video)" },
         { "value": "small", "label": "t:options.small" },
         { "value": "medium", "label": "t:options.medium" },
         { "value": "large", "label": "t:options.large" },
