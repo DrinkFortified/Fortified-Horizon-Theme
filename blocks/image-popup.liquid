@@ -63,6 +63,8 @@
     assign has_video = true
   endif
 
+  assign v_ratio = block_settings.video.aspect_ratio | default: 1.7778
+
   assign has_popup = false
   if has_video or block_settings.link != blank
     assign has_popup = true
@@ -99,6 +101,7 @@
       ref="dialog"
       class="image-popup__content{% if has_video %} image-popup__content--video{% endif %} dialog-modal color-{{ settings.popover_color_scheme }}"
       scroll-lock
+      style="--popup-ar: {{ v_ratio }};"
       aria-label="{{ block_settings.image.alt | default: 'Popup' | escape }}"
     >
       {%- if has_video -%}
@@ -195,9 +198,13 @@
     }
   }
 
-  /* Video popup: size the modal to the video instead of a fixed box. */
+  /* Video popup: size the modal box to the video's exact aspect ratio so
+     there is no letterbox/black bar. Width is capped so the derived height
+     never exceeds the viewport. */
   .image-popup .image-popup__content--video {
-    width: min(1100px, 94vw);
+    width: min(1100px, 94vw, calc(86vh * var(--popup-ar, 1.7778)));
+    max-width: 94vw;
+    aspect-ratio: var(--popup-ar, 1.7778);
     height: auto;
     background: #000;
   }
@@ -205,15 +212,14 @@
   .image-popup__video {
     display: block;
     width: 100%;
-    height: auto;
-    max-height: 86vh;
+    height: 100%;
     object-fit: contain;
     background: #000;
   }
 
   @media screen and (max-width: 749px) {
     .image-popup .image-popup__content--video {
-      width: 100dvw;
+      width: min(94vw, calc(86vh * var(--popup-ar, 1.7778)));
       height: auto;
     }
   }
