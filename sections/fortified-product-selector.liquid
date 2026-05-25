@@ -341,7 +341,7 @@
 
 .fe-section {
   background: rgb(var(--color-background)); color: rgb(var(--color-foreground));
-  font-family: inherit; overflow: visible;
+  font-family: inherit; overflow-x: clip;
 }
 .fe-container { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: var(--fe-max-width, 1400px); margin: 0 auto; width: 100%; padding: 0 1rem; }
 @media (min-width: 900px) {
@@ -369,7 +369,7 @@
 .fe-gallery[data-thumbpos="bottom"] .fe-gallery-col { order: 1; }
 .fe-gallery-main {
   position: relative; border-radius: var(--fe-card-radius, 12px); overflow: hidden;
-  background: rgb(var(--color-background));
+  background: color-mix(in srgb, rgb(var(--color-foreground)) 5%, rgb(var(--color-background)));
   height: var(--fe-media-height-mobile, 420px); padding: var(--fe-img-padding, 0px);
   display: flex; align-items: center; justify-content: center;
 }
