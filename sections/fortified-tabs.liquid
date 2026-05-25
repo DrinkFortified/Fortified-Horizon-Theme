@@ -43,7 +43,7 @@
 -%}
 
 <style>
-  #{{ root }} { background: rgb(var(--color-background)); overflow-x: clip; }
+  #{{ root }} { background: var(--color-background); overflow-x: clip; max-width: 100%; }
   #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; }
   #{{ root }} .{{ root }}__head { text-align: center; max-width: 760px; margin: 0 auto 32px; display: flex; flex-direction: column; gap: 10px; }
   #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: {{ accent_c }}; }
@@ -60,12 +60,13 @@
   /* ── Ingredient / fact row ── */
   #{{ root }} .{{ root }}__row { display: grid; grid-template-columns: 150px minmax(0,1fr) 150px minmax(0,1.1fr); gap: 28px; align-items: center; padding: 22px 0; }
   #{{ root }} .{{ root }}__row + .{{ root }}__row { border-top: 1px solid {{ tab_line_c }}; }
-  #{{ root }} .{{ root }}__row-media { width: 150px; height: 100px; border-radius: 8px; overflow: hidden; background: rgba(var(--color-foreground), 0.06); }
+  #{{ root }} .{{ root }}__row-media { width: 150px; height: 100px; border-radius: 8px; overflow: hidden; background: rgb(var(--color-foreground-rgb) / 0.06); }
+  #{{ root }} .{{ root }}__row-media:empty { display: none; }
   #{{ root }} .{{ root }}__row-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
   #{{ root }} .{{ root }}__row-title { margin: 0 0 4px; font-family: var(--font-heading--family, inherit); font-size: 19px; font-weight: 800; color: {{ heading_c }}; }
   #{{ root }} .{{ root }}__row-desc { margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: {{ subtitle_c }}; }
   #{{ root }} .{{ root }}__row-btn { display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 16px; border: 1px solid {{ heading_c }}; border-radius: 4px; color: {{ heading_c }}; transition: background 0.18s, color 0.18s; }
-  #{{ root }} .{{ root }}__row-btn:hover { background: {{ heading_c }}; color: rgb(var(--color-background)); }
+  #{{ root }} .{{ root }}__row-btn:hover { background: {{ heading_c }}; color: var(--color-background); }
   #{{ root }} .{{ root }}__row-stat { border-left: 1px dashed {{ divider_c }}; padding-left: 28px; }
   #{{ root }} .{{ root }}__row-num { font-family: var(--font-heading--family, inherit); font-size: 26px; font-weight: 800; line-height: 1; color: {{ heading_c }}; }
   #{{ root }} .{{ root }}__row-num-label { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: {{ subtitle_c }}; margin-top: 4px; }
@@ -91,6 +92,12 @@
   #{{ root }} .{{ root }}__cta:hover { filter: brightness(1.1); }
 
   @media (max-width: 749px) {
+    /* Contain everything to the viewport and give the tab content the same
+       16px side padding the header/footer use, so the bleed-scroller below
+       (margin-inline: -16px) lines up with the screen edge instead of
+       overflowing it. */
+    #{{ root }} .{{ root }}__inner { max-width: 100%; overflow-x: clip; }
+    #{{ root }} .{{ root }}__tabwrap { padding-inline: 16px; }
     #{{ root }} .{{ root }}__head { max-width: 100%; padding-inline: 16px; text-align: center; margin-bottom: 24px; }
     #{{ root }} .{{ root }}__eyebrow { font-size: 12px; letter-spacing: 0.12em; overflow-wrap: break-word; }
     #{{ root }} .{{ root }}__heading { font-size: clamp(24px, 7vw, 34px); line-height: 1.12; overflow-wrap: break-word; }
@@ -110,7 +117,7 @@
     }
     #{{ root }} .{{ root }}__rows::-webkit-scrollbar { height: 0; }
     #{{ root }} .{{ root }}__row {
-      flex: 0 0 80%; scroll-snap-align: center;
+      flex: 0 0 80%; min-width: 0; scroll-snap-align: center;
       grid-template-columns: 1fr; gap: 0; text-align: center;
       border: 1px solid {{ tab_line_c }}; border-radius: 16px; padding: 22px 18px;
     }
