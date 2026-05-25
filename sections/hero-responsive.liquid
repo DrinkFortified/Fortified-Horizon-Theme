@@ -29,6 +29,7 @@
     --hero-content-max-width: {{ section.settings.content_max_width }}px;
     --hero-gutter: {{ section.settings.content_gutter }}px;
     --hero-gap: {{ section.settings.gap }}px;
+    --hero-object-fit: {{ section.settings.video_fit }};
     --hero-align-items: {{ section.settings.horizontal_alignment }};
     --hero-justify: {{ section.settings.vertical_alignment }};
   "
@@ -89,6 +90,7 @@
     overflow: hidden;
     isolation: isolate;
     width: 100%;
+    background: var(--color-background);
   }
 
   .hero-responsive[data-height='small'] {
@@ -127,7 +129,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: var(--hero-object-fit, contain);
   }
 
   .hero-responsive__placeholder svg {
@@ -198,6 +200,17 @@
       "id": "mobile_video",
       "label": "Mobile video",
       "info": "Shown on mobile (≤749px). If empty, the desktop video is used on all screens."
+    },
+    {
+      "type": "select",
+      "id": "video_fit",
+      "label": "Video display",
+      "options": [
+        { "value": "contain", "label": "Show full video (no cropping)" },
+        { "value": "cover", "label": "Fill area (may crop edges)" }
+      ],
+      "default": "contain",
+      "info": "Contain shows the whole video; uncovered space uses the section background color."
     },
     {
       "type": "header",
