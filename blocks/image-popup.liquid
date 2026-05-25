@@ -217,6 +217,44 @@
       height: auto;
     }
   }
+
+  /* Center the lightbox in the viewport. The theme's default modal
+     animation ends on margin-top: 0 (forwards), which pins it to the top;
+     override it with a transform/opacity animation so the native
+     margin: auto centering takes effect on both axes. */
+  .image-popup .image-popup__content {
+    margin: auto;
+  }
+
+  .image-popup .image-popup__content[open] {
+    animation: imagePopupIn var(--animation-speed, 0.2s) var(--animation-easing, ease) forwards;
+  }
+
+  .image-popup .image-popup__content.dialog-closing {
+    animation: imagePopupOut var(--animation-speed, 0.2s) var(--animation-easing, ease) forwards;
+  }
+
+  @keyframes imagePopupIn {
+    from {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes imagePopupOut {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
