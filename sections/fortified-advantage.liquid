@@ -24,6 +24,8 @@
   if chart_label == blank
     assign chart_label = "Comparison bar chart"
   endif
+
+  assign accent_c = section.settings.accent_color | default: 'var(--color-foreground)'
 -%}
 
 <style>
@@ -44,7 +46,7 @@
     --fa-sub-size:   {{ section.settings.subtitle_size }}px;
     --fa-sub-size-m: {{ section.settings.subtitle_size_mobile }}px;
     --fa-max-w:    {{ fa_max_w }};
-    --fa-accent:   {{ section.settings.accent_color }};
+    --fa-accent:   {{ accent_c }};
   "
 >
   <div class="fortified-advantage__inner{% unless has_chart %} fortified-advantage__inner--solo{% endunless %}">

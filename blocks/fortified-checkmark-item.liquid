@@ -17,6 +17,8 @@
     else
       assign justify = 'flex-start'
   endcase
+
+  assign text_c = block.settings.text_color | default: 'var(--color-foreground)'
 %}
 
 <style>
@@ -25,7 +27,7 @@
     align-items: center;
     justify-content: {{ justify }};
     gap: {{ block.settings.gap }}px;
-    color: {{ block.settings.text_color }};
+    color: {{ text_c }};
     font-family: var(--font-body--family, inherit);
     font-size: {{ block.settings.text_size }}px;
     font-weight: {{ block.settings.text_weight }};

@@ -52,6 +52,15 @@
     echo b1l | append: ': ' | append: b1v | append: '. '
     echo b2l | append: ': ' | append: b2v | append: '.'
   endcapture
+
+  assign background_c = block.settings.background_color  | default: 'var(--color-background)'
+  assign border_c     = block.settings.border_color      | default: 'var(--color-foreground-heading)'
+  assign num_color_c  = block.settings.num_color          | default: 'var(--color-foreground-heading)'
+  assign headline_c   = block.settings.headline_color     | default: 'var(--color-foreground-heading)'
+  assign sub_color_c  = block.settings.sub_color          | default: 'var(--color-foreground)'
+  assign lbl_color_c  = block.settings.lbl_color          | default: 'var(--color-foreground-heading)'
+  assign foot_color_c = block.settings.foot_color         | default: 'var(--color-foreground)'
+  assign scale_c      = block.settings.scale_label_color  | default: 'var(--color-foreground)'
 %}
 
 {%- comment -%} Resolve Y-axis padding once so we don't repeat the conditional. {%- endcomment -%}
@@ -63,15 +72,15 @@
 
 <style>
   .{{ root }} {
-    --fsc-bg:        {{ block.settings.background_color }};
-    --fsc-border:    {{ block.settings.border_color }};
+    --fsc-bg:        {{ background_c }};
+    --fsc-border:    {{ border_c }};
     --fsc-border-w:  {{ block.settings.border_width }}px;
     --fsc-radius:    {{ block.settings.border_radius }}px;
     --fsc-pad:       {{ pad_top }}px {{ pad_right }}px {{ pad_bottom }}px {{ pad_left }}px;
     --fsc-gap:       {{ block.settings.section_gap }}px;
 
     --fsc-grid:      {{ block.settings.grid_line_color }};
-    --fsc-scale:     {{ block.settings.scale_label_color }};
+    --fsc-scale:     {{ scale_c }};
     --fsc-bar1:      {{ block.settings.bar1_color }};
     --fsc-bar2:      {{ block.settings.bar2_color }};
     --fsc-bar-w:     {{ block.settings.bar_width }}px;
@@ -143,7 +152,7 @@
     line-height: {{ block.settings.num_line_height }};
     letter-spacing: {{ block.settings.num_letter_spacing }};
     text-transform: {{ block.settings.num_case }};
-    color: {{ block.settings.num_color }};
+    color: {{ num_color_c }};
     margin: 0;
     font-variant-numeric: tabular-nums;
   }
@@ -154,7 +163,7 @@
     line-height: {{ block.settings.headline_line_height }};
     letter-spacing: {{ block.settings.headline_letter_spacing }};
     text-transform: {{ block.settings.headline_case }};
-    color: {{ block.settings.headline_color }};
+    color: {{ headline_c }};
     margin: 0;
   }
   .{{ root }} .fsc-sub {
@@ -164,7 +173,7 @@
     line-height: {{ block.settings.sub_line_height }};
     letter-spacing: {{ block.settings.sub_letter_spacing }};
     text-transform: {{ block.settings.sub_case }};
-    color: {{ block.settings.sub_color }};
+    color: {{ sub_color_c }};
     margin: 0;
   }
   .{{ root }} .fsc-lbl {
@@ -174,7 +183,7 @@
     line-height: {{ block.settings.lbl_line_height }};
     letter-spacing: {{ block.settings.lbl_letter_spacing }};
     text-transform: {{ block.settings.lbl_case }};
-    color: {{ block.settings.lbl_color }};
+    color: {{ lbl_color_c }};
     margin: 0;
   }
   .{{ root }} .fsc-foot {
@@ -185,7 +194,7 @@
     line-height: {{ block.settings.foot_line_height }};
     letter-spacing: {{ block.settings.foot_letter_spacing }};
     text-transform: {{ block.settings.foot_case }};
-    color: {{ block.settings.foot_color }};
+    color: {{ foot_color_c }};
     margin: 0;
   }
 

@@ -29,6 +29,14 @@
     assign pad_left = pad_legacy
     assign pad_right = pad_legacy
   endif
+
+  assign background_c   = block.settings.background_color      | default: 'var(--color-background)'
+  assign border_c       = block.settings.border_color          | default: 'var(--color-border)'
+  assign text_c         = block.settings.text_color            | default: 'var(--color-foreground)'
+  assign num_color_c    = block.settings.headline_number_color | default: 'var(--color-foreground-heading)'
+  assign headline_c     = block.settings.headline_color        | default: 'var(--color-foreground-heading)'
+  assign subtitle_c     = block.settings.subtitle_color        | default: 'var(--color-foreground)'
+  assign footnote_c     = block.settings.footnote_color        | default: 'var(--color-foreground)'
 %}
 
 <style>
@@ -109,13 +117,13 @@
     display: flex;
     flex-direction: column;
     {% endif %}
-    background: {{ block.settings.background_color }};
-    border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    background: {{ background_c }};
+    border: {{ block.settings.border_width }}px solid {{ border_c }};
     border-radius: {{ block.settings.border_radius }}px;
     padding: {{ pad_top }}px {{ pad_right }}px {{ pad_bottom }}px {{ pad_left }}px;
     box-sizing: border-box;
     font-family: var(--font-body--family, inherit);
-    color: {{ block.settings.text_color }};
+    color: {{ text_c }};
     text-align: {{ block.settings.text_alignment }};
   }
   {% if block.settings.match_sibling_height %}
@@ -131,7 +139,7 @@
     font-size: {{ block.settings.headline_number_size }}px;
     font-weight: 800;
     line-height: 1;
-    color: {{ block.settings.headline_number_color }};
+    color: {{ num_color_c }};
     margin: 0 0 8px;
     letter-spacing: -0.02em;
   }
@@ -140,13 +148,13 @@
     font-size: {{ block.settings.headline_size }}px;
     font-weight: 700;
     line-height: 1.2;
-    color: {{ block.settings.headline_color }};
+    color: {{ headline_c }};
     margin: 0;
   }
   .{{ root }} .fcl-subtitle {
     font-family: var(--font-body--family, inherit);
     font-size: {{ block.settings.subtitle_size }}px;
-    color: {{ block.settings.subtitle_color }};
+    color: {{ subtitle_c }};
     line-height: 1.4;
     margin: 6px 0 0;
   }
@@ -168,7 +176,7 @@
     font-size: {{ block.settings.footnote_size }}px;
     font-style: italic;
     line-height: 1.4;
-    color: {{ block.settings.footnote_color }};
+    color: {{ footnote_c }};
   }
 </style>
 

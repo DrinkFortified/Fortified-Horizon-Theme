@@ -18,15 +18,23 @@
   assign sid  = section.id | replace: '_', '' | downcase
   assign root = 'ftsc-' | append: sid
   assign cols = section.settings.columns | default: 3
+
+  assign card_bg_c    = section.settings.card_bg        | default: 'var(--color-background)'
+  assign heading_c    = section.settings.heading_color  | default: 'var(--color-foreground-heading)'
+  assign number_c     = section.settings.number_color   | default: 'var(--color-foreground-heading)'
+  assign subtitle_c   = section.settings.subtitle_color | default: 'var(--color-foreground)'
+  assign accent_c     = section.settings.accent_color   | default: 'var(--color-primary)'
+  assign button_bg_c  = section.settings.button_bg      | default: 'var(--color-primary-button-background)'
+  assign button_tx_c  = section.settings.button_text    | default: 'var(--color-primary-button-text)'
 -%}
 
 <style>
   #{{ root }} { padding: {{ section.settings.padding_top }}px 16px {{ section.settings.padding_bottom }}px; }
   #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; }
   #{{ root }} .{{ root }}__head { text-align: center; margin: 0 auto 40px; max-width: 760px; display: flex; flex-direction: column; gap: 10px; }
-  #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: {{ section.settings.accent_color }}; }
-  #{{ root }} .{{ root }}__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(30px, 4.5vw, 52px); font-weight: 800; line-height: 1.05; text-transform: uppercase; color: {{ section.settings.heading_color }}; }
-  #{{ root }} .{{ root }}__sub { margin: 0; font-size: 16px; line-height: 1.5; color: {{ section.settings.subtitle_color }}; }
+  #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: {{ accent_c }}; }
+  #{{ root }} .{{ root }}__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(30px, 4.5vw, 52px); font-weight: 800; line-height: 1.05; text-transform: uppercase; color: {{ heading_c }}; }
+  #{{ root }} .{{ root }}__sub { margin: 0; font-size: 16px; line-height: 1.5; color: {{ subtitle_c }}; }
 
   /* ── The grid: equal columns + equal-height rows ── */
   #{{ root }} .{{ root }}__grid {
@@ -42,19 +50,19 @@
     flex-direction: column;
     height: 100%;
     box-sizing: border-box;
-    background: {{ section.settings.card_bg }};
+    background: {{ card_bg_c }};
     border: {{ section.settings.border_width }}px solid {{ section.settings.border_color }};
     border-radius: {{ section.settings.border_radius }}px;
     padding: {{ section.settings.card_padding }}px;
     text-align: {{ section.settings.text_alignment }};
   }
-  #{{ root }} .ftsc-card__num { margin: 0; font-family: var(--font-heading--family, inherit); font-size: {{ section.settings.number_size }}px; font-weight: 800; line-height: 1; letter-spacing: -0.02em; color: {{ section.settings.number_color }}; }
-  #{{ root }} .ftsc-card__headline { margin: 6px 0 0; font-family: var(--font-heading--family, inherit); font-size: {{ section.settings.headline_size }}px; font-weight: 700; line-height: 1.15; color: {{ section.settings.heading_color }}; }
-  #{{ root }} .ftsc-card__sub { margin: 4px 0 0; font-size: {{ section.settings.subtitle_size }}px; line-height: 1.4; color: {{ section.settings.subtitle_color }}; }
+  #{{ root }} .ftsc-card__num { margin: 0; font-family: var(--font-heading--family, inherit); font-size: {{ section.settings.number_size }}px; font-weight: 800; line-height: 1; letter-spacing: -0.02em; color: {{ number_c }}; }
+  #{{ root }} .ftsc-card__headline { margin: 6px 0 0; font-family: var(--font-heading--family, inherit); font-size: {{ section.settings.headline_size }}px; font-weight: 700; line-height: 1.15; color: {{ heading_c }}; }
+  #{{ root }} .ftsc-card__sub { margin: 4px 0 0; font-size: {{ section.settings.subtitle_size }}px; line-height: 1.4; color: {{ subtitle_c }}; }
 
   /* body grows so footnotes line up at the bottom across all cards */
   #{{ root }} .ftsc-card__body { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-start; margin-top: 18px; }
-  #{{ root }} .ftsc-card__foot { margin: 18px 0 0; font-size: {{ section.settings.footnote_size }}px; font-style: italic; line-height: 1.4; color: {{ section.settings.footnote_color }}; }
+  #{{ root }} .ftsc-card__foot { margin: 18px 0 0; font-size: {{ section.settings.footnote_size }}px; font-style: italic; line-height: 1.4; color: {{ subtitle_c }}; }
 
   /* ── Bars ── */
   #{{ root }} .ftsc-chart { position: relative; height: {{ section.settings.chart_height }}px; padding-left: {% if section.settings.show_yaxis %}38{% else %}0{% endif %}px; }
@@ -65,17 +73,17 @@
   #{{ root }} .ftsc-bars { position: absolute; left: {% if section.settings.show_yaxis %}38{% else %}0{% endif %}px; right: 0; top: 0; bottom: 0; display: flex; align-items: flex-end; justify-content: center; gap: {{ section.settings.bar_gap }}px; }
   #{{ root }} .ftsc-bar { width: {{ section.settings.bar_width }}px; max-width: 38%; border-radius: {{ section.settings.bar_radius }}px {{ section.settings.bar_radius }}px 0 0; }
   #{{ root }} .ftsc-lbls { display: flex; align-items: center; justify-content: center; gap: {{ section.settings.bar_gap }}px; padding-left: {% if section.settings.show_yaxis %}38{% else %}0{% endif %}px; margin-top: 14px; min-height: 24px; }
-  #{{ root }} .ftsc-lbl { width: {{ section.settings.bar_width }}px; max-width: 38%; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: {{ section.settings.heading_color }}; line-height: 1.1; }
+  #{{ root }} .ftsc-lbl { width: {{ section.settings.bar_width }}px; max-width: 38%; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: {{ heading_c }}; line-height: 1.1; }
   #{{ root }} .ftsc-lbl img { height: 20px; width: auto; max-width: 100%; object-fit: contain; display: block; }
 
   /* ── Checklist ── */
   #{{ root }} .ftsc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; text-align: left; }
-  #{{ root }} .ftsc-list li { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 600; color: {{ section.settings.heading_color }}; }
-  #{{ root }} .ftsc-list svg { width: 22px; height: 22px; flex-shrink: 0; color: {{ section.settings.accent_color }}; }
+  #{{ root }} .ftsc-list li { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 600; color: {{ heading_c }}; }
+  #{{ root }} .ftsc-list svg { width: 22px; height: 22px; flex-shrink: 0; color: {{ accent_c }}; }
 
   /* ── Footer button ── */
   #{{ root }} .{{ root }}__footer { display: flex; justify-content: center; margin-top: 40px; }
-  #{{ root }} .{{ root }}__cta { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-heading--family, inherit); font-size: 16px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; padding: 16px 40px; border-radius: 8px; cursor: pointer; border: 2px solid {{ section.settings.button_bg }}; background: {{ section.settings.button_bg }}; color: {{ section.settings.button_text }}; transition: filter 0.18s; }
+  #{{ root }} .{{ root }}__cta { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-heading--family, inherit); font-size: 16px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; padding: 16px 40px; border-radius: 8px; cursor: pointer; border: 2px solid {{ button_bg_c }}; background: {{ button_bg_c }}; color: {{ button_tx_c }}; transition: filter 0.18s; }
   #{{ root }} .{{ root }}__cta:hover { filter: brightness(1.1); }
 
   /* ── Mobile: scroll sideways instead of stacking ── */
