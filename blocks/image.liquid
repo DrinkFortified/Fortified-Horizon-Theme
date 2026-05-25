@@ -60,7 +60,51 @@
   {%- endif -%}
 {% endcapture %}
 
-{% if block_settings.link == blank %}
+{% if block_settings.open_in_popup and block_settings.link != blank %}
+  <script
+    src="{{ 'dialog.js' | asset_url }}"
+    type="module"
+  ></script>
+
+  <dialog-component
+    class="image-popup"
+    {{ block.shopify_attributes }}
+  >
+    <button
+      type="button"
+      on:click="/showDialog"
+      class="{{ class }} image-popup__trigger"
+      style="{{ style }}"
+      aria-haspopup="dialog"
+    >
+      {{ image }}
+    </button>
+
+    <dialog
+      ref="dialog"
+      class="image-popup__content dialog-modal color-{{ settings.popover_color_scheme }}"
+      scroll-lock
+      aria-label="{{ block_settings.image.alt | default: block_settings.label | escape }}"
+    >
+      <iframe
+        class="image-popup__iframe"
+        src="{{ block_settings.link }}"
+        title="{{ block_settings.image.alt | default: 'Popup' | escape }}"
+        loading="lazy"
+        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+      <button
+        ref="closeButton"
+        on:click="/closeDialog"
+        class="button button-unstyled close-button image-popup__close"
+        aria-label="{{ 'accessibility.close_dialog' | t }}"
+      >
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </button>
+    </dialog>
+  </dialog-component>
+{% elsif block_settings.link == blank %}
   <div
     class="{{ class }}"
     style="{{ style }}"
@@ -110,6 +154,59 @@
     object-fit: cover;
     aspect-ratio: var(--ratio);
   }
+
+  /* Image-as-popup-trigger */
+  .image-popup {
+    display: contents;
+  }
+
+  .image-popup__trigger {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .image-popup .image-popup__content {
+    width: min(1040px, 94vw);
+    max-width: 94vw;
+    height: min(86vh, 760px);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .image-popup__iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    background-color: var(--color-background);
+  }
+
+  .image-popup__close {
+    position: absolute;
+    top: var(--margin-sm);
+    right: var(--margin-sm);
+    z-index: 2;
+    background-color: var(--color-background);
+    border-radius: 50%;
+    opacity: 0.92;
+  }
+
+  @media screen and (max-width: 749px) {
+    .image-popup .image-popup__content {
+      width: 100dvw;
+      height: 100dvh;
+      max-width: 100%;
+      padding: 0;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -126,6 +223,13 @@
       "type": "url",
       "id": "link",
       "label": "t:settings.link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_popup",
+      "label": "Open link in a popup",
+      "info": "Clicking the image opens the linked page (e.g. a page containing a video) in a modal lightbox instead of navigating to it.",
+      "default": false
     },
     {
       "type": "header",
