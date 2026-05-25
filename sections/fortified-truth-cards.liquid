@@ -1,0 +1,317 @@
+{% comment %}
+  Section: FTD - New Arrivals (Truth Cards)
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  A dark "The Truth" feature-cards section. Centered eyebrow + heading +
+  subheading, then a CSS grid of tall portrait cards. Each card fills a
+  fixed-height area (object-fit: cover) so images never collapse, with a
+  bottom-up gradient, an inline shield/bolt icon (or optional override),
+  an overlaid category label and caption. A ghost CTA button sits below.
+  Desktop = N-column grid; mobile (<=749px) = single stacked column.
+  Cards are classic section blocks (addable / reorderable).
+{% endcomment %}
+
+{%- liquid
+  assign sid  = section.id | replace: '_', '' | downcase
+  assign root = 'fttc-' | append: sid
+  assign cols = section.settings.columns_desktop
+-%}
+
+<style>
+  #{{ root }} {
+    position: relative;
+    padding: {{ section.settings.padding_top }}px {{ section.settings.padding_h }}px {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.bg_color }};
+    overflow: hidden;
+  }
+  #{{ root }} .{{ root }}__bgtex {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+  }
+  #{{ root }} .{{ root }}__inner {
+    position: relative;
+    z-index: 1;
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  #{{ root }} .{{ root }}__head {
+    text-align: center;
+    margin: 0 auto 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  #{{ root }} .{{ root }}__eyebrow {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: {{ section.settings.eyebrow_color }};
+  }
+  #{{ root }} .{{ root }}__heading {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: clamp(30px, 4.8vw, 56px);
+    font-weight: 800;
+    line-height: 1.04;
+    text-transform: uppercase;
+    color: {{ section.settings.heading_color }};
+  }
+  #{{ root }} .{{ root }}__sub {
+    margin: 0;
+    max-width: 520px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: {{ section.settings.subtitle_color }};
+  }
+
+  /* Grid */
+  #{{ root }} .{{ root }}__grid {
+    display: grid;
+    grid-template-columns: repeat({{ cols }}, minmax(0, 1fr));
+    align-items: stretch;
+    gap: {{ section.settings.gap }}px;
+  }
+
+  /* Card */
+  #{{ root }} .{{ root }}-card {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: {{ section.settings.card_height }}px;
+    border-radius: {{ section.settings.corner_radius }}px;
+    overflow: hidden;
+    background-color: {{ section.settings.card_bg }};
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+  }
+  #{{ root }} .{{ root }}-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #{{ root }} .{{ root }}-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.35) 42%, rgba(0,0,0,0) 70%);
+    z-index: 1;
+  }
+  #{{ root }} .{{ root }}-card__content {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  #{{ root }} .{{ root }}-card__icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    color: {{ section.settings.card_label_color }};
+    margin-top: 2px;
+  }
+  #{{ root }} .{{ root }}-card__icon svg { display: block; }
+  #{{ root }} .{{ root }}-card__icon img { width: 28px; height: 28px; object-fit: contain; display: block; }
+  #{{ root }} .{{ root }}-card__text { min-width: 0; }
+  #{{ root }} .{{ root }}-card__label {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: {{ section.settings.card_label_color }};
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  }
+  #{{ root }} .{{ root }}-card__caption {
+    margin: 4px 0 0;
+    font-size: 14px;
+    line-height: 1.4;
+    color: {{ section.settings.card_caption_color }};
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+
+  /* Footer button (ghost) */
+  #{{ root }} .{{ root }}__footer { display: flex; justify-content: center; margin-top: 44px; }
+  #{{ root }} .{{ root }}__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 38px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: transparent;
+    border: 2px solid {{ section.settings.button_text }};
+    color: {{ section.settings.button_text }};
+    transition: background 0.18s, color 0.18s;
+  }
+  #{{ root }} .{{ root }}__cta:hover {
+    background: {{ section.settings.button_text }};
+    color: {{ section.settings.bg_color }};
+  }
+
+  /* Mobile: single stacked column */
+  @media (max-width: 749px) {
+    #{{ root }} .{{ root }}__grid { grid-template-columns: minmax(0, 1fr); }
+    #{{ root }} .{{ root }}-card { height: {{ section.settings.card_height_mobile }}px; }
+    #{{ root }} .{{ root }}__head { text-align: center; }
+  }
+
+  [hidden]{display:none!important}
+  {{ section.settings.custom_css }}
+</style>
+
+{%- assign bg_tex = section.settings.background_image -%}
+
+<section id="{{ root }}" class="color-{{ section.settings.color_scheme }}" {{ section.shopify_attributes }}>
+  {%- if bg_tex != blank -%}
+    {%- assign bg_tex_url = bg_tex | image_url: width: 1600 -%}
+    <div class="{{ root }}__bgtex" style="background-image:url('{{ bg_tex_url }}')" aria-hidden="true"></div>
+  {%- endif -%}
+
+  <div class="{{ root }}__inner">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="{{ root }}__head">
+        {%- if section.settings.eyebrow != blank -%}<p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{{ section.settings.heading | newline_to_br }}</h2>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}<p class="{{ root }}__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="{{ root }}__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.link != blank -%}
+          {%- assign card_tag = 'a' -%}
+        {%- else -%}
+          {%- assign card_tag = 'div' -%}
+        {%- endif -%}
+        {%- assign img_class = root | append: '-card__img' -%}
+        <{{ card_tag }} class="{{ root }}-card" {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 900 | image_tag: class: img_class, loading: 'lazy', widths: '300,500,700,900,1100', alt: block.settings.category }}
+          {%- endif -%}
+
+          <div class="{{ root }}-card__overlay" aria-hidden="true"></div>
+
+          <div class="{{ root }}-card__content">
+            <span class="{{ root }}-card__icon">
+              {%- if block.settings.icon != blank -%}
+                {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy', widths: '40,80', alt: '' }}
+              {%- else -%}
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" opacity=".95"/><path d="M12.7 7.5 9 13h2.3l-.6 4 3.6-5.6H12l.7-3.9Z" fill="#0E0E0E"/></svg>
+              {%- endif -%}
+            </span>
+            <span class="{{ root }}-card__text">
+              {%- if block.settings.category != blank -%}<p class="{{ root }}-card__label">{{ block.settings.category }}</p>{%- endif -%}
+              {%- if block.settings.caption != blank -%}<p class="{{ root }}-card__caption">{{ block.settings.caption }}</p>{%- endif -%}
+            </span>
+          </div>
+        </{{ card_tag }}>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="{{ root }}__footer">
+        <a class="{{ root }}__cta" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ section.settings.button_label }}</a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FTD - New Arrivals",
+  "tag": "section",
+  "class": "ftd-truth-section",
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Truth" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "More Than Hydration Its Daily Support" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration." },
+
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore All Flavors" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+
+    { "type": "header", "content": "Card style" },
+    { "type": "range", "id": "columns_desktop", "label": "Columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 4 },
+    { "type": "range", "id": "card_height", "label": "Card height", "min": 240, "max": 640, "step": 10, "unit": "px", "default": 420 },
+    { "type": "range", "id": "card_height_mobile", "label": "Card height (mobile)", "min": 220, "max": 560, "step": 10, "unit": "px", "default": 360 },
+    { "type": "range", "id": "gap", "label": "Gap between cards", "min": 0, "max": 48, "step": 2, "unit": "px", "default": 20 },
+    { "type": "range", "id": "corner_radius", "label": "Corner radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 14 },
+    { "type": "color", "id": "card_bg", "label": "Card background", "default": "#1A1A1A" },
+
+    { "type": "header", "content": "Background" },
+    { "type": "image_picker", "id": "background_image", "label": "Background texture", "info": "Optional. Layered behind everything at low opacity." },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Section background", "default": "#0E0E0E" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow", "default": "#9DBE5B" },
+    { "type": "color", "id": "heading_color", "label": "Heading / text", "default": "#FFFFFF" },
+    { "type": "color", "id": "subtitle_color", "label": "Body / muted text", "default": "#B5B5B5" },
+    { "type": "color", "id": "card_label_color", "label": "Card label", "default": "#FFFFFF" },
+    { "type": "color", "id": "card_caption_color", "label": "Card caption", "default": "#C9C9C9" },
+    { "type": "color", "id": "button_text", "label": "Button text/border", "default": "#FFFFFF" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_h", "label": "Padding sides", "min": 0, "max": 100, "step": 2, "unit": "px", "default": 16 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Card image", "info": "Tall portrait image. Fills the card (cover)." },
+        { "type": "text", "id": "category", "label": "Category label", "default": "+ ENERGY" },
+        { "type": "text", "id": "caption", "label": "Caption", "default": "Electrolytes don't provide full recovery." },
+        { "type": "image_picker", "id": "icon", "label": "Icon override", "info": "Optional. Defaults to a shield + bolt icon." },
+        { "type": "url", "id": "link", "label": "Card link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FTD - New Arrivals",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "card", "settings": { "category": "+ ENERGY", "caption": "Electrolytes don't provide full recovery." } },
+        { "type": "card", "settings": { "category": "+ PERFORMANCE", "caption": "Electrolytes don't provide full recovery." } },
+        { "type": "card", "settings": { "category": "+ HYDRATION", "caption": "Electrolytes don't provide full recovery." } },
+        { "type": "card", "settings": { "category": "+ FOCUS", "caption": "Electrolytes don't provide full recovery." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
