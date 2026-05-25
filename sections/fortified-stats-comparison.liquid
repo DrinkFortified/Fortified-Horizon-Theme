@@ -2,16 +2,18 @@
   Section: FTD - Stats Comparison
   Category: Fortified Sections
   ----------------------------------------------------------------------
-  One self-contained section that renders ALL the comparison cards itself
-  (no Horizon group, no separate blocks to misalign). Cards are classic
-  section blocks rendered directly into a CSS grid, so every card is the
-  SAME width and height automatically. On mobile the grid becomes a
-  horizontal snap-scroller.
+  Renders comparison cards into an equal-width / equal-height CSS grid
+  (horizontal snap-scroller on mobile). Two block types:
+    • FTD - Bar Chart  — big number + two bars over 0/50/100 grid lines
+    • FTD - Checklist  — big number + a checkmark list
+  All cards share the section's border / radius / padding / background so
+  they look identical.
 
-  Each "Card" block is either a bar-chart card (big number + two bars) or a
-  checklist card (big number + checkmark list). All cards share the same
-  border / radius / padding / background from the section settings, so they
-  always look identical.
+  Standard Shopify layout: the outer wrapper uses the canonical
+  `section section--{{ section_width }} spacing-style color-{{ scheme }}`
+  classes + the `spacing-padding` snippet for padding (ids
+  padding-block-start / padding-block-end), matching the built-in
+  Custom Liquid section's hierarchy.
 {% endcomment %}
 
 {%- liquid
@@ -29,7 +31,6 @@
 -%}
 
 <style>
-  #{{ root }} { padding: {{ section.settings.padding_top }}px 16px {{ section.settings.padding_bottom }}px; }
   #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; }
   #{{ root }} .{{ root }}__head { text-align: center; margin: 0 auto 40px; max-width: 760px; display: flex; flex-direction: column; gap: 10px; }
   #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: {{ accent_c }}; }
@@ -108,7 +109,13 @@
   {{ section.settings.custom_css }}
 </style>
 
-<section id="{{ root }}" class="color-{{ section.settings.color_scheme }}" {{ section.shopify_attributes }}>
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  id="{{ root }}"
+  class="section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
   <div class="{{ root }}__inner">
 
     {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
@@ -127,7 +134,7 @@
           {%- if block.settings.subtitle != blank -%}<p class="ftsc-card__sub">{{ block.settings.subtitle }}</p>{%- endif -%}
 
           <div class="ftsc-card__body">
-            {%- if block.settings.card_type == 'checklist' -%}
+            {%- if block.type == 'checklist' -%}
               {%- assign items = block.settings.items | newline_to_br | split: '<br />' -%}
               <ul class="ftsc-list">
                 {%- for item in items -%}
@@ -174,7 +181,7 @@
     {%- endif -%}
 
   </div>
-</section>
+</div>
 
 {% schema %}
 {
@@ -188,9 +195,10 @@
     { "type": "textarea", "id": "subheading", "label": "Description", "default": "Electrolytes don't provide full recovery." },
 
     { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
     { "type": "range", "id": "columns", "label": "Columns (desktop)", "min": 2, "max": 4, "step": 1, "default": 3 },
     { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 0, "max": 48, "step": 4, "unit": "px", "default": 20 },
-    { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+    { "type": "range", "id": "max_width", "label": "Max content width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
     { "type": "checkbox", "id": "mobile_scroll", "label": "Scroll cards sideways on mobile", "default": true },
     { "type": "select", "id": "text_alignment", "label": "Card text alignment", "default": "left",
       "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ] },
@@ -230,24 +238,23 @@
     { "type": "color", "id": "button_bg", "label": "Button background", "default": "#0A0A0A" },
     { "type": "color", "id": "button_text", "label": "Button text", "default": "#FFFFFF" },
 
-    { "type": "header", "content": "Section padding" },
-    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 64 },
+
     { "type": "header", "content": "Advanced" },
     { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
   ],
   "blocks": [
     {
-      "type": "card",
-      "name": "Card",
+      "type": "bars",
+      "name": "FTD - Bar Chart",
       "settings": [
-        { "type": "select", "id": "card_type", "label": "Card type", "default": "bars",
-          "options": [ { "value": "bars", "label": "Bar chart" }, { "value": "checklist", "label": "Checklist" } ] },
         { "type": "text", "id": "number", "label": "Big number", "default": "2.3x" },
         { "type": "text", "id": "headline", "label": "Headline", "default": "Better Hydration" },
         { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "vs. water alone *" },
         { "type": "text", "id": "footnote", "label": "Footnote", "default": "* Study: Journal of Strength & Conditioning Research" },
-        { "type": "header", "content": "Bar chart (when type = Bar chart)" },
+        { "type": "header", "content": "Bars" },
         { "type": "text", "id": "bar1_label", "label": "Bar 1 label", "default": "Water" },
         { "type": "image_picker", "id": "bar1_image", "label": "Bar 1 label image", "info": "Optional. Shown instead of the Bar 1 label text (e.g. a logo). Better on mobile." },
         { "type": "range", "id": "bar1_value", "label": "Bar 1 value", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 38 },
@@ -255,8 +262,18 @@
         { "type": "text", "id": "bar2_label", "label": "Bar 2 label", "default": "Fortified" },
         { "type": "image_picker", "id": "bar2_image", "label": "Bar 2 label image (e.g. Fortified logo)", "info": "Optional. Shown instead of the Bar 2 label text — use the Fortified logo so it reads well on mobile." },
         { "type": "range", "id": "bar2_value", "label": "Bar 2 value", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 93 },
-        { "type": "color", "id": "bar2_color", "label": "Bar 2 color", "default": "#1FA8A1" },
-        { "type": "header", "content": "Checklist (when type = Checklist)" },
+        { "type": "color", "id": "bar2_color", "label": "Bar 2 color", "default": "#1FA8A1" }
+      ]
+    },
+    {
+      "type": "checklist",
+      "name": "FTD - Checklist",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Big number", "default": "0%" },
+        { "type": "text", "id": "headline", "label": "Headline", "default": "No Sugar. No Crash." },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "" },
+        { "type": "text", "id": "footnote", "label": "Footnote", "default": "* Based on internal product testing" },
+        { "type": "header", "content": "Checklist" },
         { "type": "textarea", "id": "items", "label": "Checklist items", "info": "One per line.", "default": "Improve Hydration\nBoost Energy Naturally\nSupport Muscle Function" }
       ]
     }
@@ -266,9 +283,9 @@
       "name": "FTD - Stats Comparison",
       "category": "Fortified Sections",
       "blocks": [
-        { "type": "card", "settings": { "card_type": "bars", "number": "2.3x", "headline": "Better Hydration", "subtitle": "vs. water alone *", "bar1_label": "Water", "bar1_value": 38, "bar2_label": "Fortified", "bar2_value": 93, "footnote": "* Study: Journal of Strength & Conditioning Research" } },
-        { "type": "card", "settings": { "card_type": "bars", "number": "+24%", "headline": "Improved Endurance", "subtitle": "in high intensity workouts *", "bar1_label": "Water", "bar1_value": 50, "bar2_label": "Fortified", "bar2_value": 88, "footnote": "* Study: Journal of Strength & Conditioning Research" } },
-        { "type": "card", "settings": { "card_type": "checklist", "number": "0%", "headline": "No Sugar. No Crash.", "subtitle": "in high intensity workouts *", "items": "Improve Hydration\nBoost Energy Naturally\nSupport Muscle Function", "footnote": "* Based on internal product testing" } }
+        { "type": "bars", "settings": { "number": "2.3x", "headline": "Better Hydration", "subtitle": "vs. water alone *", "bar1_label": "Water", "bar1_value": 38, "bar2_label": "Fortified", "bar2_value": 93, "footnote": "* Study: Journal of Strength & Conditioning Research" } },
+        { "type": "bars", "settings": { "number": "+24%", "headline": "Improved Endurance", "subtitle": "in high intensity workouts *", "bar1_label": "Water", "bar1_value": 50, "bar2_label": "Fortified", "bar2_value": 88, "footnote": "* Study: Journal of Strength & Conditioning Research" } },
+        { "type": "checklist", "settings": { "number": "0%", "headline": "No Sugar. No Crash.", "subtitle": "in high intensity workouts *", "items": "Improve Hydration\nBoost Energy Naturally\nSupport Muscle Function", "footnote": "* Based on internal product testing" } }
       ]
     }
   ]
