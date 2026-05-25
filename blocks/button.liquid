@@ -1,5 +1,99 @@
 
-{% render 'button', link: block.settings.link %}
+{% assign block_settings = block.settings %}
+
+{%- if block_settings.open_in_popup and block_settings.link != blank -%}
+  <script
+    src="{{ 'dialog.js' | asset_url }}"
+    type="module"
+  ></script>
+
+  <dialog-component
+    class="button-popup"
+    {{ block.shopify_attributes }}
+  >
+    <button
+      type="button"
+      on:click="/showDialog"
+      class="
+        size-style
+        {{ block_settings.style_class }}
+        {{ block_settings.style_class }}--{{ block.id }}
+      "
+      style="{% render 'size-style', settings: block_settings %}"
+    >
+      {{ block_settings.label }}
+    </button>
+
+    <dialog
+      ref="dialog"
+      class="button-popup__content dialog-modal color-{{ settings.popover_color_scheme }}"
+      scroll-lock
+      aria-label="{{ block_settings.label | escape }}"
+    >
+      <iframe
+        class="button-popup__iframe"
+        src="{{ block_settings.link }}"
+        title="{{ block_settings.label | escape }}"
+        loading="lazy"
+        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+      <button
+        ref="closeButton"
+        on:click="/closeDialog"
+        class="button button-unstyled close-button button-popup__close"
+        aria-label="{{ 'accessibility.close_dialog' | t }}"
+      >
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </button>
+    </dialog>
+  </dialog-component>
+{%- else -%}
+  {% render 'button', link: block.settings.link %}
+{%- endif -%}
+
+{% stylesheet %}
+  /* Keep the popup wrapper transparent to layout so the trigger button
+     still flows/sizes exactly like a normal button. */
+  .button-popup {
+    display: contents;
+  }
+
+  .button-popup .button-popup__content {
+    width: min(1040px, 94vw);
+    max-width: 94vw;
+    height: min(86vh, 760px);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .button-popup__iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    background-color: var(--color-background);
+  }
+
+  .button-popup__close {
+    position: absolute;
+    top: var(--margin-sm);
+    right: var(--margin-sm);
+    z-index: 2;
+    background-color: var(--color-background);
+    border-radius: 50%;
+    opacity: 0.92;
+  }
+
+  @media screen and (max-width: 749px) {
+    .button-popup .button-popup__content {
+      width: 100dvw;
+      height: 100dvh;
+      max-width: 100%;
+      padding: 0;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
@@ -21,6 +115,14 @@
       "type": "checkbox",
       "id": "open_in_new_tab",
       "label": "t:settings.open_new_tab",
+      "default": false,
+      "visible_if": "{{ block.settings.open_in_popup == false }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_popup",
+      "label": "Open link in a popup",
+      "info": "Opens the linked page (e.g. a page containing a video) in a modal popup instead of navigating to it. Works best with a dedicated page.",
       "default": false
     },
     {
