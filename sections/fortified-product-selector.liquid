@@ -47,15 +47,15 @@
   endif
 -%}
 
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
   id="fe-{{ sid }}"
-  class="fe-section color-{{ section.settings.color_scheme }}"
+  class="fe-section section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }}"
   data-section-id="{{ sid }}"
   style="
+    {% render 'spacing-padding', settings: section.settings %}
     --fe-btn-radius: {{ section.settings.button_radius }}px;
     --fe-card-radius: {{ section.settings.card_radius }}px;
-    --fe-section-pt: {{ section.settings.padding_top }}px;
-    --fe-section-pb: {{ section.settings.padding_bottom }}px;
     --fe-img-padding: {{ section.settings.image_padding }}px;
     --fe-img-position: {{ img_position }};
     --fe-media-height-mobile: {{ section.settings.media_height_mobile }}px;
@@ -342,7 +342,6 @@
 .fe-section {
   background: rgb(var(--color-background)); color: rgb(var(--color-foreground));
   font-family: inherit; overflow: hidden;
-  padding-top: var(--fe-section-pt, 0px); padding-bottom: var(--fe-section-pb, 0px);
 }
 .fe-container { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: var(--fe-max-width, 1400px); margin: 0 auto; width: 100%; padding: 0 1rem; }
 @media (min-width: 900px) {
@@ -1058,6 +1057,7 @@
       ]
     },
     { "type": "range", "id": "content_max_width", "label": "Section max width", "min": 600, "max": 1600, "step": 40, "unit": "px", "default": 1240 },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
     { "type": "range", "id": "panel_width", "label": "Selector panel width", "min": 300, "max": 700, "step": 20, "unit": "px", "default": 460 },
 
     { "type": "header", "content": "Gallery" },
@@ -1161,11 +1161,13 @@
     { "type": "color_scheme", "id": "color_scheme", "label": "Section color scheme", "default": "scheme-1" },
     { "type": "color_scheme", "id": "panel_color_scheme", "label": "Panel color scheme", "default": "scheme-1" },
 
-    { "type": "header", "content": "Spacing and Shape" },
-    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 },
+    { "type": "header", "content": "Shape" },
     { "type": "range", "id": "button_radius", "label": "Button corner radius", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 8 },
     { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 12 },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
 
     { "type": "header", "content": "Advanced" },
     { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section only. Use the .fe- class names on its elements." }
