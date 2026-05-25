@@ -509,6 +509,8 @@
 
 /* ── Creatine add-on (visible toggle card) ── */
 .fe-creatine { display: flex; flex-direction: column; gap: 0.5rem; }
+.fe-creatine[hidden] { display: none !important; }
+.fe-overview[hidden] { display: none !important; }
 .fe-cr-free { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 0.8rem; font-weight: 700; color: rgb(var(--color-foreground)); }
 .fe-cr-tick { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; font-size: 0.7rem; font-weight: 800; background: var(--fe-selection-color, rgb(var(--color-button))); color: rgb(var(--color-button-label)); }
 .fe-cr-card {
@@ -534,10 +536,10 @@
 .fe-cr-pricing { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
 .fe-cr-now { font-size: 0.95rem; font-weight: 800; color: rgb(var(--color-foreground)); }
 .fe-cr-was { font-size: 0.7rem; opacity: 0.5; color: rgb(var(--color-foreground)); text-decoration: line-through; }
-.fe-cr-switch { flex-shrink: 0; width: 42px; height: 24px; border-radius: 9999px; background: rgba(var(--color-foreground), 0.18); position: relative; transition: background 0.18s; }
-.fe-cr-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.25); transition: transform 0.18s; }
-.fe-cr-card:has(input:checked) .fe-cr-switch { background: var(--fe-selection-color, rgb(var(--color-button))); }
-.fe-cr-card:has(input:checked) .fe-cr-switch::after { transform: translateX(18px); }
+.fe-cr-switch { flex-shrink: 0; width: 48px; height: 27px; border-radius: 9999px; background: rgba(var(--color-foreground), 0.28); border: 1.5px solid rgba(var(--color-foreground), 0.35); position: relative; transition: background 0.18s, border-color 0.18s; }
+.fe-cr-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 19px; height: 19px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.35); transition: transform 0.18s; }
+.fe-cr-card:has(input:checked) .fe-cr-switch { background: var(--fe-selection-color, rgb(var(--color-button))); border-color: var(--fe-selection-color, rgb(var(--color-button))); }
+.fe-cr-card:has(input:checked) .fe-cr-switch::after { transform: translateX(21px); }
 
 /* ── Order overview ── */
 .fe-overview {
