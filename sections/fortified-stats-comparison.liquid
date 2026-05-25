@@ -63,6 +63,8 @@
 
   /* body grows so footnotes line up at the bottom across all cards */
   #{{ root }} .ftsc-card__body { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-start; margin-top: 18px; }
+  /* Checklist card: center its list vertically in the available space */
+  #{{ root }} .ftsc-card--checklist .ftsc-card__body { justify-content: center; }
   #{{ root }} .ftsc-card__foot { margin: 18px 0 0; font-size: {{ section.settings.footnote_size }}px; font-style: italic; line-height: 1.4; color: {{ subtitle_c }}; }
 
   /* ── Bars ── */
@@ -128,7 +130,7 @@
 
     <div class="{{ root }}__grid">
       {%- for block in section.blocks -%}
-        <div class="ftsc-card" {{ block.shopify_attributes }}>
+        <div class="ftsc-card{% if block.type == 'checklist' %} ftsc-card--checklist{% endif %}" {{ block.shopify_attributes }}>
           {%- if block.settings.number != blank -%}<p class="ftsc-card__num">{{ block.settings.number }}</p>{%- endif -%}
           {%- if block.settings.headline != blank -%}<p class="ftsc-card__headline">{{ block.settings.headline }}</p>{%- endif -%}
           {%- if block.settings.subtitle != blank -%}<p class="ftsc-card__sub">{{ block.settings.subtitle }}</p>{%- endif -%}
