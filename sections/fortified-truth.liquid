@@ -2,26 +2,50 @@
   Section: FTD - Truth
   Category: Fortified Sections
   ----------------------------------------------------------------------
-  A dark "The Truth" feature-cards section. Centered eyebrow + heading +
-  subheading, then a CSS grid of tall portrait cards. Each card fills a
-  fixed-height area (object-fit: cover) so images never collapse, with a
-  bottom-up gradient, an inline shield/bolt icon (or optional override),
-  an overlaid category label and caption. A ghost CTA button sits below.
+  A "The Truth" feature-cards section. The OUTER section spans full width
+  and uses the section color scheme (default scheme-1 / white), so the
+  area outside the page width shows the page background. The INNER box is
+  constrained to page width (content_max_width), uses its own color scheme
+  (default scheme-2 / dark), and holds the eyebrow + heading + subheading,
+  a grid of tall cover-image cards, and a CTA.
+
+  Colors are driven by the color schemes (--color-background,
+  --color-foreground, --color-foreground-heading, --color-primary) so
+  designers/developers can restyle via standard Shopify schemes. Each
+  color setting is an OPTIONAL override: leave blank to inherit the scheme.
+
+  Cards are classic section blocks (addable / reorderable). Each card
+  fills a fixed-height area (object-fit: cover) so images never collapse.
   Desktop = N-column grid; mobile (<=749px) = single stacked column.
-  Cards are classic section blocks (addable / reorderable).
 {% endcomment %}
 
 {%- liquid
   assign sid  = section.id | replace: '_', '' | downcase
   assign root = 'fttc-' | append: sid
   assign cols = section.settings.columns_desktop
+  assign eyebrow_c = section.settings.eyebrow_color | default: 'var(--color-primary)'
+  assign heading_c = section.settings.heading_color | default: 'var(--color-foreground-heading)'
+  assign text_c    = section.settings.text_color    | default: 'var(--color-foreground)'
+  assign button_c  = section.settings.button_color  | default: 'var(--color-foreground)'
+  assign label_c   = section.settings.card_label_color   | default: '#FFFFFF'
+  assign caption_c = section.settings.card_caption_color | default: '#E6E6E6'
 -%}
 
 <style>
   #{{ root }} {
-    position: relative;
+    background: var(--color-background, #ffffff);
     padding: {{ section.settings.padding_top }}px {{ section.settings.padding_h }}px {{ section.settings.padding_bottom }}px;
-    background-color: {{ section.settings.bg_color }};
+  }
+
+  /* Page-width dark content box */
+  #{{ root }} .{{ root }}__inner {
+    position: relative;
+    max-width: {{ section.settings.content_max_width }}px;
+    margin: 0 auto;
+    background: var(--color-background, #0E0E0E);
+    color: {{ text_c }};
+    border-radius: {{ section.settings.content_radius }}px;
+    padding: {{ section.settings.content_padding }}px;
     overflow: hidden;
   }
   #{{ root }} .{{ root }}__bgtex {
@@ -34,17 +58,12 @@
     pointer-events: none;
     z-index: 0;
   }
-  #{{ root }} .{{ root }}__inner {
-    position: relative;
-    z-index: 1;
-    max-width: {{ section.settings.max_width }}px;
-    margin: 0 auto;
-  }
+  #{{ root }} .{{ root }}__content { position: relative; z-index: 1; }
 
   /* Header */
   #{{ root }} .{{ root }}__head {
     text-align: center;
-    margin: 0 auto 44px;
+    margin: 0 auto 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -57,7 +76,7 @@
     font-weight: 700;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: {{ section.settings.eyebrow_color }};
+    color: {{ eyebrow_c }};
   }
   #{{ root }} .{{ root }}__heading {
     margin: 0;
@@ -66,14 +85,14 @@
     font-weight: 800;
     line-height: 1.04;
     text-transform: uppercase;
-    color: {{ section.settings.heading_color }};
+    color: {{ heading_c }};
   }
   #{{ root }} .{{ root }}__sub {
     margin: 0;
     max-width: 520px;
     font-size: 16px;
     line-height: 1.55;
-    color: {{ section.settings.subtitle_color }};
+    color: {{ text_c }};
   }
 
   /* Grid */
@@ -124,7 +143,7 @@
   #{{ root }} .{{ root }}-card__icon {
     flex: 0 0 auto;
     display: inline-flex;
-    color: {{ section.settings.card_label_color }};
+    color: {{ label_c }};
     margin-top: 2px;
   }
   #{{ root }} .{{ root }}-card__icon svg { display: block; }
@@ -137,19 +156,19 @@
     font-weight: 800;
     line-height: 1.1;
     text-transform: uppercase;
-    color: {{ section.settings.card_label_color }};
+    color: {{ label_c }};
     text-shadow: 0 2px 12px rgba(0,0,0,0.5);
   }
   #{{ root }} .{{ root }}-card__caption {
     margin: 4px 0 0;
     font-size: 14px;
     line-height: 1.4;
-    color: {{ section.settings.card_caption_color }};
+    color: {{ caption_c }};
     text-shadow: 0 1px 8px rgba(0,0,0,0.5);
   }
 
-  /* Footer button (ghost) */
-  #{{ root }} .{{ root }}__footer { display: flex; justify-content: center; margin-top: 44px; }
+  /* Footer button */
+  #{{ root }} .{{ root }}__footer { display: flex; justify-content: center; margin-top: 40px; }
   #{{ root }} .{{ root }}__cta {
     display: inline-flex;
     align-items: center;
@@ -163,21 +182,19 @@
     padding: 15px 38px;
     border-radius: 6px;
     cursor: pointer;
-    background: transparent;
-    border: 2px solid {{ section.settings.button_text }};
-    color: {{ section.settings.button_text }};
-    transition: background 0.18s, color 0.18s;
+    border: 2px solid {{ button_c }};
+    transition: background 0.18s, color 0.18s, opacity 0.18s;
   }
-  #{{ root }} .{{ root }}__cta:hover {
-    background: {{ section.settings.button_text }};
-    color: {{ section.settings.bg_color }};
-  }
+  #{{ root }} .{{ root }}__cta--outline { background: transparent; color: {{ button_c }}; }
+  #{{ root }} .{{ root }}__cta--outline:hover { background: {{ button_c }}; color: var(--color-background, #0E0E0E); }
+  #{{ root }} .{{ root }}__cta--filled { background: {{ button_c }}; color: var(--color-background, #0E0E0E); }
+  #{{ root }} .{{ root }}__cta--filled:hover { opacity: 0.88; }
 
   /* Mobile: single stacked column */
   @media (max-width: 749px) {
     #{{ root }} .{{ root }}__grid { grid-template-columns: minmax(0, 1fr); }
     #{{ root }} .{{ root }}-card { height: {{ section.settings.card_height_mobile }}px; }
-    #{{ root }} .{{ root }}__head { text-align: center; }
+    #{{ root }} .{{ root }}__inner { padding: {{ section.settings.content_padding | times: 0.6 | round }}px; }
   }
 
   [hidden]{display:none!important}
@@ -185,61 +202,65 @@
 </style>
 
 {%- assign bg_tex = section.settings.background_image -%}
+{%- assign cta_class = root | append: '__cta--' | append: section.settings.button_style -%}
 
-<section id="{{ root }}" class="color-{{ section.settings.color_scheme }}" {{ section.shopify_attributes }}>
-  {%- if bg_tex != blank -%}
-    {%- assign bg_tex_url = bg_tex | image_url: width: 1600 -%}
-    <div class="{{ root }}__bgtex" style="background-image:url('{{ bg_tex_url }}')" aria-hidden="true"></div>
-  {%- endif -%}
+<section id="{{ root }}" class="ftd-truth color-{{ section.settings.color_scheme }}" {{ section.shopify_attributes }}>
+  <div class="{{ root }}__inner color-{{ section.settings.content_color_scheme }}">
 
-  <div class="{{ root }}__inner">
-
-    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
-      <div class="{{ root }}__head">
-        {%- if section.settings.eyebrow != blank -%}<p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-        {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{{ section.settings.heading | newline_to_br }}</h2>{%- endif -%}
-        {%- if section.settings.subheading != blank -%}<p class="{{ root }}__sub">{{ section.settings.subheading }}</p>{%- endif -%}
-      </div>
+    {%- if bg_tex != blank -%}
+      {%- assign bg_tex_url = bg_tex | image_url: width: 1600 -%}
+      <div class="{{ root }}__bgtex" style="background-image:url('{{ bg_tex_url }}')" aria-hidden="true"></div>
     {%- endif -%}
 
-    <div class="{{ root }}__grid">
-      {%- for block in section.blocks -%}
-        {%- if block.settings.link != blank -%}
-          {%- assign card_tag = 'a' -%}
-        {%- else -%}
-          {%- assign card_tag = 'div' -%}
-        {%- endif -%}
-        {%- assign img_class = root | append: '-card__img' -%}
-        <{{ card_tag }} class="{{ root }}-card" {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} {{ block.shopify_attributes }}>
-          {%- if block.settings.image != blank -%}
-            {{ block.settings.image | image_url: width: 900 | image_tag: class: img_class, loading: 'lazy', widths: '300,500,700,900,1100', alt: block.settings.category }}
+    <div class="{{ root }}__content">
+
+      {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+        <div class="{{ root }}__head">
+          {%- if section.settings.eyebrow != blank -%}<p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+          {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{{ section.settings.heading | newline_to_br }}</h2>{%- endif -%}
+          {%- if section.settings.subheading != blank -%}<p class="{{ root }}__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="{{ root }}__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.link != blank -%}
+            {%- assign card_tag = 'a' -%}
+          {%- else -%}
+            {%- assign card_tag = 'div' -%}
           {%- endif -%}
+          {%- assign img_class = root | append: '-card__img' -%}
+          <{{ card_tag }} class="{{ root }}-card" {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 900 | image_tag: class: img_class, loading: 'lazy', widths: '300,500,700,900,1100', alt: block.settings.category }}
+            {%- endif -%}
 
-          <div class="{{ root }}-card__overlay" aria-hidden="true"></div>
+            <div class="{{ root }}-card__overlay" aria-hidden="true"></div>
 
-          <div class="{{ root }}-card__content">
-            <span class="{{ root }}-card__icon">
-              {%- if block.settings.icon != blank -%}
-                {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy', widths: '40,80', alt: '' }}
-              {%- else -%}
-                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" opacity=".95"/><path d="M12.7 7.5 9 13h2.3l-.6 4 3.6-5.6H12l.7-3.9Z" fill="#0E0E0E"/></svg>
-              {%- endif -%}
-            </span>
-            <span class="{{ root }}-card__text">
-              {%- if block.settings.category != blank -%}<p class="{{ root }}-card__label">{{ block.settings.category }}</p>{%- endif -%}
-              {%- if block.settings.caption != blank -%}<p class="{{ root }}-card__caption">{{ block.settings.caption }}</p>{%- endif -%}
-            </span>
-          </div>
-        </{{ card_tag }}>
-      {%- endfor -%}
-    </div>
-
-    {%- if section.settings.button_label != blank -%}
-      <div class="{{ root }}__footer">
-        <a class="{{ root }}__cta" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ section.settings.button_label }}</a>
+            <div class="{{ root }}-card__content">
+              <span class="{{ root }}-card__icon">
+                {%- if block.settings.icon != blank -%}
+                  {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy', widths: '40,80', alt: '' }}
+                {%- else -%}
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" opacity=".95"/><path d="M12.7 7.5 9 13h2.3l-.6 4 3.6-5.6H12l.7-3.9Z" fill="#0E0E0E"/></svg>
+                {%- endif -%}
+              </span>
+              <span class="{{ root }}-card__text">
+                {%- if block.settings.category != blank -%}<p class="{{ root }}-card__label">{{ block.settings.category }}</p>{%- endif -%}
+                {%- if block.settings.caption != blank -%}<p class="{{ root }}-card__caption">{{ block.settings.caption }}</p>{%- endif -%}
+              </span>
+            </div>
+          </{{ card_tag }}>
+        {%- endfor -%}
       </div>
-    {%- endif -%}
 
+      {%- if section.settings.button_label != blank -%}
+        <div class="{{ root }}__footer">
+          <a class="{{ root }}__cta {{ cta_class }}" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ section.settings.button_label }}</a>
+        </div>
+      {%- endif -%}
+
+    </div>
   </div>
 </section>
 
@@ -257,32 +278,37 @@
     { "type": "header", "content": "Button" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore All Flavors" },
     { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline (ghost)" }, { "value": "filled", "label": "Filled" } ] },
 
-    { "type": "header", "content": "Card style" },
+    { "type": "header", "content": "Cards" },
     { "type": "range", "id": "columns_desktop", "label": "Columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 4 },
     { "type": "range", "id": "card_height", "label": "Card height", "min": 240, "max": 640, "step": 10, "unit": "px", "default": 420 },
     { "type": "range", "id": "card_height_mobile", "label": "Card height (mobile)", "min": 220, "max": 560, "step": 10, "unit": "px", "default": 360 },
     { "type": "range", "id": "gap", "label": "Gap between cards", "min": 0, "max": 48, "step": 2, "unit": "px", "default": 20 },
-    { "type": "range", "id": "corner_radius", "label": "Corner radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 14 },
-    { "type": "color", "id": "card_bg", "label": "Card background", "default": "#1A1A1A" },
+    { "type": "range", "id": "corner_radius", "label": "Card corner radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 14 },
+    { "type": "color", "id": "card_bg", "label": "Card background (no image)", "default": "#1A1A1A" },
 
-    { "type": "header", "content": "Background" },
-    { "type": "image_picker", "id": "background_image", "label": "Background texture", "info": "Optional. Layered behind everything at low opacity." },
+    { "type": "header", "content": "Content box" },
+    { "type": "paragraph", "content": "The dark box is constrained to this width; the area outside it shows the section background (white)." },
+    { "type": "range", "id": "content_max_width", "label": "Content width (page width)", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+    { "type": "range", "id": "content_padding", "label": "Inner padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "content_radius", "label": "Box corner radius", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 28 },
+    { "type": "color_scheme", "id": "content_color_scheme", "label": "Content box color scheme", "default": "scheme-2" },
+    { "type": "image_picker", "id": "background_image", "label": "Content background texture", "info": "Optional. Layered inside the box at low opacity." },
 
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "bg_color", "label": "Section background", "default": "#0E0E0E" },
+    { "type": "paragraph", "content": "Leave a color blank to inherit it from the color scheme." },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Section color scheme (outside the box)", "default": "scheme-1" },
     { "type": "color", "id": "eyebrow_color", "label": "Eyebrow", "default": "#9DBE5B" },
-    { "type": "color", "id": "heading_color", "label": "Heading / text", "default": "#FFFFFF" },
-    { "type": "color", "id": "subtitle_color", "label": "Body / muted text", "default": "#B5B5B5" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "" },
+    { "type": "color", "id": "text_color", "label": "Body text", "default": "" },
     { "type": "color", "id": "card_label_color", "label": "Card label", "default": "#FFFFFF" },
-    { "type": "color", "id": "card_caption_color", "label": "Card caption", "default": "#C9C9C9" },
-    { "type": "color", "id": "button_text", "label": "Button text/border", "default": "#FFFFFF" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "color", "id": "card_caption_color", "label": "Card caption", "default": "#E6E6E6" },
+    { "type": "color", "id": "button_color", "label": "Button", "default": "" },
 
     { "type": "header", "content": "Layout" },
-    { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
-    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 80 },
-    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 72 },
     { "type": "range", "id": "padding_h", "label": "Padding sides", "min": 0, "max": 100, "step": 2, "unit": "px", "default": 16 },
 
     { "type": "header", "content": "Advanced" },
