@@ -162,6 +162,14 @@
         </ul>
       {%- endif -%}
 
+      {%- if section.settings.show_progress -%}
+        <ol class="fe-progress" id="fe-progress-{{ sid }}" aria-label="Progress">
+          <li class="fe-progress-step is-active" data-step="1"><span class="fe-progress-dot">1</span><span class="fe-progress-label">{{ section.settings.progress_label_1 | default: 'Plan' }}</span></li>
+          <li class="fe-progress-step" data-step="2"><span class="fe-progress-dot">2</span><span class="fe-progress-label">{{ section.settings.progress_label_2 | default: 'Build' }}</span></li>
+          <li class="fe-progress-step" data-step="3"><span class="fe-progress-dot">3</span><span class="fe-progress-label">{{ section.settings.progress_label_3 | default: 'Review' }}</span></li>
+        </ol>
+      {%- endif -%}
+
       {%- comment %} ───── STEP 1: PLAN ───── {%- endcomment %}
       <div class="fe-step" id="fe-plan-group-{{ sid }}">
         <div class="fe-step-head">
@@ -634,6 +642,19 @@
   #fe-{{ sid }} .fe-step--locked > :not(.fe-step-head) { display: none; }
   #fe-{{ sid }} .fe-step--locked .fe-step-head { opacity: 0.5; margin-bottom: 0; }
 }
+/* ── Step progress indicator (Plan → Build → Review) ── */
+.fe-progress { list-style: none; margin: 0 0 0.5rem; padding: 0; display: flex; align-items: flex-start; gap: 0; }
+.fe-progress-step { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; position: relative; text-align: center; min-width: 0; }
+.fe-progress-step::before { content: ""; position: absolute; top: 13px; right: 50%; width: 100%; height: 2px; background: rgba(var(--color-foreground), 0.15); z-index: 0; }
+.fe-progress-step:first-child::before { display: none; }
+.fe-progress-dot { position: relative; z-index: 1; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; background: rgba(var(--color-foreground), 0.12); color: rgba(var(--color-foreground), 0.55); border: 2px solid transparent; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+.fe-progress-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(var(--color-foreground), 0.55); line-height: 1.2; }
+.fe-progress-step.is-active .fe-progress-dot { background: transparent; border-color: var(--fe-selection-color, rgb(var(--color-button))); color: var(--fe-selection-color, rgb(var(--color-button))); }
+.fe-progress-step.is-active .fe-progress-label { color: rgb(var(--color-foreground)); }
+.fe-progress-step.is-done .fe-progress-dot { background: var(--fe-selection-color, rgb(var(--color-button))); border-color: var(--fe-selection-color, rgb(var(--color-button))); color: rgb(var(--color-button-label)); }
+.fe-progress-step.is-done .fe-progress-label { color: rgb(var(--color-foreground)); }
+.fe-progress-step.is-active::before, .fe-progress-step.is-done::before { background: var(--fe-selection-color, rgb(var(--color-button))); }
+
 {{ section.settings.custom_css }}
 </style>
 
@@ -1005,6 +1026,22 @@
   var sbBtn = document.getElementById('fe-sb-atc-' + SID);
   var sbTotal = document.getElementById('fe-sb-total-' + SID);
   var sbCounter = document.getElementById('fe-sb-counter-' + SID);
+  var progress = document.getElementById('fe-progress-' + SID);
+  var progSteps = progress ? progress.querySelectorAll('.fe-progress-step') : [];
+
+  function setStep(i, state) {
+    if (!progSteps[i]) return;
+    progSteps[i].classList.toggle('is-active', state === 'active');
+    progSteps[i].classList.toggle('is-done', state === 'done');
+  }
+  function updateProgress() {
+    if (!progSteps.length) return;
+    var planChosen = buildGroup ? !buildGroup.classList.contains('fe-step--locked') : false;
+    var ready = !(realBtn.hasAttribute('disabled') || realBtn.getAttribute('aria-disabled') === 'true');
+    setStep(0, planChosen ? 'done' : 'active');
+    setStep(1, ready ? 'done' : (planChosen ? 'active' : ''));
+    setStep(2, ready ? 'active' : '');
+  }
 
   function sync() {
     var off = realBtn.hasAttribute('disabled') || realBtn.getAttribute('aria-disabled') === 'true';
@@ -1012,6 +1049,7 @@
     else { sbBtn.removeAttribute('disabled'); sbBtn.removeAttribute('aria-disabled'); }
     if (sbTotal) { sbTotal.textContent = realTotal ? realTotal.textContent.replace(/^[\s·•]+/, '') : ''; }
     if (sbCounter && realCounter) { sbCounter.textContent = realCounter.textContent || ''; }
+    updateProgress();
   }
 
   sbBtn.addEventListener('click', function () { realBtn.click(); });
@@ -1058,6 +1096,10 @@
     },
     { "type": "range", "id": "content_max_width", "label": "Section max width", "min": 600, "max": 1600, "step": 40, "unit": "px", "default": 1240 },
     { "type": "select", "id": "section_width", "label": "Section width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+    { "type": "checkbox", "id": "show_progress", "label": "Show step progress indicator", "default": true },
+    { "type": "text", "id": "progress_label_1", "label": "Progress step 1 label", "default": "Plan" },
+    { "type": "text", "id": "progress_label_2", "label": "Progress step 2 label", "default": "Build" },
+    { "type": "text", "id": "progress_label_3", "label": "Progress step 3 label", "default": "Review" },
     { "type": "range", "id": "panel_width", "label": "Selector panel width", "min": 300, "max": 700, "step": 20, "unit": "px", "default": 460 },
 
     { "type": "header", "content": "Gallery" },
