@@ -251,19 +251,36 @@
         </div>
       </div>
 
-      {%- comment %} ───── MONTHLY ADD-ON ───── {%- endcomment %}
+      {%- comment %} ───── CREATINE ADD-ON (visible toggle card; adapts monthly / quarterly-2nd) ───── {%- endcomment %}
       {%- if section.settings.show_addon and addon != blank -%}
-        <div class="fe-extras fe-extras--monthly" data-extras-view="monthly">
-          <label class="fe-addon">
-            <input type="checkbox" id="fe-addon-{{ sid }}" data-addon-variant="{{ addon_variant_id }}">
-            <span class="fe-addon-box" aria-hidden="true"></span>
-            <span class="fe-addon-text">
-              <span class="fe-addon-title">{{ section.settings.addon_label | default: 'Add Creatine — 50% off' }}</span>
-              {%- if section.settings.addon_desc != blank -%}<span class="fe-addon-desc">{{ section.settings.addon_desc }}</span>{%- endif -%}
+        {%- assign addon_img = section.settings.addon_image | default: addon.featured_image -%}
+        <div class="fe-creatine fe-step--locked" id="fe-creatine-{{ sid }}" aria-disabled="true">
+          <p class="fe-cr-free" id="fe-cr-free-{{ sid }}" hidden><span class="fe-cr-tick" aria-hidden="true">✓</span>{{ section.settings.quarterly_free_text | default: 'Free Creatine + Sample Pack included with your bundle' }}</p>
+          <label class="fe-cr-card">
+            <span class="fe-cr-media">
+              {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 120 }}" alt="" width="58" height="58" loading="lazy">{%- else -%}<span class="fe-cr-ph">5g</span>{%- endif -%}
             </span>
+            <span class="fe-cr-text">
+              <span class="fe-cr-title" id="fe-cr-title-{{ sid }}">{{ section.settings.addon_label | default: 'Add Creatine — 50% off' }}</span>
+              {%- if section.settings.addon_desc != blank -%}<span class="fe-cr-desc" id="fe-cr-desc-{{ sid }}">{{ section.settings.addon_desc }}</span>{%- endif -%}
+            </span>
+            <span class="fe-cr-pricing">
+              {%- if section.settings.addon_price_text != blank -%}<span class="fe-cr-now">{{ section.settings.addon_price_text }}</span>{%- endif -%}
+              {%- if section.settings.addon_was_text != blank -%}<span class="fe-cr-was">{{ section.settings.addon_was_text }}</span>{%- endif -%}
+            </span>
+            <input type="checkbox" id="fe-addon-{{ sid }}" data-addon-variant="{{ addon_variant_id }}">
+            <span class="fe-cr-switch" aria-hidden="true"></span>
           </label>
         </div>
       {%- endif -%}
+
+      {%- comment %} ───── ORDER OVERVIEW (before Add to Cart) ───── {%- endcomment %}
+      <div class="fe-overview" id="fe-overview-{{ sid }}" hidden>
+        <p class="fe-ov-label">{{ section.settings.summary_label | default: 'Your Order' }}</p>
+        <ul class="fe-ov-lines" id="fe-ov-lines-{{ sid }}"></ul>
+        <div class="fe-ov-total"><span>{{ section.settings.total_label | default: 'Total' }}</span><span class="fe-ov-total-val" id="fe-ov-total-{{ sid }}">--</span></div>
+        {%- if section.settings.overview_note != blank -%}<p class="fe-ov-note">{{ section.settings.overview_note }}</p>{%- endif -%}
+      </div>
 
       {%- comment %} ───── QUANTITY + ADD TO CART ───── {%- endcomment %}
       <div class="fe-atc-wrap">
@@ -483,22 +500,51 @@
 .fe-flavor-opt.is-active .fe-flavor-radio::after { content: ''; position: absolute; inset: 2px; border-radius: 50%; background: var(--fe-selection-color, rgb(var(--color-button))); }
 .fe-badge { font-style: normal; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; padding: 0.12em 0.45em; border-radius: 9999px; background: rgba(var(--color-foreground), 0.15); }
 
-/* ── Add-on ── */
-.fe-extras { display: none; }
-.fe-extras.is-active { display: block; }
-.fe-addon {
-  display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem 1rem; cursor: pointer;
-  border: 2px dashed rgba(var(--color-foreground), 0.2); border-radius: var(--fe-card-radius, 12px);
-  transition: border-color 0.18s, background 0.18s;
+/* ── Creatine add-on (visible toggle card) ── */
+.fe-creatine { display: flex; flex-direction: column; gap: 0.5rem; }
+.fe-cr-free { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 0.8rem; font-weight: 700; color: rgb(var(--color-foreground)); }
+.fe-cr-tick { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; font-size: 0.7rem; font-weight: 800; background: var(--fe-selection-color, rgb(var(--color-button))); color: rgb(var(--color-button-label)); }
+.fe-cr-card {
+  position: relative; display: flex; align-items: center; gap: 0.85rem; padding: 0.85rem 1rem; cursor: pointer;
+  border: 2px solid rgba(var(--color-foreground), 0.16); border-radius: var(--fe-card-radius, 12px);
+  background: rgb(var(--color-background)); transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
 }
-.fe-addon:has(input:checked) { border-style: solid; border-color: var(--fe-selection-color, rgb(var(--color-button))); background: color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 6%, transparent); }
-.fe-addon input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
-.fe-addon-box { flex-shrink: 0; width: 20px; height: 20px; border-radius: 5px; margin-top: 1px; border: 2px solid rgba(var(--color-foreground), 0.3); position: relative; transition: all 0.18s; }
-.fe-addon-box::after { content: ''; position: absolute; left: 5px; top: 1px; width: 6px; height: 11px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg) scale(0); transition: transform 0.18s; }
-.fe-addon:has(input:checked) .fe-addon-box { background: var(--fe-selection-color, rgb(var(--color-button))); border-color: var(--fe-selection-color, rgb(var(--color-button))); }
-.fe-addon:has(input:checked) .fe-addon-box::after { transform: rotate(45deg) scale(1); }
-.fe-addon-title { font-size: 0.85rem; font-weight: 700; color: rgb(var(--color-foreground)); display: block; }
-.fe-addon-desc { font-size: 0.72rem; opacity: 0.55; color: rgb(var(--color-foreground)); }
+.fe-cr-card:hover { border-color: rgba(var(--color-foreground), 0.3); }
+.fe-cr-card:has(input:checked) {
+  border-color: var(--fe-selection-color, rgb(var(--color-button)));
+  background: color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 7%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 16%, transparent);
+}
+.fe-cr-card input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
+.fe-cr-media { flex-shrink: 0; width: 48px; height: 48px; border-radius: 8px; overflow: hidden; background: rgba(var(--color-foreground), 0.06); display: inline-flex; align-items: center; justify-content: center; }
+.fe-cr-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fe-cr-ph { font-size: 0.85rem; font-weight: 800; color: rgba(var(--color-foreground), 0.5); }
+.fe-cr-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+.fe-cr-title { font-size: 0.88rem; font-weight: 800; color: rgb(var(--color-foreground)); }
+.fe-cr-desc { font-size: 0.72rem; opacity: 0.6; color: rgb(var(--color-foreground)); line-height: 1.35; }
+.fe-cr-pricing { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+.fe-cr-now { font-size: 0.95rem; font-weight: 800; color: rgb(var(--color-foreground)); }
+.fe-cr-was { font-size: 0.7rem; opacity: 0.5; color: rgb(var(--color-foreground)); text-decoration: line-through; }
+.fe-cr-switch { flex-shrink: 0; width: 42px; height: 24px; border-radius: 9999px; background: rgba(var(--color-foreground), 0.18); position: relative; transition: background 0.18s; }
+.fe-cr-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.25); transition: transform 0.18s; }
+.fe-cr-card:has(input:checked) .fe-cr-switch { background: var(--fe-selection-color, rgb(var(--color-button))); }
+.fe-cr-card:has(input:checked) .fe-cr-switch::after { transform: translateX(18px); }
+
+/* ── Order overview ── */
+.fe-overview {
+  border: 1px solid rgba(var(--color-foreground), 0.12); border-radius: var(--fe-card-radius, 12px);
+  padding: 1rem 1.1rem; background: rgba(var(--color-foreground), 0.02);
+}
+.fe-ov-label { margin: 0 0 0.6rem; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(var(--color-foreground), 0.6); }
+.fe-ov-lines { list-style: none; margin: 0 0 0.6rem; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; }
+.fe-ov-line { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; font-size: 0.82rem; color: rgb(var(--color-foreground)); }
+.fe-ov-line-name { min-width: 0; }
+.fe-ov-line-sub { display: block; font-size: 0.7rem; opacity: 0.55; }
+.fe-ov-line-price { flex-shrink: 0; font-weight: 700; white-space: nowrap; }
+.fe-ov-line-price.is-free { color: var(--fe-selection-color, rgb(var(--color-button))); }
+.fe-ov-total { display: flex; align-items: baseline; justify-content: space-between; padding-top: 0.6rem; border-top: 1px solid rgba(var(--color-foreground), 0.12); font-size: 0.85rem; font-weight: 700; color: rgb(var(--color-foreground)); }
+.fe-ov-total-val { font-size: 1.05rem; font-weight: 800; }
+.fe-ov-note { margin: 0.5rem 0 0; font-size: 0.68rem; opacity: 0.5; color: rgb(var(--color-foreground)); }
 
 /* ── Quantity + ATC ── */
 .fe-atc-wrap { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -547,6 +593,15 @@
   var POUCHES_WORD = {{ section.settings.pouches_word | default: 'Pouches' | json }};
   var SHOW_TOTAL   = {{ section.settings.show_total_on_button | json }};
 
+  /* Creatine add-on copy adapts: monthly = add at 50% off; quarterly = 1st free, add a 2nd at 50%. */
+  var CR_LABEL_M = {{ section.settings.addon_label | default: 'Add Creatine — 50% off' | json }};
+  var CR_LABEL_Q = {{ section.settings.addon_label_quarterly | default: 'Add a 2nd Creatine — 50% off' | json }};
+  var CR_DESC_M  = {{ section.settings.addon_desc | default: '' | json }};
+  var CR_DESC_Q  = {{ section.settings.addon_desc_quarterly | default: '1st Creatine is free with your bundle. Add a second at 50% off.' | json }};
+  var CR_PRICE   = parseFloat(({{ section.settings.addon_price_text | default: '' | json }} + '').replace(/[^0-9.]/g, '')) || 0;
+  var PLAN_LABEL_M = {{ section.settings.monthly_label | default: '1 a Month' | json }};
+  var PLAN_LABEL_Q = {{ section.settings.quarterly_label | default: '3 Every 3 Months' | json }};
+
   var root = document.getElementById('fe-' + SID);
   if (!root) return;
 
@@ -559,6 +614,13 @@
   var counterEl = root.querySelector('#fe-counter-' + SID);
   var qtyInput = root.querySelector('#fe-qty-' + SID);
   var addonInput = root.querySelector('#fe-addon-' + SID);
+  var creatineGroup = root.querySelector('#fe-creatine-' + SID);
+  var crFree = root.querySelector('#fe-cr-free-' + SID);
+  var crTitle = root.querySelector('#fe-cr-title-' + SID);
+  var crDesc = root.querySelector('#fe-cr-desc-' + SID);
+  var overview = root.querySelector('#fe-overview-' + SID);
+  var ovLines = root.querySelector('#fe-ov-lines-' + SID);
+  var ovTotal = root.querySelector('#fe-ov-total-' + SID);
   var oneTimeBtn = root.querySelector('#fe-onetime-' + SID);
   var monthlyView = root.querySelector('.fe-build-view--monthly');
   var quarterlyView = root.querySelector('.fe-build-view--quarterly');
@@ -659,21 +721,53 @@
     }
   }
 
+  function esc(t) { var d = document.createElement('div'); d.textContent = (t == null ? '' : t); return d.innerHTML; }
+
   function recompute() {
     var ids = activeSlotIds();
-    var completed = 0, total = 0, ready = ids.length > 0;
+    var completed = 0, pouchSubtotal = 0, ready = ids.length > 0;
+    var lines = [];
     ids.forEach(function (id) {
       var s = slots[id];
       if (s.functionId && s.flavorName && s.product && s.variant) {
         completed++;
         var pr = subPrice(s.product, s.variant, slotPlanRaw(s));
-        total += (pr != null ? pr : s.variant.price);
+        if (pr == null) pr = s.variant.price;
+        pouchSubtotal += pr;
+        lines.push({ name: s.label, sub: s.flavorName, price: pr });
       } else { ready = false; }
     });
-    total *= getQty();
+
+    var qty = getQty();
+    var addonOn = !!(addonInput && addonInput.checked);
+    var creatineCents = 0;
+    if (addonOn && (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly')) {
+      creatineCents = Math.round(CR_PRICE * 100);
+    }
+    var total = (pouchSubtotal + creatineCents) * qty;
 
     if (counterEl && state.purchaseType) counterEl.textContent = completed + ' / ' + ids.length + ' ' + POUCHES_WORD;
     if (atcTotal) atcTotal.textContent = (SHOW_TOTAL && ready && total > 0) ? ('· ' + formatMoney(total)) : '';
+
+    /* ── Order overview ── */
+    if (ovLines) {
+      var html = '';
+      if (state.purchaseType) {
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + esc(state.purchaseType === 'quarterly' ? PLAN_LABEL_Q : PLAN_LABEL_M) + '</span></li>';
+      }
+      lines.forEach(function (l, i) {
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + esc(l.name || ('Pouch ' + (i + 1))) + (l.sub ? '<span class="fe-ov-line-sub">' + esc(l.sub) + '</span>' : '') + '</span><span class="fe-ov-line-price">' + formatMoney(l.price * qty) + '</span></li>';
+      });
+      if (state.purchaseType === 'quarterly') {
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">Creatine<span class="fe-ov-line-sub">1st included free</span></span><span class="fe-ov-line-price is-free">FREE</span></li>';
+      }
+      if (creatineCents > 0) {
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + (state.purchaseType === 'quarterly' ? '2nd Creatine (50% off)' : 'Creatine (50% off)') + '</span><span class="fe-ov-line-price">' + formatMoney(creatineCents * qty) + '</span></li>';
+      }
+      ovLines.innerHTML = html;
+    }
+    if (ovTotal) ovTotal.textContent = (ready || lines.length) ? formatMoney(total) : '--';
+
     updatePlanPrices();
     setAtcEnabled(ready);
     return ready;
@@ -695,10 +789,18 @@
     state.purchaseType = type;
     if (monthlyView) monthlyView.classList.toggle('is-active', type === 'monthly');
     if (quarterlyView) quarterlyView.classList.toggle('is-active', type === 'quarterly');
-    root.querySelectorAll('.fe-extras').forEach(function (ex) { ex.classList.toggle('is-active', ex.dataset.extrasView === type); });
     if (buildGroup) { buildGroup.classList.remove('fe-step--locked'); buildGroup.removeAttribute('aria-disabled'); }
     var count = type === 'monthly' ? 1 : BUNDLE_COUNT;
     if (buildLabelEl) buildLabelEl.textContent = BUILD_LABEL.replace('{count}', count);
+
+    /* Creatine card: unlock + adapt copy. Quarterly shows the "1st free" line and offers a 2nd at 50%. */
+    var q = type === 'quarterly';
+    if (creatineGroup) { creatineGroup.classList.remove('fe-step--locked'); creatineGroup.removeAttribute('aria-disabled'); }
+    if (crTitle) crTitle.textContent = q ? CR_LABEL_Q : CR_LABEL_M;
+    if (crDesc)  crDesc.textContent  = q ? CR_DESC_Q : CR_DESC_M;
+    if (crFree)  crFree.hidden = !q;
+
+    if (overview) overview.hidden = false;
     recompute();
   }
 
@@ -799,7 +901,7 @@
       if (plan) item.selling_plan = plan;
       items.push(item);
     }
-    if (state.purchaseType === 'monthly' && addonInput && addonInput.checked) {
+    if (addonInput && addonInput.checked && (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly')) {
       var av = parseInt(addonInput.dataset.addonVariant, 10);
       if (av) items.push({ id: av, quantity: qty });
     }
@@ -893,11 +995,22 @@
     { "type": "text", "id": "flavor_label", "label": "Flavor label", "default": "Choose Flavor:" },
     { "type": "text", "id": "unit_label_prefix", "label": "Pouch label prefix", "default": "Pouch" },
 
-    { "type": "header", "content": "Monthly Add-on" },
-    { "type": "checkbox", "id": "show_addon", "label": "Show creatine add-on (monthly only)", "default": true },
-    { "type": "product", "id": "addon_product", "label": "Add-on product", "info": "Added to cart when ticked. Configure the 50% discount as an automatic discount in Shopify." },
-    { "type": "text", "id": "addon_label", "label": "Add-on title", "default": "Add Creatine — 50% off" },
-    { "type": "text", "id": "addon_desc", "label": "Add-on description", "default": "50% off applied automatically at checkout." },
+    { "type": "header", "content": "Creatine Add-on" },
+    { "type": "checkbox", "id": "show_addon", "label": "Show creatine add-on", "default": true },
+    { "type": "product", "id": "addon_product", "label": "Add-on product", "info": "Added to cart when toggled on. Set the 50% discount as an automatic discount in Shopify." },
+    { "type": "image_picker", "id": "addon_image", "label": "Add-on image", "info": "Optional. Falls back to the product image." },
+    { "type": "text", "id": "addon_label", "label": "Title — monthly", "default": "Add Creatine — 50% off" },
+    { "type": "text", "id": "addon_desc", "label": "Description — monthly", "default": "50% off applied automatically at checkout." },
+    { "type": "text", "id": "addon_label_quarterly", "label": "Title — quarterly (2nd unit)", "default": "Add a 2nd Creatine — 50% off" },
+    { "type": "text", "id": "addon_desc_quarterly", "label": "Description — quarterly", "default": "1st Creatine is free with your bundle. Add a second at 50% off." },
+    { "type": "text", "id": "quarterly_free_text", "label": "Quarterly \"free included\" line", "default": "Free Creatine + Sample Pack included with your bundle" },
+    { "type": "text", "id": "addon_price_text", "label": "Add-on price (display)", "default": "$12.00" },
+    { "type": "text", "id": "addon_was_text", "label": "Add-on compare-at (display)", "default": "$24.00" },
+
+    { "type": "header", "content": "Order Overview" },
+    { "type": "text", "id": "summary_label", "label": "Heading", "default": "Your Order" },
+    { "type": "text", "id": "total_label", "label": "Total label", "default": "Total" },
+    { "type": "text", "id": "overview_note", "label": "Note under total", "default": "Subscriptions ship free. Discounts applied at checkout." },
 
     { "type": "header", "content": "Add to Cart" },
     { "type": "text", "id": "atc_label", "label": "Button label", "default": "Add to Cart" },

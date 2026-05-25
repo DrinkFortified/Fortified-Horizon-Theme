@@ -53,7 +53,7 @@
   #{{ root }} .ftsc-card__sub { margin: 4px 0 0; font-size: {{ section.settings.subtitle_size }}px; line-height: 1.4; color: {{ section.settings.subtitle_color }}; }
 
   /* body grows so footnotes line up at the bottom across all cards */
-  #{{ root }} .ftsc-card__body { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-end; margin-top: 22px; }
+  #{{ root }} .ftsc-card__body { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-start; margin-top: 18px; }
   #{{ root }} .ftsc-card__foot { margin: 18px 0 0; font-size: {{ section.settings.footnote_size }}px; font-style: italic; line-height: 1.4; color: {{ section.settings.footnote_color }}; }
 
   /* ── Bars ── */
@@ -64,8 +64,9 @@
   #{{ root }} .ftsc-grid-line--100 { top: 0; } #{{ root }} .ftsc-grid-line--50 { top: 50%; } #{{ root }} .ftsc-grid-line--0 { top: calc(100% - 1px); }
   #{{ root }} .ftsc-bars { position: absolute; left: {% if section.settings.show_yaxis %}38{% else %}0{% endif %}px; right: 0; top: 0; bottom: 0; display: flex; align-items: flex-end; justify-content: center; gap: {{ section.settings.bar_gap }}px; }
   #{{ root }} .ftsc-bar { width: {{ section.settings.bar_width }}px; max-width: 38%; border-radius: {{ section.settings.bar_radius }}px {{ section.settings.bar_radius }}px 0 0; }
-  #{{ root }} .ftsc-lbls { display: flex; justify-content: center; gap: {{ section.settings.bar_gap }}px; padding-left: {% if section.settings.show_yaxis %}38{% else %}0{% endif %}px; margin-top: 14px; }
-  #{{ root }} .ftsc-lbl { width: {{ section.settings.bar_width }}px; max-width: 38%; text-align: center; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: {{ section.settings.heading_color }}; }
+  #{{ root }} .ftsc-lbls { display: flex; align-items: center; justify-content: center; gap: {{ section.settings.bar_gap }}px; padding-left: {% if section.settings.show_yaxis %}38{% else %}0{% endif %}px; margin-top: 14px; min-height: 24px; }
+  #{{ root }} .ftsc-lbl { width: {{ section.settings.bar_width }}px; max-width: 38%; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: {{ section.settings.heading_color }}; line-height: 1.1; }
+  #{{ root }} .ftsc-lbl img { height: 20px; width: auto; max-width: 100%; object-fit: contain; display: block; }
 
   /* ── Checklist ── */
   #{{ root }} .ftsc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; text-align: left; }
@@ -145,8 +146,8 @@
                 </div>
               </div>
               <div class="ftsc-lbls" aria-hidden="true">
-                <p class="ftsc-lbl">{{ block.settings.bar1_label }}</p>
-                <p class="ftsc-lbl">{{ block.settings.bar2_label }}</p>
+                <span class="ftsc-lbl">{%- if block.settings.bar1_image != blank -%}<img src="{{ block.settings.bar1_image | image_url: width: 240 }}" alt="{{ block.settings.bar1_label | escape }}">{%- else -%}{{ block.settings.bar1_label }}{%- endif -%}</span>
+                <span class="ftsc-lbl">{%- if block.settings.bar2_image != blank -%}<img src="{{ block.settings.bar2_image | image_url: width: 240 }}" alt="{{ block.settings.bar2_label | escape }}">{%- else -%}{{ block.settings.bar2_label }}{%- endif -%}</span>
               </div>
             {%- endif -%}
           </div>
@@ -201,7 +202,7 @@
 
     { "type": "header", "content": "Bars" },
     { "type": "checkbox", "id": "show_yaxis", "label": "Show Y-axis labels (0 / 50 / 100)", "default": true },
-    { "type": "range", "id": "chart_height", "label": "Chart height", "min": 120, "max": 360, "step": 10, "unit": "px", "default": 200 },
+    { "type": "range", "id": "chart_height", "label": "Chart height", "min": 120, "max": 360, "step": 10, "unit": "px", "default": 160 },
     { "type": "range", "id": "bar_width", "label": "Bar width", "min": 40, "max": 160, "step": 4, "unit": "px", "default": 80 },
     { "type": "range", "id": "bar_gap", "label": "Bar spacing", "min": 8, "max": 80, "step": 4, "unit": "px", "default": 24 },
     { "type": "range", "id": "bar_radius", "label": "Bar corner radius", "min": 0, "max": 16, "step": 1, "unit": "px", "default": 4 },
@@ -236,9 +237,11 @@
         { "type": "text", "id": "footnote", "label": "Footnote", "default": "* Study: Journal of Strength & Conditioning Research" },
         { "type": "header", "content": "Bar chart (when type = Bar chart)" },
         { "type": "text", "id": "bar1_label", "label": "Bar 1 label", "default": "Water" },
+        { "type": "image_picker", "id": "bar1_image", "label": "Bar 1 label image", "info": "Optional. Shown instead of the Bar 1 label text (e.g. a logo). Better on mobile." },
         { "type": "range", "id": "bar1_value", "label": "Bar 1 value", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 38 },
         { "type": "color", "id": "bar1_color", "label": "Bar 1 color", "default": "#7B8794" },
         { "type": "text", "id": "bar2_label", "label": "Bar 2 label", "default": "Fortified" },
+        { "type": "image_picker", "id": "bar2_image", "label": "Bar 2 label image (e.g. Fortified logo)", "info": "Optional. Shown instead of the Bar 2 label text — use the Fortified logo so it reads well on mobile." },
         { "type": "range", "id": "bar2_value", "label": "Bar 2 value", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 93 },
         { "type": "color", "id": "bar2_color", "label": "Bar 2 color", "default": "#1FA8A1" },
         { "type": "header", "content": "Checklist (when type = Checklist)" },
