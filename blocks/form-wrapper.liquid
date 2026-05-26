@@ -1,0 +1,125 @@
+
+{% assign s = block.settings %}
+
+<div
+  class="form-wrapper spacing-style"
+  style="
+    {% render 'spacing-style', settings: s %}
+    --fw-max-width: {% if s.max_width > 0 %}{{ s.max_width }}px{% else %}none{% endif %};
+    --fw-align: {{ s.alignment }};
+  "
+  {{ block.shopify_attributes }}
+>
+  <div class="form-wrapper__inner">
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .form-wrapper {
+    display: flex;
+    justify-content: var(--fw-align, center);
+    width: 100%;
+  }
+
+  .form-wrapper__inner {
+    width: 100%;
+    max-width: var(--fw-max-width, none);
+  }
+
+  /* Make the nested form (Shopify Forms app block, etc.) fill the
+     constrained wrapper width. */
+  .form-wrapper__inner > * {
+    width: 100%;
+    box-sizing: border-box;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Form Wrapper",
+  "tag": null,
+  "blocks": [
+    { "type": "@app" },
+    { "type": "@theme" }
+  ],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Add your Shopify Forms form inside this block (Add block → Apps), then set the width below to control how wide/long the form is."
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Form max width",
+      "min": 0,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "default": 480,
+      "info": "Set to 0 for full width."
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "flex-start", "label": "t:options.left" },
+        { "value": "center", "label": "t:options.center" },
+        { "value": "flex-end", "label": "t:options.right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Form Wrapper",
+      "category": "t:categories.forms"
+    }
+  ]
+}
+{% endschema %}
