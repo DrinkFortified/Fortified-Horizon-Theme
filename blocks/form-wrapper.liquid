@@ -3,10 +3,14 @@
 
 <div
   class="form-wrapper spacing-style"
+  data-height="{{ s.height }}"
   style="
     {% render 'spacing-style', settings: s %}
     --fw-max-width: {% if s.max_width > 0 %}{{ s.max_width }}px{% else %}none{% endif %};
     --fw-align: {{ s.alignment }};
+    --fw-valign: {{ s.vertical_alignment }};
+    --fw-text-align: {{ s.text_alignment }};
+    --fw-height: {{ s.custom_height }}px;
   "
   {{ block.shopify_attributes }}
 >
@@ -19,7 +23,17 @@
   .form-wrapper {
     display: flex;
     justify-content: var(--fw-align, center);
+    align-items: var(--fw-valign, center);
     width: 100%;
+    text-align: var(--fw-text-align, left);
+  }
+
+  .form-wrapper[data-height='fill'] {
+    height: 100%;
+  }
+
+  .form-wrapper[data-height='custom'] {
+    min-height: var(--fw-height, auto);
   }
 
   .form-wrapper__inner {
@@ -62,13 +76,58 @@
     {
       "type": "select",
       "id": "alignment",
-      "label": "Alignment",
+      "label": "Horizontal alignment",
       "options": [
         { "value": "flex-start", "label": "t:options.left" },
         { "value": "center", "label": "t:options.center" },
         { "value": "flex-end", "label": "t:options.right" }
       ],
       "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical alignment",
+      "info": "Takes effect when the height is set to Fill or Custom.",
+      "options": [
+        { "value": "flex-start", "label": "t:options.top" },
+        { "value": "center", "label": "t:options.center" },
+        { "value": "flex-end", "label": "t:options.bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "t:options.left" },
+        { "value": "center", "label": "t:options.center" },
+        { "value": "right", "label": "t:options.right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        { "value": "fit", "label": "t:options.fit_content" },
+        { "value": "fill", "label": "t:options.fill" },
+        { "value": "custom", "label": "t:options.custom" }
+      ],
+      "default": "fit"
+    },
+    {
+      "type": "range",
+      "id": "custom_height",
+      "label": "Custom height",
+      "min": 100,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "default": 400,
+      "visible_if": "{{ block.settings.height == 'custom' }}"
     },
     {
       "type": "header",
