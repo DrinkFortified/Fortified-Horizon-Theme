@@ -1,0 +1,313 @@
+{%- liquid
+  assign sid = section.id
+  assign root = 'loop-portal-' | append: sid
+  assign portal = section.settings.portal_url | strip
+-%}
+
+<section
+  id="{{ root }}"
+  class="loop-portal section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  data-portal-url="{{ portal | escape }}"
+  data-passthrough="{{ section.settings.pass_query }}"
+  style="
+    {% render 'spacing-padding', settings: section.settings %}
+    --lp-height: {{ section.settings.iframe_height }}px;
+    --lp-height-mobile: {{ section.settings.iframe_height_mobile }}px;
+    --lp-max-width: {{ section.settings.content_max_width }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="loop-portal__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="loop-portal__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="loop-portal__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if portal != blank -%}
+      <div class="loop-portal__frame-wrap">
+        <iframe
+          id="{{ root }}-frame"
+          class="loop-portal__frame"
+          src=""
+          title="{{ section.settings.heading | default: 'Subscription portal' | escape }}"
+          loading="lazy"
+          allow="payment; clipboard-write; fullscreen; encrypted-media"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+        <noscript>
+          <a class="loop-portal__fallback" href="{{ portal | escape }}" target="_blank" rel="noopener">
+            {{ section.settings.fallback_label | default: 'Open subscription portal' }}
+          </a>
+        </noscript>
+      </div>
+
+      {%- if section.settings.show_new_tab_link -%}
+        <p class="loop-portal__newtab">
+          <a href="{{ portal | escape }}" target="_blank" rel="noopener">
+            {{ section.settings.new_tab_label | default: 'Open in a new tab' }}
+          </a>
+        </p>
+      {%- endif -%}
+
+      <script>
+        (function () {
+          var sec = document.getElementById({{ root | json }});
+          if (!sec) return;
+          var iframe = document.getElementById({{ root | append: '-frame' | json }});
+          if (!iframe) return;
+          var base = sec.dataset.portalUrl;
+          if (!base) return;
+          var src = base;
+          if (sec.dataset.passthrough === 'true' && window.location.search) {
+            var sep = base.indexOf('?') >= 0 ? '&' : '?';
+            src = base + sep + window.location.search.substring(1);
+          }
+          iframe.src = src;
+        })();
+      </script>
+    {%- else -%}
+      <div class="loop-portal__empty">
+        Paste your Loop customer portal URL in the section settings to enable the bundle editor.
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .loop-portal {
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .loop-portal__inner {
+    width: 100%;
+    max-width: var(--lp-max-width, 1280px);
+    margin: 0 auto;
+    padding-inline: 24px;
+    box-sizing: border-box;
+  }
+
+  .loop-portal__heading {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-heading--family, inherit);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--color-foreground-heading);
+  }
+
+  .loop-portal__sub {
+    margin: 0 0 1.5rem;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-foreground);
+    opacity: 0.85;
+  }
+
+  .loop-portal__frame-wrap {
+    width: 100%;
+    background: var(--color-background);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .loop-portal__frame {
+    width: 100%;
+    height: var(--lp-height, 900px);
+    border: 0;
+    display: block;
+    background: var(--color-background);
+  }
+
+  .loop-portal__fallback {
+    display: inline-block;
+    padding: 12px 20px;
+    background: var(--color-primary-button-background);
+    color: var(--color-primary-button-text);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  .loop-portal__newtab {
+    margin: 0.75rem 0 0;
+    font-size: 13px;
+    text-align: right;
+    opacity: 0.7;
+  }
+
+  .loop-portal__newtab a {
+    color: inherit;
+  }
+
+  .loop-portal__empty {
+    padding: 24px;
+    text-align: center;
+    border: 1px dashed rgb(var(--color-foreground-rgb) / 0.25);
+    border-radius: 12px;
+    color: rgb(var(--color-foreground-rgb) / 0.65);
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .loop-portal__inner {
+      padding-inline: 16px;
+    }
+    .loop-portal__frame {
+      height: var(--lp-height-mobile, 800px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Loop Subscription Portal",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Portal"
+    },
+    {
+      "type": "paragraph",
+      "content": "Paste the URL of your Loop customer portal here. Customers arriving from Loop's magic-link emails will land on this Shopify page with a token in the URL — that token is automatically forwarded into the iframe so Loop authenticates them."
+    },
+    {
+      "type": "url",
+      "id": "portal_url",
+      "label": "Loop portal URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "pass_query",
+      "label": "Forward URL parameters to the portal",
+      "default": true,
+      "info": "Required for magic-link auth. Forwards everything after ? in the page URL into the iframe."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_new_tab_link",
+      "label": "Show \"open in a new tab\" link",
+      "default": true,
+      "info": "Fallback shown below the iframe if Loop blocks framing in some browsers."
+    },
+    {
+      "type": "text",
+      "id": "new_tab_label",
+      "label": "New tab link text",
+      "default": "Open in a new tab",
+      "visible_if": "{{ section.settings.show_new_tab_link }}"
+    },
+    {
+      "type": "text",
+      "id": "fallback_label",
+      "label": "No-JavaScript fallback label",
+      "default": "Open subscription portal"
+    },
+    {
+      "type": "header",
+      "content": "Heading (optional)"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Manage Your Subscription"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Edit your bundle, skip a shipment, or update your details."
+    },
+    {
+      "type": "header",
+      "content": "Size"
+    },
+    {
+      "type": "range",
+      "id": "iframe_height",
+      "label": "Portal height (desktop)",
+      "min": 400,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 900
+    },
+    {
+      "type": "range",
+      "id": "iframe_height_mobile",
+      "label": "Portal height (mobile)",
+      "min": 400,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Max content width",
+      "min": 600,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1100
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Loop Subscription Portal",
+      "category": "Subscriptions"
+    }
+  ]
+}
+{% endschema %}
