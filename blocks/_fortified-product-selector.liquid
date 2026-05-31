@@ -978,11 +978,22 @@
       if (plan) item.selling_plan = plan;
       items.push(item);
     }
+    // Quarterly auto-includes the FREE 1st creatine. The merchant must configure
+    // the addon-plan-quarterly-free Loop plan to apply 100% off so the line is $0.
+    if (state.purchaseType === 'quarterly' && addonInput) {
+      var avFree = parseInt(addonInput.dataset.addonVariant, 10);
+      var freePlanId = parseInt(addonInput.dataset.addonPlanQuarterlyFree, 10);
+      if (avFree && freePlanId) {
+        items.push({ id: avFree, quantity: qty, selling_plan: freePlanId });
+      }
+    }
+    // Toggle adds the paid creatine:
+    //   - monthly  -> creatine at 50% off
+    //   - quarterly -> OPTIONAL 2nd creatine at 50% off (next to the free one)
     if (addonInput && addonInput.checked && (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly')) {
       var av = parseInt(addonInput.dataset.addonVariant, 10);
       if (av) {
         var addonItem = { id: av, quantity: qty };
-        // Quarterly toggle = OPTIONAL 2nd creatine at 50% off. Monthly toggle = creatine at 50% off.
         var addonPlanRaw = state.purchaseType === 'monthly' ? addonInput.dataset.addonPlanMonthly : addonInput.dataset.addonPlanQuarterly50off;
         if (addonPlanRaw) {
           var addonPlanId = parseInt(addonPlanRaw, 10);
