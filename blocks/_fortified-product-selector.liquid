@@ -1,0 +1,1297 @@
+{% comment %}
+  Block: Product Selector (PDP)
+  Category: Fortified Elements
+  Purpose: Theme-block version of the FTD - Product Selector section,
+    addressable on product page templates via the theme editor.
+    LEFT  : gallery (thumbnails + main image + doctor badge + rating +
+            certification badges + caption).
+    RIGHT : rating, title, subtitle, benefit rows,
+            Step 1 "Choose Your Plan" (1 a month / 3 every 3 months cards),
+            Step 2 "Build N-Pouch Bundle" (function product-cards w/ flavor),
+            optional creatine add-on, Add to Cart, sticky mobile bar.
+    Prices auto-calc from the selected product's subscription plan, falling
+    back to the manual text fields when no product/plan is available.
+{% endcomment %}
+
+{%- liquid
+  assign sid             = block.id
+  assign function_blocks = block.blocks | where: "type", "function_item"
+  assign benefit_blocks  = block.blocks | where: "type", "benefit_item"
+  assign cert_blocks     = block.blocks | where: "type", "cert_badge"
+  assign gallery_blocks  = block.blocks | where: "type", "gallery_image"
+
+  assign show_monthly    = block.settings.show_monthly
+  assign show_quarterly  = block.settings.show_quarterly
+  assign bundle_count    = block.settings.bundle_count | default: 3
+  assign img_position    = block.settings.image_position | default: 'center center'
+  assign btn_style       = block.settings.button_style | default: 'filled'
+  assign flavor_label    = block.settings.flavor_label | default: 'Choose Flavor:'
+  assign coming_soon_txt = block.settings.coming_soon_text | default: 'Soon'
+
+  assign addon = block.settings.addon_product
+  assign addon_variant_id = ''
+  if addon != blank
+    assign addon_variant_id = addon.selected_or_first_available_variant.id
+  endif
+
+  assign rating_num = block.settings.rating_value | times: 1.0
+  assign rating_round = rating_num | round
+
+  assign monthly_title_lines   = block.settings.monthly_title   | newline_to_br | split: '<br />'
+  assign quarterly_title_lines = block.settings.quarterly_title | newline_to_br | split: '<br />'
+  assign monthly_list   = block.settings.monthly_checklist   | newline_to_br | split: '<br />'
+  assign quarterly_list = block.settings.quarterly_checklist | newline_to_br | split: '<br />'
+
+  assign default_main = ''
+  if gallery_blocks.size > 0 and gallery_blocks.first.settings.image != blank
+    assign default_main = gallery_blocks.first.settings.image | image_url: width: 1200
+  endif
+-%}
+
+<div
+  id="fe-{{ sid }}"
+  class="fe-section fe-block fe-block--{{ block.settings.section_width }} color-{{ block.settings.color_scheme }}"
+  data-block-id="{{ sid }}"
+  style="
+    {% render 'spacing-padding', settings: block.settings %}
+    --fe-btn-radius: {{ block.settings.button_radius }}px;
+    --fe-card-radius: {{ block.settings.card_radius }}px;
+    --fe-img-padding: {{ block.settings.image_padding }}px;
+    --fe-img-position: {{ img_position }};
+    --fe-media-height-mobile: {{ block.settings.media_height_mobile }}px;
+    --fe-media-height-desktop: {{ block.settings.media_height_desktop }}px;
+    --fe-selection-color: {{ block.settings.selection_color }};
+    --fe-star-color: {{ block.settings.star_color }};
+    --fe-doctor-bg: {{ block.settings.doctor_badge_bg }};
+    --fe-monthly-badge: {{ block.settings.monthly_badge_color }};
+    --fe-quarterly-badge: {{ block.settings.quarterly_badge_color }};
+    --fe-panel-width: {{ block.settings.panel_width }}px;
+    --fe-max-width: {{ block.settings.content_max_width }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  <div class="fe-container" data-layout="{{ block.settings.layout_direction | default: 'image-left' }}">
+
+    {%- comment %} ───────── LEFT: GALLERY ───────── {%- endcomment %}
+    <div class="fe-gallery" data-thumbpos="{{ block.settings.thumbnail_position | default: 'left' }}">
+      {%- if gallery_blocks.size > 1 and block.settings.show_thumbnails != false -%}
+        <div class="fe-thumbs" role="group" aria-label="Product images">
+          {%- for gb in gallery_blocks -%}
+            {%- if gb.settings.image != blank -%}
+              <button type="button" class="fe-thumb{% if forloop.first %} is-active{% endif %}"
+                data-full="{{ gb.settings.image | image_url: width: 1200 }}"
+                {{ gb.shopify_attributes }}>
+                <img src="{{ gb.settings.image | image_url: width: 160 }}" alt="" width="64" height="64" loading="lazy">
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="fe-gallery-col">
+        <div class="fe-gallery-main color-{{ block.settings.media_color_scheme }}">
+          {%- if block.settings.show_doctor_badge and block.settings.doctor_badge_text != blank -%}
+            <span class="fe-doctor-badge">{{ block.settings.doctor_badge_text }}</span>
+          {%- endif -%}
+
+          {%- if block.settings.show_rating -%}
+            <span class="fe-rating fe-rating--gallery">
+              <span class="fe-stars" aria-hidden="true">
+                {%- for i in (1..5) -%}<span class="fe-star{% if i <= rating_round %} is-on{% endif %}">★</span>{%- endfor -%}
+              </span>
+              <span class="fe-rating-text">{{ block.settings.rating_value }} <span class="fe-rating-count">{{ block.settings.rating_count }}</span></span>
+            </span>
+          {%- endif -%}
+
+          {%- if cert_blocks.size > 0 -%}
+            <span class="fe-certs">
+              {%- for cb in cert_blocks -%}
+                <span class="fe-cert" {{ cb.shopify_attributes }}>
+                  {%- if cb.settings.image != blank -%}
+                    <img src="{{ cb.settings.image | image_url: width: 96 }}" alt="{{ cb.settings.label | escape }}" width="40" height="40" loading="lazy">
+                  {%- else -%}
+                    <span class="fe-cert-text">{{ cb.settings.label }}</span>
+                  {%- endif -%}
+                </span>
+              {%- endfor -%}
+            </span>
+          {%- endif -%}
+
+          <img class="fe-main-img" id="fe-main-img-{{ sid }}"
+            src="{{ default_main }}"
+            alt="{{ block.settings.heading | escape }}"
+            width="1200" height="1200"
+            {% unless default_main != blank %}style="display:none"{% endunless %}>
+          {%- unless default_main != blank -%}
+            <div class="fe-main-ph"><span>{{ block.settings.heading }}</span></div>
+          {%- endunless -%}
+        </div>
+
+        {%- if block.settings.gallery_caption != blank -%}
+          <p class="fe-gallery-caption">{{ block.settings.gallery_caption }}</p>
+        {%- endif -%}
+
+        {%- if block.settings.show_progress -%}
+          <ol class="fe-progress" id="fe-progress-{{ sid }}" aria-label="Progress">
+            <li class="fe-progress-step is-active" data-step="1"><span class="fe-progress-dot">1</span><span class="fe-progress-label">{{ block.settings.progress_label_1 | default: 'Plan' }}</span></li>
+            <li class="fe-progress-step" data-step="2"><span class="fe-progress-dot">2</span><span class="fe-progress-label">{{ block.settings.progress_label_2 | default: 'Build' }}</span></li>
+            <li class="fe-progress-step" data-step="3"><span class="fe-progress-dot">3</span><span class="fe-progress-label">{{ block.settings.progress_label_3 | default: 'Review' }}</span></li>
+          </ol>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment %} ───────── RIGHT: PANEL ───────── {%- endcomment %}
+    <div class="fe-panel color-{{ block.settings.panel_color_scheme }}" id="fe-panel-{{ sid }}">
+
+      {%- if block.settings.show_rating -%}
+        <span class="fe-rating fe-rating--panel">
+          <span class="fe-stars" aria-hidden="true">
+            {%- for i in (1..5) -%}<span class="fe-star{% if i <= rating_round %} is-on{% endif %}">★</span>{%- endfor -%}
+          </span>
+          <span class="fe-rating-text">{{ block.settings.rating_value }} <span class="fe-rating-count">{{ block.settings.rating_count }}</span></span>
+        </span>
+      {%- endif -%}
+
+      {%- if block.settings.heading != blank -%}<h2 class="fe-heading">{{ block.settings.heading }}</h2>{%- endif -%}
+      {%- if block.settings.subheading != blank -%}<p class="fe-subheading">{{ block.settings.subheading }}</p>{%- endif -%}
+
+      {%- if benefit_blocks.size > 0 -%}
+        <ul class="fe-benefits">
+          {%- for bb in benefit_blocks -%}
+            <li class="fe-benefit" {{ bb.shopify_attributes }}>
+              {%- if bb.settings.icon != blank -%}
+                <span class="fe-benefit-icon"><img src="{{ bb.settings.icon | image_url: width: 64 }}" alt="" width="28" height="28"></span>
+              {%- else -%}
+                <span class="fe-benefit-icon fe-benefit-icon--dot" aria-hidden="true"></span>
+              {%- endif -%}
+              <span class="fe-benefit-text">{{ bb.settings.text }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- comment %} ───── STEP 1: PLAN ───── {%- endcomment %}
+      <div class="fe-step" id="fe-plan-group-{{ sid }}">
+        <div class="fe-step-head">
+          <p class="fe-step-title"><span class="fe-step-num">1</span>{{ block.settings.plan_step_label | default: 'Choose Your Plan' }}</p>
+          {%- if block.settings.plan_step_note != blank -%}<span class="fe-step-note">{{ block.settings.plan_step_note }}</span>{%- endif -%}
+        </div>
+
+        <div class="fe-plans">
+          {%- if show_monthly -%}
+            <label class="fe-plan" data-plan="monthly">
+              <input type="radio" name="fe-plan-{{ sid }}" value="monthly">
+              <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              {%- if block.settings.monthly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--monthly">{{ block.settings.monthly_badge }}</span>{%- endif -%}
+              <span class="fe-plan-title">
+                {%- for line in monthly_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="fe-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
+              </span>
+              {%- if block.settings.monthly_desc != blank -%}<span class="fe-plan-desc">{{ block.settings.monthly_desc }}</span>{%- endif -%}
+              <span class="fe-plan-price-row">
+                <span class="fe-plan-price" data-plan-price="monthly">{{ block.settings.monthly_price }}</span>
+                <span class="fe-plan-period">{{ block.settings.monthly_period }}</span>
+              </span>
+              <span class="fe-plan-was" data-plan-was="monthly">{{ block.settings.monthly_was }}</span>
+              {%- if monthly_list.size > 0 -%}
+                <span class="fe-plan-list">
+                  {%- for li in monthly_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                </span>
+              {%- endif -%}
+            </label>
+          {%- endif -%}
+
+          {%- if show_quarterly -%}
+            <label class="fe-plan" data-plan="quarterly">
+              <input type="radio" name="fe-plan-{{ sid }}" value="quarterly">
+              <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              {%- if block.settings.quarterly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--quarterly">{{ block.settings.quarterly_badge }}</span>{%- endif -%}
+              <span class="fe-plan-title">
+                {%- for line in quarterly_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="fe-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
+              </span>
+              {%- if block.settings.quarterly_desc != blank -%}<span class="fe-plan-desc">{{ block.settings.quarterly_desc }}</span>{%- endif -%}
+              <span class="fe-plan-price-row">
+                <span class="fe-plan-price" data-plan-price="quarterly">{{ block.settings.quarterly_price }}</span>
+                <span class="fe-plan-period">{{ block.settings.quarterly_period }}</span>
+              </span>
+              <span class="fe-plan-was" data-plan-was="quarterly">{{ block.settings.quarterly_was }}</span>
+              {%- if quarterly_list.size > 0 -%}
+                <span class="fe-plan-list">
+                  {%- for li in quarterly_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                </span>
+              {%- endif -%}
+            </label>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment %} ───── STEP 2: BUILD BUNDLE ───── {%- endcomment %}
+      <div class="fe-step fe-step--locked" id="fe-build-group-{{ sid }}" aria-disabled="true">
+        <div class="fe-step-head">
+          <p class="fe-step-title"><span class="fe-step-num">2</span><span id="fe-build-label-{{ sid }}">{{ block.settings.build_step_label | default: 'Build Your Bundle' }}</span></p>
+          <span class="fe-step-note" id="fe-counter-{{ sid }}"></span>
+        </div>
+
+        {%- comment %} Monthly: one pouch {%- endcomment %}
+        <div class="fe-build-view fe-build-view--monthly" data-build-view="monthly">
+          <div class="fe-fcards" data-config="monthly">
+            {%- for fb in function_blocks -%}
+              {%- if fb.settings.enabled -%}
+                {%- render 'fortified-fn-card', card_block: fb, config: 'monthly', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+        {%- comment %} Quarterly: one pouch group per unit {%- endcomment %}
+        <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
+          {%- for i in (1..bundle_count) -%}
+            <div class="fe-pouch">
+              <p class="fe-pouch-title">{{ block.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
+              <div class="fe-fcards" data-config="q{{ i }}">
+                {%- for fb in function_blocks -%}
+                  {%- if fb.settings.enabled -%}
+                    {%- render 'fortified-fn-card', card_block: fb, config: 'q', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- comment %} ───── CREATINE ADD-ON (visible toggle card; adapts monthly / quarterly-2nd) ───── {%- endcomment %}
+      {%- if block.settings.show_addon and addon != blank -%}
+        {%- assign addon_img = block.settings.addon_image | default: addon.featured_image -%}
+        <div class="fe-creatine" id="fe-creatine-{{ sid }}" hidden>
+          <p class="fe-cr-free" id="fe-cr-free-{{ sid }}" hidden><span class="fe-cr-tick" aria-hidden="true">✓</span>{{ block.settings.quarterly_free_text | default: 'Free Creatine + Sample Pack included with your bundle' }}</p>
+          <label class="fe-cr-card">
+            <span class="fe-cr-media">
+              {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 120 }}" alt="" width="58" height="58" loading="lazy">{%- else -%}<span class="fe-cr-ph">5g</span>{%- endif -%}
+            </span>
+            <span class="fe-cr-text">
+              <span class="fe-cr-title" id="fe-cr-title-{{ sid }}">{{ block.settings.addon_label | default: 'Add Creatine — 50% off' }}</span>
+              {%- if block.settings.addon_desc != blank -%}<span class="fe-cr-desc" id="fe-cr-desc-{{ sid }}">{{ block.settings.addon_desc }}</span>{%- endif -%}
+            </span>
+            <span class="fe-cr-pricing">
+              {%- if block.settings.addon_price_text != blank -%}<span class="fe-cr-now">{{ block.settings.addon_price_text }}</span>{%- endif -%}
+              {%- if block.settings.addon_was_text != blank -%}<span class="fe-cr-was">{{ block.settings.addon_was_text }}</span>{%- endif -%}
+            </span>
+            <input type="checkbox" id="fe-addon-{{ sid }}"
+              data-addon-variant="{{ addon_variant_id }}"
+              data-addon-plan-monthly="{{ block.settings.addon_loop_plan_monthly }}"
+              data-addon-plan-quarterly="{{ block.settings.addon_loop_plan_quarterly }}">
+            <span class="fe-cr-switch" aria-hidden="true"></span>
+          </label>
+        </div>
+      {%- endif -%}
+
+      {%- comment %} ───── ORDER OVERVIEW (before Add to Cart) ───── {%- endcomment %}
+      <div class="fe-overview" id="fe-overview-{{ sid }}" hidden>
+        <p class="fe-ov-label">{{ block.settings.summary_label | default: 'Your Order' }}</p>
+        <ul class="fe-ov-lines" id="fe-ov-lines-{{ sid }}"></ul>
+        <div class="fe-ov-total"><span>{{ block.settings.total_label | default: 'Total' }}</span><span class="fe-ov-total-val" id="fe-ov-total-{{ sid }}">--</span></div>
+        {%- if block.settings.overview_note != blank -%}<p class="fe-ov-note">{{ block.settings.overview_note }}</p>{%- endif -%}
+      </div>
+
+      {%- comment %} ───── QUANTITY + ADD TO CART ───── {%- endcomment %}
+      <div class="fe-atc-wrap">
+        <div class="fe-atc-row">
+          <button
+            type="button"
+            class="fe-atc-btn fe-atc-btn--{{ btn_style }}"
+            id="fe-atc-{{ sid }}"
+            disabled
+            aria-disabled="true"
+          >
+            <span class="fe-atc-label">{{ block.settings.atc_label | default: 'Add to Cart' }}</span>
+            <span class="fe-atc-total" id="fe-atc-total-{{ sid }}"></span>
+            <span class="fe-atc-loading" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        {%- if block.settings.onetime_prefix != blank or block.settings.onetime_price_text != blank -%}
+          {%- if block.settings.onetime_link != blank -%}
+            <a class="fe-onetime" href="{{ block.settings.onetime_link }}">
+              <span class="fe-onetime-prefix">{{ block.settings.onetime_prefix }}</span>
+              <span class="fe-onetime-price">{{ block.settings.onetime_price_text }}</span>
+            </a>
+          {%- else -%}
+            <button type="button" class="fe-onetime" id="fe-onetime-{{ sid }}" {% unless block.settings.onetime_clickable %}data-static="true"{% endunless %}>
+              <span class="fe-onetime-prefix">{{ block.settings.onetime_prefix }}</span>
+              <span class="fe-onetime-price">{{ block.settings.onetime_price_text }}</span>
+            </button>
+          {%- endif -%}
+        {%- endif -%}
+
+        <p class="fe-atc-message" id="fe-atc-msg-{{ sid }}" aria-live="polite"></p>
+      </div>
+
+    </div>
+  </div>
+
+  {%- comment %} ───── MOBILE STICKY ADD-TO-CART BAR (mirrors the real button) ───── {%- endcomment %}
+  <div class="fe-stickybar color-{{ block.settings.panel_color_scheme }}" id="fe-stickybar-{{ sid }}">
+    <div class="fe-stickybar-info">
+      <span class="fe-stickybar-counter" id="fe-sb-counter-{{ sid }}"></span>
+      <span class="fe-stickybar-total" id="fe-sb-total-{{ sid }}" data-empty="{{ block.settings.plan_step_label | default: 'Choose your plan' | escape }}"></span>
+    </div>
+    <button type="button" class="fe-stickybar-btn" id="fe-sb-atc-{{ sid }}" disabled aria-disabled="true">{{ block.settings.atc_label | default: 'Add to Cart' }}</button>
+  </div>
+</div>
+
+<style>
+#fe-{{ sid }} *, #fe-{{ sid }} *::before, #fe-{{ sid }} *::after { box-sizing: border-box; }
+
+#fe-{{ sid }}.fe-section {
+  background: rgb(var(--color-background)); color: rgb(var(--color-foreground));
+  font-family: inherit; overflow-x: clip;
+  display: block; width: 100%;
+}
+#fe-{{ sid }} .fe-container { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: var(--fe-max-width, 1400px); margin: 0 auto; width: 100%; padding: 0 1rem; }
+@media (min-width: 900px) {
+  #fe-{{ sid }} .fe-container { grid-template-columns: 1fr var(--fe-panel-width, 460px); gap: 2.5rem; padding: 0 1.5rem; align-items: start; }
+  #fe-{{ sid }} .fe-container[data-layout="panel-left"] { grid-template-columns: var(--fe-panel-width, 460px) 1fr; }
+  #fe-{{ sid }} .fe-container[data-layout="panel-left"] .fe-gallery { order: 2; }
+  #fe-{{ sid }} .fe-container[data-layout="panel-left"] .fe-panel { order: 1; }
+}
+
+/* ── Gallery ── */
+#fe-{{ sid }} .fe-gallery { display: flex; gap: 0.75rem; }
+@media (min-width: 900px) { #fe-{{ sid }} .fe-gallery { position: sticky; top: 1.5rem; } }
+#fe-{{ sid }} .fe-thumbs { display: flex; flex-direction: column; gap: 0.6rem; flex-shrink: 0; }
+#fe-{{ sid }} .fe-thumb {
+  width: 56px; height: 56px; padding: 0; border-radius: 10px; overflow: hidden;
+  border: 2px solid rgba(var(--color-foreground), 0.12); background: rgba(var(--color-foreground), 0.03);
+  cursor: pointer; transition: border-color 0.15s;
+}
+#fe-{{ sid }} .fe-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#fe-{{ sid }} .fe-thumb.is-active { border-color: var(--fe-selection-color, rgb(var(--color-button))); }
+#fe-{{ sid }} .fe-gallery-col { flex: 1; min-width: 0; }
+#fe-{{ sid }} .fe-gallery[data-thumbpos="right"] { flex-direction: row-reverse; }
+#fe-{{ sid }} .fe-gallery[data-thumbpos="bottom"] { flex-direction: column; }
+#fe-{{ sid }} .fe-gallery[data-thumbpos="bottom"] .fe-thumbs { flex-direction: row; flex-wrap: wrap; order: 2; }
+#fe-{{ sid }} .fe-gallery[data-thumbpos="bottom"] .fe-gallery-col { order: 1; }
+#fe-{{ sid }} .fe-gallery-main {
+  position: relative; border-radius: var(--fe-card-radius, 12px); overflow: hidden;
+  background: color-mix(in srgb, rgb(var(--color-foreground)) 5%, rgb(var(--color-background)));
+  height: var(--fe-media-height-mobile, 420px); padding: var(--fe-img-padding, 0px);
+  display: flex; align-items: center; justify-content: center;
+}
+@media (min-width: 900px) { #fe-{{ sid }} .fe-gallery-main { height: var(--fe-media-height-desktop, 560px); } }
+#fe-{{ sid }} .fe-main-img { width: 100%; height: 100%; object-fit: contain; object-position: var(--fe-img-position, center center); display: block; transition: opacity 0.3s ease; }
+#fe-{{ sid }} .fe-main-ph { color: rgba(var(--color-foreground), 0.3); font-size: 1rem; letter-spacing: 0.08em; }
+#fe-{{ sid }} .fe-doctor-badge {
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  background: var(--fe-doctor-bg, #0A0A0A); color: #fff;
+  font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.4em 0.7em; border-radius: 6px;
+}
+#fe-{{ sid }} .fe-rating--gallery { position: absolute; top: 12px; right: 12px; z-index: 2; }
+#fe-{{ sid }} .fe-certs { position: absolute; top: 64px; left: 12px; z-index: 2; display: flex; flex-direction: column; gap: 0.5rem; }
+#fe-{{ sid }} .fe-cert { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+#fe-{{ sid }} .fe-cert img { width: 100%; height: 100%; object-fit: contain; }
+#fe-{{ sid }} .fe-cert-text {
+  font-size: 0.5rem; font-weight: 800; text-transform: uppercase; text-align: center; line-height: 1.1;
+  background: rgba(255,255,255,0.9); color: #0A0A0A; border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; padding: 2px;
+}
+#fe-{{ sid }} .fe-gallery-caption { margin: 0.85rem 0 0; text-align: center; font-size: 0.95rem; font-weight: 600; color: rgb(var(--color-foreground)); }
+
+/* ── Rating ── */
+#fe-{{ sid }} .fe-rating { display: inline-flex; align-items: center; gap: 0.4rem; }
+#fe-{{ sid }} .fe-rating--gallery { background: rgba(255,255,255,0.92); padding: 0.25em 0.5em; border-radius: 6px; }
+#fe-{{ sid }} .fe-rating--panel { margin-bottom: 0.25rem; }
+#fe-{{ sid }} .fe-stars { display: inline-flex; }
+#fe-{{ sid }} .fe-star { color: rgba(var(--color-foreground), 0.2); font-size: 0.85rem; line-height: 1; }
+#fe-{{ sid }} .fe-star.is-on { color: var(--fe-star-color, #F5A623); }
+#fe-{{ sid }} .fe-rating--gallery .fe-star { color: rgba(0,0,0,0.2); }
+#fe-{{ sid }} .fe-rating--gallery .fe-star.is-on { color: var(--fe-star-color, #F5A623); }
+#fe-{{ sid }} .fe-rating-text { font-size: 0.78rem; font-weight: 700; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-rating--gallery .fe-rating-text { color: #0A0A0A; }
+#fe-{{ sid }} .fe-rating-count { font-weight: 400; opacity: 0.7; text-decoration: underline; }
+
+/* ── Panel ── */
+#fe-{{ sid }} .fe-panel { display: flex; flex-direction: column; gap: 1.65rem; }
+#fe-{{ sid }} .fe-heading { margin: 0; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.05; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-subheading { margin: -0.6rem 0 0; font-size: 1rem; font-weight: 500; opacity: 0.7; color: rgb(var(--color-foreground)); }
+
+/* ── Benefits ── */
+#fe-{{ sid }} .fe-benefits { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+#fe-{{ sid }} .fe-benefit { display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; font-weight: 600; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-benefit-icon { width: 36px; height: 36px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(var(--color-foreground), 0.06); }
+#fe-{{ sid }} .fe-benefit-icon img { width: 20px; height: 20px; object-fit: contain; }
+#fe-{{ sid }} .fe-benefit-icon--dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--fe-selection-color, rgb(var(--color-button))); }
+
+/* ── Steps ── */
+#fe-{{ sid }} .fe-step { border-top: 1px solid rgba(var(--color-foreground), 0.16); padding-top: 1.6rem; }
+#fe-{{ sid }} .fe-step-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.9rem; }
+#fe-{{ sid }} .fe-step-title { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-step-num { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: rgb(var(--color-button)); color: rgb(var(--color-button-label)); font-size: 0.65rem; font-weight: 800; flex-shrink: 0; }
+#fe-{{ sid }} .fe-step-note { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fe-selection-color, rgb(var(--color-button))); }
+#fe-{{ sid }} .fe-step--locked { opacity: 0.4; pointer-events: none; user-select: none; }
+#fe-{{ sid }} .fe-step--locked .fe-step-num { background: rgba(var(--color-foreground), 0.2); color: rgba(var(--color-foreground), 0.6); }
+
+/* ── Plan cards ── */
+#fe-{{ sid }} .fe-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media (max-width: 480px) { #fe-{{ sid }} .fe-plans { grid-template-columns: 1fr; } }
+#fe-{{ sid }} .fe-plan {
+  position: relative; display: flex; flex-direction: column; gap: 0.35rem;
+  padding: 1rem 0.9rem; cursor: pointer;
+  border: 2px solid rgba(var(--color-foreground), 0.14); border-top-width: 4px; border-radius: var(--fe-card-radius, 12px);
+  background: rgb(var(--color-background)); transition: border-color 0.18s, box-shadow 0.18s;
+}
+#fe-{{ sid }} .fe-plan[data-plan="monthly"] { border-top-color: var(--fe-monthly-badge, #1FA8A1); }
+#fe-{{ sid }} .fe-plan[data-plan="quarterly"] { border-top-color: var(--fe-quarterly-badge, #E8833A); }
+#fe-{{ sid }} .fe-plan:hover { border-color: rgba(var(--color-foreground), 0.3); }
+#fe-{{ sid }} .fe-plan.is-active {
+  border-color: var(--fe-selection-color, rgb(var(--color-button)));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 18%, transparent);
+}
+#fe-{{ sid }} .fe-plan input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+#fe-{{ sid }} .fe-plan-tick {
+  position: absolute; top: 0.8rem; right: 0.8rem; width: 22px; height: 22px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 2px solid rgba(var(--color-foreground), 0.2); color: #fff; background: transparent;
+  opacity: 0; transform: scale(0.6); transition: opacity 0.18s, transform 0.18s;
+}
+#fe-{{ sid }} .fe-plan.is-active .fe-plan-tick { opacity: 1; transform: scale(1); background: var(--fe-selection-color, rgb(var(--color-button))); border-color: var(--fe-selection-color, rgb(var(--color-button))); }
+#fe-{{ sid }} .fe-plan-badge {
+  align-self: flex-start; font-size: 0.55rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.3em 0.6em; border-radius: 5px; border: 1.5px solid currentColor;
+}
+#fe-{{ sid }} .fe-plan-badge--monthly { color: var(--fe-monthly-badge, #1FA8A1); }
+#fe-{{ sid }} .fe-plan-badge--quarterly { color: var(--fe-quarterly-badge, #E8833A); }
+#fe-{{ sid }} .fe-plan-title { display: flex; flex-direction: column; line-height: 1.15; }
+#fe-{{ sid }} .fe-plan-title-line { font-size: 1.05rem; font-weight: 800; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-plan-desc { font-size: 0.72rem; opacity: 0.6; color: rgb(var(--color-foreground)); line-height: 1.35; }
+#fe-{{ sid }} .fe-plan-price-row { display: flex; align-items: baseline; gap: 0.3rem; margin-top: 0.35rem; }
+#fe-{{ sid }} .fe-plan-price { font-size: 1.25rem; font-weight: 800; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-plan-period { font-size: 0.7rem; opacity: 0.55; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-plan-was { font-size: 0.68rem; opacity: 0.5; color: rgb(var(--color-foreground)); text-decoration: line-through; min-height: 0.9em; }
+#fe-{{ sid }} .fe-plan-list { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.5rem; padding-top: 0.6rem; border-top: 1px solid rgba(var(--color-foreground), 0.1); }
+#fe-{{ sid }} .fe-plan-li { display: flex; align-items: flex-start; gap: 0.4rem; font-size: 0.68rem; color: rgb(var(--color-foreground)); line-height: 1.3; }
+#fe-{{ sid }} .fe-li-check { color: var(--fe-selection-color, rgb(var(--color-button))); font-weight: 800; flex-shrink: 0; }
+
+/* ── Build views ── */
+#fe-{{ sid }} .fe-build-view { display: none; }
+#fe-{{ sid }} .fe-build-view.is-active { display: block; }
+#fe-{{ sid }} .fe-pouch + .fe-pouch { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(var(--color-foreground), 0.1); }
+#fe-{{ sid }} .fe-pouch-title { margin: 0 0 0.75rem; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.04em; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-fcards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media (max-width: 480px) { #fe-{{ sid }} .fe-fcards { grid-template-columns: 1fr; } }
+
+/* ── Function card ── */
+#fe-{{ sid }} .fe-fcard {
+  display: flex; flex-direction: column; cursor: pointer; overflow: hidden;
+  border: 2px solid rgba(var(--color-foreground), 0.14); border-radius: var(--fe-card-radius, 12px);
+  background: rgb(var(--color-background)); transition: border-color 0.18s, box-shadow 0.18s;
+}
+#fe-{{ sid }} .fe-fcard:hover:not([data-coming-soon]) { border-color: rgba(var(--color-foreground), 0.3); }
+#fe-{{ sid }} .fe-fcard.is-active {
+  border-color: var(--fe-selection-color, rgb(var(--color-button)));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 16%, transparent);
+}
+#fe-{{ sid }} .fe-fcard[data-coming-soon] { opacity: 0.5; cursor: not-allowed; }
+#fe-{{ sid }} .fe-fcard-media { position: relative; aspect-ratio: 4 / 3; background: rgba(var(--color-foreground), 0.04); display: flex; align-items: center; justify-content: center; }
+#fe-{{ sid }} .fe-fcard-media img { width: 100%; height: 100%; object-fit: contain; }
+#fe-{{ sid }} .fe-fcard-ph { color: rgba(var(--color-foreground), 0.3); font-size: 0.8rem; padding: 0.5rem; text-align: center; }
+#fe-{{ sid }} .fe-fcard-tick {
+  position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center; color: #fff;
+  background: var(--fe-selection-color, rgb(var(--color-button)));
+  opacity: 0; transform: scale(0.5); transition: opacity 0.18s, transform 0.18s;
+}
+#fe-{{ sid }} .fe-fcard.is-active .fe-fcard-tick { opacity: 1; transform: scale(1); }
+#fe-{{ sid }} .fe-fcard-body { padding: 0.7rem 0.75rem; display: flex; flex-direction: column; gap: 0.45rem; }
+#fe-{{ sid }} .fe-fcard-name { margin: 0; font-size: 0.92rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; color: rgb(var(--color-foreground)); display: flex; align-items: center; gap: 0.4rem; }
+#fe-{{ sid }} .fe-fcard-specs { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+#fe-{{ sid }} .fe-spec { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; padding: 0.2em 0.45em; border-radius: 4px; border: 1px solid var(--fe-selection-color, rgb(var(--color-button))); color: var(--fe-selection-color, rgb(var(--color-button))); }
+#fe-{{ sid }} .fe-fcard-desc { margin: 0; font-size: 0.7rem; line-height: 1.4; opacity: 0.6; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-fcard-flavor-label { margin: 0.15rem 0 0; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.55; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-fcard-hint { margin: 0.15rem 0 0; font-size: 0.68rem; font-style: italic; opacity: 0.5; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-fcard-flavors { display: flex; flex-direction: column; gap: 0.4rem; }
+#fe-{{ sid }} .fe-flavor-opt {
+  display: flex; align-items: center; gap: 0.5rem; width: 100%; cursor: pointer; text-align: left;
+  padding: 0.45rem 0.6rem; border-radius: 8px; background: transparent;
+  border: 1.5px solid rgba(var(--color-foreground), 0.18); color: rgb(var(--color-foreground));
+  font-size: 0.78rem; font-weight: 600; transition: border-color 0.15s, background 0.15s;
+}
+#fe-{{ sid }} .fe-flavor-opt:hover { border-color: rgba(var(--color-foreground), 0.4); }
+#fe-{{ sid }} .fe-flavor-opt.is-active { border-color: var(--fe-selection-color, rgb(var(--color-button))); background: color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 8%, transparent); }
+#fe-{{ sid }} .fe-flavor-swatch { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; }
+#fe-{{ sid }} .fe-flavor-swatch img { width: 100%; height: 100%; object-fit: cover; }
+#fe-{{ sid }} .fe-flavor-name { flex: 1; }
+#fe-{{ sid }} .fe-flavor-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(var(--color-foreground), 0.3); flex-shrink: 0; position: relative; }
+#fe-{{ sid }} .fe-flavor-opt.is-active .fe-flavor-radio { border-color: var(--fe-selection-color, rgb(var(--color-button))); }
+#fe-{{ sid }} .fe-flavor-opt.is-active .fe-flavor-radio::after { content: ''; position: absolute; inset: 2px; border-radius: 50%; background: var(--fe-selection-color, rgb(var(--color-button))); }
+#fe-{{ sid }} .fe-badge { font-style: normal; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; padding: 0.12em 0.45em; border-radius: 9999px; background: rgba(var(--color-foreground), 0.15); }
+
+/* ── Creatine add-on (visible toggle card) ── */
+#fe-{{ sid }} .fe-creatine { display: flex; flex-direction: column; gap: 0.5rem; }
+#fe-{{ sid }} .fe-creatine[hidden] { display: none !important; }
+#fe-{{ sid }} .fe-overview[hidden] { display: none !important; }
+#fe-{{ sid }} .fe-cr-free { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 0.8rem; font-weight: 700; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-cr-tick { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; font-size: 0.7rem; font-weight: 800; background: var(--fe-selection-color, rgb(var(--color-button))); color: rgb(var(--color-button-label)); }
+#fe-{{ sid }} .fe-cr-card {
+  position: relative; display: flex; align-items: center; gap: 0.85rem; padding: 0.85rem 1rem; cursor: pointer;
+  border: 2px solid color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 45%, transparent);
+  border-radius: var(--fe-card-radius, 12px);
+  background: color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 12%, rgb(var(--color-background)));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+}
+#fe-{{ sid }} .fe-cr-card:hover { border-color: var(--fe-selection-color, rgb(var(--color-button))); }
+#fe-{{ sid }} .fe-cr-card:has(input:checked) {
+  border-color: var(--fe-selection-color, rgb(var(--color-button)));
+  background: color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 7%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--fe-selection-color, rgb(var(--color-button))) 16%, transparent);
+}
+#fe-{{ sid }} .fe-cr-card input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
+#fe-{{ sid }} .fe-cr-media { flex-shrink: 0; width: 48px; height: 48px; border-radius: 8px; overflow: hidden; background: rgba(var(--color-foreground), 0.06); display: inline-flex; align-items: center; justify-content: center; }
+#fe-{{ sid }} .fe-cr-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#fe-{{ sid }} .fe-cr-ph { font-size: 0.85rem; font-weight: 800; color: rgba(var(--color-foreground), 0.5); }
+#fe-{{ sid }} .fe-cr-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+#fe-{{ sid }} .fe-cr-title { font-size: 0.88rem; font-weight: 800; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-cr-desc { font-size: 0.72rem; opacity: 0.6; color: rgb(var(--color-foreground)); line-height: 1.35; }
+#fe-{{ sid }} .fe-cr-pricing { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+#fe-{{ sid }} .fe-cr-now { font-size: 0.95rem; font-weight: 800; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-cr-was { font-size: 0.7rem; opacity: 0.5; color: rgb(var(--color-foreground)); text-decoration: line-through; }
+#fe-{{ sid }} .fe-cr-switch { flex-shrink: 0; width: 48px; height: 27px; border-radius: 9999px; background: rgba(var(--color-foreground), 0.45); border: 1.5px solid rgba(var(--color-foreground), 0.55); position: relative; transition: background 0.18s, border-color 0.18s; }
+#fe-{{ sid }} .fe-cr-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 19px; height: 19px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.35); transition: transform 0.18s; }
+#fe-{{ sid }} .fe-cr-card:has(input:checked) .fe-cr-switch { background: var(--fe-selection-color, rgb(var(--color-button))); border-color: var(--fe-selection-color, rgb(var(--color-button))); }
+#fe-{{ sid }} .fe-cr-card:has(input:checked) .fe-cr-switch::after { transform: translateX(21px); }
+
+/* ── Order overview ── */
+#fe-{{ sid }} .fe-overview {
+  border: 1px solid rgba(var(--color-foreground), 0.12); border-radius: var(--fe-card-radius, 12px);
+  padding: 1rem 1.1rem; background: rgba(var(--color-foreground), 0.02);
+}
+#fe-{{ sid }} .fe-ov-label { margin: 0 0 0.6rem; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(var(--color-foreground), 0.6); }
+#fe-{{ sid }} .fe-ov-lines { list-style: none; margin: 0 0 0.6rem; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; }
+#fe-{{ sid }} .fe-ov-line { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-size: 0.82rem; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-ov-line-name { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+#fe-{{ sid }} .fe-ov-thumb { width: 30px; height: 30px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: rgba(var(--color-foreground), 0.06); display: inline-block; }
+#fe-{{ sid }} .fe-ov-line-txt { min-width: 0; }
+#fe-{{ sid }} .fe-ov-line-sub { display: block; font-size: 0.7rem; opacity: 0.55; }
+#fe-{{ sid }} .fe-ov-line-price { flex-shrink: 0; font-weight: 700; white-space: nowrap; }
+#fe-{{ sid }} .fe-ov-line-price.is-free { color: var(--fe-selection-color, rgb(var(--color-button))); }
+#fe-{{ sid }} .fe-ov-total { display: flex; align-items: baseline; justify-content: space-between; padding-top: 0.6rem; border-top: 1px solid rgba(var(--color-foreground), 0.12); font-size: 0.85rem; font-weight: 700; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-ov-total-val { font-size: 1.05rem; font-weight: 800; }
+#fe-{{ sid }} .fe-ov-note { margin: 0.5rem 0 0; font-size: 0.68rem; opacity: 0.5; color: rgb(var(--color-foreground)); }
+
+/* ── Quantity + ATC ── */
+#fe-{{ sid }} .fe-atc-wrap { display: flex; flex-direction: column; gap: 0.6rem; }
+#fe-{{ sid }} .fe-atc-row { display: flex; gap: 0.6rem; align-items: stretch; }
+#fe-{{ sid }} .fe-atc-btn {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.95rem 1.5rem; border-radius: var(--fe-btn-radius, 8px);
+  font-size: 0.95rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; overflow: hidden; transition: filter 0.2s, transform 0.15s, background 0.2s, color 0.2s, border-color 0.2s;
+}
+#fe-{{ sid }} .fe-atc-btn--filled { background: rgb(var(--color-button)); color: rgb(var(--color-button-label)); border: none; }
+#fe-{{ sid }} .fe-atc-btn--filled:hover:not([disabled]):not([aria-disabled="true"]) { filter: brightness(1.1); }
+#fe-{{ sid }} .fe-atc-btn--outline { background: transparent; color: rgb(var(--color-button)); border: 2px solid rgb(var(--color-button)); }
+#fe-{{ sid }} .fe-atc-btn--outline:hover:not([disabled]):not([aria-disabled="true"]) { background: rgb(var(--color-button)); color: rgb(var(--color-button-label)); }
+#fe-{{ sid }} .fe-atc-btn--ghost { background: transparent; color: rgb(var(--color-foreground)); border: none; }
+#fe-{{ sid }} .fe-atc-btn[disabled], #fe-{{ sid }} .fe-atc-btn[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; filter: none; }
+#fe-{{ sid }} .fe-atc-total { font-weight: 800; }
+#fe-{{ sid }} .fe-atc-loading { width: 16px; height: 16px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; display: none; animation: fe-spin 0.7s linear infinite; }
+#fe-{{ sid }} .fe-atc-btn.is-loading .fe-atc-loading { display: block; }
+#fe-{{ sid }} .fe-atc-btn.is-loading .fe-atc-label, #fe-{{ sid }} .fe-atc-btn.is-loading .fe-atc-total { opacity: 0.4; }
+@keyframes fe-spin { to { transform: rotate(360deg); } }
+#fe-{{ sid }} .fe-onetime { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; background: none; border: none; padding: 0.15rem; cursor: pointer; font-size: 0.82rem; color: rgba(var(--color-foreground), 0.7); font-family: inherit; }
+#fe-{{ sid }} .fe-onetime:not([data-static="true"]) .fe-onetime-price { text-decoration: underline; text-underline-offset: 2px; }
+#fe-{{ sid }} .fe-onetime[data-static="true"] { cursor: default; }
+#fe-{{ sid }} .fe-onetime-price { font-weight: 700; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-atc-message { margin: 0; font-size: 0.8rem; text-align: center; min-height: 1.1em; color: rgb(var(--color-button)); }
+#fe-{{ sid }} .fe-atc-message.is-error { color: rgb(var(--color-error, 176 0 0)); }
+
+@media (prefers-reduced-motion: reduce) {
+  #fe-{{ sid }} .fe-main-img, #fe-{{ sid }} .fe-fcard, #fe-{{ sid }} .fe-plan, #fe-{{ sid }} .fe-flavor-opt, #fe-{{ sid }} .fe-plan-tick, #fe-{{ sid }} .fe-fcard-tick { transition: none; }
+}
+
+/* ── Mobile sticky Add-to-Cart bar + collapsed wizard steps ── */
+#fe-stickybar-{{ sid }} { display: none; }
+@media (max-width: 899px) {
+  #fe-{{ sid }} .fe-panel { padding-bottom: 84px; }
+  #fe-stickybar-{{ sid }}.is-onscreen { display: flex; }
+  #fe-stickybar-{{ sid }} {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    align-items: center; gap: 0.75rem;
+    padding: 0.6rem 1rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    background: rgb(var(--color-background));
+    border-top: 1px solid rgba(var(--color-foreground), 0.12);
+    box-shadow: 0 -6px 22px rgba(0, 0, 0, 0.14);
+  }
+  #fe-stickybar-{{ sid }} .fe-stickybar-info { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
+  #fe-stickybar-{{ sid }} .fe-stickybar-counter { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.65; color: rgb(var(--color-foreground)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #fe-stickybar-{{ sid }} .fe-stickybar-total { font-size: 1.05rem; font-weight: 800; color: rgb(var(--color-foreground)); line-height: 1.1; }
+  #fe-stickybar-{{ sid }} .fe-stickybar-total:empty::before { content: attr(data-empty); font-size: 0.85rem; font-weight: 700; opacity: 0.6; }
+  #fe-stickybar-{{ sid }} .fe-stickybar-btn {
+    flex: 0 0 auto; min-width: 46%;
+    padding: 0.85rem 1.1rem; border: none; border-radius: var(--fe-btn-radius, 8px);
+    background: rgb(var(--color-button)); color: rgb(var(--color-button-label));
+    font-family: inherit; font-weight: 800; font-size: 0.95rem; letter-spacing: 0.02em;
+    cursor: pointer; transition: filter 0.2s, opacity 0.2s;
+  }
+  #fe-stickybar-{{ sid }} .fe-stickybar-btn:hover:not([disabled]) { filter: brightness(1.08); }
+  #fe-stickybar-{{ sid }} .fe-stickybar-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+  /* Collapse a locked step to just its header so the panel isn't a long scroll */
+  #fe-{{ sid }} .fe-step--locked { opacity: 1; }
+  #fe-{{ sid }} .fe-step--locked > :not(.fe-step-head) { display: none; }
+  #fe-{{ sid }} .fe-step--locked .fe-step-head { opacity: 0.5; margin-bottom: 0; }
+}
+/* ── Step progress indicator (Plan → Build → Review) ── */
+#fe-{{ sid }} .fe-progress { list-style: none; margin: 1.1rem 0 0; padding: 0; display: flex; align-items: flex-start; gap: 0; }
+#fe-{{ sid }} .fe-progress-step { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; position: relative; text-align: center; min-width: 0; }
+#fe-{{ sid }} .fe-progress-step::before { content: ""; position: absolute; top: 13px; right: 50%; width: 100%; height: 2px; background: rgba(var(--color-foreground), 0.15); z-index: 0; }
+#fe-{{ sid }} .fe-progress-step:first-child::before { display: none; }
+#fe-{{ sid }} .fe-progress-dot { position: relative; z-index: 1; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; background: rgba(var(--color-foreground), 0.12); color: rgba(var(--color-foreground), 0.55); border: 2px solid transparent; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+#fe-{{ sid }} .fe-progress-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(var(--color-foreground), 0.55); line-height: 1.2; }
+#fe-{{ sid }} .fe-progress-step.is-active .fe-progress-dot { background: transparent; border-color: var(--fe-selection-color, rgb(var(--color-button))); color: var(--fe-selection-color, rgb(var(--color-button))); }
+#fe-{{ sid }} .fe-progress-step.is-active .fe-progress-label { color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-progress-step.is-done .fe-progress-dot { background: var(--fe-selection-color, rgb(var(--color-button))); border-color: var(--fe-selection-color, rgb(var(--color-button))); color: rgb(var(--color-button-label)); }
+#fe-{{ sid }} .fe-progress-step.is-done .fe-progress-label { color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-progress-step.is-active::before, #fe-{{ sid }} .fe-progress-step.is-done::before { background: var(--fe-selection-color, rgb(var(--color-button))); }
+
+{{ block.settings.custom_css }}
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  var SID          = {{ sid | json }};
+  var BUNDLE_COUNT = {{ bundle_count | json }};
+  var BUILD_LABEL  = {{ block.settings.build_step_label | json }} || 'Build {count}-Pouch Bundle';
+  var POUCHES_WORD = {{ block.settings.pouches_word | default: 'Pouches' | json }};
+  var SHOW_TOTAL   = {{ block.settings.show_total_on_button | json }};
+
+  /* Creatine add-on copy adapts: monthly = add at 50% off; quarterly = 1st free, add a 2nd at 50%. */
+  var CR_LABEL_M = {{ block.settings.addon_label | default: 'Add Creatine — 50% off' | json }};
+  var CR_LABEL_Q = {{ block.settings.addon_label_quarterly | default: 'Add a 2nd Creatine — 50% off' | json }};
+  var CR_DESC_M  = {{ block.settings.addon_desc | default: '' | json }};
+  var CR_DESC_Q  = {{ block.settings.addon_desc_quarterly | default: '1st Creatine is free with your bundle. Add a second at 50% off.' | json }};
+  var CR_PRICE   = parseFloat(({{ block.settings.addon_price_text | default: '' | json }} + '').replace(/[^0-9.]/g, '')) || 0;
+  var PLAN_LABEL_M = {{ block.settings.monthly_label | default: '1 a Month' | json }};
+  var PLAN_LABEL_Q = {{ block.settings.quarterly_label | default: '3 Every 3 Months' | json }};
+
+  var root = document.getElementById('fe-' + SID);
+  if (!root) return;
+
+  var atcBtn   = root.querySelector('#fe-atc-' + SID);
+  var atcTotal = root.querySelector('#fe-atc-total-' + SID);
+  var atcMsg   = root.querySelector('#fe-atc-msg-' + SID);
+  var mainImg  = root.querySelector('#fe-main-img-' + SID);
+  var buildGroup = root.querySelector('#fe-build-group-' + SID);
+  var buildLabelEl = root.querySelector('#fe-build-label-' + SID);
+  var counterEl = root.querySelector('#fe-counter-' + SID);
+  var qtyInput = root.querySelector('#fe-qty-' + SID);
+  var addonInput = root.querySelector('#fe-addon-' + SID);
+  var creatineGroup = root.querySelector('#fe-creatine-' + SID);
+  var crFree = root.querySelector('#fe-cr-free-' + SID);
+  var crTitle = root.querySelector('#fe-cr-title-' + SID);
+  var crDesc = root.querySelector('#fe-cr-desc-' + SID);
+  var overview = root.querySelector('#fe-overview-' + SID);
+  var ovLines = root.querySelector('#fe-ov-lines-' + SID);
+  var ovTotal = root.querySelector('#fe-ov-total-' + SID);
+  var oneTimeBtn = root.querySelector('#fe-onetime-' + SID);
+  var monthlyView = root.querySelector('.fe-build-view--monthly');
+  var quarterlyView = root.querySelector('.fe-build-view--quarterly');
+
+  /* Replace the {count} placeholder on load so it never shows literally
+     before a plan is picked. Updated again per-plan in applyPurchaseType. */
+  if (buildLabelEl) buildLabelEl.textContent = BUILD_LABEL.replace('{count}', BUNDLE_COUNT);
+
+  var state = { purchaseType: null };
+  var slots = {};
+  function newSlot() { return { functionId: null, handle: null, label: null, planMonthly: null, planQuarterly: null, flavorName: null, product: null, variant: null, configId: null }; }
+  slots.monthly = newSlot();
+  for (var n = 1; n <= BUNDLE_COUNT; n++) { slots['q' + n] = newSlot(); }
+
+  function formatMoney(c) { return (c / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }
+  function setMsg(m, err) { if (atcMsg) { atcMsg.textContent = m || ''; atcMsg.classList.toggle('is-error', !!err); } }
+  function cleanSrc(s) { return (s || '').split('?')[0]; }
+  function pushEvent(e, d) { window.dataLayer = window.dataLayer || []; window.dataLayer.push(Object.assign({ event: e, block_id: SID }, d)); }
+  function setAtcEnabled(on) { if (!atcBtn) return; if (on) { atcBtn.removeAttribute('disabled'); atcBtn.removeAttribute('aria-disabled'); } else { atcBtn.setAttribute('disabled', ''); atcBtn.setAttribute('aria-disabled', 'true'); } }
+  function getQty() { var q = qtyInput ? parseInt(qtyInput.value, 10) : 1; return (isNaN(q) || q < 1) ? 1 : q; }
+
+  var productCache = {};
+  function fetchProduct(handle) {
+    if (!handle) return Promise.resolve(null);
+    if (productCache[handle]) return Promise.resolve(productCache[handle]);
+    return fetch('/products/' + handle + '.js').then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) productCache[handle] = d; return d; }).catch(function () { return null; });
+  }
+  function findVariant(p, flavor) {
+    if (!p || !p.variants.length) return null;
+    var fl = (flavor || '').toLowerCase().trim();
+    if (!fl) return p.variants.find(function (v) { return v.available; }) || p.variants[0];
+    var m = p.variants.find(function (v) { return v.options.some(function (o) { return o.toLowerCase() === fl; }) && v.available; });
+    if (!m) m = p.variants.find(function (v) { return v.options.some(function (o) { return o.toLowerCase() === fl; }); });
+    if (!m) m = p.variants.find(function (v) { return v.title.toLowerCase().indexOf(fl) !== -1 && v.available; });
+    if (!m) m = p.variants.find(function (v) { return v.available; });
+    return m || p.variants[0];
+  }
+  function findSellingPlanId(p, raw) {
+    if (!p || !raw) return null;
+    var id = parseInt(raw, 10), g = p.selling_plan_groups || [];
+    for (var i = 0; i < g.length; i++) { var pl = g[i].selling_plans || []; for (var j = 0; j < pl.length; j++) { if (pl[j].id === id) return pl[j].id; } }
+    return null;
+  }
+  function subPrice(p, v, raw) {
+    if (!p || !v) return null;
+    if (!raw) return v.price;
+    var id = parseInt(raw, 10), g = p.selling_plan_groups || [];
+    for (var i = 0; i < g.length; i++) { var pl = g[i].selling_plans || []; for (var j = 0; j < pl.length; j++) {
+      if (pl[j].id !== id) continue;
+      var a = pl[j].price_adjustments && pl[j].price_adjustments[0];
+      if (!a) return v.price;
+      if (a.value_type === 'percentage') return Math.round(v.price * (1 - a.value / 100));
+      if (a.value_type === 'fixed_amount') return Math.max(0, v.price - a.value);
+      if (a.value_type === 'price') return a.value;
+      return v.price;
+    } }
+    return v.price;
+  }
+
+  function activeSlotIds() {
+    if (state.purchaseType === 'monthly') return ['monthly'];
+    if (state.purchaseType === 'quarterly') { var a = []; for (var i = 1; i <= BUNDLE_COUNT; i++) a.push('q' + i); return a; }
+    return [];
+  }
+  function slotPlanRaw(s) { return state.purchaseType === 'monthly' ? s.planMonthly : s.planQuarterly; }
+
+  function setMainImage(src) {
+    if (!mainImg || !src || cleanSrc(mainImg.src) === cleanSrc(src)) return;
+    mainImg.style.display = '';
+    mainImg.style.opacity = '0';
+    mainImg.onload = function () { mainImg.style.opacity = '1'; };
+    mainImg.src = src;
+    var ph = root.querySelector('.fe-main-ph'); if (ph) ph.style.display = 'none';
+  }
+  function slotImage(s) {
+    var card = s.configId ? root.querySelector('.fe-fcards[data-config="' + s.configId + '"] .fe-fcard.is-active') : null;
+    var flBtn = card ? card.querySelector('.fe-flavor-opt.is-active') : null;
+    if (flBtn && flBtn.dataset.thumbnail) return flBtn.dataset.thumbnail;
+    if (s.variant && s.variant.featured_image && s.variant.featured_image.src) return s.variant.featured_image.src;
+    if (s.product && s.product.featured_image) return s.product.featured_image;
+    if (card && card.dataset.thumbnail) return card.dataset.thumbnail;
+    return '';
+  }
+
+  /* Update the two plan-card price displays from the best available slot */
+  function updatePlanPrices() {
+    var mEl = root.querySelector('[data-plan-price="monthly"]'), mWas = root.querySelector('[data-plan-was="monthly"]');
+    var qEl = root.querySelector('[data-plan-price="quarterly"]'), qWas = root.querySelector('[data-plan-was="quarterly"]');
+    var ms = slots.monthly;
+    if (mEl && ms.product && ms.variant) {
+      var mp = subPrice(ms.product, ms.variant, ms.planMonthly);
+      if (mp != null) { mEl.textContent = formatMoney(mp); if (mWas && ms.variant.price > mp) mWas.textContent = 'was ' + formatMoney(ms.variant.price); }
+    }
+    if (qEl) {
+      var qs = null; for (var i = 1; i <= BUNDLE_COUNT; i++) { if (slots['q' + i].product && slots['q' + i].variant) { qs = slots['q' + i]; break; } }
+      if (qs) { var qp = subPrice(qs.product, qs.variant, qs.planQuarterly); if (qp != null) { qEl.textContent = formatMoney(qp); if (qWas && qs.variant.price > qp) qWas.textContent = 'was ' + formatMoney(qs.variant.price); } }
+    }
+  }
+
+  function esc(t) { var d = document.createElement('div'); d.textContent = (t == null ? '' : t); return d.innerHTML; }
+
+  function recompute() {
+    var ids = activeSlotIds();
+    var completed = 0, pouchSubtotal = 0, ready = ids.length > 0;
+    var lines = [];
+    ids.forEach(function (id) {
+      var s = slots[id];
+      if (s.functionId && s.flavorName && s.product && s.variant) {
+        completed++;
+        var pr = subPrice(s.product, s.variant, slotPlanRaw(s));
+        if (pr == null) pr = s.variant.price;
+        pouchSubtotal += pr;
+        lines.push({ name: s.label, sub: s.flavorName, price: pr, thumb: slotImage(s) });
+      } else { ready = false; }
+    });
+
+    var qty = getQty();
+    var addonOn = !!(addonInput && addonInput.checked);
+    var creatineCents = 0;
+    if (addonOn && (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly')) {
+      creatineCents = Math.round(CR_PRICE * 100);
+    }
+    var total = (pouchSubtotal + creatineCents) * qty;
+
+    if (counterEl && state.purchaseType) counterEl.textContent = completed + ' / ' + ids.length + ' ' + POUCHES_WORD;
+    if (atcTotal) atcTotal.textContent = (SHOW_TOTAL && ready && total > 0) ? ('· ' + formatMoney(total)) : '';
+
+    /* ── Order overview ── */
+    if (ovLines) {
+      var html = '';
+      if (state.purchaseType) {
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + esc(state.purchaseType === 'quarterly' ? PLAN_LABEL_Q : PLAN_LABEL_M) + '</span></li>';
+      }
+      lines.forEach(function (l, i) {
+        var thumb = l.thumb ? '<img class="fe-ov-thumb" src="' + l.thumb + '" alt="">' : '<span class="fe-ov-thumb"></span>';
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + thumb + '<span class="fe-ov-line-txt">' + esc(l.name || ('Pouch ' + (i + 1))) + (l.sub ? '<span class="fe-ov-line-sub">' + esc(l.sub) + '</span>' : '') + '</span></span><span class="fe-ov-line-price">' + formatMoney(l.price * qty) + '</span></li>';
+      });
+      if (state.purchaseType === 'quarterly') {
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">Creatine<span class="fe-ov-line-sub">1st included free</span></span><span class="fe-ov-line-price is-free">FREE</span></li>';
+      }
+      if (creatineCents > 0) {
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + (state.purchaseType === 'quarterly' ? '2nd Creatine (50% off)' : 'Creatine (50% off)') + '</span><span class="fe-ov-line-price">' + formatMoney(creatineCents * qty) + '</span></li>';
+      }
+      ovLines.innerHTML = html;
+    }
+    if (ovTotal) ovTotal.textContent = (ready || lines.length) ? formatMoney(total) : '--';
+
+    updatePlanPrices();
+    setAtcEnabled(ready);
+    return ready;
+  }
+
+  function loadSlotProduct(id) {
+    var s = slots[id];
+    if (!s.handle) return;
+    fetchProduct(s.handle).then(function (p) {
+      if (!p) { setMsg('Product not found. Check the product handle in theme settings.', true); return; }
+      s.product = p;
+      s.variant = findVariant(p, s.flavorName);
+      var img = slotImage(s) || p.featured_image; if (img) setMainImage(img);
+      recompute();
+    });
+  }
+
+  function applyPurchaseType(type) {
+    state.purchaseType = type;
+    if (monthlyView) monthlyView.classList.toggle('is-active', type === 'monthly');
+    if (quarterlyView) quarterlyView.classList.toggle('is-active', type === 'quarterly');
+    if (buildGroup) { buildGroup.classList.remove('fe-step--locked'); buildGroup.removeAttribute('aria-disabled'); }
+    var count = type === 'monthly' ? 1 : BUNDLE_COUNT;
+    if (buildLabelEl) buildLabelEl.textContent = BUILD_LABEL.replace('{count}', count);
+
+    /* Creatine card: unlock + adapt copy. Quarterly shows the "1st free" line and offers a 2nd at 50%. */
+    var q = type === 'quarterly';
+    if (creatineGroup) creatineGroup.hidden = false;
+    if (crTitle) crTitle.textContent = q ? CR_LABEL_Q : CR_LABEL_M;
+    if (crDesc)  crDesc.textContent  = q ? CR_DESC_Q : CR_DESC_M;
+    if (crFree)  crFree.hidden = !q;
+
+    if (overview) overview.hidden = false;
+    recompute();
+  }
+
+  /* Plan radios */
+  root.querySelectorAll('input[name="fe-plan-' + SID + '"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      root.querySelectorAll('.fe-plan').forEach(function (l) { l.classList.remove('is-active'); });
+      var label = radio.closest('.fe-plan'); if (label) label.classList.add('is-active');
+      pushEvent('fe_plan_selected', { plan: radio.value });
+      applyPurchaseType(radio.value);
+    });
+  });
+
+  /* Select a function card for a config slot */
+  function selectFunction(card, resetFlavor) {
+    var cfg = card.closest('.fe-fcards').dataset.config;
+    var s = slots[cfg]; if (!s) return;
+    s.configId = cfg;
+    root.querySelectorAll('.fe-fcards[data-config="' + cfg + '"] .fe-fcard').forEach(function (c) { c.classList.remove('is-active'); c.setAttribute('aria-pressed', 'false'); });
+    card.classList.add('is-active'); card.setAttribute('aria-pressed', 'true');
+    s.functionId = card.dataset.functionId;
+    s.handle = card.dataset.productHandle;
+    s.label = card.dataset.functionLabel;
+    s.planMonthly = card.dataset.planMonthly || null;
+    s.planQuarterly = card.dataset.planQuarterly || null;
+    if (resetFlavor) {
+      card.querySelectorAll('.fe-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+      s.flavorName = null;
+    }
+    loadSlotProduct(cfg);
+  }
+
+  /* Delegated clicks: flavor first, then function card */
+  root.addEventListener('click', function (e) {
+    var flavor = e.target.closest('.fe-flavor-opt');
+    if (flavor && root.contains(flavor)) {
+      var card = flavor.closest('.fe-fcard');
+      if (!card) return;
+      if (card.dataset.comingSoon === 'true') return;
+      if (!card.classList.contains('is-active')) selectFunction(card, false);
+      card.querySelectorAll('.fe-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+      flavor.classList.add('is-active'); flavor.setAttribute('aria-pressed', 'true');
+      var s = slots[card.closest('.fe-fcards').dataset.config];
+      s.flavorName = flavor.dataset.flavorName;
+      if (s.product) { s.variant = findVariant(s.product, s.flavorName); var img = slotImage(s); if (img) setMainImage(img); }
+      pushEvent('fe_flavor_selected', { config: s.configId, flavor: s.flavorName });
+      recompute();
+      return;
+    }
+    var fcard = e.target.closest('.fe-fcard');
+    if (fcard && root.contains(fcard)) {
+      if (fcard.dataset.comingSoon === 'true') return;
+      pushEvent('fe_function_selected', { function_id: fcard.dataset.functionId });
+      selectFunction(fcard, true);
+    }
+  });
+
+  /* Keyboard select on function card */
+  root.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var fcard = e.target.closest('.fe-fcard');
+    if (fcard && root.contains(fcard) && fcard === e.target) { e.preventDefault(); if (fcard.dataset.comingSoon !== 'true') selectFunction(fcard, true); }
+  });
+
+  /* Thumbnails */
+  root.querySelectorAll('.fe-thumb').forEach(function (t) {
+    t.addEventListener('click', function () {
+      root.querySelectorAll('.fe-thumb').forEach(function (x) { x.classList.remove('is-active'); });
+      t.classList.add('is-active');
+      if (t.dataset.full) setMainImage(t.dataset.full);
+    });
+  });
+
+  /* Quantity */
+  root.querySelectorAll('.fe-qty-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var step = parseInt(b.dataset.qtyStep, 10) || 0;
+      var q = getQty() + step; if (q < 1) q = 1;
+      if (qtyInput) qtyInput.value = q;
+      recompute();
+    });
+  });
+  if (qtyInput) qtyInput.addEventListener('change', recompute);
+  if (addonInput) addonInput.addEventListener('change', function () { pushEvent('fe_addon_toggled', { checked: addonInput.checked }); recompute(); });
+
+  function buildItems(oneTime) {
+    var items = [], ids = activeSlotIds(), qty = getQty();
+    if (oneTime) {
+      var first = ids.map(function (id) { return slots[id]; }).find(function (s) { return s && s.variant; });
+      if (!first) return null;
+      return [{ id: first.variant.id, quantity: qty }];
+    }
+    for (var k = 0; k < ids.length; k++) {
+      var s = slots[ids[k]];
+      if (!s.variant) return null;
+      var item = { id: s.variant.id, quantity: qty };
+      var plan = findSellingPlanId(s.product, slotPlanRaw(s));
+      if (plan) item.selling_plan = plan;
+      items.push(item);
+    }
+    if (addonInput && addonInput.checked && (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly')) {
+      var av = parseInt(addonInput.dataset.addonVariant, 10);
+      if (av) {
+        var addonItem = { id: av, quantity: qty };
+        var addonPlanRaw = state.purchaseType === 'monthly' ? addonInput.dataset.addonPlanMonthly : addonInput.dataset.addonPlanQuarterly;
+        if (addonPlanRaw) {
+          var addonPlanId = parseInt(addonPlanRaw, 10);
+          if (addonPlanId) addonItem.selling_plan = addonPlanId;
+        }
+        items.push(addonItem);
+      }
+    }
+    return items;
+  }
+
+  function addToCart(oneTime) {
+    setMsg('');
+    if (!oneTime && !state.purchaseType) { setMsg('Please choose a plan.', true); return; }
+    var items = buildItems(oneTime);
+    if (!items) { setMsg(oneTime ? 'Select a function and flavor first.' : 'Please complete every pouch (function + flavor).', true); return; }
+
+    atcBtn.classList.add('is-loading'); setAtcEnabled(false);
+    pushEvent('fe_add_to_cart_attempt', { purchase_type: oneTime ? 'onetime' : state.purchaseType, lines: items.length });
+
+    fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: items }) })
+      .then(function (r) { if (!r.ok) return r.json().then(function (er) { throw new Error(er.description || 'Cart error'); }); return fetch('/cart.js').then(function (x) { return x.json(); }); })
+      .then(function (cart) {
+        var d = document.querySelector('cart-drawer-component');
+        if (d && typeof d.open === 'function') d.open();
+        document.dispatchEvent(new CustomEvent('cart:add', { bubbles: true, detail: { resource: { item_count: cart ? cart.item_count : 0 } } }));
+        pushEvent('fe_add_to_cart_success', { purchase_type: oneTime ? 'onetime' : state.purchaseType });
+      })
+      .catch(function (err) { setMsg(err.message || 'Something went wrong. Please try again.', true); pushEvent('fe_add_to_cart_error', { error: err.message }); })
+      .finally(function () { atcBtn.classList.remove('is-loading'); recompute(); });
+  }
+
+  if (atcBtn) atcBtn.addEventListener('click', function () { addToCart(false); });
+  if (oneTimeBtn && oneTimeBtn.dataset.static !== 'true') oneTimeBtn.addEventListener('click', function () { addToCart(true); });
+
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var SID = {{ sid | json }};
+  var root = document.getElementById('fe-' + SID);
+  if (!root) return;
+  var bar = document.getElementById('fe-stickybar-' + SID);
+  var realBtn = document.getElementById('fe-atc-' + SID);
+  if (!bar || !realBtn) return;
+  var realTotal = document.getElementById('fe-atc-total-' + SID);
+  var realCounter = document.getElementById('fe-counter-' + SID);
+  var buildGroup = document.getElementById('fe-build-group-' + SID);
+  var sbBtn = document.getElementById('fe-sb-atc-' + SID);
+  var sbTotal = document.getElementById('fe-sb-total-' + SID);
+  var sbCounter = document.getElementById('fe-sb-counter-' + SID);
+  var progress = document.getElementById('fe-progress-' + SID);
+  var progSteps = progress ? progress.querySelectorAll('.fe-progress-step') : [];
+
+  function setStep(i, state) {
+    if (!progSteps[i]) return;
+    progSteps[i].classList.toggle('is-active', state === 'active');
+    progSteps[i].classList.toggle('is-done', state === 'done');
+  }
+  function updateProgress() {
+    if (!progSteps.length) return;
+    var planChosen = buildGroup ? !buildGroup.classList.contains('fe-step--locked') : false;
+    var ready = !(realBtn.hasAttribute('disabled') || realBtn.getAttribute('aria-disabled') === 'true');
+    setStep(0, planChosen ? 'done' : 'active');
+    setStep(1, ready ? 'done' : (planChosen ? 'active' : ''));
+    setStep(2, ready ? 'active' : '');
+  }
+
+  function sync() {
+    var off = realBtn.hasAttribute('disabled') || realBtn.getAttribute('aria-disabled') === 'true';
+    if (off) { sbBtn.setAttribute('disabled', ''); sbBtn.setAttribute('aria-disabled', 'true'); }
+    else { sbBtn.removeAttribute('disabled'); sbBtn.removeAttribute('aria-disabled'); }
+    if (sbTotal) { sbTotal.textContent = realTotal ? realTotal.textContent.replace(/^[\s·•]+/, '') : ''; }
+    if (sbCounter && realCounter) { sbCounter.textContent = realCounter.textContent || ''; }
+    updateProgress();
+  }
+
+  sbBtn.addEventListener('click', function () { realBtn.click(); });
+
+  if (window.MutationObserver) {
+    var mo = new MutationObserver(sync);
+    mo.observe(realBtn, { attributes: true, attributeFilter: ['disabled', 'aria-disabled'] });
+    if (realTotal) mo.observe(realTotal, { childList: true, characterData: true, subtree: true });
+    if (realCounter) mo.observe(realCounter, { childList: true, characterData: true, subtree: true });
+    if (buildGroup) {
+      var bo = new MutationObserver(function () {
+        if (!buildGroup.classList.contains('fe-step--locked') && window.matchMedia('(max-width: 899px)').matches) {
+          try { buildGroup.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+        }
+      });
+      bo.observe(buildGroup, { attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
+  if (window.IntersectionObserver) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { bar.classList.toggle('is-onscreen', e.isIntersecting); });
+    }, { rootMargin: '0px 0px -45% 0px' });
+    io.observe(root);
+  } else {
+    bar.classList.add('is-onscreen');
+  }
+
+  sync();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "FTD - Product Selector",
+  "tag": null,
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "layout_direction", "label": "Content layout", "default": "image-left",
+      "options": [
+        { "value": "image-left", "label": "Gallery left, selector right" },
+        { "value": "panel-left", "label": "Selector left, gallery right" }
+      ]
+    },
+    { "type": "range", "id": "content_max_width", "label": "Section max width", "min": 600, "max": 1600, "step": 40, "unit": "px", "default": 1240 },
+    { "type": "select", "id": "section_width", "label": "Block width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+    { "type": "checkbox", "id": "show_progress", "label": "Show step progress indicator", "default": true },
+    { "type": "text", "id": "progress_label_1", "label": "Progress step 1 label", "default": "Plan" },
+    { "type": "text", "id": "progress_label_2", "label": "Progress step 2 label", "default": "Build" },
+    { "type": "text", "id": "progress_label_3", "label": "Progress step 3 label", "default": "Review" },
+    { "type": "range", "id": "panel_width", "label": "Selector panel width", "min": 300, "max": 700, "step": 20, "unit": "px", "default": 460 },
+
+    { "type": "header", "content": "Gallery" },
+    { "type": "checkbox", "id": "show_thumbnails", "label": "Show image thumbnails", "default": true },
+    { "type": "select", "id": "thumbnail_position", "label": "Thumbnail position", "default": "left", "options": [ { "value": "left", "label": "Left of image" }, { "value": "right", "label": "Right of image" }, { "value": "bottom", "label": "Below image" } ] },
+    { "type": "color_scheme", "id": "media_color_scheme", "label": "Image area color scheme", "info": "Pick a contrasting / light-grey scheme to give the product image a subtle background.", "default": "scheme-1" },
+    { "type": "checkbox", "id": "show_doctor_badge", "label": "Show top-left badge", "default": true },
+    { "type": "text", "id": "doctor_badge_text", "label": "Top-left badge text", "default": "Doctor Recommended" },
+    { "type": "color", "id": "doctor_badge_bg", "label": "Top-left badge color", "default": "#0A0A0A" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show star rating", "default": true },
+    { "type": "text", "id": "rating_value", "label": "Rating value", "default": "4.8" },
+    { "type": "text", "id": "rating_count", "label": "Rating count text", "default": "(342 reviews)" },
+    { "type": "color", "id": "star_color", "label": "Star color", "default": "#F5A623" },
+    { "type": "text", "id": "gallery_caption", "label": "Image caption", "default": "Electrolytes D3+K3" },
+
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "heading", "label": "Title", "default": "Everyday Hydration" },
+    { "type": "text", "id": "subheading", "label": "Subtitle", "default": "Electrolytes + D3 + K2" },
+    { "type": "text", "id": "coming_soon_text", "label": "Coming Soon badge text", "default": "Soon" },
+
+    { "type": "header", "content": "Step 1 — Plans" },
+    { "type": "text", "id": "plan_step_label", "label": "Step label", "default": "Choose Your Plan" },
+    { "type": "text", "id": "plan_step_note", "label": "Step note (top-right)", "default": "Monthly 10% Off" },
+    { "type": "checkbox", "id": "show_monthly", "label": "Show \"1 a Month\" plan", "default": true },
+    { "type": "text", "id": "monthly_label", "label": "Monthly summary label", "default": "1 a Month" },
+    { "type": "text", "id": "monthly_badge", "label": "Monthly badge", "default": "Monthly" },
+    { "type": "color", "id": "monthly_badge_color", "label": "Monthly badge color", "default": "#1FA8A1" },
+    { "type": "textarea", "id": "monthly_title", "label": "Monthly title", "info": "One line per row.", "default": "1 Pouch\nEvery Month" },
+    { "type": "text", "id": "monthly_desc", "label": "Monthly description", "default": "Your daily ritual, delivered." },
+    { "type": "text", "id": "monthly_price", "label": "Monthly price (fallback)", "info": "Shown until a product/plan price is calculated.", "default": "$53.10" },
+    { "type": "text", "id": "monthly_period", "label": "Monthly period text", "default": "/ month" },
+    { "type": "text", "id": "monthly_was", "label": "Monthly \"was\" text (fallback)", "default": "was $59.00/mo" },
+    { "type": "textarea", "id": "monthly_checklist", "label": "Monthly checklist", "info": "One per line.", "default": "Save 15% on every order\nFree shipping always\nFlexible, cancel / pause any time" },
+    { "type": "checkbox", "id": "show_quarterly", "label": "Show \"3 Every 3 Months\" plan", "default": true },
+    { "type": "text", "id": "quarterly_label", "label": "Quarterly summary label", "default": "3 Every 3 Months" },
+    { "type": "text", "id": "quarterly_badge", "label": "Quarterly badge", "default": "Best Value - Quarterly" },
+    { "type": "color", "id": "quarterly_badge_color", "label": "Quarterly badge color", "default": "#E8833A" },
+    { "type": "textarea", "id": "quarterly_title", "label": "Quarterly title", "info": "One line per row.", "default": "3 Pouches\nEvery 3 Months" },
+    { "type": "text", "id": "quarterly_desc", "label": "Quarterly description", "default": "Mix any functions freely." },
+    { "type": "text", "id": "quarterly_price", "label": "Quarterly price (fallback)", "default": "$53.10" },
+    { "type": "text", "id": "quarterly_period", "label": "Quarterly period text", "default": "/ month" },
+    { "type": "text", "id": "quarterly_was", "label": "Quarterly \"was\" text (fallback)", "default": "was $59.00/mo" },
+    { "type": "textarea", "id": "quarterly_checklist", "label": "Quarterly checklist", "info": "One per line.", "default": "Free Creatine + Sample Pack\nFree shipping always\nFlexible, cancel / pause any time" },
+    { "type": "range", "id": "bundle_count", "label": "Pouches in the quarterly box", "min": 2, "max": 6, "step": 1, "default": 3 },
+
+    { "type": "header", "content": "Step 2 — Build Bundle" },
+    { "type": "text", "id": "build_step_label", "label": "Step label", "info": "Use {count} for the pouch count.", "default": "Build {count}-Pouch Bundle" },
+    { "type": "text", "id": "pouches_word", "label": "Counter word", "default": "Pouches" },
+    { "type": "text", "id": "function_label", "label": "Function label (unused on cards)", "default": "Choose Your Function" },
+    { "type": "text", "id": "flavor_label", "label": "Flavor label", "default": "Choose Flavor:" },
+    { "type": "text", "id": "unit_label_prefix", "label": "Pouch label prefix", "default": "Pouch" },
+
+    { "type": "header", "content": "Creatine Add-on" },
+    { "type": "checkbox", "id": "show_addon", "label": "Show creatine add-on", "default": true },
+    { "type": "product", "id": "addon_product", "label": "Add-on product", "info": "Added to cart when toggled on. Set the 50% discount as an automatic discount in Shopify." },
+    { "type": "image_picker", "id": "addon_image", "label": "Add-on image", "info": "Optional. Falls back to the product image." },
+    { "type": "text", "id": "addon_label", "label": "Title — monthly", "default": "Add Creatine — 50% off" },
+    { "type": "text", "id": "addon_desc", "label": "Description — monthly", "default": "50% off applied automatically at checkout." },
+    { "type": "text", "id": "addon_label_quarterly", "label": "Title — quarterly (2nd unit)", "default": "Add a 2nd Creatine — 50% off" },
+    { "type": "text", "id": "addon_desc_quarterly", "label": "Description — quarterly", "default": "1st Creatine is free with your bundle. Add a second at 50% off." },
+    { "type": "text", "id": "quarterly_free_text", "label": "Quarterly \"free included\" line", "default": "Free Creatine + Sample Pack included with your bundle" },
+    { "type": "text", "id": "addon_price_text", "label": "Add-on price (display)", "default": "$12.00" },
+    { "type": "text", "id": "addon_was_text", "label": "Add-on compare-at (display)", "default": "$24.00" },
+    { "type": "text", "id": "addon_loop_plan_monthly", "label": "Add-on Loop plan ID — monthly", "info": "Loop subscription selling plan ID for the creatine add-on when the monthly plan is selected. Leave blank for one-time." },
+    { "type": "text", "id": "addon_loop_plan_quarterly", "label": "Add-on Loop plan ID — quarterly", "info": "Loop subscription selling plan ID for the creatine add-on when the quarterly plan is selected. Leave blank for one-time." },
+
+    { "type": "header", "content": "Order Overview" },
+    { "type": "text", "id": "summary_label", "label": "Heading", "default": "Your Order" },
+    { "type": "text", "id": "total_label", "label": "Total label", "default": "Total" },
+    { "type": "text", "id": "overview_note", "label": "Note under total", "default": "Subscriptions ship free. Discounts applied at checkout." },
+
+    { "type": "header", "content": "Add to Cart" },
+    { "type": "text", "id": "atc_label", "label": "Button label", "default": "Add to Cart" },
+    { "type": "checkbox", "id": "show_total_on_button", "label": "Show total price on button", "default": true },
+    { "type": "select", "id": "button_style", "label": "Button style", "default": "filled",
+      "options": [
+        { "value": "filled",  "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "ghost",   "label": "Ghost" }
+      ]
+    },
+    { "type": "text", "id": "onetime_prefix", "label": "One-time note prefix", "default": "Or purchase once:" },
+    { "type": "text", "id": "onetime_price_text", "label": "One-time note price", "default": "$59.00 + $8.99 shipping" },
+    { "type": "url", "id": "onetime_link", "label": "One-time note link", "info": "If set, the note links here (e.g. a one-time product page). Leave blank to add a one-time purchase to the cart on click instead." },
+    { "type": "checkbox", "id": "onetime_clickable", "label": "One-time note adds a one-time purchase on click", "info": "Ignored when a link is set above.", "default": true },
+
+    { "type": "header", "content": "Image" },
+    { "type": "range", "id": "media_height_mobile", "label": "Image height — mobile", "min": 200, "max": 700, "step": 20, "unit": "px", "default": 380 },
+    { "type": "range", "id": "media_height_desktop", "label": "Image height — desktop", "min": 300, "max": 900, "step": 20, "unit": "px", "default": 560 },
+    { "type": "select", "id": "image_position", "label": "Image position", "default": "center center",
+      "options": [
+        { "value": "top left",      "label": "Top left" },
+        { "value": "top center",    "label": "Top center" },
+        { "value": "top right",     "label": "Top right" },
+        { "value": "center left",   "label": "Center left" },
+        { "value": "center center", "label": "Center" },
+        { "value": "center right",  "label": "Center right" },
+        { "value": "bottom left",   "label": "Bottom left" },
+        { "value": "bottom center", "label": "Bottom center" },
+        { "value": "bottom right",  "label": "Bottom right" }
+      ]
+    },
+    { "type": "range", "id": "image_padding", "label": "Image padding", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 16 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "selection_color", "label": "Selection highlight color", "default": "#1FA8A1" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Block color scheme", "default": "scheme-1" },
+    { "type": "color_scheme", "id": "panel_color_scheme", "label": "Panel color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Shape" },
+    { "type": "range", "id": "button_radius", "label": "Button corner radius", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 8 },
+    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 12 },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this block only. Use the .fe- class names on its elements." }
+  ],
+  "blocks": [
+    {
+      "type": "function_item",
+      "name": "Function",
+      "settings": [
+        { "type": "header", "content": "Product" },
+        { "type": "checkbox", "id": "enabled", "label": "Enable this function", "default": true },
+        { "type": "text", "id": "function_label", "label": "Function name", "default": "Fortified Everyday" },
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "checkbox", "id": "coming_soon", "label": "Mark as Coming Soon", "default": false },
+        { "type": "header", "content": "Card" },
+        { "type": "image_picker", "id": "card_image", "label": "Card image", "info": "Large product image shown on the card. Falls back to the summary thumbnail." },
+        { "type": "text", "id": "spec_1", "label": "Spec tag 1", "default": "152mg Caffeine" },
+        { "type": "text", "id": "spec_2", "label": "Spec tag 2", "default": "1,200mg NA" },
+        { "type": "text", "id": "spec_3", "label": "Spec tag 3" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix." },
+        { "type": "image_picker", "id": "thumbnail_image", "label": "Summary thumbnail" },
+        { "type": "image_picker", "id": "pill_icon", "label": "Icon (optional)" },
+        { "type": "header", "content": "Flavors" },
+        { "type": "paragraph", "content": "Flavors come from this product's variants. Pick the variant option that holds the flavor below (leave blank to use the product's first option)." },
+        { "type": "text", "id": "flavor_option", "label": "Flavor option name", "info": "e.g. Flavor. Must match the product's option name. Blank = first option." },
+        { "type": "textarea", "id": "manual_flavors", "label": "Manual flavors (fallback)", "info": "One per line. Only used when no product is set, so the card can still preview." },
+        { "type": "header", "content": "Loop Subscription Plan IDs" },
+        { "type": "paragraph", "content": "In Shopify Admin open the product, scroll to Purchase options, click a selling plan, and copy the ID from the end of the URL." },
+        { "type": "text", "id": "loop_plan_monthly", "label": "Monthly plan ID" },
+        { "type": "text", "id": "loop_plan_quarterly", "label": "Every 3 months plan ID" }
+      ]
+    },
+    {
+      "type": "benefit_item",
+      "name": "Benefit",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Supports Mood & Focus" }
+      ]
+    },
+    {
+      "type": "cert_badge",
+      "name": "Certification badge",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Badge image" },
+        { "type": "text", "id": "label", "label": "Label (fallback / alt)", "default": "Made in USA" }
+      ]
+    },
+    {
+      "type": "gallery_image",
+      "name": "Gallery image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FTD - Product Selector",
+      "blocks": [
+        { "type": "gallery_image" },
+        { "type": "benefit_item", "settings": { "text": "Supports Mood & Focus" } },
+        { "type": "benefit_item", "settings": { "text": "Plant-Based" } },
+        { "type": "benefit_item", "settings": { "text": "No Jitters Or Crash" } },
+        { "type": "function_item", "settings": { "function_label": "Fortified Everyday", "enabled": true, "manual_flavors": "Original\nMango\nBerry" } },
+        { "type": "function_item", "settings": { "function_label": "Fortified Energy", "enabled": true, "manual_flavors": "Original\nMango\nBerry" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
