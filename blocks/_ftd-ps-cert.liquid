@@ -1,0 +1,12 @@
+<div style="display:none" data-ftd-ps-block="cert" {{ block.shopify_attributes }}></div>
+
+{% schema %}
+{
+  "name": "Certification badge",
+  "tag": null,
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Badge image" },
+    { "type": "text", "id": "label", "label": "Label (fallback / alt)", "default": "Made in USA" }
+  ]
+}
+{% endschema %}

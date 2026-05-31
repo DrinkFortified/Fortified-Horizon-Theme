@@ -1,0 +1,36 @@
+{%- comment -%}
+  Nested theme block: a single "function" inside the FTD Product Selector.
+  The parent block reads block.settings directly and renders the card —
+  this block intentionally has no visible output of its own.
+{%- endcomment -%}
+<div style="display:none" data-ftd-ps-block="function" {{ block.shopify_attributes }}></div>
+
+{% schema %}
+{
+  "name": "Function",
+  "tag": null,
+  "settings": [
+    { "type": "header", "content": "Product" },
+    { "type": "checkbox", "id": "enabled", "label": "Enable this function", "default": true },
+    { "type": "text", "id": "function_label", "label": "Function name", "default": "Fortified Everyday" },
+    { "type": "product", "id": "product", "label": "Product" },
+    { "type": "checkbox", "id": "coming_soon", "label": "Mark as Coming Soon", "default": false },
+    { "type": "header", "content": "Card" },
+    { "type": "image_picker", "id": "card_image", "label": "Card image", "info": "Large product image shown on the card. Falls back to the summary thumbnail." },
+    { "type": "text", "id": "spec_1", "label": "Spec tag 1", "default": "152mg Caffeine" },
+    { "type": "text", "id": "spec_2", "label": "Spec tag 2", "default": "1,200mg NA" },
+    { "type": "text", "id": "spec_3", "label": "Spec tag 3" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix." },
+    { "type": "image_picker", "id": "thumbnail_image", "label": "Summary thumbnail" },
+    { "type": "image_picker", "id": "pill_icon", "label": "Icon (optional)" },
+    { "type": "header", "content": "Flavors" },
+    { "type": "paragraph", "content": "Flavors come from this product's variants. Pick the variant option that holds the flavor below (leave blank to use the product's first option)." },
+    { "type": "text", "id": "flavor_option", "label": "Flavor option name", "info": "e.g. Flavor. Must match the product's option name. Blank = first option." },
+    { "type": "textarea", "id": "manual_flavors", "label": "Manual flavors (fallback)", "info": "One per line. Only used when no product is set, so the card can still preview." },
+    { "type": "header", "content": "Loop Subscription Plan IDs" },
+    { "type": "paragraph", "content": "In Shopify Admin open the product, scroll to Purchase options, click a selling plan, and copy the ID from the end of the URL." },
+    { "type": "text", "id": "loop_plan_monthly", "label": "Monthly plan ID" },
+    { "type": "text", "id": "loop_plan_quarterly", "label": "Every 3 months plan ID" }
+  ]
+}
+{% endschema %}
