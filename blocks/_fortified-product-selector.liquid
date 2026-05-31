@@ -280,7 +280,8 @@
             <input type="checkbox" id="fe-addon-{{ sid }}"
               data-addon-variant="{{ addon_variant_id }}"
               data-addon-plan-monthly="{{ block.settings.addon_loop_plan_monthly }}"
-              data-addon-plan-quarterly="{{ block.settings.addon_loop_plan_quarterly }}">
+              data-addon-plan-quarterly-free="{{ block.settings.addon_loop_plan_quarterly }}"
+              data-addon-plan-quarterly-50off="{{ block.settings.addon_loop_plan_quarterly_50off }}">
             <span class="fe-cr-switch" aria-hidden="true"></span>
           </label>
         </div>
@@ -981,7 +982,8 @@
       var av = parseInt(addonInput.dataset.addonVariant, 10);
       if (av) {
         var addonItem = { id: av, quantity: qty };
-        var addonPlanRaw = state.purchaseType === 'monthly' ? addonInput.dataset.addonPlanMonthly : addonInput.dataset.addonPlanQuarterly;
+        // Quarterly toggle = OPTIONAL 2nd creatine at 50% off. Monthly toggle = creatine at 50% off.
+        var addonPlanRaw = state.purchaseType === 'monthly' ? addonInput.dataset.addonPlanMonthly : addonInput.dataset.addonPlanQuarterly50off;
         if (addonPlanRaw) {
           var addonPlanId = parseInt(addonPlanRaw, 10);
           if (addonPlanId) addonItem.selling_plan = addonPlanId;
@@ -1171,8 +1173,9 @@
     { "type": "text", "id": "quarterly_free_text", "label": "Quarterly \"free included\" line", "default": "Free Creatine + Sample Pack included with your bundle" },
     { "type": "text", "id": "addon_price_text", "label": "Add-on price (display)", "default": "$12.00" },
     { "type": "text", "id": "addon_was_text", "label": "Add-on compare-at (display)", "default": "$24.00" },
-    { "type": "text", "id": "addon_loop_plan_monthly", "label": "Add-on Loop plan ID — monthly", "info": "Loop subscription selling plan ID for the creatine add-on when the monthly plan is selected. Leave blank for one-time." },
-    { "type": "text", "id": "addon_loop_plan_quarterly", "label": "Add-on Loop plan ID — quarterly", "info": "Loop subscription selling plan ID for the creatine add-on when the quarterly plan is selected. Leave blank for one-time." },
+    { "type": "text", "id": "addon_loop_plan_monthly", "label": "Creatine plan ID — Monthly (50% off)", "info": "Loop selling plan for the creatine add-on when the monthly bundle is selected. Leave blank for one-time." },
+    { "type": "text", "id": "addon_loop_plan_quarterly", "label": "Creatine plan ID — Every 3 months (free 1st, included with bundle)", "info": "Loop selling plan for the free 1st creatine that ships with the quarterly bundle. Leave blank for one-time." },
+    { "type": "text", "id": "addon_loop_plan_quarterly_50off", "label": "Creatine plan ID — Every 3 months (optional 2nd, 50% off)", "info": "Loop selling plan used when the customer toggles ON an extra creatine while on the quarterly bundle. Leave blank for one-time." },
 
     { "type": "header", "content": "Order Overview" },
     { "type": "text", "id": "summary_label", "label": "Heading", "default": "Your Order" },
