@@ -145,6 +145,9 @@
           {%- assign focal_css = focal | replace: '-', ' ' -%}
           {%- assign tone = block.settings.text_color -%}
           {%- assign btn_style = block.settings.button_style | default: 'outline' -%}
+          {%- assign bg_class = root | append: '-card__bg' -%}
+          {%- assign bg_style = 'object-position: ' | append: focal_css | append: ';' -%}
+          {%- assign bg_alt = block.settings.heading | default: '' -%}
           <div
             class="{{ root }}-card {{ root }}-card--{{ tone }}"
             style="--{{ root }}-min-h: {{ block.settings.min_height_desktop }}px; --{{ root }}-min-h-m: {{ block.settings.min_height_mobile }}px;"
@@ -152,11 +155,11 @@
           >
             {%- if block.settings.background_image != blank -%}
               {{ block.settings.background_image | image_url: width: 1600 | image_tag:
-                class: root | append: '-card__bg',
+                class: bg_class,
                 loading: 'lazy',
                 widths: '500,800,1100,1400,1800',
-                style: 'object-position: ' | append: focal_css | append: ';',
-                alt: block.settings.heading | default: ''
+                style: bg_style,
+                alt: bg_alt
               }}
             {%- endif -%}
 

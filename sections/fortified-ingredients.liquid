@@ -213,10 +213,11 @@
           {%- else -%}
             {%- assign card_tag = 'div' -%}
           {%- endif -%}
+          {%- assign img_alt = block.settings.name | default: '' -%}
           <{{ card_tag }} class="{{ root }}-card" {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} {{ block.shopify_attributes }}>
             <div class="{{ root }}-card__media">
               {%- if block.settings.image != blank -%}
-                {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '300,500,700,900', alt: block.settings.name | default: '' }}
+                {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '300,500,700,900', alt: img_alt }}
               {%- endif -%}
             </div>
             <div class="{{ root }}-card__body">

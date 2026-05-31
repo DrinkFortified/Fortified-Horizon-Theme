@@ -13,6 +13,8 @@
   assign btn_style = section.settings.button_style | default: 'outline'
   assign tone = section.settings.text_color | default: 'light'
   assign image_position = section.settings.image_position | default: 'right'
+  assign bg_class = root | append: '__bg'
+  assign img_alt  = section.settings.heading | default: ''
   assign focal = section.settings.foreground_image_focal | default: 'center'
   assign focal_css = focal | replace: '-', ' '
   assign overlay_dec = section.settings.background_overlay | divided_by: 100.0
@@ -189,7 +191,7 @@
 >
   {%- if section.settings.background_image != blank -%}
     {{ section.settings.background_image | image_url: width: 2000 | image_tag:
-      class: root | append: '__bg',
+      class: bg_class,
       loading: 'lazy',
       widths: '600,1000,1400,1800,2200',
       alt: ''
@@ -239,7 +241,7 @@
           {{ section.settings.foreground_image | image_url: width: 1200 | image_tag:
             loading: 'lazy',
             widths: '400,700,1000,1300',
-            alt: section.settings.heading | default: ''
+            alt: img_alt
           }}
         {%- endif -%}
       </div>

@@ -263,11 +263,13 @@
 
       <div class="{{ root }}__grid" role="table" aria-label="Comparison table">
 
+        {%- assign logo_class = root | append: '__logo' -%}
+        {%- assign comp_logo_class = root | append: '__comp-logo' -%}
         {%- comment -%} Header row {%- endcomment -%}
         <div class="{{ root }}__cell {{ root }}__cell--head {{ root }}__cell--label" role="columnheader"></div>
         <div class="{{ root }}__cell {{ root }}__cell--head {{ root }}__cell--fhead" role="columnheader">
           {%- if section.settings.fortified_logo != blank -%}
-            {{ section.settings.fortified_logo | image_url: width: 200 | image_tag: class: root | append: '__logo', loading: 'lazy', widths: '100,200,300', alt: section.settings.fortified_label }}
+            {{ section.settings.fortified_logo | image_url: width: 200 | image_tag: class: logo_class, loading: 'lazy', widths: '100,200,300', alt: section.settings.fortified_label }}
           {%- else -%}
             {{ section.settings.fortified_label }}
           {%- endif -%}
@@ -275,7 +277,7 @@
         {%- for c in competitors -%}
           <div class="{{ root }}__cell {{ root }}__cell--head" role="columnheader" {% if c.settings.highlight_color != blank %}style="color: {{ c.settings.highlight_color }};"{% endif %}>
             {%- if c.settings.logo != blank -%}
-              {{ c.settings.logo | image_url: width: 200 | image_tag: class: root | append: '__comp-logo', loading: 'lazy', widths: '100,200,300', alt: c.settings.name }}
+              {{ c.settings.logo | image_url: width: 200 | image_tag: class: comp_logo_class, loading: 'lazy', widths: '100,200,300', alt: c.settings.name }}
             {%- else -%}
               {{ c.settings.name }}
             {%- endif -%}
