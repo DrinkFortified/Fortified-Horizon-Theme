@@ -1,161 +1,46 @@
 {% comment %}
   Section: FTD - Two-Column CTA
-  Category: Fortified Sections
-  ----------------------------------------------------------------------
-  Two side-by-side image cards on desktop, stacked on mobile.
-  Each card has background image, optional overlay, eyebrow, heading,
-  body, and a button. Configurable per-block.
+  ---------------------------------------------------------------------------
+  Two cards side-by-side on desktop, stacked on mobile.
+
+  Supports two card variants — drop either (or both) into the section:
+    1. cta_card        — full background image with text overlaid.
+    2. cta_card_split  — text panel + side image (image stacks below
+                         text on mobile).
 {% endcomment %}
 
 {%- liquid
-  assign sid  = section.id | replace: '_', '' | downcase
-  assign root = 'ftcta-' | append: sid
-  assign gap  = section.settings.column_gap
+  assign max_w = section.settings.content_max_width
+  assign gap = section.settings.column_gap
   assign radius = section.settings.card_radius
 -%}
 
-<style>
-  #{{ root }} {
-    --{{ root }}-max-w: {{ section.settings.content_max_width }}px;
-  }
-  #{{ root }} .{{ root }}__inner {
-    max-width: var(--{{ root }}-max-w);
-    margin: 0 auto;
-  }
-  #{{ root }} .{{ root }}__grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: {{ gap }}px;
-  }
-  #{{ root }} .{{ root }}-card {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    border-radius: {{ radius }}px;
-    min-height: var(--{{ root }}-min-h, 420px);
-    background-color: #111;
-    isolation: isolate;
-    text-decoration: none;
-  }
-  #{{ root }} .{{ root }}-card__bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-    display: block;
-  }
-  #{{ root }} .{{ root }}-card__overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-  }
-  #{{ root }} .{{ root }}-card__content {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: clamp(20px, 4vw, 44px);
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-  }
-  #{{ root }} .{{ root }}-card--light { color: #FFFFFF; }
-  #{{ root }} .{{ root }}-card--dark  { color: #0E0E0E; }
-
-  #{{ root }} .{{ root }}-card__eyebrow {
-    margin: 0;
-    font-family: var(--font-heading--family, inherit);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-  }
-  #{{ root }} .{{ root }}-card__heading {
-    margin: 0;
-    font-family: var(--font-heading--family, inherit);
-    font-size: clamp(26px, 3.4vw, 44px);
-    font-weight: 800;
-    line-height: 1.04;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-  }
-  #{{ root }} .{{ root }}-card__body {
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.5;
-    opacity: 0.82;
-    max-width: 460px;
-  }
-
-  #{{ root }} .{{ root }}-card__btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-heading--family, inherit);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 13px 30px;
-    border-radius: 4px;
-    margin-top: 6px;
-    border: 2px solid currentColor;
-    transition: background 0.18s, color 0.18s, opacity 0.18s;
-    cursor: pointer;
-  }
-  #{{ root }} .{{ root }}-card--light .{{ root }}-card__btn { color: #FFFFFF; }
-  #{{ root }} .{{ root }}-card--dark  .{{ root }}-card__btn { color: #0E0E0E; }
-  #{{ root }} .{{ root }}-card__btn--outline { background: transparent; }
-  #{{ root }} .{{ root }}-card--light .{{ root }}-card__btn--outline:hover { background: #FFFFFF; color: #0E0E0E; }
-  #{{ root }} .{{ root }}-card--dark  .{{ root }}-card__btn--outline:hover { background: #0E0E0E; color: #FFFFFF; }
-  #{{ root }} .{{ root }}-card--light .{{ root }}-card__btn--filled { background: #FFFFFF; color: #0E0E0E; }
-  #{{ root }} .{{ root }}-card--dark  .{{ root }}-card__btn--filled { background: #0E0E0E; color: #FFFFFF; }
-  #{{ root }} .{{ root }}-card__btn--filled:hover { opacity: 0.88; }
-
-  @media (max-width: 749px) {
-    #{{ root }} .{{ root }}__grid {
-      grid-template-columns: minmax(0, 1fr);
-      gap: {{ gap | at_least: 12 }}px;
-    }
-    #{{ root }} .{{ root }}-card { min-height: var(--{{ root }}-min-h-m, 340px); }
-  }
-
-  [hidden]{display:none!important}
-  {{ section.settings.custom_css }}
-</style>
-
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
-  id="{{ root }}"
-  class="{{ root }}__section section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
-  style="{% render 'spacing-padding', settings: section.settings %}"
+  class="ftcta section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %} --ftcta-max-w: {{ max_w }}px; --ftcta-gap: {{ gap }}px; --ftcta-radius: {{ radius }}px;"
   {{ section.shopify_attributes }}
 >
-  <div class="{{ root }}__inner">
-    <div class="{{ root }}__grid">
+  <div class="ftcta__inner">
+    <div class="ftcta__grid">
       {%- for block in section.blocks -%}
+
+        {%- comment -%} ─────── Variant 1: full background image ─────── {%- endcomment -%}
         {%- if block.type == 'cta_card' -%}
           {%- assign focal = block.settings.background_image_focal | default: 'center' -%}
           {%- assign focal_css = focal | replace: '-', ' ' -%}
-          {%- assign tone = block.settings.text_color -%}
+          {%- assign tone = block.settings.text_color | default: 'light' -%}
           {%- assign btn_style = block.settings.button_style | default: 'outline' -%}
-          {%- assign bg_class = root | append: '-card__bg' -%}
           {%- assign bg_style = 'object-position: ' | append: focal_css | append: ';' -%}
           {%- assign bg_alt = block.settings.heading | default: '' -%}
+          {%- assign opacity_dec = block.settings.overlay_opacity | divided_by: 100.0 -%}
           <div
-            class="{{ root }}-card {{ root }}-card--{{ tone }}"
-            style="--{{ root }}-min-h: {{ block.settings.min_height_desktop }}px; --{{ root }}-min-h-m: {{ block.settings.min_height_mobile }}px;"
+            class="ftcta-card ftcta-card--{{ tone }}"
+            style="--ftcta-min-h: {{ block.settings.min_height_desktop }}px; --ftcta-min-h-m: {{ block.settings.min_height_mobile }}px;"
             {{ block.shopify_attributes }}
           >
             {%- if block.settings.background_image != blank -%}
               {{ block.settings.background_image | image_url: width: 1600 | image_tag:
-                class: bg_class,
+                class: 'ftcta-card__bg',
                 loading: 'lazy',
                 widths: '500,800,1100,1400,1800',
                 style: bg_style,
@@ -164,25 +49,68 @@
             {%- endif -%}
 
             {%- if block.settings.overlay_opacity > 0 -%}
-              {%- assign opacity_dec = block.settings.overlay_opacity | divided_by: 100.0 -%}
-              <div class="{{ root }}-card__overlay" style="background-color: {{ block.settings.overlay_color }}; opacity: {{ opacity_dec }};" aria-hidden="true"></div>
+              <div class="ftcta-card__overlay" style="background-color: {{ block.settings.overlay_color }}; opacity: {{ opacity_dec }};" aria-hidden="true"></div>
             {%- endif -%}
 
-            <div class="{{ root }}-card__content">
+            <div class="ftcta-card__content">
               {%- if block.settings.eyebrow != blank -%}
-                <p class="{{ root }}-card__eyebrow" style="color: {{ block.settings.eyebrow_color }};">{{ block.settings.eyebrow }}</p>
+                <p class="ftcta-card__eyebrow" style="color: {{ block.settings.eyebrow_color }};">{{ block.settings.eyebrow }}</p>
               {%- endif -%}
               {%- if block.settings.heading != blank -%}
-                <h3 class="{{ root }}-card__heading">{{ block.settings.heading | newline_to_br }}</h3>
+                <h3 class="ftcta-card__heading">{{ block.settings.heading | newline_to_br }}</h3>
               {%- endif -%}
               {%- if block.settings.body != blank -%}
-                <p class="{{ root }}-card__body">{{ block.settings.body }}</p>
+                <p class="ftcta-card__body">{{ block.settings.body }}</p>
               {%- endif -%}
               {%- if block.settings.button_label != blank -%}
                 <a
-                  class="{{ root }}-card__btn {{ root }}-card__btn--{{ btn_style }}"
+                  class="ftcta-card__btn ftcta-card__btn--{{ btn_style }}"
                   {% if block.settings.button_link != blank %}href="{{ block.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
                 >{{ block.settings.button_label }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+
+        {%- comment -%} ─────── Variant 2: text + side image ─────── {%- endcomment -%}
+        {%- elsif block.type == 'cta_card_split' -%}
+          {%- assign tone = block.settings.text_color | default: 'dark' -%}
+          {%- assign btn_style = block.settings.button_style | default: 'outline' -%}
+          {%- assign img_side = block.settings.image_position | default: 'right' -%}
+          {%- assign focal = block.settings.image_focal | default: 'center' -%}
+          {%- assign focal_css = focal | replace: '-', ' ' -%}
+          {%- assign img_style = 'object-position: ' | append: focal_css | append: ';' -%}
+          {%- assign img_alt = block.settings.heading | default: '' -%}
+          <div
+            class="ftcta-split ftcta-split--text-{{ tone }} ftcta-split--image-{{ img_side }}"
+            style="background-color: {{ block.settings.background_color }}; --ftcta-min-h: {{ block.settings.min_height_desktop }}px; --ftcta-min-h-m: {{ block.settings.min_height_mobile }}px;"
+            {{ block.shopify_attributes }}
+          >
+            <div class="ftcta-split__content">
+              {%- if block.settings.eyebrow != blank -%}
+                <p class="ftcta-split__eyebrow" style="color: {{ block.settings.eyebrow_color }};">{{ block.settings.eyebrow }}</p>
+              {%- endif -%}
+              {%- if block.settings.heading != blank -%}
+                <h3 class="ftcta-split__heading">{{ block.settings.heading | newline_to_br }}</h3>
+              {%- endif -%}
+              {%- if block.settings.body != blank -%}
+                <p class="ftcta-split__body">{{ block.settings.body }}</p>
+              {%- endif -%}
+              {%- if block.settings.button_label != blank -%}
+                <a
+                  class="ftcta-split__btn ftcta-split__btn--{{ btn_style }}"
+                  {% if block.settings.button_link != blank %}href="{{ block.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
+                >{{ block.settings.button_label }}</a>
+              {%- endif -%}
+            </div>
+            <div class="ftcta-split__media">
+              {%- if block.settings.side_image != blank -%}
+                {{ block.settings.side_image | image_url: width: 1200 | image_tag:
+                  class: 'ftcta-split__img',
+                  loading: 'lazy',
+                  widths: '400,700,1000,1300',
+                  style: img_style,
+                  alt: img_alt
+                }}
               {%- endif -%}
             </div>
           </div>
@@ -191,6 +119,112 @@
     </div>
   </div>
 </section>
+
+{% stylesheet %}
+  .ftcta { background: var(--color-background); color: var(--color-foreground); }
+  .ftcta *, .ftcta *::before, .ftcta *::after { box-sizing: border-box; }
+  .ftcta__inner { width: 100%; max-width: var(--ftcta-max-w, 1240px); margin: 0 auto; padding-inline: 16px; }
+  .ftcta__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ftcta-gap, 0px); }
+
+  /* ---- Variant 1: full background image card ---- */
+  .ftcta-card {
+    position: relative; display: block; overflow: hidden;
+    border-radius: var(--ftcta-radius, 0);
+    min-height: var(--ftcta-min-h, 420px);
+    background-color: #111; isolation: isolate;
+  }
+  .ftcta-card__bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 0; display: block;
+  }
+  .ftcta-card__overlay { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .ftcta-card__content {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+    padding: clamp(20px, 4vw, 44px);
+    display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
+  }
+  .ftcta-card--light { color: #FFFFFF; }
+  .ftcta-card--dark  { color: #0E0E0E; }
+  .ftcta-card__eyebrow {
+    margin: 0; font-family: var(--font-heading--family, inherit);
+    font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  }
+  .ftcta-card__heading {
+    margin: 0; font-family: var(--font-heading--family, inherit);
+    font-size: clamp(26px, 3.4vw, 44px); font-weight: 800; line-height: 1.04;
+    text-transform: uppercase; letter-spacing: -0.01em;
+  }
+  .ftcta-card__body { margin: 0; font-size: 15px; line-height: 1.5; opacity: 0.82; max-width: 460px; }
+
+  /* ---- Variant 2: text + side image card ---- */
+  .ftcta-split {
+    position: relative; overflow: hidden; isolation: isolate;
+    border-radius: var(--ftcta-radius, 0);
+    min-height: var(--ftcta-min-h, 380px);
+    display: grid; grid-template-columns: 1fr 1fr; align-items: stretch;
+  }
+  .ftcta-split--image-left  .ftcta-split__content { order: 2; }
+  .ftcta-split--image-left  .ftcta-split__media   { order: 1; }
+  .ftcta-split--image-right .ftcta-split__content { order: 1; }
+  .ftcta-split--image-right .ftcta-split__media   { order: 2; }
+  .ftcta-split__content {
+    padding: clamp(24px, 3.6vw, 56px);
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 14px;
+  }
+  .ftcta-split__media { position: relative; min-height: 100%; }
+  .ftcta-split__img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .ftcta-split--text-light { color: #FFFFFF; }
+  .ftcta-split--text-dark  { color: #0E0E0E; }
+  .ftcta-split__eyebrow {
+    margin: 0; font-family: var(--font-heading--family, inherit);
+    font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  }
+  .ftcta-split__heading {
+    margin: 0; font-family: var(--font-heading--family, inherit);
+    font-size: clamp(26px, 3.4vw, 44px); font-weight: 800; line-height: 1.04;
+    text-transform: uppercase; letter-spacing: -0.01em;
+  }
+  .ftcta-split__body { margin: 0; font-size: 15px; line-height: 1.5; opacity: 0.82; max-width: 460px; }
+
+  /* ---- Shared button styles (applies to both variants) ---- */
+  .ftcta-card__btn, .ftcta-split__btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    text-decoration: none; padding: 13px 30px; border-radius: 4px; margin-top: 6px;
+    border: 2px solid currentColor;
+    transition: background 0.18s, color 0.18s, opacity 0.18s; cursor: pointer;
+  }
+  .ftcta-card--light .ftcta-card__btn, .ftcta-split--text-light .ftcta-split__btn { color: #FFFFFF; }
+  .ftcta-card--dark  .ftcta-card__btn, .ftcta-split--text-dark  .ftcta-split__btn { color: #0E0E0E; }
+  .ftcta-card__btn--outline, .ftcta-split__btn--outline { background: transparent; }
+  .ftcta-card--light .ftcta-card__btn--outline:hover,
+  .ftcta-split--text-light .ftcta-split__btn--outline:hover { background: #FFFFFF; color: #0E0E0E; }
+  .ftcta-card--dark  .ftcta-card__btn--outline:hover,
+  .ftcta-split--text-dark  .ftcta-split__btn--outline:hover { background: #0E0E0E; color: #FFFFFF; }
+  .ftcta-card--light .ftcta-card__btn--filled,
+  .ftcta-split--text-light .ftcta-split__btn--filled { background: #FFFFFF; color: #0E0E0E; }
+  .ftcta-card--dark  .ftcta-card__btn--filled,
+  .ftcta-split--text-dark  .ftcta-split__btn--filled { background: #0E0E0E; color: #FFFFFF; }
+  .ftcta-card__btn--filled:hover, .ftcta-split__btn--filled:hover { opacity: 0.88; }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 749px) {
+    .ftcta__inner { padding-inline: 0; }
+    .ftcta__grid { grid-template-columns: minmax(0, 1fr); gap: var(--ftcta-gap, 0px); }
+    .ftcta-card { min-height: var(--ftcta-min-h-m, 340px); }
+    .ftcta-split {
+      grid-template-columns: minmax(0, 1fr);
+      min-height: var(--ftcta-min-h-m, 320px);
+    }
+    .ftcta-split__content { order: 1 !important; padding: 28px 20px 20px; }
+    .ftcta-split__media   { order: 2 !important; min-height: 240px; }
+    .ftcta-split__img     { position: absolute; inset: 0; }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
@@ -212,18 +246,19 @@
     { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 0 },
 
     { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section. Apply via the .ftcta scope." }
   ],
   "blocks": [
     {
       "type": "cta_card",
-      "name": "CTA Card",
+      "name": "CTA Card — Full image",
       "settings": [
+        { "type": "paragraph", "content": "Full background image with text overlaid in the bottom-left." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Become A Wholesaler" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration." },
-        { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore All Flavors" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Built For The Work" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "152mg of natural caffeine from real coffee beans. Not anhydrous. Not synthetic." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Energy" },
         { "type": "url", "id": "button_link", "label": "Button link" },
         { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline" }, { "value": "filled", "label": "Filled" } ] },
 
@@ -250,6 +285,43 @@
         { "type": "range", "id": "min_height_desktop", "label": "Min height (desktop)", "min": 280, "max": 700, "step": 10, "unit": "px", "default": 420 },
         { "type": "range", "id": "min_height_mobile", "label": "Min height (mobile)", "min": 240, "max": 520, "step": 10, "unit": "px", "default": 340 }
       ]
+    },
+    {
+      "type": "cta_card_split",
+      "name": "CTA Card — Text + side image",
+      "settings": [
+        { "type": "paragraph", "content": "Text panel + image side-by-side on desktop. Image stacks below text on mobile." },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Built For The Other 23 Hours" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Clean electrolytes, plus D3 and K2 most people are quietly running low on." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Everyday" },
+        { "type": "url", "id": "button_link", "label": "Button link" },
+        { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline" }, { "value": "filled", "label": "Filled" } ] },
+
+        { "type": "header", "content": "Image" },
+        { "type": "image_picker", "id": "side_image", "label": "Side image" },
+        { "type": "select", "id": "image_position", "label": "Image position (desktop)", "default": "right", "options": [ { "value": "left", "label": "Left of text" }, { "value": "right", "label": "Right of text" } ] },
+        { "type": "select", "id": "image_focal", "label": "Image focal point", "default": "center", "options": [
+          { "value": "top-left", "label": "Top left" },
+          { "value": "top", "label": "Top" },
+          { "value": "top-right", "label": "Top right" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" },
+          { "value": "bottom-left", "label": "Bottom left" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "bottom-right", "label": "Bottom right" }
+        ] },
+
+        { "type": "header", "content": "Background & text" },
+        { "type": "color", "id": "background_color", "label": "Card background", "default": "#F5F5F2" },
+        { "type": "select", "id": "text_color", "label": "Text color", "default": "dark", "options": [ { "value": "light", "label": "Light" }, { "value": "dark", "label": "Dark" } ] },
+
+        { "type": "header", "content": "Sizing" },
+        { "type": "range", "id": "min_height_desktop", "label": "Min height (desktop)", "min": 280, "max": 700, "step": 10, "unit": "px", "default": 420 },
+        { "type": "range", "id": "min_height_mobile", "label": "Min height (mobile)", "min": 240, "max": 520, "step": 10, "unit": "px", "default": 480 }
+      ]
     }
   ],
   "presets": [
@@ -257,8 +329,8 @@
       "name": "FTD - Two-Column CTA",
       "category": "Fortified Sections",
       "blocks": [
-        { "type": "cta_card", "settings": { "heading": "Become A Wholesaler", "button_label": "Explore All Flavors", "text_color": "light", "overlay_opacity": 35 } },
-        { "type": "cta_card", "settings": { "heading": "Become A Partner", "button_label": "Subscribe Now", "text_color": "dark", "overlay_opacity": 0 } }
+        { "type": "cta_card", "settings": { "heading": "Built For The Work", "body": "152mg natural caffeine from real coffee beans. Clean electrolytes.", "button_label": "Shop Energy", "text_color": "light", "overlay_opacity": 35 } },
+        { "type": "cta_card_split", "settings": { "heading": "Built For The Other 23 Hours", "body": "Clean electrolytes, plus D3 and K2 most people are running low on.", "button_label": "Shop Everyday", "text_color": "dark", "image_position": "right" } }
       ]
     }
   ]
