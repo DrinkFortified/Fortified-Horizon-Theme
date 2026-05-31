@@ -1,0 +1,263 @@
+{% comment %}
+  Section: FTD - Two-Column CTA
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Two side-by-side image cards on desktop, stacked on mobile.
+  Each card has background image, optional overlay, eyebrow, heading,
+  body, and a button. Configurable per-block.
+{% endcomment %}
+
+{%- liquid
+  assign sid  = section.id | replace: '_', '' | downcase
+  assign root = 'ftcta-' | append: sid
+  assign gap  = section.settings.column_gap
+  assign radius = section.settings.card_radius
+-%}
+
+<style>
+  #{{ root }} {
+    --{{ root }}-max-w: {{ section.settings.content_max_width }}px;
+  }
+  #{{ root }} .{{ root }}__inner {
+    max-width: var(--{{ root }}-max-w);
+    margin: 0 auto;
+  }
+  #{{ root }} .{{ root }}__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: {{ gap }}px;
+  }
+  #{{ root }} .{{ root }}-card {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: {{ radius }}px;
+    min-height: var(--{{ root }}-min-h, 420px);
+    background-color: #111;
+    isolation: isolate;
+    text-decoration: none;
+  }
+  #{{ root }} .{{ root }}-card__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    display: block;
+  }
+  #{{ root }} .{{ root }}-card__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  #{{ root }} .{{ root }}-card__content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: clamp(20px, 4vw, 44px);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  #{{ root }} .{{ root }}-card--light { color: #FFFFFF; }
+  #{{ root }} .{{ root }}-card--dark  { color: #0E0E0E; }
+
+  #{{ root }} .{{ root }}-card__eyebrow {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  #{{ root }} .{{ root }}-card__heading {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: clamp(26px, 3.4vw, 44px);
+    font-weight: 800;
+    line-height: 1.04;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  #{{ root }} .{{ root }}-card__body {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    opacity: 0.82;
+    max-width: 460px;
+  }
+
+  #{{ root }} .{{ root }}-card__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 13px 30px;
+    border-radius: 4px;
+    margin-top: 6px;
+    border: 2px solid currentColor;
+    transition: background 0.18s, color 0.18s, opacity 0.18s;
+    cursor: pointer;
+  }
+  #{{ root }} .{{ root }}-card--light .{{ root }}-card__btn { color: #FFFFFF; }
+  #{{ root }} .{{ root }}-card--dark  .{{ root }}-card__btn { color: #0E0E0E; }
+  #{{ root }} .{{ root }}-card__btn--outline { background: transparent; }
+  #{{ root }} .{{ root }}-card--light .{{ root }}-card__btn--outline:hover { background: #FFFFFF; color: #0E0E0E; }
+  #{{ root }} .{{ root }}-card--dark  .{{ root }}-card__btn--outline:hover { background: #0E0E0E; color: #FFFFFF; }
+  #{{ root }} .{{ root }}-card--light .{{ root }}-card__btn--filled { background: #FFFFFF; color: #0E0E0E; }
+  #{{ root }} .{{ root }}-card--dark  .{{ root }}-card__btn--filled { background: #0E0E0E; color: #FFFFFF; }
+  #{{ root }} .{{ root }}-card__btn--filled:hover { opacity: 0.88; }
+
+  @media (max-width: 749px) {
+    #{{ root }} .{{ root }}__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: {{ gap | at_least: 12 }}px;
+    }
+    #{{ root }} .{{ root }}-card { min-height: var(--{{ root }}-min-h-m, 340px); }
+  }
+
+  [hidden]{display:none!important}
+  {{ section.settings.custom_css }}
+</style>
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="{{ root }}"
+  class="{{ root }}__section section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
+  <div class="{{ root }}__inner">
+    <div class="{{ root }}__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'cta_card' -%}
+          {%- assign focal = block.settings.background_image_focal | default: 'center' -%}
+          {%- assign focal_css = focal | replace: '-', ' ' -%}
+          {%- assign tone = block.settings.text_color -%}
+          {%- assign btn_style = block.settings.button_style | default: 'outline' -%}
+          <div
+            class="{{ root }}-card {{ root }}-card--{{ tone }}"
+            style="--{{ root }}-min-h: {{ block.settings.min_height_desktop }}px; --{{ root }}-min-h-m: {{ block.settings.min_height_mobile }}px;"
+            {{ block.shopify_attributes }}
+          >
+            {%- if block.settings.background_image != blank -%}
+              {{ block.settings.background_image | image_url: width: 1600 | image_tag:
+                class: root | append: '-card__bg',
+                loading: 'lazy',
+                widths: '500,800,1100,1400,1800',
+                style: 'object-position: ' | append: focal_css | append: ';',
+                alt: block.settings.heading | default: ''
+              }}
+            {%- endif -%}
+
+            {%- if block.settings.overlay_opacity > 0 -%}
+              {%- assign opacity_dec = block.settings.overlay_opacity | divided_by: 100.0 -%}
+              <div class="{{ root }}-card__overlay" style="background-color: {{ block.settings.overlay_color }}; opacity: {{ opacity_dec }};" aria-hidden="true"></div>
+            {%- endif -%}
+
+            <div class="{{ root }}-card__content">
+              {%- if block.settings.eyebrow != blank -%}
+                <p class="{{ root }}-card__eyebrow" style="color: {{ block.settings.eyebrow_color }};">{{ block.settings.eyebrow }}</p>
+              {%- endif -%}
+              {%- if block.settings.heading != blank -%}
+                <h3 class="{{ root }}-card__heading">{{ block.settings.heading | newline_to_br }}</h3>
+              {%- endif -%}
+              {%- if block.settings.body != blank -%}
+                <p class="{{ root }}-card__body">{{ block.settings.body }}</p>
+              {%- endif -%}
+              {%- if block.settings.button_label != blank -%}
+                <a
+                  class="{{ root }}-card__btn {{ root }}-card__btn--{{ btn_style }}"
+                  {% if block.settings.button_link != blank %}href="{{ block.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
+                >{{ block.settings.button_label }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FTD - Two-Column CTA",
+  "tag": "section",
+  "class": "ftd-two-column-cta-section",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "column_gap", "label": "Column gap", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 0 },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 120, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 120, "step": 1, "unit": "px", "default": 0 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "cta_card",
+      "name": "CTA Card",
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Become A Wholesaler" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore All Flavors" },
+        { "type": "url", "id": "button_link", "label": "Button link" },
+        { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline" }, { "value": "filled", "label": "Filled" } ] },
+
+        { "type": "header", "content": "Background" },
+        { "type": "image_picker", "id": "background_image", "label": "Background image" },
+        { "type": "select", "id": "background_image_focal", "label": "Image focal point", "default": "center", "options": [
+          { "value": "top-left", "label": "Top left" },
+          { "value": "top", "label": "Top" },
+          { "value": "top-right", "label": "Top right" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" },
+          { "value": "bottom-left", "label": "Bottom left" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "bottom-right", "label": "Bottom right" }
+        ] },
+        { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
+        { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 0 },
+
+        { "type": "header", "content": "Text" },
+        { "type": "select", "id": "text_color", "label": "Text color", "default": "light", "options": [ { "value": "light", "label": "Light" }, { "value": "dark", "label": "Dark" } ] },
+
+        { "type": "header", "content": "Sizing" },
+        { "type": "range", "id": "min_height_desktop", "label": "Min height (desktop)", "min": 280, "max": 700, "step": 10, "unit": "px", "default": 420 },
+        { "type": "range", "id": "min_height_mobile", "label": "Min height (mobile)", "min": 240, "max": 520, "step": 10, "unit": "px", "default": 340 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FTD - Two-Column CTA",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "cta_card", "settings": { "heading": "Become A Wholesaler", "button_label": "Explore All Flavors", "text_color": "light", "overlay_opacity": 35 } },
+        { "type": "cta_card", "settings": { "heading": "Become A Partner", "button_label": "Subscribe Now", "text_color": "dark", "overlay_opacity": 0 } }
+      ]
+    }
+  ]
+}
+{% endschema %}
