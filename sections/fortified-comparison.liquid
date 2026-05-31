@@ -1,0 +1,445 @@
+{% comment %}
+  Section: FTD - Comparison Table
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Comparison grid of Fortified vs N competitor brands. Feature rows are
+  blocks; competitor columns are blocks. The Fortified column is built
+  from section settings and the fortified_value of each feature_row.
+
+  Desktop: full table grid with Fortified column emphasized.
+  Mobile : feature labels sticky on the left, columns scroll horizontally
+           with scroll-snap; Fortified column comes first.
+{% endcomment %}
+
+{%- liquid
+  assign sid  = section.id | replace: '_', '' | downcase
+  assign root = 'ftcmp-' | append: sid
+
+  assign feature_rows = section.blocks | where: 'type', 'feature_row'
+  assign competitors  = section.blocks | where: 'type', 'competitor'
+
+  assign col_count = competitors.size | plus: 2
+  assign cta_style = section.settings.cta_style | default: 'outline'
+-%}
+
+<style>
+  #{{ root }} {
+    --{{ root }}-max-w: {{ section.settings.content_max_width }}px;
+    --{{ root }}-accent: {{ section.settings.eyebrow_color }};
+    --{{ root }}-fcol-bg: {{ section.settings.fortified_column_color }};
+    --{{ root }}-fcol-fg: {{ section.settings.fortified_text_color }};
+    --{{ root }}-check: {{ section.settings.check_color }};
+    --{{ root }}-cross: {{ section.settings.cross_color }};
+    --{{ root }}-radius: {{ section.settings.table_radius }}px;
+  }
+  #{{ root }} .{{ root }}__inner {
+    max-width: var(--{{ root }}-max-w);
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  #{{ root }} .{{ root }}__head {
+    text-align: center;
+    margin: 0 auto 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    max-width: 720px;
+  }
+  #{{ root }} .{{ root }}__eyebrow {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--{{ root }}-accent);
+  }
+  #{{ root }} .{{ root }}__heading {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: clamp(28px, 4.5vw, 52px);
+    font-weight: 800;
+    line-height: 1.04;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  #{{ root }} .{{ root }}__sub {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    opacity: 0.78;
+  }
+
+  /* Wrap holds the scroll container + the swipe hint */
+  #{{ root }} .{{ root }}__wrap { position: relative; }
+
+  /* Desktop / default: CSS grid table */
+  #{{ root }} .{{ root }}__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1.4fr repeat({{ competitors.size }}, minmax(0, 1fr));
+    border-radius: var(--{{ root }}-radius);
+    overflow: hidden;
+    background: var(--color-background, #FFFFFF);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+  }
+  #{{ root }} .{{ root }}__cell {
+    padding: 18px 18px;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    font-size: 15px;
+    font-weight: 600;
+  }
+  #{{ root }} .{{ root }}__cell--label {
+    justify-content: flex-start;
+    text-align: left;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  #{{ root }} .{{ root }}__cell--head {
+    min-height: 96px;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.03);
+  }
+  #{{ root }} .{{ root }}__cell--fortified {
+    background: var(--{{ root }}-fcol-bg);
+    color: var(--{{ root }}-fcol-fg);
+    border-bottom-color: rgba(255,255,255,0.08);
+  }
+  #{{ root }} .{{ root }}__cell--fhead {
+    background: var(--{{ root }}-fcol-bg);
+    color: var(--{{ root }}-fcol-fg);
+    min-height: 120px;
+  }
+  #{{ root }} .{{ root }}__grid > .{{ root }}__cell:nth-last-child(-n+{{ col_count }}) {
+    border-bottom: none;
+  }
+
+  #{{ root }} .{{ root }}__logo {
+    max-height: 48px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+  }
+  #{{ root }} .{{ root }}__comp-logo { max-height: 38px; }
+
+  /* Icon visuals */
+  #{{ root }} .{{ root }}__icon {
+    width: 28px;
+    height: 28px;
+    display: inline-block;
+  }
+  #{{ root }} .{{ root }}__check-circle {
+    background: var(--{{ root }}-check);
+    color: var(--{{ root }}-fcol-bg);
+    border-radius: 999px;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #{{ root }} .{{ root }}__cross-circle {
+    color: var(--{{ root }}-cross);
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #{{ root }} .{{ root }}__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 44px;
+  }
+  #{{ root }} .{{ root }}__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 40px;
+    border-radius: 999px;
+    border: 2px solid var(--color-foreground, #0E0E0E);
+    cursor: pointer;
+    transition: opacity 0.18s, background 0.18s, color 0.18s;
+  }
+  #{{ root }} .{{ root }}__cta--filled  { background: var(--color-foreground, #0E0E0E); color: var(--color-background, #FFFFFF); }
+  #{{ root }} .{{ root }}__cta--filled:hover { opacity: 0.88; }
+  #{{ root }} .{{ root }}__cta--outline { background: transparent; color: var(--color-foreground, #0E0E0E); }
+  #{{ root }} .{{ root }}__cta--outline:hover { background: var(--color-foreground, #0E0E0E); color: var(--color-background, #FFFFFF); }
+
+  /* Mobile hint */
+  #{{ root }} .{{ root }}__hint {
+    position: absolute;
+    right: 16px;
+    bottom: -34px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    transition: opacity 0.25s;
+    pointer-events: none;
+    display: none;
+  }
+  #{{ root }} .{{ root }}__wrap.is-scrolled .{{ root }}__hint { opacity: 0; }
+
+  @media (max-width: 749px) {
+    #{{ root }} .{{ root }}__grid {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 70%;
+      grid-template-columns: 38% repeat({{ col_count | minus: 1 }}, 70%);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      box-shadow: none;
+      border-radius: 0;
+      -webkit-overflow-scrolling: touch;
+    }
+    #{{ root }} .{{ root }}__grid::-webkit-scrollbar { display: none; }
+    #{{ root }} .{{ root }}__col {
+      display: contents;
+    }
+    #{{ root }} .{{ root }}__cell {
+      scroll-snap-align: start;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      padding: 14px 12px;
+      font-size: 14px;
+    }
+    #{{ root }} .{{ root }}__cell--label {
+      position: sticky;
+      left: 0;
+      background: var(--color-background, #FFFFFF);
+      z-index: 2;
+      box-shadow: 4px 0 8px rgba(0,0,0,0.04);
+    }
+    #{{ root }} .{{ root }}__cell--head { min-height: 88px; }
+    #{{ root }} .{{ root }}__cell--fhead { min-height: 100px; }
+    #{{ root }} .{{ root }}__hint { display: block; }
+  }
+
+  [hidden]{display:none!important}
+  {{ section.settings.custom_css }}
+</style>
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="{{ root }}"
+  class="{{ root }}__section section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
+  <div class="{{ root }}__inner">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="{{ root }}__head">
+        {%- if section.settings.eyebrow != blank -%}<p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{{ section.settings.heading | newline_to_br }}</h2>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}<p class="{{ root }}__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="{{ root }}__wrap" data-comparison>
+
+      <div class="{{ root }}__grid" role="table" aria-label="Comparison table">
+
+        {%- comment -%} Header row {%- endcomment -%}
+        <div class="{{ root }}__cell {{ root }}__cell--head {{ root }}__cell--label" role="columnheader"></div>
+        <div class="{{ root }}__cell {{ root }}__cell--head {{ root }}__cell--fhead" role="columnheader">
+          {%- if section.settings.fortified_logo != blank -%}
+            {{ section.settings.fortified_logo | image_url: width: 200 | image_tag: class: root | append: '__logo', loading: 'lazy', widths: '100,200,300', alt: section.settings.fortified_label }}
+          {%- else -%}
+            {{ section.settings.fortified_label }}
+          {%- endif -%}
+        </div>
+        {%- for c in competitors -%}
+          <div class="{{ root }}__cell {{ root }}__cell--head" role="columnheader" {% if c.settings.highlight_color != blank %}style="color: {{ c.settings.highlight_color }};"{% endif %}>
+            {%- if c.settings.logo != blank -%}
+              {{ c.settings.logo | image_url: width: 200 | image_tag: class: root | append: '__comp-logo', loading: 'lazy', widths: '100,200,300', alt: c.settings.name }}
+            {%- else -%}
+              {{ c.settings.name }}
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+
+        {%- comment -%} Feature rows {%- endcomment -%}
+        {%- for row in feature_rows -%}
+          {%- assign row_index = forloop.index0 -%}
+
+          <div class="{{ root }}__cell {{ root }}__cell--label" role="rowheader">{{ row.settings.label }}</div>
+
+          {%- comment -%} Fortified cell {%- endcomment -%}
+          <div class="{{ root }}__cell {{ root }}__cell--fortified" role="cell">
+            {%- case row.settings.icon -%}
+              {%- when 'check' -%}
+                <span class="{{ root }}__check-circle" aria-label="Yes">
+                  <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 8.5 6.5 12 13 4.5"/></svg>
+                </span>
+              {%- when 'cross' -%}
+                <span class="{{ root }}__cross-circle" aria-label="No">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+                </span>
+              {%- else -%}
+                <span>{{ row.settings.fortified_value }}</span>
+            {%- endcase -%}
+          </div>
+
+          {%- comment -%} Competitor cells: pull index-th line from each competitor's values {%- endcomment -%}
+          {%- for c in competitors -%}
+            {%- assign lines = c.settings.values | newline_to_br | split: '<br />' -%}
+            {%- assign raw = lines[row_index] | default: '' | strip -%}
+            {%- assign rawd = raw | downcase -%}
+            <div class="{{ root }}__cell" role="cell">
+              {%- if raw == '✓' or rawd == 'yes' or rawd == 'true' -%}
+                <span class="{{ root }}__check-circle" style="background: var(--{{ root }}-cross); color: var(--color-background, #FFFFFF);" aria-label="Yes">
+                  <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 8.5 6.5 12 13 4.5"/></svg>
+                </span>
+              {%- elsif raw == '✗' or raw == '⊘' or rawd == 'no' or rawd == 'false' -%}
+                <span class="{{ root }}__cross-circle" aria-label="No">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+                </span>
+              {%- else -%}
+                <span>{{ raw }}</span>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+
+        {%- endfor -%}
+
+      </div>
+
+      {%- if section.settings.mobile_swipe_hint != blank -%}
+        <p class="{{ root }}__hint" aria-hidden="true">{{ section.settings.mobile_swipe_hint }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.cta_label != blank -%}
+      <div class="{{ root }}__footer">
+        <a
+          class="{{ root }}__cta {{ root }}__cta--{{ cta_style }}"
+          {% if section.settings.cta_link != blank %}href="{{ section.settings.cta_link }}"{% else %}href="#" role="button"{% endif %}
+        >{{ section.settings.cta_label }}</a>
+      </div>
+    {%- endif -%}
+
+  </div>
+
+  <script>
+    (function(){
+      var wrap = document.querySelector('#{{ root }} [data-comparison]');
+      if (!wrap) return;
+      var grid = wrap.querySelector('.{{ root }}__grid');
+      if (!grid) return;
+      var onScroll = function(){
+        if (grid.scrollLeft > 8) {
+          wrap.classList.add('is-scrolled');
+          grid.removeEventListener('scroll', onScroll);
+        }
+      };
+      grid.addEventListener('scroll', onScroll, { passive: true });
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "FTD - Comparison Table",
+  "tag": "section",
+  "class": "ftd-comparison-section",
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Why We Beat The Rest Electrolytes" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading" },
+
+    { "type": "header", "content": "Fortified column" },
+    { "type": "text", "id": "fortified_label", "label": "Column label", "default": "Fortified" },
+    { "type": "image_picker", "id": "fortified_logo", "label": "Column logo", "info": "Optional. Replaces the label text." },
+    { "type": "color", "id": "fortified_column_color", "label": "Column background", "default": "#0A0A0A" },
+    { "type": "color", "id": "fortified_text_color", "label": "Column text", "default": "#FFFFFF" },
+    { "type": "color", "id": "check_color", "label": "Fortified check color", "default": "#FFFFFF" },
+    { "type": "color", "id": "cross_color", "label": "Competitor cross color", "default": "#9CA3AF" },
+
+    { "type": "header", "content": "CTA" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop Fortified Now" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    { "type": "select", "id": "cta_style", "label": "CTA style", "default": "outline", "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" } ] },
+
+    { "type": "header", "content": "Mobile" },
+    { "type": "text", "id": "mobile_swipe_hint", "label": "Swipe hint text", "default": "Swipe to compare →" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "table_radius", "label": "Table corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 1, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 1, "unit": "px", "default": 72 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "feature_row",
+      "name": "Feature row",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Feature label", "default": "Sodium per serving" },
+        { "type": "text", "id": "fortified_value", "label": "Fortified value", "default": "1000mg" },
+        { "type": "select", "id": "icon", "label": "Fortified cell as", "default": "text", "options": [ { "value": "text", "label": "Text value" }, { "value": "check", "label": "Check icon" }, { "value": "cross", "label": "Cross icon" } ] }
+      ]
+    },
+    {
+      "type": "competitor",
+      "name": "Competitor",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Liquid IV" },
+        { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Optional. Replaces the name." },
+        { "type": "textarea", "id": "values", "label": "Values", "info": "One value per line, in the same order as feature rows. Use ✓ / yes for a check, ✗ / no for a cross.", "default": "500mg\nno\nno\nno\nno\n$8.97" },
+        { "type": "color", "id": "highlight_color", "label": "Highlight color", "info": "Optional. Tints the header." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FTD - Comparison Table",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "feature_row", "settings": { "label": "Sodium per serving", "fortified_value": "1000mg", "icon": "text" } },
+        { "type": "feature_row", "settings": { "label": "Sugar-free", "icon": "check" } },
+        { "type": "feature_row", "settings": { "label": "Energy version (caffeine)", "icon": "check" } },
+        { "type": "feature_row", "settings": { "label": "Real fruit flavor", "icon": "check" } },
+        { "type": "feature_row", "settings": { "label": "Magnesium glycinate", "icon": "check" } },
+        { "type": "feature_row", "settings": { "label": "Trial price (3 sticks)", "fortified_value": "$1.99", "icon": "text" } },
+        { "type": "competitor", "settings": { "name": "Liquid IV", "values": "500mg\nno\nno\nno\nno\n$8.97" } },
+        { "type": "competitor", "settings": { "name": "LMNT", "values": "1000mg\nyes\nno\nno\nno\n$7.00" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
