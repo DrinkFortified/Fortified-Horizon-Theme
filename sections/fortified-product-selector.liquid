@@ -673,6 +673,8 @@
   var CR_DESC_M  = {{ section.settings.addon_desc | default: '' | json }};
   var CR_DESC_Q  = {{ section.settings.addon_desc_quarterly | default: '1st Creatine is free with your bundle. Add a second at 50% off.' | json }};
   var CR_PRICE   = parseFloat(({{ section.settings.addon_price_text | default: '' | json }} + '').replace(/[^0-9.]/g, '')) || 0;
+  var CR_PLAN_M  = {{ section.settings.addon_loop_plan_monthly | default: '' | json }};
+  var CR_PLAN_Q  = {{ section.settings.addon_loop_plan_quarterly | default: '' | json }};
   var PLAN_LABEL_M = {{ section.settings.monthly_label | default: '1 a Month' | json }};
   var PLAN_LABEL_Q = {{ section.settings.quarterly_label | default: '3 Every 3 Months' | json }};
 
@@ -978,7 +980,13 @@
     }
     if (addonInput && addonInput.checked && (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly')) {
       var av = parseInt(addonInput.dataset.addonVariant, 10);
-      if (av) items.push({ id: av, quantity: qty });
+      if (av) {
+        var addonItem = { id: av, quantity: qty };
+        var crPlanRaw = state.purchaseType === 'quarterly' ? CR_PLAN_Q : CR_PLAN_M;
+        var crPlanId  = parseInt(crPlanRaw, 10);
+        if (crPlanId) addonItem.selling_plan = crPlanId;
+        items.push(addonItem);
+      }
     }
     return items;
   }
@@ -1160,6 +1168,9 @@
     { "type": "text", "id": "quarterly_free_text", "label": "Quarterly \"free included\" line", "default": "Free Creatine + Sample Pack included with your bundle" },
     { "type": "text", "id": "addon_price_text", "label": "Add-on price (display)", "default": "$12.00" },
     { "type": "text", "id": "addon_was_text", "label": "Add-on compare-at (display)", "default": "$24.00" },
+    { "type": "paragraph", "content": "Subscribe the creatine add-on to the same Loop cadence as the chosen plan. In Shopify Admin open the creatine product, scroll to Purchase options, click a selling plan, and copy the ID from the end of the URL. Leave blank to add the creatine as a one-time purchase." },
+    { "type": "text", "id": "addon_loop_plan_monthly", "label": "Creatine monthly plan ID" },
+    { "type": "text", "id": "addon_loop_plan_quarterly", "label": "Creatine every 3 months plan ID" },
 
     { "type": "header", "content": "Order Overview" },
     { "type": "text", "id": "summary_label", "label": "Heading", "default": "Your Order" },
