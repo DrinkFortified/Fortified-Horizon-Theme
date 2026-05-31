@@ -204,37 +204,36 @@
   #{{ root }} .{{ root }}__wrap.is-scrolled .{{ root }}__hint { opacity: 0; }
 
   @media (max-width: 749px) {
+    #{{ root }} .{{ root }}__inner { padding-left: 12px; padding-right: 12px; }
+    /* Keep the same row-major grid, but give columns fixed widths so the
+       table overflows the viewport and scrolls horizontally. The label
+       column stays pinned on the left. */
     #{{ root }} .{{ root }}__grid {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: 70%;
-      grid-template-columns: 38% repeat({{ col_count | minus: 1 }}, 70%);
+      grid-template-columns: 128px 150px repeat({{ competitors.size }}, 130px);
       overflow-x: auto;
-      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       box-shadow: none;
       border-radius: 0;
-      -webkit-overflow-scrolling: touch;
     }
     #{{ root }} .{{ root }}__grid::-webkit-scrollbar { display: none; }
-    #{{ root }} .{{ root }}__col {
-      display: contents;
-    }
     #{{ root }} .{{ root }}__cell {
-      scroll-snap-align: start;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-      padding: 14px 12px;
-      font-size: 14px;
+      padding: 13px 10px;
+      font-size: 13px;
+      min-height: 54px;
     }
     #{{ root }} .{{ root }}__cell--label {
       position: sticky;
       left: 0;
       background: var(--color-background, #FFFFFF);
       z-index: 2;
-      box-shadow: 4px 0 8px rgba(0,0,0,0.04);
+      box-shadow: 6px 0 10px rgba(0,0,0,0.06);
+      font-size: 12px;
+      padding-left: 12px;
     }
-    #{{ root }} .{{ root }}__cell--head { min-height: 88px; }
-    #{{ root }} .{{ root }}__cell--fhead { min-height: 100px; }
+    /* The Fortified header is sticky-tinted so it keeps its dark fill while scrolling */
+    #{{ root }} .{{ root }}__cell--head { min-height: 84px; font-size: 14px; }
+    #{{ root }} .{{ root }}__cell--fhead { min-height: 96px; }
     #{{ root }} .{{ root }}__hint { display: block; }
   }
 
