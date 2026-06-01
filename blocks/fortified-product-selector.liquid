@@ -600,7 +600,7 @@
   var SHOW_SHIPPING    = {{ block.settings.show_shipping_bar | json }};
   var SHIP_THRESHOLD   = {{ block.settings.shipping_threshold_cents | default: 10000 | json }};
   var SHIP_TEXT_SUB      = {{ block.settings.shipping_text_subscription | default: 'Subscriptions ship free' | json }};
-  var SHIP_TEXT_PROGRESS = {{ block.settings.shipping_text_progress | default: 'Add {amount} more for FREE shipping' | json }};
+  var SHIP_TEXT_PROGRESS = {{ block.settings.shipping_text_progress | json }} || 'Add {amount} more for FREE shipping';
   var SHIP_TEXT_UNLOCKED = {{ block.settings.shipping_text_unlocked | default: 'FREE shipping unlocked' | json }};
 
   var root = document.getElementById('fe-' + SID);
