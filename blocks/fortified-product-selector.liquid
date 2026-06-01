@@ -598,7 +598,7 @@
 
   /* Free shipping bar */
   var SHOW_SHIPPING    = {{ block.settings.show_shipping_bar | json }};
-  var SHIP_THRESHOLD   = {{ block.settings.shipping_threshold_cents | default: 10000 | json }};
+  var SHIP_THRESHOLD   = ({{ block.settings.shipping_threshold_dollars | default: 100 | json }}) * 100;
   var SHIP_TEXT_SUB      = {{ block.settings.shipping_text_subscription | default: 'Subscriptions ship free' | json }};
   var SHIP_TEXT_PROGRESS = {{ block.settings.shipping_text_progress | json }} || 'Add {amount} more for FREE shipping';
   var SHIP_TEXT_UNLOCKED = {{ block.settings.shipping_text_unlocked | default: 'FREE shipping unlocked' | json }};
@@ -1135,7 +1135,7 @@
 
     { "type": "header", "content": "Free Shipping Bar" },
     { "type": "checkbox", "id": "show_shipping_bar", "label": "Show free shipping progress bar", "default": true },
-    { "type": "range", "id": "shipping_threshold_cents", "label": "Free shipping threshold (cents)", "min": 0, "max": 30000, "step": 500, "unit": "¢", "default": 10000 },
+    { "type": "range", "id": "shipping_threshold_dollars", "label": "Free shipping threshold", "min": 0, "max": 500, "step": 5, "unit": "$", "default": 100, "info": "Cart total in dollars required to unlock free shipping." },
     { "type": "text", "id": "shipping_text_subscription", "label": "Subscription text", "default": "Subscriptions ship free" },
     { "type": "text", "id": "shipping_text_progress", "label": "Progress text", "info": "Use {amount} for the remaining-to-threshold amount.", "default": "Add {amount} more for FREE shipping" },
     { "type": "text", "id": "shipping_text_unlocked", "label": "Unlocked text", "default": "FREE shipping unlocked" },
