@@ -17,13 +17,10 @@
   assign sid             = block.id
   assign function_blocks = block.blocks | where: "type", "_ftd-ps-function"
   assign benefit_blocks  = block.blocks | where: "type", "_ftd-ps-benefit"
-  assign cert_blocks     = block.blocks | where: "type", "_ftd-ps-cert"
-  assign gallery_blocks  = block.blocks | where: "type", "_ftd-ps-gallery"
 
   assign show_monthly    = block.settings.show_monthly
   assign show_quarterly  = block.settings.show_quarterly
   assign bundle_count    = block.settings.bundle_count | default: 3
-  assign img_position    = block.settings.image_position | default: 'center center'
   assign btn_style       = block.settings.button_style | default: 'filled'
   assign flavor_label    = block.settings.flavor_label | default: 'Choose Flavor:'
   assign coming_soon_txt = block.settings.coming_soon_text | default: 'Soon'
@@ -41,11 +38,6 @@
   assign quarterly_title_lines = block.settings.quarterly_title | newline_to_br | split: '<br />'
   assign monthly_list   = block.settings.monthly_checklist   | newline_to_br | split: '<br />'
   assign quarterly_list = block.settings.quarterly_checklist | newline_to_br | split: '<br />'
-
-  assign default_main = ''
-  if gallery_blocks.size > 0 and gallery_blocks.first.settings.image != blank
-    assign default_main = gallery_blocks.first.settings.image | image_url: width: 1200
-  endif
 -%}
 
 <div
@@ -56,92 +48,17 @@
     {% render 'spacing-padding', settings: block.settings %}
     --fe-btn-radius: {{ block.settings.button_radius }}px;
     --fe-card-radius: {{ block.settings.card_radius }}px;
-    --fe-img-padding: {{ block.settings.image_padding }}px;
-    --fe-img-position: {{ img_position }};
-    --fe-media-height-mobile: {{ block.settings.media_height_mobile }}px;
-    --fe-media-height-desktop: {{ block.settings.media_height_desktop }}px;
     --fe-selection-color: {{ block.settings.selection_color }};
     --fe-star-color: {{ block.settings.star_color }};
-    --fe-doctor-bg: {{ block.settings.doctor_badge_bg }};
     --fe-monthly-badge: {{ block.settings.monthly_badge_color }};
     --fe-quarterly-badge: {{ block.settings.quarterly_badge_color }};
-    --fe-panel-width: {{ block.settings.panel_width }}px;
     --fe-max-width: {{ block.settings.content_max_width }}px;
   "
   {{ block.shopify_attributes }}
 >
-  <div class="fe-container" data-layout="{{ block.settings.layout_direction | default: 'image-left' }}">
+  <div class="fe-container">
 
-    {%- comment %} ───────── LEFT: GALLERY ───────── {%- endcomment %}
-    <div class="fe-gallery" data-thumbpos="{{ block.settings.thumbnail_position | default: 'left' }}">
-      {%- if gallery_blocks.size > 1 and block.settings.show_thumbnails != false -%}
-        <div class="fe-thumbs" role="group" aria-label="Product images">
-          {%- for gb in gallery_blocks -%}
-            {%- if gb.settings.image != blank -%}
-              <button type="button" class="fe-thumb{% if forloop.first %} is-active{% endif %}"
-                data-full="{{ gb.settings.image | image_url: width: 1200 }}"
-                {{ gb.shopify_attributes }}>
-                <img src="{{ gb.settings.image | image_url: width: 160 }}" alt="" width="64" height="64" loading="lazy">
-              </button>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-
-      <div class="fe-gallery-col">
-        <div class="fe-gallery-main color-{{ block.settings.media_color_scheme }}">
-          {%- if block.settings.show_doctor_badge and block.settings.doctor_badge_text != blank -%}
-            <span class="fe-doctor-badge">{{ block.settings.doctor_badge_text }}</span>
-          {%- endif -%}
-
-          {%- if block.settings.show_rating -%}
-            <span class="fe-rating fe-rating--gallery">
-              <span class="fe-stars" aria-hidden="true">
-                {%- for i in (1..5) -%}<span class="fe-star{% if i <= rating_round %} is-on{% endif %}">★</span>{%- endfor -%}
-              </span>
-              <span class="fe-rating-text">{{ block.settings.rating_value }} <span class="fe-rating-count">{{ block.settings.rating_count }}</span></span>
-            </span>
-          {%- endif -%}
-
-          {%- if cert_blocks.size > 0 -%}
-            <span class="fe-certs">
-              {%- for cb in cert_blocks -%}
-                <span class="fe-cert" {{ cb.shopify_attributes }}>
-                  {%- if cb.settings.image != blank -%}
-                    <img src="{{ cb.settings.image | image_url: width: 96 }}" alt="{{ cb.settings.label | escape }}" width="40" height="40" loading="lazy">
-                  {%- else -%}
-                    <span class="fe-cert-text">{{ cb.settings.label }}</span>
-                  {%- endif -%}
-                </span>
-              {%- endfor -%}
-            </span>
-          {%- endif -%}
-
-          <img class="fe-main-img" id="fe-main-img-{{ sid }}"
-            src="{{ default_main }}"
-            alt="{{ block.settings.heading | escape }}"
-            width="1200" height="1200"
-            {% unless default_main != blank %}style="display:none"{% endunless %}>
-          {%- unless default_main != blank -%}
-            <div class="fe-main-ph"><span>{{ block.settings.heading }}</span></div>
-          {%- endunless -%}
-        </div>
-
-        {%- if block.settings.gallery_caption != blank -%}
-          <p class="fe-gallery-caption">{{ block.settings.gallery_caption }}</p>
-        {%- endif -%}
-
-        {%- if block.settings.show_progress -%}
-          <ol class="fe-progress" id="fe-progress-{{ sid }}" aria-label="Progress">
-            <li class="fe-progress-step is-active" data-step="1"><span class="fe-progress-dot">1</span><span class="fe-progress-label">{{ block.settings.progress_label_1 | default: 'Plan' }}</span></li>
-            <li class="fe-progress-step" data-step="2"><span class="fe-progress-dot">2</span><span class="fe-progress-label">{{ block.settings.progress_label_2 | default: 'Build' }}</span></li>
-            <li class="fe-progress-step" data-step="3"><span class="fe-progress-dot">3</span><span class="fe-progress-label">{{ block.settings.progress_label_3 | default: 'Review' }}</span></li>
-          </ol>
-        {%- endif -%}
-      </div>
-    </div>
-
-    {%- comment %} ───────── RIGHT: PANEL ───────── {%- endcomment %}
+    {%- comment %} ───────── PANEL ───────── {%- endcomment %}
     <div class="fe-panel color-{{ block.settings.panel_color_scheme }}" id="fe-panel-{{ sid }}">
 
       {%- if block.settings.show_rating -%}
@@ -349,67 +266,15 @@
   font-family: inherit; overflow-x: clip;
   display: block; width: 100%;
 }
-#fe-{{ sid }} .fe-container { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: var(--fe-max-width, 1400px); margin: 0 auto; width: 100%; padding: 0 1rem; }
-@media (min-width: 900px) {
-  #fe-{{ sid }} .fe-container { grid-template-columns: 1fr var(--fe-panel-width, 460px); gap: 2.5rem; padding: 0 1.5rem; align-items: start; }
-  #fe-{{ sid }} .fe-container[data-layout="panel-left"] { grid-template-columns: var(--fe-panel-width, 460px) 1fr; }
-  #fe-{{ sid }} .fe-container[data-layout="panel-left"] .fe-gallery { order: 2; }
-  #fe-{{ sid }} .fe-container[data-layout="panel-left"] .fe-panel { order: 1; }
-}
-
-/* ── Gallery ── */
-#fe-{{ sid }} .fe-gallery { display: flex; gap: 0.75rem; }
-@media (min-width: 900px) { #fe-{{ sid }} .fe-gallery { position: sticky; top: 1.5rem; } }
-#fe-{{ sid }} .fe-thumbs { display: flex; flex-direction: column; gap: 0.6rem; flex-shrink: 0; }
-#fe-{{ sid }} .fe-thumb {
-  width: 56px; height: 56px; padding: 0; border-radius: 10px; overflow: hidden;
-  border: 2px solid rgba(var(--color-foreground), 0.12); background: rgba(var(--color-foreground), 0.03);
-  cursor: pointer; transition: border-color 0.15s;
-}
-#fe-{{ sid }} .fe-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-#fe-{{ sid }} .fe-thumb.is-active { border-color: var(--fe-selection-color, rgb(var(--color-button))); }
-#fe-{{ sid }} .fe-gallery-col { flex: 1; min-width: 0; }
-#fe-{{ sid }} .fe-gallery[data-thumbpos="right"] { flex-direction: row-reverse; }
-#fe-{{ sid }} .fe-gallery[data-thumbpos="bottom"] { flex-direction: column; }
-#fe-{{ sid }} .fe-gallery[data-thumbpos="bottom"] .fe-thumbs { flex-direction: row; flex-wrap: wrap; order: 2; }
-#fe-{{ sid }} .fe-gallery[data-thumbpos="bottom"] .fe-gallery-col { order: 1; }
-#fe-{{ sid }} .fe-gallery-main {
-  position: relative; border-radius: var(--fe-card-radius, 12px); overflow: hidden;
-  background: color-mix(in srgb, rgb(var(--color-foreground)) 5%, rgb(var(--color-background)));
-  height: var(--fe-media-height-mobile, 420px); padding: var(--fe-img-padding, 0px);
-  display: flex; align-items: center; justify-content: center;
-}
-@media (min-width: 900px) { #fe-{{ sid }} .fe-gallery-main { height: var(--fe-media-height-desktop, 560px); } }
-#fe-{{ sid }} .fe-main-img { width: 100%; height: 100%; object-fit: contain; object-position: var(--fe-img-position, center center); display: block; transition: opacity 0.3s ease; }
-#fe-{{ sid }} .fe-main-ph { color: rgba(var(--color-foreground), 0.3); font-size: 1rem; letter-spacing: 0.08em; }
-#fe-{{ sid }} .fe-doctor-badge {
-  position: absolute; top: 12px; left: 12px; z-index: 2;
-  background: var(--fe-doctor-bg, #0A0A0A); color: #fff;
-  font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
-  padding: 0.4em 0.7em; border-radius: 6px;
-}
-#fe-{{ sid }} .fe-rating--gallery { position: absolute; top: 12px; right: 12px; z-index: 2; }
-#fe-{{ sid }} .fe-certs { position: absolute; top: 64px; left: 12px; z-index: 2; display: flex; flex-direction: column; gap: 0.5rem; }
-#fe-{{ sid }} .fe-cert { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
-#fe-{{ sid }} .fe-cert img { width: 100%; height: 100%; object-fit: contain; }
-#fe-{{ sid }} .fe-cert-text {
-  font-size: 0.5rem; font-weight: 800; text-transform: uppercase; text-align: center; line-height: 1.1;
-  background: rgba(255,255,255,0.9); color: #0A0A0A; border: 1px solid rgba(0,0,0,0.15);
-  border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; padding: 2px;
-}
-#fe-{{ sid }} .fe-gallery-caption { margin: 0.85rem 0 0; text-align: center; font-size: 0.95rem; font-weight: 600; color: rgb(var(--color-foreground)); }
+#fe-{{ sid }} .fe-container { display: block; max-width: var(--fe-max-width, 560px); margin: 0 auto; padding: 0 1rem; }
 
 /* ── Rating ── */
 #fe-{{ sid }} .fe-rating { display: inline-flex; align-items: center; gap: 0.4rem; }
-#fe-{{ sid }} .fe-rating--gallery { background: rgba(255,255,255,0.92); padding: 0.25em 0.5em; border-radius: 6px; }
 #fe-{{ sid }} .fe-rating--panel { margin-bottom: 0.25rem; }
 #fe-{{ sid }} .fe-stars { display: inline-flex; }
 #fe-{{ sid }} .fe-star { color: rgba(var(--color-foreground), 0.2); font-size: 0.85rem; line-height: 1; }
 #fe-{{ sid }} .fe-star.is-on { color: var(--fe-star-color, #F5A623); }
-#fe-{{ sid }} .fe-rating--gallery .fe-star { color: rgba(0,0,0,0.2); }
-#fe-{{ sid }} .fe-rating--gallery .fe-star.is-on { color: var(--fe-star-color, #F5A623); }
 #fe-{{ sid }} .fe-rating-text { font-size: 0.78rem; font-weight: 700; color: rgb(var(--color-foreground)); }
-#fe-{{ sid }} .fe-rating--gallery .fe-rating-text { color: #0A0A0A; }
 #fe-{{ sid }} .fe-rating-count { font-weight: 400; opacity: 0.7; text-decoration: underline; }
 
 /* ── Panel ── */
@@ -609,7 +474,7 @@
 #fe-{{ sid }} .fe-atc-message.is-error { color: rgb(var(--color-error, 176 0 0)); }
 
 @media (prefers-reduced-motion: reduce) {
-  #fe-{{ sid }} .fe-main-img, #fe-{{ sid }} .fe-fcard, #fe-{{ sid }} .fe-plan, #fe-{{ sid }} .fe-flavor-opt, #fe-{{ sid }} .fe-plan-tick, #fe-{{ sid }} .fe-fcard-tick { transition: none; }
+  #fe-{{ sid }} .fe-fcard, #fe-{{ sid }} .fe-plan, #fe-{{ sid }} .fe-flavor-opt, #fe-{{ sid }} .fe-plan-tick, #fe-{{ sid }} .fe-fcard-tick { transition: none; }
 }
 
 /* ── Mobile sticky Add-to-Cart bar + collapsed wizard steps ── */
@@ -643,19 +508,6 @@
   #fe-{{ sid }} .fe-step--locked > :not(.fe-step-head) { display: none; }
   #fe-{{ sid }} .fe-step--locked .fe-step-head { opacity: 0.5; margin-bottom: 0; }
 }
-/* ── Step progress indicator (Plan → Build → Review) ── */
-#fe-{{ sid }} .fe-progress { list-style: none; margin: 1.1rem 0 0; padding: 0; display: flex; align-items: flex-start; gap: 0; }
-#fe-{{ sid }} .fe-progress-step { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; position: relative; text-align: center; min-width: 0; }
-#fe-{{ sid }} .fe-progress-step::before { content: ""; position: absolute; top: 13px; right: 50%; width: 100%; height: 2px; background: rgba(var(--color-foreground), 0.15); z-index: 0; }
-#fe-{{ sid }} .fe-progress-step:first-child::before { display: none; }
-#fe-{{ sid }} .fe-progress-dot { position: relative; z-index: 1; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; background: rgba(var(--color-foreground), 0.12); color: rgba(var(--color-foreground), 0.55); border: 2px solid transparent; transition: background 0.2s, color 0.2s, border-color 0.2s; }
-#fe-{{ sid }} .fe-progress-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(var(--color-foreground), 0.55); line-height: 1.2; }
-#fe-{{ sid }} .fe-progress-step.is-active .fe-progress-dot { background: transparent; border-color: var(--fe-selection-color, rgb(var(--color-button))); color: var(--fe-selection-color, rgb(var(--color-button))); }
-#fe-{{ sid }} .fe-progress-step.is-active .fe-progress-label { color: rgb(var(--color-foreground)); }
-#fe-{{ sid }} .fe-progress-step.is-done .fe-progress-dot { background: var(--fe-selection-color, rgb(var(--color-button))); border-color: var(--fe-selection-color, rgb(var(--color-button))); color: rgb(var(--color-button-label)); }
-#fe-{{ sid }} .fe-progress-step.is-done .fe-progress-label { color: rgb(var(--color-foreground)); }
-#fe-{{ sid }} .fe-progress-step.is-active::before, #fe-{{ sid }} .fe-progress-step.is-done::before { background: var(--fe-selection-color, rgb(var(--color-button))); }
-
 {{ block.settings.custom_css }}
 </style>
 
@@ -684,7 +536,6 @@
   var atcBtn   = root.querySelector('#fe-atc-' + SID);
   var atcTotal = root.querySelector('#fe-atc-total-' + SID);
   var atcMsg   = root.querySelector('#fe-atc-msg-' + SID);
-  var mainImg  = root.querySelector('#fe-main-img-' + SID);
   var buildGroup = root.querySelector('#fe-build-group-' + SID);
   var buildLabelEl = root.querySelector('#fe-build-label-' + SID);
   var counterEl = root.querySelector('#fe-counter-' + SID);
@@ -713,7 +564,6 @@
 
   function formatMoney(c) { return (c / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }
   function setMsg(m, err) { if (atcMsg) { atcMsg.textContent = m || ''; atcMsg.classList.toggle('is-error', !!err); } }
-  function cleanSrc(s) { return (s || '').split('?')[0]; }
   function pushEvent(e, d) { window.dataLayer = window.dataLayer || []; window.dataLayer.push(Object.assign({ event: e, block_id: SID }, d)); }
   function setAtcEnabled(on) { if (!atcBtn) return; if (on) { atcBtn.removeAttribute('disabled'); atcBtn.removeAttribute('aria-disabled'); } else { atcBtn.setAttribute('disabled', ''); atcBtn.setAttribute('aria-disabled', 'true'); } }
   function getQty() { var q = qtyInput ? parseInt(qtyInput.value, 10) : 1; return (isNaN(q) || q < 1) ? 1 : q; }
@@ -764,24 +614,6 @@
   }
   function slotPlanRaw(s) { return state.purchaseType === 'monthly' ? s.planMonthly : s.planQuarterly; }
 
-  function setMainImage(src) {
-    if (!mainImg || !src || cleanSrc(mainImg.src) === cleanSrc(src)) return;
-    mainImg.style.display = '';
-    mainImg.style.opacity = '0';
-    mainImg.onload = function () { mainImg.style.opacity = '1'; };
-    mainImg.src = src;
-    var ph = root.querySelector('.fe-main-ph'); if (ph) ph.style.display = 'none';
-  }
-  function slotImage(s) {
-    var card = s.configId ? root.querySelector('.fe-fcards[data-config="' + s.configId + '"] .fe-fcard.is-active') : null;
-    var flBtn = card ? card.querySelector('.fe-flavor-opt.is-active') : null;
-    if (flBtn && flBtn.dataset.thumbnail) return flBtn.dataset.thumbnail;
-    if (s.variant && s.variant.featured_image && s.variant.featured_image.src) return s.variant.featured_image.src;
-    if (s.product && s.product.featured_image) return s.product.featured_image;
-    if (card && card.dataset.thumbnail) return card.dataset.thumbnail;
-    return '';
-  }
-
   /* Update the two plan-card price displays from the best available slot */
   function updatePlanPrices() {
     var mEl = root.querySelector('[data-plan-price="monthly"]'), mWas = root.querySelector('[data-plan-was="monthly"]');
@@ -810,7 +642,7 @@
         var pr = subPrice(s.product, s.variant, slotPlanRaw(s));
         if (pr == null) pr = s.variant.price;
         pouchSubtotal += pr;
-        lines.push({ name: s.label, sub: s.flavorName, price: pr, thumb: slotImage(s) });
+        lines.push({ name: s.label, sub: s.flavorName, price: pr, thumb: '' });
       } else { ready = false; }
     });
 
@@ -857,7 +689,6 @@
       if (!p) { setMsg('Product not found. Check the product handle in theme settings.', true); return; }
       s.product = p;
       s.variant = findVariant(p, s.flavorName);
-      var img = slotImage(s) || p.featured_image; if (img) setMainImage(img);
       recompute();
     });
   }
@@ -922,7 +753,7 @@
       flavor.classList.add('is-active'); flavor.setAttribute('aria-pressed', 'true');
       var s = slots[card.closest('.fe-fcards').dataset.config];
       s.flavorName = flavor.dataset.flavorName;
-      if (s.product) { s.variant = findVariant(s.product, s.flavorName); var img = slotImage(s); if (img) setMainImage(img); }
+      if (s.product) { s.variant = findVariant(s.product, s.flavorName); }
       pushEvent('fe_flavor_selected', { config: s.configId, flavor: s.flavorName });
       recompute();
       return;
@@ -940,15 +771,6 @@
     if (e.key !== 'Enter' && e.key !== ' ') return;
     var fcard = e.target.closest('.fe-fcard');
     if (fcard && root.contains(fcard) && fcard === e.target) { e.preventDefault(); if (fcard.dataset.comingSoon !== 'true') selectFunction(fcard, true); }
-  });
-
-  /* Thumbnails */
-  root.querySelectorAll('.fe-thumb').forEach(function (t) {
-    t.addEventListener('click', function () {
-      root.querySelectorAll('.fe-thumb').forEach(function (x) { x.classList.remove('is-active'); });
-      t.classList.add('is-active');
-      if (t.dataset.full) setMainImage(t.dataset.full);
-    });
   });
 
   /* Quantity */
@@ -1047,22 +869,6 @@
   var sbBtn = document.getElementById('fe-sb-atc-' + SID);
   var sbTotal = document.getElementById('fe-sb-total-' + SID);
   var sbCounter = document.getElementById('fe-sb-counter-' + SID);
-  var progress = document.getElementById('fe-progress-' + SID);
-  var progSteps = progress ? progress.querySelectorAll('.fe-progress-step') : [];
-
-  function setStep(i, state) {
-    if (!progSteps[i]) return;
-    progSteps[i].classList.toggle('is-active', state === 'active');
-    progSteps[i].classList.toggle('is-done', state === 'done');
-  }
-  function updateProgress() {
-    if (!progSteps.length) return;
-    var planChosen = buildGroup ? !buildGroup.classList.contains('fe-step--locked') : false;
-    var ready = !(realBtn.hasAttribute('disabled') || realBtn.getAttribute('aria-disabled') === 'true');
-    setStep(0, planChosen ? 'done' : 'active');
-    setStep(1, ready ? 'done' : (planChosen ? 'active' : ''));
-    setStep(2, ready ? 'active' : '');
-  }
 
   function sync() {
     var off = realBtn.hasAttribute('disabled') || realBtn.getAttribute('aria-disabled') === 'true';
@@ -1070,7 +876,6 @@
     else { sbBtn.removeAttribute('disabled'); sbBtn.removeAttribute('aria-disabled'); }
     if (sbTotal) { sbTotal.textContent = realTotal ? realTotal.textContent.replace(/^[\s·•]+/, '') : ''; }
     if (sbCounter && realCounter) { sbCounter.textContent = realCounter.textContent || ''; }
-    updateProgress();
   }
 
   sbBtn.addEventListener('click', function () { realBtn.click(); });
@@ -1109,37 +914,17 @@
   "tag": null,
   "settings": [
     { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "layout_direction", "label": "Content layout", "default": "image-left",
-      "options": [
-        { "value": "image-left", "label": "Gallery left, selector right" },
-        { "value": "panel-left", "label": "Selector left, gallery right" }
-      ]
-    },
     { "type": "range", "id": "content_max_width", "label": "Section max width", "min": 600, "max": 1600, "step": 40, "unit": "px", "default": 1240 },
     { "type": "select", "id": "section_width", "label": "Block width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "checkbox", "id": "show_progress", "label": "Show step progress indicator", "default": true },
-    { "type": "text", "id": "progress_label_1", "label": "Progress step 1 label", "default": "Plan" },
-    { "type": "text", "id": "progress_label_2", "label": "Progress step 2 label", "default": "Build" },
-    { "type": "text", "id": "progress_label_3", "label": "Progress step 3 label", "default": "Review" },
-    { "type": "range", "id": "panel_width", "label": "Selector panel width", "min": 300, "max": 700, "step": 20, "unit": "px", "default": 460 },
-
-    { "type": "header", "content": "Gallery" },
-    { "type": "checkbox", "id": "show_thumbnails", "label": "Show image thumbnails", "default": true },
-    { "type": "select", "id": "thumbnail_position", "label": "Thumbnail position", "default": "left", "options": [ { "value": "left", "label": "Left of image" }, { "value": "right", "label": "Right of image" }, { "value": "bottom", "label": "Below image" } ] },
-    { "type": "color_scheme", "id": "media_color_scheme", "label": "Image area color scheme", "info": "Pick a contrasting / light-grey scheme to give the product image a subtle background.", "default": "scheme-1" },
-    { "type": "checkbox", "id": "show_doctor_badge", "label": "Show top-left badge", "default": true },
-    { "type": "text", "id": "doctor_badge_text", "label": "Top-left badge text", "default": "Doctor Recommended" },
-    { "type": "color", "id": "doctor_badge_bg", "label": "Top-left badge color", "default": "#0A0A0A" },
-    { "type": "checkbox", "id": "show_rating", "label": "Show star rating", "default": true },
-    { "type": "text", "id": "rating_value", "label": "Rating value", "default": "4.8" },
-    { "type": "text", "id": "rating_count", "label": "Rating count text", "default": "(342 reviews)" },
-    { "type": "color", "id": "star_color", "label": "Star color", "default": "#F5A623" },
-    { "type": "text", "id": "gallery_caption", "label": "Image caption", "default": "Electrolytes D3+K3" },
 
     { "type": "header", "content": "Content" },
     { "type": "text", "id": "heading", "label": "Title", "default": "Everyday Hydration" },
     { "type": "text", "id": "subheading", "label": "Subtitle", "default": "Electrolytes + D3 + K2" },
     { "type": "text", "id": "coming_soon_text", "label": "Coming Soon badge text", "default": "Soon" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show star rating", "default": true },
+    { "type": "text", "id": "rating_value", "label": "Rating value", "default": "4.8" },
+    { "type": "text", "id": "rating_count", "label": "Rating count text", "default": "(342 reviews)" },
+    { "type": "color", "id": "star_color", "label": "Star color", "default": "#F5A623" },
 
     { "type": "header", "content": "Step 1 — Plans" },
     { "type": "text", "id": "plan_step_label", "label": "Step label", "default": "Choose Your Plan" },
@@ -1208,24 +993,6 @@
     { "type": "url", "id": "onetime_link", "label": "One-time note link", "info": "If set, the note links here (e.g. a one-time product page). Leave blank to add a one-time purchase to the cart on click instead." },
     { "type": "checkbox", "id": "onetime_clickable", "label": "One-time note adds a one-time purchase on click", "info": "Ignored when a link is set above.", "default": true },
 
-    { "type": "header", "content": "Image" },
-    { "type": "range", "id": "media_height_mobile", "label": "Image height — mobile", "min": 200, "max": 700, "step": 20, "unit": "px", "default": 380 },
-    { "type": "range", "id": "media_height_desktop", "label": "Image height — desktop", "min": 300, "max": 900, "step": 20, "unit": "px", "default": 560 },
-    { "type": "select", "id": "image_position", "label": "Image position", "default": "center center",
-      "options": [
-        { "value": "top left",      "label": "Top left" },
-        { "value": "top center",    "label": "Top center" },
-        { "value": "top right",     "label": "Top right" },
-        { "value": "center left",   "label": "Center left" },
-        { "value": "center center", "label": "Center" },
-        { "value": "center right",  "label": "Center right" },
-        { "value": "bottom left",   "label": "Bottom left" },
-        { "value": "bottom center", "label": "Bottom center" },
-        { "value": "bottom right",  "label": "Bottom right" }
-      ]
-    },
-    { "type": "range", "id": "image_padding", "label": "Image padding", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 16 },
-
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "selection_color", "label": "Selection highlight color", "default": "#1FA8A1" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Block color scheme", "default": "scheme-1" },
@@ -1244,16 +1011,13 @@
   ],
   "blocks": [
     { "type": "_ftd-ps-function" },
-    { "type": "_ftd-ps-benefit" },
-    { "type": "_ftd-ps-cert" },
-    { "type": "_ftd-ps-gallery" }
+    { "type": "_ftd-ps-benefit" }
   ],
   "presets": [
     {
       "name": "FTD - Product Selector",
       "category": "Fortified Blocks",
       "blocks": [
-        { "type": "_ftd-ps-gallery" },
         { "type": "_ftd-ps-benefit", "settings": { "text": "Supports Mood & Focus" } },
         { "type": "_ftd-ps-benefit", "settings": { "text": "Plant-Based" } },
         { "type": "_ftd-ps-benefit", "settings": { "text": "No Jitters Or Crash" } },
