@@ -41,6 +41,12 @@
   assign monthly_list   = block.settings.monthly_checklist   | newline_to_br | split: '<br />'
   assign quarterly_list = block.settings.quarterly_checklist | newline_to_br | split: '<br />'
   assign onetime_list   = block.settings.onetime_checklist   | newline_to_br | split: '<br />'
+
+  assign onetime_product = block.settings.onetime_product
+  assign onetime_handle = ''
+  if onetime_product != blank
+    assign onetime_handle = onetime_product.handle
+  endif
 -%}
 
 <div
@@ -196,6 +202,41 @@
             {%- endfor -%}
           </div>
         </div>
+
+        {%- comment %} One-time: dedicated product card (only when an onetime_product is configured) {%- endcomment %}
+        {%- if onetime_product != blank -%}
+          <div class="fe-build-view fe-build-view--onetime" data-build-view="onetime">
+            {%- assign ot_img = block.settings.onetime_card_image | default: onetime_product.featured_image -%}
+            <div class="fe-onetime-card" data-onetime-handle="{{ onetime_handle }}">
+              <div class="fe-onetime-media">
+                {%- if ot_img != blank -%}
+                  <img src="{{ ot_img | image_url: width: 480 }}" alt="{{ onetime_product.title | escape }}" loading="lazy" width="120" height="120">
+                {%- endif -%}
+              </div>
+              <div class="fe-onetime-body">
+                <p class="fe-onetime-name">{{ onetime_product.title }}</p>
+                {%- if onetime_product.description != blank -%}
+                  <p class="fe-onetime-desc">{{ onetime_product.description | strip_html | truncate: 140 }}</p>
+                {%- endif -%}
+                {%- if onetime_product.variants.size > 1 -%}
+                  <p class="fe-fcard-flavor-label">{{ block.settings.flavor_label | default: 'Choose Flavor:' }}</p>
+                  <div class="fe-fcard-flavors" data-onetime-flavor-group>
+                    {%- for v in onetime_product.variants -%}
+                      <button type="button"
+                              class="fe-flavor-opt{% if forloop.first %} is-active{% endif %}"
+                              data-onetime-variant-id="{{ v.id }}"
+                              data-flavor-name="{{ v.title | escape }}"
+                              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+                        <span class="fe-flavor-radio" aria-hidden="true"></span>
+                        <span class="fe-flavor-name">{{ v.title }}</span>
+                      </button>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
 
         {%- comment %} Quarterly: one pouch group per unit {%- endcomment %}
         <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
@@ -404,6 +445,23 @@
 #fe-{{ sid }} .fe-fcards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 @media (max-width: 480px) { #fe-{{ sid }} .fe-fcards { grid-template-columns: 1fr; } }
 
+/* ── One-time dedicated product card ── */
+#fe-{{ sid }} .fe-build-view--onetime { display: none; }
+#fe-{{ sid }} .fe-build-view--onetime.is-active { display: block; }
+#fe-{{ sid }} .fe-onetime-card {
+  display: flex; gap: 1rem; padding: 1rem;
+  border: 2px solid rgb(var(--color-foreground-rgb) / 0.14);
+  border-top-width: 4px;
+  border-top-color: var(--fe-onetime-badge, #6B7280);
+  border-radius: var(--fe-card-radius, 12px);
+  background: var(--color-background);
+}
+#fe-{{ sid }} .fe-onetime-media { width: 96px; flex-shrink: 0; }
+#fe-{{ sid }} .fe-onetime-media img { width: 100%; height: auto; border-radius: 8px; display: block; object-fit: cover; aspect-ratio: 1 / 1; }
+#fe-{{ sid }} .fe-onetime-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+#fe-{{ sid }} .fe-onetime-name { margin: 0; font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-onetime-desc { margin: 0; font-size: 0.78rem; line-height: 1.4; opacity: 0.7; color: var(--color-foreground); }
+
 /* ── Function card ── */
 #fe-{{ sid }} .fe-fcard {
   display: flex; flex-direction: column; cursor: pointer; overflow: hidden;
@@ -605,6 +663,7 @@
   var PLAN_LABEL_M = {{ block.settings.monthly_label | default: '1 a Month' | json }};
   var PLAN_LABEL_Q = {{ block.settings.quarterly_label | default: '3 Every 3 Months' | json }};
   var PLAN_LABEL_OT = {{ block.settings.onetime_card_label | default: 'One Time' | json }};
+  var ONETIME_HANDLE = {{ onetime_handle | json }};
 
   /* Free shipping bar */
   var SHOW_SHIPPING    = {{ block.settings.show_shipping_bar | json }};
@@ -648,6 +707,16 @@
   function newSlot() { return { functionId: null, handle: null, label: null, planMonthly: null, planQuarterly: null, flavorName: null, product: null, variant: null, configId: null }; }
   slots.monthly = newSlot();
   for (var n = 1; n <= BUNDLE_COUNT; n++) { slots['q' + n] = newSlot(); }
+  slots.onetime = newSlot();
+  if (ONETIME_HANDLE) {
+    slots.onetime.handle = ONETIME_HANDLE;
+    slots.onetime.configId = 'onetime';
+    slots.onetime.functionId = 'onetime';
+    slots.onetime.label = '{{ onetime_product.title | escape }}';
+    {%- if onetime_product != blank and onetime_product.variants.first != blank -%}
+    slots.onetime.flavorName = '{{ onetime_product.variants.first.title | escape }}';
+    {%- endif -%}
+  }
 
   function formatMoney(c) { return (c / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }
   function setMsg(m, err) { if (atcMsg) { atcMsg.textContent = m || ''; atcMsg.classList.toggle('is-error', !!err); } }
@@ -696,7 +765,10 @@
 
   function activeSlotIds() {
     if (state.purchaseType === 'monthly') return ['monthly'];
-    if (state.purchaseType === 'onetime') return ['monthly'];
+    if (state.purchaseType === 'onetime') {
+      if (slots.onetime && slots.onetime.handle) return ['onetime'];
+      return ['monthly'];
+    }
     if (state.purchaseType === 'quarterly') { var a = []; for (var i = 1; i <= BUNDLE_COUNT; i++) a.push('q' + i); return a; }
     return [];
   }
@@ -832,13 +904,30 @@
 
   function applyPurchaseType(type) {
     state.purchaseType = type;
-    /* Onetime reuses the monthly single-pouch view. */
-    var monthlyLike = type === 'monthly' || type === 'onetime';
+    /* Onetime uses its own view when an explicit one-time product is configured;
+       otherwise it falls back to the monthly single-pouch function-card view. */
+    var onetimeDedicated = type === 'onetime' && !!ONETIME_HANDLE;
+    var monthlyLike = type === 'monthly' || (type === 'onetime' && !ONETIME_HANDLE);
     if (monthlyView) monthlyView.classList.toggle('is-active', monthlyLike);
     if (quarterlyView) quarterlyView.classList.toggle('is-active', type === 'quarterly');
+    var onetimeView = root.querySelector('.fe-build-view--onetime');
+    if (onetimeView) onetimeView.classList.toggle('is-active', onetimeDedicated);
     if (buildGroup) { buildGroup.classList.remove('fe-step--locked'); buildGroup.removeAttribute('aria-disabled'); }
-    var count = monthlyLike ? 1 : BUNDLE_COUNT;
+    var count = (monthlyLike || onetimeDedicated) ? 1 : BUNDLE_COUNT;
     if (buildLabelEl) buildLabelEl.textContent = BUILD_LABEL.replace('{count}', count);
+
+    /* When the dedicated one-time view is active, pre-load the product and
+       pre-pick the first variant so prices + ATC are immediately ready. */
+    if (onetimeDedicated) {
+      loadSlotProduct('onetime');
+      var firstFlavorBtn = root.querySelector('.fe-flavor-opt[data-onetime-variant-id]');
+      if (firstFlavorBtn) {
+        slots.onetime.flavorName = firstFlavorBtn.dataset.flavorName;
+        if (slots.onetime.product) {
+          slots.onetime.variant = findVariant(slots.onetime.product, slots.onetime.flavorName);
+        }
+      }
+    }
 
     /* Creatine card: unlock + adapt copy. Quarterly shows the "1st free" line and offers a 2nd at 50%.
        On one-time the toggle still shows so customers can add a creatine — but it's a regular,
@@ -888,6 +977,18 @@
 
   /* Delegated clicks: flavor first, then function card */
   root.addEventListener('click', function (e) {
+    var otFlavor = e.target.closest('.fe-flavor-opt[data-onetime-variant-id]');
+    if (otFlavor && root.contains(otFlavor)) {
+      var grp = otFlavor.closest('[data-onetime-flavor-group]');
+      if (grp) grp.querySelectorAll('.fe-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+      otFlavor.classList.add('is-active'); otFlavor.setAttribute('aria-pressed', 'true');
+      var s = slots.onetime;
+      s.flavorName = otFlavor.dataset.flavorName;
+      if (s.product) { s.variant = findVariant(s.product, s.flavorName); }
+      pushEvent('fe_onetime_flavor_selected', { flavor: s.flavorName });
+      recompute();
+      return;
+    }
     var flavor = e.target.closest('.fe-flavor-opt');
     if (flavor && root.contains(flavor)) {
       var card = flavor.closest('.fe-fcard');
@@ -1006,6 +1107,14 @@
   if (atcBtn) atcBtn.addEventListener('click', function () { addToCart(false); });
   if (oneTimeBtn && oneTimeBtn.dataset.static !== 'true') oneTimeBtn.addEventListener('click', function () { addToCart(true); });
 
+  /* Eager-load the dedicated one-time product so prices are ready before the
+     customer picks the One Time plan. Pre-seed the flavor from the first option. */
+  if (ONETIME_HANDLE) {
+    var firstOtFlavorBtn = root.querySelector('.fe-flavor-opt[data-onetime-variant-id]');
+    if (firstOtFlavorBtn) slots.onetime.flavorName = firstOtFlavorBtn.dataset.flavorName;
+    loadSlotProduct('onetime');
+  }
+
 })();
 </script>
 
@@ -1115,6 +1224,10 @@
     { "type": "text", "id": "onetime_period", "label": "One-time period text", "default": "/ pouch" },
     { "type": "text", "id": "onetime_was", "label": "One-time \"was\" text (fallback)" },
     { "type": "textarea", "id": "onetime_checklist", "label": "One-time checklist", "info": "One per line.", "default": "30 servings per pouch\nShipping calculated at checkout\nNo subscription required" },
+    { "type": "paragraph", "content": "If a product is selected below, customers who pick the One Time plan will see this product directly with a flavor picker — no function-card grid to navigate. Leave blank to fall back to the function-block grid." },
+    { "type": "product",   "id": "onetime_product",         "label": "Product for one-time purchase" },
+    { "type": "text",      "id": "onetime_flavor_option",   "label": "Variant option name for flavor", "info": "e.g. Flavor. Must match the product's option name. Blank = first option.", "default": "Flavor" },
+    { "type": "image_picker", "id": "onetime_card_image",   "label": "Card image (optional)", "info": "Overrides the product's featured image on the One-Time card." },
 
     { "type": "header", "content": "Step 2 — Build Bundle" },
     { "type": "text", "id": "build_step_label", "label": "Step label", "info": "Use {count} for the pouch count.", "default": "Build {count}-Pouch Bundle" },
