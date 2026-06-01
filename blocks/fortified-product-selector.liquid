@@ -103,52 +103,8 @@
         </div>
 
         <div class="fe-plans">
-          {%- if show_monthly -%}
-            <label class="fe-plan" data-plan="monthly">
-              <input type="radio" name="fe-plan-{{ sid }}" value="monthly">
-              <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              {%- if block.settings.monthly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--monthly">{{ block.settings.monthly_badge }}</span>{%- endif -%}
-              <span class="fe-plan-title">
-                {%- for line in monthly_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="fe-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
-              </span>
-              {%- if block.settings.monthly_desc != blank -%}<span class="fe-plan-desc">{{ block.settings.monthly_desc }}</span>{%- endif -%}
-              <span class="fe-plan-price-row">
-                <span class="fe-plan-price" data-plan-price="monthly">{{ block.settings.monthly_price }}</span>
-                <span class="fe-plan-period">{{ block.settings.monthly_period }}</span>
-              </span>
-              <span class="fe-plan-was" data-plan-was="monthly">{{ block.settings.monthly_was }}</span>
-              {%- if monthly_list.size > 0 -%}
-                <span class="fe-plan-list">
-                  {%- for li in monthly_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
-                </span>
-              {%- endif -%}
-            </label>
-          {%- endif -%}
-
-          {%- if show_quarterly -%}
-            <label class="fe-plan" data-plan="quarterly">
-              <input type="radio" name="fe-plan-{{ sid }}" value="quarterly">
-              <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              {%- if block.settings.quarterly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--quarterly">{{ block.settings.quarterly_badge }}</span>{%- endif -%}
-              <span class="fe-plan-title">
-                {%- for line in quarterly_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="fe-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
-              </span>
-              {%- if block.settings.quarterly_desc != blank -%}<span class="fe-plan-desc">{{ block.settings.quarterly_desc }}</span>{%- endif -%}
-              <span class="fe-plan-price-row">
-                <span class="fe-plan-price" data-plan-price="quarterly">{{ block.settings.quarterly_price }}</span>
-                <span class="fe-plan-period">{{ block.settings.quarterly_period }}</span>
-              </span>
-              <span class="fe-plan-was" data-plan-was="quarterly">{{ block.settings.quarterly_was }}</span>
-              {%- if quarterly_list.size > 0 -%}
-                <span class="fe-plan-list">
-                  {%- for li in quarterly_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
-                </span>
-              {%- endif -%}
-            </label>
-          {%- endif -%}
-
           {%- if show_onetime -%}
-            <label class="fe-plan" data-plan="onetime">
+            <label class="fe-plan fe-plan--full" data-plan="onetime">
               <input type="radio" name="fe-plan-{{ sid }}" value="onetime">
               <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               {%- if block.settings.onetime_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--onetime">{{ block.settings.onetime_badge }}</span>{%- endif -%}
@@ -167,6 +123,58 @@
                 </span>
               {%- endif -%}
             </label>
+
+            {%- if show_monthly or show_quarterly -%}
+              <hr class="fe-plans-divider" aria-hidden="true">
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- if show_monthly or show_quarterly -%}
+          <div class="fe-plans-subs">
+            {%- if show_monthly -%}
+              <label class="fe-plan" data-plan="monthly">
+                <input type="radio" name="fe-plan-{{ sid }}" value="monthly">
+                <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                {%- if block.settings.monthly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--monthly">{{ block.settings.monthly_badge }}</span>{%- endif -%}
+                <span class="fe-plan-title">
+                  {%- for line in monthly_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="fe-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                </span>
+                {%- if block.settings.monthly_desc != blank -%}<span class="fe-plan-desc">{{ block.settings.monthly_desc }}</span>{%- endif -%}
+                <span class="fe-plan-price-row">
+                  <span class="fe-plan-price" data-plan-price="monthly">{{ block.settings.monthly_price }}</span>
+                  <span class="fe-plan-period">{{ block.settings.monthly_period }}</span>
+                </span>
+                <span class="fe-plan-was" data-plan-was="monthly">{{ block.settings.monthly_was }}</span>
+                {%- if monthly_list.size > 0 -%}
+                  <span class="fe-plan-list">
+                    {%- for li in monthly_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                  </span>
+                {%- endif -%}
+              </label>
+            {%- endif -%}
+
+            {%- if show_quarterly -%}
+              <label class="fe-plan" data-plan="quarterly">
+                <input type="radio" name="fe-plan-{{ sid }}" value="quarterly">
+                <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                {%- if block.settings.quarterly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--quarterly">{{ block.settings.quarterly_badge }}</span>{%- endif -%}
+                <span class="fe-plan-title">
+                  {%- for line in quarterly_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="fe-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                </span>
+                {%- if block.settings.quarterly_desc != blank -%}<span class="fe-plan-desc">{{ block.settings.quarterly_desc }}</span>{%- endif -%}
+                <span class="fe-plan-price-row">
+                  <span class="fe-plan-price" data-plan-price="quarterly">{{ block.settings.quarterly_price }}</span>
+                  <span class="fe-plan-period">{{ block.settings.quarterly_period }}</span>
+                </span>
+                <span class="fe-plan-was" data-plan-was="quarterly">{{ block.settings.quarterly_was }}</span>
+                {%- if quarterly_list.size > 0 -%}
+                  <span class="fe-plan-list">
+                    {%- for li in quarterly_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                  </span>
+                {%- endif -%}
+              </label>
+            {%- endif -%}
+          </div>
           {%- endif -%}
         </div>
       </div>
@@ -344,8 +352,10 @@
 #fe-{{ sid }} .fe-step--locked .fe-step-num { background: rgb(var(--color-foreground-rgb) / 0.2); color: rgb(var(--color-foreground-rgb) / 0.6); }
 
 /* ── Plan cards ── */
-#fe-{{ sid }} .fe-plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; }
-@media (max-width: 480px) { #fe-{{ sid }} .fe-plans { grid-template-columns: 1fr; } }
+#fe-{{ sid }} .fe-plans { display: flex; flex-direction: column; gap: 0.85rem; }
+#fe-{{ sid }} .fe-plans-subs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media (max-width: 480px) { #fe-{{ sid }} .fe-plans-subs { grid-template-columns: 1fr; } }
+#fe-{{ sid }} .fe-plans-divider { border: 0; border-top: 2px dotted rgb(var(--color-foreground-rgb) / 0.28); margin: 0.25rem 0; height: 0; }
 #fe-{{ sid }} .fe-plan {
   position: relative; display: flex; flex-direction: column; gap: 0.35rem;
   padding: 1rem 0.9rem; cursor: pointer;
