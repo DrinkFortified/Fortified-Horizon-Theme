@@ -1254,12 +1254,53 @@
     atcBtn.classList.add('is-loading'); setAtcEnabled(false);
     pushEvent('fe_add_to_cart_attempt', { purchase_type: oneTime ? 'onetime' : state.purchaseType, lines: items.length });
 
-    fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: items }) })
-      .then(function (r) { if (!r.ok) return r.json().then(function (er) { throw new Error(er.description || 'Cart error'); }); return fetch('/cart.js').then(function (x) { return x.json(); }); })
-      .then(function (cart) {
-        var d = document.querySelector('cart-drawer-component');
-        if (d && typeof d.open === 'function') d.open();
-        document.dispatchEvent(new CustomEvent('cart:add', { bubbles: true, detail: { resource: { item_count: cart ? cart.item_count : 0 } } }));
+    /* Horizon pattern: collect every cart-items-component's section id so
+       /cart/add.js returns the freshly rendered HTML, then dispatch a
+       cart:update event so the drawer (and any cart-items-component on
+       the page) re-renders without a reload. */
+    var sectionIds = [];
+    document.querySelectorAll('cart-items-component[data-section-id]').forEach(function (el) {
+      sectionIds.push(el.dataset.sectionId);
+    });
+
+    var payload = { items: items };
+    if (sectionIds.length) payload.sections = sectionIds.join(',');
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json().then(function (body) { return { ok: r.ok, body: body }; }); })
+      .then(function (resp) {
+        if (!resp.ok) { throw new Error((resp.body && (resp.body.description || resp.body.message)) || 'Cart error'); }
+        var addResponse = resp.body;
+        return fetch('/cart.js').then(function (x) { return x.json(); }).then(function (cart) {
+          return { cart: cart, sections: addResponse.sections || null };
+        });
+      })
+      .then(function (data) {
+        var cart = data.cart;
+        var sections = data.sections;
+        var totalQty = items.reduce(function (sum, it) { return sum + (it.quantity || 1); }, 0);
+
+        /* Dispatch Horizon's cart:update event so cart-items-component re-renders */
+        var evt = new Event('cart:update', { bubbles: true });
+        evt.detail = {
+          resource: cart,
+          sourceId: 'fe-' + SID,
+          data: {
+            source: 'fortified-product-selector',
+            itemCount: totalQty,
+            sections: sections
+          }
+        };
+        document.dispatchEvent(evt);
+
+        /* Open the cart drawer if it exists */
+        var drawer = document.querySelector('cart-drawer-component');
+        if (drawer && typeof drawer.open === 'function') drawer.open();
+
         pushEvent('fe_add_to_cart_success', { purchase_type: oneTime ? 'onetime' : state.purchaseType });
       })
       .catch(function (err) { setMsg(err.message || 'Something went wrong. Please try again.', true); pushEvent('fe_add_to_cart_error', { error: err.message }); })
