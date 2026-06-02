@@ -193,15 +193,48 @@
         </div>
 
         {%- comment %} Monthly: one pouch {%- endcomment %}
-        <div class="fe-build-view fe-build-view--monthly" data-build-view="monthly">
-          <div class="fe-fcards" data-config="monthly">
-            {%- for fb in function_blocks -%}
-              {%- if fb.settings.enabled -%}
-                {%- render 'fortified-fn-card', card_block: fb, config: 'monthly', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
-              {%- endif -%}
-            {%- endfor -%}
+        {%- if onetime_product != blank and block.settings.simplified_for_subs -%}
+          {%- comment %} Simplified monthly view — same product as One Time, one flavor pick {%- endcomment %}
+          <div class="fe-build-view fe-build-view--monthly" data-build-view="monthly">
+            {%- assign ot_img = block.settings.onetime_card_image | default: onetime_product.featured_image -%}
+            <div class="fe-onetime-card" data-onetime-handle="{{ onetime_handle }}">
+              <div class="fe-onetime-media">
+                {%- if ot_img != blank -%}
+                  <img src="{{ ot_img | image_url: width: 480 }}" alt="{{ onetime_product.title | escape }}" loading="lazy" width="120" height="120">
+                {%- endif -%}
+              </div>
+              <div class="fe-onetime-body">
+                <p class="fe-onetime-name">{{ onetime_product.title }}</p>
+                {%- if onetime_product.variants.size > 1 -%}
+                  <p class="fe-fcard-flavor-label">{{ block.settings.flavor_label | default: 'Choose Flavor:' }}</p>
+                  <div class="fe-fcard-flavors" data-simple-slot-group="monthly">
+                    {%- for v in onetime_product.variants -%}
+                      <button type="button"
+                              class="fe-flavor-opt{% if forloop.first %} is-active{% endif %}"
+                              data-simple-slot-id="monthly"
+                              data-variant-id="{{ v.id }}"
+                              data-flavor-name="{{ v.title | escape }}"
+                              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+                        <span class="fe-flavor-radio" aria-hidden="true"></span>
+                        <span class="fe-flavor-name">{{ v.title }}</span>
+                      </button>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
           </div>
-        </div>
+        {%- else -%}
+          <div class="fe-build-view fe-build-view--monthly" data-build-view="monthly">
+            <div class="fe-fcards" data-config="monthly">
+              {%- for fb in function_blocks -%}
+                {%- if fb.settings.enabled -%}
+                  {%- render 'fortified-fn-card', card_block: fb, config: 'monthly', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
 
         {%- comment %} One-time: dedicated product card (only when an onetime_product is configured) {%- endcomment %}
         {%- if onetime_product != blank -%}
@@ -239,20 +272,58 @@
         {%- endif -%}
 
         {%- comment %} Quarterly: one pouch group per unit {%- endcomment %}
-        <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
-          {%- for i in (1..bundle_count) -%}
-            <div class="fe-pouch">
-              <p class="fe-pouch-title">{{ block.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
-              <div class="fe-fcards" data-config="q{{ i }}">
-                {%- for fb in function_blocks -%}
-                  {%- if fb.settings.enabled -%}
-                    {%- render 'fortified-fn-card', card_block: fb, config: 'q', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
-                  {%- endif -%}
-                {%- endfor -%}
+        {%- if onetime_product != blank and block.settings.simplified_for_subs -%}
+          {%- comment %} Simplified quarterly view — N flavor pickers of the same product {%- endcomment %}
+          <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
+            {%- assign ot_img = block.settings.onetime_card_image | default: onetime_product.featured_image -%}
+            {%- for i in (1..bundle_count) -%}
+              <div class="fe-pouch">
+                <p class="fe-pouch-title">{{ block.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
+                <div class="fe-onetime-card" data-onetime-handle="{{ onetime_handle }}">
+                  <div class="fe-onetime-media">
+                    {%- if ot_img != blank -%}
+                      <img src="{{ ot_img | image_url: width: 480 }}" alt="{{ onetime_product.title | escape }}" loading="lazy" width="120" height="120">
+                    {%- endif -%}
+                  </div>
+                  <div class="fe-onetime-body">
+                    <p class="fe-onetime-name">{{ onetime_product.title }}</p>
+                    {%- if onetime_product.variants.size > 1 -%}
+                      <p class="fe-fcard-flavor-label">{{ block.settings.flavor_label | default: 'Choose Flavor:' }}</p>
+                      <div class="fe-fcard-flavors" data-simple-slot-group="q{{ i }}">
+                        {%- for v in onetime_product.variants -%}
+                          <button type="button"
+                                  class="fe-flavor-opt{% if forloop.first %} is-active{% endif %}"
+                                  data-simple-slot-id="q{{ i }}"
+                                  data-variant-id="{{ v.id }}"
+                                  data-flavor-name="{{ v.title | escape }}"
+                                  aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+                            <span class="fe-flavor-radio" aria-hidden="true"></span>
+                            <span class="fe-flavor-name">{{ v.title }}</span>
+                          </button>
+                        {%- endfor -%}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
               </div>
-            </div>
-          {%- endfor -%}
-        </div>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
+            {%- for i in (1..bundle_count) -%}
+              <div class="fe-pouch">
+                <p class="fe-pouch-title">{{ block.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
+                <div class="fe-fcards" data-config="q{{ i }}">
+                  {%- for fb in function_blocks -%}
+                    {%- if fb.settings.enabled -%}
+                      {%- render 'fortified-fn-card', card_block: fb, config: 'q', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
       </div>
 
       {%- comment %} ───── CREATINE ADD-ON (visible toggle card; adapts monthly / quarterly-2nd) ───── {%- endcomment %}
@@ -664,6 +735,9 @@
   var PLAN_LABEL_Q = {{ block.settings.quarterly_label | default: '3 Every 3 Months' | json }};
   var PLAN_LABEL_OT = {{ block.settings.onetime_card_label | default: 'One Time' | json }};
   var ONETIME_HANDLE = {{ onetime_handle | json }};
+  var SIMPLE_SUBS = {{ block.settings.simplified_for_subs | json }} && !!ONETIME_HANDLE;
+  var SIMPLE_SUBS_PLAN_M = {{ block.settings.simple_plan_monthly | json }};
+  var SIMPLE_SUBS_PLAN_Q = {{ block.settings.simple_plan_quarterly | json }};
 
   /* Free shipping bar */
   var SHOW_SHIPPING    = {{ block.settings.show_shipping_bar | json }};
@@ -712,10 +786,25 @@
     slots.onetime.handle = ONETIME_HANDLE;
     slots.onetime.configId = 'onetime';
     slots.onetime.functionId = 'onetime';
-    slots.onetime.label = '{{ onetime_product.title | escape }}';
+    slots.onetime.label = {{ onetime_product.title | default: '' | json }};
     {%- if onetime_product != blank and onetime_product.variants.first != blank -%}
-    slots.onetime.flavorName = '{{ onetime_product.variants.first.title | escape }}';
+    slots.onetime.flavorName = {{ onetime_product.variants.first.title | json }};
     {%- endif -%}
+  }
+  if (SIMPLE_SUBS) {
+    var simpleIds = ['monthly'];
+    for (var qi = 1; qi <= BUNDLE_COUNT; qi++) simpleIds.push('q' + qi);
+    simpleIds.forEach(function (id) {
+      slots[id].handle = ONETIME_HANDLE;
+      slots[id].functionId = 'simple-' + id;
+      slots[id].label = {{ onetime_product.title | default: '' | json }};
+      slots[id].configId = id;
+      slots[id].planMonthly = SIMPLE_SUBS_PLAN_M;
+      slots[id].planQuarterly = SIMPLE_SUBS_PLAN_Q;
+      {%- if onetime_product != blank and onetime_product.variants.first != blank -%}
+      slots[id].flavorName = {{ onetime_product.variants.first.title | json }};
+      {%- endif -%}
+    });
   }
 
   function formatMoney(c) { return (c / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }
@@ -800,6 +889,12 @@
 
   function esc(t) { var d = document.createElement('div'); d.textContent = (t == null ? '' : t); return d.innerHTML; }
 
+  function slotThumb(s) {
+    if (s.variant && s.variant.featured_image && s.variant.featured_image.src) return s.variant.featured_image.src;
+    if (s.product && s.product.featured_image) return s.product.featured_image;
+    return '';
+  }
+
   function recompute() {
     var ids = activeSlotIds();
     var completed = 0, pouchSubtotal = 0, ready = ids.length > 0;
@@ -811,7 +906,7 @@
         var pr = subPrice(s.product, s.variant, slotPlanRaw(s));
         if (pr == null) pr = s.variant.price;
         pouchSubtotal += pr;
-        lines.push({ name: s.label, sub: s.flavorName, price: pr, thumb: '' });
+        lines.push({ name: s.label, sub: s.flavorName, price: pr, thumb: slotThumb(s) });
       } else { ready = false; }
     });
 
@@ -929,6 +1024,23 @@
       }
     }
 
+    /* Simplified subs: pre-pick the first flavor for each active slot so the
+       ATC button is immediately usable. */
+    function presimplePick(slotId, viewSelector) {
+      var s = slots[slotId];
+      var firstBtn = root.querySelector(viewSelector + ' [data-simple-slot-id="' + slotId + '"]');
+      if (!s || !firstBtn) return;
+      s.flavorName = firstBtn.dataset.flavorName;
+      if (s.product) s.variant = findVariant(s.product, s.flavorName);
+    }
+    if (SIMPLE_SUBS) {
+      if (type === 'monthly') {
+        presimplePick('monthly', '.fe-build-view--monthly');
+      } else if (type === 'quarterly') {
+        for (var pq = 1; pq <= BUNDLE_COUNT; pq++) presimplePick('q' + pq, '.fe-build-view--quarterly');
+      }
+    }
+
     /* Creatine card: unlock + adapt copy. Quarterly shows the "1st free" line and offers a 2nd at 50%.
        On one-time the toggle still shows so customers can add a creatine — but it's a regular,
        full-price, one-time line (no selling plan, see buildItems). */
@@ -977,6 +1089,20 @@
 
   /* Delegated clicks: flavor first, then function card */
   root.addEventListener('click', function (e) {
+    var simpleFlavor = e.target.closest('.fe-flavor-opt[data-simple-slot-id]');
+    if (simpleFlavor && root.contains(simpleFlavor)) {
+      var slotId = simpleFlavor.dataset.simpleSlotId;
+      var sSimple = slots[slotId];
+      if (!sSimple) return;
+      var grpS = simpleFlavor.closest('[data-simple-slot-group]');
+      if (grpS) grpS.querySelectorAll('.fe-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+      simpleFlavor.classList.add('is-active'); simpleFlavor.setAttribute('aria-pressed', 'true');
+      sSimple.flavorName = simpleFlavor.dataset.flavorName;
+      if (sSimple.product) { sSimple.variant = findVariant(sSimple.product, sSimple.flavorName); }
+      pushEvent('fe_simple_flavor_selected', { slot: slotId, flavor: sSimple.flavorName });
+      recompute();
+      return;
+    }
     var otFlavor = e.target.closest('.fe-flavor-opt[data-onetime-variant-id]');
     if (otFlavor && root.contains(otFlavor)) {
       var grp = otFlavor.closest('[data-onetime-flavor-group]');
@@ -1114,6 +1240,10 @@
     if (firstOtFlavorBtn) slots.onetime.flavorName = firstOtFlavorBtn.dataset.flavorName;
     loadSlotProduct('onetime');
   }
+  if (SIMPLE_SUBS) {
+    loadSlotProduct('monthly');
+    for (var nn = 1; nn <= BUNDLE_COUNT; nn++) loadSlotProduct('q' + nn);
+  }
 
 })();
 </script>
@@ -1224,10 +1354,14 @@
     { "type": "text", "id": "onetime_period", "label": "One-time period text", "default": "/ pouch" },
     { "type": "text", "id": "onetime_was", "label": "One-time \"was\" text (fallback)" },
     { "type": "textarea", "id": "onetime_checklist", "label": "One-time checklist", "info": "One per line.", "default": "30 servings per pouch\nShipping calculated at checkout\nNo subscription required" },
-    { "type": "paragraph", "content": "If a product is selected below, customers who pick the One Time plan will see this product directly with a flavor picker — no function-card grid to navigate. Leave blank to fall back to the function-block grid." },
+    { "type": "paragraph", "content": "When 'Product for one-time purchase' is set, the One Time plan shows just that product. Tick 'Use this product for Monthly and Every-3-months too' to skip the function-card grid for subscriptions as well." },
     { "type": "product",   "id": "onetime_product",         "label": "Product for one-time purchase" },
     { "type": "text",      "id": "onetime_flavor_option",   "label": "Variant option name for flavor", "info": "e.g. Flavor. Must match the product's option name. Blank = first option.", "default": "Flavor" },
     { "type": "image_picker", "id": "onetime_card_image",   "label": "Card image (optional)", "info": "Overrides the product's featured image on the One-Time card." },
+    { "type": "checkbox",  "id": "simplified_for_subs",     "label": "Use this product for Monthly and Every-3-months too (skip the function-card grid)", "default": true },
+    { "type": "paragraph", "content": "Used when 'Use this product for Monthly and Every-3-months too' is on: the Loop selling plan IDs that apply to the configured product for each subscription cadence." },
+    { "type": "text",      "id": "simple_plan_monthly",    "label": "Monthly Loop plan ID for this product" },
+    { "type": "text",      "id": "simple_plan_quarterly",  "label": "Every-3-months Loop plan ID for this product" },
 
     { "type": "header", "content": "Step 2 — Build Bundle" },
     { "type": "text", "id": "build_step_label", "label": "Step label", "info": "Use {count} for the pouch count.", "default": "Build {count}-Pouch Bundle" },
