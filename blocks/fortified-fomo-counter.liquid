@@ -172,6 +172,7 @@
     text-transform: uppercase;
     color: var(--ftfomo-eyebrow);
   }
+  #{{ root }} .ftfomo__desc { margin: 0 0 18px; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.5; opacity: 0.85; }
   #{{ root }} .ftfomo__line {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
@@ -225,6 +226,10 @@
       <p class="ftfomo__eyebrow">{{ block.settings.eyebrow }}</p>
     {%- endif -%}
 
+    {%- if block.settings.description != blank -%}
+      <p class="ftfomo__desc">{{ block.settings.description }}</p>
+    {%- endif -%}
+
     <p class="ftfomo__line">{{ rendered_line }}</p>
 
     {%- if block.settings.show_progress_bar -%}
@@ -254,6 +259,7 @@
 
     { "type": "header", "content": "Copy" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
+    { "type": "textarea", "id": "description", "label": "Description", "info": "Optional. Sits between the eyebrow and the spots-left line.", "default": "First 1,000 Quarterly Plan Subscribers get a free creatine for the lifetime of their subscription." },
     { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
     { "type": "textarea", "id": "active_template", "label": "Active line", "default": "Only **{remaining}** of **{total}** subscription spots left", "info": "Use {remaining} and {total} tokens. Wrap **text** in double asterisks to bold." },
     { "type": "text", "id": "active_sub", "label": "Active subline", "default": "Lock in your free creatine while spots last." },
