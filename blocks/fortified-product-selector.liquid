@@ -1358,7 +1358,7 @@
     { "type": "product",   "id": "onetime_product",         "label": "Product for one-time purchase" },
     { "type": "text",      "id": "onetime_flavor_option",   "label": "Variant option name for flavor", "info": "e.g. Flavor. Must match the product's option name. Blank = first option.", "default": "Flavor" },
     { "type": "image_picker", "id": "onetime_card_image",   "label": "Card image (optional)", "info": "Overrides the product's featured image on the One-Time card." },
-    { "type": "checkbox",  "id": "simplified_for_subs",     "label": "Use this product for Monthly and Every-3-months too (skip the function-card grid)", "default": true },
+    { "type": "checkbox",  "id": "simplified_for_subs",     "label": "Use this product for Monthly + Every-3-months", "info": "Skips the function-card grid on subscriptions.", "default": true },
     { "type": "paragraph", "content": "Used when 'Use this product for Monthly and Every-3-months too' is on: the Loop selling plan IDs that apply to the configured product for each subscription cadence." },
     { "type": "text",      "id": "simple_plan_monthly",    "label": "Monthly Loop plan ID for this product" },
     { "type": "text",      "id": "simple_plan_quarterly",  "label": "Every-3-months Loop plan ID for this product" },
