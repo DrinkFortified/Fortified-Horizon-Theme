@@ -287,45 +287,8 @@
           </div>
         {%- endif -%}
 
-        {%- comment %} Quarterly: one pouch group per unit {%- endcomment %}
-        {%- if onetime_product != blank and block.settings.simplified_for_subs -%}
-          {%- comment %} Simplified quarterly view — N flavor pickers of the same product {%- endcomment %}
-          <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
-            {%- assign ot_img = block.settings.onetime_card_image | default: onetime_product.featured_image -%}
-            {%- for i in (1..bundle_count) -%}
-              <div class="fe-pouch">
-                <p class="fe-pouch-title">{{ block.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
-                <div class="fe-onetime-card" data-onetime-handle="{{ onetime_handle }}">
-                  <div class="fe-onetime-media">
-                    {%- if ot_img != blank -%}
-                      <img src="{{ ot_img | image_url: width: 480 }}" alt="{{ onetime_product.title | escape }}" loading="lazy" width="120" height="120">
-                    {%- endif -%}
-                  </div>
-                  <div class="fe-onetime-body">
-                    <p class="fe-onetime-name">{{ onetime_product.title }}</p>
-                    {%- if onetime_product.variants.size > 1 -%}
-                      <p class="fe-fcard-flavor-label">{{ block.settings.flavor_label | default: 'Choose Flavor:' }}</p>
-                      <div class="fe-fcard-flavors" data-simple-slot-group="q{{ i }}">
-                        {%- for v in onetime_product.variants -%}
-                          <button type="button"
-                                  class="fe-flavor-opt{% if forloop.first %} is-active{% endif %}"
-                                  data-simple-slot-id="q{{ i }}"
-                                  data-variant-id="{{ v.id }}"
-                                  data-flavor-name="{{ v.title | escape }}"
-                                  aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
-                            <span class="fe-flavor-radio" aria-hidden="true"></span>
-                            <span class="fe-flavor-name">{{ v.title }}</span>
-                          </button>
-                        {%- endfor -%}
-                      </div>
-                    {%- endif -%}
-                  </div>
-                </div>
-              </div>
-            {%- endfor -%}
-          </div>
-        {%- else -%}
-          <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
+        {%- comment %} Quarterly: one pouch group per unit — always function-card grid so customers can mix functions per pouch {%- endcomment %}
+        <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
             {%- for i in (1..bundle_count) -%}
               <div class="fe-pouch">
                 <p class="fe-pouch-title">{{ block.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
@@ -339,7 +302,6 @@
               </div>
             {%- endfor -%}
           </div>
-        {%- endif -%}
       </div>
 
       {%- comment %} ───── CREATINE ADD-ON (visible toggle card; adapts monthly / quarterly-2nd) ───── {%- endcomment %}
@@ -1059,12 +1021,8 @@
       s.flavorName = firstBtn.dataset.flavorName;
       if (s.product) s.variant = findVariant(s.product, s.flavorName);
     }
-    if (SIMPLE_SUBS) {
-      if (type === 'monthly') {
-        presimplePick('monthly', '.fe-build-view--monthly');
-      } else if (type === 'quarterly') {
-        for (var pq = 1; pq <= BUNDLE_COUNT; pq++) presimplePick('q' + pq, '.fe-build-view--quarterly');
-      }
+    if (SIMPLE_SUBS && type === 'monthly') {
+      presimplePick('monthly', '.fe-build-view--monthly');
     }
 
     /* Creatine card: unlock + adapt copy. Quarterly shows the "1st free" line and offers a 2nd at 50%.
@@ -1280,7 +1238,6 @@
   }
   if (SIMPLE_SUBS) {
     loadSlotProduct('monthly');
-    for (var nn = 1; nn <= BUNDLE_COUNT; nn++) loadSlotProduct('q' + nn);
   }
 
 })();
