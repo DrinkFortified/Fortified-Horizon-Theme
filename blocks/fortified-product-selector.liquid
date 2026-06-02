@@ -775,7 +775,6 @@
   }
   if (SIMPLE_SUBS) {
     var simpleIds = ['monthly'];
-    for (var qi = 1; qi <= BUNDLE_COUNT; qi++) simpleIds.push('q' + qi);
     simpleIds.forEach(function (id) {
       slots[id].handle = ONETIME_HANDLE;
       slots[id].functionId = 'simple-' + id;
