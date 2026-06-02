@@ -128,6 +128,22 @@
                   {%- for li in onetime_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
                 </span>
               {%- endif -%}
+
+              {%- if onetime_product != blank and onetime_product.variants.size > 1 -%}
+                <span class="fe-plan-flavors" data-onetime-flavor-group>
+                  <span class="fe-plan-flavors-label">{{ block.settings.flavor_label | default: 'Choose Flavor:' }}</span>
+                  {%- for v in onetime_product.variants -%}
+                    <button type="button"
+                            class="fe-flavor-opt{% if forloop.first %} is-active{% endif %}"
+                            data-onetime-variant-id="{{ v.id }}"
+                            data-flavor-name="{{ v.title | escape }}"
+                            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+                      <span class="fe-flavor-radio" aria-hidden="true"></span>
+                      <span class="fe-flavor-name">{{ v.title }}</span>
+                    </button>
+                  {%- endfor -%}
+                </span>
+              {%- endif -%}
             </label>
 
             {%- if show_monthly or show_quarterly -%}
@@ -505,6 +521,10 @@
 #fe-{{ sid }} .fe-plan-period { font-size: 0.7rem; opacity: 0.55; color: var(--color-foreground); }
 #fe-{{ sid }} .fe-plan-was { font-size: 0.68rem; opacity: 0.5; color: var(--color-foreground); text-decoration: line-through; min-height: 0.9em; }
 #fe-{{ sid }} .fe-plan-list { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.5rem; padding-top: 0.6rem; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.1); }
+#fe-{{ sid }} .fe-plan-flavors { display: none; flex-direction: column; gap: 0.4rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.1); }
+#fe-{{ sid }} .fe-plan.is-active .fe-plan-flavors { display: flex; }
+#fe-{{ sid }} .fe-plan-flavors-label { font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-plan-flavors .fe-flavor-opt { width: 100%; }
 #fe-{{ sid }} .fe-plan-li { display: flex; align-items: flex-start; gap: 0.4rem; font-size: 0.68rem; color: var(--color-foreground); line-height: 1.3; }
 #fe-{{ sid }} .fe-li-check { color: var(--fe-selection-color, var(--color-primary-button-background)); font-weight: 800; flex-shrink: 0; }
 
@@ -1007,6 +1027,12 @@
     if (quarterlyView) quarterlyView.classList.toggle('is-active', type === 'quarterly');
     var onetimeView = root.querySelector('.fe-build-view--onetime');
     if (onetimeView) onetimeView.classList.toggle('is-active', onetimeDedicated);
+    /* The One-Time plan card now contains its own flavor picker, so the
+       Step 2 panel adds no value when a dedicated one-time product is set. */
+    if (buildGroup) {
+      if (type === 'onetime' && ONETIME_HANDLE) buildGroup.style.display = 'none';
+      else buildGroup.style.display = '';
+    }
     if (buildGroup) { buildGroup.classList.remove('fe-step--locked'); buildGroup.removeAttribute('aria-disabled'); }
     var count = (monthlyLike || onetimeDedicated) ? 1 : BUNDLE_COUNT;
     if (buildLabelEl) buildLabelEl.textContent = BUILD_LABEL.replace('{count}', count);
@@ -1105,6 +1131,18 @@
     }
     var otFlavor = e.target.closest('.fe-flavor-opt[data-onetime-variant-id]');
     if (otFlavor && root.contains(otFlavor)) {
+      /* If the flavor picker lives inside the One-Time plan card, prevent the
+         enclosing <label> from re-toggling the radio, and ensure the radio
+         actually becomes checked if it isn't yet. */
+      var inPlanCard = otFlavor.closest('.fe-plan[data-plan="onetime"]');
+      if (inPlanCard) {
+        e.preventDefault();
+        var planRadio = inPlanCard.querySelector('input[type="radio"]');
+        if (planRadio && !planRadio.checked) {
+          planRadio.checked = true;
+          planRadio.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
       var grp = otFlavor.closest('[data-onetime-flavor-group]');
       if (grp) grp.querySelectorAll('.fe-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
       otFlavor.classList.add('is-active'); otFlavor.setAttribute('aria-pressed', 'true');
