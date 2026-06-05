@@ -174,7 +174,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Paste the URL of your Loop customer portal here. Customers arriving from Loop's magic-link emails will land on this Shopify page with a token in the URL — that token is automatically forwarded into the iframe so Loop authenticates them."
+      "content": "Paste the URL of your Loop customer portal here. Customers arriving from Loop's magic-link emails will land on this Shopify page with a token in the URL \u2014 that token is automatically forwarded into the iframe so Loop authenticates them."
     },
     {
       "type": "url",
@@ -263,8 +263,14 @@
       "id": "section_width",
       "label": "Section width",
       "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
       ],
       "default": "page-width"
     },
@@ -301,6 +307,32 @@
       "step": 4,
       "unit": "px",
       "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Loop Integration"
+    },
+    {
+      "type": "paragraph",
+      "content": "Loop API credentials. Use a STOREFRONT (public) token only \u2014 never an Admin API key. Tokens entered here are visible in the page source. For customer-authenticated calls, set up a Shopify App Proxy or worker to mint short-lived Loop session tokens."
+    },
+    {
+      "type": "text",
+      "id": "loop_api_token",
+      "label": "Loop storefront API token"
+    },
+    {
+      "type": "text",
+      "id": "loop_api_base",
+      "label": "Loop API base URL",
+      "info": "Default: https://api.loopwork.co",
+      "default": "https://api.loopwork.co"
+    },
+    {
+      "type": "url",
+      "id": "loop_session_endpoint",
+      "label": "Session-token endpoint (proxy URL)",
+      "info": "Optional. Your App Proxy / worker URL that returns a Loop session token for the logged-in customer. Required for customer-authenticated bundle calls."
     }
   ],
   "presets": [

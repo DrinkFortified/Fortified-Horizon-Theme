@@ -1145,188 +1145,875 @@
   "name": "FTD - Product Selector",
   "class": "fortified-elements-section",
   "settings": [
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "layout_direction", "label": "Content layout", "default": "image-left",
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_direction",
+      "label": "Content layout",
+      "default": "image-left",
       "options": [
-        { "value": "image-left", "label": "Gallery left, selector right" },
-        { "value": "panel-left", "label": "Selector left, gallery right" }
+        {
+          "value": "image-left",
+          "label": "Gallery left, selector right"
+        },
+        {
+          "value": "panel-left",
+          "label": "Selector left, gallery right"
+        }
       ]
     },
-    { "type": "range", "id": "content_max_width", "label": "Section max width", "min": 600, "max": 1600, "step": 40, "unit": "px", "default": 1240 },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "checkbox", "id": "show_progress", "label": "Show step progress indicator", "default": true },
-    { "type": "text", "id": "progress_label_1", "label": "Progress step 1 label", "default": "Plan" },
-    { "type": "text", "id": "progress_label_2", "label": "Progress step 2 label", "default": "Build" },
-    { "type": "text", "id": "progress_label_3", "label": "Progress step 3 label", "default": "Review" },
-    { "type": "range", "id": "panel_width", "label": "Selector panel width", "min": 300, "max": 700, "step": 20, "unit": "px", "default": 460 },
-
-    { "type": "header", "content": "Gallery" },
-    { "type": "checkbox", "id": "show_thumbnails", "label": "Show image thumbnails", "default": true },
-    { "type": "select", "id": "thumbnail_position", "label": "Thumbnail position", "default": "left", "options": [ { "value": "left", "label": "Left of image" }, { "value": "right", "label": "Right of image" }, { "value": "bottom", "label": "Below image" } ] },
-    { "type": "color_scheme", "id": "media_color_scheme", "label": "Image area color scheme", "info": "Pick a contrasting / light-grey scheme to give the product image a subtle background.", "default": "scheme-1" },
-    { "type": "checkbox", "id": "show_doctor_badge", "label": "Show top-left badge", "default": true },
-    { "type": "text", "id": "doctor_badge_text", "label": "Top-left badge text", "default": "Doctor Recommended" },
-    { "type": "color", "id": "doctor_badge_bg", "label": "Top-left badge color", "default": "#0A0A0A" },
-    { "type": "checkbox", "id": "show_rating", "label": "Show star rating", "default": true },
-    { "type": "text", "id": "rating_value", "label": "Rating value", "default": "4.8" },
-    { "type": "text", "id": "rating_count", "label": "Rating count text", "default": "(342 reviews)" },
-    { "type": "color", "id": "star_color", "label": "Star color", "default": "#F5A623" },
-    { "type": "text", "id": "gallery_caption", "label": "Image caption", "default": "Electrolytes D3+K3" },
-
-    { "type": "header", "content": "Content" },
-    { "type": "text", "id": "heading", "label": "Title", "default": "Everyday Hydration" },
-    { "type": "text", "id": "subheading", "label": "Subtitle", "default": "Electrolytes + D3 + K2" },
-    { "type": "text", "id": "coming_soon_text", "label": "Coming Soon badge text", "default": "Soon" },
-
-    { "type": "header", "content": "Step 1 — Plans" },
-    { "type": "text", "id": "plan_step_label", "label": "Step label", "default": "Choose Your Plan" },
-    { "type": "text", "id": "plan_step_note", "label": "Step note (top-right)", "default": "Monthly 10% Off" },
-    { "type": "checkbox", "id": "show_monthly", "label": "Show \"1 a Month\" plan", "default": true },
-    { "type": "text", "id": "monthly_badge", "label": "Monthly badge", "default": "Monthly" },
-    { "type": "color", "id": "monthly_badge_color", "label": "Monthly badge color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "monthly_title", "label": "Monthly title", "info": "One line per row.", "default": "1 Pouch\nEvery Month" },
-    { "type": "text", "id": "monthly_desc", "label": "Monthly description", "default": "Your daily ritual, delivered." },
-    { "type": "text", "id": "monthly_price", "label": "Monthly price (fallback)", "info": "Shown until a product/plan price is calculated.", "default": "$53.10" },
-    { "type": "text", "id": "monthly_period", "label": "Monthly period text", "default": "/ month" },
-    { "type": "text", "id": "monthly_was", "label": "Monthly \"was\" text (fallback)", "default": "was $59.00/mo" },
-    { "type": "textarea", "id": "monthly_checklist", "label": "Monthly checklist", "info": "One per line.", "default": "Save 15% on every order\nFree shipping always\nFlexible, cancel / pause any time" },
-    { "type": "checkbox", "id": "show_quarterly", "label": "Show \"3 Every 3 Months\" plan", "default": true },
-    { "type": "text", "id": "quarterly_badge", "label": "Quarterly badge", "default": "Best Value - Quarterly" },
-    { "type": "color", "id": "quarterly_badge_color", "label": "Quarterly badge color", "default": "#E8833A" },
-    { "type": "textarea", "id": "quarterly_title", "label": "Quarterly title", "info": "One line per row.", "default": "3 Pouches\nEvery 3 Months" },
-    { "type": "text", "id": "quarterly_desc", "label": "Quarterly description", "default": "Mix any functions freely." },
-    { "type": "text", "id": "quarterly_price", "label": "Quarterly price (fallback)", "default": "$53.10" },
-    { "type": "text", "id": "quarterly_period", "label": "Quarterly period text", "default": "/ month" },
-    { "type": "text", "id": "quarterly_was", "label": "Quarterly \"was\" text (fallback)", "default": "was $59.00/mo" },
-    { "type": "textarea", "id": "quarterly_checklist", "label": "Quarterly checklist", "info": "One per line.", "default": "Free Creatine + Sample Pack\nFree shipping always\nFlexible, cancel / pause any time" },
-    { "type": "range", "id": "bundle_count", "label": "Pouches in the quarterly box", "min": 2, "max": 6, "step": 1, "default": 3 },
-
-    { "type": "header", "content": "Step 2 — Build Bundle" },
-    { "type": "text", "id": "build_step_label", "label": "Step label", "info": "Use {count} for the pouch count.", "default": "Build {count}-Pouch Bundle" },
-    { "type": "text", "id": "pouches_word", "label": "Counter word", "default": "Pouches" },
-    { "type": "text", "id": "function_label", "label": "Function label (unused on cards)", "default": "Choose Your Function" },
-    { "type": "text", "id": "flavor_label", "label": "Flavor label", "default": "Choose Flavor:" },
-    { "type": "text", "id": "unit_label_prefix", "label": "Pouch label prefix", "default": "Pouch" },
-
-    { "type": "header", "content": "Creatine Add-on" },
-    { "type": "checkbox", "id": "show_addon", "label": "Show creatine add-on", "default": true },
-    { "type": "product", "id": "addon_product", "label": "Add-on product", "info": "Added to cart when toggled on. Set the 50% discount as an automatic discount in Shopify." },
-    { "type": "image_picker", "id": "addon_image", "label": "Add-on image", "info": "Optional. Falls back to the product image." },
-    { "type": "text", "id": "addon_label", "label": "Title — monthly", "default": "Add Creatine — 50% off" },
-    { "type": "text", "id": "addon_desc", "label": "Description — monthly", "default": "50% off applied automatically at checkout." },
-    { "type": "text", "id": "addon_label_quarterly", "label": "Title — quarterly (2nd unit)", "default": "Add a 2nd Creatine — 50% off" },
-    { "type": "text", "id": "addon_desc_quarterly", "label": "Description — quarterly", "default": "1st Creatine is free with your bundle. Add a second at 50% off." },
-    { "type": "text", "id": "quarterly_free_text", "label": "Quarterly \"free included\" line", "default": "Free Creatine + Sample Pack included with your bundle" },
-    { "type": "text", "id": "addon_price_text", "label": "Add-on price (display)", "default": "$12.00" },
-    { "type": "text", "id": "addon_was_text", "label": "Add-on compare-at (display)", "default": "$24.00" },
-    { "type": "paragraph", "content": "Subscribe the creatine add-on to the same Loop cadence as the chosen plan. In Shopify Admin open the creatine product, scroll to Purchase options, click a selling plan, and copy the ID from the end of the URL. Leave blank to add the creatine as a one-time purchase." },
-    { "type": "text", "id": "addon_loop_plan_monthly", "label": "Creatine plan ID — Monthly (50% off)" },
-    { "type": "text", "id": "addon_loop_plan_quarterly", "label": "Creatine plan ID — Every 3 months (free 1st, included with bundle)" },
-    { "type": "text", "id": "addon_loop_plan_quarterly_50off", "label": "Creatine plan ID — Every 3 months (optional 2nd, 50% off)" },
-
-    { "type": "header", "content": "Order Overview" },
-    { "type": "text", "id": "summary_label", "label": "Heading", "default": "Your Order" },
-    { "type": "text", "id": "total_label", "label": "Total label", "default": "Total" },
-    { "type": "text", "id": "overview_note", "label": "Note under total", "default": "Subscriptions ship free. Discounts applied at checkout." },
-
-    { "type": "header", "content": "Add to Cart" },
-    { "type": "text", "id": "atc_label", "label": "Button label", "default": "Add to Cart" },
-    { "type": "checkbox", "id": "show_total_on_button", "label": "Show total price on button", "default": true },
-    { "type": "select", "id": "button_style", "label": "Button style", "default": "filled",
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Section max width",
+      "min": 600,
+      "max": 1600,
+      "step": 40,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "full-width",
       "options": [
-        { "value": "filled",  "label": "Filled" },
-        { "value": "outline", "label": "Outline" },
-        { "value": "ghost",   "label": "Ghost" }
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
       ]
     },
-    { "type": "text", "id": "onetime_prefix", "label": "One-time note prefix", "default": "Or purchase once:" },
-    { "type": "text", "id": "onetime_price_text", "label": "One-time note price", "default": "$59.00 + $8.99 shipping" },
-    { "type": "url", "id": "onetime_link", "label": "One-time note link", "info": "If set, the note links here (e.g. a one-time product page). Leave blank to add a one-time purchase to the cart on click instead." },
-    { "type": "checkbox", "id": "onetime_clickable", "label": "One-time note adds a one-time purchase on click", "info": "Ignored when a link is set above.", "default": true },
-
-    { "type": "header", "content": "Image" },
-    { "type": "range", "id": "media_height_mobile", "label": "Image height — mobile", "min": 200, "max": 700, "step": 20, "unit": "px", "default": 380 },
-    { "type": "range", "id": "media_height_desktop", "label": "Image height — desktop", "min": 300, "max": 900, "step": 20, "unit": "px", "default": 560 },
-    { "type": "select", "id": "image_position", "label": "Image position", "default": "center center",
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "Show step progress indicator",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "progress_label_1",
+      "label": "Progress step 1 label",
+      "default": "Plan"
+    },
+    {
+      "type": "text",
+      "id": "progress_label_2",
+      "label": "Progress step 2 label",
+      "default": "Build"
+    },
+    {
+      "type": "text",
+      "id": "progress_label_3",
+      "label": "Progress step 3 label",
+      "default": "Review"
+    },
+    {
+      "type": "range",
+      "id": "panel_width",
+      "label": "Selector panel width",
+      "min": 300,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "default": 460
+    },
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Show image thumbnails",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_position",
+      "label": "Thumbnail position",
+      "default": "left",
       "options": [
-        { "value": "top left",      "label": "Top left" },
-        { "value": "top center",    "label": "Top center" },
-        { "value": "top right",     "label": "Top right" },
-        { "value": "center left",   "label": "Center left" },
-        { "value": "center center", "label": "Center" },
-        { "value": "center right",  "label": "Center right" },
-        { "value": "bottom left",   "label": "Bottom left" },
-        { "value": "bottom center", "label": "Bottom center" },
-        { "value": "bottom right",  "label": "Bottom right" }
+        {
+          "value": "left",
+          "label": "Left of image"
+        },
+        {
+          "value": "right",
+          "label": "Right of image"
+        },
+        {
+          "value": "bottom",
+          "label": "Below image"
+        }
       ]
     },
-    { "type": "range", "id": "image_padding", "label": "Image padding", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 16 },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "selection_color", "label": "Selection highlight color", "default": "#1FA8A1" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Section color scheme", "default": "scheme-1" },
-    { "type": "color_scheme", "id": "panel_color_scheme", "label": "Panel color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Shape" },
-    { "type": "range", "id": "button_radius", "label": "Button corner radius", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 8 },
-    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 12 },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section only. Use the .fe- class names on its elements." }
+    {
+      "type": "color_scheme",
+      "id": "media_color_scheme",
+      "label": "Image area color scheme",
+      "info": "Pick a contrasting / light-grey scheme to give the product image a subtle background.",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_doctor_badge",
+      "label": "Show top-left badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "doctor_badge_text",
+      "label": "Top-left badge text",
+      "default": "Doctor Recommended"
+    },
+    {
+      "type": "color",
+      "id": "doctor_badge_bg",
+      "label": "Top-left badge color",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show star rating",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating value",
+      "default": "4.8"
+    },
+    {
+      "type": "text",
+      "id": "rating_count",
+      "label": "Rating count text",
+      "default": "(342 reviews)"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#F5A623"
+    },
+    {
+      "type": "text",
+      "id": "gallery_caption",
+      "label": "Image caption",
+      "default": "Electrolytes D3+K3"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Title",
+      "default": "Everyday Hydration"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtitle",
+      "default": "Electrolytes + D3 + K2"
+    },
+    {
+      "type": "text",
+      "id": "coming_soon_text",
+      "label": "Coming Soon badge text",
+      "default": "Soon"
+    },
+    {
+      "type": "header",
+      "content": "Step 1 \u2014 Plans"
+    },
+    {
+      "type": "text",
+      "id": "plan_step_label",
+      "label": "Step label",
+      "default": "Choose Your Plan"
+    },
+    {
+      "type": "text",
+      "id": "plan_step_note",
+      "label": "Step note (top-right)",
+      "default": "Monthly 10% Off"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_monthly",
+      "label": "Show \"1 a Month\" plan",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "monthly_badge",
+      "label": "Monthly badge",
+      "default": "Monthly"
+    },
+    {
+      "type": "color",
+      "id": "monthly_badge_color",
+      "label": "Monthly badge color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "monthly_title",
+      "label": "Monthly title",
+      "info": "One line per row.",
+      "default": "1 Pouch\nEvery Month"
+    },
+    {
+      "type": "text",
+      "id": "monthly_desc",
+      "label": "Monthly description",
+      "default": "Your daily ritual, delivered."
+    },
+    {
+      "type": "text",
+      "id": "monthly_price",
+      "label": "Monthly price (fallback)",
+      "info": "Shown until a product/plan price is calculated.",
+      "default": "$53.10"
+    },
+    {
+      "type": "text",
+      "id": "monthly_period",
+      "label": "Monthly period text",
+      "default": "/ month"
+    },
+    {
+      "type": "text",
+      "id": "monthly_was",
+      "label": "Monthly \"was\" text (fallback)",
+      "default": "was $59.00/mo"
+    },
+    {
+      "type": "textarea",
+      "id": "monthly_checklist",
+      "label": "Monthly checklist",
+      "info": "One per line.",
+      "default": "Save 15% on every order\nFree shipping always\nFlexible, cancel / pause any time"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quarterly",
+      "label": "Show \"3 Every 3 Months\" plan",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "quarterly_badge",
+      "label": "Quarterly badge",
+      "default": "Best Value - Quarterly"
+    },
+    {
+      "type": "color",
+      "id": "quarterly_badge_color",
+      "label": "Quarterly badge color",
+      "default": "#E8833A"
+    },
+    {
+      "type": "textarea",
+      "id": "quarterly_title",
+      "label": "Quarterly title",
+      "info": "One line per row.",
+      "default": "3 Pouches\nEvery 3 Months"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_desc",
+      "label": "Quarterly description",
+      "default": "Mix any functions freely."
+    },
+    {
+      "type": "text",
+      "id": "quarterly_price",
+      "label": "Quarterly price (fallback)",
+      "default": "$53.10"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_period",
+      "label": "Quarterly period text",
+      "default": "/ month"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_was",
+      "label": "Quarterly \"was\" text (fallback)",
+      "default": "was $59.00/mo"
+    },
+    {
+      "type": "textarea",
+      "id": "quarterly_checklist",
+      "label": "Quarterly checklist",
+      "info": "One per line.",
+      "default": "Free Creatine + Sample Pack\nFree shipping always\nFlexible, cancel / pause any time"
+    },
+    {
+      "type": "range",
+      "id": "bundle_count",
+      "label": "Pouches in the quarterly box",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Step 2 \u2014 Build Bundle"
+    },
+    {
+      "type": "text",
+      "id": "build_step_label",
+      "label": "Step label",
+      "info": "Use {count} for the pouch count.",
+      "default": "Build {count}-Pouch Bundle"
+    },
+    {
+      "type": "text",
+      "id": "pouches_word",
+      "label": "Counter word",
+      "default": "Pouches"
+    },
+    {
+      "type": "text",
+      "id": "function_label",
+      "label": "Function label (unused on cards)",
+      "default": "Choose Your Function"
+    },
+    {
+      "type": "text",
+      "id": "flavor_label",
+      "label": "Flavor label",
+      "default": "Choose Flavor:"
+    },
+    {
+      "type": "text",
+      "id": "unit_label_prefix",
+      "label": "Pouch label prefix",
+      "default": "Pouch"
+    },
+    {
+      "type": "header",
+      "content": "Creatine Add-on"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_addon",
+      "label": "Show creatine add-on",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "addon_product",
+      "label": "Add-on product",
+      "info": "Added to cart when toggled on. Set the 50% discount as an automatic discount in Shopify."
+    },
+    {
+      "type": "image_picker",
+      "id": "addon_image",
+      "label": "Add-on image",
+      "info": "Optional. Falls back to the product image."
+    },
+    {
+      "type": "text",
+      "id": "addon_label",
+      "label": "Title \u2014 monthly",
+      "default": "Add Creatine \u2014 50% off"
+    },
+    {
+      "type": "text",
+      "id": "addon_desc",
+      "label": "Description \u2014 monthly",
+      "default": "50% off applied automatically at checkout."
+    },
+    {
+      "type": "text",
+      "id": "addon_label_quarterly",
+      "label": "Title \u2014 quarterly (2nd unit)",
+      "default": "Add a 2nd Creatine \u2014 50% off"
+    },
+    {
+      "type": "text",
+      "id": "addon_desc_quarterly",
+      "label": "Description \u2014 quarterly",
+      "default": "1st Creatine is free with your bundle. Add a second at 50% off."
+    },
+    {
+      "type": "text",
+      "id": "quarterly_free_text",
+      "label": "Quarterly \"free included\" line",
+      "default": "Free Creatine + Sample Pack included with your bundle"
+    },
+    {
+      "type": "text",
+      "id": "addon_price_text",
+      "label": "Add-on price (display)",
+      "default": "$12.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_was_text",
+      "label": "Add-on compare-at (display)",
+      "default": "$24.00"
+    },
+    {
+      "type": "paragraph",
+      "content": "Subscribe the creatine add-on to the same Loop cadence as the chosen plan. In Shopify Admin open the creatine product, scroll to Purchase options, click a selling plan, and copy the ID from the end of the URL. Leave blank to add the creatine as a one-time purchase."
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_monthly",
+      "label": "Creatine plan ID \u2014 Monthly (50% off)"
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_quarterly",
+      "label": "Creatine plan ID \u2014 Every 3 months (free 1st, included with bundle)"
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_quarterly_50off",
+      "label": "Creatine plan ID \u2014 Every 3 months (optional 2nd, 50% off)"
+    },
+    {
+      "type": "header",
+      "content": "Order Overview"
+    },
+    {
+      "type": "text",
+      "id": "summary_label",
+      "label": "Heading",
+      "default": "Your Order"
+    },
+    {
+      "type": "text",
+      "id": "total_label",
+      "label": "Total label",
+      "default": "Total"
+    },
+    {
+      "type": "text",
+      "id": "overview_note",
+      "label": "Note under total",
+      "default": "Subscriptions ship free. Discounts applied at checkout."
+    },
+    {
+      "type": "header",
+      "content": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "atc_label",
+      "label": "Button label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_total_on_button",
+      "label": "Show total price on button",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "filled",
+      "options": [
+        {
+          "value": "filled",
+          "label": "Filled"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "ghost",
+          "label": "Ghost"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "onetime_prefix",
+      "label": "One-time note prefix",
+      "default": "Or purchase once:"
+    },
+    {
+      "type": "text",
+      "id": "onetime_price_text",
+      "label": "One-time note price",
+      "default": "$59.00 + $8.99 shipping"
+    },
+    {
+      "type": "url",
+      "id": "onetime_link",
+      "label": "One-time note link",
+      "info": "If set, the note links here (e.g. a one-time product page). Leave blank to add a one-time purchase to the cart on click instead."
+    },
+    {
+      "type": "checkbox",
+      "id": "onetime_clickable",
+      "label": "One-time note adds a one-time purchase on click",
+      "info": "Ignored when a link is set above.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "range",
+      "id": "media_height_mobile",
+      "label": "Image height \u2014 mobile",
+      "min": 200,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "default": 380
+    },
+    {
+      "type": "range",
+      "id": "media_height_desktop",
+      "label": "Image height \u2014 desktop",
+      "min": 300,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 560
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "default": "center center",
+      "options": [
+        {
+          "value": "top left",
+          "label": "Top left"
+        },
+        {
+          "value": "top center",
+          "label": "Top center"
+        },
+        {
+          "value": "top right",
+          "label": "Top right"
+        },
+        {
+          "value": "center left",
+          "label": "Center left"
+        },
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "center right",
+          "label": "Center right"
+        },
+        {
+          "value": "bottom left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "bottom center",
+          "label": "Bottom center"
+        },
+        {
+          "value": "bottom right",
+          "label": "Bottom right"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "image_padding",
+      "label": "Image padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "selection_color",
+      "label": "Selection highlight color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Section color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "panel_color_scheme",
+      "label": "Panel color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Shape"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Button corner radius",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section only. Use the .fe- class names on its elements."
+    },
+    {
+      "type": "header",
+      "content": "Loop Integration"
+    },
+    {
+      "type": "paragraph",
+      "content": "Loop API credentials. Use a STOREFRONT (public) token only \u2014 never an Admin API key. Tokens entered here are visible in the page source. For customer-authenticated calls, set up a Shopify App Proxy or worker to mint short-lived Loop session tokens."
+    },
+    {
+      "type": "text",
+      "id": "loop_api_token",
+      "label": "Loop storefront API token"
+    },
+    {
+      "type": "text",
+      "id": "loop_api_base",
+      "label": "Loop API base URL",
+      "info": "Default: https://api.loopwork.co",
+      "default": "https://api.loopwork.co"
+    },
+    {
+      "type": "url",
+      "id": "loop_session_endpoint",
+      "label": "Session-token endpoint (proxy URL)",
+      "info": "Optional. Your App Proxy / worker URL that returns a Loop session token for the logged-in customer. Required for customer-authenticated bundle calls."
+    }
   ],
   "blocks": [
     {
       "type": "function_item",
       "name": "Function",
       "settings": [
-        { "type": "header", "content": "Product" },
-        { "type": "checkbox", "id": "enabled", "label": "Enable this function", "default": true },
-        { "type": "text", "id": "function_label", "label": "Function name", "default": "Fortified Everyday" },
-        { "type": "product", "id": "product", "label": "Product" },
-        { "type": "checkbox", "id": "coming_soon", "label": "Mark as Coming Soon", "default": false },
-        { "type": "header", "content": "Card" },
-        { "type": "image_picker", "id": "card_image", "label": "Card image", "info": "Large product image shown on the card. Falls back to the summary thumbnail." },
-        { "type": "text", "id": "spec_1", "label": "Spec tag 1", "default": "152mg Caffeine" },
-        { "type": "text", "id": "spec_2", "label": "Spec tag 2", "default": "1,200mg NA" },
-        { "type": "text", "id": "spec_3", "label": "Spec tag 3" },
-        { "type": "textarea", "id": "description", "label": "Description", "default": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix." },
-        { "type": "image_picker", "id": "thumbnail_image", "label": "Summary thumbnail" },
-        { "type": "image_picker", "id": "pill_icon", "label": "Icon (optional)" },
-        { "type": "header", "content": "Flavors" },
-        { "type": "paragraph", "content": "Flavors come from this product's variants. Pick the variant option that holds the flavor below (leave blank to use the product's first option)." },
-        { "type": "text", "id": "flavor_option", "label": "Flavor option name", "info": "e.g. Flavor. Must match the product's option name. Blank = first option." },
-        { "type": "textarea", "id": "manual_flavors", "label": "Manual flavors (fallback)", "info": "One per line. Only used when no product is set, so the card can still preview." },
-        { "type": "header", "content": "Loop Subscription Plan IDs" },
-        { "type": "paragraph", "content": "In Shopify Admin open the product, scroll to Purchase options, click a selling plan, and copy the ID from the end of the URL." },
-        { "type": "text", "id": "loop_plan_monthly", "label": "Monthly plan ID" },
-        { "type": "text", "id": "loop_plan_quarterly", "label": "Every 3 months plan ID" }
+        {
+          "type": "header",
+          "content": "Product"
+        },
+        {
+          "type": "checkbox",
+          "id": "enabled",
+          "label": "Enable this function",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "function_label",
+          "label": "Function name",
+          "default": "Fortified Everyday"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "checkbox",
+          "id": "coming_soon",
+          "label": "Mark as Coming Soon",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Card"
+        },
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Card image",
+          "info": "Large product image shown on the card. Falls back to the summary thumbnail."
+        },
+        {
+          "type": "text",
+          "id": "spec_1",
+          "label": "Spec tag 1",
+          "default": "152mg Caffeine"
+        },
+        {
+          "type": "text",
+          "id": "spec_2",
+          "label": "Spec tag 2",
+          "default": "1,200mg NA"
+        },
+        {
+          "type": "text",
+          "id": "spec_3",
+          "label": "Spec tag 3"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix."
+        },
+        {
+          "type": "image_picker",
+          "id": "thumbnail_image",
+          "label": "Summary thumbnail"
+        },
+        {
+          "type": "image_picker",
+          "id": "pill_icon",
+          "label": "Icon (optional)"
+        },
+        {
+          "type": "header",
+          "content": "Flavors"
+        },
+        {
+          "type": "paragraph",
+          "content": "Flavors come from this product's variants. Pick the variant option that holds the flavor below (leave blank to use the product's first option)."
+        },
+        {
+          "type": "text",
+          "id": "flavor_option",
+          "label": "Flavor option name",
+          "info": "e.g. Flavor. Must match the product's option name. Blank = first option."
+        },
+        {
+          "type": "textarea",
+          "id": "manual_flavors",
+          "label": "Manual flavors (fallback)",
+          "info": "One per line. Only used when no product is set, so the card can still preview."
+        },
+        {
+          "type": "header",
+          "content": "Loop Subscription Plan IDs"
+        },
+        {
+          "type": "paragraph",
+          "content": "In Shopify Admin open the product, scroll to Purchase options, click a selling plan, and copy the ID from the end of the URL."
+        },
+        {
+          "type": "text",
+          "id": "loop_plan_monthly",
+          "label": "Monthly plan ID"
+        },
+        {
+          "type": "text",
+          "id": "loop_plan_quarterly",
+          "label": "Every 3 months plan ID"
+        }
       ]
     },
     {
       "type": "benefit_item",
       "name": "Benefit",
       "settings": [
-        { "type": "image_picker", "id": "icon", "label": "Icon" },
-        { "type": "text", "id": "text", "label": "Text", "default": "Supports Mood & Focus" }
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Supports Mood & Focus"
+        }
       ]
     },
     {
       "type": "cert_badge",
       "name": "Certification badge",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Badge image" },
-        { "type": "text", "id": "label", "label": "Label (fallback / alt)", "default": "Made in USA" }
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Badge image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label (fallback / alt)",
+          "default": "Made in USA"
+        }
       ]
     },
     {
       "type": "gallery_image",
       "name": "Gallery image",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Image" }
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
       ]
     }
   ],
@@ -1335,12 +2022,43 @@
       "name": "FTD - Product Selector",
       "category": "Fortified Sections",
       "blocks": [
-        { "type": "gallery_image" },
-        { "type": "benefit_item", "settings": { "text": "Supports Mood & Focus" } },
-        { "type": "benefit_item", "settings": { "text": "Plant-Based" } },
-        { "type": "benefit_item", "settings": { "text": "No Jitters Or Crash" } },
-        { "type": "function_item", "settings": { "function_label": "Fortified Everyday", "enabled": true, "manual_flavors": "Original\nMango\nBerry" } },
-        { "type": "function_item", "settings": { "function_label": "Fortified Energy", "enabled": true, "manual_flavors": "Original\nMango\nBerry" } }
+        {
+          "type": "gallery_image"
+        },
+        {
+          "type": "benefit_item",
+          "settings": {
+            "text": "Supports Mood & Focus"
+          }
+        },
+        {
+          "type": "benefit_item",
+          "settings": {
+            "text": "Plant-Based"
+          }
+        },
+        {
+          "type": "benefit_item",
+          "settings": {
+            "text": "No Jitters Or Crash"
+          }
+        },
+        {
+          "type": "function_item",
+          "settings": {
+            "function_label": "Fortified Everyday",
+            "enabled": true,
+            "manual_flavors": "Original\nMango\nBerry"
+          }
+        },
+        {
+          "type": "function_item",
+          "settings": {
+            "function_label": "Fortified Energy",
+            "enabled": true,
+            "manual_flavors": "Original\nMango\nBerry"
+          }
+        }
       ]
     }
   ]
