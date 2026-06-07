@@ -1,0 +1,373 @@
+{% comment %}
+  Section: FTD - Ingredients Callout
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Two-column section: large product image on one side, heading +
+  description + N-column ingredient block grid + CTA on the other.
+  Mobile stacks the layout and reflows ingredients into a single column.
+{% endcomment %}
+
+{%- liquid
+  assign img_pos       = section.settings.image_position_desktop
+  assign btn_style     = section.settings.button_style
+  assign cols_d        = section.settings.desktop_ingredients_columns
+  assign icon_size     = section.settings.icon_size
+  assign icon_bg       = section.settings.icon_background_color
+  assign icon_color    = section.settings.icon_color
+  assign img_bg        = section.settings.product_image_background
+  assign img_max_h     = section.settings.product_image_max_height
+
+  assign ing_blocks = section.blocks | where: 'type', 'ingredient'
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="ftd-ic section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }} ftd-ic--img-{{ img_pos }}"
+  style="
+    {% render 'spacing-padding', settings: section.settings %}
+    --ftic-max-w: {{ section.settings.content_max_width }}px;
+    --ftic-cols-d: {{ cols_d }};
+    --ftic-icon-size: {{ icon_size }}px;
+    --ftic-icon-bg: {{ icon_bg }};
+    --ftic-icon-color: {{ icon_color }};
+    --ftic-img-bg: {{ img_bg }};
+    --ftic-img-max-h: {{ img_max_h }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="ftd-ic__inner">
+
+    <div class="ftd-ic__media">
+      <div class="ftd-ic__media-frame">
+        {%- if section.settings.product_image != blank -%}
+          {{ section.settings.product_image | image_url: width: 1000 | image_tag:
+            class: 'ftd-ic__img',
+            loading: 'lazy',
+            widths: '400,600,800,1000',
+            alt: section.settings.heading
+          }}
+        {%- else -%}
+          <div class="ftd-ic__img ftd-ic__img--placeholder" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="ftd-ic__content">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="ftd-ic__heading">{{ section.settings.heading | newline_to_br }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="ftd-ic__sub">{{ section.settings.subheading | newline_to_br }}</p>
+      {%- endif -%}
+
+      {%- if ing_blocks.size > 0 -%}
+        <ul class="ftd-ic__grid">
+          {%- for block in ing_blocks -%}
+            {%- assign per_color = block.settings.icon_color_override -%}
+            <li class="ftd-ic__item" {{ block.shopify_attributes }}>
+              <span
+                class="ftd-ic__icon"
+                {% if per_color != blank %}style="--ftic-icon-color: {{ per_color }};"{% endif %}
+                aria-hidden="true"
+              >
+                {%- if block.settings.icon != blank -%}
+                  {{ block.settings.icon | image_url: width: 96 | image_tag:
+                    class: 'ftd-ic__icon-img',
+                    loading: 'lazy',
+                    widths: '48,72,96',
+                    alt: ''
+                  }}
+                {%- else -%}
+                  <svg class="ftd-ic__icon-svg" viewBox="0 0 24 24" width="60%" height="60%" aria-hidden="true" focusable="false">
+                    <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="currentColor"/>
+                  </svg>
+                {%- endif -%}
+              </span>
+              <div class="ftd-ic__item-text">
+                {%- if block.settings.name != blank -%}
+                  <p class="ftd-ic__name">{{ block.settings.name }}</p>
+                {%- endif -%}
+                {%- if block.settings.description != blank -%}
+                  <p class="ftd-ic__desc">{{ block.settings.description }}</p>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <div class="ftd-ic__cta-wrap">
+          <a
+            class="ftd-ic__cta ftd-ic__cta--{{ btn_style }}"
+            {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
+          >{{ section.settings.button_label }}</a>
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% stylesheet %}
+.ftd-ic {
+  display: block;
+  color: var(--color-foreground);
+  background: var(--color-background);
+}
+
+.ftd-ic__inner {
+  max-width: var(--ftic-max-w, 1240px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 48px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 5vw, 56px);
+  align-items: center;
+}
+
+/* Media */
+.ftd-ic__media {
+  width: 100%;
+}
+.ftd-ic__media-frame {
+  background: var(--ftic-img-bg, #F2F2F0);
+  border-radius: 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 32px);
+  min-height: 280px;
+}
+.ftd-ic__img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: var(--ftic-img-max-h, 500px);
+  object-fit: contain;
+}
+.ftd-ic__img--placeholder {
+  width: 60%;
+  aspect-ratio: 3 / 4;
+  background: rgb(var(--color-foreground-rgb) / 0.08);
+  border-radius: 8px;
+}
+
+/* Content */
+.ftd-ic__content {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.4vw, 24px);
+  min-width: 0;
+}
+.ftd-ic__heading {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(26px, 4vw, 44px);
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+}
+.ftd-ic__sub {
+  margin: 0;
+  font-size: clamp(14px, 1.6vw, 17px);
+  line-height: 1.55;
+  color: rgb(var(--color-foreground-rgb) / 0.7);
+  max-width: 60ch;
+}
+
+/* Ingredient grid */
+.ftd-ic__grid {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(16px, 2.4vw, 24px);
+}
+.ftd-ic__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+}
+.ftd-ic__icon {
+  flex: 0 0 auto;
+  width: var(--ftic-icon-size, 48px);
+  height: var(--ftic-icon-size, 48px);
+  border-radius: 999px;
+  background: var(--ftic-icon-bg, #0A0A0A);
+  color: var(--ftic-icon-color, #FFFFFF);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.ftd-ic__icon-img {
+  display: block;
+  width: 62%;
+  height: 62%;
+  object-fit: contain;
+}
+.ftd-ic__icon-svg { display: block; color: var(--ftic-icon-color, #FFFFFF); }
+.ftd-ic__item-text { min-width: 0; }
+.ftd-ic__name {
+  margin: 0 0 4px;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+}
+.ftd-ic__desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: rgb(var(--color-foreground-rgb) / 0.7);
+}
+
+/* CTA */
+.ftd-ic__cta-wrap { display: flex; margin-top: 4px; }
+.ftd-ic__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 32px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 2px solid var(--color-primary-button-background);
+  transition: background 0.18s, color 0.18s, opacity 0.18s;
+}
+.ftd-ic__cta--outline {
+  background: transparent;
+  color: var(--color-foreground);
+}
+.ftd-ic__cta--outline:hover {
+  background: var(--color-primary-button-background);
+  color: var(--color-primary-button-text);
+}
+.ftd-ic__cta--filled {
+  background: var(--color-primary-button-background);
+  color: var(--color-primary-button-text);
+}
+.ftd-ic__cta--filled:hover { opacity: 0.88; }
+
+/* Mobile */
+@media (max-width: 749px) {
+  .ftd-ic__grid { grid-template-columns: 1fr !important; }
+  .ftd-ic__cta { width: 100%; }
+}
+
+/* Desktop */
+@media (min-width: 750px) {
+  .ftd-ic__inner {
+    grid-template-columns: 30fr 70fr;
+    gap: clamp(32px, 5vw, 56px);
+  }
+  .ftd-ic--img-right .ftd-ic__media   { order: 2; }
+  .ftd-ic--img-right .ftd-ic__content { order: 1; }
+  .ftd-ic--img-left  .ftd-ic__media   { order: 1; }
+  .ftd-ic--img-left  .ftd-ic__content { order: 2; }
+  .ftd-ic__grid {
+    grid-template-columns: repeat(var(--ftic-cols-d, 2), minmax(0, 1fr));
+  }
+}
+{% endstylesheet %}
+
+<style>
+  {{ section.settings.custom_css }}
+</style>
+
+{% schema %}
+{
+  "name": "FTD - Ingredients Callout",
+  "tag": "section",
+  "class": "ftd-ingredients-callout-section",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Clinically Backed Ingredients" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Electrolytes don't provide full recovery. Regenerate hydration." },
+
+    { "type": "header", "content": "Product image" },
+    { "type": "image_picker", "id": "product_image", "label": "Product image" },
+    { "type": "color", "id": "product_image_background", "label": "Image background", "default": "#F2F2F0" },
+    { "type": "range", "id": "product_image_max_height", "label": "Image max height", "min": 280, "max": 700, "step": 20, "unit": "px", "default": 500 },
+    { "type": "select", "id": "image_position_desktop", "label": "Image position (desktop)", "default": "left",
+      "options": [
+        { "value": "left",  "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+
+    { "type": "header", "content": "Ingredients grid" },
+    { "type": "range", "id": "desktop_ingredients_columns", "label": "Ingredient columns (desktop)", "min": 1, "max": 3, "step": 1, "default": 2 },
+    { "type": "range", "id": "icon_size", "label": "Icon size", "min": 32, "max": 72, "step": 4, "unit": "px", "default": 48 },
+    { "type": "color", "id": "icon_background_color", "label": "Icon background", "default": "#0A0A0A" },
+    { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Fortified Now" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "select", "id": "button_style", "label": "Button style", "default": "outline",
+      "options": [
+        { "value": "outline", "label": "Outline" },
+        { "value": "filled",  "label": "Filled" }
+      ]
+    },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ]
+    },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "limit": 8,
+      "settings": [
+        { "type": "text", "id": "name", "label": "Ingredient name", "default": "Sodium" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Supports body hydration" },
+        { "type": "image_picker", "id": "icon", "label": "Icon image", "info": "Optional. Leave blank for the built-in SVG fallback." },
+        { "type": "color", "id": "icon_color_override", "label": "Icon color override", "info": "Optional. Falls back to the section icon color." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FTD - Ingredients Callout",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "ingredient", "settings": { "name": "Sodium",    "description": "Supports body hydration" } },
+        { "type": "ingredient", "settings": { "name": "Potassium", "description": "Helps muscle and nerve function" } },
+        { "type": "ingredient", "settings": { "name": "Magnesium", "description": "Aids energy and recovery" } },
+        { "type": "ingredient", "settings": { "name": "Collagen",  "description": "Supports skin and joint health" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
