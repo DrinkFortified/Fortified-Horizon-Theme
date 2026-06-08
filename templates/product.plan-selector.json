@@ -469,6 +469,93 @@
         "padding-block-end": 0
       }
     },
+    "fortified_ingredients_callout_KYTcNc": {
+      "type": "fortified-ingredients-callout",
+      "blocks": {
+        "ingredient_QDqxhC": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Sodium",
+            "description": "Supports body hydration",
+            "icon_color_override": ""
+          }
+        },
+        "ingredient_PUBdM7": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Potassium",
+            "description": "Helps muscle and nerve function",
+            "icon_color_override": ""
+          }
+        },
+        "ingredient_rbmhYK": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium",
+            "description": "Aids energy and recovery",
+            "icon_color_override": ""
+          }
+        },
+        "ingredient_JFWq4n": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Collagen",
+            "description": "Supports skin and joint health",
+            "icon_color_override": ""
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_QDqxhC",
+        "ingredient_PUBdM7",
+        "ingredient_rbmhYK",
+        "ingredient_JFWq4n"
+      ],
+      "name": "FTD - Ingredients Callout",
+      "settings": {
+        "heading": "Clinically Backed Ingredients",
+        "subheading": "Electrolytes don't provide full recovery. Regenerate hydration.",
+        "product_image_background": "#F2F2F0",
+        "product_image_max_height": 500,
+        "image_position_desktop": "left",
+        "desktop_ingredients_columns": 2,
+        "icon_size": 48,
+        "icon_background_color": "#0A0A0A",
+        "icon_color": "#FFFFFF",
+        "button_label": "Shop Fortified Now",
+        "button_link": "",
+        "button_style": "outline",
+        "color_scheme": "",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "custom_css": ""
+      }
+    },
+    "fortified_testimonial_gifpnd": {
+      "type": "fortified-testimonial",
+      "name": "FTD - Testimonial",
+      "settings": {
+        "name": "Alex Friedman",
+        "role": "HBO Max Champion",
+        "quote": "I feel the difference in my workouts and recovery. No more cramps.",
+        "quote_marks": true,
+        "button_label": "Shop Fortified Now",
+        "button_link": "",
+        "button_style": "filled",
+        "image_focal": "center",
+        "image_position_desktop": "right",
+        "align_desktop": "left",
+        "align_mobile": "left",
+        "color_scheme": "",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "custom_css": ""
+      }
+    },
     "fortified_comparison_CLVb4q": {
       "type": "fortified-comparison",
       "blocks": {
@@ -735,6 +822,8 @@
   },
   "order": [
     "main",
+    "fortified_ingredients_callout_KYTcNc",
+    "fortified_testimonial_gifpnd",
     "fortified_comparison_CLVb4q",
     "ftd_b_supplement_facts_bmPkCy"
   ]
