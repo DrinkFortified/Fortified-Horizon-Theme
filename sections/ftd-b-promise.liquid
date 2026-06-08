@@ -1,14 +1,5 @@
 {% comment %}
   Section: FTD-B - Promise
-  Category: Fortified Sections
-  ----------------------------------------------------------------------
-  Two-column layout. LEFT: header + lead + stylised blockquote.
-  RIGHT: a "Promise" box with big headline, sub, and a flex of pills.
-  Negative pills are visibly struck through.
-
-  Mobile (<=749px): stacks; promise box below the text column.
-
-  Stable class prefix: ftbpr
 {% endcomment %}
 
 {%- liquid
@@ -30,30 +21,16 @@
 >
   <div class="ftbpr__inner">
     <div class="ftbpr__grid">
-
       <div class="ftbpr__col ftbpr__col--text">
-        {%- if section.settings.eyebrow != blank -%}
-          <p class="ftbpr__eyebrow">{{ section.settings.eyebrow }}</p>
-        {%- endif -%}
-        {%- if heading_html != blank -%}
-          <h2 class="ftbpr__heading">{{ heading_html | newline_to_br }}</h2>
-        {%- endif -%}
-        {%- if section.settings.body != blank -%}
-          <p class="ftbpr__body">{{ section.settings.body }}</p>
-        {%- endif -%}
-        {%- if section.settings.quote != blank -%}
-          <blockquote class="ftbpr__quote">{{ section.settings.quote }}</blockquote>
-        {%- endif -%}
+        {%- if section.settings.eyebrow != blank -%}<p class="ftbpr__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if heading_html != blank -%}<h2 class="ftbpr__heading">{{ heading_html | newline_to_br }}</h2>{%- endif -%}
+        {%- if section.settings.body != blank -%}<p class="ftbpr__body">{{ section.settings.body }}</p>{%- endif -%}
+        {%- if section.settings.quote != blank -%}<blockquote class="ftbpr__quote">{{ section.settings.quote }}</blockquote>{%- endif -%}
       </div>
-
       <div class="ftbpr__col ftbpr__col--box">
         <div class="ftbpr__box">
-          {%- if section.settings.promise_title != blank -%}
-            <div class="ftbpr__box-title">{{ section.settings.promise_title }}</div>
-          {%- endif -%}
-          {%- if section.settings.promise_subtitle != blank -%}
-            <div class="ftbpr__box-sub">{{ section.settings.promise_subtitle }}</div>
-          {%- endif -%}
+          {%- if section.settings.promise_title != blank -%}<div class="ftbpr__box-title">{{ section.settings.promise_title }}</div>{%- endif -%}
+          {%- if section.settings.promise_subtitle != blank -%}<div class="ftbpr__box-sub">{{ section.settings.promise_subtitle }}</div>{%- endif -%}
           {%- if section.blocks.size > 0 -%}
             <div class="ftbpr__pills">
               {%- for block in section.blocks -%}
@@ -66,158 +43,34 @@
           {%- endif -%}
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
 {% stylesheet %}
-.ftbpr {
-  display: block;
-}
-
-.ftbpr__inner {
-  max-width: var(--ftbpr-max-w, 1240px);
-  margin-inline: auto;
-  padding-inline: clamp(16px, 4vw, 40px);
-}
-
-.ftbpr__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(24px, 4vw, 56px);
-  align-items: start;
-}
-
+.ftbpr { display: block; }
+.ftbpr__inner { max-width: var(--ftbpr-max-w, 1240px); margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+.ftbpr__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
 .ftbpr--left .ftbpr__col--text { order: 2; }
 .ftbpr--left .ftbpr__col--box  { order: 1; }
-
-.ftbpr__col--text {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.ftbpr__eyebrow {
-  margin: 0;
-  font-family: var(--font-heading--family, inherit);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ftbpr-eyebrow, var(--color-foreground));
-}
-
-.ftbpr__heading {
-  margin: 0;
-  font-family: var(--font-heading--family, inherit);
-  font-size: clamp(28px, 4vw, 48px);
-  font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  color: var(--color-foreground);
-}
-
-.ftbpr__em {
-  color: var(--ftbpr-quote-accent, var(--color-foreground));
-  font-style: italic;
-}
-
-.ftbpr__body {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--color-foreground);
-  opacity: 0.82;
-  max-width: 60ch;
-}
-
-.ftbpr__quote {
-  margin: 8px 0 0;
-  padding: 18px 22px;
-  border-left: 4px solid var(--ftbpr-quote-accent, #1FA8A1);
-  background: rgb(var(--color-foreground-rgb) / 0.04);
-  font-family: var(--font-heading--family, inherit);
-  font-size: clamp(16px, 1.6vw, 19px);
-  font-style: italic;
-  line-height: 1.45;
-  color: var(--color-foreground);
-  border-radius: 4px;
-}
-
-.ftbpr__box {
-  background: var(--ftbpr-box-bg, #E6EFE9);
-  color: var(--ftbpr-box-fg, #1B3F2A);
-  border: 1px solid var(--ftbpr-box-border, #B9CFC0);
-  border-radius: 14px;
-  padding: clamp(22px, 3vw, 32px);
-}
-
-.ftbpr__box-title {
-  font-family: var(--font-heading--family, inherit);
-  font-size: clamp(24px, 3vw, 34px);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  color: var(--ftbpr-box-fg, #1B3F2A);
-}
-
-.ftbpr__box-sub {
-  margin-top: 8px;
-  font-size: 15px;
-  line-height: 1.45;
-  opacity: 0.85;
-  color: var(--ftbpr-box-fg, #1B3F2A);
-}
-
-.ftbpr__pills {
-  margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.ftbpr__pill {
-  display: inline-block;
-  padding: 7px 13px;
-  border-radius: 999px;
-  font-family: var(--font-heading--family, inherit);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  line-height: 1;
-  background: rgb(255 255 255 / 0.7);
-  color: var(--ftbpr-box-fg, #1B3F2A);
-  border: 1px solid var(--ftbpr-box-border, #B9CFC0);
-}
-
-.ftbpr__pill--excluded {
-  background: transparent;
-  color: var(--ftbpr-box-fg, #1B3F2A);
-  opacity: 0.55;
-  text-decoration: line-through;
-  text-decoration-thickness: 1.5px;
-  border-style: dashed;
-}
-
+.ftbpr__col--text { display: flex; flex-direction: column; gap: 16px; }
+.ftbpr__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ftbpr-eyebrow, var(--color-foreground)); }
+.ftbpr__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(28px, 4vw, 48px); font-weight: 800; line-height: 1.06; letter-spacing: -0.01em; text-transform: uppercase; color: var(--color-foreground); }
+.ftbpr__em { color: var(--ftbpr-quote-accent, var(--color-foreground)); font-style: italic; }
+.ftbpr__body { margin: 0; font-size: 16px; line-height: 1.6; color: var(--color-foreground); opacity: 0.82; max-width: 60ch; }
+.ftbpr__quote { margin: 8px 0 0; padding: 18px 22px; border-left: 4px solid var(--ftbpr-quote-accent, #1FA8A1); background: rgb(var(--color-foreground-rgb) / 0.04); font-family: var(--font-heading--family, inherit); font-size: clamp(16px, 1.6vw, 19px); font-style: italic; line-height: 1.45; color: var(--color-foreground); border-radius: 4px; }
+.ftbpr__box { background: var(--ftbpr-box-bg, #E6EFE9); color: var(--ftbpr-box-fg, #1B3F2A); border: 1px solid var(--ftbpr-box-border, #B9CFC0); border-radius: 14px; padding: clamp(22px, 3vw, 32px); }
+.ftbpr__box-title { font-family: var(--font-heading--family, inherit); font-size: clamp(24px, 3vw, 34px); font-weight: 800; line-height: 1.05; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ftbpr-box-fg, #1B3F2A); }
+.ftbpr__box-sub { margin-top: 8px; font-size: 15px; line-height: 1.45; opacity: 0.85; color: var(--ftbpr-box-fg, #1B3F2A); }
+.ftbpr__pills { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+.ftbpr__pill { display: inline-block; padding: 7px 13px; border-radius: 999px; font-family: var(--font-heading--family, inherit); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1; background: rgb(255 255 255 / 0.7); color: var(--ftbpr-box-fg, #1B3F2A); border: 1px solid var(--ftbpr-box-border, #B9CFC0); }
+.ftbpr__pill--excluded { background: transparent; color: var(--ftbpr-box-fg, #1B3F2A); opacity: 0.55; text-decoration: line-through; text-decoration-thickness: 1.5px; border-style: dashed; }
 @media (max-width: 749px) {
-  .ftbpr__grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
-  }
-  .ftbpr--left .ftbpr__col--text,
-  .ftbpr--left .ftbpr__col--box,
-  .ftbpr--right .ftbpr__col--text,
-  .ftbpr--right .ftbpr__col--box {
-    order: initial;
-  }
+  .ftbpr__grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .ftbpr--left .ftbpr__col--text, .ftbpr--left .ftbpr__col--box, .ftbpr--right .ftbpr__col--text, .ftbpr--right .ftbpr__col--box { order: initial; }
   .ftbpr__col--text { order: 1; }
   .ftbpr__col--box  { order: 2; }
 }
-
 [hidden] { display: none !important; }
 {% endstylesheet %}
 
@@ -233,11 +86,9 @@
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Every ingredient.\nNamed. Disclosed. Yours to verify." },
     { "type": "text", "id": "heading_emphasis_word", "label": "Emphasized word", "info": "First match in the heading is wrapped in an accent italic.", "default": "Disclosed." },
     { "type": "textarea", "id": "body", "label": "Body" },
-
     { "type": "header", "content": "Quote" },
     { "type": "textarea", "id": "quote", "label": "Quote", "default": "Real health is not a trend. It is a decision you make before you need to." },
     { "type": "color", "id": "quote_accent_color", "label": "Quote accent color", "default": "#1FA8A1" },
-
     { "type": "header", "content": "Promise box" },
     { "type": "text", "id": "promise_title", "label": "Promise title", "default": "No Mumbo Jumbo." },
     { "type": "text", "id": "promise_subtitle", "label": "Promise subtitle", "default": "Every milligram disclosed. Every ingredient named." },
@@ -245,18 +96,14 @@
     { "type": "color", "id": "promise_box_border", "label": "Box border", "default": "#B9CFC0" },
     { "type": "color", "id": "promise_text_color", "label": "Box text color", "default": "#1B3F2A" },
     { "type": "select", "id": "image_position_desktop", "label": "Promise box position (desktop)", "default": "right", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ] },
-
     { "type": "header", "content": "Layout" },
     { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
     { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
     { "type": "header", "content": "Colors" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
     { "type": "header", "content": "Padding" },
     { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
     { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-
     { "type": "header", "content": "Advanced" },
     { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
   ],
@@ -270,7 +117,6 @@
       ]
     }
   ],
-  "min_blocks": 1,
   "max_blocks": 24,
   "presets": [
     {
