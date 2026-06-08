@@ -898,6 +898,153 @@
         "padding-block-end": 72,
         "custom_css": ""
       }
+    },
+    "fortified_truth_qBjbt7": {
+      "type": "fortified-truth",
+      "blocks": {
+        "card_kQ9qGT": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "category": "+ ENERGY",
+            "caption": "Electrolytes don't provide full recovery.",
+            "show_icon": true,
+            "link": ""
+          }
+        },
+        "card_Nc8TGT": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "category": "+ ENERGY",
+            "caption": "Electrolytes don't provide full recovery.",
+            "show_icon": true,
+            "link": ""
+          }
+        },
+        "card_QxHKzr": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "category": "+ PERFORMANCE",
+            "caption": "Electrolytes don't provide full recovery.",
+            "show_icon": true,
+            "link": ""
+          }
+        },
+        "card_pPVJXx": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "category": "+ HYDRATION",
+            "caption": "Electrolytes don't provide full recovery.",
+            "show_icon": true,
+            "link": ""
+          }
+        },
+        "card_B6zLG3": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "category": "+ FOCUS",
+            "caption": "Electrolytes don't provide full recovery.",
+            "show_icon": true,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_kQ9qGT",
+        "card_Nc8TGT",
+        "card_QxHKzr",
+        "card_pPVJXx",
+        "card_B6zLG3"
+      ],
+      "name": "FTD - Truth",
+      "settings": {
+        "eyebrow": "The Truth",
+        "heading": "More Than Hydration Its Daily Support",
+        "subheading": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration.",
+        "button_label": "Explore All Flavors",
+        "button_link": "",
+        "button_style": "outline",
+        "columns_desktop": 4,
+        "enable_carousel": true,
+        "card_height": 420,
+        "card_height_mobile": 360,
+        "gap": 20,
+        "corner_radius": 14,
+        "card_bg": "#1A1A1A",
+        "content_max_width": 1280,
+        "content_padding": 56,
+        "content_radius": 28,
+        "content_color_scheme": "",
+        "color_scheme": "",
+        "eyebrow_color": "#9DBE5B",
+        "heading_color": "",
+        "text_color": "",
+        "card_label_color": "#FFFFFF",
+        "card_caption_color": "#E6E6E6",
+        "button_color": "",
+        "section_width": "full-width",
+        "padding-block-start": 72,
+        "padding-block-end": 72,
+        "custom_css": ""
+      }
+    },
+    "fortified_subscribe_save_J6Ri7m": {
+      "type": "fortified-subscribe-save",
+      "blocks": {
+        "benefit_3nxceG": {
+          "type": "benefit",
+          "settings": {
+            "text": "Improve Hydration"
+          }
+        },
+        "benefit_NkJanf": {
+          "type": "benefit",
+          "settings": {
+            "text": "Replenish Electrolytes"
+          }
+        },
+        "benefit_RVzUCq": {
+          "type": "benefit",
+          "settings": {
+            "text": "Recover Faster"
+          }
+        },
+        "benefit_TtVekY": {
+          "type": "benefit",
+          "settings": {
+            "text": "Save 15% Every Order"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_3nxceG",
+        "benefit_NkJanf",
+        "benefit_RVzUCq",
+        "benefit_TtVekY"
+      ],
+      "name": "FTD - Subscribe & Save",
+      "settings": {
+        "eyebrow": "THE TRUTH",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "Subscribe & Save 15%",
+        "button_label": "Subscribe Now",
+        "button_link": "",
+        "button_style": "outline",
+        "foreground_image_focal": "center",
+        "image_position": "right",
+        "background_overlay": 50,
+        "text_color": "light",
+        "section_width": "full-width",
+        "content_max_width": 1240,
+        "color_scheme": "",
+        "padding-block-start": 72,
+        "padding-block-end": 72,
+        "custom_css": ""
+      }
     }
   },
   "order": [
@@ -906,6 +1053,8 @@
     "fortified_ingredients_callout_KYTcNc",
     "fortified_testimonial_gifpnd",
     "fortified_comparison_CLVb4q",
-    "ftd_b_supplement_facts_bmPkCy"
+    "ftd_b_supplement_facts_bmPkCy",
+    "fortified_truth_qBjbt7",
+    "fortified_subscribe_save_J6Ri7m"
   ]
 }
