@@ -1,10 +1,6 @@
 {% comment %}
   Section: FTD - Split Hero
   Category: Fortified Sections
-  ----------------------------------------------------------------------
-  Two-column hero: text panel (configurable bg) beside a full-bleed
-  image. Mobile stacks; image position above/below the text is a
-  setting.
 {% endcomment %}
 
 {%- liquid
@@ -36,199 +32,75 @@
   {{ section.shopify_attributes }}
 >
   <div class="ftd-sh__inner">
-
     <div class="ftd-sh__panel">
       <div class="ftd-sh__panel-inner">
-        {%- if section.settings.eyebrow != blank -%}
-          <p class="ftd-sh__eyebrow">{{ section.settings.eyebrow }}</p>
-        {%- endif -%}
-        {%- if section.settings.heading != blank -%}
-          <h2 class="ftd-sh__heading">{{ section.settings.heading | newline_to_br }}</h2>
-        {%- endif -%}
-        {%- if section.settings.body != blank -%}
-          <p class="ftd-sh__body">{{ section.settings.body | newline_to_br }}</p>
-        {%- endif -%}
+        {%- if section.settings.eyebrow != blank -%}<p class="ftd-sh__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="ftd-sh__heading">{{ section.settings.heading | newline_to_br }}</h2>{%- endif -%}
+        {%- if section.settings.body != blank -%}<p class="ftd-sh__body">{{ section.settings.body | newline_to_br }}</p>{%- endif -%}
         {%- if section.settings.button_label != blank -%}
           <div class="ftd-sh__cta-wrap">
-            <a
-              class="ftd-sh__cta ftd-sh__cta--{{ btn_style }}"
-              {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
-            >{{ section.settings.button_label }}</a>
+            <a class="ftd-sh__cta ftd-sh__cta--{{ btn_style }}" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ section.settings.button_label }}</a>
           </div>
         {%- endif -%}
       </div>
     </div>
-
     <div class="ftd-sh__media">
       {%- if section.settings.image != blank -%}
-        {{ section.settings.image | image_url: width: 1600 | image_tag:
-          class: 'ftd-sh__img',
-          loading: 'lazy',
-          widths: '600,900,1200,1600,2000',
-          alt: section.settings.heading
-        }}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'ftd-sh__img', loading: 'lazy', widths: '600,900,1200,1600,2000', alt: section.settings.heading }}
       {%- else -%}
         <div class="ftd-sh__img ftd-sh__img--placeholder" aria-hidden="true"></div>
       {%- endif -%}
     </div>
-
   </div>
 </section>
 
 {% stylesheet %}
-.ftd-sh {
-  display: block;
-  color: var(--color-foreground);
-  background: var(--color-background);
-}
-
-.ftd-sh__inner {
-  max-width: var(--ftsh-max-w, 1240px);
-  margin-inline: auto;
-  padding-inline: clamp(0px, 2vw, 24px);
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
-  align-items: stretch;
-  overflow: hidden;
-  border-radius: 4px;
-}
-
-/* Panel */
-.ftd-sh__panel {
-  background: var(--ftsh-panel-bg, #0A1B2A);
-  display: flex;
-  align-items: center;
-  min-height: var(--ftsh-min-h-m, 360px);
-}
-.ftd-sh__panel-inner {
-  width: 100%;
-  padding: clamp(28px, 6vw, 64px);
-  display: flex;
-  flex-direction: column;
-  gap: clamp(12px, 1.6vw, 18px);
-}
-
-/* Text colors based on text_color setting */
+.ftd-sh { display: block; color: var(--color-foreground); background: var(--color-background); }
+.ftd-sh__inner { max-width: var(--ftsh-max-w, 1240px); margin-inline: auto; padding-inline: clamp(0px, 2vw, 24px); display: grid; grid-template-columns: 1fr; gap: 0; align-items: stretch; overflow: hidden; border-radius: 4px; }
+.ftd-sh__panel { background: var(--ftsh-panel-bg, #0A1B2A); display: flex; align-items: center; min-height: var(--ftsh-min-h-m, 360px); }
+.ftd-sh__panel-inner { width: 100%; padding: clamp(28px, 6vw, 64px); display: flex; flex-direction: column; gap: clamp(12px, 1.6vw, 18px); }
 .ftd-sh--text-light .ftd-sh__heading { color: #FFFFFF; }
-.ftd-sh--text-light .ftd-sh__body    { color: rgb(255 255 255 / 0.78); }
+.ftd-sh--text-light .ftd-sh__body { color: rgb(255 255 255 / 0.78); }
 .ftd-sh--text-light .ftd-sh__cta--outline { color: #FFFFFF; border-color: #FFFFFF; }
 .ftd-sh--text-light .ftd-sh__cta--outline:hover { background: #FFFFFF; color: var(--ftsh-panel-bg, #0A1B2A); }
-
 .ftd-sh--text-dark .ftd-sh__heading { color: #0A0A0A; }
-.ftd-sh--text-dark .ftd-sh__body    { color: rgb(10 10 10 / 0.72); }
+.ftd-sh--text-dark .ftd-sh__body { color: rgb(10 10 10 / 0.72); }
 .ftd-sh--text-dark .ftd-sh__cta--outline { color: #0A0A0A; border-color: #0A0A0A; }
 .ftd-sh--text-dark .ftd-sh__cta--outline:hover { background: #0A0A0A; color: #FFFFFF; }
-
-.ftd-sh__eyebrow {
-  margin: 0;
-  font-family: var(--font-heading--family, inherit);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--ftsh-eyebrow-c, #1FA8A1);
-}
-.ftd-sh__heading {
-  margin: 0;
-  font-family: var(--font-heading--family, inherit);
-  font-size: clamp(36px, 6vw, 72px);
-  font-weight: 800;
-  line-height: 1.0;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-}
-.ftd-sh__body {
-  margin: 0;
-  font-size: clamp(14px, 1.6vw, 16px);
-  line-height: 1.55;
-  max-width: 52ch;
-}
-
-/* CTA */
+.ftd-sh__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 13px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ftsh-eyebrow-c, #1FA8A1); }
+.ftd-sh__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(36px, 6vw, 72px); font-weight: 800; line-height: 1.0; text-transform: uppercase; letter-spacing: 0.01em; }
+.ftd-sh__body { margin: 0; font-size: clamp(14px, 1.6vw, 16px); line-height: 1.55; max-width: 52ch; }
 .ftd-sh__cta-wrap { display: flex; margin-top: 8px; }
-.ftd-sh__cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-heading--family, inherit);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 16px 32px;
-  border-radius: 2px;
-  cursor: pointer;
-  border: 2px solid currentColor;
-  background: transparent;
-  transition: background 0.18s, color 0.18s, opacity 0.18s;
-}
-.ftd-sh__cta--filled {
-  background: var(--color-primary-button-background);
-  color: var(--color-primary-button-text);
-  border-color: var(--color-primary-button-background);
-}
+.ftd-sh__cta { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 16px 32px; border-radius: 2px; cursor: pointer; border: 2px solid currentColor; background: transparent; transition: background 0.18s, color 0.18s, opacity 0.18s; }
+.ftd-sh__cta--filled { background: var(--color-primary-button-background); color: var(--color-primary-button-text); border-color: var(--color-primary-button-background); }
 .ftd-sh__cta--filled:hover { opacity: 0.88; }
-
-/* Media */
-.ftd-sh__media {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  min-height: var(--ftsh-min-h-m, 360px);
-}
-.ftd-sh__img {
-  display: block;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: var(--ftsh-focal, center);
-}
-.ftd-sh__img--placeholder {
-  position: absolute;
-  inset: 0;
-  background: rgb(var(--color-foreground-rgb) / 0.08);
-}
-
-/* Mobile order */
+.ftd-sh__media { position: relative; width: 100%; overflow: hidden; min-height: var(--ftsh-min-h-m, 360px); }
+.ftd-sh__img { display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--ftsh-focal, center); }
+.ftd-sh__img--placeholder { position: absolute; inset: 0; background: rgb(var(--color-foreground-rgb) / 0.08); }
 @media (max-width: 749px) {
   .ftd-sh--img-m-above .ftd-sh__media { order: 1; }
   .ftd-sh--img-m-above .ftd-sh__panel { order: 2; }
   .ftd-sh--img-m-below .ftd-sh__panel { order: 1; }
   .ftd-sh--img-m-below .ftd-sh__media { order: 2; }
-
   .ftd-sh--align-m-center .ftd-sh__panel-inner { align-items: center; text-align: center; }
   .ftd-sh--align-m-center .ftd-sh__body { margin-inline: auto; }
-  .ftd-sh--align-m-left   .ftd-sh__panel-inner { align-items: flex-start; text-align: left; }
+  .ftd-sh--align-m-left .ftd-sh__panel-inner { align-items: flex-start; text-align: left; }
 }
-
-/* Desktop */
 @media (min-width: 750px) {
-  .ftd-sh__inner {
-    grid-template-columns: var(--ftsh-text-w, 45fr) var(--ftsh-image-w, 55fr);
-    min-height: var(--ftsh-min-h-d, 480px);
-  }
-  .ftd-sh__panel,
-  .ftd-sh__media { min-height: var(--ftsh-min-h-d, 480px); }
-
+  .ftd-sh__inner { grid-template-columns: var(--ftsh-text-w, 44fr) var(--ftsh-image-w, 56fr); min-height: var(--ftsh-min-h-d, 480px); }
+  .ftd-sh__panel, .ftd-sh__media { min-height: var(--ftsh-min-h-d, 480px); }
   .ftd-sh--img-right .ftd-sh__panel { order: 1; }
   .ftd-sh--img-right .ftd-sh__media { order: 2; }
-  .ftd-sh--img-left  .ftd-sh__media { order: 1; }
-  .ftd-sh--img-left  .ftd-sh__panel { order: 2; }
-  .ftd-sh--img-left  .ftd-sh__inner { grid-template-columns: var(--ftsh-image-w, 55fr) var(--ftsh-text-w, 45fr); }
-
+  .ftd-sh--img-left .ftd-sh__media { order: 1; }
+  .ftd-sh--img-left .ftd-sh__panel { order: 2; }
+  .ftd-sh--img-left .ftd-sh__inner { grid-template-columns: var(--ftsh-image-w, 56fr) var(--ftsh-text-w, 44fr); }
   .ftd-sh--align-d-center .ftd-sh__panel-inner { align-items: center; text-align: center; }
   .ftd-sh--align-d-center .ftd-sh__body { margin-inline: auto; }
-  .ftd-sh--align-d-left   .ftd-sh__panel-inner { align-items: flex-start; text-align: left; }
+  .ftd-sh--align-d-left .ftd-sh__panel-inner { align-items: flex-start; text-align: left; }
 }
 {% endstylesheet %}
 
-<style>
-  {{ section.settings.custom_css }}
-</style>
+<style>{{ section.settings.custom_css }}</style>
 
 {% schema %}
 {
@@ -241,95 +113,37 @@
     { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Your Best Day" },
     { "type": "textarea", "id": "body", "label": "Body", "default": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration with collagen, supporting skin." },
-
     { "type": "header", "content": "Button" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore All Flavors" },
     { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "select", "id": "button_style", "label": "Button style", "default": "outline",
-      "options": [
-        { "value": "outline", "label": "Outline" },
-        { "value": "filled",  "label": "Filled" }
-      ]
-    },
-
+    { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline" }, { "value": "filled", "label": "Filled" } ] },
     { "type": "header", "content": "Image" },
     { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "select", "id": "image_focal", "label": "Image focal point", "default": "center",
-      "options": [
-        { "value": "left_top",     "label": "Top left" },
-        { "value": "center_top",   "label": "Top" },
-        { "value": "right_top",    "label": "Top right" },
-        { "value": "left",         "label": "Left" },
-        { "value": "center",       "label": "Center" },
-        { "value": "right",        "label": "Right" },
-        { "value": "left_bottom",  "label": "Bottom left" },
-        { "value": "center_bottom","label": "Bottom" },
-        { "value": "right_bottom", "label": "Bottom right" }
-      ]
-    },
-    { "type": "select", "id": "image_position_desktop", "label": "Image position (desktop)", "default": "right",
-      "options": [
-        { "value": "left",  "label": "Left" },
-        { "value": "right", "label": "Right" }
-      ]
-    },
-    { "type": "select", "id": "image_position_mobile", "label": "Image position (mobile)", "default": "below",
-      "options": [
-        { "value": "above", "label": "Above text" },
-        { "value": "below", "label": "Below text" }
-      ]
-    },
-
+    { "type": "select", "id": "image_focal", "label": "Image focal point", "default": "center", "options": [ { "value": "left_top", "label": "Top left" }, { "value": "center_top", "label": "Top" }, { "value": "right_top", "label": "Top right" }, { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }, { "value": "left_bottom", "label": "Bottom left" }, { "value": "center_bottom", "label": "Bottom" }, { "value": "right_bottom", "label": "Bottom right" } ] },
+    { "type": "select", "id": "image_position_desktop", "label": "Image position (desktop)", "default": "right", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ] },
+    { "type": "select", "id": "image_position_mobile", "label": "Image position (mobile)", "default": "below", "options": [ { "value": "above", "label": "Above text" }, { "value": "below", "label": "Below text" } ] },
     { "type": "header", "content": "Panel & layout" },
     { "type": "color", "id": "panel_background", "label": "Text panel background", "default": "#0A1B2A" },
-    { "type": "select", "id": "text_color", "label": "Text color", "default": "light",
-      "options": [
-        { "value": "light", "label": "Light" },
-        { "value": "dark",  "label": "Dark" }
-      ]
-    },
-    { "type": "range", "id": "text_width_desktop", "label": "Text panel width (desktop)", "min": 30, "max": 60, "step": 2, "unit": "%", "default": 45 },
+    { "type": "select", "id": "text_color", "label": "Text color", "default": "light", "options": [ { "value": "light", "label": "Light" }, { "value": "dark", "label": "Dark" } ] },
+    { "type": "range", "id": "text_width_desktop", "label": "Text panel width (desktop)", "min": 30, "max": 60, "step": 2, "unit": "%", "default": 44 },
     { "type": "range", "id": "min_height_desktop", "label": "Min height (desktop)", "min": 300, "max": 800, "step": 10, "unit": "px", "default": 480 },
     { "type": "range", "id": "min_height_mobile", "label": "Min height (mobile)", "min": 240, "max": 600, "step": 10, "unit": "px", "default": 360 },
-
     { "type": "header", "content": "Alignment" },
-    { "type": "select", "id": "align_desktop", "label": "Text alignment (desktop)", "default": "left",
-      "options": [
-        { "value": "left",   "label": "Left" },
-        { "value": "center", "label": "Center" }
-      ]
-    },
-    { "type": "select", "id": "align_mobile", "label": "Text alignment (mobile)", "default": "center",
-      "options": [
-        { "value": "left",   "label": "Left" },
-        { "value": "center", "label": "Center" }
-      ]
-    },
-
+    { "type": "select", "id": "align_desktop", "label": "Text alignment (desktop)", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ] },
+    { "type": "select", "id": "align_mobile", "label": "Text alignment (mobile)", "default": "center", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ] },
     { "type": "header", "content": "Colors" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
     { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width",
-      "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
-      ]
-    },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
     { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
     { "type": "header", "content": "Padding" },
     { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
     { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
-
     { "type": "header", "content": "Advanced" },
     { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
   ],
   "presets": [
-    {
-      "name": "FTD - Split Hero",
-      "category": "Fortified Sections"
-    }
+    { "name": "FTD - Split Hero", "category": "Fortified Sections" }
   ]
 }
 {% endschema %}
