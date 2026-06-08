@@ -469,6 +469,86 @@
         "padding-block-end": 0
       }
     },
+    "ftd_b_stats_strip_6gLx9q": {
+      "type": "ftd-b-stats-strip",
+      "blocks": {
+        "stat_ijd3LA": {
+          "type": "stat",
+          "settings": {
+            "number": "1,200",
+            "unit": "mg",
+            "label": "Sodium",
+            "note": "53% Daily Value",
+            "note_color_override": ""
+          }
+        },
+        "stat_QPiJ7H": {
+          "type": "stat",
+          "settings": {
+            "number": "150",
+            "unit": "mg",
+            "label": "Magnesium Malate",
+            "note": "35% Daily Value",
+            "note_color_override": ""
+          }
+        },
+        "stat_axiiLW": {
+          "type": "stat",
+          "settings": {
+            "number": "200",
+            "unit": "mg",
+            "label": "Potassium",
+            "note": "4% Daily Value",
+            "note_color_override": ""
+          }
+        },
+        "stat_pnyYYq": {
+          "type": "stat",
+          "settings": {
+            "number": "1,940",
+            "unit": "mg",
+            "label": "Chloride",
+            "note": "80% Daily Value",
+            "note_color_override": ""
+          }
+        },
+        "stat_gCprkn": {
+          "type": "stat",
+          "settings": {
+            "number": "152",
+            "unit": "mg",
+            "label": "Natural Caffeine",
+            "note": "From Coffee Bean",
+            "note_color_override": ""
+          }
+        }
+      },
+      "block_order": [
+        "stat_ijd3LA",
+        "stat_QPiJ7H",
+        "stat_axiiLW",
+        "stat_pnyYYq",
+        "stat_gCprkn"
+      ],
+      "name": "FTD-B - Stats Strip",
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "panel_background": "#0A0A0A",
+        "panel_text_color": "#FFFFFF",
+        "accent_color": "#1FA8A1",
+        "accent_top_border_thickness": 3,
+        "desktop_columns": 5,
+        "divider_color": "#FFFFFF",
+        "divider_opacity": 8,
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 72,
+        "padding-block-end": 72,
+        "custom_css": ""
+      }
+    },
     "fortified_ingredients_callout_KYTcNc": {
       "type": "fortified-ingredients-callout",
       "blocks": {
@@ -822,6 +902,7 @@
   },
   "order": [
     "main",
+    "ftd_b_stats_strip_6gLx9q",
     "fortified_ingredients_callout_KYTcNc",
     "fortified_testimonial_gifpnd",
     "fortified_comparison_CLVb4q",
