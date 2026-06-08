@@ -1,0 +1,405 @@
+{% comment %}
+  Section: FTD-B - Ingredients
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Header (eyebrow + heading with optional emphasized word + lead) above a
+  3-column table: Ingredient name (with alias + optional source badge),
+  per-serving amount, why-it's-here paragraph.
+
+  Desktop: HTML table with hover row tint.
+  Mobile (<=749px): each row collapses to a stacked card with the amount
+  as a chip on the right of the name.
+
+  Stable class prefix: ftbig
+{% endcomment %}
+
+{%- liquid
+  assign heading_html = section.settings.heading
+  assign emphasis_word = section.settings.heading_emphasis_word
+  if heading_html != blank and emphasis_word != blank
+    assign em_open = '<em class="ftbig__em">'
+    assign em_close = '</em>'
+    assign emphasized = em_open | append: emphasis_word | append: em_close
+    assign heading_html = heading_html | replace_first: emphasis_word, emphasized
+  endif
+  assign hover_opacity = section.settings.row_hover_tint_opacity | divided_by: 100.0
+-%}
+
+<section
+  class="ftbig section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %} --ftbig-max-w: {{ section.settings.content_max_width }}px; --ftbig-eyebrow: {{ section.settings.eyebrow_color }}; --ftbig-accent: {{ section.settings.accent_color }}; --ftbig-hover-opacity: {{ hover_opacity }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="ftbig__inner">
+
+    {%- if section.settings.eyebrow != blank or heading_html != blank or section.settings.body != blank -%}
+      <div class="ftbig__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="ftbig__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if heading_html != blank -%}
+          <h2 class="ftbig__heading">{{ heading_html | newline_to_br }}</h2>
+        {%- endif -%}
+        {%- if section.settings.body != blank -%}
+          <p class="ftbig__body">{{ section.settings.body }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="ftbig__wrap">
+        <table class="ftbig__table">
+          <thead>
+            <tr>
+              <th scope="col" class="ftbig__th ftbig__th--name">{{ section.settings.column_labels_ingredient }}</th>
+              <th scope="col" class="ftbig__th ftbig__th--amt">{{ section.settings.column_labels_amount }}</th>
+              <th scope="col" class="ftbig__th ftbig__th--why">{{ section.settings.column_labels_why }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'ingredient' -%}
+                <tr class="ftbig__row" {{ block.shopify_attributes }}>
+                  <td class="ftbig__td ftbig__td--name" data-label="{{ section.settings.column_labels_ingredient }}">
+                    <div class="ftbig__name-row">
+                      <div class="ftbig__name-stack">
+                        {%- if block.settings.name != blank -%}
+                          <div class="ftbig__name">{{ block.settings.name }}</div>
+                        {%- endif -%}
+                        {%- if block.settings.alias != blank -%}
+                          <div class="ftbig__alias">{{ block.settings.alias }}</div>
+                        {%- endif -%}
+                        {%- if block.settings.source_badge != blank -%}
+                          <span class="ftbig__badge">{{ block.settings.source_badge }}</span>
+                        {%- endif -%}
+                      </div>
+                      {%- if block.settings.amount != blank -%}
+                        <span class="ftbig__chip" aria-hidden="true">{{ block.settings.amount }}</span>
+                      {%- endif -%}
+                    </div>
+                  </td>
+                  <td class="ftbig__td ftbig__td--amt" data-label="{{ section.settings.column_labels_amount }}">
+                    {%- if block.settings.amount != blank -%}
+                      <span class="ftbig__amt">{{ block.settings.amount }}</span>
+                    {%- endif -%}
+                  </td>
+                  <td class="ftbig__td ftbig__td--why" data-label="{{ section.settings.column_labels_why }}">
+                    {%- if block.settings.why != blank -%}
+                      <p class="ftbig__why">{{ block.settings.why }}</p>
+                    {%- endif -%}
+                  </td>
+                </tr>
+              {%- endif -%}
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.footer_note != blank -%}
+      <p class="ftbig__footer">{{ section.settings.footer_note }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% stylesheet %}
+.ftbig {
+  display: block;
+}
+
+.ftbig__inner {
+  max-width: var(--ftbig-max-w, 1240px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+
+.ftbig__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0 0 clamp(24px, 4vw, 40px);
+  max-width: 820px;
+}
+
+.ftbig__eyebrow {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ftbig-eyebrow, var(--color-foreground));
+}
+
+.ftbig__heading {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(26px, 4vw, 46px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+}
+
+.ftbig__em {
+  color: var(--ftbig-accent, var(--color-foreground));
+  font-style: italic;
+}
+
+.ftbig__body {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-foreground);
+  opacity: 0.78;
+  max-width: 70ch;
+}
+
+.ftbig__wrap {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+}
+
+.ftbig__table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.ftbig__th {
+  font-family: var(--font-heading--family, inherit);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 16px 18px;
+  background: rgb(var(--color-foreground-rgb) / 0.04);
+  color: var(--color-foreground);
+  border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+}
+
+.ftbig__th--name { width: 34%; }
+.ftbig__th--amt  { width: 18%; }
+.ftbig__th--why  { width: 48%; }
+
+.ftbig__row {
+  transition: background 0.18s;
+}
+
+.ftbig__row:hover .ftbig__td {
+  background: rgb(var(--color-foreground-rgb) / var(--ftbig-hover-opacity, 0.08));
+}
+
+.ftbig__td {
+  padding: 18px 18px;
+  vertical-align: top;
+  border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.06);
+  color: var(--color-foreground);
+}
+
+.ftbig__row:last-child .ftbig__td {
+  border-bottom: none;
+}
+
+.ftbig__name-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ftbig__name-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ftbig__name {
+  font-family: var(--font-heading--family, inherit);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+}
+
+.ftbig__alias {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--color-foreground);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.ftbig__badge {
+  align-self: flex-start;
+  margin-top: 6px;
+  display: inline-block;
+  padding: 3px 8px;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--ftbig-accent, #1FA8A1);
+  color: #FFFFFF;
+  border-radius: 999px;
+}
+
+.ftbig__chip {
+  display: none;
+}
+
+.ftbig__amt {
+  font-family: var(--font-heading--family, inherit);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ftbig-accent, var(--color-foreground));
+}
+
+.ftbig__why {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--color-foreground);
+  opacity: 0.82;
+}
+
+.ftbig__footer {
+  margin: 22px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-foreground);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+@media (max-width: 749px) {
+  .ftbig__wrap {
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+  .ftbig__table,
+  .ftbig__table thead,
+  .ftbig__table tbody,
+  .ftbig__table tr,
+  .ftbig__table th,
+  .ftbig__table td {
+    display: block;
+    width: auto;
+  }
+  .ftbig__table thead {
+    display: none;
+  }
+  .ftbig__row {
+    display: block;
+    margin: 0 0 14px;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--color-background);
+  }
+  .ftbig__td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.06);
+  }
+  .ftbig__td:last-child {
+    border-bottom: none;
+  }
+  .ftbig__td--amt {
+    display: none;
+  }
+  .ftbig__chip {
+    display: inline-block;
+    flex: 0 0 auto;
+    align-self: flex-start;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--ftbig-accent, #1FA8A1);
+    color: #FFFFFF;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+}
+
+[hidden] { display: none !important; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FTD-B - Ingredients",
+  "tag": "section",
+  "class": "ftd-b-ingredients-section",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Full Transparency" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Every ingredient. Every milligram. Every reason." },
+    { "type": "text", "id": "heading_emphasis_word", "label": "Emphasized word", "info": "First match in the heading is wrapped in an accent italic.", "default": "Every reason." },
+    { "type": "textarea", "id": "body", "label": "Body" },
+
+    { "type": "header", "content": "Table" },
+    { "type": "text", "id": "column_labels_ingredient", "label": "Column label - Ingredient", "default": "Ingredient" },
+    { "type": "text", "id": "column_labels_amount", "label": "Column label - Amount", "default": "Per Serving" },
+    { "type": "text", "id": "column_labels_why", "label": "Column label - Why", "default": "Why It's Here" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#1FA8A1" },
+    { "type": "range", "id": "row_hover_tint_opacity", "label": "Row hover tint opacity", "min": 0, "max": 30, "step": 2, "unit": "%", "default": 8 },
+    { "type": "text", "id": "footer_note", "label": "Footer note", "default": "No Mumbo Jumbo. That's the whole list." },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Pink Himalayan Salt" },
+        { "type": "text", "id": "alias", "label": "Alias", "default": "as Ancient Ocean" },
+        { "type": "text", "id": "source_badge", "label": "Source badge", "info": "Optional. Renders as a small uppercase pill." },
+        { "type": "text", "id": "amount", "label": "Amount", "default": "3,077mg" },
+        { "type": "textarea", "id": "why", "label": "Why it's here", "default": "Primary electrolyte. Sodium drives fluid absorption via sodium-glucose cotransport." }
+      ]
+    }
+  ],
+  "min_blocks": 1,
+  "max_blocks": 24,
+  "presets": [
+    {
+      "name": "FTD-B - Ingredients",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "ingredient", "settings": { "name": "Pink Himalayan Salt", "alias": "as Ancient Ocean", "source_badge": "Traceable", "amount": "3,077mg", "why": "Primary electrolyte. Sodium drives fluid absorption via sodium-glucose cotransport." } },
+        { "type": "ingredient", "settings": { "name": "Magnesium Malate", "alias": "Magnesium + Malic Acid", "amount": "1,000mg", "why": "Malic acid is a Krebs cycle intermediate. Magnesium cofactors 300+ enzymatic reactions." } },
+        { "type": "ingredient", "settings": { "name": "Potassium Citrate", "alias": "Potassium + Citric Acid", "amount": "200mg", "why": "Pairs with sodium to support nerve signaling and muscle contraction." } },
+        { "type": "ingredient", "settings": { "name": "Coconut Water Powder", "alias": "Certified Organic", "source_badge": "Organic", "amount": "500mg", "why": "Whole-food source of trace minerals and natural electrolytes." } },
+        { "type": "ingredient", "settings": { "name": "Natural Caffeine", "alias": "from Whole Coffee Beans", "amount": "152mg", "why": "Improves alertness, reaction time, and endurance at this dose." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

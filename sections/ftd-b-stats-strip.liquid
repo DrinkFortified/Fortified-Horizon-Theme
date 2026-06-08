@@ -1,0 +1,278 @@
+{% comment %}
+  Section: FTD-B - Stats Strip
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Dark themed strip of stat tiles. Each tile shows a big number with an
+  optional unit suffix, a label, and a daily value note.
+
+  Desktop: N-column grid with hairline dividers between tiles.
+  Mobile (<=749px): 2 columns with dividers between rows.
+
+  Stable class prefix: ftbst
+{% endcomment %}
+
+{%- liquid
+  assign div_opacity = section.settings.divider_opacity | divided_by: 100.0
+-%}
+
+<section
+  class="ftbst section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %} --ftbst-max-w: {{ section.settings.content_max_width }}px; --ftbst-panel-bg: {{ section.settings.panel_background }}; --ftbst-panel-fg: {{ section.settings.panel_text_color }}; --ftbst-accent: {{ section.settings.accent_color }}; --ftbst-accent-top: {{ section.settings.accent_top_border_thickness }}px; --ftbst-cols: {{ section.settings.desktop_columns }}; --ftbst-div-color: {{ section.settings.divider_color }}; --ftbst-div-opacity: {{ div_opacity }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="ftbst__inner">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="ftbst__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="ftbst__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="ftbst__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="ftbst__panel">
+        <div class="ftbst__grid">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'stat' -%}
+              {%- assign note_color = block.settings.note_color_override | default: section.settings.accent_color -%}
+              <div class="ftbst__cell" {{ block.shopify_attributes }}>
+                <div class="ftbst__num">
+                  <span class="ftbst__num-main">{{ block.settings.number }}</span>
+                  {%- if block.settings.unit != blank -%}
+                    <span class="ftbst__num-unit">{{ block.settings.unit }}</span>
+                  {%- endif -%}
+                </div>
+                {%- if block.settings.label != blank -%}
+                  <div class="ftbst__label">{{ block.settings.label }}</div>
+                {%- endif -%}
+                {%- if block.settings.note != blank -%}
+                  <div class="ftbst__note" style="color: {{ note_color }};">{{ block.settings.note }}</div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% stylesheet %}
+.ftbst {
+  display: block;
+}
+
+.ftbst__inner {
+  max-width: var(--ftbst-max-w, 1240px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+
+.ftbst__head {
+  text-align: center;
+  margin: 0 auto 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 720px;
+}
+
+.ftbst__eyebrow {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ftbst-accent, var(--color-foreground));
+}
+
+.ftbst__heading {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(26px, 3.6vw, 42px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+}
+
+.ftbst__panel {
+  background: var(--ftbst-panel-bg, #0A0A0A);
+  color: var(--ftbst-panel-fg, #FFFFFF);
+  border-top: var(--ftbst-accent-top, 3px) solid var(--ftbst-accent, #1FA8A1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ftbst__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--ftbst-cols, 5), minmax(0, 1fr));
+}
+
+.ftbst__cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+  padding: clamp(20px, 3vw, 36px) 16px;
+  color: var(--ftbst-panel-fg, #FFFFFF);
+}
+
+.ftbst__cell + .ftbst__cell::before {
+  content: "";
+  position: absolute;
+  top: 18%;
+  bottom: 18%;
+  left: 0;
+  width: 1px;
+  background: var(--ftbst-div-color, #FFFFFF);
+  opacity: var(--ftbst-div-opacity, 0.08);
+}
+
+.ftbst__num {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-heading--family, inherit);
+  line-height: 1;
+}
+
+.ftbst__num-main {
+  font-size: clamp(36px, 5.4vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ftbst-panel-fg, #FFFFFF);
+}
+
+.ftbst__num-unit {
+  font-size: clamp(14px, 1.6vw, 18px);
+  font-weight: 700;
+  text-transform: lowercase;
+  opacity: 0.8;
+}
+
+.ftbst__label {
+  font-family: var(--font-heading--family, inherit);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.95;
+}
+
+.ftbst__note {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+@media (max-width: 749px) {
+  .ftbst__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ftbst__cell {
+    padding: 22px 12px;
+  }
+  /* Reset desktop vertical dividers and apply per-row dividers */
+  .ftbst__cell + .ftbst__cell::before {
+    content: none;
+  }
+  .ftbst__cell:nth-child(odd):not(:first-child)::before,
+  .ftbst__cell:nth-child(even)::after {
+    content: "";
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    top: 0;
+    height: 1px;
+    background: var(--ftbst-div-color, #FFFFFF);
+    opacity: var(--ftbst-div-opacity, 0.08);
+  }
+  .ftbst__cell:nth-child(even)::after {
+    left: 0;
+    right: auto;
+    top: 18%;
+    bottom: 18%;
+    width: 1px;
+    height: auto;
+  }
+}
+
+[hidden] { display: none !important; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FTD-B - Stats Strip",
+  "tag": "section",
+  "class": "ftd-b-stats-strip-section",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading" },
+
+    { "type": "header", "content": "Panel" },
+    { "type": "color", "id": "panel_background", "label": "Panel background", "default": "#0A0A0A" },
+    { "type": "color", "id": "panel_text_color", "label": "Panel text color", "default": "#FFFFFF" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#1FA8A1" },
+    { "type": "range", "id": "accent_top_border_thickness", "label": "Accent top border", "min": 0, "max": 6, "step": 1, "unit": "px", "default": 3 },
+    { "type": "range", "id": "desktop_columns", "label": "Columns (desktop)", "min": 2, "max": 6, "step": 1, "default": 5 },
+    { "type": "color", "id": "divider_color", "label": "Divider color", "default": "#FFFFFF" },
+    { "type": "range", "id": "divider_opacity", "label": "Divider opacity", "min": 0, "max": 30, "step": 2, "unit": "%", "default": 8 },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "1,200" },
+        { "type": "text", "id": "unit", "label": "Unit", "default": "mg" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Sodium" },
+        { "type": "text", "id": "note", "label": "Note", "default": "53% Daily Value" },
+        { "type": "color", "id": "note_color_override", "label": "Note color override", "info": "Optional. Falls back to the accent color." }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "FTD-B - Stats Strip",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "1,200", "unit": "mg", "label": "Sodium", "note": "53% Daily Value" } },
+        { "type": "stat", "settings": { "number": "150", "unit": "mg", "label": "Magnesium Malate", "note": "35% Daily Value" } },
+        { "type": "stat", "settings": { "number": "200", "unit": "mg", "label": "Potassium", "note": "4% Daily Value" } },
+        { "type": "stat", "settings": { "number": "1,940", "unit": "mg", "label": "Chloride", "note": "80% Daily Value" } },
+        { "type": "stat", "settings": { "number": "152", "unit": "mg", "label": "Natural Caffeine", "note": "From Coffee Bean" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
