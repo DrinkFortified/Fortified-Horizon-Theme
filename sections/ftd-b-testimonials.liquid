@@ -1,15 +1,5 @@
 {% comment %}
   Section: FTD-B - Testimonials
-  Category: Fortified Sections
-  --------------------------------------------------------------------
-  Header (eyebrow + heading + rating summary) over a responsive grid
-  of testimonial cards. Each card has a big decorative quote mark
-  positioned in the top-left, italic body, author + author-sub at
-  the bottom, and an optional tag pill.
-
-  Desktop  : configurable N columns (default 4).
-  Tablet   : configurable N columns at <=1100px (default 2).
-  Mobile   : single column at <=749px.
 {% endcomment %}
 
 {%- liquid
@@ -55,21 +45,13 @@
   {{ section.shopify_attributes }}
 >
   <div class="ftbts__inner">
-
     {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.rating_text != blank -%}
       <header class="ftbts__head">
-        {%- if section.settings.eyebrow != blank -%}
-          <p class="ftbts__eyebrow">{{ section.settings.eyebrow }}</p>
-        {%- endif -%}
-        {%- if section.settings.heading != blank -%}
-          <h2 class="ftbts__heading">{{ heading_html }}</h2>
-        {%- endif -%}
-        {%- if section.settings.rating_text != blank -%}
-          <p class="ftbts__rating">{{ section.settings.rating_text }}</p>
-        {%- endif -%}
+        {%- if section.settings.eyebrow != blank -%}<p class="ftbts__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="ftbts__heading">{{ heading_html }}</h2>{%- endif -%}
+        {%- if section.settings.rating_text != blank -%}<p class="ftbts__rating">{{ section.settings.rating_text }}</p>{%- endif -%}
       </header>
     {%- endif -%}
-
     {%- if section.blocks.size > 0 -%}
       <ul class="ftbts__grid" role="list">
         {%- for block in section.blocks -%}
@@ -78,19 +60,11 @@
             {%- assign tag_fg = block.settings.tag_text_color | default: '#135289' -%}
             <li class="ftbts__card" {{ block.shopify_attributes }}>
               <span class="ftbts__mark" aria-hidden="true">&ldquo;</span>
-              {%- if block.settings.quote != blank -%}
-                <p class="ftbts__text">{{ block.settings.quote }}</p>
-              {%- endif -%}
+              {%- if block.settings.quote != blank -%}<p class="ftbts__text">{{ block.settings.quote }}</p>{%- endif -%}
               <div class="ftbts__meta">
-                {%- if block.settings.author != blank -%}
-                  <p class="ftbts__author">{{ block.settings.author }}</p>
-                {%- endif -%}
-                {%- if block.settings.author_sub != blank -%}
-                  <p class="ftbts__author-sub">{{ block.settings.author_sub }}</p>
-                {%- endif -%}
-                {%- if block.settings.tag_label != blank -%}
-                  <span class="ftbts__tag" style="background: {{ tag_bg }}; color: {{ tag_fg }};">{{ block.settings.tag_label }}</span>
-                {%- endif -%}
+                {%- if block.settings.author != blank -%}<p class="ftbts__author">{{ block.settings.author }}</p>{%- endif -%}
+                {%- if block.settings.author_sub != blank -%}<p class="ftbts__author-sub">{{ block.settings.author_sub }}</p>{%- endif -%}
+                {%- if block.settings.tag_label != blank -%}<span class="ftbts__tag" style="background: {{ tag_bg }}; color: {{ tag_fg }};">{{ block.settings.tag_label }}</span>{%- endif -%}
               </div>
             </li>
           {%- endif -%}
@@ -102,156 +76,22 @@
 
 {% stylesheet %}
 .ftbts { display: block; }
-
-.ftbts__inner {
-  max-width: var(--ftbts-max-w, 1240px);
-  margin-inline: auto;
-  padding-inline: clamp(16px, 4vw, 40px);
-}
-
-.ftbts__head {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: center;
-  text-align: center;
-  margin: 0 0 clamp(24px, 4vw, 48px);
-}
-
-.ftbts__eyebrow {
-  margin: 0;
-  font-family: var(--font-heading--family, inherit);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ftbts-eyebrow, #1FA8A1);
-}
-
-.ftbts__heading {
-  margin: 0;
-  font-family: var(--font-heading--family, inherit);
-  font-size: clamp(28px, 4vw, 48px);
-  font-weight: 800;
-  line-height: 1.05;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  color: var(--color-foreground);
-}
-
-.ftbts__heading .ftbts__em {
-  font-style: normal;
-  color: var(--ftbts-eyebrow, #1FA8A1);
-}
-
-.ftbts__rating {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--color-foreground);
-  opacity: 0.85;
-}
-
-/* ── Grid ──────────────────────────────────────────────────── */
-.ftbts__grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(var(--ftbts-cols-d, 4), minmax(0, 1fr));
-  gap: clamp(16px, 2vw, 24px);
-}
-
-/* ── Card ──────────────────────────────────────────────────── */
-.ftbts__card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 28px 22px 22px;
-  border-radius: var(--ftbts-radius, 12px);
-  background: rgb(var(--color-foreground-rgb) / 0.04);
-  border: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
-  overflow: hidden;
-}
-
-.ftbts__mark {
-  position: absolute;
-  top: -14px;
-  left: 8px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 110px;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--ftbts-quote-mark, #E8E6E4);
-  pointer-events: none;
-  user-select: none;
-}
-
-.ftbts__text {
-  position: relative;
-  z-index: 1;
-  margin: 8px 0 0;
-  font-size: 15px;
-  line-height: 1.55;
-  font-style: italic;
-  color: var(--color-foreground);
-  flex: 1 1 auto;
-}
-
-.ftbts__meta {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-top: 4px;
-}
-
-.ftbts__author {
-  margin: 0;
-  font-family: var(--font-heading--family, inherit);
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-foreground);
-}
-
-.ftbts__author-sub {
-  margin: 0;
-  font-size: 13px;
-  color: var(--color-foreground);
-  opacity: 0.7;
-}
-
-.ftbts__tag {
-  align-self: flex-start;
-  margin-top: 8px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-/* ── Tablet / mobile ───────────────────────────────────────── */
-@media (max-width: 1100px) {
-  .ftbts__grid {
-    grid-template-columns: repeat(var(--ftbts-cols-t, 2), minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 749px) {
-  .ftbts__grid {
-    grid-template-columns: 1fr;
-  }
-  .ftbts__card { padding: 24px 18px 18px; }
-  .ftbts__mark { font-size: 90px; }
-}
-
+.ftbts__inner { max-width: var(--ftbts-max-w, 1240px); margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+.ftbts__head { display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; margin: 0 0 clamp(24px, 4vw, 48px); }
+.ftbts__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ftbts-eyebrow, #1FA8A1); }
+.ftbts__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(28px, 4vw, 48px); font-weight: 800; line-height: 1.05; text-transform: uppercase; letter-spacing: -0.01em; color: var(--color-foreground); }
+.ftbts__heading .ftbts__em { font-style: normal; color: var(--ftbts-eyebrow, #1FA8A1); }
+.ftbts__rating { margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; color: var(--color-foreground); opacity: 0.85; }
+.ftbts__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--ftbts-cols-d, 4), minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
+.ftbts__card { position: relative; display: flex; flex-direction: column; gap: 14px; padding: 28px 22px 22px; border-radius: var(--ftbts-radius, 12px); background: rgb(var(--color-foreground-rgb) / 0.04); border: 1px solid rgb(var(--color-foreground-rgb) / 0.08); overflow: hidden; }
+.ftbts__mark { position: absolute; top: -14px; left: 8px; font-family: Georgia, "Times New Roman", serif; font-size: 110px; font-weight: 700; line-height: 1; color: var(--ftbts-quote-mark, #E8E6E4); pointer-events: none; user-select: none; }
+.ftbts__text { position: relative; z-index: 1; margin: 8px 0 0; font-size: 15px; line-height: 1.55; font-style: italic; color: var(--color-foreground); flex: 1 1 auto; }
+.ftbts__meta { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+.ftbts__author { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-foreground); }
+.ftbts__author-sub { margin: 0; font-size: 13px; color: var(--color-foreground); opacity: 0.7; }
+.ftbts__tag { align-self: flex-start; margin-top: 8px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+@media (max-width: 1100px) { .ftbts__grid { grid-template-columns: repeat(var(--ftbts-cols-t, 2), minmax(0, 1fr)); } }
+@media (max-width: 749px) { .ftbts__grid { grid-template-columns: 1fr; } .ftbts__card { padding: 24px 18px 18px; } .ftbts__mark { font-size: 90px; } }
 [hidden] { display: none !important; }
 {% endstylesheet %}
 
@@ -267,31 +107,18 @@
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Real families. Real labels." },
     { "type": "text", "id": "heading_emphasis_word", "label": "Heading emphasis word", "default": "Real labels." },
     { "type": "text", "id": "rating_text", "label": "Rating summary", "default": "4.9 - 560+ reviews" },
-
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "desktop_columns", "label": "Columns (desktop)", "min": 2, "max": 4, "step": 1, "default": 4 },
     { "type": "range", "id": "tablet_columns", "label": "Columns (tablet)", "min": 1, "max": 3, "step": 1, "default": 2 },
     { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 12 },
     { "type": "color", "id": "quote_mark_color", "label": "Quote mark color", "default": "#E8E6E4" },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "default": "page-width",
-      "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
-      ]
-    },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
     { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
     { "type": "header", "content": "Colors" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
     { "type": "header", "content": "Padding" },
     { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
     { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-
     { "type": "header", "content": "Advanced" },
     { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
   ],
@@ -309,7 +136,6 @@
       ]
     }
   ],
-  "min_blocks": 1,
   "max_blocks": 12,
   "presets": [
     {
