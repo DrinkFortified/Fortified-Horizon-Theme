@@ -174,6 +174,203 @@
               },
               "blocks": {}
             },
+            "fortified_fomo_counter_An68bb": {
+              "type": "fortified-fomo-counter",
+              "name": "Block - FOMO Counter",
+              "settings": {
+                "total_spots": 1000,
+                "claimed_count_thousands": 0,
+                "claimed_count_units": 750,
+                "metafield_namespace": "",
+                "metafield_key": "",
+                "eyebrow": "THE TRUTH",
+                "description": "First 1,000 Quarterly Plan Subscribers get a free creatine for the lifetime of their subscription.",
+                "eyebrow_color": "#1FA8A1",
+                "active_template": "Only **{remaining}** of **{total}** subscription spots left",
+                "active_sub": "Lock in your free creatine while spots last.",
+                "exhausted_template": "All **{total}** subscription spots claimed.",
+                "exhausted_sub": "Yours still ships as a one-time gift.",
+                "show_progress_bar": true,
+                "bar_active_color": "#E8833A",
+                "bar_exhausted_color": "#9CA3AF",
+                "bar_track_color": "#EFEAE3",
+                "bar_height": 10,
+                "text_align": "center",
+                "color_scheme": "",
+                "content_max_width": 720,
+                "padding-block-start": 40,
+                "padding-block-end": 40,
+                "custom_css": ""
+              },
+              "blocks": {}
+            },
+            "fortified_product_selector_QyTFG3": {
+              "type": "fortified-product-selector",
+              "name": "Block - Product Selector",
+              "settings": {
+                "content_max_width": 1240,
+                "section_width": "full-width",
+                "heading": "Everyday Hydration",
+                "subheading": "Electrolytes + D3 + K2",
+                "coming_soon_text": "Soon",
+                "show_rating": true,
+                "rating_value": "4.8",
+                "rating_count": "(342 reviews)",
+                "star_color": "#F5A623",
+                "plan_step_label": "Choose Your Plan",
+                "plan_step_note": "Monthly 10% Off",
+                "show_monthly": true,
+                "monthly_label": "1 a Month",
+                "monthly_badge": "Monthly",
+                "monthly_badge_color": "#1FA8A1",
+                "monthly_title": "1 Pouch\nEvery Month",
+                "monthly_desc": "Your daily ritual, delivered.",
+                "monthly_price": "$53.10",
+                "monthly_period": "/ month",
+                "monthly_was": "was $59.00/mo",
+                "monthly_checklist": "Save 15% on every order\nFree shipping always\nFlexible, cancel / pause any time",
+                "show_quarterly": true,
+                "quarterly_label": "3 Every 3 Months",
+                "quarterly_badge": "Best Value - Quarterly",
+                "quarterly_badge_color": "#E8833A",
+                "quarterly_title": "3 Pouches\nEvery 3 Months",
+                "quarterly_desc": "Mix any functions freely.",
+                "quarterly_price": "$53.10",
+                "quarterly_period": "/ month",
+                "quarterly_was": "was $59.00/mo",
+                "quarterly_checklist": "Free Creatine + Sample Pack\nFree shipping always\nFlexible, cancel / pause any time",
+                "bundle_count": 3,
+                "show_onetime": true,
+                "onetime_card_label": "One Time",
+                "onetime_badge": "Buy Once",
+                "onetime_badge_color": "#6B7280",
+                "onetime_title": "Single\nPouch",
+                "onetime_desc": "Try it first. Subscribe whenever you're ready.",
+                "onetime_price": "$59.00",
+                "onetime_period": "/ pouch",
+                "onetime_was": "",
+                "onetime_checklist": "30 servings per pouch\nShipping calculated at checkout\nNo subscription required",
+                "onetime_product": "",
+                "onetime_flavor_option": "Flavor",
+                "simplified_for_subs": true,
+                "simple_plan_monthly": "",
+                "simple_plan_quarterly": "",
+                "build_step_label": "Build {count}-Pouch Bundle",
+                "pouches_word": "Pouches",
+                "function_label": "Choose Your Function",
+                "flavor_label": "Choose Flavor:",
+                "unit_label_prefix": "Pouch",
+                "show_addon": true,
+                "addon_product": "",
+                "addon_label": "Add Creatine — 50% off",
+                "addon_desc": "50% off applied automatically at checkout.",
+                "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
+                "addon_desc_quarterly": "1st Creatine is free with your bundle. Add a second at 50% off.",
+                "quarterly_free_text": "Free Creatine + Sample Pack included with your bundle",
+                "addon_price_text": "$12.00",
+                "addon_was_text": "$24.00",
+                "addon_loop_plan_monthly": "",
+                "addon_loop_plan_quarterly": "",
+                "addon_loop_plan_quarterly_50off": "",
+                "summary_label": "Your Order",
+                "total_label": "Total",
+                "overview_note": "Subscriptions ship free. Discounts applied at checkout.",
+                "show_shipping_bar": true,
+                "shipping_threshold_dollars": 100,
+                "shipping_text_subscription": "Subscriptions ship free",
+                "shipping_text_progress": "Add {amount} more for FREE shipping",
+                "shipping_text_unlocked": "FREE shipping unlocked",
+                "shipping_bar_track_color": "#EFEAE3",
+                "shipping_bar_fill_color": "#1FA8A1",
+                "shipping_bar_unlocked_color": "#16A34A",
+                "qty_label": "Quantity",
+                "qty_max": 20,
+                "atc_label": "Add to Cart",
+                "show_total_on_button": true,
+                "button_style": "filled",
+                "onetime_prefix": "Or purchase once:",
+                "onetime_price_text": "$59.00 + $8.99 shipping",
+                "onetime_link": "",
+                "onetime_clickable": true,
+                "selection_color": "#1FA8A1",
+                "color_scheme": "",
+                "panel_color_scheme": "",
+                "button_radius": 8,
+                "card_radius": 12,
+                "padding-block-start": 32,
+                "padding-block-end": 32,
+                "custom_css": "",
+                "loop_api_token": "",
+                "loop_api_base": "https://api.loopwork.co",
+                "loop_session_endpoint": ""
+              },
+              "blocks": {
+                "ftd_ps_benefit_xtRaUW": {
+                  "type": "_ftd-ps-benefit",
+                  "settings": {
+                    "text": "Supports Mood & Focus"
+                  },
+                  "blocks": {}
+                },
+                "ftd_ps_benefit_Ge94Ag": {
+                  "type": "_ftd-ps-benefit",
+                  "settings": {
+                    "text": "Plant-Based"
+                  },
+                  "blocks": {}
+                },
+                "ftd_ps_benefit_g34Bhd": {
+                  "type": "_ftd-ps-benefit",
+                  "settings": {
+                    "text": "No Jitters Or Crash"
+                  },
+                  "blocks": {}
+                },
+                "ftd_ps_function_DXBhGy": {
+                  "type": "_ftd-ps-function",
+                  "settings": {
+                    "enabled": true,
+                    "function_label": "Fortified Everyday",
+                    "product": "",
+                    "coming_soon": false,
+                    "spec_1": "152mg Caffeine",
+                    "spec_2": "1,200mg NA",
+                    "spec_3": "",
+                    "description": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix.",
+                    "flavor_option": "",
+                    "manual_flavors": "Original\nMango\nBerry",
+                    "loop_plan_monthly": "",
+                    "loop_plan_quarterly": ""
+                  },
+                  "blocks": {}
+                },
+                "ftd_ps_function_AahjQ3": {
+                  "type": "_ftd-ps-function",
+                  "settings": {
+                    "enabled": true,
+                    "function_label": "Fortified Energy",
+                    "product": "",
+                    "coming_soon": false,
+                    "spec_1": "152mg Caffeine",
+                    "spec_2": "1,200mg NA",
+                    "spec_3": "",
+                    "description": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix.",
+                    "flavor_option": "",
+                    "manual_flavors": "Original\nMango\nBerry",
+                    "loop_plan_monthly": "",
+                    "loop_plan_quarterly": ""
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "ftd_ps_benefit_xtRaUW",
+                "ftd_ps_benefit_Ge94Ag",
+                "ftd_ps_benefit_g34Bhd",
+                "ftd_ps_function_DXBhGy",
+                "ftd_ps_function_AahjQ3"
+              ]
+            },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
               "settings": {
@@ -252,6 +449,8 @@
           "block_order": [
             "group_icgrde",
             "divider_VJhene",
+            "fortified_fomo_counter_An68bb",
+            "fortified_product_selector_QyTFG3",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
             "text_aEtTtq"
@@ -351,14 +550,14 @@
       "name": "FTD - Comparison Table",
       "settings": {
         "eyebrow": "THE TRUTH",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "Why We Beat The Rest Electrolytes",
         "subheading": "",
         "fortified_label": "Fortified",
-        "fortified_column_color": "#0A0A0A",
-        "fortified_text_color": "#FFFFFF",
-        "check_color": "#FFFFFF",
-        "cross_color": "#9CA3AF",
+        "fortified_column_color": "#0a0a0a",
+        "fortified_text_color": "#ffffff",
+        "check_color": "#ffffff",
+        "cross_color": "#9ca3af",
         "cta_label": "Shop Fortified Now",
         "cta_link": "",
         "cta_style": "outline",
@@ -371,10 +570,172 @@
         "padding-block-end": 72,
         "custom_css": ""
       }
+    },
+    "ftd_b_supplement_facts_bmPkCy": {
+      "type": "ftd-b-supplement-facts",
+      "blocks": {
+        "nutrient_cd6Pen": {
+          "type": "nutrient",
+          "settings": {
+            "label": "Total Fat",
+            "amount": "0g",
+            "daily_value": "0%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "thin"
+          }
+        },
+        "nutrient_N33NHA": {
+          "type": "nutrient",
+          "settings": {
+            "label": "Saturated Fat",
+            "amount": "0g",
+            "daily_value": "0%",
+            "indent_level": 1,
+            "bold_label": false,
+            "divider_after": "thin"
+          }
+        },
+        "nutrient_PhPFtB": {
+          "type": "nutrient",
+          "settings": {
+            "label": "Sodium",
+            "amount": "1210mg",
+            "daily_value": "53%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "thin"
+          }
+        },
+        "nutrient_ijkdtU": {
+          "type": "nutrient",
+          "settings": {
+            "label": "Total Carbohydrate",
+            "amount": "3g",
+            "daily_value": "1%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "thin"
+          }
+        },
+        "nutrient_kimndt": {
+          "type": "nutrient",
+          "settings": {
+            "label": "Total Sugars",
+            "amount": "0g",
+            "daily_value": "53%",
+            "indent_level": 1,
+            "bold_label": false,
+            "divider_after": "thin"
+          }
+        },
+        "nutrient_NzHNTw": {
+          "type": "nutrient",
+          "settings": {
+            "label": "Protein",
+            "amount": "0g",
+            "daily_value": "53%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "med"
+          }
+        },
+        "nutrient_LCxERK": {
+          "type": "nutrient",
+          "settings": {
+            "label": "Magnesium",
+            "amount": "150mg",
+            "daily_value": "35%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "thin"
+          }
+        },
+        "nutrient_w8Kd8p": {
+          "type": "nutrient",
+          "settings": {
+            "label": "Potassium",
+            "amount": "200mg",
+            "daily_value": "4%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "thin"
+          }
+        },
+        "nutrient_kTabrV": {
+          "type": "nutrient",
+          "settings": {
+            "label": "Chloride",
+            "amount": "1940mg",
+            "daily_value": "80%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "none"
+          }
+        },
+        "callout_7qd93w": {
+          "type": "callout",
+          "settings": {
+            "title": "Why 1,210mg sodium?",
+            "body": "Sodium is the primary electrolyte lost in sweat and drives fluid absorption via sodium-glucose cotransport in the small intestine.",
+            "accent_color": "#1fa8a1"
+          }
+        },
+        "callout_jy8gL8": {
+          "type": "callout",
+          "settings": {
+            "title": "Why 0g sugar with 10 calories?",
+            "body": "Trace carbs come from organic whole-food ingredients. We sweeten with monk fruit and stevia, not sucralose.",
+            "accent_color": "#e8833a"
+          }
+        },
+        "callout_q9aXAa": {
+          "type": "callout",
+          "settings": {
+            "title": "Why no D3 on Energy?",
+            "body": "Energy is for performance moments. D3 belongs in your daily foundation - look for it on the Everyday label.",
+            "accent_color": "#9dbe5b"
+          }
+        }
+      },
+      "block_order": [
+        "nutrient_cd6Pen",
+        "nutrient_N33NHA",
+        "nutrient_PhPFtB",
+        "nutrient_ijkdtU",
+        "nutrient_kimndt",
+        "nutrient_NzHNTw",
+        "nutrient_LCxERK",
+        "nutrient_w8Kd8p",
+        "nutrient_kTabrV",
+        "callout_7qd93w",
+        "callout_jy8gL8",
+        "callout_q9aXAa"
+      ],
+      "name": "FTD-B - Supp Facts",
+      "settings": {
+        "panel_title": "Nutrition Facts",
+        "panel_servings_per": "30 servings per container",
+        "panel_serving_size": "1 Stick Pack (6.4g)",
+        "panel_calories": "10",
+        "panel_footnote": "* 2,000 calories/day used for general nutrition advice.",
+        "eyebrow": "Why These Numbers Matter",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "The label that made\nother brands nervous.",
+        "heading_emphasis_word": "nervous.",
+        "panel_position": "left",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "color_scheme": "",
+        "padding-block-start": 72,
+        "padding-block-end": 72,
+        "custom_css": ""
+      }
     }
   },
   "order": [
     "main",
-    "fortified_comparison_CLVb4q"
+    "fortified_comparison_CLVb4q",
+    "ftd_b_supplement_facts_bmPkCy"
   ]
 }
