@@ -1,0 +1,282 @@
+{% comment %}
+  Section: FTD-B - Benefits
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Header (eyebrow + heading with optional emphasized word + lead) above a
+  responsive grid of benefit cards. Each card has a top accent stripe,
+  optional icon image (or emoji fallback), title, description, citation.
+
+  Desktop: N-column grid. Mobile (<=749px): 1 column.
+
+  Stable class prefix: ftbbn
+{% endcomment %}
+
+{%- liquid
+  assign heading_html = section.settings.heading
+  assign emphasis_word = section.settings.heading_emphasis_word
+  if heading_html != blank and emphasis_word != blank
+    assign em_open = '<em class="ftbbn__em">'
+    assign em_close = '</em>'
+    assign emphasized = em_open | append: emphasis_word | append: em_close
+    assign heading_html = heading_html | replace_first: emphasis_word, emphasized
+  endif
+-%}
+
+<section
+  class="ftbbn section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %} --ftbbn-max-w: {{ section.settings.content_max_width }}px; --ftbbn-eyebrow: {{ section.settings.eyebrow_color }}; --ftbbn-accent: {{ section.settings.card_accent_color }}; --ftbbn-accent-top: {{ section.settings.card_accent_top_thickness }}px; --ftbbn-radius: {{ section.settings.card_radius }}px; --ftbbn-cols: {{ section.settings.desktop_columns }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="ftbbn__inner">
+
+    {%- if section.settings.eyebrow != blank or heading_html != blank or section.settings.body != blank -%}
+      <div class="ftbbn__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="ftbbn__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if heading_html != blank -%}
+          <h2 class="ftbbn__heading">{{ heading_html | newline_to_br }}</h2>
+        {%- endif -%}
+        {%- if section.settings.body != blank -%}
+          <p class="ftbbn__body">{{ section.settings.body }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="ftbbn__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'benefit' -%}
+            <article class="ftbbn-card" {{ block.shopify_attributes }}>
+              <span class="ftbbn-card__stripe" aria-hidden="true"></span>
+              <div class="ftbbn-card__icon">
+                {%- if block.settings.icon_image != blank -%}
+                  {{ block.settings.icon_image | image_url: width: 96 | image_tag: loading: 'lazy', widths: '48,96,144', alt: block.settings.title }}
+                {%- elsif block.settings.icon_emoji != blank -%}
+                  <span class="ftbbn-card__emoji" aria-hidden="true">{{ block.settings.icon_emoji }}</span>
+                {%- endif -%}
+              </div>
+              {%- if block.settings.title != blank -%}
+                <h3 class="ftbbn-card__title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <p class="ftbbn-card__desc">{{ block.settings.description }}</p>
+              {%- endif -%}
+              {%- if block.settings.citation != blank -%}
+                <p class="ftbbn-card__cite">{{ block.settings.citation }}</p>
+              {%- endif -%}
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% stylesheet %}
+.ftbbn {
+  display: block;
+}
+
+.ftbbn__inner {
+  max-width: var(--ftbbn-max-w, 1240px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+
+.ftbbn__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0 0 clamp(28px, 4vw, 48px);
+  max-width: 820px;
+}
+
+.ftbbn__eyebrow {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ftbbn-eyebrow, var(--color-foreground));
+}
+
+.ftbbn__heading {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(28px, 4.4vw, 52px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+}
+
+.ftbbn__em {
+  color: var(--ftbbn-accent, var(--color-foreground));
+  font-style: italic;
+}
+
+.ftbbn__body {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-foreground);
+  opacity: 0.78;
+  max-width: 70ch;
+}
+
+.ftbbn__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--ftbbn-cols, 3), minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.ftbbn-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 24px 26px;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  border: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+  border-radius: var(--ftbbn-radius, 12px);
+  overflow: hidden;
+}
+
+.ftbbn-card__stripe {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: var(--ftbbn-accent-top, 3px);
+  background: var(--ftbbn-accent, #1FA8A1);
+  display: block;
+}
+
+.ftbbn-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 44px;
+  height: 44px;
+}
+
+.ftbbn-card__icon img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  display: block;
+}
+
+.ftbbn-card__emoji {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.ftbbn-card__title {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+}
+
+.ftbbn-card__desc {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--color-foreground);
+  opacity: 0.82;
+}
+
+.ftbbn-card__cite {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-foreground);
+  opacity: 0.6;
+  font-style: italic;
+  border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+  padding-top: 12px;
+}
+
+@media (max-width: 749px) {
+  .ftbbn__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .ftbbn-card {
+    padding: 24px 20px 22px;
+  }
+}
+
+[hidden] { display: none !important; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FTD-B - Benefits",
+  "tag": "section",
+  "class": "ftd-b-benefits-section",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why Fortified Energy" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Energy that doesn't apologize for its ingredients." },
+    { "type": "text", "id": "heading_emphasis_word", "label": "Emphasized word", "info": "First match in the heading is wrapped in an accent italic.", "default": "apologize" },
+    { "type": "textarea", "id": "body", "label": "Body" },
+
+    { "type": "header", "content": "Cards" },
+    { "type": "range", "id": "desktop_columns", "label": "Columns (desktop)", "min": 2, "max": 4, "step": 1, "default": 3 },
+    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 12 },
+    { "type": "range", "id": "card_accent_top_thickness", "label": "Card top accent thickness", "min": 0, "max": 6, "step": 1, "unit": "px", "default": 3 },
+    { "type": "color", "id": "card_accent_color", "label": "Card accent color", "default": "#1FA8A1" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "image_picker", "id": "icon_image", "label": "Icon image", "info": "Optional. Falls back to the emoji." },
+        { "type": "text", "id": "icon_emoji", "label": "Icon emoji", "default": "*" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Real Caffeine, Real Source" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "152mg Natural Caffeine from coffee beans, not synthetic caffeine anhydrous." },
+        { "type": "text", "id": "citation", "label": "Citation", "default": "Goldstein et al., JISSN, 2010" }
+      ]
+    }
+  ],
+  "min_blocks": 1,
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "FTD-B - Benefits",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "benefit", "settings": { "icon_emoji": "*", "title": "Real Caffeine, Real Source", "description": "152mg Natural Caffeine from whole coffee beans, not synthetic caffeine anhydrous.", "citation": "Goldstein et al., JISSN, 2010" } },
+        { "type": "benefit", "settings": { "icon_emoji": "+", "title": "Magnesium Malate - Energy's Co-Factor", "description": "Magnesium Malate pairs magnesium with malic acid, a direct Krebs cycle intermediate.", "citation": "Razzaque, Nutrients, 2018" } },
+        { "type": "benefit", "settings": { "icon_emoji": "~", "title": "Complete Electrolyte Replacement", "description": "Sodium drives fluid absorption paired with potassium and chloride for a complete matrix.", "citation": "Shirreffs & Sawka, J. Sports Sciences, 2011" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
