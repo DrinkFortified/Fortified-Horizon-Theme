@@ -1,0 +1,386 @@
+{%- liquid
+  assign sid = section.id
+  assign root = 'fhr-' | append: sid
+
+  assign has_desktop = false
+  if section.settings.desktop_video != blank
+    assign has_desktop = true
+  endif
+
+  assign has_mobile = false
+  if section.settings.mobile_video != blank
+    assign has_mobile = true
+  endif
+
+  assign swap = false
+  if has_desktop and has_mobile
+    assign swap = true
+  endif
+-%}
+
+<section
+  id="{{ root }}"
+  class="hero-responsive color-{{ section.settings.color_scheme }}{% if swap %} hero-responsive--swap{% endif %}"
+  data-height="{{ section.settings.section_height }}"
+  style="
+    {% render 'spacing-padding', settings: section.settings %}
+    --hero-custom-height: {{ section.settings.section_height_custom }}vh;
+    --hero-content-max-width: {{ section.settings.content_max_width }}px;
+    --hero-gutter: {{ section.settings.content_gutter }}px;
+    --hero-gap: {{ section.settings.gap }}px;
+    --hero-object-fit: {{ section.settings.video_fit }};
+    --hero-align-items: {{ section.settings.horizontal_alignment }};
+    --hero-justify: {{ section.settings.vertical_alignment }};
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="hero-responsive__media" aria-hidden="true">
+    {%- if has_desktop -%}
+      {{
+        section.settings.desktop_video
+        | video_tag:
+          class: 'hero-responsive__video hero-responsive__video--desktop',
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          image_size: '1920x'
+      }}
+    {%- endif -%}
+
+    {%- if has_mobile -%}
+      {{
+        section.settings.mobile_video
+        | video_tag:
+          class: 'hero-responsive__video hero-responsive__video--mobile',
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          image_size: '1280x'
+      }}
+    {%- endif -%}
+
+    {%- unless has_desktop or has_mobile -%}
+      <div class="hero-responsive__placeholder">
+        {{ 'hero-apparel-3' | placeholder_svg_tag }}
+      </div>
+    {%- endunless -%}
+  </div>
+
+  {%- if section.settings.toggle_overlay -%}
+    <div
+      class="hero-responsive__overlay"
+      style="background: {% if section.settings.overlay_style == 'gradient' %}linear-gradient({{ section.settings.gradient_direction }}, {{ section.settings.overlay_color }}, transparent){% else %}{{ section.settings.overlay_color }}{% endif %};"
+      aria-hidden="true"
+    ></div>
+  {%- endif -%}
+
+  <div class="hero-responsive__content">
+    {% content_for 'blocks' %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .hero-responsive {
+    position: relative;
+    display: grid;
+    grid-template-areas: 'stack';
+    overflow: hidden;
+    isolation: isolate;
+    width: 100%;
+    background: var(--color-background);
+  }
+
+  .hero-responsive[data-height='small'] {
+    min-height: 45vh;
+  }
+  .hero-responsive[data-height='medium'] {
+    min-height: 65vh;
+  }
+  .hero-responsive[data-height='large'] {
+    min-height: 85vh;
+  }
+  .hero-responsive[data-height='full-screen'] {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  .hero-responsive[data-height='custom'] {
+    min-height: var(--hero-custom-height);
+  }
+  /* Auto: section height follows the visible video's natural height. */
+  .hero-responsive[data-height='auto'] {
+    min-height: 0;
+  }
+  .hero-responsive[data-height='auto'] .hero-responsive__media,
+  .hero-responsive[data-height='auto'] .hero-responsive__video,
+  .hero-responsive[data-height='auto'] .hero-responsive__placeholder {
+    height: auto;
+  }
+
+  .hero-responsive__media,
+  .hero-responsive__overlay,
+  .hero-responsive__content {
+    grid-area: stack;
+  }
+
+  .hero-responsive__media {
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .hero-responsive__video,
+  .hero-responsive__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: var(--hero-object-fit, contain);
+  }
+
+  .hero-responsive__placeholder svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-responsive__overlay {
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero-responsive__content {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: var(--hero-align-items, flex-start);
+    justify-content: var(--hero-justify, flex-end);
+    gap: var(--hero-gap, 16px);
+    width: 100%;
+    max-width: var(--hero-content-max-width, 1400px);
+    margin-inline: auto;
+    padding-inline: var(--hero-gutter, 40px);
+    box-sizing: border-box;
+  }
+
+  /* Swap videos only when both are provided; otherwise the single video
+     is shown at every breakpoint. */
+  .hero-responsive--swap .hero-responsive__video--mobile {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero-responsive--swap .hero-responsive__video--desktop {
+      display: none;
+    }
+    .hero-responsive--swap .hero-responsive__video--mobile {
+      display: block;
+    }
+    .hero-responsive__content {
+      padding-inline: var(--hero-gutter-mobile, 20px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Hero Responsive",
+  "tag": "section",
+  "class": "section-wrapper",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Videos"
+    },
+    {
+      "type": "video",
+      "id": "desktop_video",
+      "label": "Desktop video"
+    },
+    {
+      "type": "video",
+      "id": "mobile_video",
+      "label": "Mobile video",
+      "info": "Shown on mobile (≤749px). If empty, the desktop video is used on all screens."
+    },
+    {
+      "type": "select",
+      "id": "video_fit",
+      "label": "Video display",
+      "options": [
+        { "value": "contain", "label": "Show full video (no cropping)" },
+        { "value": "cover", "label": "Fill area (may crop edges)" }
+      ],
+      "default": "contain",
+      "info": "Contain shows the whole video; uncovered space uses the section background color."
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "checkbox",
+      "id": "toggle_overlay",
+      "label": "t:settings.background_overlay",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "t:settings.overlay_color",
+      "alpha": true,
+      "default": "#00000040",
+      "visible_if": "{{ section.settings.toggle_overlay }}"
+    },
+    {
+      "type": "select",
+      "id": "overlay_style",
+      "label": "t:settings.overlay_style",
+      "options": [
+        { "value": "solid", "label": "t:options.solid" },
+        { "value": "gradient", "label": "t:options.gradient" }
+      ],
+      "default": "solid",
+      "visible_if": "{{ section.settings.toggle_overlay }}"
+    },
+    {
+      "type": "select",
+      "id": "gradient_direction",
+      "label": "t:settings.gradient_direction",
+      "options": [
+        { "value": "to top", "label": "t:options.up" },
+        { "value": "to bottom", "label": "t:options.down" }
+      ],
+      "default": "to top",
+      "visible_if": "{{ section.settings.toggle_overlay and section.settings.overlay_style == 'gradient' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "t:settings.height",
+      "options": [
+        { "value": "auto", "label": "Auto (fit video)" },
+        { "value": "small", "label": "t:options.small" },
+        { "value": "medium", "label": "t:options.medium" },
+        { "value": "large", "label": "t:options.large" },
+        { "value": "full-screen", "label": "t:options.full_screen" },
+        { "value": "custom", "label": "t:options.custom" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "range",
+      "id": "section_height_custom",
+      "label": "t:settings.custom_height",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "default": 70,
+      "unit": "vh",
+      "visible_if": "{{ section.settings.section_height == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "horizontal_alignment",
+      "label": "Content horizontal position",
+      "options": [
+        { "value": "flex-start", "label": "t:options.left" },
+        { "value": "center", "label": "t:options.center" },
+        { "value": "flex-end", "label": "t:options.right" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Content vertical position",
+      "options": [
+        { "value": "flex-start", "label": "t:options.top" },
+        { "value": "center", "label": "t:options.center" },
+        { "value": "flex-end", "label": "t:options.bottom" }
+      ],
+      "default": "flex-end"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 2000,
+      "step": 20,
+      "unit": "px",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "content_gutter",
+      "label": "Content side padding",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Responsive",
+      "category": "t:categories.banners"
+    }
+  ]
+}
+{% endschema %}

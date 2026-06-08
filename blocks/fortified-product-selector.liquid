@@ -1,0 +1,2155 @@
+{% comment %}
+  Block: Product Selector (PDP)
+  Category: Fortified Elements
+  Purpose: Theme-block version of the FTD - Product Selector section,
+    addressable on product page templates via the theme editor.
+    LEFT  : gallery (thumbnails + main image + doctor badge + rating +
+            certification badges + caption).
+    RIGHT : rating, title, subtitle, benefit rows,
+            Step 1 "Choose Your Plan" (1 a month / 3 every 3 months cards),
+            Step 2 "Build N-Pouch Bundle" (function product-cards w/ flavor),
+            optional creatine add-on, Add to Cart, sticky mobile bar.
+    Prices auto-calc from the selected product's subscription plan, falling
+    back to the manual text fields when no product/plan is available.
+{% endcomment %}
+
+{%- liquid
+  assign sid             = block.id
+  assign function_blocks = block.blocks | where: "type", "_ftd-ps-function"
+  assign benefit_blocks  = block.blocks | where: "type", "_ftd-ps-benefit"
+
+  assign show_monthly    = block.settings.show_monthly
+  assign show_quarterly  = block.settings.show_quarterly
+  assign show_onetime    = block.settings.show_onetime
+  assign bundle_count    = block.settings.bundle_count | default: 3
+  assign btn_style       = block.settings.button_style | default: 'filled'
+  assign flavor_label    = block.settings.flavor_label | default: 'Choose Flavor:'
+  assign coming_soon_txt = block.settings.coming_soon_text | default: 'Soon'
+
+  assign addon = block.settings.addon_product
+  assign addon_variant_id = ''
+  if addon != blank
+    assign addon_variant_id = addon.selected_or_first_available_variant.id
+  endif
+
+  assign rating_num = block.settings.rating_value | times: 1.0
+  assign rating_round = rating_num | round
+
+  assign monthly_title_lines   = block.settings.monthly_title   | newline_to_br | split: '<br />'
+  assign quarterly_title_lines = block.settings.quarterly_title | newline_to_br | split: '<br />'
+  assign onetime_title_lines   = block.settings.onetime_title   | newline_to_br | split: '<br />'
+  assign monthly_list   = block.settings.monthly_checklist   | newline_to_br | split: '<br />'
+  assign quarterly_list = block.settings.quarterly_checklist | newline_to_br | split: '<br />'
+  assign onetime_list   = block.settings.onetime_checklist   | newline_to_br | split: '<br />'
+
+  assign onetime_product = block.settings.onetime_product | default: product
+  assign onetime_handle = ''
+  if onetime_product != blank
+    assign onetime_handle = onetime_product.handle
+  endif
+-%}
+
+<div
+  id="fe-{{ sid }}"
+  class="fe-section fe-block fe-block--{{ block.settings.section_width }} color-{{ block.settings.color_scheme }}"
+  data-block-id="{{ sid }}"
+  style="
+    {% render 'spacing-padding', settings: block.settings %}
+    --fe-btn-radius: {{ block.settings.button_radius }}px;
+    --fe-card-radius: {{ block.settings.card_radius }}px;
+    --fe-selection-color: {{ block.settings.selection_color }};
+    --fe-star-color: {{ block.settings.star_color }};
+    --fe-monthly-badge: {{ block.settings.monthly_badge_color }};
+    --fe-quarterly-badge: {{ block.settings.quarterly_badge_color }};
+    --fe-onetime-badge: {{ block.settings.onetime_badge_color }};
+    --fe-ship-track: {{ block.settings.shipping_bar_track_color }};
+    --fe-ship-fill: {{ block.settings.shipping_bar_fill_color }};
+    --fe-ship-unlocked: {{ block.settings.shipping_bar_unlocked_color }};
+    --fe-max-width: {{ block.settings.content_max_width }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  <div class="fe-container">
+
+    {%- comment %} ───────── PANEL ───────── {%- endcomment %}
+    <div class="fe-panel color-{{ block.settings.panel_color_scheme }}" id="fe-panel-{{ sid }}">
+
+      {%- if block.settings.show_rating -%}
+        <span class="fe-rating fe-rating--panel">
+          <span class="fe-stars" aria-hidden="true">
+            {%- for i in (1..5) -%}<span class="fe-star{% if i <= rating_round %} is-on{% endif %}">★</span>{%- endfor -%}
+          </span>
+          <span class="fe-rating-text">{{ block.settings.rating_value }} <span class="fe-rating-count">{{ block.settings.rating_count }}</span></span>
+        </span>
+      {%- endif -%}
+
+      {%- if block.settings.heading != blank -%}<h2 class="fe-heading">{{ block.settings.heading }}</h2>{%- endif -%}
+      {%- if block.settings.subheading != blank -%}<p class="fe-subheading">{{ block.settings.subheading }}</p>{%- endif -%}
+
+      {%- if benefit_blocks.size > 0 -%}
+        <ul class="fe-benefits">
+          {%- for bb in benefit_blocks -%}
+            <li class="fe-benefit" {{ bb.shopify_attributes }}>
+              {%- if bb.settings.icon != blank -%}
+                <span class="fe-benefit-icon"><img src="{{ bb.settings.icon | image_url: width: 64 }}" alt="" width="28" height="28"></span>
+              {%- else -%}
+                <span class="fe-benefit-icon fe-benefit-icon--dot" aria-hidden="true"></span>
+              {%- endif -%}
+              <span class="fe-benefit-text">{{ bb.settings.text }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- comment %} ───── STEP 1: PLAN ───── {%- endcomment %}
+      <div class="fe-step" id="fe-plan-group-{{ sid }}">
+        <div class="fe-step-head">
+          <p class="fe-step-title"><span class="fe-step-num">1</span>{{ block.settings.plan_step_label | default: 'Choose Your Plan' }}</p>
+          {%- if block.settings.plan_step_note != blank -%}<span class="fe-step-note">{{ block.settings.plan_step_note }}</span>{%- endif -%}
+        </div>
+
+        <div class="fe-plans">
+          {%- if show_onetime -%}
+            <label class="fe-plan fe-plan--full" data-plan="onetime">
+              <input type="radio" name="fe-plan-{{ sid }}" value="onetime">
+              <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              {%- if block.settings.onetime_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--onetime">{{ block.settings.onetime_badge }}</span>{%- endif -%}
+              <span class="fe-plan-title">
+                {%- for line in onetime_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="fe-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
+              </span>
+              {%- if block.settings.onetime_desc != blank -%}<span class="fe-plan-desc">{{ block.settings.onetime_desc }}</span>{%- endif -%}
+              <span class="fe-plan-price-row">
+                <span class="fe-plan-price" data-plan-price="onetime">{{ block.settings.onetime_price }}</span>
+                <span class="fe-plan-period">{{ block.settings.onetime_period }}</span>
+              </span>
+              <span class="fe-plan-was" data-plan-was="onetime">{{ block.settings.onetime_was }}</span>
+              {%- if onetime_list.size > 0 -%}
+                <span class="fe-plan-list">
+                  {%- for li in onetime_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                </span>
+              {%- endif -%}
+
+              {%- if onetime_product != blank and onetime_product.variants.size > 1 -%}
+                <span class="fe-plan-flavors" data-onetime-flavor-group>
+                  <span class="fe-plan-flavors-label">{{ block.settings.flavor_label | default: 'Choose Flavor:' }}</span>
+                  {%- for v in onetime_product.variants -%}
+                    <button type="button"
+                            class="fe-flavor-opt{% if forloop.first %} is-active{% endif %}"
+                            data-onetime-variant-id="{{ v.id }}"
+                            data-flavor-name="{{ v.title | escape }}"
+                            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+                      <span class="fe-flavor-radio" aria-hidden="true"></span>
+                      <span class="fe-flavor-name">{{ v.title }}</span>
+                    </button>
+                  {%- endfor -%}
+                </span>
+              {%- endif -%}
+            </label>
+
+            {%- if show_monthly or show_quarterly -%}
+              <hr class="fe-plans-divider" aria-hidden="true">
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- if show_monthly or show_quarterly -%}
+          <div class="fe-plans-subs">
+            {%- if show_monthly -%}
+              <label class="fe-plan" data-plan="monthly">
+                <input type="radio" name="fe-plan-{{ sid }}" value="monthly">
+                <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                {%- if block.settings.monthly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--monthly">{{ block.settings.monthly_badge }}</span>{%- endif -%}
+                <span class="fe-plan-title">
+                  {%- for line in monthly_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="fe-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                </span>
+                {%- if block.settings.monthly_desc != blank -%}<span class="fe-plan-desc">{{ block.settings.monthly_desc }}</span>{%- endif -%}
+                <span class="fe-plan-price-row">
+                  <span class="fe-plan-price" data-plan-price="monthly">{{ block.settings.monthly_price }}</span>
+                  <span class="fe-plan-period">{{ block.settings.monthly_period }}</span>
+                </span>
+                <span class="fe-plan-was" data-plan-was="monthly">{{ block.settings.monthly_was }}</span>
+                {%- if monthly_list.size > 0 -%}
+                  <span class="fe-plan-list">
+                    {%- for li in monthly_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                  </span>
+                {%- endif -%}
+              </label>
+            {%- endif -%}
+
+            {%- if show_quarterly -%}
+              <label class="fe-plan" data-plan="quarterly">
+                <input type="radio" name="fe-plan-{{ sid }}" value="quarterly">
+                <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                {%- if block.settings.quarterly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--quarterly">{{ block.settings.quarterly_badge }}</span>{%- endif -%}
+                <span class="fe-plan-title">
+                  {%- for line in quarterly_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="fe-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                </span>
+                {%- if block.settings.quarterly_desc != blank -%}<span class="fe-plan-desc">{{ block.settings.quarterly_desc }}</span>{%- endif -%}
+                <span class="fe-plan-price-row">
+                  <span class="fe-plan-price" data-plan-price="quarterly">{{ block.settings.quarterly_price }}</span>
+                  <span class="fe-plan-period">{{ block.settings.quarterly_period }}</span>
+                </span>
+                <span class="fe-plan-was" data-plan-was="quarterly">{{ block.settings.quarterly_was }}</span>
+                {%- if quarterly_list.size > 0 -%}
+                  <span class="fe-plan-list">
+                    {%- for li in quarterly_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                  </span>
+                {%- endif -%}
+              </label>
+            {%- endif -%}
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment %} ───── STEP 2: BUILD BUNDLE ───── {%- endcomment %}
+      <div class="fe-step fe-step--locked" id="fe-build-group-{{ sid }}" aria-disabled="true">
+        <div class="fe-step-head">
+          <p class="fe-step-title"><span class="fe-step-num">2</span><span id="fe-build-label-{{ sid }}">{{ block.settings.build_step_label | default: 'Build Your Bundle' }}</span></p>
+          <span class="fe-step-note" id="fe-counter-{{ sid }}"></span>
+        </div>
+
+        {%- comment %} Monthly: one pouch {%- endcomment %}
+        {%- if onetime_product != blank and block.settings.simplified_for_subs -%}
+          {%- comment %} Simplified monthly view — same product as One Time, one flavor pick {%- endcomment %}
+          <div class="fe-build-view fe-build-view--monthly" data-build-view="monthly">
+            {%- assign ot_img = block.settings.onetime_card_image | default: onetime_product.featured_image -%}
+            <div class="fe-onetime-card" data-onetime-handle="{{ onetime_handle }}">
+              <div class="fe-onetime-media">
+                {%- if ot_img != blank -%}
+                  <img src="{{ ot_img | image_url: width: 480 }}" alt="{{ onetime_product.title | escape }}" loading="lazy" width="120" height="120">
+                {%- endif -%}
+              </div>
+              <div class="fe-onetime-body">
+                <p class="fe-onetime-name">{{ onetime_product.title }}</p>
+                {%- if onetime_product.variants.size > 1 -%}
+                  <p class="fe-fcard-flavor-label">{{ block.settings.flavor_label | default: 'Choose Flavor:' }}</p>
+                  <div class="fe-fcard-flavors" data-simple-slot-group="monthly">
+                    {%- for v in onetime_product.variants -%}
+                      <button type="button"
+                              class="fe-flavor-opt{% if forloop.first %} is-active{% endif %}"
+                              data-simple-slot-id="monthly"
+                              data-variant-id="{{ v.id }}"
+                              data-flavor-name="{{ v.title | escape }}"
+                              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+                        <span class="fe-flavor-radio" aria-hidden="true"></span>
+                        <span class="fe-flavor-name">{{ v.title }}</span>
+                      </button>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- else -%}
+          <div class="fe-build-view fe-build-view--monthly" data-build-view="monthly">
+            <div class="fe-fcards" data-config="monthly">
+              {%- for fb in function_blocks -%}
+                {%- if fb.settings.enabled -%}
+                  {%- render 'fortified-fn-card', card_block: fb, config: 'monthly', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment %} One-time: dedicated product card (only when an onetime_product is configured) {%- endcomment %}
+        {%- if onetime_product != blank -%}
+          <div class="fe-build-view fe-build-view--onetime" data-build-view="onetime">
+            {%- assign ot_img = block.settings.onetime_card_image | default: onetime_product.featured_image -%}
+            <div class="fe-onetime-card" data-onetime-handle="{{ onetime_handle }}">
+              <div class="fe-onetime-media">
+                {%- if ot_img != blank -%}
+                  <img src="{{ ot_img | image_url: width: 480 }}" alt="{{ onetime_product.title | escape }}" loading="lazy" width="120" height="120">
+                {%- endif -%}
+              </div>
+              <div class="fe-onetime-body">
+                <p class="fe-onetime-name">{{ onetime_product.title }}</p>
+                {%- if onetime_product.description != blank -%}
+                  <p class="fe-onetime-desc">{{ onetime_product.description | strip_html | truncate: 140 }}</p>
+                {%- endif -%}
+                {%- if onetime_product.variants.size > 1 -%}
+                  <p class="fe-fcard-flavor-label">{{ block.settings.flavor_label | default: 'Choose Flavor:' }}</p>
+                  <div class="fe-fcard-flavors" data-onetime-flavor-group>
+                    {%- for v in onetime_product.variants -%}
+                      <button type="button"
+                              class="fe-flavor-opt{% if forloop.first %} is-active{% endif %}"
+                              data-onetime-variant-id="{{ v.id }}"
+                              data-flavor-name="{{ v.title | escape }}"
+                              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+                        <span class="fe-flavor-radio" aria-hidden="true"></span>
+                        <span class="fe-flavor-name">{{ v.title }}</span>
+                      </button>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment %} Quarterly: function-card grid if functions are configured, else simplified flavor picker per pouch using the configured / page product {%- endcomment %}
+        {%- if function_blocks.size > 0 -%}
+          <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
+            {%- for i in (1..bundle_count) -%}
+              <div class="fe-pouch">
+                <p class="fe-pouch-title">{{ block.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
+                <div class="fe-fcards" data-config="q{{ i }}">
+                  {%- for fb in function_blocks -%}
+                    {%- if fb.settings.enabled -%}
+                      {%- render 'fortified-fn-card', card_block: fb, config: 'q', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- elsif onetime_product != blank -%}
+          <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
+            {%- assign ot_img_q = block.settings.onetime_card_image | default: onetime_product.featured_image -%}
+            {%- for i in (1..bundle_count) -%}
+              <div class="fe-pouch">
+                <p class="fe-pouch-title">{{ block.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
+                <div class="fe-onetime-card" data-onetime-handle="{{ onetime_handle }}">
+                  <div class="fe-onetime-media">
+                    {%- if ot_img_q != blank -%}
+                      <img src="{{ ot_img_q | image_url: width: 480 }}" alt="{{ onetime_product.title | escape }}" loading="lazy" width="120" height="120">
+                    {%- endif -%}
+                  </div>
+                  <div class="fe-onetime-body">
+                    <p class="fe-onetime-name">{{ onetime_product.title }}</p>
+                    {%- if onetime_product.variants.size > 1 -%}
+                      <p class="fe-fcard-flavor-label">{{ block.settings.flavor_label | default: 'Choose Flavor:' }}</p>
+                      <div class="fe-fcard-flavors" data-simple-slot-group="q{{ i }}">
+                        {%- for v in onetime_product.variants -%}
+                          <button type="button"
+                                  class="fe-flavor-opt{% if forloop.first %} is-active{% endif %}"
+                                  data-simple-slot-id="q{{ i }}"
+                                  data-variant-id="{{ v.id }}"
+                                  data-flavor-name="{{ v.title | escape }}"
+                                  aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+                            <span class="fe-flavor-radio" aria-hidden="true"></span>
+                            <span class="fe-flavor-name">{{ v.title }}</span>
+                          </button>
+                        {%- endfor -%}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment %} ───── CREATINE ADD-ON (visible toggle card; adapts monthly / quarterly-2nd) ───── {%- endcomment %}
+      {%- if block.settings.show_addon and addon != blank -%}
+        {%- assign addon_img = block.settings.addon_image | default: addon.featured_image -%}
+        <div class="fe-creatine" id="fe-creatine-{{ sid }}" hidden>
+          <p class="fe-cr-free" id="fe-cr-free-{{ sid }}" hidden><span class="fe-cr-tick" aria-hidden="true">✓</span>{{ block.settings.quarterly_free_text | default: 'Free Creatine + Sample Pack included with your bundle' }}</p>
+          <label class="fe-cr-card">
+            <span class="fe-cr-media">
+              {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 120 }}" alt="" width="58" height="58" loading="lazy">{%- else -%}<span class="fe-cr-ph">5g</span>{%- endif -%}
+            </span>
+            <span class="fe-cr-text">
+              <span class="fe-cr-title" id="fe-cr-title-{{ sid }}">{{ block.settings.addon_label | default: 'Add Creatine — 50% off' }}</span>
+              {%- if block.settings.addon_desc != blank -%}<span class="fe-cr-desc" id="fe-cr-desc-{{ sid }}">{{ block.settings.addon_desc }}</span>{%- endif -%}
+            </span>
+            <span class="fe-cr-pricing">
+              {%- if block.settings.addon_price_text != blank -%}<span class="fe-cr-now">{{ block.settings.addon_price_text }}</span>{%- endif -%}
+              {%- if block.settings.addon_was_text != blank -%}<span class="fe-cr-was">{{ block.settings.addon_was_text }}</span>{%- endif -%}
+            </span>
+            <input type="checkbox" id="fe-addon-{{ sid }}"
+              data-addon-variant="{{ addon_variant_id }}"
+              data-addon-plan-monthly="{{ block.settings.addon_loop_plan_monthly }}"
+              data-addon-plan-quarterly-free="{{ block.settings.addon_loop_plan_quarterly }}"
+              data-addon-plan-quarterly-50off="{{ block.settings.addon_loop_plan_quarterly_50off }}">
+            <span class="fe-cr-switch" aria-hidden="true"></span>
+          </label>
+        </div>
+      {%- endif -%}
+
+      {%- comment %} ───── ORDER OVERVIEW (before Add to Cart) ───── {%- endcomment %}
+      <div class="fe-overview" id="fe-overview-{{ sid }}" hidden>
+        <p class="fe-ov-label">{{ block.settings.summary_label | default: 'Your Order' }}</p>
+        <ul class="fe-ov-lines" id="fe-ov-lines-{{ sid }}"></ul>
+        <div class="fe-ov-total"><span>{{ block.settings.total_label | default: 'Total' }}</span><span class="fe-ov-total-val" id="fe-ov-total-{{ sid }}">--</span></div>
+        {%- if block.settings.overview_note != blank -%}<p class="fe-ov-note">{{ block.settings.overview_note }}</p>{%- endif -%}
+      </div>
+
+      {%- comment %} ───── QUANTITY + ADD TO CART ───── {%- endcomment %}
+      <div class="fe-atc-wrap">
+        <div class="fe-qty-group" id="fe-qty-group-{{ sid }}" hidden>
+          <label class="fe-qty-label" for="fe-qty-{{ sid }}">{{ block.settings.qty_label | default: 'Quantity' }}</label>
+          <div class="fe-qty-stepper">
+            <button type="button" class="fe-qty-btn" data-qty-step="-1" aria-label="Decrease quantity">−</button>
+            <input type="number" id="fe-qty-{{ sid }}" class="fe-qty-input" value="1" min="1" max="{{ block.settings.qty_max | default: 20 }}" inputmode="numeric">
+            <button type="button" class="fe-qty-btn" data-qty-step="1" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <div class="fe-ship" id="fe-ship-{{ sid }}" hidden>
+          <p class="fe-ship-text" id="fe-ship-text-{{ sid }}"></p>
+          <div class="fe-ship-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+            <span class="fe-ship-fill" id="fe-ship-fill-{{ sid }}" style="width:0%"></span>
+          </div>
+        </div>
+
+        <div class="fe-atc-row">
+          <button
+            type="button"
+            class="fe-atc-btn fe-atc-btn--{{ btn_style }}"
+            id="fe-atc-{{ sid }}"
+            disabled
+            aria-disabled="true"
+          >
+            <span class="fe-atc-label">{{ block.settings.atc_label | default: 'Add to Cart' }}</span>
+            <span class="fe-atc-total" id="fe-atc-total-{{ sid }}"></span>
+            <span class="fe-atc-loading" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        {%- if block.settings.onetime_prefix != blank or block.settings.onetime_price_text != blank -%}
+          {%- if block.settings.onetime_link != blank -%}
+            <a class="fe-onetime" href="{{ block.settings.onetime_link }}">
+              <span class="fe-onetime-prefix">{{ block.settings.onetime_prefix }}</span>
+              <span class="fe-onetime-price">{{ block.settings.onetime_price_text }}</span>
+            </a>
+          {%- else -%}
+            <button type="button" class="fe-onetime" id="fe-onetime-{{ sid }}" {% unless block.settings.onetime_clickable %}data-static="true"{% endunless %}>
+              <span class="fe-onetime-prefix">{{ block.settings.onetime_prefix }}</span>
+              <span class="fe-onetime-price">{{ block.settings.onetime_price_text }}</span>
+            </button>
+          {%- endif -%}
+        {%- endif -%}
+
+        <p class="fe-atc-message" id="fe-atc-msg-{{ sid }}" aria-live="polite"></p>
+      </div>
+
+    </div>
+  </div>
+
+  {%- comment %} ───── MOBILE STICKY ADD-TO-CART BAR (mirrors the real button) ───── {%- endcomment %}
+  <div class="fe-stickybar color-{{ block.settings.panel_color_scheme }}" id="fe-stickybar-{{ sid }}">
+    <div class="fe-stickybar-info">
+      <span class="fe-stickybar-counter" id="fe-sb-counter-{{ sid }}"></span>
+      <span class="fe-stickybar-total" id="fe-sb-total-{{ sid }}" data-empty="{{ block.settings.plan_step_label | default: 'Choose your plan' | escape }}"></span>
+    </div>
+    <button type="button" class="fe-stickybar-btn" id="fe-sb-atc-{{ sid }}" disabled aria-disabled="true">{{ block.settings.atc_label | default: 'Add to Cart' }}</button>
+  </div>
+</div>
+
+<style>
+#fe-{{ sid }} *, #fe-{{ sid }} *::before, #fe-{{ sid }} *::after { box-sizing: border-box; }
+
+#fe-{{ sid }}.fe-section {
+  background: var(--color-background); color: var(--color-foreground);
+  font-family: inherit; overflow-x: clip;
+  display: block; width: 100%;
+}
+#fe-{{ sid }} .fe-container { display: block; max-width: var(--fe-max-width, 560px); margin: 0 auto; padding: 0 1rem; }
+
+/* ── Rating ── */
+#fe-{{ sid }} .fe-rating { display: inline-flex; align-items: center; gap: 0.4rem; }
+#fe-{{ sid }} .fe-rating--panel { margin-bottom: 0.25rem; }
+#fe-{{ sid }} .fe-stars { display: inline-flex; }
+#fe-{{ sid }} .fe-star { color: rgb(var(--color-foreground-rgb) / 0.2); font-size: 0.85rem; line-height: 1; }
+#fe-{{ sid }} .fe-star.is-on { color: var(--fe-star-color, #F5A623); }
+#fe-{{ sid }} .fe-rating-text { font-size: 0.78rem; font-weight: 700; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-rating-count { font-weight: 400; opacity: 0.7; text-decoration: underline; }
+
+/* ── Panel ── */
+#fe-{{ sid }} .fe-panel { display: flex; flex-direction: column; gap: 1.65rem; }
+#fe-{{ sid }} .fe-heading { margin: 0; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.05; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-subheading { margin: -0.6rem 0 0; font-size: 1rem; font-weight: 500; opacity: 0.7; color: var(--color-foreground); }
+
+/* ── Benefits ── */
+#fe-{{ sid }} .fe-benefits { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+#fe-{{ sid }} .fe-benefit { display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; font-weight: 600; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-benefit-icon { width: 36px; height: 36px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: rgb(var(--color-foreground-rgb) / 0.06); }
+#fe-{{ sid }} .fe-benefit-icon img { width: 20px; height: 20px; object-fit: contain; }
+#fe-{{ sid }} .fe-benefit-icon--dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--fe-selection-color, var(--color-primary-button-background)); }
+
+/* ── Steps ── */
+#fe-{{ sid }} .fe-step { border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.16); padding-top: 1.6rem; }
+#fe-{{ sid }} .fe-step-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.9rem; }
+#fe-{{ sid }} .fe-step-title { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-step-num { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--color-primary-button-background); color: var(--color-primary-button-text); font-size: 0.65rem; font-weight: 800; flex-shrink: 0; }
+#fe-{{ sid }} .fe-step-note { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fe-selection-color, var(--color-primary-button-background)); }
+#fe-{{ sid }} .fe-step--locked { opacity: 0.4; pointer-events: none; user-select: none; }
+#fe-{{ sid }} .fe-step--locked .fe-step-num { background: rgb(var(--color-foreground-rgb) / 0.2); color: rgb(var(--color-foreground-rgb) / 0.6); }
+
+/* ── Plan cards ── */
+#fe-{{ sid }} .fe-plans { display: flex; flex-direction: column; gap: 0.85rem; }
+#fe-{{ sid }} .fe-plans-subs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media (max-width: 480px) { #fe-{{ sid }} .fe-plans-subs { grid-template-columns: 1fr; } }
+#fe-{{ sid }} .fe-plans-divider { border: 0; border-top: 2px dotted rgb(var(--color-foreground-rgb) / 0.28); margin: 0.25rem 0; height: 0; }
+#fe-{{ sid }} .fe-plan {
+  position: relative; display: flex; flex-direction: column; gap: 0.35rem;
+  padding: 1rem 0.9rem; cursor: pointer;
+  border: 2px solid rgb(var(--color-foreground-rgb) / 0.14); border-top-width: 4px; border-radius: var(--fe-card-radius, 12px);
+  background: var(--color-background); transition: border-color 0.18s, box-shadow 0.18s;
+}
+#fe-{{ sid }} .fe-plan[data-plan="monthly"] { border-top-color: var(--fe-monthly-badge, #1FA8A1); }
+#fe-{{ sid }} .fe-plan[data-plan="quarterly"] { border-top-color: var(--fe-quarterly-badge, #E8833A); }
+#fe-{{ sid }} .fe-plan[data-plan="onetime"] { border-top-color: var(--fe-onetime-badge, #6B7280); }
+#fe-{{ sid }} .fe-plan:hover { border-color: rgb(var(--color-foreground-rgb) / 0.3); }
+#fe-{{ sid }} .fe-plan.is-active {
+  border-color: var(--fe-selection-color, var(--color-primary-button-background));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 18%, transparent);
+}
+#fe-{{ sid }} .fe-plan input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+#fe-{{ sid }} .fe-plan-tick {
+  position: absolute; top: 0.8rem; right: 0.8rem; width: 22px; height: 22px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 2px solid rgb(var(--color-foreground-rgb) / 0.2); color: #fff; background: transparent;
+  opacity: 0; transform: scale(0.6); transition: opacity 0.18s, transform 0.18s;
+}
+#fe-{{ sid }} .fe-plan.is-active .fe-plan-tick { opacity: 1; transform: scale(1); background: var(--fe-selection-color, var(--color-primary-button-background)); border-color: var(--fe-selection-color, var(--color-primary-button-background)); }
+#fe-{{ sid }} .fe-plan-badge {
+  align-self: flex-start; font-size: 0.55rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.3em 0.6em; border-radius: 5px; border: 1.5px solid currentColor;
+}
+#fe-{{ sid }} .fe-plan-badge--monthly { color: var(--fe-monthly-badge, #1FA8A1); }
+#fe-{{ sid }} .fe-plan-badge--quarterly { color: var(--fe-quarterly-badge, #E8833A); }
+#fe-{{ sid }} .fe-plan-badge--onetime { color: var(--fe-onetime-badge, #6B7280); }
+#fe-{{ sid }} .fe-plan-title { display: flex; flex-direction: column; line-height: 1.15; }
+#fe-{{ sid }} .fe-plan-title-line { font-size: 1.05rem; font-weight: 800; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-plan-desc { font-size: 0.72rem; opacity: 0.6; color: var(--color-foreground); line-height: 1.35; }
+#fe-{{ sid }} .fe-plan-price-row { display: flex; align-items: baseline; gap: 0.3rem; margin-top: 0.35rem; }
+#fe-{{ sid }} .fe-plan-price { font-size: 1.25rem; font-weight: 800; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-plan-period { font-size: 0.7rem; opacity: 0.55; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-plan-was { font-size: 0.68rem; opacity: 0.5; color: var(--color-foreground); text-decoration: line-through; min-height: 0.9em; }
+#fe-{{ sid }} .fe-plan-list { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.5rem; padding-top: 0.6rem; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.1); }
+#fe-{{ sid }} .fe-plan-flavors { display: none; flex-direction: column; gap: 0.4rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.1); }
+#fe-{{ sid }} .fe-plan.is-active .fe-plan-flavors { display: flex; }
+#fe-{{ sid }} .fe-plan-flavors-label { font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-plan-flavors .fe-flavor-opt { width: 100%; }
+#fe-{{ sid }} .fe-plan-li { display: flex; align-items: flex-start; gap: 0.4rem; font-size: 0.68rem; color: var(--color-foreground); line-height: 1.3; }
+#fe-{{ sid }} .fe-li-check { color: var(--fe-selection-color, var(--color-primary-button-background)); font-weight: 800; flex-shrink: 0; }
+
+/* ── Build views ── */
+#fe-{{ sid }} .fe-build-view { display: none; }
+#fe-{{ sid }} .fe-build-view.is-active { display: block; }
+#fe-{{ sid }} .fe-pouch + .fe-pouch { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.1); }
+#fe-{{ sid }} .fe-pouch-title { margin: 0 0 0.75rem; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.04em; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-fcards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media (max-width: 480px) { #fe-{{ sid }} .fe-fcards { grid-template-columns: 1fr; } }
+
+/* ── One-time dedicated product card ── */
+#fe-{{ sid }} .fe-build-view--onetime { display: none; }
+#fe-{{ sid }} .fe-build-view--onetime.is-active { display: block; }
+#fe-{{ sid }} .fe-onetime-card {
+  display: flex; gap: 1rem; padding: 1rem;
+  border: 2px solid rgb(var(--color-foreground-rgb) / 0.14);
+  border-top-width: 4px;
+  border-top-color: var(--fe-onetime-badge, #6B7280);
+  border-radius: var(--fe-card-radius, 12px);
+  background: var(--color-background);
+}
+#fe-{{ sid }} .fe-onetime-media { width: 96px; flex-shrink: 0; }
+#fe-{{ sid }} .fe-onetime-media img { width: 100%; height: auto; border-radius: 8px; display: block; object-fit: cover; aspect-ratio: 1 / 1; }
+#fe-{{ sid }} .fe-onetime-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+#fe-{{ sid }} .fe-onetime-name { margin: 0; font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-onetime-desc { margin: 0; font-size: 0.78rem; line-height: 1.4; opacity: 0.7; color: var(--color-foreground); }
+
+/* ── Function card ── */
+#fe-{{ sid }} .fe-fcard {
+  display: flex; flex-direction: column; cursor: pointer; overflow: hidden;
+  border: 2px solid rgb(var(--color-foreground-rgb) / 0.14); border-radius: var(--fe-card-radius, 12px);
+  background: var(--color-background); transition: border-color 0.18s, box-shadow 0.18s;
+}
+#fe-{{ sid }} .fe-fcard:hover:not([data-coming-soon]) { border-color: rgb(var(--color-foreground-rgb) / 0.3); }
+#fe-{{ sid }} .fe-fcard.is-active {
+  border-color: var(--fe-selection-color, var(--color-primary-button-background));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 16%, transparent);
+}
+#fe-{{ sid }} .fe-fcard[data-coming-soon] { opacity: 0.5; cursor: not-allowed; }
+#fe-{{ sid }} .fe-fcard-media { position: relative; aspect-ratio: 4 / 3; background: rgb(var(--color-foreground-rgb) / 0.04); display: flex; align-items: center; justify-content: center; }
+#fe-{{ sid }} .fe-fcard-media img { width: 100%; height: 100%; object-fit: contain; }
+#fe-{{ sid }} .fe-fcard-ph { color: rgb(var(--color-foreground-rgb) / 0.3); font-size: 0.8rem; padding: 0.5rem; text-align: center; }
+#fe-{{ sid }} .fe-fcard-tick {
+  position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center; color: #fff;
+  background: var(--fe-selection-color, var(--color-primary-button-background));
+  opacity: 0; transform: scale(0.5); transition: opacity 0.18s, transform 0.18s;
+}
+#fe-{{ sid }} .fe-fcard.is-active .fe-fcard-tick { opacity: 1; transform: scale(1); }
+#fe-{{ sid }} .fe-fcard-body { padding: 0.7rem 0.75rem; display: flex; flex-direction: column; gap: 0.45rem; }
+#fe-{{ sid }} .fe-fcard-name { margin: 0; font-size: 0.92rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-foreground); display: flex; align-items: center; gap: 0.4rem; }
+#fe-{{ sid }} .fe-fcard-specs { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+#fe-{{ sid }} .fe-spec { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; padding: 0.2em 0.45em; border-radius: 4px; border: 1px solid var(--fe-selection-color, var(--color-primary-button-background)); color: var(--fe-selection-color, var(--color-primary-button-background)); }
+#fe-{{ sid }} .fe-fcard-desc { margin: 0; font-size: 0.7rem; line-height: 1.4; opacity: 0.6; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-fcard-flavor-label { margin: 0.15rem 0 0; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.55; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-fcard-hint { margin: 0.15rem 0 0; font-size: 0.68rem; font-style: italic; opacity: 0.5; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-fcard-flavors { display: flex; flex-direction: column; gap: 0.4rem; }
+#fe-{{ sid }} .fe-flavor-opt {
+  display: flex; align-items: center; gap: 0.5rem; width: 100%; cursor: pointer; text-align: left;
+  padding: 0.45rem 0.6rem; border-radius: 8px; background: transparent;
+  border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.18); color: var(--color-foreground);
+  font-size: 0.78rem; font-weight: 600; transition: border-color 0.15s, background 0.15s;
+}
+#fe-{{ sid }} .fe-flavor-opt:hover { border-color: rgb(var(--color-foreground-rgb) / 0.4); }
+#fe-{{ sid }} .fe-flavor-opt.is-active { border-color: var(--fe-selection-color, var(--color-primary-button-background)); background: color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 8%, transparent); }
+#fe-{{ sid }} .fe-flavor-swatch { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; }
+#fe-{{ sid }} .fe-flavor-swatch img { width: 100%; height: 100%; object-fit: cover; }
+#fe-{{ sid }} .fe-flavor-name { flex: 1; }
+#fe-{{ sid }} .fe-flavor-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgb(var(--color-foreground-rgb) / 0.3); flex-shrink: 0; position: relative; }
+#fe-{{ sid }} .fe-flavor-opt.is-active .fe-flavor-radio { border-color: var(--fe-selection-color, var(--color-primary-button-background)); }
+#fe-{{ sid }} .fe-flavor-opt.is-active .fe-flavor-radio::after { content: ''; position: absolute; inset: 2px; border-radius: 50%; background: var(--fe-selection-color, var(--color-primary-button-background)); }
+#fe-{{ sid }} .fe-badge { font-style: normal; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; padding: 0.12em 0.45em; border-radius: 9999px; background: rgb(var(--color-foreground-rgb) / 0.15); }
+
+/* ── Creatine add-on (visible toggle card) ── */
+#fe-{{ sid }} .fe-creatine { display: flex; flex-direction: column; gap: 0.5rem; }
+#fe-{{ sid }} .fe-creatine[hidden] { display: none !important; }
+#fe-{{ sid }} .fe-overview[hidden] { display: none !important; }
+#fe-{{ sid }} .fe-cr-free { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 0.8rem; font-weight: 700; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-cr-tick { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; font-size: 0.7rem; font-weight: 800; background: var(--fe-selection-color, var(--color-primary-button-background)); color: var(--color-primary-button-text); }
+#fe-{{ sid }} .fe-cr-card {
+  position: relative; display: flex; align-items: center; gap: 0.85rem; padding: 0.85rem 1rem; cursor: pointer;
+  border: 2px solid color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 45%, transparent);
+  border-radius: var(--fe-card-radius, 12px);
+  background: color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 12%, var(--color-background));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+}
+#fe-{{ sid }} .fe-cr-card:hover { border-color: var(--fe-selection-color, var(--color-primary-button-background)); }
+#fe-{{ sid }} .fe-cr-card:has(input:checked) {
+  border-color: var(--fe-selection-color, var(--color-primary-button-background));
+  background: color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 7%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 16%, transparent);
+}
+#fe-{{ sid }} .fe-cr-card input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
+#fe-{{ sid }} .fe-cr-media { flex-shrink: 0; width: 48px; height: 48px; border-radius: 8px; overflow: hidden; background: rgb(var(--color-foreground-rgb) / 0.06); display: inline-flex; align-items: center; justify-content: center; }
+#fe-{{ sid }} .fe-cr-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#fe-{{ sid }} .fe-cr-ph { font-size: 0.85rem; font-weight: 800; color: rgb(var(--color-foreground-rgb) / 0.5); }
+#fe-{{ sid }} .fe-cr-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+#fe-{{ sid }} .fe-cr-title { font-size: 0.88rem; font-weight: 800; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-cr-desc { font-size: 0.72rem; opacity: 0.6; color: var(--color-foreground); line-height: 1.35; }
+#fe-{{ sid }} .fe-cr-pricing { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+#fe-{{ sid }} .fe-cr-now { font-size: 0.95rem; font-weight: 800; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-cr-was { font-size: 0.7rem; opacity: 0.5; color: var(--color-foreground); text-decoration: line-through; }
+#fe-{{ sid }} .fe-cr-switch { flex-shrink: 0; width: 48px; height: 27px; border-radius: 9999px; background: rgb(var(--color-foreground-rgb) / 0.45); border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.55); position: relative; transition: background 0.18s, border-color 0.18s; }
+#fe-{{ sid }} .fe-cr-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 19px; height: 19px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.35); transition: transform 0.18s; }
+#fe-{{ sid }} .fe-cr-card:has(input:checked) .fe-cr-switch { background: var(--fe-selection-color, var(--color-primary-button-background)); border-color: var(--fe-selection-color, var(--color-primary-button-background)); }
+#fe-{{ sid }} .fe-cr-card:has(input:checked) .fe-cr-switch::after { transform: translateX(21px); }
+
+/* ── Order overview ── */
+#fe-{{ sid }} .fe-overview {
+  border: 1px solid rgb(var(--color-foreground-rgb) / 0.12); border-radius: var(--fe-card-radius, 12px);
+  padding: 1rem 1.1rem; background: rgb(var(--color-foreground-rgb) / 0.02);
+}
+#fe-{{ sid }} .fe-ov-label { margin: 0 0 0.6rem; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.6); }
+#fe-{{ sid }} .fe-ov-lines { list-style: none; margin: 0 0 0.6rem; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; }
+#fe-{{ sid }} .fe-ov-line { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-size: 0.82rem; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-ov-line-name { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+#fe-{{ sid }} .fe-ov-thumb { width: 30px; height: 30px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: rgb(var(--color-foreground-rgb) / 0.06); display: inline-block; }
+#fe-{{ sid }} .fe-ov-line-txt { min-width: 0; }
+#fe-{{ sid }} .fe-ov-line-sub { display: block; font-size: 0.7rem; opacity: 0.55; }
+#fe-{{ sid }} .fe-ov-line-price { flex-shrink: 0; font-weight: 700; white-space: nowrap; }
+#fe-{{ sid }} .fe-ov-line-price.is-free { color: var(--fe-selection-color, var(--color-primary-button-background)); }
+#fe-{{ sid }} .fe-ov-total { display: flex; align-items: baseline; justify-content: space-between; padding-top: 0.6rem; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12); font-size: 0.85rem; font-weight: 700; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-ov-total-val { font-size: 1.05rem; font-weight: 800; }
+#fe-{{ sid }} .fe-ov-note { margin: 0.5rem 0 0; font-size: 0.68rem; opacity: 0.5; color: var(--color-foreground); }
+
+/* ── Quantity + ATC ── */
+#fe-{{ sid }} .fe-atc-wrap { display: flex; flex-direction: column; gap: 0.6rem; }
+#fe-{{ sid }} .fe-atc-row { display: flex; gap: 0.6rem; align-items: stretch; }
+#fe-{{ sid }} .fe-atc-btn {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.95rem 1.5rem; border-radius: var(--fe-btn-radius, 8px);
+  font-size: 0.95rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; overflow: hidden; transition: filter 0.2s, transform 0.15s, background 0.2s, color 0.2s, border-color 0.2s;
+}
+#fe-{{ sid }} .fe-atc-btn--filled { background: var(--color-primary-button-background); color: var(--color-primary-button-text); border: none; }
+#fe-{{ sid }} .fe-atc-btn--filled:hover:not([disabled]):not([aria-disabled="true"]) { filter: brightness(1.1); }
+#fe-{{ sid }} .fe-atc-btn--outline { background: transparent; color: var(--color-primary-button-background); border: 2px solid var(--color-primary-button-background); }
+#fe-{{ sid }} .fe-atc-btn--outline:hover:not([disabled]):not([aria-disabled="true"]) { background: var(--color-primary-button-background); color: var(--color-primary-button-text); }
+#fe-{{ sid }} .fe-atc-btn--ghost { background: transparent; color: var(--color-foreground); border: none; }
+#fe-{{ sid }} .fe-atc-btn[disabled], #fe-{{ sid }} .fe-atc-btn[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; filter: none; }
+#fe-{{ sid }} .fe-atc-total { font-weight: 800; }
+#fe-{{ sid }} .fe-atc-loading { width: 16px; height: 16px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; display: none; animation: fe-spin 0.7s linear infinite; }
+#fe-{{ sid }} .fe-atc-btn.is-loading .fe-atc-loading { display: block; }
+#fe-{{ sid }} .fe-atc-btn.is-loading .fe-atc-label, #fe-{{ sid }} .fe-atc-btn.is-loading .fe-atc-total { opacity: 0.4; }
+@keyframes fe-spin { to { transform: rotate(360deg); } }
+#fe-{{ sid }} .fe-onetime { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; background: none; border: none; padding: 0.15rem; cursor: pointer; font-size: 0.82rem; color: rgb(var(--color-foreground-rgb) / 0.7); font-family: inherit; }
+#fe-{{ sid }} .fe-onetime:not([data-static="true"]) .fe-onetime-price { text-decoration: underline; text-underline-offset: 2px; }
+#fe-{{ sid }} .fe-onetime[data-static="true"] { cursor: default; }
+#fe-{{ sid }} .fe-onetime-price { font-weight: 700; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-atc-message { margin: 0; font-size: 0.8rem; text-align: center; min-height: 1.1em; color: var(--color-primary-button-background); }
+#fe-{{ sid }} .fe-atc-message.is-error { color: rgb(var(--color-error, 176 0 0)); }
+
+/* ── Quantity selector (visible when one-time is selected) ── */
+#fe-{{ sid }} .fe-qty-group { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+#fe-{{ sid }} .fe-qty-group[hidden] { display: none !important; }
+#fe-{{ sid }} .fe-qty-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.65; }
+#fe-{{ sid }} .fe-qty-stepper { display: inline-flex; align-items: stretch; border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.18); border-radius: 8px; overflow: hidden; }
+#fe-{{ sid }} .fe-qty-btn { width: 38px; height: 38px; background: transparent; border: 0; cursor: pointer; font-size: 18px; font-weight: 700; color: inherit; }
+#fe-{{ sid }} .fe-qty-btn:hover:not([disabled]) { background: rgb(var(--color-foreground-rgb) / 0.06); }
+#fe-{{ sid }} .fe-qty-input { width: 44px; text-align: center; border: 0; border-left: 1.5px solid rgb(var(--color-foreground-rgb) / 0.18); border-right: 1.5px solid rgb(var(--color-foreground-rgb) / 0.18); font-weight: 700; background: transparent; color: inherit; -moz-appearance: textfield; }
+#fe-{{ sid }} .fe-qty-input::-webkit-outer-spin-button, #fe-{{ sid }} .fe-qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* ── Free shipping progress bar ── */
+#fe-{{ sid }} .fe-ship { display: flex; flex-direction: column; gap: 8px; }
+#fe-{{ sid }} .fe-ship[hidden] { display: none !important; }
+#fe-{{ sid }} .fe-ship-bar { height: 8px; border-radius: 999px; background: var(--fe-ship-track, #EFEAE3); overflow: hidden; }
+#fe-{{ sid }} .fe-ship-fill { display: block; height: 100%; background: var(--fe-ship-fill, #1FA8A1); border-radius: 999px; transition: width 0.4s ease, background 0.3s ease; }
+#fe-{{ sid }} .fe-ship.is-unlocked .fe-ship-fill { background: var(--fe-ship-unlocked, #16A34A); }
+#fe-{{ sid }} .fe-ship-text { margin: 0; font-size: 13px; font-weight: 700; opacity: 0.85; }
+
+@media (prefers-reduced-motion: reduce) {
+  #fe-{{ sid }} .fe-fcard, #fe-{{ sid }} .fe-plan, #fe-{{ sid }} .fe-flavor-opt, #fe-{{ sid }} .fe-plan-tick, #fe-{{ sid }} .fe-fcard-tick { transition: none; }
+}
+
+/* ── Mobile sticky Add-to-Cart bar + collapsed wizard steps ── */
+#fe-stickybar-{{ sid }} { display: none; }
+@media (max-width: 899px) {
+  #fe-{{ sid }} .fe-panel { padding-bottom: 84px; }
+  #fe-stickybar-{{ sid }}.is-onscreen { display: flex; }
+  #fe-stickybar-{{ sid }} {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    align-items: center; gap: 0.75rem;
+    padding: 0.6rem 1rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    background: var(--color-background);
+    border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+    box-shadow: 0 -6px 22px rgba(0, 0, 0, 0.14);
+  }
+  #fe-stickybar-{{ sid }} .fe-stickybar-info { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
+  #fe-stickybar-{{ sid }} .fe-stickybar-counter { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.65; color: var(--color-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #fe-stickybar-{{ sid }} .fe-stickybar-total { font-size: 1.05rem; font-weight: 800; color: var(--color-foreground); line-height: 1.1; }
+  #fe-stickybar-{{ sid }} .fe-stickybar-total:empty::before { content: attr(data-empty); font-size: 0.85rem; font-weight: 700; opacity: 0.6; }
+  #fe-stickybar-{{ sid }} .fe-stickybar-btn {
+    flex: 0 0 auto; min-width: 46%;
+    padding: 0.85rem 1.1rem; border: none; border-radius: var(--fe-btn-radius, 8px);
+    background: var(--color-primary-button-background); color: var(--color-primary-button-text);
+    font-family: inherit; font-weight: 800; font-size: 0.95rem; letter-spacing: 0.02em;
+    cursor: pointer; transition: filter 0.2s, opacity 0.2s;
+  }
+  #fe-stickybar-{{ sid }} .fe-stickybar-btn:hover:not([disabled]) { filter: brightness(1.08); }
+  #fe-stickybar-{{ sid }} .fe-stickybar-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+  /* Collapse a locked step to just its header so the panel isn't a long scroll */
+  #fe-{{ sid }} .fe-step--locked { opacity: 1; }
+  #fe-{{ sid }} .fe-step--locked > :not(.fe-step-head) { display: none; }
+  #fe-{{ sid }} .fe-step--locked .fe-step-head { opacity: 0.5; margin-bottom: 0; }
+}
+{{ block.settings.custom_css }}
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  var SID          = {{ sid | json }};
+  var BUNDLE_COUNT = {{ bundle_count | json }};
+  var BUILD_LABEL  = {{ block.settings.build_step_label | json }} || 'Build {count}-Pouch Bundle';
+  var POUCHES_WORD = {{ block.settings.pouches_word | default: 'Pouches' | json }};
+  var SHOW_TOTAL   = {{ block.settings.show_total_on_button | json }};
+
+  /* Creatine add-on copy adapts: monthly = add at 50% off; quarterly = 1st free, add a 2nd at 50%. */
+  var CR_LABEL_M = {{ block.settings.addon_label | default: 'Add Creatine — 50% off' | json }};
+  var CR_LABEL_Q = {{ block.settings.addon_label_quarterly | default: 'Add a 2nd Creatine — 50% off' | json }};
+  var CR_DESC_M  = {{ block.settings.addon_desc | default: '' | json }};
+  var CR_DESC_Q  = {{ block.settings.addon_desc_quarterly | default: '1st Creatine is free with your bundle. Add a second at 50% off.' | json }};
+  var CR_PRICE   = parseFloat(({{ block.settings.addon_price_text | default: '' | json }} + '').replace(/[^0-9.]/g, '')) || 0;
+  var PLAN_LABEL_M = {{ block.settings.monthly_label | default: '1 a Month' | json }};
+  var PLAN_LABEL_Q = {{ block.settings.quarterly_label | default: '3 Every 3 Months' | json }};
+  var PLAN_LABEL_OT = {{ block.settings.onetime_card_label | default: 'One Time' | json }};
+  var ONETIME_HANDLE = {{ onetime_handle | json }};
+  var FUNCTION_BLOCKS_COUNT = {{ function_blocks.size | json }};
+  var SIMPLE_SUBS = {{ block.settings.simplified_for_subs | json }} && !!ONETIME_HANDLE;
+  var SIMPLE_SUBS_Q = !!ONETIME_HANDLE && FUNCTION_BLOCKS_COUNT === 0;
+  var SIMPLE_SUBS_PLAN_M = {{ block.settings.simple_plan_monthly | json }};
+  var SIMPLE_SUBS_PLAN_Q = {{ block.settings.simple_plan_quarterly | json }};
+
+  /* Free shipping bar */
+  var SHOW_SHIPPING    = {{ block.settings.show_shipping_bar | json }};
+  var SHIP_THRESHOLD   = ({{ block.settings.shipping_threshold_dollars | default: 100 | json }}) * 100;
+  var SHIP_TEXT_SUB      = {{ block.settings.shipping_text_subscription | default: 'Subscriptions ship free' | json }};
+  var SHIP_TEXT_PROGRESS = {{ block.settings.shipping_text_progress | json }} || 'Add {amount} more for FREE shipping';
+  var SHIP_TEXT_UNLOCKED = {{ block.settings.shipping_text_unlocked | default: 'FREE shipping unlocked' | json }};
+
+  var root = document.getElementById('fe-' + SID);
+  if (!root) return;
+
+  var atcBtn   = root.querySelector('#fe-atc-' + SID);
+  var atcTotal = root.querySelector('#fe-atc-total-' + SID);
+  var atcMsg   = root.querySelector('#fe-atc-msg-' + SID);
+  var buildGroup = root.querySelector('#fe-build-group-' + SID);
+  var buildLabelEl = root.querySelector('#fe-build-label-' + SID);
+  var counterEl = root.querySelector('#fe-counter-' + SID);
+  var qtyInput = root.querySelector('#fe-qty-' + SID);
+  var addonInput = root.querySelector('#fe-addon-' + SID);
+  var creatineGroup = root.querySelector('#fe-creatine-' + SID);
+  var crFree = root.querySelector('#fe-cr-free-' + SID);
+  var crTitle = root.querySelector('#fe-cr-title-' + SID);
+  var crDesc = root.querySelector('#fe-cr-desc-' + SID);
+  var overview = root.querySelector('#fe-overview-' + SID);
+  var ovLines = root.querySelector('#fe-ov-lines-' + SID);
+  var ovTotal = root.querySelector('#fe-ov-total-' + SID);
+  var oneTimeBtn = root.querySelector('#fe-onetime-' + SID);
+  var monthlyView = root.querySelector('.fe-build-view--monthly');
+  var quarterlyView = root.querySelector('.fe-build-view--quarterly');
+  var qtyGroup = root.querySelector('#fe-qty-group-' + SID);
+  var shipEl   = root.querySelector('#fe-ship-' + SID);
+  var shipFill = root.querySelector('#fe-ship-fill-' + SID);
+  var shipText = root.querySelector('#fe-ship-text-' + SID);
+
+  /* Replace the {count} placeholder on load so it never shows literally
+     before a plan is picked. Updated again per-plan in applyPurchaseType. */
+  if (buildLabelEl) buildLabelEl.textContent = BUILD_LABEL.replace('{count}', BUNDLE_COUNT);
+
+  var state = { purchaseType: null };
+  var slots = {};
+  function newSlot() { return { functionId: null, handle: null, label: null, planMonthly: null, planQuarterly: null, flavorName: null, product: null, variant: null, configId: null }; }
+  slots.monthly = newSlot();
+  for (var n = 1; n <= BUNDLE_COUNT; n++) { slots['q' + n] = newSlot(); }
+  slots.onetime = newSlot();
+  if (ONETIME_HANDLE) {
+    slots.onetime.handle = ONETIME_HANDLE;
+    slots.onetime.configId = 'onetime';
+    slots.onetime.functionId = 'onetime';
+    slots.onetime.label = {{ onetime_product.title | default: '' | json }};
+    {%- if onetime_product != blank and onetime_product.variants.first != blank -%}
+    slots.onetime.flavorName = {{ onetime_product.variants.first.title | json }};
+    {%- endif -%}
+  }
+  function seedSimpleSlot(id) {
+      slots[id].handle = ONETIME_HANDLE;
+      slots[id].functionId = 'simple-' + id;
+      slots[id].label = {{ onetime_product.title | default: '' | json }};
+      slots[id].configId = id;
+      slots[id].planMonthly = SIMPLE_SUBS_PLAN_M;
+      slots[id].planQuarterly = SIMPLE_SUBS_PLAN_Q;
+      {%- if onetime_product != blank and onetime_product.variants.first != blank -%}
+      slots[id].flavorName = {{ onetime_product.variants.first.title | json }};
+      {%- endif -%}
+    }
+  if (SIMPLE_SUBS) seedSimpleSlot('monthly');
+  if (SIMPLE_SUBS_Q) { for (var qi = 1; qi <= BUNDLE_COUNT; qi++) seedSimpleSlot('q' + qi); }
+
+  function formatMoney(c) { return (c / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }
+  function setMsg(m, err) { if (atcMsg) { atcMsg.textContent = m || ''; atcMsg.classList.toggle('is-error', !!err); } }
+  function pushEvent(e, d) { window.dataLayer = window.dataLayer || []; window.dataLayer.push(Object.assign({ event: e, block_id: SID }, d)); }
+  function setAtcEnabled(on) { if (!atcBtn) return; if (on) { atcBtn.removeAttribute('disabled'); atcBtn.removeAttribute('aria-disabled'); } else { atcBtn.setAttribute('disabled', ''); atcBtn.setAttribute('aria-disabled', 'true'); } }
+  function getQty() { var q = qtyInput ? parseInt(qtyInput.value, 10) : 1; return (isNaN(q) || q < 1) ? 1 : q; }
+
+  var productCache = {};
+  function fetchProduct(handle) {
+    if (!handle) return Promise.resolve(null);
+    if (productCache[handle]) return Promise.resolve(productCache[handle]);
+    return fetch('/products/' + handle + '.js').then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) productCache[handle] = d; return d; }).catch(function () { return null; });
+  }
+  function findVariant(p, flavor) {
+    if (!p || !p.variants.length) return null;
+    var fl = (flavor || '').toLowerCase().trim();
+    if (!fl) return p.variants.find(function (v) { return v.available; }) || p.variants[0];
+    var m = p.variants.find(function (v) { return v.options.some(function (o) { return o.toLowerCase() === fl; }) && v.available; });
+    if (!m) m = p.variants.find(function (v) { return v.options.some(function (o) { return o.toLowerCase() === fl; }); });
+    if (!m) m = p.variants.find(function (v) { return v.title.toLowerCase().indexOf(fl) !== -1 && v.available; });
+    if (!m) m = p.variants.find(function (v) { return v.available; });
+    return m || p.variants[0];
+  }
+  function findSellingPlanId(p, raw) {
+    if (!p || !raw) return null;
+    var id = parseInt(raw, 10), g = p.selling_plan_groups || [];
+    for (var i = 0; i < g.length; i++) { var pl = g[i].selling_plans || []; for (var j = 0; j < pl.length; j++) { if (pl[j].id === id) return pl[j].id; } }
+    return null;
+  }
+  function subPrice(p, v, raw) {
+    if (!p || !v) return null;
+    if (!raw) return v.price;
+    var id = parseInt(raw, 10), g = p.selling_plan_groups || [];
+    for (var i = 0; i < g.length; i++) { var pl = g[i].selling_plans || []; for (var j = 0; j < pl.length; j++) {
+      if (pl[j].id !== id) continue;
+      var a = pl[j].price_adjustments && pl[j].price_adjustments[0];
+      if (!a) return v.price;
+      if (a.value_type === 'percentage') return Math.round(v.price * (1 - a.value / 100));
+      if (a.value_type === 'fixed_amount') return Math.max(0, v.price - a.value);
+      if (a.value_type === 'price') return a.value;
+      return v.price;
+    } }
+    return v.price;
+  }
+
+  function activeSlotIds() {
+    if (state.purchaseType === 'monthly') return ['monthly'];
+    if (state.purchaseType === 'onetime') {
+      if (slots.onetime && slots.onetime.handle) return ['onetime'];
+      return ['monthly'];
+    }
+    if (state.purchaseType === 'quarterly') { var a = []; for (var i = 1; i <= BUNDLE_COUNT; i++) a.push('q' + i); return a; }
+    return [];
+  }
+  function slotPlanRaw(s) {
+    if (state.purchaseType === 'onetime') return null;
+    return state.purchaseType === 'monthly' ? s.planMonthly : s.planQuarterly;
+  }
+
+  /* Update the plan-card price displays from the best available slot */
+  function updatePlanPrices() {
+    var mEl = root.querySelector('[data-plan-price="monthly"]'), mWas = root.querySelector('[data-plan-was="monthly"]');
+    var qEl = root.querySelector('[data-plan-price="quarterly"]'), qWas = root.querySelector('[data-plan-was="quarterly"]');
+    var oEl = root.querySelector('[data-plan-price="onetime"]');
+    var ms = slots.monthly;
+    if (mEl && ms.product && ms.variant) {
+      var mp = subPrice(ms.product, ms.variant, ms.planMonthly);
+      if (mp != null) { mEl.textContent = formatMoney(mp); if (mWas && ms.variant.price > mp) mWas.textContent = 'was ' + formatMoney(ms.variant.price); }
+    }
+    if (qEl) {
+      var qs = null; for (var i = 1; i <= BUNDLE_COUNT; i++) { if (slots['q' + i].product && slots['q' + i].variant) { qs = slots['q' + i]; break; } }
+      if (qs) { var qp = subPrice(qs.product, qs.variant, qs.planQuarterly); if (qp != null) { qEl.textContent = formatMoney(qp); if (qWas && qs.variant.price > qp) qWas.textContent = 'was ' + formatMoney(qs.variant.price); } }
+    }
+    /* One-time: variant.price (no selling plan discount). Falls back to monthly slot, which is
+       what one-time also uses for its build view. */
+    if (oEl && ms.product && ms.variant) {
+      oEl.textContent = formatMoney(ms.variant.price);
+    }
+  }
+
+  function esc(t) { var d = document.createElement('div'); d.textContent = (t == null ? '' : t); return d.innerHTML; }
+
+  function slotThumb(s) {
+    if (s.variant && s.variant.featured_image && s.variant.featured_image.src) return s.variant.featured_image.src;
+    if (s.product && s.product.featured_image) return s.product.featured_image;
+    return '';
+  }
+
+  function recompute() {
+    var ids = activeSlotIds();
+    var completed = 0, pouchSubtotal = 0, ready = ids.length > 0;
+    var lines = [];
+    ids.forEach(function (id) {
+      var s = slots[id];
+      if (s.functionId && s.flavorName && s.product && s.variant) {
+        completed++;
+        var pr = subPrice(s.product, s.variant, slotPlanRaw(s));
+        if (pr == null) pr = s.variant.price;
+        pouchSubtotal += pr;
+        lines.push({ name: s.label, sub: s.flavorName, price: pr, thumb: slotThumb(s) });
+      } else { ready = false; }
+    });
+
+    var qty = getQty();
+    var addonOn = !!(addonInput && addonInput.checked);
+    var creatineCents = 0;
+    /* Subscription plans get the 50%-off display price.
+       One-time adds the creatine at full price (no plan, no discount). */
+    if (addonOn && (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly')) {
+      creatineCents = Math.round(CR_PRICE * 100);
+    } else if (addonOn && state.purchaseType === 'onetime') {
+      /* Use the addon variant price if known, else fall back to CR_PRICE * 2 (assume CR_PRICE is the 50%-off price). */
+      creatineCents = Math.round(CR_PRICE * 2 * 100);
+    }
+    var total = (pouchSubtotal + creatineCents) * qty;
+
+    if (counterEl && state.purchaseType) counterEl.textContent = completed + ' / ' + ids.length + ' ' + POUCHES_WORD;
+    if (atcTotal) atcTotal.textContent = (SHOW_TOTAL && ready && total > 0) ? ('· ' + formatMoney(total)) : '';
+
+    /* ── Order overview ── */
+    if (ovLines) {
+      var html = '';
+      if (state.purchaseType) {
+        var planLabel;
+        if (state.purchaseType === 'quarterly') planLabel = PLAN_LABEL_Q;
+        else if (state.purchaseType === 'onetime') planLabel = PLAN_LABEL_OT;
+        else planLabel = PLAN_LABEL_M;
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + esc(planLabel) + '</span></li>';
+      }
+      lines.forEach(function (l, i) {
+        var thumb = l.thumb ? '<img class="fe-ov-thumb" src="' + l.thumb + '" alt="">' : '<span class="fe-ov-thumb"></span>';
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + thumb + '<span class="fe-ov-line-txt">' + esc(l.name || ('Pouch ' + (i + 1))) + (l.sub ? '<span class="fe-ov-line-sub">' + esc(l.sub) + '</span>' : '') + '</span></span><span class="fe-ov-line-price">' + formatMoney(l.price * qty) + '</span></li>';
+      });
+      /* "1st included free" creatine row — quarterly bundles only. */
+      if (state.purchaseType === 'quarterly') {
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">Creatine<span class="fe-ov-line-sub">1st included free</span></span><span class="fe-ov-line-price is-free">FREE</span></li>';
+      }
+      /* Paid creatine row — labelled per plan. Skip the "2nd / 50% off" row for one-time. */
+      if (creatineCents > 0) {
+        var crLabel;
+        if (state.purchaseType === 'quarterly') crLabel = '2nd Creatine (50% off)';
+        else if (state.purchaseType === 'onetime') crLabel = 'Creatine';
+        else crLabel = 'Creatine (50% off)';
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + crLabel + '</span><span class="fe-ov-line-price">' + formatMoney(creatineCents * qty) + '</span></li>';
+      }
+      ovLines.innerHTML = html;
+    }
+    if (ovTotal) ovTotal.textContent = (ready || lines.length) ? formatMoney(total) : '--';
+
+    updatePlanPrices();
+    updateShipping(total);
+    setAtcEnabled(ready);
+    return ready;
+  }
+
+  function updateShipping(t) {
+    if (!SHOW_SHIPPING || !shipEl) return;
+    shipEl.hidden = false;
+    if (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly') {
+      if (shipFill) shipFill.style.width = '100%';
+      shipEl.classList.add('is-unlocked');
+      if (shipText) shipText.textContent = SHIP_TEXT_SUB;
+    } else if (state.purchaseType === 'onetime') {
+      if (t >= SHIP_THRESHOLD) {
+        if (shipFill) shipFill.style.width = '100%';
+        shipEl.classList.add('is-unlocked');
+        if (shipText) shipText.textContent = SHIP_TEXT_UNLOCKED;
+      } else {
+        var pct = SHIP_THRESHOLD > 0 ? (t / SHIP_THRESHOLD * 100) : 0;
+        if (shipFill) shipFill.style.width = pct.toFixed(1) + '%';
+        shipEl.classList.remove('is-unlocked');
+        var remaining = Math.max(SHIP_THRESHOLD - t, 0);
+        if (shipText) shipText.textContent = SHIP_TEXT_PROGRESS.replace('{amount}', formatMoney(remaining));
+      }
+    } else {
+      shipEl.hidden = true;
+    }
+  }
+
+  function loadSlotProduct(id) {
+    var s = slots[id];
+    if (!s.handle) return;
+    fetchProduct(s.handle).then(function (p) {
+      if (!p) { setMsg('Product not found. Check the product handle in theme settings.', true); return; }
+      s.product = p;
+      s.variant = findVariant(p, s.flavorName);
+      recompute();
+    });
+  }
+
+  function applyPurchaseType(type) {
+    state.purchaseType = type;
+    /* Onetime uses its own view when an explicit one-time product is configured;
+       otherwise it falls back to the monthly single-pouch function-card view. */
+    var onetimeDedicated = type === 'onetime' && !!ONETIME_HANDLE;
+    var monthlyLike = type === 'monthly' || (type === 'onetime' && !ONETIME_HANDLE);
+    if (monthlyView) monthlyView.classList.toggle('is-active', monthlyLike);
+    if (quarterlyView) quarterlyView.classList.toggle('is-active', type === 'quarterly');
+    var onetimeView = root.querySelector('.fe-build-view--onetime');
+    if (onetimeView) onetimeView.classList.toggle('is-active', onetimeDedicated);
+    /* The One-Time plan card now contains its own flavor picker, so the
+       Step 2 panel adds no value when a dedicated one-time product is set. */
+    if (buildGroup) {
+      if (type === 'onetime' && ONETIME_HANDLE) buildGroup.style.display = 'none';
+      else buildGroup.style.display = '';
+    }
+    if (buildGroup) { buildGroup.classList.remove('fe-step--locked'); buildGroup.removeAttribute('aria-disabled'); }
+    var count = (monthlyLike || onetimeDedicated) ? 1 : BUNDLE_COUNT;
+    if (buildLabelEl) buildLabelEl.textContent = BUILD_LABEL.replace('{count}', count);
+
+    /* When the dedicated one-time view is active, pre-load the product and
+       pre-pick the first variant so prices + ATC are immediately ready. */
+    if (onetimeDedicated) {
+      loadSlotProduct('onetime');
+      var firstFlavorBtn = root.querySelector('.fe-flavor-opt[data-onetime-variant-id]');
+      if (firstFlavorBtn) {
+        slots.onetime.flavorName = firstFlavorBtn.dataset.flavorName;
+        if (slots.onetime.product) {
+          slots.onetime.variant = findVariant(slots.onetime.product, slots.onetime.flavorName);
+        }
+      }
+    }
+
+    /* Simplified subs: pre-pick the first flavor for each active slot so the
+       ATC button is immediately usable. */
+    function presimplePick(slotId, viewSelector) {
+      var s = slots[slotId];
+      var firstBtn = root.querySelector(viewSelector + ' [data-simple-slot-id="' + slotId + '"]');
+      if (!s || !firstBtn) return;
+      s.flavorName = firstBtn.dataset.flavorName;
+      if (s.product) s.variant = findVariant(s.product, s.flavorName);
+    }
+    if (SIMPLE_SUBS && type === 'monthly') {
+      presimplePick('monthly', '.fe-build-view--monthly');
+    }
+    if (SIMPLE_SUBS_Q && type === 'quarterly') {
+      for (var pq = 1; pq <= BUNDLE_COUNT; pq++) presimplePick('q' + pq, '.fe-build-view--quarterly');
+    }
+
+    /* Creatine card: unlock + adapt copy. Quarterly shows the "1st free" line and offers a 2nd at 50%.
+       On one-time the toggle still shows so customers can add a creatine — but it's a regular,
+       full-price, one-time line (no selling plan, see buildItems). */
+    var q = type === 'quarterly';
+    if (creatineGroup) creatineGroup.hidden = false;
+    if (crTitle) crTitle.textContent = q ? CR_LABEL_Q : CR_LABEL_M;
+    if (crDesc)  crDesc.textContent  = q ? CR_DESC_Q : CR_DESC_M;
+    /* "1st included free" line shows only on quarterly. */
+    if (crFree)  crFree.hidden = type !== 'quarterly';
+
+    /* Quantity stepper appears only for one-time. */
+    if (qtyGroup) qtyGroup.hidden = type !== 'onetime';
+
+    if (overview) overview.hidden = false;
+    recompute();
+  }
+
+  /* Plan radios */
+  root.querySelectorAll('input[name="fe-plan-' + SID + '"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      root.querySelectorAll('.fe-plan').forEach(function (l) { l.classList.remove('is-active'); });
+      var label = radio.closest('.fe-plan'); if (label) label.classList.add('is-active');
+      pushEvent('fe_plan_selected', { plan: radio.value });
+      applyPurchaseType(radio.value);
+    });
+  });
+
+  /* Select a function card for a config slot */
+  function selectFunction(card, resetFlavor) {
+    var cfg = card.closest('.fe-fcards').dataset.config;
+    var s = slots[cfg]; if (!s) return;
+    s.configId = cfg;
+    root.querySelectorAll('.fe-fcards[data-config="' + cfg + '"] .fe-fcard').forEach(function (c) { c.classList.remove('is-active'); c.setAttribute('aria-pressed', 'false'); });
+    card.classList.add('is-active'); card.setAttribute('aria-pressed', 'true');
+    s.functionId = card.dataset.functionId;
+    s.handle = card.dataset.productHandle;
+    s.label = card.dataset.functionLabel;
+    s.planMonthly = card.dataset.planMonthly || null;
+    s.planQuarterly = card.dataset.planQuarterly || null;
+    if (resetFlavor) {
+      card.querySelectorAll('.fe-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+      s.flavorName = null;
+    }
+    loadSlotProduct(cfg);
+  }
+
+  /* Delegated clicks: flavor first, then function card */
+  root.addEventListener('click', function (e) {
+    var simpleFlavor = e.target.closest('.fe-flavor-opt[data-simple-slot-id]');
+    if (simpleFlavor && root.contains(simpleFlavor)) {
+      var slotId = simpleFlavor.dataset.simpleSlotId;
+      var sSimple = slots[slotId];
+      if (!sSimple) return;
+      var grpS = simpleFlavor.closest('[data-simple-slot-group]');
+      if (grpS) grpS.querySelectorAll('.fe-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+      simpleFlavor.classList.add('is-active'); simpleFlavor.setAttribute('aria-pressed', 'true');
+      sSimple.flavorName = simpleFlavor.dataset.flavorName;
+      if (sSimple.product) { sSimple.variant = findVariant(sSimple.product, sSimple.flavorName); }
+      pushEvent('fe_simple_flavor_selected', { slot: slotId, flavor: sSimple.flavorName });
+      recompute();
+      return;
+    }
+    var otFlavor = e.target.closest('.fe-flavor-opt[data-onetime-variant-id]');
+    if (otFlavor && root.contains(otFlavor)) {
+      /* If the flavor picker lives inside the One-Time plan card, prevent the
+         enclosing <label> from re-toggling the radio, and ensure the radio
+         actually becomes checked if it isn't yet. */
+      var inPlanCard = otFlavor.closest('.fe-plan[data-plan="onetime"]');
+      if (inPlanCard) {
+        e.preventDefault();
+        var planRadio = inPlanCard.querySelector('input[type="radio"]');
+        if (planRadio && !planRadio.checked) {
+          planRadio.checked = true;
+          planRadio.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+      var grp = otFlavor.closest('[data-onetime-flavor-group]');
+      if (grp) grp.querySelectorAll('.fe-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+      otFlavor.classList.add('is-active'); otFlavor.setAttribute('aria-pressed', 'true');
+      var s = slots.onetime;
+      s.flavorName = otFlavor.dataset.flavorName;
+      if (s.product) { s.variant = findVariant(s.product, s.flavorName); }
+      pushEvent('fe_onetime_flavor_selected', { flavor: s.flavorName });
+      recompute();
+      return;
+    }
+    var flavor = e.target.closest('.fe-flavor-opt');
+    if (flavor && root.contains(flavor)) {
+      var card = flavor.closest('.fe-fcard');
+      if (!card) return;
+      if (card.dataset.comingSoon === 'true') return;
+      if (!card.classList.contains('is-active')) selectFunction(card, false);
+      card.querySelectorAll('.fe-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+      flavor.classList.add('is-active'); flavor.setAttribute('aria-pressed', 'true');
+      var s = slots[card.closest('.fe-fcards').dataset.config];
+      s.flavorName = flavor.dataset.flavorName;
+      if (s.product) { s.variant = findVariant(s.product, s.flavorName); }
+      pushEvent('fe_flavor_selected', { config: s.configId, flavor: s.flavorName });
+      recompute();
+      return;
+    }
+    var fcard = e.target.closest('.fe-fcard');
+    if (fcard && root.contains(fcard)) {
+      if (fcard.dataset.comingSoon === 'true') return;
+      pushEvent('fe_function_selected', { function_id: fcard.dataset.functionId });
+      selectFunction(fcard, true);
+    }
+  });
+
+  /* Keyboard select on function card */
+  root.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var fcard = e.target.closest('.fe-fcard');
+    if (fcard && root.contains(fcard) && fcard === e.target) { e.preventDefault(); if (fcard.dataset.comingSoon !== 'true') selectFunction(fcard, true); }
+  });
+
+  /* Quantity */
+  root.querySelectorAll('.fe-qty-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var step = parseInt(b.dataset.qtyStep, 10) || 0;
+      var q = getQty() + step; if (q < 1) q = 1;
+      if (qtyInput) qtyInput.value = q;
+      recompute();
+    });
+  });
+  if (qtyInput) qtyInput.addEventListener('change', recompute);
+  if (addonInput) addonInput.addEventListener('change', function () { pushEvent('fe_addon_toggled', { checked: addonInput.checked }); recompute(); });
+
+  function buildItems(oneTime) {
+    var items = [], ids = activeSlotIds(), qty = getQty();
+    /* Legacy one-time button under the ATC: send the first valid slot variant at qty,
+       with no selling plan. */
+    if (oneTime) {
+      var first = ids.map(function (id) { return slots[id]; }).find(function (s) { return s && s.variant; });
+      if (!first) return null;
+      return [{ id: first.variant.id, quantity: qty }];
+    }
+    /* state-driven one-time plan: each active slot variant, no selling plan; qty multiplies each line. */
+    var isOnetime = state.purchaseType === 'onetime';
+    for (var k = 0; k < ids.length; k++) {
+      var s = slots[ids[k]];
+      if (!s.variant) return null;
+      var item = { id: s.variant.id, quantity: qty };
+      if (!isOnetime) {
+        var plan = findSellingPlanId(s.product, slotPlanRaw(s));
+        if (plan) item.selling_plan = plan;
+      }
+      items.push(item);
+    }
+    // Quarterly auto-includes the FREE 1st creatine. The merchant must configure
+    // the addon-plan-quarterly-free Loop plan to apply 100% off so the line is $0.
+    // Skipped entirely for monthly and one-time.
+    if (state.purchaseType === 'quarterly' && addonInput) {
+      var avFree = parseInt(addonInput.dataset.addonVariant, 10);
+      var freePlanId = parseInt(addonInput.dataset.addonPlanQuarterlyFree, 10);
+      if (avFree && freePlanId) {
+        items.push({ id: avFree, quantity: qty, selling_plan: freePlanId });
+      }
+    }
+    // Toggle adds the paid creatine:
+    //   - monthly  -> creatine at 50% off (selling plan)
+    //   - quarterly -> OPTIONAL 2nd creatine at 50% off (selling plan)
+    //   - onetime  -> creatine at full price as a one-time line (NO selling plan)
+    if (addonInput && addonInput.checked) {
+      var av = parseInt(addonInput.dataset.addonVariant, 10);
+      if (av) {
+        var addonItem = { id: av, quantity: qty };
+        if (!isOnetime) {
+          var addonPlanRaw = state.purchaseType === 'monthly' ? addonInput.dataset.addonPlanMonthly : addonInput.dataset.addonPlanQuarterly50off;
+          if (addonPlanRaw) {
+            var addonPlanId = parseInt(addonPlanRaw, 10);
+            if (addonPlanId) addonItem.selling_plan = addonPlanId;
+          }
+        }
+        items.push(addonItem);
+      }
+    }
+    return items;
+  }
+
+  function addToCart(oneTime) {
+    setMsg('');
+    if (!oneTime && !state.purchaseType) { setMsg('Please choose a plan.', true); return; }
+    var items = buildItems(oneTime);
+    if (!items) { setMsg(oneTime ? 'Select a function and flavor first.' : 'Please complete every pouch (function + flavor).', true); return; }
+
+    atcBtn.classList.add('is-loading'); setAtcEnabled(false);
+    pushEvent('fe_add_to_cart_attempt', { purchase_type: oneTime ? 'onetime' : state.purchaseType, lines: items.length });
+
+    /* Horizon pattern: collect every cart-items-component's section id so
+       /cart/add.js returns the freshly rendered HTML, then dispatch a
+       cart:update event so the drawer (and any cart-items-component on
+       the page) re-renders without a reload. */
+    var sectionIds = [];
+    document.querySelectorAll('cart-items-component[data-section-id]').forEach(function (el) {
+      sectionIds.push(el.dataset.sectionId);
+    });
+
+    var payload = { items: items };
+    if (sectionIds.length) payload.sections = sectionIds.join(',');
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json().then(function (body) { return { ok: r.ok, body: body }; }); })
+      .then(function (resp) {
+        if (!resp.ok) { throw new Error((resp.body && (resp.body.description || resp.body.message)) || 'Cart error'); }
+        var addResponse = resp.body;
+        return fetch('/cart.js').then(function (x) { return x.json(); }).then(function (cart) {
+          return { cart: cart, sections: addResponse.sections || null };
+        });
+      })
+      .then(function (data) {
+        var cart = data.cart;
+        var sections = data.sections;
+        var totalQty = items.reduce(function (sum, it) { return sum + (it.quantity || 1); }, 0);
+
+        /* Dispatch Horizon's cart:update event so cart-items-component re-renders */
+        var evt = new Event('cart:update', { bubbles: true });
+        evt.detail = {
+          resource: cart,
+          sourceId: 'fe-' + SID,
+          data: {
+            source: 'fortified-product-selector',
+            itemCount: totalQty,
+            sections: sections
+          }
+        };
+        document.dispatchEvent(evt);
+
+        /* Open the cart drawer if it exists */
+        var drawer = document.querySelector('cart-drawer-component');
+        if (drawer && typeof drawer.open === 'function') drawer.open();
+
+        pushEvent('fe_add_to_cart_success', { purchase_type: oneTime ? 'onetime' : state.purchaseType });
+      })
+      .catch(function (err) { setMsg(err.message || 'Something went wrong. Please try again.', true); pushEvent('fe_add_to_cart_error', { error: err.message }); })
+      .finally(function () { atcBtn.classList.remove('is-loading'); recompute(); });
+  }
+
+  if (atcBtn) atcBtn.addEventListener('click', function () { addToCart(false); });
+  if (oneTimeBtn && oneTimeBtn.dataset.static !== 'true') oneTimeBtn.addEventListener('click', function () { addToCart(true); });
+
+  /* Eager-load the dedicated one-time product so prices are ready before the
+     customer picks the One Time plan. Pre-seed the flavor from the first option. */
+  if (ONETIME_HANDLE) {
+    var firstOtFlavorBtn = root.querySelector('.fe-flavor-opt[data-onetime-variant-id]');
+    if (firstOtFlavorBtn) slots.onetime.flavorName = firstOtFlavorBtn.dataset.flavorName;
+    loadSlotProduct('onetime');
+  }
+  if (SIMPLE_SUBS) {
+    loadSlotProduct('monthly');
+  }
+  if (SIMPLE_SUBS_Q) {
+    for (var nn = 1; nn <= BUNDLE_COUNT; nn++) loadSlotProduct('q' + nn);
+  }
+
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var SID = {{ sid | json }};
+  var root = document.getElementById('fe-' + SID);
+  if (!root) return;
+  var bar = document.getElementById('fe-stickybar-' + SID);
+  var realBtn = document.getElementById('fe-atc-' + SID);
+  if (!bar || !realBtn) return;
+  var realTotal = document.getElementById('fe-atc-total-' + SID);
+  var realCounter = document.getElementById('fe-counter-' + SID);
+  var buildGroup = document.getElementById('fe-build-group-' + SID);
+  var sbBtn = document.getElementById('fe-sb-atc-' + SID);
+  var sbTotal = document.getElementById('fe-sb-total-' + SID);
+  var sbCounter = document.getElementById('fe-sb-counter-' + SID);
+
+  function sync() {
+    var off = realBtn.hasAttribute('disabled') || realBtn.getAttribute('aria-disabled') === 'true';
+    if (off) { sbBtn.setAttribute('disabled', ''); sbBtn.setAttribute('aria-disabled', 'true'); }
+    else { sbBtn.removeAttribute('disabled'); sbBtn.removeAttribute('aria-disabled'); }
+    if (sbTotal) { sbTotal.textContent = realTotal ? realTotal.textContent.replace(/^[\s·•]+/, '') : ''; }
+    if (sbCounter && realCounter) { sbCounter.textContent = realCounter.textContent || ''; }
+  }
+
+  sbBtn.addEventListener('click', function () { realBtn.click(); });
+
+  if (window.MutationObserver) {
+    var mo = new MutationObserver(sync);
+    mo.observe(realBtn, { attributes: true, attributeFilter: ['disabled', 'aria-disabled'] });
+    if (realTotal) mo.observe(realTotal, { childList: true, characterData: true, subtree: true });
+    if (realCounter) mo.observe(realCounter, { childList: true, characterData: true, subtree: true });
+    if (buildGroup) {
+      var bo = new MutationObserver(function () {
+        if (!buildGroup.classList.contains('fe-step--locked') && window.matchMedia('(max-width: 899px)').matches) {
+          try { buildGroup.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+        }
+      });
+      bo.observe(buildGroup, { attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
+  if (window.IntersectionObserver) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { bar.classList.toggle('is-onscreen', e.isIntersecting); });
+    }, { rootMargin: '0px 0px -45% 0px' });
+    io.observe(root);
+  } else {
+    bar.classList.add('is-onscreen');
+  }
+
+  sync();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Block - Product Selector",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Section max width",
+      "min": 600,
+      "max": 1600,
+      "step": 40,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Block width",
+      "default": "full-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Title",
+      "default": "Everyday Hydration"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtitle",
+      "default": "Electrolytes + D3 + K2"
+    },
+    {
+      "type": "text",
+      "id": "coming_soon_text",
+      "label": "Coming Soon badge text",
+      "default": "Soon"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show star rating",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating value",
+      "default": "4.8"
+    },
+    {
+      "type": "text",
+      "id": "rating_count",
+      "label": "Rating count text",
+      "default": "(342 reviews)"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#F5A623"
+    },
+    {
+      "type": "header",
+      "content": "Step 1 \u2014 Plans"
+    },
+    {
+      "type": "text",
+      "id": "plan_step_label",
+      "label": "Step label",
+      "default": "Choose Your Plan"
+    },
+    {
+      "type": "text",
+      "id": "plan_step_note",
+      "label": "Step note (top-right)",
+      "default": "Monthly 10% Off"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_monthly",
+      "label": "Show \"1 a Month\" plan",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "monthly_label",
+      "label": "Monthly summary label",
+      "default": "1 a Month"
+    },
+    {
+      "type": "text",
+      "id": "monthly_badge",
+      "label": "Monthly badge",
+      "default": "Monthly"
+    },
+    {
+      "type": "color",
+      "id": "monthly_badge_color",
+      "label": "Monthly badge color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "monthly_title",
+      "label": "Monthly title",
+      "info": "One line per row.",
+      "default": "1 Pouch\nEvery Month"
+    },
+    {
+      "type": "text",
+      "id": "monthly_desc",
+      "label": "Monthly description",
+      "default": "Your daily ritual, delivered."
+    },
+    {
+      "type": "text",
+      "id": "monthly_price",
+      "label": "Monthly price (fallback)",
+      "info": "Shown until a product/plan price is calculated.",
+      "default": "$53.10"
+    },
+    {
+      "type": "text",
+      "id": "monthly_period",
+      "label": "Monthly period text",
+      "default": "/ month"
+    },
+    {
+      "type": "text",
+      "id": "monthly_was",
+      "label": "Monthly \"was\" text (fallback)",
+      "default": "was $59.00/mo"
+    },
+    {
+      "type": "textarea",
+      "id": "monthly_checklist",
+      "label": "Monthly checklist",
+      "info": "One per line.",
+      "default": "Save 15% on every order\nFree shipping always\nFlexible, cancel / pause any time"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quarterly",
+      "label": "Show \"3 Every 3 Months\" plan",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "quarterly_label",
+      "label": "Quarterly summary label",
+      "default": "3 Every 3 Months"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_badge",
+      "label": "Quarterly badge",
+      "default": "Best Value - Quarterly"
+    },
+    {
+      "type": "color",
+      "id": "quarterly_badge_color",
+      "label": "Quarterly badge color",
+      "default": "#E8833A"
+    },
+    {
+      "type": "textarea",
+      "id": "quarterly_title",
+      "label": "Quarterly title",
+      "info": "One line per row.",
+      "default": "3 Pouches\nEvery 3 Months"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_desc",
+      "label": "Quarterly description",
+      "default": "Mix any functions freely."
+    },
+    {
+      "type": "text",
+      "id": "quarterly_price",
+      "label": "Quarterly price (fallback)",
+      "default": "$53.10"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_period",
+      "label": "Quarterly period text",
+      "default": "/ month"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_was",
+      "label": "Quarterly \"was\" text (fallback)",
+      "default": "was $59.00/mo"
+    },
+    {
+      "type": "textarea",
+      "id": "quarterly_checklist",
+      "label": "Quarterly checklist",
+      "info": "One per line.",
+      "default": "Free Creatine + Sample Pack\nFree shipping always\nFlexible, cancel / pause any time"
+    },
+    {
+      "type": "range",
+      "id": "bundle_count",
+      "label": "Pouches in the quarterly box",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_onetime",
+      "label": "Show \"One Time\" plan",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "onetime_card_label",
+      "label": "One-time summary label",
+      "default": "One Time"
+    },
+    {
+      "type": "text",
+      "id": "onetime_badge",
+      "label": "One-time badge",
+      "default": "Buy Once"
+    },
+    {
+      "type": "color",
+      "id": "onetime_badge_color",
+      "label": "One-time badge color",
+      "default": "#6B7280"
+    },
+    {
+      "type": "textarea",
+      "id": "onetime_title",
+      "label": "One-time title",
+      "info": "One line per row.",
+      "default": "Single\nPouch"
+    },
+    {
+      "type": "text",
+      "id": "onetime_desc",
+      "label": "One-time description",
+      "default": "Try it first. Subscribe whenever you're ready."
+    },
+    {
+      "type": "text",
+      "id": "onetime_price",
+      "label": "One-time price (fallback)",
+      "default": "$59.00"
+    },
+    {
+      "type": "text",
+      "id": "onetime_period",
+      "label": "One-time period text",
+      "default": "/ pouch"
+    },
+    {
+      "type": "text",
+      "id": "onetime_was",
+      "label": "One-time \"was\" text (fallback)"
+    },
+    {
+      "type": "textarea",
+      "id": "onetime_checklist",
+      "label": "One-time checklist",
+      "info": "One per line.",
+      "default": "30 servings per pouch\nShipping calculated at checkout\nNo subscription required"
+    },
+    {
+      "type": "paragraph",
+      "content": "When 'Product for one-time purchase' is set, the One Time plan shows just that product. Tick 'Use this product for Monthly and Every-3-months too' to skip the function-card grid for subscriptions as well."
+    },
+    {
+      "type": "product",
+      "id": "onetime_product",
+      "label": "Product (optional)",
+      "info": "Leave blank on PDPs to use the page product. Set explicitly for non-PDP pages."
+    },
+    {
+      "type": "text",
+      "id": "onetime_flavor_option",
+      "label": "Variant option name for flavor",
+      "info": "e.g. Flavor. Must match the product's option name. Blank = first option.",
+      "default": "Flavor"
+    },
+    {
+      "type": "image_picker",
+      "id": "onetime_card_image",
+      "label": "Card image (optional)",
+      "info": "Overrides the product's featured image on the One-Time card."
+    },
+    {
+      "type": "checkbox",
+      "id": "simplified_for_subs",
+      "label": "Use this product for Monthly + Every-3-months",
+      "info": "Skips the function-card grid on subscriptions.",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "Used when 'Use this product for Monthly and Every-3-months too' is on: the Loop selling plan IDs that apply to the configured product for each subscription cadence."
+    },
+    {
+      "type": "text",
+      "id": "simple_plan_monthly",
+      "label": "Monthly Loop plan ID for this product"
+    },
+    {
+      "type": "text",
+      "id": "simple_plan_quarterly",
+      "label": "Every-3-months Loop plan ID for this product"
+    },
+    {
+      "type": "header",
+      "content": "Step 2 \u2014 Build Bundle"
+    },
+    {
+      "type": "text",
+      "id": "build_step_label",
+      "label": "Step label",
+      "info": "Use {count} for the pouch count.",
+      "default": "Build {count}-Pouch Bundle"
+    },
+    {
+      "type": "text",
+      "id": "pouches_word",
+      "label": "Counter word",
+      "default": "Pouches"
+    },
+    {
+      "type": "text",
+      "id": "function_label",
+      "label": "Function label (unused on cards)",
+      "default": "Choose Your Function"
+    },
+    {
+      "type": "text",
+      "id": "flavor_label",
+      "label": "Flavor label",
+      "default": "Choose Flavor:"
+    },
+    {
+      "type": "text",
+      "id": "unit_label_prefix",
+      "label": "Pouch label prefix",
+      "default": "Pouch"
+    },
+    {
+      "type": "header",
+      "content": "Creatine Add-on"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_addon",
+      "label": "Show creatine add-on",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "addon_product",
+      "label": "Add-on product",
+      "info": "Added to cart when toggled on. Set the 50% discount as an automatic discount in Shopify."
+    },
+    {
+      "type": "image_picker",
+      "id": "addon_image",
+      "label": "Add-on image",
+      "info": "Optional. Falls back to the product image."
+    },
+    {
+      "type": "text",
+      "id": "addon_label",
+      "label": "Title \u2014 monthly",
+      "default": "Add Creatine \u2014 50% off"
+    },
+    {
+      "type": "text",
+      "id": "addon_desc",
+      "label": "Description \u2014 monthly",
+      "default": "50% off applied automatically at checkout."
+    },
+    {
+      "type": "text",
+      "id": "addon_label_quarterly",
+      "label": "Title \u2014 quarterly (2nd unit)",
+      "default": "Add a 2nd Creatine \u2014 50% off"
+    },
+    {
+      "type": "text",
+      "id": "addon_desc_quarterly",
+      "label": "Description \u2014 quarterly",
+      "default": "1st Creatine is free with your bundle. Add a second at 50% off."
+    },
+    {
+      "type": "text",
+      "id": "quarterly_free_text",
+      "label": "Quarterly \"free included\" line",
+      "default": "Free Creatine + Sample Pack included with your bundle"
+    },
+    {
+      "type": "text",
+      "id": "addon_price_text",
+      "label": "Add-on price (display)",
+      "default": "$12.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_was_text",
+      "label": "Add-on compare-at (display)",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_monthly",
+      "label": "Creatine plan ID \u2014 Monthly (50% off)",
+      "info": "Loop selling plan for the creatine add-on when the monthly bundle is selected. Leave blank for one-time."
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_quarterly",
+      "label": "Creatine plan ID \u2014 Every 3 months (free 1st, included with bundle)",
+      "info": "Loop selling plan for the free 1st creatine that ships with the quarterly bundle. Leave blank for one-time."
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_quarterly_50off",
+      "label": "Creatine plan ID \u2014 Every 3 months (optional 2nd, 50% off)",
+      "info": "Loop selling plan used when the customer toggles ON an extra creatine while on the quarterly bundle. Leave blank for one-time."
+    },
+    {
+      "type": "header",
+      "content": "Order Overview"
+    },
+    {
+      "type": "text",
+      "id": "summary_label",
+      "label": "Heading",
+      "default": "Your Order"
+    },
+    {
+      "type": "text",
+      "id": "total_label",
+      "label": "Total label",
+      "default": "Total"
+    },
+    {
+      "type": "text",
+      "id": "overview_note",
+      "label": "Note under total",
+      "default": "Subscriptions ship free. Discounts applied at checkout."
+    },
+    {
+      "type": "header",
+      "content": "Free Shipping Bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_bar",
+      "label": "Show free shipping progress bar",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "shipping_threshold_dollars",
+      "label": "Free shipping threshold",
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "unit": "$",
+      "default": 100,
+      "info": "Cart total in dollars required to unlock free shipping."
+    },
+    {
+      "type": "text",
+      "id": "shipping_text_subscription",
+      "label": "Subscription text",
+      "default": "Subscriptions ship free"
+    },
+    {
+      "type": "text",
+      "id": "shipping_text_progress",
+      "label": "Progress text",
+      "info": "Use {amount} for the remaining-to-threshold amount.",
+      "default": "Add {amount} more for FREE shipping"
+    },
+    {
+      "type": "text",
+      "id": "shipping_text_unlocked",
+      "label": "Unlocked text",
+      "default": "FREE shipping unlocked"
+    },
+    {
+      "type": "color",
+      "id": "shipping_bar_track_color",
+      "label": "Bar track color",
+      "default": "#EFEAE3"
+    },
+    {
+      "type": "color",
+      "id": "shipping_bar_fill_color",
+      "label": "Bar fill color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "color",
+      "id": "shipping_bar_unlocked_color",
+      "label": "Unlocked fill color",
+      "default": "#16A34A"
+    },
+    {
+      "type": "header",
+      "content": "Quantity"
+    },
+    {
+      "type": "text",
+      "id": "qty_label",
+      "label": "Quantity label",
+      "default": "Quantity"
+    },
+    {
+      "type": "range",
+      "id": "qty_max",
+      "label": "Max quantity",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "atc_label",
+      "label": "Button label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_total_on_button",
+      "label": "Show total price on button",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "filled",
+      "options": [
+        {
+          "value": "filled",
+          "label": "Filled"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "ghost",
+          "label": "Ghost"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "onetime_prefix",
+      "label": "One-time note prefix",
+      "default": "Or purchase once:"
+    },
+    {
+      "type": "text",
+      "id": "onetime_price_text",
+      "label": "One-time note price",
+      "default": "$59.00 + $8.99 shipping"
+    },
+    {
+      "type": "url",
+      "id": "onetime_link",
+      "label": "One-time note link",
+      "info": "If set, the note links here (e.g. a one-time product page). Leave blank to add a one-time purchase to the cart on click instead."
+    },
+    {
+      "type": "checkbox",
+      "id": "onetime_clickable",
+      "label": "One-time note adds a one-time purchase on click",
+      "info": "Ignored when a link is set above.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "selection_color",
+      "label": "Selection highlight color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Block color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "panel_color_scheme",
+      "label": "Panel color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Shape"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Button corner radius",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this block only. Use the .fe- class names on its elements."
+    },
+    {
+      "type": "header",
+      "content": "Loop Integration"
+    },
+    {
+      "type": "paragraph",
+      "content": "Loop API credentials. Use a STOREFRONT (public) token only \u2014 never an Admin API key. Tokens entered here are visible in the page source. For customer-authenticated calls, set up a Shopify App Proxy or worker to mint short-lived Loop session tokens."
+    },
+    {
+      "type": "text",
+      "id": "loop_api_token",
+      "label": "Loop storefront API token"
+    },
+    {
+      "type": "text",
+      "id": "loop_api_base",
+      "label": "Loop API base URL",
+      "info": "Default: https://api.loopwork.co",
+      "default": "https://api.loopwork.co"
+    },
+    {
+      "type": "url",
+      "id": "loop_session_endpoint",
+      "label": "Session-token endpoint (proxy URL)",
+      "info": "Optional. Your App Proxy / worker URL that returns a Loop session token for the logged-in customer. Required for customer-authenticated bundle calls."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "_ftd-ps-function"
+    },
+    {
+      "type": "_ftd-ps-benefit"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Block - Product Selector",
+      "category": "Fortified Blocks",
+      "blocks": [
+        {
+          "type": "_ftd-ps-benefit",
+          "settings": {
+            "text": "Supports Mood & Focus"
+          }
+        },
+        {
+          "type": "_ftd-ps-benefit",
+          "settings": {
+            "text": "Plant-Based"
+          }
+        },
+        {
+          "type": "_ftd-ps-benefit",
+          "settings": {
+            "text": "No Jitters Or Crash"
+          }
+        },
+        {
+          "type": "_ftd-ps-function",
+          "settings": {
+            "function_label": "Fortified Everyday",
+            "enabled": true,
+            "manual_flavors": "Original\nMango\nBerry"
+          }
+        },
+        {
+          "type": "_ftd-ps-function",
+          "settings": {
+            "function_label": "Fortified Energy",
+            "enabled": true,
+            "manual_flavors": "Original\nMango\nBerry"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

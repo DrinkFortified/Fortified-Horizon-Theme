@@ -1,5 +1,4 @@
 
-
 {% liquid
   assign block_settings = block.settings
   assign ratio = 1
@@ -34,9 +33,7 @@
 {% endcapture %}
 
 {% liquid
-  assign media_width_desktop = '100vw'
-  assign media_width_mobile = '100vw'
-  assign sizes = 'auto, (min-width: 750px) ' | append: media_width_desktop | append: ', ' | append: media_width_mobile
+  assign sizes = 'auto, (min-width: 750px) 100vw, 100vw'
   assign widths = '240, 352, 832, 1200, 1600, 1920, 2560, 3840'
 %}
 
@@ -60,12 +57,27 @@
   {%- endif -%}
 {% endcapture %}
 
-{% if block_settings.open_in_popup and block_settings.link != blank %}
-  {%- if block_settings.link contains '?' -%}
-    {%- assign popup_src = block_settings.link | append: '&view=popup' -%}
-  {%- else -%}
-    {%- assign popup_src = block_settings.link | append: '?view=popup' -%}
-  {%- endif -%}
+{%- liquid
+  assign has_video = false
+  if block_settings.video != blank
+    assign has_video = true
+  endif
+
+  assign v_ratio = block_settings.video.aspect_ratio | default: 1.7778
+
+  assign has_popup = false
+  if has_video or block_settings.link != blank
+    assign has_popup = true
+  endif
+
+  if block_settings.link contains '?'
+    assign popup_src = block_settings.link | append: '&view=popup'
+  else
+    assign popup_src = block_settings.link | append: '?view=popup'
+  endif
+-%}
+
+{%- if has_popup -%}
   <script
     src="{{ 'dialog.js' | asset_url }}"
     type="module"
@@ -87,18 +99,32 @@
 
     <dialog
       ref="dialog"
-      class="image-popup__content dialog-modal color-{{ settings.popover_color_scheme }}"
+      class="image-popup__content{% if has_video %} image-popup__content--video{% endif %} dialog-modal color-{{ settings.popover_color_scheme }}"
       scroll-lock
-      aria-label="{{ block_settings.image.alt | default: block_settings.label | escape }}"
+      style="--popup-ar: {{ v_ratio }};"
+      aria-label="{{ block_settings.image.alt | default: 'Popup' | escape }}"
     >
-      <iframe
-        class="image-popup__iframe"
-        src="{{ popup_src }}"
-        title="{{ block_settings.image.alt | default: 'Popup' | escape }}"
-        loading="lazy"
-        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+      {%- if has_video -%}
+        {{
+          block_settings.video
+          | video_tag:
+            class: 'image-popup__video',
+            controls: true,
+            autoplay: block_settings.video_autoplay,
+            loop: block_settings.video_loop,
+            muted: block_settings.video_autoplay,
+            image_size: '1920x'
+        }}
+      {%- else -%}
+        <iframe
+          class="image-popup__iframe"
+          src="{{ popup_src }}"
+          title="{{ block_settings.image.alt | default: 'Popup' | escape }}"
+          loading="lazy"
+          allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      {%- endif -%}
       <button
         ref="closeButton"
         on:click="/closeDialog"
@@ -109,7 +135,7 @@
       </button>
     </dialog>
   </dialog-component>
-{% elsif block_settings.link == blank %}
+{%- else -%}
   <div
     class="{{ class }}"
     style="{{ style }}"
@@ -117,50 +143,9 @@
   >
     {{ image }}
   </div>
-{% else %}
-  <a
-    href="{{ block_settings.link }}"
-    class="{{ class }}"
-    style="{{ style }}"
-    {{ block.shopify_attributes }}
-  >
-    {{ image }}
-  </a>
-{% endif %}
+{%- endif -%}
 
 {% stylesheet %}
-  .image-block__placeholder {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: center center;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .placeholder-image {
-    position: relative;
-    aspect-ratio: var(--ratio);
-    overflow: hidden;
-  }
-
-  .image-block {
-    display: flex;
-
-    /* When the image is nested in a group, section, etc, respect the parent's horizontal alignment */
-    justify-content: var(--horizontal-alignment, 'inline-start');
-  }
-
-  .image-block--height-fill .image-block__image {
-    height: 100%;
-  }
-
-  .image-block__image {
-    object-fit: cover;
-    aspect-ratio: var(--ratio);
-  }
-
-  /* Image-as-popup-trigger */
   .image-popup {
     display: contents;
   }
@@ -212,11 +197,75 @@
       padding: 0;
     }
   }
+
+  /* Video popup: size the modal box to the video's exact aspect ratio so
+     there is no letterbox/black bar. Width is capped so the derived height
+     never exceeds the viewport. */
+  .image-popup .image-popup__content--video {
+    width: min(1100px, 94vw, calc(86vh * var(--popup-ar, 1.7778)));
+    max-width: 94vw;
+    aspect-ratio: var(--popup-ar, 1.7778);
+    height: auto;
+    background: #000;
+  }
+
+  .image-popup__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+  }
+
+  @media screen and (max-width: 749px) {
+    .image-popup .image-popup__content--video {
+      width: min(94vw, calc(86vh * var(--popup-ar, 1.7778)));
+      height: auto;
+    }
+  }
+
+  /* Center the lightbox in the viewport. The theme's default modal
+     animation ends on margin-top: 0 (forwards), which pins it to the top;
+     override it with a transform/opacity animation so the native
+     margin: auto centering takes effect on both axes. */
+  .image-popup .image-popup__content {
+    margin: auto;
+  }
+
+  .image-popup .image-popup__content[open] {
+    animation: imagePopupIn var(--animation-speed, 0.2s) var(--animation-easing, ease) forwards;
+  }
+
+  .image-popup .image-popup__content.dialog-closing {
+    animation: imagePopupOut var(--animation-speed, 0.2s) var(--animation-easing, ease) forwards;
+  }
+
+  @keyframes imagePopupIn {
+    from {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes imagePopupOut {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "t:names.image",
+  "name": "Image Popup",
   "tag": null,
   "settings": [
     {
@@ -225,16 +274,35 @@
       "label": "t:settings.image"
     },
     {
-      "type": "url",
-      "id": "link",
-      "label": "t:settings.link"
+      "type": "header",
+      "content": "Popup content"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add a video to play it directly in the popup. If no video is set, the linked page below is shown instead (content only, no header/footer)."
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video file"
     },
     {
       "type": "checkbox",
-      "id": "open_in_popup",
-      "label": "Open link in a popup",
-      "info": "Clicking the image opens the linked page (e.g. a page containing a video) in a modal lightbox instead of navigating to it.",
+      "id": "video_autoplay",
+      "label": "Autoplay (muted)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "video_loop",
+      "label": "Loop",
       "default": false
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:settings.link",
+      "info": "Used only when no video is set. Opens this page in the lightbox using a content-only view."
     },
     {
       "type": "header",
@@ -442,7 +510,7 @@
   ],
   "presets": [
     {
-      "name": "t:names.image",
+      "name": "Image Popup",
       "category": "t:categories.basic"
     }
   ]

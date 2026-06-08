@@ -1,0 +1,328 @@
+{% comment %}
+  Section: FTD - Subscribe & Save
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Promotional two-column section with eyebrow + heading + checklist on
+  one side and a product image on the other. Optional background image
+  with overlay.
+{% endcomment %}
+
+{%- liquid
+  assign sid  = section.id | replace: '_', '' | downcase
+  assign root = 'ftss-' | append: sid
+  assign btn_style = section.settings.button_style | default: 'outline'
+  assign tone = section.settings.text_color | default: 'light'
+  assign image_position = section.settings.image_position | default: 'right'
+  assign bg_class = root | append: '__bg'
+  assign img_alt  = section.settings.heading | default: ''
+  assign focal = section.settings.foreground_image_focal | default: 'center'
+  assign focal_css = focal | replace: '-', ' '
+  assign overlay_dec = section.settings.background_overlay | divided_by: 100.0
+-%}
+
+<style>
+  #{{ root }} {
+    position: relative;
+    --{{ root }}-max-w: {{ section.settings.content_max_width }}px;
+    --{{ root }}-accent: {{ section.settings.eyebrow_color }};
+    isolation: isolate;
+  }
+  #{{ root }} .{{ root }}__bg,
+  #{{ root }} .{{ root }}__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  #{{ root }} .{{ root }}__bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #{{ root }} .{{ root }}__overlay {
+    background-color: #000000;
+    opacity: {{ overlay_dec }};
+    z-index: 1;
+  }
+  #{{ root }} .{{ root }}__inner {
+    position: relative;
+    z-index: 2;
+    max-width: var(--{{ root }}-max-w);
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  #{{ root }} .{{ root }}__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(24px, 4vw, 56px);
+    align-items: center;
+  }
+  #{{ root }} .{{ root }}__grid--image-left {
+    grid-template-columns: 1fr 1.05fr;
+  }
+  #{{ root }} .{{ root }}__grid--image-left .{{ root }}__text  { order: 2; }
+  #{{ root }} .{{ root }}__grid--image-left .{{ root }}__media { order: 1; }
+
+  #{{ root }} .{{ root }}--light { color: #FFFFFF; }
+  #{{ root }} .{{ root }}--dark  { color: #0E0E0E; }
+
+  #{{ root }} .{{ root }}__text {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 560px;
+  }
+  #{{ root }} .{{ root }}__eyebrow {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--{{ root }}-accent);
+  }
+  #{{ root }} .{{ root }}__heading {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: clamp(32px, 5vw, 60px);
+    font-weight: 800;
+    line-height: 1.02;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  #{{ root }} .{{ root }}__list {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  #{{ root }} .{{ root }}__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  #{{ root }} .{{ root }}__check {
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    border: 1.5px solid var(--{{ root }}-accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--{{ root }}-accent);
+  }
+  #{{ root }} .{{ root }}__check img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 999px;
+    display: block;
+  }
+  #{{ root }} .{{ root }}__check svg { display: block; }
+
+  #{{ root }} .{{ root }}__btn {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 32px;
+    border-radius: 4px;
+    margin-top: 8px;
+    border: 2px solid currentColor;
+    transition: background 0.18s, color 0.18s, opacity 0.18s;
+    cursor: pointer;
+  }
+  #{{ root }} .{{ root }}__btn--outline { background: transparent; }
+  #{{ root }} .{{ root }}--light .{{ root }}__btn--outline:hover { background: #FFFFFF; color: #0E0E0E; }
+  #{{ root }} .{{ root }}--dark  .{{ root }}__btn--outline:hover { background: #0E0E0E; color: #FFFFFF; }
+  #{{ root }} .{{ root }}--light .{{ root }}__btn--filled { background: #FFFFFF; color: #0E0E0E; }
+  #{{ root }} .{{ root }}--dark  .{{ root }}__btn--filled { background: #0E0E0E; color: #FFFFFF; }
+  #{{ root }} .{{ root }}__btn--filled:hover { opacity: 0.88; }
+
+  #{{ root }} .{{ root }}__media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-height: 560px;
+  }
+  #{{ root }} .{{ root }}__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: {{ focal_css }};
+    display: block;
+  }
+
+  @media (max-width: 749px) {
+    #{{ root }} .{{ root }}__grid,
+    #{{ root }} .{{ root }}__grid--image-left {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+    #{{ root }} .{{ root }}__grid--image-left .{{ root }}__text  { order: 1; }
+    #{{ root }} .{{ root }}__grid--image-left .{{ root }}__media { order: 2; }
+    #{{ root }} .{{ root }}__heading { font-size: clamp(28px, 8vw, 40px); }
+    #{{ root }} .{{ root }}__media { aspect-ratio: 4 / 3; }
+  }
+
+  [hidden]{display:none!important}
+  {{ section.settings.custom_css }}
+</style>
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="{{ root }}"
+  class="{{ root }}__section {{ root }}--{{ tone }} section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
+  {%- if section.settings.background_image != blank -%}
+    {{ section.settings.background_image | image_url: width: 2000 | image_tag:
+      class: bg_class,
+      loading: 'lazy',
+      widths: '600,1000,1400,1800,2200',
+      alt: ''
+    }}
+    <div class="{{ root }}__overlay" aria-hidden="true"></div>
+  {%- endif -%}
+
+  <div class="{{ root }}__inner">
+    <div class="{{ root }}__grid {% if image_position == 'left' %}{{ root }}__grid--image-left{% endif %}">
+
+      <div class="{{ root }}__text">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="{{ root }}__heading">{{ section.settings.heading | newline_to_br }}</h2>
+        {%- endif -%}
+
+        {%- assign benefits = section.blocks | where: 'type', 'benefit' -%}
+        {%- if benefits.size > 0 -%}
+          <ul class="{{ root }}__list">
+            {%- for block in benefits -%}
+              <li class="{{ root }}__item" {{ block.shopify_attributes }}>
+                <span class="{{ root }}__check" aria-hidden="true">
+                  {%- if block.settings.icon != blank -%}
+                    {{ block.settings.icon | image_url: width: 60 | image_tag: loading: 'lazy', widths: '30,60', alt: '' }}
+                  {%- else -%}
+                    <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 8.5 6.5 12 13 4.5"/></svg>
+                  {%- endif -%}
+                </span>
+                <span>{{ block.settings.text }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          <a
+            class="{{ root }}__btn {{ root }}__btn--{{ btn_style }}"
+            {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
+          >{{ section.settings.button_label }}</a>
+        {%- endif -%}
+      </div>
+
+      <div class="{{ root }}__media">
+        {%- if section.settings.foreground_image != blank -%}
+          {{ section.settings.foreground_image | image_url: width: 1200 | image_tag:
+            loading: 'lazy',
+            widths: '400,700,1000,1300',
+            alt: img_alt
+          }}
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FTD - Subscribe & Save",
+  "tag": "section",
+  "class": "ftd-subscribe-save-section",
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Subscribe & Save 15%" },
+
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe Now" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline" }, { "value": "filled", "label": "Filled" } ] },
+
+    { "type": "header", "content": "Foreground image" },
+    { "type": "image_picker", "id": "foreground_image", "label": "Foreground image" },
+    { "type": "select", "id": "foreground_image_focal", "label": "Image focal point", "default": "center", "options": [
+      { "value": "top-left", "label": "Top left" },
+      { "value": "top", "label": "Top" },
+      { "value": "top-right", "label": "Top right" },
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" },
+      { "value": "bottom-left", "label": "Bottom left" },
+      { "value": "bottom", "label": "Bottom" },
+      { "value": "bottom-right", "label": "Bottom right" }
+    ] },
+    { "type": "select", "id": "image_position", "label": "Image position", "default": "right", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ] },
+
+    { "type": "header", "content": "Background image" },
+    { "type": "image_picker", "id": "background_image", "label": "Background image", "info": "Optional decorative background." },
+    { "type": "range", "id": "background_overlay", "label": "Background overlay", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 50 },
+
+    { "type": "header", "content": "Text" },
+    { "type": "select", "id": "text_color", "label": "Text color", "default": "light", "options": [ { "value": "light", "label": "Light" }, { "value": "dark", "label": "Dark" } ] },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Improve Hydration" },
+        { "type": "image_picker", "id": "icon", "label": "Icon override", "info": "Optional. Defaults to a circle check icon." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FTD - Subscribe & Save",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "benefit", "settings": { "text": "Improve Hydration" } },
+        { "type": "benefit", "settings": { "text": "Replenish Electrolytes" } },
+        { "type": "benefit", "settings": { "text": "Recover Faster" } },
+        { "type": "benefit", "settings": { "text": "Save 15% Every Order" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,33 @@
+{% layout none %}<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{{ page.title | escape }}</title>
+    <style>
+      html, body { margin: 0; padding: 0; background: transparent; }
+      *, *::before, *::after { box-sizing: border-box; }
+      .popup-page {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 16px;
+      }
+      .popup-page__content { width: 100%; }
+      .popup-page__content > :first-child { margin-top: 0; }
+      .popup-page__content > :last-child { margin-bottom: 0; }
+      .popup-page__content img,
+      .popup-page__content video,
+      .popup-page__content iframe { max-width: 100%; }
+    </style>
+  </head>
+  <body>
+    <div class="popup-page">
+      <div class="popup-page__content">
+        {{ page.content }}
+      </div>
+    </div>
+  </body>
+</html>

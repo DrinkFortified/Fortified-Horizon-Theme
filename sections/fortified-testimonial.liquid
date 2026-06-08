@@ -1,0 +1,323 @@
+{% comment %}
+  Section: FTD - Testimonial
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Two-column athlete testimonial. Desktop: text on one side, portrait
+  photo on the other (configurable). Mobile: name -> role -> photo ->
+  quote -> CTA stacked.
+{% endcomment %}
+
+{%- liquid
+  assign img_pos    = section.settings.image_position_desktop
+  assign align_d    = section.settings.align_desktop
+  assign align_m    = section.settings.align_mobile
+  assign btn_style  = section.settings.button_style
+  assign focal      = section.settings.image_focal | default: 'center'
+  assign quote_text = section.settings.quote
+  if section.settings.quote_marks and quote_text != blank
+    assign quote_text = '“' | append: quote_text | append: '”'
+  endif
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="ftd-testimonial section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }} ftd-testimonial--img-{{ img_pos }} ftd-testimonial--align-d-{{ align_d }} ftd-testimonial--align-m-{{ align_m }}"
+  style="
+    {% render 'spacing-padding', settings: section.settings %}
+    --fttm-max-w: {{ section.settings.content_max_width }}px;
+    --fttm-focal: {{ focal | replace: '_', ' ' }};
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="ftd-testimonial__inner">
+    <div class="ftd-testimonial__text">
+      {%- if section.settings.name != blank -%}
+        <p class="ftd-testimonial__name">{{ section.settings.name }}</p>
+      {%- endif -%}
+      {%- if section.settings.role != blank -%}
+        <p class="ftd-testimonial__role">{{ section.settings.role }}</p>
+      {%- endif -%}
+
+      <div class="ftd-testimonial__media ftd-testimonial__media--mobile">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag:
+            class: 'ftd-testimonial__img',
+            loading: 'lazy',
+            widths: '400,600,800,1000,1200,1600',
+            alt: section.settings.name
+          }}
+        {%- else -%}
+          <div class="ftd-testimonial__img ftd-testimonial__img--placeholder" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+
+      {%- if quote_text != blank -%}
+        <blockquote class="ftd-testimonial__quote">{{ quote_text }}</blockquote>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <div class="ftd-testimonial__cta-wrap">
+          <a
+            class="ftd-testimonial__cta ftd-testimonial__cta--{{ btn_style }}"
+            {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
+          >{{ section.settings.button_label }}</a>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="ftd-testimonial__media ftd-testimonial__media--desktop">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1400 | image_tag:
+          class: 'ftd-testimonial__img',
+          loading: 'lazy',
+          widths: '600,900,1200,1400,1800',
+          alt: section.settings.name
+        }}
+      {%- else -%}
+        <div class="ftd-testimonial__img ftd-testimonial__img--placeholder" aria-hidden="true"></div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.ftd-testimonial {
+  display: block;
+  color: var(--color-foreground);
+  background: var(--color-background);
+}
+
+.ftd-testimonial__inner {
+  max-width: var(--fttm-max-w, 1240px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 48px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(20px, 4vw, 40px);
+  align-items: stretch;
+}
+
+.ftd-testimonial__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.ftd-testimonial__name {
+  margin: 0 0 8px;
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(28px, 4.4vw, 48px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+}
+
+.ftd-testimonial__role {
+  margin: 0 0 22px;
+  font-size: clamp(13px, 1.6vw, 16px);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  color: rgb(var(--color-foreground-rgb) / 0.6);
+}
+
+.ftd-testimonial__quote {
+  margin: 0 0 28px;
+  font-family: var(--font-heading--family, inherit);
+  font-style: italic;
+  font-size: clamp(18px, 2.4vw, 26px);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-foreground);
+  max-width: 38ch;
+}
+
+.ftd-testimonial__cta-wrap {
+  display: flex;
+}
+
+.ftd-testimonial__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 32px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 2px solid var(--color-primary-button-background);
+  transition: background 0.18s, color 0.18s, opacity 0.18s;
+}
+
+.ftd-testimonial__cta--filled {
+  background: var(--color-primary-button-background);
+  color: var(--color-primary-button-text);
+}
+.ftd-testimonial__cta--filled:hover { opacity: 0.88; }
+
+.ftd-testimonial__cta--outline {
+  background: transparent;
+  color: var(--color-foreground);
+}
+.ftd-testimonial__cta--outline:hover {
+  background: var(--color-primary-button-background);
+  color: var(--color-primary-button-text);
+}
+
+/* Media */
+.ftd-testimonial__media {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ftd-testimonial__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--fttm-focal, center);
+}
+
+.ftd-testimonial__img--placeholder {
+  background: rgb(var(--color-foreground-rgb) / 0.08);
+  aspect-ratio: 4 / 5;
+}
+
+/* Mobile-first: hide desktop media slot, show mobile media slot */
+.ftd-testimonial__media--desktop { display: none; }
+.ftd-testimonial__media--mobile {
+  aspect-ratio: 4 / 5;
+  margin: 0 0 24px;
+  border-radius: 4px;
+}
+.ftd-testimonial__media--mobile .ftd-testimonial__img { aspect-ratio: 4 / 5; }
+
+/* Mobile alignment */
+@media (max-width: 749px) {
+  .ftd-testimonial--align-m-center .ftd-testimonial__text { align-items: center; text-align: center; }
+  .ftd-testimonial--align-m-center .ftd-testimonial__quote { margin-left: auto; margin-right: auto; }
+  .ftd-testimonial--align-m-left   .ftd-testimonial__text { align-items: flex-start; text-align: left; }
+}
+
+/* Desktop */
+@media (min-width: 750px) {
+  .ftd-testimonial__inner {
+    grid-template-columns: 45fr 55fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: stretch;
+  }
+  .ftd-testimonial__media--mobile { display: none; }
+  .ftd-testimonial__media--desktop {
+    display: block;
+    min-height: 480px;
+    aspect-ratio: 4 / 5;
+    border-radius: 4px;
+  }
+  .ftd-testimonial--img-left  .ftd-testimonial__text  { order: 2; }
+  .ftd-testimonial--img-left  .ftd-testimonial__media--desktop { order: 1; }
+  .ftd-testimonial--img-right .ftd-testimonial__text  { order: 1; }
+  .ftd-testimonial--img-right .ftd-testimonial__media--desktop { order: 2; }
+
+  .ftd-testimonial--align-d-center .ftd-testimonial__text { align-items: center; text-align: center; }
+  .ftd-testimonial--align-d-center .ftd-testimonial__quote { margin-left: auto; margin-right: auto; }
+  .ftd-testimonial--align-d-left   .ftd-testimonial__text { align-items: flex-start; text-align: left; }
+}
+{% endstylesheet %}
+
+<style>
+  {{ section.settings.custom_css }}
+</style>
+
+{% schema %}
+{
+  "name": "FTD - Testimonial",
+  "tag": "section",
+  "class": "ftd-testimonial-section",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "name", "label": "Athlete name", "default": "Alex Friedman" },
+    { "type": "text", "id": "role", "label": "Role / title", "default": "HBO Max Champion" },
+    { "type": "textarea", "id": "quote", "label": "Quote", "default": "I feel the difference in my workouts and recovery. No more cramps." },
+    { "type": "checkbox", "id": "quote_marks", "label": "Wrap quote in smart quotes", "default": true },
+
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Fortified Now" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "select", "id": "button_style", "label": "Button style", "default": "filled",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" }
+      ]
+    },
+
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Portrait image" },
+    { "type": "select", "id": "image_focal", "label": "Image focal point", "default": "center",
+      "options": [
+        { "value": "left_top",     "label": "Top left" },
+        { "value": "center_top",   "label": "Top" },
+        { "value": "right_top",    "label": "Top right" },
+        { "value": "left",         "label": "Left" },
+        { "value": "center",       "label": "Center" },
+        { "value": "right",        "label": "Right" },
+        { "value": "left_bottom",  "label": "Bottom left" },
+        { "value": "center_bottom","label": "Bottom" },
+        { "value": "right_bottom", "label": "Bottom right" }
+      ]
+    },
+    { "type": "select", "id": "image_position_desktop", "label": "Image position (desktop)", "default": "right",
+      "options": [
+        { "value": "left",  "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+
+    { "type": "header", "content": "Alignment" },
+    { "type": "select", "id": "align_desktop", "label": "Text alignment (desktop)", "default": "left",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    { "type": "select", "id": "align_mobile", "label": "Text alignment (mobile)", "default": "left",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ]
+    },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "presets": [
+    {
+      "name": "FTD - Testimonial",
+      "category": "Fortified Sections"
+    }
+  ]
+}
+{% endschema %}
