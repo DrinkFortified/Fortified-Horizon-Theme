@@ -97,7 +97,7 @@
   text-align: var(--frs-align, left);
 }
 
-/* ── Header ─────────────────────────────────────────────────── */
+/* Header */
 .frs__head {
   display: flex;
   flex-direction: column;
@@ -140,7 +140,7 @@
   max-width: 48rem;
 }
 
-/* ── Grid of stats ──────────────────────────────────────────── */
+/* Grid */
 .frs__grid {
   display: grid;
   grid-template-columns: repeat(var(--frs-cols, 3), minmax(0, 1fr));
@@ -150,7 +150,7 @@
   list-style: none;
 }
 
-/* ── Each stat ──────────────────────────────────────────────── */
+/* Stat */
 .frs__stat {
   display: flex;
   flex-direction: column;
@@ -204,7 +204,6 @@
   opacity: 0.75;
 }
 
-/* ── Mobile: stack single column ────────────────────────────── */
 @media (max-width: 749px) {
   .frs__grid {
     grid-template-columns: 1fr;
@@ -238,41 +237,12 @@
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "desktop_columns", "label": "Columns (desktop)", "min": 2, "max": 4, "step": 1, "default": 3 },
     { "type": "range", "id": "column_gap", "label": "Column gap", "min": 16, "max": 80, "step": 4, "unit": "px", "default": 40 },
-    {
-      "type": "select",
-      "id": "align",
-      "label": "Text alignment",
-      "default": "left",
-      "options": [
-        { "value": "left",   "label": "Left" },
-        { "value": "center", "label": "Center" }
-      ]
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "default": "page-width",
-      "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
-      ]
-    },
+    { "type": "select", "id": "align", "label": "Text alignment", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ] },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
     { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
 
     { "type": "header", "content": "Divider" },
-    {
-      "type": "select",
-      "id": "divider_style",
-      "label": "Divider style",
-      "default": "dashed",
-      "options": [
-        { "value": "dashed", "label": "Dashed" },
-        { "value": "dotted", "label": "Dotted" },
-        { "value": "solid",  "label": "Solid" },
-        { "value": "none",   "label": "None" }
-      ]
-    },
+    { "type": "select", "id": "divider_style", "label": "Divider style", "default": "dashed", "options": [ { "value": "dashed", "label": "Dashed" }, { "value": "dotted", "label": "Dotted" }, { "value": "solid", "label": "Solid" }, { "value": "none", "label": "None" } ] },
     { "type": "color", "id": "divider_color", "label": "Divider color", "default": "#9CA3AF" },
     { "type": "range", "id": "divider_thickness", "label": "Divider thickness", "min": 1, "max": 4, "step": 1, "unit": "px", "default": 1 },
 
@@ -299,37 +269,15 @@
       ]
     }
   ],
-  "min_blocks": 1,
   "max_blocks": 6,
   "presets": [
     {
       "name": "FTD - Stats Row",
       "category": "Fortified Sections",
       "blocks": [
-        {
-          "type": "stat",
-          "settings": {
-            "number": "Over 18",
-            "label": "Years of research",
-            "description": "In collaboration with the Swiss Federal Institute of Technology de Lausanne (EPFL)"
-          }
-        },
-        {
-          "type": "stat",
-          "settings": {
-            "number": "500+",
-            "label": "Studies referenced",
-            "description": "Peer-reviewed studies guiding every formulation decision we make."
-          }
-        },
-        {
-          "type": "stat",
-          "settings": {
-            "number": "95.6%",
-            "label": "Bioavailability",
-            "description": "Mineral absorption rate validated by independent third-party testing."
-          }
-        }
+        { "type": "stat", "settings": { "number": "Over 18", "label": "Years of research", "description": "In collaboration with the Swiss Federal Institute of Technology de Lausanne (EPFL)" } },
+        { "type": "stat", "settings": { "number": "500+", "label": "Studies referenced", "description": "Peer-reviewed studies guiding every formulation decision we make." } },
+        { "type": "stat", "settings": { "number": "95.6%", "label": "Bioavailability", "description": "Mineral absorption rate validated by independent third-party testing." } }
       ]
     }
   ]
