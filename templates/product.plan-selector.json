@@ -474,7 +474,7 @@
       "name": "FTD - Split Hero",
       "settings": {
         "eyebrow": "Formulated For",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "Your Best Day",
         "body": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration with collagen, supporting skin.",
         "button_label": "Explore All Flavors",
@@ -483,7 +483,7 @@
         "image_focal": "center",
         "image_position_desktop": "right",
         "image_position_mobile": "below",
-        "panel_background": "#0A1B2A",
+        "panel_background": "#0a1b2a",
         "text_color": "light",
         "text_width_desktop": 44,
         "min_height_desktop": 480,
@@ -635,7 +635,7 @@
         "section_width": "page-width",
         "content_max_width": 1240,
         "divider_style": "dashed",
-        "divider_color": "#9CA3AF",
+        "divider_color": "#9ca3af",
         "divider_thickness": 1,
         "color_scheme": "",
         "padding-block-start": 64,
@@ -698,6 +698,47 @@
         "padding-block-start": 64,
         "padding-block-end": 64,
         "custom_css": ""
+      }
+    },
+    "marquee_HFKgXX": {
+      "type": "marquee",
+      "blocks": {
+        "text_7FYqWh": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We make things that work better and last longer.</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_7FYqWh"
+      ],
+      "name": "t:names.marquee_section",
+      "settings": {
+        "movement_direction": "normal",
+        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
+        "padding-block-start": 24,
+        "padding-block-end": 24,
+        "gap_between_elements": 24
       }
     },
     "fortified_comparison_CLVb4q": {
@@ -1118,6 +1159,7 @@
     "fortified_testimonial_gifpnd",
     "fortified_stats_row_Re84QB",
     "fortified_hero_product_showcase_6qE7R9",
+    "marquee_HFKgXX",
     "fortified_comparison_CLVb4q",
     "ftd_b_supplement_facts_bmPkCy",
     "fortified_truth_qBjbt7",
