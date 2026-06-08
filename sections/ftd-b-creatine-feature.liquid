@@ -1,0 +1,556 @@
+{% comment %}
+  Section: FTD-B - Creatine
+  Category: Fortified Sections
+  --------------------------------------------------------------------
+  Two-column feature for the Creatine product. LEFT is either an image
+  (when feature_image is set) or a CSS-built canister with brand,
+  product name, amount and serving note. RIGHT carries eyebrow,
+  heading, body, an optional quote, 4 stat tiles, 2 pricing cards and
+  a CTA. Small inline JS toggles the selected pricing card and
+  substitutes {price} in the CTA label.
+
+  Desktop : 2 columns (image side configurable).
+  Mobile  : single column, canister first.
+{% endcomment %}
+
+{%- liquid
+  assign eyebrow_c     = section.settings.eyebrow_color | default: '#1FA8A1'
+  assign quote_c       = section.settings.quote_accent_color | default: '#1FA8A1'
+  assign canister_bg   = section.settings.canister_background | default: '#0A0A0A'
+  assign canister_acc  = section.settings.canister_accent | default: '#1FA8A1'
+  assign stat_accent   = section.settings.stat_accent_color | default: '#1FA8A1'
+  assign pricing_acc   = section.settings.pricing_accent | default: '#1FA8A1'
+  assign cta_style     = section.settings.cta_style | default: 'filled'
+  assign img_pos       = section.settings.image_position_desktop | default: 'left'
+  assign emphasis_word = section.settings.heading_emphasis_word | strip
+
+  if section.settings.section_width == 'full-width'
+    assign ftbcr_max_w = '100%'
+  else
+    assign ftbcr_max_w = section.settings.content_max_width | append: 'px'
+  endif
+
+  assign cta_tpl   = section.settings.cta_label_template | default: 'Add Creatine to Cart - {price}'
+  assign cta_label = cta_tpl | replace: '{price}', section.settings.pricing_price_onetime
+-%}
+
+{%- capture heading_html -%}
+  {%- if section.settings.heading != blank -%}
+    {%- if emphasis_word != blank -%}
+      {%- assign parts = section.settings.heading | split: emphasis_word -%}
+      {%- assign joined = parts | join: '<em class="ftbcr__em">' | append: emphasis_word -%}
+      {%- assign joined = joined | append: '</em>' -%}
+      {{ joined | newline_to_br }}
+    {%- else -%}
+      {{ section.settings.heading | newline_to_br }}
+    {%- endif -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="ftbcr section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }}"
+  style="
+    {% render 'spacing-padding', settings: section.settings %}
+    --ftbcr-max-w: {{ ftbcr_max_w }};
+    --ftbcr-eyebrow: {{ eyebrow_c }};
+    --ftbcr-quote: {{ quote_c }};
+    --ftbcr-canister-bg: {{ canister_bg }};
+    --ftbcr-canister-accent: {{ canister_acc }};
+    --ftbcr-stat-accent: {{ stat_accent }};
+    --ftbcr-pricing-accent: {{ pricing_acc }};
+  "
+  data-ftbcr-template="{{ cta_tpl | escape }}"
+  {{ section.shopify_attributes }}
+>
+  <div class="ftbcr__inner ftbcr__inner--img-{{ img_pos }}">
+
+    {%- comment -%} LEFT: visual {%- endcomment -%}
+    <div class="ftbcr__visual">
+      {%- if section.settings.feature_image != blank -%}
+        {{ section.settings.feature_image | image_url: width: 1200 | image_tag: class: 'ftbcr__image', widths: '400,600,900,1200', loading: 'lazy', alt: section.settings.canister_product_name }}
+      {%- else -%}
+        <div class="ftbcr__canister" aria-hidden="false">
+          <div class="ftbcr__canister-inner">
+            {%- if section.settings.canister_brand != blank -%}
+              <div class="ftbcr__canister-brand">{{ section.settings.canister_brand }}</div>
+            {%- endif -%}
+            {%- if section.settings.canister_product_name != blank -%}
+              <div class="ftbcr__canister-name">{{ section.settings.canister_product_name }}</div>
+            {%- endif -%}
+            {%- if section.settings.canister_amount != blank -%}
+              <div class="ftbcr__canister-amount">{{ section.settings.canister_amount }}</div>
+            {%- endif -%}
+            {%- if section.settings.canister_serving_note != blank -%}
+              <div class="ftbcr__canister-note">{{ section.settings.canister_serving_note }}</div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} RIGHT: copy + stats + pricing + CTA {%- endcomment -%}
+    <div class="ftbcr__body">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="ftbcr__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="ftbcr__heading">{{ heading_html }}</h2>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <p class="ftbcr__body-text">{{ section.settings.body }}</p>
+      {%- endif -%}
+      {%- if section.settings.quote != blank -%}
+        <blockquote class="ftbcr__quote">{{ section.settings.quote }}</blockquote>
+      {%- endif -%}
+
+      <ul class="ftbcr__stats" role="list">
+        <li class="ftbcr__stat"><span class="ftbcr__stat-num">{{ section.settings.stat_1_number }}</span><span class="ftbcr__stat-lbl">{{ section.settings.stat_1_label }}</span></li>
+        <li class="ftbcr__stat"><span class="ftbcr__stat-num">{{ section.settings.stat_2_number }}</span><span class="ftbcr__stat-lbl">{{ section.settings.stat_2_label }}</span></li>
+        <li class="ftbcr__stat"><span class="ftbcr__stat-num">{{ section.settings.stat_3_number }}</span><span class="ftbcr__stat-lbl">{{ section.settings.stat_3_label }}</span></li>
+        <li class="ftbcr__stat"><span class="ftbcr__stat-num">{{ section.settings.stat_4_number }}</span><span class="ftbcr__stat-lbl">{{ section.settings.stat_4_label }}</span></li>
+      </ul>
+
+      <div class="ftbcr__pricing" role="radiogroup" aria-label="Choose plan">
+        <button type="button"
+          class="ftbcr__price-card is-selected"
+          role="radio"
+          aria-checked="true"
+          data-ftbcr-price="{{ section.settings.pricing_price_onetime }}">
+          <span class="ftbcr__price-label">{{ section.settings.pricing_label_onetime }}</span>
+          <span class="ftbcr__price-amount">{{ section.settings.pricing_price_onetime }}</span>
+          {%- if section.settings.pricing_note_onetime != blank -%}
+            <span class="ftbcr__price-note">{{ section.settings.pricing_note_onetime }}</span>
+          {%- endif -%}
+        </button>
+        <button type="button"
+          class="ftbcr__price-card"
+          role="radio"
+          aria-checked="false"
+          data-ftbcr-price="{{ section.settings.pricing_price_sub }}">
+          <span class="ftbcr__price-label">{{ section.settings.pricing_label_sub }}</span>
+          <span class="ftbcr__price-amount">{{ section.settings.pricing_price_sub }}</span>
+          {%- if section.settings.pricing_note_sub != blank -%}
+            <span class="ftbcr__price-note">{{ section.settings.pricing_note_sub }}</span>
+          {%- endif -%}
+        </button>
+      </div>
+
+      <a
+        class="ftbcr__cta ftbcr__cta--{{ cta_style }}"
+        {% if section.settings.cta_link != blank %}href="{{ section.settings.cta_link }}"{% else %}href="#" role="button" aria-disabled="true"{% endif %}
+        data-ftbcr-cta>
+        {{ cta_label }}
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  (function () {
+    var roots = document.querySelectorAll('.ftbcr');
+    roots.forEach(function (root) {
+      var tpl = root.getAttribute('data-ftbcr-template') || 'Add to Cart - {price}';
+      var cards = root.querySelectorAll('.ftbcr__price-card');
+      var cta = root.querySelector('[data-ftbcr-cta]');
+      function select(card) {
+        cards.forEach(function (c) {
+          c.classList.remove('is-selected');
+          c.setAttribute('aria-checked', 'false');
+        });
+        card.classList.add('is-selected');
+        card.setAttribute('aria-checked', 'true');
+        if (cta) {
+          var price = card.getAttribute('data-ftbcr-price') || '';
+          cta.textContent = tpl.replace('{price}', price);
+        }
+      }
+      cards.forEach(function (card) {
+        card.addEventListener('click', function () { select(card); });
+      });
+    });
+  })();
+</script>
+
+{% stylesheet %}
+.ftbcr { display: block; }
+
+.ftbcr__inner {
+  max-width: var(--ftbcr-max-w, 1240px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+}
+
+.ftbcr__inner--img-right .ftbcr__visual { order: 2; }
+.ftbcr__inner--img-right .ftbcr__body   { order: 1; }
+
+/* ── Visual / canister ─────────────────────────────────────── */
+.ftbcr__visual {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--ftbcr-canister-bg, #0A0A0A);
+}
+
+.ftbcr__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ftbcr__canister {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgb(255 255 255 / 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, var(--ftbcr-canister-bg, #0A0A0A) 0%, #000000 100%);
+}
+
+.ftbcr__canister-inner {
+  width: 70%;
+  max-width: 320px;
+  border: 2px solid var(--ftbcr-canister-accent, #1FA8A1);
+  border-radius: 14px;
+  padding: clamp(20px, 4vw, 36px) clamp(16px, 3vw, 28px);
+  text-align: center;
+  color: #ffffff;
+  background: rgb(255 255 255 / 0.03);
+  backdrop-filter: blur(2px);
+}
+
+.ftbcr__canister-brand {
+  font-family: var(--font-heading--family, inherit);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ftbcr-canister-accent, #1FA8A1);
+  margin-bottom: 8px;
+}
+
+.ftbcr__canister-name {
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(20px, 2.6vw, 28px);
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-bottom: 22px;
+}
+
+.ftbcr__canister-amount {
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(48px, 7vw, 80px);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ftbcr-canister-accent, #1FA8A1);
+}
+
+.ftbcr__canister-note {
+  margin-top: 8px;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+
+/* ── Body ──────────────────────────────────────────────────── */
+.ftbcr__body { min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+
+.ftbcr__eyebrow {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ftbcr-eyebrow, #1FA8A1);
+}
+
+.ftbcr__heading {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--color-foreground);
+}
+
+.ftbcr__heading .ftbcr__em {
+  font-style: normal;
+  color: var(--ftbcr-eyebrow, #1FA8A1);
+}
+
+.ftbcr__body-text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-foreground);
+  opacity: 0.88;
+}
+
+.ftbcr__quote {
+  margin: 0;
+  padding: 14px 18px;
+  border-left: 4px solid var(--ftbcr-quote, #1FA8A1);
+  background: rgb(var(--color-foreground-rgb) / 0.04);
+  font-family: var(--font-heading--family, inherit);
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--color-foreground);
+}
+
+/* ── Stat tiles ────────────────────────────────────────────── */
+.ftbcr__stats {
+  list-style: none;
+  margin: 6px 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ftbcr__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 14px 6px;
+  border: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+  border-radius: 10px;
+  background: rgb(var(--color-foreground-rgb) / 0.02);
+}
+
+.ftbcr__stat-num {
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ftbcr-stat-accent, #1FA8A1);
+}
+
+.ftbcr__stat-lbl {
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+  opacity: 0.75;
+}
+
+/* ── Pricing cards ─────────────────────────────────────────── */
+.ftbcr__pricing {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.ftbcr__price-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 2px solid rgb(var(--color-foreground-rgb) / 0.18);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-foreground);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  transition: border-color 0.18s, background 0.18s, transform 0.18s;
+}
+
+.ftbcr__price-card:hover { border-color: rgb(var(--color-foreground-rgb) / 0.35); }
+
+.ftbcr__price-card.is-selected {
+  border-color: var(--ftbcr-pricing-accent, #1FA8A1);
+  background: rgb(var(--color-foreground-rgb) / 0.04);
+}
+
+.ftbcr__price-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+
+.ftbcr__price-amount {
+  font-family: var(--font-heading--family, inherit);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.ftbcr__price-note {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ── CTA ───────────────────────────────────────────────────── */
+.ftbcr__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid var(--color-primary-button-background, #0A0A0A);
+  transition: opacity 0.18s, background 0.18s, color 0.18s;
+  margin-top: 4px;
+}
+
+.ftbcr__cta--filled {
+  background: var(--color-primary-button-background, #0A0A0A);
+  color: var(--color-primary-button-text, #ffffff);
+}
+.ftbcr__cta--filled:hover { opacity: 0.9; }
+
+.ftbcr__cta--outline {
+  background: transparent;
+  color: var(--color-primary-button-background, #0A0A0A);
+}
+.ftbcr__cta--outline:hover {
+  background: var(--color-primary-button-background, #0A0A0A);
+  color: var(--color-primary-button-text, #ffffff);
+}
+
+/* ── Mobile ────────────────────────────────────────────────── */
+@media (max-width: 749px) {
+  .ftbcr__inner,
+  .ftbcr__inner--img-right {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .ftbcr__inner--img-right .ftbcr__visual { order: 0; }
+  .ftbcr__inner--img-right .ftbcr__body   { order: 1; }
+  .ftbcr__visual { aspect-ratio: 5 / 4; }
+  .ftbcr__stats { grid-template-columns: repeat(2, 1fr); }
+  .ftbcr__pricing { grid-template-columns: 1fr; }
+}
+
+[hidden] { display: none !important; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FTD-B - Creatine",
+  "tag": "section",
+  "class": "ftd-b-creatine-section",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Complete the Stack" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "One ingredient means exactly that." },
+    { "type": "text", "id": "heading_emphasis_word", "label": "Heading emphasis word", "default": "exactly that." },
+    { "type": "textarea", "id": "body", "label": "Body copy", "default": "One ingredient. Every milligram on the label. 500+ peer-reviewed studies. Creatine monohydrate is the most studied sports-nutrition ingredient on earth, and we put nothing else in the jar." },
+    { "type": "textarea", "id": "quote", "label": "Quote (optional)", "default": "What you see on this label is everything in this container." },
+    { "type": "color", "id": "quote_accent_color", "label": "Quote accent", "default": "#1FA8A1" },
+
+    { "type": "header", "content": "Visual" },
+    { "type": "image_picker", "id": "feature_image", "label": "Feature image (overrides canister)" },
+    { "type": "color", "id": "canister_background", "label": "Canister background", "default": "#0A0A0A" },
+    { "type": "color", "id": "canister_accent", "label": "Canister accent", "default": "#1FA8A1" },
+    { "type": "text", "id": "canister_brand", "label": "Canister brand", "default": "Fortified" },
+    { "type": "text", "id": "canister_product_name", "label": "Canister product name", "default": "Creatine Monohydrate" },
+    { "type": "text", "id": "canister_amount", "label": "Canister amount", "default": "5g" },
+    { "type": "text", "id": "canister_serving_note", "label": "Canister serving note", "default": "per serving - 45 servings" },
+
+    { "type": "header", "content": "Stat tiles" },
+    { "type": "color", "id": "stat_accent_color", "label": "Stat number color", "default": "#1FA8A1" },
+    { "type": "text", "id": "stat_1_number", "label": "Stat 1 number", "default": "5g" },
+    { "type": "text", "id": "stat_1_label",  "label": "Stat 1 label",  "default": "Per Serving" },
+    { "type": "text", "id": "stat_2_number", "label": "Stat 2 number", "default": "45" },
+    { "type": "text", "id": "stat_2_label",  "label": "Stat 2 label",  "default": "Servings" },
+    { "type": "text", "id": "stat_3_number", "label": "Stat 3 number", "default": "500+" },
+    { "type": "text", "id": "stat_3_label",  "label": "Stat 3 label",  "default": "Studies" },
+    { "type": "text", "id": "stat_4_number", "label": "Stat 4 number", "default": "1" },
+    { "type": "text", "id": "stat_4_label",  "label": "Stat 4 label",  "default": "Ingredient" },
+
+    { "type": "header", "content": "Pricing cards" },
+    { "type": "text", "id": "pricing_label_onetime", "label": "One-time label", "default": "One-Time" },
+    { "type": "text", "id": "pricing_price_onetime", "label": "One-time price", "default": "$24.00" },
+    { "type": "text", "id": "pricing_note_onetime", "label": "One-time note", "default": "45 servings - Unflavored" },
+    { "type": "text", "id": "pricing_label_sub", "label": "Subscribe label", "default": "Subscribe & Save 50%" },
+    { "type": "text", "id": "pricing_price_sub", "label": "Subscribe price", "default": "$12.00" },
+    { "type": "text", "id": "pricing_note_sub", "label": "Subscribe note", "default": "Monthly - Free shipping" },
+    { "type": "color", "id": "pricing_accent", "label": "Selected card border", "default": "#1FA8A1" },
+
+    { "type": "header", "content": "CTA" },
+    { "type": "text", "id": "cta_label_template", "label": "CTA label template", "default": "Add Creatine to Cart - {price}", "info": "Use {price} token; replaced with selected pricing card price." },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    {
+      "type": "select",
+      "id": "cta_style",
+      "label": "CTA style",
+      "default": "filled",
+      "options": [
+        { "value": "filled",  "label": "Filled" },
+        { "value": "outline", "label": "Outline" }
+      ]
+    },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "image_position_desktop",
+      "label": "Image position (desktop)",
+      "default": "left",
+      "options": [
+        { "value": "left",  "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ]
+    },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "presets": [
+    {
+      "name": "FTD-B - Creatine",
+      "category": "Fortified Sections"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,327 @@
+{% comment %}
+  Section: FTD-B - Testimonials
+  Category: Fortified Sections
+  --------------------------------------------------------------------
+  Header (eyebrow + heading + rating summary) over a responsive grid
+  of testimonial cards. Each card has a big decorative quote mark
+  positioned in the top-left, italic body, author + author-sub at
+  the bottom, and an optional tag pill.
+
+  Desktop  : configurable N columns (default 4).
+  Tablet   : configurable N columns at <=1100px (default 2).
+  Mobile   : single column at <=749px.
+{% endcomment %}
+
+{%- liquid
+  assign eyebrow_c     = section.settings.eyebrow_color | default: '#1FA8A1'
+  assign quote_mark_c  = section.settings.quote_mark_color | default: '#E8E6E4'
+  assign desktop_cols  = section.settings.desktop_columns | default: 4
+  assign tablet_cols   = section.settings.tablet_columns | default: 2
+  assign card_radius   = section.settings.card_radius | default: 12
+  assign emphasis_word = section.settings.heading_emphasis_word | strip
+
+  if section.settings.section_width == 'full-width'
+    assign ftbts_max_w = '100%'
+  else
+    assign ftbts_max_w = section.settings.content_max_width | append: 'px'
+  endif
+-%}
+
+{%- capture heading_html -%}
+  {%- if section.settings.heading != blank -%}
+    {%- if emphasis_word != blank -%}
+      {%- assign parts = section.settings.heading | split: emphasis_word -%}
+      {%- assign joined = parts | join: '<em class="ftbts__em">' | append: emphasis_word -%}
+      {%- assign joined = joined | append: '</em>' -%}
+      {{ joined | newline_to_br }}
+    {%- else -%}
+      {{ section.settings.heading | newline_to_br }}
+    {%- endif -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="ftbts section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }}"
+  style="
+    {% render 'spacing-padding', settings: section.settings %}
+    --ftbts-max-w: {{ ftbts_max_w }};
+    --ftbts-eyebrow: {{ eyebrow_c }};
+    --ftbts-quote-mark: {{ quote_mark_c }};
+    --ftbts-cols-d: {{ desktop_cols }};
+    --ftbts-cols-t: {{ tablet_cols }};
+    --ftbts-radius: {{ card_radius }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="ftbts__inner">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.rating_text != blank -%}
+      <header class="ftbts__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="ftbts__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="ftbts__heading">{{ heading_html }}</h2>
+        {%- endif -%}
+        {%- if section.settings.rating_text != blank -%}
+          <p class="ftbts__rating">{{ section.settings.rating_text }}</p>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="ftbts__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'testimonial' -%}
+            {%- assign tag_bg = block.settings.tag_color | default: '#E8F1F8' -%}
+            {%- assign tag_fg = block.settings.tag_text_color | default: '#135289' -%}
+            <li class="ftbts__card" {{ block.shopify_attributes }}>
+              <span class="ftbts__mark" aria-hidden="true">&ldquo;</span>
+              {%- if block.settings.quote != blank -%}
+                <p class="ftbts__text">{{ block.settings.quote }}</p>
+              {%- endif -%}
+              <div class="ftbts__meta">
+                {%- if block.settings.author != blank -%}
+                  <p class="ftbts__author">{{ block.settings.author }}</p>
+                {%- endif -%}
+                {%- if block.settings.author_sub != blank -%}
+                  <p class="ftbts__author-sub">{{ block.settings.author_sub }}</p>
+                {%- endif -%}
+                {%- if block.settings.tag_label != blank -%}
+                  <span class="ftbts__tag" style="background: {{ tag_bg }}; color: {{ tag_fg }};">{{ block.settings.tag_label }}</span>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+.ftbts { display: block; }
+
+.ftbts__inner {
+  max-width: var(--ftbts-max-w, 1240px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+
+.ftbts__head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  text-align: center;
+  margin: 0 0 clamp(24px, 4vw, 48px);
+}
+
+.ftbts__eyebrow {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ftbts-eyebrow, #1FA8A1);
+}
+
+.ftbts__heading {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--color-foreground);
+}
+
+.ftbts__heading .ftbts__em {
+  font-style: normal;
+  color: var(--ftbts-eyebrow, #1FA8A1);
+}
+
+.ftbts__rating {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-foreground);
+  opacity: 0.85;
+}
+
+/* ── Grid ──────────────────────────────────────────────────── */
+.ftbts__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--ftbts-cols-d, 4), minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+
+/* ── Card ──────────────────────────────────────────────────── */
+.ftbts__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px 22px 22px;
+  border-radius: var(--ftbts-radius, 12px);
+  background: rgb(var(--color-foreground-rgb) / 0.04);
+  border: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+  overflow: hidden;
+}
+
+.ftbts__mark {
+  position: absolute;
+  top: -14px;
+  left: 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 110px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ftbts-quote-mark, #E8E6E4);
+  pointer-events: none;
+  user-select: none;
+}
+
+.ftbts__text {
+  position: relative;
+  z-index: 1;
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  font-style: italic;
+  color: var(--color-foreground);
+  flex: 1 1 auto;
+}
+
+.ftbts__meta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.ftbts__author {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+}
+
+.ftbts__author-sub {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-foreground);
+  opacity: 0.7;
+}
+
+.ftbts__tag {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Tablet / mobile ───────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .ftbts__grid {
+    grid-template-columns: repeat(var(--ftbts-cols-t, 2), minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 749px) {
+  .ftbts__grid {
+    grid-template-columns: 1fr;
+  }
+  .ftbts__card { padding: 24px 18px 18px; }
+  .ftbts__mark { font-size: 90px; }
+}
+
+[hidden] { display: none !important; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FTD-B - Testimonials",
+  "tag": "section",
+  "class": "ftd-b-testimonials-section",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Verified Reviews" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Real families. Real labels." },
+    { "type": "text", "id": "heading_emphasis_word", "label": "Heading emphasis word", "default": "Real labels." },
+    { "type": "text", "id": "rating_text", "label": "Rating summary", "default": "4.9 - 560+ reviews" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "desktop_columns", "label": "Columns (desktop)", "min": 2, "max": 4, "step": 1, "default": 4 },
+    { "type": "range", "id": "tablet_columns", "label": "Columns (tablet)", "min": 1, "max": 3, "step": 1, "default": 2 },
+    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 12 },
+    { "type": "color", "id": "quote_mark_color", "label": "Quote mark color", "default": "#E8E6E4" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ]
+    },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "I've been reading labels for 10 years and I've never seen a supplement this transparent." },
+        { "type": "text", "id": "author", "label": "Author", "default": "Sarah B." },
+        { "type": "text", "id": "author_sub", "label": "Author sub", "default": "Mom of 3 - Phoenix, AZ" },
+        { "type": "text", "id": "tag_label", "label": "Tag label", "default": "Energy - Quarterly" },
+        { "type": "color", "id": "tag_color", "label": "Tag background", "default": "#E8F1F8" },
+        { "type": "color", "id": "tag_text_color", "label": "Tag text", "default": "#135289" }
+      ]
+    }
+  ],
+  "min_blocks": 1,
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "FTD-B - Testimonials",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "testimonial", "settings": { "quote": "I've been reading labels for 10 years and I've never seen a supplement this transparent.", "author": "Sarah B.", "author_sub": "Mom of 3 - Phoenix, AZ", "tag_label": "Energy - Quarterly", "tag_color": "#E8F1F8", "tag_text_color": "#135289" } },
+        { "type": "testimonial", "settings": { "quote": "Finally a brand that lists every milligram. My pharmacist gave it a thumbs up.", "author": "David K.", "author_sub": "RPh - Boston, MA", "tag_label": "Everyday - Monthly", "tag_color": "#E8F4EC", "tag_text_color": "#1F6B3A" } },
+        { "type": "testimonial", "settings": { "quote": "The salt content actually works. I no longer cramp on long rides.", "author": "Maya R.", "author_sub": "Cyclist - Boulder, CO", "tag_label": "Energy - Quarterly", "tag_color": "#FDEFE2", "tag_text_color": "#A0541C" } },
+        { "type": "testimonial", "settings": { "quote": "Switched the whole family. The fact that they show every source is everything.", "author": "Jordan P.", "author_sub": "Dad of 2 - Austin, TX", "tag_label": "Bundle - Monthly", "tag_color": "#EFE8F8", "tag_text_color": "#5A2E89" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

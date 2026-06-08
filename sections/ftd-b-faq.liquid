@@ -1,0 +1,441 @@
+{% comment %}
+  Section: FTD-B - FAQ
+  Category: Fortified Sections
+  --------------------------------------------------------------------
+  Filter tabs (optional) + accordion list of Q+A items. Tabs filter by
+  comma-separated tags on each item. One accordion open at a time.
+  Items support open_by_default.
+
+  Two block types:
+    - filter_tab : { label, tag, accent_color? }
+    - faq_item   : { question, answer, tags, open_by_default }
+{% endcomment %}
+
+{%- liquid
+  assign eyebrow_c     = section.settings.eyebrow_color | default: '#1FA8A1'
+  assign accent_c      = section.settings.accent_color | default: '#1FA8A1'
+  assign divider_c     = section.settings.divider_color | default: '#E5E5E5'
+  assign emphasis_word = section.settings.heading_emphasis_word | strip
+
+  if section.settings.section_width == 'full-width'
+    assign ftbfq_max_w = '100%'
+  else
+    assign ftbfq_max_w = section.settings.content_max_width | append: 'px'
+  endif
+
+  assign filter_tabs = section.blocks | where: 'type', 'filter_tab'
+  assign faq_items   = section.blocks | where: 'type', 'faq_item'
+-%}
+
+{%- capture heading_html -%}
+  {%- if section.settings.heading != blank -%}
+    {%- if emphasis_word != blank -%}
+      {%- assign parts = section.settings.heading | split: emphasis_word -%}
+      {%- assign joined = parts | join: '<em class="ftbfq__em">' | append: emphasis_word -%}
+      {%- assign joined = joined | append: '</em>' -%}
+      {{ joined | newline_to_br }}
+    {%- else -%}
+      {{ section.settings.heading | newline_to_br }}
+    {%- endif -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="ftbfq section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }}"
+  style="
+    {% render 'spacing-padding', settings: section.settings %}
+    --ftbfq-max-w: {{ ftbfq_max_w }};
+    --ftbfq-eyebrow: {{ eyebrow_c }};
+    --ftbfq-accent: {{ accent_c }};
+    --ftbfq-divider: {{ divider_c }};
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="ftbfq__inner">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <header class="ftbfq__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="ftbfq__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="ftbfq__heading">{{ heading_html }}</h2>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    {%- if section.settings.show_tabs and filter_tabs.size > 0 -%}
+      <div class="ftbfq__tabs" role="tablist">
+        <button type="button"
+          class="ftbfq__tab is-active"
+          role="tab"
+          aria-selected="true"
+          data-ftbfq-tab="__all__">{{ section.settings.tabs_label_all }}</button>
+        {%- for block in filter_tabs -%}
+          {%- assign t_acc = block.settings.accent_color | default: accent_c -%}
+          <button type="button"
+            class="ftbfq__tab"
+            role="tab"
+            aria-selected="false"
+            style="--ftbfq-tab-accent: {{ t_acc }};"
+            data-ftbfq-tab="{{ block.settings.tag | strip | downcase }}"
+            {{ block.shopify_attributes }}>{{ block.settings.label }}</button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if faq_items.size > 0 -%}
+      <div class="ftbfq__list" data-ftbfq-list>
+        {%- for block in faq_items -%}
+          {%- assign tag_attr = block.settings.tags | default: '' | strip | downcase -%}
+          {%- assign is_open = block.settings.open_by_default -%}
+          {%- assign panel_id = 'ftbfq-panel-' | append: section.id | append: '-' | append: forloop.index -%}
+          {%- assign btn_id   = 'ftbfq-btn-'   | append: section.id | append: '-' | append: forloop.index -%}
+          <div class="ftbfq__item{% if is_open %} is-open{% endif %}" data-ftbfq-tags="{{ tag_attr }}" {{ block.shopify_attributes }}>
+            <button type="button"
+              class="ftbfq__q"
+              id="{{ btn_id }}"
+              aria-expanded="{% if is_open %}true{% else %}false{% endif %}"
+              aria-controls="{{ panel_id }}"
+              data-ftbfq-toggle>
+              <span class="ftbfq__q-text">{{ block.settings.question }}</span>
+              <span class="ftbfq__chev" aria-hidden="true">
+                <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 8 11 13 6"/></svg>
+              </span>
+            </button>
+            <div class="ftbfq__a"
+              id="{{ panel_id }}"
+              role="region"
+              aria-labelledby="{{ btn_id }}">
+              <div class="ftbfq__a-inner">{{ block.settings.answer }}</div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (function () {
+    var roots = document.querySelectorAll('.ftbfq');
+    roots.forEach(function (root) {
+      var tabs   = root.querySelectorAll('[data-ftbfq-tab]');
+      var items  = root.querySelectorAll('.ftbfq__item');
+      var panels = root.querySelectorAll('.ftbfq__a');
+
+      function setPanelHeight(item, open) {
+        var panel = item.querySelector('.ftbfq__a');
+        if (!panel) return;
+        if (open) {
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        } else {
+          panel.style.maxHeight = '0px';
+        }
+      }
+
+      // initial state — collapse all closed, expand opened.
+      items.forEach(function (item) {
+        var open = item.classList.contains('is-open');
+        setPanelHeight(item, open);
+      });
+
+      // Recompute on resize (text reflow can change height).
+      window.addEventListener('resize', function () {
+        items.forEach(function (item) {
+          if (item.classList.contains('is-open')) {
+            setPanelHeight(item, true);
+          }
+        });
+      });
+
+      // Accordion toggle (one at a time).
+      root.querySelectorAll('[data-ftbfq-toggle]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var item = btn.closest('.ftbfq__item');
+          if (!item) return;
+          var willOpen = !item.classList.contains('is-open');
+          items.forEach(function (other) {
+            if (other !== item && other.classList.contains('is-open')) {
+              other.classList.remove('is-open');
+              var ob = other.querySelector('[data-ftbfq-toggle]');
+              if (ob) ob.setAttribute('aria-expanded', 'false');
+              setPanelHeight(other, false);
+            }
+          });
+          item.classList.toggle('is-open', willOpen);
+          btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+          setPanelHeight(item, willOpen);
+        });
+      });
+
+      // Tab filtering.
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var key = tab.getAttribute('data-ftbfq-tab');
+          tabs.forEach(function (t) {
+            t.classList.remove('is-active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          tab.classList.add('is-active');
+          tab.setAttribute('aria-selected', 'true');
+          items.forEach(function (item) {
+            var tags = (item.getAttribute('data-ftbfq-tags') || '').split(',').map(function (s) { return s.trim(); });
+            var match = (key === '__all__') || tags.indexOf(key) !== -1;
+            item.style.display = match ? '' : 'none';
+            // Close hidden items so layout stays clean.
+            if (!match && item.classList.contains('is-open')) {
+              item.classList.remove('is-open');
+              var ob = item.querySelector('[data-ftbfq-toggle]');
+              if (ob) ob.setAttribute('aria-expanded', 'false');
+              setPanelHeight(item, false);
+            }
+          });
+        });
+      });
+    });
+  })();
+</script>
+
+{% stylesheet %}
+.ftbfq { display: block; }
+
+.ftbfq__inner {
+  max-width: var(--ftbfq-max-w, 1240px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+
+.ftbfq__head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  text-align: center;
+  margin: 0 0 clamp(20px, 3vw, 32px);
+}
+
+.ftbfq__eyebrow {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ftbfq-eyebrow, #1FA8A1);
+}
+
+.ftbfq__heading {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--color-foreground);
+}
+
+.ftbfq__heading .ftbfq__em {
+  font-style: normal;
+  color: var(--ftbfq-accent, #1FA8A1);
+}
+
+/* ── Tabs ──────────────────────────────────────────────────── */
+.ftbfq__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 0 0 24px;
+}
+
+.ftbfq__tab {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--color-foreground-rgb) / 0.18);
+  background: transparent;
+  color: var(--color-foreground);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+
+.ftbfq__tab:hover {
+  border-color: rgb(var(--color-foreground-rgb) / 0.35);
+}
+
+.ftbfq__tab.is-active {
+  background: var(--ftbfq-tab-accent, var(--ftbfq-accent, #1FA8A1));
+  border-color: var(--ftbfq-tab-accent, var(--ftbfq-accent, #1FA8A1));
+  color: #ffffff;
+}
+
+/* ── List + items ──────────────────────────────────────────── */
+.ftbfq__list {
+  max-width: 880px;
+  margin: 0 auto;
+  border-top: 1px solid var(--ftbfq-divider, #E5E5E5);
+}
+
+.ftbfq__item {
+  border-bottom: 1px solid var(--ftbfq-divider, #E5E5E5);
+}
+
+.ftbfq__q {
+  appearance: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 8px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: var(--color-foreground);
+  transition: color 0.18s;
+}
+
+.ftbfq__q:hover { color: var(--ftbfq-accent, #1FA8A1); }
+
+.ftbfq__q-text {
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+}
+
+.ftbfq__chev {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgb(var(--color-foreground-rgb) / 0.06);
+  color: var(--color-foreground);
+  transition: transform 0.25s ease, background 0.18s, color 0.18s;
+}
+
+.ftbfq__item.is-open .ftbfq__chev {
+  transform: rotate(180deg);
+  background: var(--ftbfq-accent, #1FA8A1);
+  color: #ffffff;
+}
+
+.ftbfq__a {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.32s ease;
+}
+
+.ftbfq__a-inner {
+  padding: 0 8px 22px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-foreground);
+  opacity: 0.88;
+}
+
+/* ── Mobile ────────────────────────────────────────────────── */
+@media (max-width: 749px) {
+  .ftbfq__tabs { justify-content: flex-start; }
+  .ftbfq__q-text { font-size: 15px; }
+}
+
+[hidden] { display: none !important; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FTD-B - FAQ",
+  "tag": "section",
+  "class": "ftd-b-faq-section",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Common Questions" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Answered honestly." },
+    { "type": "text", "id": "heading_emphasis_word", "label": "Heading emphasis word", "default": "honestly." },
+
+    { "type": "header", "content": "Tabs" },
+    { "type": "checkbox", "id": "show_tabs", "label": "Show filter tabs", "default": true },
+    { "type": "text", "id": "tabs_label_all", "label": "All tab label", "default": "All" },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "accent_color", "label": "Accent (chevron, em)", "default": "#1FA8A1" },
+    { "type": "color", "id": "divider_color", "label": "Divider color", "default": "#E5E5E5" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ]
+    },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "filter_tab",
+      "name": "Filter tab",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Tab label", "default": "Energy" },
+        { "type": "text", "id": "tag", "label": "Filter tag", "default": "energy", "info": "Match against tags on FAQ items." },
+        { "type": "color", "id": "accent_color", "label": "Active accent" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Why Natural Caffeine in Energy but not Everyday?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Energy is for performance moments. Everyday is your daily foundation, caffeine-free by design." },
+        { "type": "text", "id": "tags", "label": "Tags", "default": "energy,everyday", "info": "Comma-separated. Used by filter tabs." },
+        { "type": "checkbox", "id": "open_by_default", "label": "Open by default", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FTD-B - FAQ",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "filter_tab", "settings": { "label": "Energy",   "tag": "energy" } },
+        { "type": "filter_tab", "settings": { "label": "Everyday", "tag": "everyday" } },
+        { "type": "filter_tab", "settings": { "label": "Creatine", "tag": "creatine" } },
+
+        { "type": "faq_item", "settings": { "question": "Why Natural Caffeine in Energy but not Everyday?", "answer": "Energy is for performance moments. Everyday is your daily foundation, caffeine-free by design.", "tags": "energy,everyday", "open_by_default": true } },
+        { "type": "faq_item", "settings": { "question": "Is there any sugar in Fortified Energy?", "answer": "Zero added sugar. We sweeten with monk fruit and a touch of stevia. The 3g of carbs are trace from whole-food ingredients.", "tags": "energy", "open_by_default": false } },
+        { "type": "faq_item", "settings": { "question": "Why such high sodium?", "answer": "Sodium drives fluid absorption and is the primary electrolyte lost in sweat. Our 1,210mg dose matches what active adults actually lose during exertion.", "tags": "energy,everyday", "open_by_default": false } },
+        { "type": "faq_item", "settings": { "question": "Is creatine safe long-term?", "answer": "Creatine monohydrate has more peer-reviewed safety data than nearly any sports supplement. 500+ studies and decades of use.", "tags": "creatine", "open_by_default": false } },
+        { "type": "faq_item", "settings": { "question": "Do I need to cycle creatine?", "answer": "No. The data is clear: continuous daily dosing is both safe and more effective than cycling.", "tags": "creatine", "open_by_default": false } },
+        { "type": "faq_item", "settings": { "question": "Why no proprietary blends?", "answer": "Because you deserve to know exactly what you are putting in your body. Every milligram, every ingredient, fully disclosed.", "tags": "energy,everyday,creatine", "open_by_default": false } }
+      ]
+    }
+  ]
+}
+{% endschema %}

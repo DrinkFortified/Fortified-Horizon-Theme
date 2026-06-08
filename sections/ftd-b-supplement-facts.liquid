@@ -1,0 +1,464 @@
+{% comment %}
+  Section: FTD-B - Supp Facts
+  Category: Fortified Sections
+  --------------------------------------------------------------------
+  Two-column "supplement facts" feature. LEFT renders an FDA-style
+  Nutrition Facts panel built entirely from divs/borders (no image)
+  using `nutrient` blocks. RIGHT renders an eyebrow + heading and a
+  stack of `callout` blocks explaining selected numbers.
+
+  Desktop : panel fixed at ~360px, callouts fluid.
+  Mobile  : single column, panel max-width 100%.
+{% endcomment %}
+
+{%- liquid
+  assign eyebrow_c     = section.settings.eyebrow_color | default: '#1FA8A1'
+  assign panel_pos     = section.settings.panel_position | default: 'left'
+  assign emphasis_word = section.settings.heading_emphasis_word | strip
+
+  if section.settings.section_width == 'full-width'
+    assign ftbsf_max_w = '100%'
+  else
+    assign ftbsf_max_w = section.settings.content_max_width | append: 'px'
+  endif
+
+  assign nutrients = section.blocks | where: 'type', 'nutrient'
+  assign callouts  = section.blocks | where: 'type', 'callout'
+-%}
+
+{%- capture heading_html -%}
+  {%- if section.settings.heading != blank -%}
+    {%- if emphasis_word != blank -%}
+      {%- assign parts = section.settings.heading | split: emphasis_word -%}
+      {%- assign joined = parts | join: '<em class="ftbsf__em">' | append: emphasis_word -%}
+      {%- assign joined = joined | append: '</em>' -%}
+      {%- assign final = joined | newline_to_br -%}
+      {{ final }}
+    {%- else -%}
+      {{ section.settings.heading | newline_to_br }}
+    {%- endif -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="ftbsf section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }}"
+  style="
+    {% render 'spacing-padding', settings: section.settings %}
+    --ftbsf-max-w: {{ ftbsf_max_w }};
+    --ftbsf-eyebrow: {{ eyebrow_c }};
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="ftbsf__inner ftbsf__inner--panel-{{ panel_pos }}">
+
+    {%- comment -%} LEFT: Nutrition Facts panel (CSS-built) {%- endcomment -%}
+    <aside class="ftbsf__panel-wrap">
+      <div class="ftbsf__panel" role="table" aria-label="{{ section.settings.panel_title | escape }}">
+        <div class="ftbsf__panel-title">{{ section.settings.panel_title }}</div>
+        {%- if section.settings.panel_servings_per != blank -%}
+          <div class="ftbsf__panel-meta">{{ section.settings.panel_servings_per }}</div>
+        {%- endif -%}
+        {%- if section.settings.panel_serving_size != blank -%}
+          <div class="ftbsf__panel-meta ftbsf__panel-meta--bold">Serving size <span>{{ section.settings.panel_serving_size }}</span></div>
+        {%- endif -%}
+
+        <div class="ftbsf__rule ftbsf__rule--thick" aria-hidden="true"></div>
+
+        <div class="ftbsf__amount-per">Amount Per Serving</div>
+
+        {%- if section.settings.panel_calories != blank -%}
+          <div class="ftbsf__cal-row">
+            <span class="ftbsf__cal-label">Calories</span>
+            <span class="ftbsf__cal-num">{{ section.settings.panel_calories }}</span>
+          </div>
+        {%- endif -%}
+
+        <div class="ftbsf__rule ftbsf__rule--med" aria-hidden="true"></div>
+
+        <div class="ftbsf__dv-head">% Daily Value*</div>
+
+        <div class="ftbsf__rows">
+          {%- for block in nutrients -%}
+            {%- assign indent  = block.settings.indent_level | default: 0 -%}
+            {%- assign divider = block.settings.divider_after | default: 'thin' -%}
+            <div class="ftbsf__row ftbsf__row--indent-{{ indent }}" {{ block.shopify_attributes }}>
+              <span class="ftbsf__row-label{% if block.settings.bold_label %} ftbsf__row-label--bold{% endif %}">
+                {{ block.settings.label }}
+                {%- if block.settings.amount != blank -%}
+                  <span class="ftbsf__row-amount">{{ block.settings.amount }}</span>
+                {%- endif -%}
+              </span>
+              <span class="ftbsf__row-dv">{{ block.settings.daily_value }}</span>
+            </div>
+            {%- unless divider == 'none' -%}
+              <div class="ftbsf__rule ftbsf__rule--{{ divider }}" aria-hidden="true"></div>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.panel_footnote != blank -%}
+          <div class="ftbsf__rule ftbsf__rule--thick" aria-hidden="true"></div>
+          <p class="ftbsf__footnote">{{ section.settings.panel_footnote }}</p>
+        {%- endif -%}
+      </div>
+    </aside>
+
+    {%- comment -%} RIGHT: Header + callouts {%- endcomment -%}
+    <div class="ftbsf__body">
+      {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+        <header class="ftbsf__head">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="ftbsf__eyebrow">{{ section.settings.eyebrow }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="ftbsf__heading">{{ heading_html }}</h2>
+          {%- endif -%}
+        </header>
+      {%- endif -%}
+
+      {%- if callouts.size > 0 -%}
+        <div class="ftbsf__callouts">
+          {%- for block in callouts -%}
+            {%- assign accent = block.settings.accent_color | default: '#1FA8A1' -%}
+            <article class="ftbsf__callout" style="--ftbsf-callout-accent: {{ accent }};" {{ block.shopify_attributes }}>
+              {%- if block.settings.title != blank -%}
+                <h3 class="ftbsf__callout-title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.body != blank -%}
+                <p class="ftbsf__callout-body">{{ block.settings.body }}</p>
+              {%- endif -%}
+            </article>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% stylesheet %}
+.ftbsf { display: block; }
+
+.ftbsf__inner {
+  max-width: var(--ftbsf-max-w, 1240px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+.ftbsf__inner--panel-right {
+  grid-template-columns: minmax(0, 1fr) 360px;
+}
+
+.ftbsf__inner--panel-right .ftbsf__panel-wrap { order: 2; }
+.ftbsf__inner--panel-right .ftbsf__body       { order: 1; }
+
+/* ── Nutrition Facts panel ─────────────────────────────────── */
+.ftbsf__panel {
+  background: #ffffff;
+  color: #0A0A0A;
+  border: 2px solid #0A0A0A;
+  padding: 14px 16px 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.ftbsf__panel-title {
+  font-family: var(--font-heading--family, inherit);
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+}
+
+.ftbsf__panel-meta {
+  font-size: 13px;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.ftbsf__panel-meta--bold {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.ftbsf__panel-meta--bold span { font-weight: 700; }
+
+.ftbsf__rule {
+  display: block;
+  width: 100%;
+  background: #0A0A0A;
+  margin: 6px 0;
+}
+.ftbsf__rule--thin  { height: 1px; margin: 4px 0; }
+.ftbsf__rule--med   { height: 4px; margin: 6px 0; }
+.ftbsf__rule--thick { height: 9px; margin: 8px 0; }
+
+.ftbsf__amount-per {
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.ftbsf__cal-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 2px 0 4px;
+}
+.ftbsf__cal-label {
+  font-family: var(--font-heading--family, inherit);
+  font-size: 22px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.ftbsf__cal-num {
+  font-family: var(--font-heading--family, inherit);
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.ftbsf__dv-head {
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
+  margin: 2px 0 4px;
+}
+
+.ftbsf__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 13px;
+}
+.ftbsf__row--indent-1 { padding-left: 16px; }
+.ftbsf__row--indent-2 { padding-left: 32px; font-style: italic; }
+
+.ftbsf__row-label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ftbsf__row-label--bold { font-weight: 800; }
+
+.ftbsf__row-amount {
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+.ftbsf__row-dv {
+  flex: 0 0 auto;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.ftbsf__footnote {
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.35;
+  font-style: italic;
+}
+
+/* ── Right column ──────────────────────────────────────────── */
+.ftbsf__body { min-width: 0; }
+
+.ftbsf__head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0 0 clamp(24px, 3vw, 40px);
+}
+
+.ftbsf__eyebrow {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ftbsf-eyebrow, #1FA8A1);
+}
+
+.ftbsf__heading {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--color-foreground);
+}
+
+.ftbsf__heading .ftbsf__em {
+  font-style: normal;
+  color: var(--ftbsf-eyebrow, #1FA8A1);
+}
+
+.ftbsf__callouts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ftbsf__callout {
+  border-left: 4px solid var(--ftbsf-callout-accent, #1FA8A1);
+  background: rgb(var(--color-foreground-rgb) / 0.04);
+  padding: 18px 20px;
+  border-radius: 0 8px 8px 0;
+}
+
+.ftbsf__callout-title {
+  margin: 0 0 6px;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-foreground);
+}
+
+.ftbsf__callout-body {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--color-foreground);
+  opacity: 0.85;
+}
+
+/* ── Mobile stack ──────────────────────────────────────────── */
+@media (max-width: 749px) {
+  .ftbsf__inner,
+  .ftbsf__inner--panel-right {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .ftbsf__inner--panel-right .ftbsf__panel-wrap { order: 0; }
+  .ftbsf__inner--panel-right .ftbsf__body       { order: 1; }
+  .ftbsf__panel { max-width: 100%; }
+}
+
+[hidden] { display: none !important; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FTD-B - Supp Facts",
+  "tag": "section",
+  "class": "ftd-b-supp-facts-section",
+  "settings": [
+    { "type": "header", "content": "Nutrition Facts panel" },
+    { "type": "text", "id": "panel_title", "label": "Panel title", "default": "Nutrition Facts" },
+    { "type": "text", "id": "panel_servings_per", "label": "Servings per container", "default": "30 servings per container" },
+    { "type": "text", "id": "panel_serving_size", "label": "Serving size", "default": "1 Stick Pack (6.4g)" },
+    { "type": "text", "id": "panel_calories", "label": "Calories", "default": "10" },
+    { "type": "textarea", "id": "panel_footnote", "label": "Panel footnote", "default": "* 2,000 calories/day used for general nutrition advice." },
+
+    { "type": "header", "content": "Right column header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why These Numbers Matter" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "The label that made\nother brands nervous." },
+    { "type": "text", "id": "heading_emphasis_word", "label": "Heading emphasis word", "default": "nervous." },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "panel_position",
+      "label": "Panel position (desktop)",
+      "default": "left",
+      "options": [
+        { "value": "left",  "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ]
+    },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "nutrient",
+      "name": "Nutrient row",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Sodium" },
+        { "type": "text", "id": "amount", "label": "Amount", "default": "1210mg" },
+        { "type": "text", "id": "daily_value", "label": "Daily value", "default": "53%" },
+        { "type": "range", "id": "indent_level", "label": "Indent level", "min": 0, "max": 2, "step": 1, "default": 0 },
+        { "type": "checkbox", "id": "bold_label", "label": "Bold label", "default": true },
+        {
+          "type": "select",
+          "id": "divider_after",
+          "label": "Divider after",
+          "default": "thin",
+          "options": [
+            { "value": "thin",  "label": "Thin" },
+            { "value": "med",   "label": "Medium" },
+            { "value": "thick", "label": "Thick" },
+            { "value": "none",  "label": "None" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "callout",
+      "name": "Callout",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Why 1,210mg sodium?" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Sodium is the primary electrolyte lost in sweat and drives fluid absorption via sodium-glucose cotransport in the small intestine." },
+        { "type": "color", "id": "accent_color", "label": "Accent (left border)", "default": "#1FA8A1" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FTD-B - Supp Facts",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "nutrient", "settings": { "label": "Total Fat",       "amount": "0g",     "daily_value": "0%",  "indent_level": 0, "bold_label": true,  "divider_after": "thin" } },
+        { "type": "nutrient", "settings": { "label": "Saturated Fat",   "amount": "0g",     "daily_value": "0%",  "indent_level": 1, "bold_label": false, "divider_after": "thin" } },
+        { "type": "nutrient", "settings": { "label": "Sodium",          "amount": "1210mg", "daily_value": "53%", "indent_level": 0, "bold_label": true,  "divider_after": "thin" } },
+        { "type": "nutrient", "settings": { "label": "Total Carbohydrate", "amount": "3g",  "daily_value": "1%",  "indent_level": 0, "bold_label": true,  "divider_after": "thin" } },
+        { "type": "nutrient", "settings": { "label": "Total Sugars",    "amount": "0g",     "daily_value": "",    "indent_level": 1, "bold_label": false, "divider_after": "thin" } },
+        { "type": "nutrient", "settings": { "label": "Protein",         "amount": "0g",     "daily_value": "",    "indent_level": 0, "bold_label": true,  "divider_after": "med"  } },
+        { "type": "nutrient", "settings": { "label": "Magnesium",       "amount": "150mg",  "daily_value": "35%", "indent_level": 0, "bold_label": true,  "divider_after": "thin" } },
+        { "type": "nutrient", "settings": { "label": "Potassium",       "amount": "200mg",  "daily_value": "4%",  "indent_level": 0, "bold_label": true,  "divider_after": "thin" } },
+        { "type": "nutrient", "settings": { "label": "Chloride",        "amount": "1940mg", "daily_value": "80%", "indent_level": 0, "bold_label": true,  "divider_after": "none" } },
+
+        { "type": "callout", "settings": { "title": "Why 1,210mg sodium?", "body": "Sodium is the primary electrolyte lost in sweat and drives fluid absorption via sodium-glucose cotransport in the small intestine.", "accent_color": "#1FA8A1" } },
+        { "type": "callout", "settings": { "title": "Why 0g sugar with 10 calories?", "body": "Trace carbs come from organic whole-food ingredients. We sweeten with monk fruit and stevia, not sucralose.", "accent_color": "#E8833A" } },
+        { "type": "callout", "settings": { "title": "Why no D3 on Energy?", "body": "Energy is for performance moments. D3 belongs in your daily foundation - look for it on the Everyday label.", "accent_color": "#9DBE5B" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

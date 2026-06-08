@@ -1,0 +1,727 @@
+{% comment %}
+  Section: FTD-B - Quick Buy Bar
+  Category: Fortified Sections
+  --------------------------------------------------------------------
+  Fixed-position bottom bar that slides up after the visitor scrolls
+  past a configurable trigger element. Clicking the bar (or "Change")
+  opens a drawer with grouped option pickers. The CTA either follows
+  `buy_link` or POSTs to /cart/add.js and dispatches Horizon's
+  `cart:update` event so the cart drawer re-renders.
+
+  Block types:
+    - option_group  : { label, type } -- one per group
+    - option_choice : { parent_group_index, label, value, accent_color?, is_default }
+
+  Choices are grouped against option_groups by their 1-indexed
+  parent_group_index. Selected `value` of each group flows into a
+  small JS state object. Each choice may carry a Shopify variant id
+  in `value` to be used for /cart/add.js.
+
+  Render-once-globally: meant to be placed at the bottom of the
+  template (or in footer group). Hidden until scroll trigger fires.
+{% endcomment %}
+
+{%- liquid
+  assign enabled         = section.settings.enabled
+  assign hide_mobile     = section.settings.hide_on_mobile
+  assign hide_desktop    = section.settings.hide_on_desktop
+  assign trigger_sel     = section.settings.trigger_selector | default: ''
+  assign threshold_px    = section.settings.show_threshold_px | default: 0
+  assign accent_c        = section.settings.accent_color | default: '#1FA8A1'
+  assign bar_bg          = section.settings.bar_background | default: '#FFFFFF'
+  assign bar_fg          = section.settings.bar_text_color | default: '#0A0A0A'
+  assign dot_c           = section.settings.product_dot_color | default: '#1FA8A1'
+  assign drawer_cta_tpl  = section.settings.drawer_cta_label_template | default: 'Subscribe & Save {price}'
+
+  assign option_groups   = section.blocks | where: 'type', 'option_group'
+  assign option_choices  = section.blocks | where: 'type', 'option_choice'
+-%}
+
+{%- if enabled -%}
+<div
+  class="ftbqb{% if hide_mobile %} ftbqb--hide-mobile{% endif %}{% if hide_desktop %} ftbqb--hide-desktop{% endif %}"
+  data-ftbqb
+  data-ftbqb-trigger="{{ trigger_sel | escape }}"
+  data-ftbqb-threshold="{{ threshold_px }}"
+  data-ftbqb-template="{{ drawer_cta_tpl | escape }}"
+  data-ftbqb-buy-link="{{ section.settings.buy_link | escape }}"
+  style="
+    --ftbqb-accent: {{ accent_c }};
+    --ftbqb-bg: {{ bar_bg }};
+    --ftbqb-fg: {{ bar_fg }};
+    --ftbqb-dot: {{ dot_c }};
+  "
+  {{ section.shopify_attributes }}
+>
+
+  {%- comment -%} Bar {%- endcomment -%}
+  <div class="ftbqb__bar" role="region" aria-label="Quick buy bar">
+    <div class="ftbqb__bar-inner">
+      <button type="button" class="ftbqb__bar-prod" data-ftbqb-open aria-label="Customise your order">
+        <span class="ftbqb__dot" aria-hidden="true"></span>
+        <span class="ftbqb__bar-info">
+          <span class="ftbqb__bar-name">{{ section.settings.product_name }}</span>
+          <span class="ftbqb__bar-sub">{{ section.settings.product_sub }}</span>
+        </span>
+      </button>
+      <span class="ftbqb__bar-price" data-ftbqb-bar-price>{{ section.settings.bar_price }}</span>
+      <div class="ftbqb__bar-actions">
+        <button type="button" class="ftbqb__bar-change" data-ftbqb-open>{{ section.settings.change_label }}</button>
+        {%- if section.settings.buy_link != blank -%}
+          <a class="ftbqb__bar-buy" href="{{ section.settings.buy_link }}">{{ section.settings.buy_label }}</a>
+        {%- else -%}
+          <button type="button" class="ftbqb__bar-buy" data-ftbqb-buy>{{ section.settings.buy_label }}</button>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Drawer + backdrop {%- endcomment -%}
+  <div class="ftbqb__backdrop" data-ftbqb-close aria-hidden="true"></div>
+  <aside class="ftbqb__drawer" role="dialog" aria-modal="true" aria-label="{{ section.settings.drawer_heading | escape }}">
+    <div class="ftbqb__handle-row">
+      <span class="ftbqb__handle" aria-hidden="true"></span>
+      <button type="button" class="ftbqb__close" data-ftbqb-close aria-label="Close">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
+      </button>
+    </div>
+    <div class="ftbqb__drawer-body">
+      {%- if section.settings.drawer_heading != blank -%}
+        <h3 class="ftbqb__drawer-heading">{{ section.settings.drawer_heading }}</h3>
+      {%- endif -%}
+
+      {%- for group in option_groups -%}
+        {%- assign gi = forloop.index -%}
+        {%- assign gtype = group.settings.type | default: 'radio' -%}
+        <fieldset class="ftbqb__group ftbqb__group--{{ gtype }}" data-ftbqb-group="{{ gi }}" data-ftbqb-group-label="{{ group.settings.label | escape }}">
+          <legend class="ftbqb__group-label">{{ group.settings.label }}</legend>
+          <div class="ftbqb__choices">
+            {%- for choice in option_choices -%}
+              {%- assign parent = choice.settings.parent_group_index | default: 1 -%}
+              {%- if parent == gi -%}
+                {%- assign c_acc = choice.settings.accent_color | default: accent_c -%}
+                <label class="ftbqb__choice{% if choice.settings.is_default %} is-default{% endif %}" style="--ftbqb-choice-accent: {{ c_acc }};">
+                  <input type="radio"
+                    name="ftbqb-group-{{ section.id }}-{{ gi }}"
+                    value="{{ choice.settings.value | escape }}"
+                    data-ftbqb-choice
+                    {% if choice.settings.is_default %}checked{% endif %}>
+                  <span class="ftbqb__choice-label">{{ choice.settings.label }}</span>
+                </label>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      {%- endfor -%}
+
+      <button type="button" class="ftbqb__drawer-cta" data-ftbqb-cta>
+        {{ drawer_cta_tpl | replace: '{price}', section.settings.bar_price }}
+      </button>
+    </div>
+  </aside>
+</div>
+
+<script>
+  (function () {
+    var roots = document.querySelectorAll('[data-ftbqb]');
+    roots.forEach(function (root) {
+      var bar      = root.querySelector('.ftbqb__bar');
+      var drawer   = root.querySelector('.ftbqb__drawer');
+      var backdrop = root.querySelector('.ftbqb__backdrop');
+      var tplStr   = root.getAttribute('data-ftbqb-template') || '{price}';
+      var buyLink  = root.getAttribute('data-ftbqb-buy-link') || '';
+      var triggerSel = root.getAttribute('data-ftbqb-trigger') || '';
+      var threshold  = parseInt(root.getAttribute('data-ftbqb-threshold') || '0', 10);
+      var barPriceEl = root.querySelector('[data-ftbqb-bar-price]');
+      var ctaEl    = root.querySelector('[data-ftbqb-cta]');
+
+      var state = {};
+      // Seed defaults from checked radios.
+      root.querySelectorAll('[data-ftbqb-choice]:checked').forEach(function (input) {
+        var group = input.closest('[data-ftbqb-group]');
+        if (!group) return;
+        state[group.getAttribute('data-ftbqb-group')] = input.value;
+      });
+
+      function updateCta() {
+        if (!ctaEl) return;
+        var price = barPriceEl ? barPriceEl.textContent.trim() : '';
+        ctaEl.textContent = tplStr.replace('{price}', price);
+      }
+      updateCta();
+
+      // ── Scroll trigger ────────────────────────────────────
+      function getTriggerY() {
+        if (!triggerSel) return 0;
+        var el = document.querySelector(triggerSel);
+        if (!el) return 0;
+        var rect = el.getBoundingClientRect();
+        return rect.top + window.pageYOffset + rect.height + threshold;
+      }
+      function onScroll() {
+        var y = window.pageYOffset || document.documentElement.scrollTop;
+        var thresholdY = getTriggerY();
+        if (y >= thresholdY) {
+          root.classList.add('is-visible');
+        } else {
+          root.classList.remove('is-visible');
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      onScroll();
+
+      // ── Drawer open/close ────────────────────────────────
+      var scrollLocked = false;
+      function openDrawer() {
+        root.classList.add('is-open');
+        if (!scrollLocked) {
+          document.documentElement.style.overflow = 'hidden';
+          document.body.style.overflow = 'hidden';
+          scrollLocked = true;
+        }
+      }
+      function closeDrawer() {
+        root.classList.remove('is-open');
+        if (scrollLocked) {
+          document.documentElement.style.overflow = '';
+          document.body.style.overflow = '';
+          scrollLocked = false;
+        }
+      }
+      root.querySelectorAll('[data-ftbqb-open]').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+          // ignore clicks that originated on the Change pill targeting links
+          openDrawer();
+        });
+      });
+      root.querySelectorAll('[data-ftbqb-close]').forEach(function (el) {
+        el.addEventListener('click', closeDrawer);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && root.classList.contains('is-open')) closeDrawer();
+      });
+
+      // ── Track choices ────────────────────────────────────
+      root.querySelectorAll('[data-ftbqb-choice]').forEach(function (input) {
+        input.addEventListener('change', function () {
+          var group = input.closest('[data-ftbqb-group]');
+          if (!group) return;
+          state[group.getAttribute('data-ftbqb-group')] = input.value;
+          // Notify listeners
+          var ev = new CustomEvent('ftbqb:selection', { bubbles: true, detail: { state: state } });
+          root.dispatchEvent(ev);
+        });
+      });
+
+      // ── CTA / add-to-cart ────────────────────────────────
+      function addToCart() {
+        // Find the first selected value that looks like a variant id (digits).
+        var variantId = null;
+        Object.keys(state).forEach(function (k) {
+          if (variantId) return;
+          var v = state[k];
+          if (v && /^\d+$/.test(String(v))) variantId = v;
+        });
+        if (!variantId) {
+          // Fall back: surface as plain event for parent app to handle.
+          var ev = new CustomEvent('addToCart', { bubbles: true, detail: { state: state } });
+          root.dispatchEvent(ev);
+          return;
+        }
+
+        // Horizon: collect cart-items-component section ids so /cart/add.js
+        // returns rendered HTML, then dispatch cart:update.
+        var sectionIds = [];
+        document.querySelectorAll('cart-items-component[data-section-id]').forEach(function (el) {
+          sectionIds.push(el.dataset.sectionId);
+        });
+        var payload = { items: [{ id: parseInt(variantId, 10), quantity: 1 }] };
+        if (sectionIds.length) payload.sections = sectionIds.join(',');
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(function (r) { return r.json().then(function (body) { return { ok: r.ok, body: body }; }); })
+          .then(function (resp) {
+            if (!resp.ok) throw new Error((resp.body && (resp.body.description || resp.body.message)) || 'Cart error');
+            return fetch('/cart.js').then(function (r) { return r.json(); }).then(function (cart) {
+              return { cart: cart, sections: resp.body.sections || null };
+            });
+          })
+          .then(function (data) {
+            var evt = new Event('cart:update', { bubbles: true });
+            evt.detail = {
+              resource: data.cart,
+              sourceId: 'ftbqb',
+              data: {
+                source: 'ftd-b-quick-buy-bar',
+                itemCount: 1,
+                sections: data.sections
+              }
+            };
+            document.dispatchEvent(evt);
+            closeDrawer();
+          })
+          .catch(function (err) {
+            var ev = new CustomEvent('cart:error', { bubbles: true, detail: { error: err } });
+            document.dispatchEvent(ev);
+          });
+      }
+
+      if (ctaEl) {
+        ctaEl.addEventListener('click', function () {
+          if (buyLink) { window.location.href = buyLink; return; }
+          addToCart();
+        });
+      }
+      var barBuy = root.querySelector('[data-ftbqb-buy]');
+      if (barBuy) {
+        barBuy.addEventListener('click', function () {
+          if (buyLink) { window.location.href = buyLink; return; }
+          addToCart();
+        });
+      }
+    });
+  })();
+</script>
+
+{% stylesheet %}
+.ftbqb {
+  position: relative;
+  z-index: 60;
+}
+
+/* Hide everything until scroll triggers it */
+.ftbqb .ftbqb__bar,
+.ftbqb .ftbqb__backdrop,
+.ftbqb .ftbqb__drawer {
+  pointer-events: none;
+}
+
+/* ── Bar ───────────────────────────────────────────────────── */
+.ftbqb__bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--ftbqb-bg, #ffffff);
+  color: var(--ftbqb-fg, #0A0A0A);
+  border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+  box-shadow: 0 -8px 24px rgb(0 0 0 / 0.06);
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  transform: translateY(110%);
+  transition: transform 0.32s cubic-bezier(0.2, 0.7, 0.2, 1);
+  z-index: 60;
+  box-sizing: border-box;
+}
+
+.ftbqb.is-visible .ftbqb__bar {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.ftbqb__bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.ftbqb__bar-prod {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 4px;
+  text-align: left;
+  flex: 1 1 auto;
+  min-width: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.ftbqb__dot {
+  flex: 0 0 12px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ftbqb-dot, #1FA8A1);
+  box-shadow: 0 0 0 4px rgb(var(--color-foreground-rgb) / 0.04);
+}
+
+.ftbqb__bar-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ftbqb__bar-name {
+  font-family: var(--font-heading--family, inherit);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ftbqb__bar-sub {
+  font-size: 12px;
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ftbqb__bar-price {
+  font-family: var(--font-heading--family, inherit);
+  font-size: 18px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.ftbqb__bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ftbqb__bar-change {
+  appearance: none;
+  border: 1px solid rgb(var(--color-foreground-rgb) / 0.18);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ftbqb__bar-buy {
+  appearance: none;
+  border: 0;
+  background: var(--ftbqb-accent, #1FA8A1);
+  color: #ffffff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 12px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ftbqb__bar-buy:hover { opacity: 0.92; }
+
+/* ── Backdrop ──────────────────────────────────────────────── */
+.ftbqb__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.45);
+  opacity: 0;
+  transition: opacity 0.24s ease;
+  z-index: 70;
+}
+
+.ftbqb.is-open .ftbqb__backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Drawer ────────────────────────────────────────────────── */
+.ftbqb__drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-background, #ffffff);
+  color: var(--color-foreground, #0A0A0A);
+  border-radius: 18px 18px 0 0;
+  padding: 8px 0 calc(16px + env(safe-area-inset-bottom));
+  transform: translateY(105%);
+  transition: transform 0.34s cubic-bezier(0.2, 0.7, 0.2, 1);
+  z-index: 80;
+  max-height: 86vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  box-shadow: 0 -18px 50px rgb(0 0 0 / 0.18);
+}
+
+.ftbqb.is-open .ftbqb__drawer {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.ftbqb__handle-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px 4px;
+}
+
+.ftbqb__handle {
+  width: 44px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgb(var(--color-foreground-rgb) / 0.18);
+}
+
+.ftbqb__close {
+  position: absolute;
+  right: 14px;
+  top: 8px;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--color-foreground);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+}
+.ftbqb__close:hover { background: rgb(var(--color-foreground-rgb) / 0.06); }
+
+.ftbqb__drawer-body {
+  padding: 12px 20px 0;
+  max-width: 760px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.ftbqb__drawer-heading {
+  margin: 4px 0 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+}
+
+.ftbqb__group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ftbqb__group-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+  opacity: 0.78;
+  margin-bottom: 8px;
+}
+
+.ftbqb__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ftbqb__choice {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.16);
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-foreground);
+  transition: border-color 0.18s, background 0.18s;
+}
+
+.ftbqb__choice input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.ftbqb__choice:has(input:checked) {
+  border-color: var(--ftbqb-choice-accent, var(--ftbqb-accent, #1FA8A1));
+  background: rgb(var(--color-foreground-rgb) / 0.04);
+}
+
+.ftbqb__group--toggle .ftbqb__choice { border-radius: 999px; }
+.ftbqb__group--chip   .ftbqb__choice { border-radius: 999px; padding: 8px 12px; }
+
+.ftbqb__drawer-cta {
+  appearance: none;
+  margin-top: 6px;
+  padding: 16px 22px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--ftbqb-accent, #1FA8A1);
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ftbqb__drawer-cta:hover { opacity: 0.92; }
+
+/* ── Mobile ────────────────────────────────────────────────── */
+@media (max-width: 749px) {
+  .ftbqb__bar-change { display: none; }
+  .ftbqb__bar-name { font-size: 13px; }
+  .ftbqb__bar-sub  { font-size: 11px; }
+  .ftbqb__bar-price { font-size: 16px; }
+  .ftbqb__bar-buy   { padding: 10px 14px; font-size: 12px; }
+}
+
+@media (max-width: 380px) {
+  .ftbqb__bar-sub { display: none; }
+}
+
+.ftbqb--hide-mobile { }
+@media (max-width: 749px) {
+  .ftbqb--hide-mobile { display: none !important; }
+}
+
+@media (min-width: 750px) {
+  .ftbqb--hide-desktop { display: none !important; }
+}
+
+[hidden] { display: none !important; }
+{% endstylesheet %}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FTD-B - Quick Buy Bar",
+  "tag": "section",
+  "class": "ftd-b-quick-buy-bar-section",
+  "settings": [
+    { "type": "header", "content": "Visibility" },
+    { "type": "checkbox", "id": "enabled", "label": "Enabled", "default": true },
+    { "type": "checkbox", "id": "hide_on_mobile", "label": "Hide on mobile", "default": false },
+    { "type": "checkbox", "id": "hide_on_desktop", "label": "Hide on desktop", "default": false },
+
+    { "type": "header", "content": "Scroll trigger" },
+    { "type": "text", "id": "trigger_selector", "label": "Trigger CSS selector", "default": "#purchase", "info": "Bar appears once visitor scrolls past this element." },
+    { "type": "range", "id": "show_threshold_px", "label": "Extra threshold", "min": 0, "max": 800, "step": 20, "unit": "px", "default": 0 },
+
+    { "type": "header", "content": "Bar content" },
+    { "type": "color", "id": "product_dot_color", "label": "Product dot color", "default": "#1FA8A1" },
+    { "type": "text", "id": "product_name", "label": "Product name", "default": "Fortified Energy" },
+    { "type": "text", "id": "product_sub", "label": "Product subtext", "default": "Monthly - 10% off - Tap to customise" },
+    { "type": "text", "id": "bar_price", "label": "Bar price", "default": "$53.10" },
+    { "type": "text", "id": "change_label", "label": "Change label", "default": "Change" },
+    { "type": "text", "id": "buy_label", "label": "Buy button label", "default": "Subscribe" },
+    { "type": "url", "id": "buy_link", "label": "Buy link (optional)", "info": "If set, the Buy button is a link; otherwise it triggers add-to-cart." },
+
+    { "type": "header", "content": "Drawer content" },
+    { "type": "text", "id": "drawer_heading", "label": "Drawer heading", "default": "Customise your order" },
+    { "type": "text", "id": "drawer_cta_label_template", "label": "Drawer CTA template", "default": "Subscribe & Save {price}", "info": "Use {price} token; replaced with bar price." },
+
+    { "type": "header", "content": "Style" },
+    { "type": "color", "id": "bar_background", "label": "Bar background", "default": "#FFFFFF" },
+    { "type": "color", "id": "bar_text_color", "label": "Bar text", "default": "#0A0A0A" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1FA8A1" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ]
+    },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "blocks": [
+    {
+      "type": "option_group",
+      "name": "Option group",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Group label", "default": "Product" },
+        {
+          "type": "select",
+          "id": "type",
+          "label": "Picker type",
+          "default": "radio",
+          "options": [
+            { "value": "radio",  "label": "Radio" },
+            { "value": "toggle", "label": "Toggle" },
+            { "value": "chip",   "label": "Chip" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "option_choice",
+      "name": "Option choice",
+      "settings": [
+        { "type": "range", "id": "parent_group_index", "label": "Parent group (1-indexed)", "min": 1, "max": 4, "step": 1, "default": 1 },
+        { "type": "text", "id": "label", "label": "Choice label", "default": "Fortified Energy" },
+        { "type": "text", "id": "value", "label": "Choice value", "default": "energy", "info": "Use a Shopify variant id (digits) here to enable add-to-cart." },
+        { "type": "color", "id": "accent_color", "label": "Accent color" },
+        { "type": "checkbox", "id": "is_default", "label": "Default selection", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FTD-B - Quick Buy Bar",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "option_group",  "settings": { "label": "Product", "type": "radio" } },
+        { "type": "option_group",  "settings": { "label": "Plan",    "type": "toggle" } },
+        { "type": "option_group",  "settings": { "label": "Flavor",  "type": "chip" } },
+
+        { "type": "option_choice", "settings": { "parent_group_index": 1, "label": "Fortified Energy",   "value": "energy",   "is_default": true  } },
+        { "type": "option_choice", "settings": { "parent_group_index": 1, "label": "Fortified Everyday", "value": "everyday", "is_default": false } },
+
+        { "type": "option_choice", "settings": { "parent_group_index": 2, "label": "Monthly",   "value": "monthly",   "is_default": true  } },
+        { "type": "option_choice", "settings": { "parent_group_index": 2, "label": "Quarterly", "value": "quarterly", "is_default": false } },
+
+        { "type": "option_choice", "settings": { "parent_group_index": 3, "label": "Citrus",     "value": "citrus",     "is_default": true  } },
+        { "type": "option_choice", "settings": { "parent_group_index": 3, "label": "Berry",      "value": "berry",      "is_default": false } },
+        { "type": "option_choice", "settings": { "parent_group_index": 3, "label": "Unflavored", "value": "unflavored", "is_default": false } }
+      ]
+    }
+  ]
+}
+{% endschema %}
