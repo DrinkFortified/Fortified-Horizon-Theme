@@ -185,15 +185,15 @@
                 "metafield_key": "",
                 "eyebrow": "THE TRUTH",
                 "description": "First 1,000 Quarterly Plan Subscribers get a free creatine for the lifetime of their subscription.",
-                "eyebrow_color": "#1FA8A1",
+                "eyebrow_color": "#1fa8a1",
                 "active_template": "Only **{remaining}** of **{total}** subscription spots left",
                 "active_sub": "Lock in your free creatine while spots last.",
                 "exhausted_template": "All **{total}** subscription spots claimed.",
                 "exhausted_sub": "Yours still ships as a one-time gift.",
                 "show_progress_bar": true,
-                "bar_active_color": "#E8833A",
-                "bar_exhausted_color": "#9CA3AF",
-                "bar_track_color": "#EFEAE3",
+                "bar_active_color": "#e8833a",
+                "bar_exhausted_color": "#9ca3af",
+                "bar_track_color": "#efeae3",
                 "bar_height": 10,
                 "text_align": "center",
                 "color_scheme": "",
@@ -216,13 +216,13 @@
                 "show_rating": true,
                 "rating_value": "4.8",
                 "rating_count": "(342 reviews)",
-                "star_color": "#F5A623",
+                "star_color": "#f5a623",
                 "plan_step_label": "Choose Your Plan",
                 "plan_step_note": "Monthly 10% Off",
                 "show_monthly": true,
                 "monthly_label": "1 a Month",
                 "monthly_badge": "Monthly",
-                "monthly_badge_color": "#1FA8A1",
+                "monthly_badge_color": "#1fa8a1",
                 "monthly_title": "1 Pouch\nEvery Month",
                 "monthly_desc": "Your daily ritual, delivered.",
                 "monthly_price": "$53.10",
@@ -232,7 +232,7 @@
                 "show_quarterly": true,
                 "quarterly_label": "3 Every 3 Months",
                 "quarterly_badge": "Best Value - Quarterly",
-                "quarterly_badge_color": "#E8833A",
+                "quarterly_badge_color": "#e8833a",
                 "quarterly_title": "3 Pouches\nEvery 3 Months",
                 "quarterly_desc": "Mix any functions freely.",
                 "quarterly_price": "$53.10",
@@ -243,7 +243,7 @@
                 "show_onetime": true,
                 "onetime_card_label": "One Time",
                 "onetime_badge": "Buy Once",
-                "onetime_badge_color": "#6B7280",
+                "onetime_badge_color": "#6b7280",
                 "onetime_title": "Single\nPouch",
                 "onetime_desc": "Try it first. Subscribe whenever you're ready.",
                 "onetime_price": "$59.00",
@@ -280,9 +280,9 @@
                 "shipping_text_subscription": "Subscriptions ship free",
                 "shipping_text_progress": "Add {amount} more for FREE shipping",
                 "shipping_text_unlocked": "FREE shipping unlocked",
-                "shipping_bar_track_color": "#EFEAE3",
-                "shipping_bar_fill_color": "#1FA8A1",
-                "shipping_bar_unlocked_color": "#16A34A",
+                "shipping_bar_track_color": "#efeae3",
+                "shipping_bar_fill_color": "#1fa8a1",
+                "shipping_bar_unlocked_color": "#16a34a",
                 "qty_label": "Quantity",
                 "qty_max": 20,
                 "atc_label": "Add to Cart",
@@ -292,7 +292,7 @@
                 "onetime_price_text": "$59.00 + $8.99 shipping",
                 "onetime_link": "",
                 "onetime_clickable": true,
-                "selection_color": "#1FA8A1",
+                "selection_color": "#1fa8a1",
                 "color_scheme": "",
                 "panel_color_scheme": "",
                 "button_radius": 8,
@@ -469,83 +469,32 @@
         "padding-block-end": 0
       }
     },
-    "ftd_b_stats_strip_6gLx9q": {
-      "type": "ftd-b-stats-strip",
-      "blocks": {
-        "stat_ijd3LA": {
-          "type": "stat",
-          "settings": {
-            "number": "1,200",
-            "unit": "mg",
-            "label": "Sodium",
-            "note": "53% Daily Value",
-            "note_color_override": ""
-          }
-        },
-        "stat_QPiJ7H": {
-          "type": "stat",
-          "settings": {
-            "number": "150",
-            "unit": "mg",
-            "label": "Magnesium Malate",
-            "note": "35% Daily Value",
-            "note_color_override": ""
-          }
-        },
-        "stat_axiiLW": {
-          "type": "stat",
-          "settings": {
-            "number": "200",
-            "unit": "mg",
-            "label": "Potassium",
-            "note": "4% Daily Value",
-            "note_color_override": ""
-          }
-        },
-        "stat_pnyYYq": {
-          "type": "stat",
-          "settings": {
-            "number": "1,940",
-            "unit": "mg",
-            "label": "Chloride",
-            "note": "80% Daily Value",
-            "note_color_override": ""
-          }
-        },
-        "stat_gCprkn": {
-          "type": "stat",
-          "settings": {
-            "number": "152",
-            "unit": "mg",
-            "label": "Natural Caffeine",
-            "note": "From Coffee Bean",
-            "note_color_override": ""
-          }
-        }
-      },
-      "block_order": [
-        "stat_ijd3LA",
-        "stat_QPiJ7H",
-        "stat_axiiLW",
-        "stat_pnyYYq",
-        "stat_gCprkn"
-      ],
-      "name": "FTD-B - Stats Strip",
+    "fortified_split_hero_9JHANw": {
+      "type": "fortified-split-hero",
+      "name": "FTD - Split Hero",
       "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "panel_background": "#0A0A0A",
-        "panel_text_color": "#FFFFFF",
-        "accent_color": "#1FA8A1",
-        "accent_top_border_thickness": 3,
-        "desktop_columns": 5,
-        "divider_color": "#FFFFFF",
-        "divider_opacity": 8,
+        "eyebrow": "Formulated For",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "Your Best Day",
+        "body": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration with collagen, supporting skin.",
+        "button_label": "Explore All Flavors",
+        "button_link": "",
+        "button_style": "outline",
+        "image_focal": "center",
+        "image_position_desktop": "right",
+        "image_position_mobile": "below",
+        "panel_background": "#0A1B2A",
+        "text_color": "light",
+        "text_width_desktop": 44,
+        "min_height_desktop": 480,
+        "min_height_mobile": 360,
+        "align_desktop": "left",
+        "align_mobile": "center",
+        "color_scheme": "",
         "section_width": "page-width",
         "content_max_width": 1240,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 72,
-        "padding-block-end": 72,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
         "custom_css": ""
       }
     },
@@ -595,13 +544,13 @@
       "settings": {
         "heading": "Clinically Backed Ingredients",
         "subheading": "Electrolytes don't provide full recovery. Regenerate hydration.",
-        "product_image_background": "#F2F2F0",
+        "product_image_background": "#f2f2f0",
         "product_image_max_height": 500,
         "image_position_desktop": "left",
         "desktop_ingredients_columns": 2,
         "icon_size": 48,
-        "icon_background_color": "#0A0A0A",
-        "icon_color": "#FFFFFF",
+        "icon_background_color": "#0a0a0a",
+        "icon_color": "#ffffff",
         "button_label": "Shop Fortified Now",
         "button_link": "",
         "button_style": "outline",
@@ -631,6 +580,121 @@
         "color_scheme": "",
         "section_width": "page-width",
         "content_max_width": 1240,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "custom_css": ""
+      }
+    },
+    "fortified_stats_row_Re84QB": {
+      "type": "fortified-stats-row",
+      "blocks": {
+        "stat_EiCqMM": {
+          "type": "stat",
+          "settings": {
+            "number": "Over 18",
+            "label": "Years of research",
+            "description": "In collaboration with the Swiss Federal Institute of Technology de Lausanne (EPFL)",
+            "number_color": "",
+            "link": ""
+          }
+        },
+        "stat_3y7DCP": {
+          "type": "stat",
+          "settings": {
+            "number": "500+",
+            "label": "Studies referenced",
+            "description": "Peer-reviewed studies guiding every formulation decision we make.",
+            "number_color": "",
+            "link": ""
+          }
+        },
+        "stat_MTMYWk": {
+          "type": "stat",
+          "settings": {
+            "number": "95.6%",
+            "label": "Bioavailability",
+            "description": "Mineral absorption rate validated by independent third-party testing.",
+            "number_color": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "stat_EiCqMM",
+        "stat_3y7DCP",
+        "stat_MTMYWk"
+      ],
+      "name": "FTD - Stats Row",
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "subheading": "",
+        "desktop_columns": 3,
+        "column_gap": 40,
+        "align": "left",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "divider_style": "dashed",
+        "divider_color": "#9CA3AF",
+        "divider_thickness": 1,
+        "color_scheme": "",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "custom_css": ""
+      }
+    },
+    "fortified_hero_product_showcase_6qE7R9": {
+      "type": "fortified-hero-product-showcase",
+      "blocks": {
+        "product_card_WdLdR8": {
+          "type": "product_card",
+          "settings": {
+            "product": "",
+            "name_override": "",
+            "price_override": "",
+            "compare_at_override": "",
+            "show_compare_at": true,
+            "button_label": "Shop Now",
+            "button_link_override": "",
+            "button_style": "filled"
+          }
+        },
+        "product_card_6GeVWL": {
+          "type": "product_card",
+          "settings": {
+            "product": "",
+            "name_override": "",
+            "price_override": "",
+            "compare_at_override": "",
+            "show_compare_at": true,
+            "button_label": "Shop Now",
+            "button_link_override": "",
+            "button_style": "filled"
+          }
+        }
+      },
+      "block_order": [
+        "product_card_WdLdR8",
+        "product_card_6GeVWL"
+      ],
+      "name": "FTD - Hero Showcase",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Fuel Your Every Move.",
+        "body": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration.",
+        "button_label": "Explore All Flavors",
+        "button_link": "",
+        "button_style": "outline",
+        "background_image_focal": "center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 25,
+        "text_color": "light",
+        "left_width_desktop": 42,
+        "card_gap": 16,
+        "card_radius": 12,
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "color_scheme": "",
         "padding-block-start": 64,
         "padding-block-end": 64,
         "custom_css": ""
@@ -887,7 +951,7 @@
         "panel_calories": "10",
         "panel_footnote": "* 2,000 calories/day used for general nutrition advice.",
         "eyebrow": "Why These Numbers Matter",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "The label that made\nother brands nervous.",
         "heading_emphasis_word": "nervous.",
         "panel_position": "left",
@@ -974,17 +1038,17 @@
         "card_height_mobile": 360,
         "gap": 20,
         "corner_radius": 14,
-        "card_bg": "#1A1A1A",
+        "card_bg": "#1a1a1a",
         "content_max_width": 1280,
         "content_padding": 56,
         "content_radius": 28,
         "content_color_scheme": "",
         "color_scheme": "",
-        "eyebrow_color": "#9DBE5B",
+        "eyebrow_color": "#9dbe5b",
         "heading_color": "",
         "text_color": "",
-        "card_label_color": "#FFFFFF",
-        "card_caption_color": "#E6E6E6",
+        "card_label_color": "#ffffff",
+        "card_caption_color": "#e6e6e6",
         "button_color": "",
         "section_width": "full-width",
         "padding-block-start": 72,
@@ -1029,7 +1093,7 @@
       "name": "FTD - Subscribe & Save",
       "settings": {
         "eyebrow": "THE TRUTH",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "Subscribe & Save 15%",
         "button_label": "Subscribe Now",
         "button_link": "",
@@ -1049,9 +1113,11 @@
   },
   "order": [
     "main",
-    "ftd_b_stats_strip_6gLx9q",
+    "fortified_split_hero_9JHANw",
     "fortified_ingredients_callout_KYTcNc",
     "fortified_testimonial_gifpnd",
+    "fortified_stats_row_Re84QB",
+    "fortified_hero_product_showcase_6qE7R9",
     "fortified_comparison_CLVb4q",
     "ftd_b_supplement_facts_bmPkCy",
     "fortified_truth_qBjbt7",
