@@ -52,14 +52,14 @@
     font-family: var(--font-heading--family, inherit);
     font-size: 13px;
     font-weight: 700;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--{{ root }}-accent);
   }
   #{{ root }} .{{ root }}__heading {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: clamp(28px, 4.5vw, 52px);
+    font-size: clamp(28px, 4.4vw, 52px);
     font-weight: 800;
     line-height: 1.04;
     text-transform: uppercase;
@@ -173,11 +173,11 @@
     font-family: var(--font-heading--family, inherit);
     font-size: 14px;
     font-weight: 700;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     text-decoration: none;
     padding: 16px 40px;
-    border-radius: 999px;
+    border-radius: var(--style-border-radius-buttons-primary, 8px);
     border: 2px solid var(--color-foreground, #0E0E0E);
     cursor: pointer;
     transition: opacity 0.18s, background 0.18s, color 0.18s;
