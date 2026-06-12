@@ -768,12 +768,12 @@
     enabled:       {{ block.settings.loop_bundle_enabled | json }},
     createUrl:     {{ block.settings.loop_bundle_create_url | default: '' | json }},
     bundleId:      {{ block.settings.loop_bundle_id | default: '' | json }},
+    boxSizeId:     {{ block.settings.loop_bundle_box_size_id | default: '' | json }},
     variantId:     {{ block.settings.loop_bundle_variant_id | default: '' | json }},
     sellingPlanId: {{ block.settings.loop_bundle_selling_plan_id | default: '' | json }},
-    propKey:       {{ block.settings.loop_bundle_property_key | default: '_bundleId' | json }},
-    token:         {{ block.settings.loop_api_token | default: '' | json }}
+    propKey:       {{ block.settings.loop_bundle_property_key | default: '_bundleId' | json }}
   };
-  var LOOP_BUNDLE_ON = !!(LOOP_BUNDLE.enabled && LOOP_BUNDLE.createUrl && LOOP_BUNDLE.variantId);
+  var LOOP_BUNDLE_ON = !!(LOOP_BUNDLE.enabled && LOOP_BUNDLE.variantId && (LOOP_BUNDLE.createUrl || LOOP_BUNDLE.bundleId));
 
   /* Free shipping bar */
   var SHOW_SHIPPING    = {{ block.settings.show_shipping_bar | json }};
@@ -1286,20 +1286,27 @@
     var rest  = items.filter(function (it) { return !it._bundleable; });
     if (!picks.length) return Promise.resolve(items);
     var qty = picks[0].quantity || 1;
-    var headers = { 'Content-Type': 'application/json' };
-    if (LOOP_BUNDLE.token) headers['Authorization'] = 'Bearer ' + LOOP_BUNDLE.token;
-    headers['Idempotency-Key'] = (window.crypto && window.crypto.randomUUID)
-      ? window.crypto.randomUUID()
-      : String(Date.now()) + '-' + Math.random().toString(16).slice(2);
-    /* One transaction = one bundle of BUNDLE_COUNT pouches (quantity 1 each);
-       the qty stepper multiplies the bundle line in the cart instead. */
+    var url = LOOP_BUNDLE.createUrl;
+    if (!url) {
+      url = 'https://api.loopsubscriptions.com/storefront/2023-10/bundle/'
+        + encodeURIComponent(LOOP_BUNDLE.bundleId) + '/transaction';
+    }
+    /* Each pick is one slot in ONE bundle; duplicates of the same variant
+       aggregate into quantity. The qty stepper multiplies whole bundles via
+       the top-level quantity AND the cart line quantity, which Loop expects
+       to match. Anonymous endpoint (OpenAPI security: []) — no auth header,
+       and no custom headers so the request stays CORS-simple. */
+    var variantCounts = {};
+    picks.forEach(function (it) { variantCounts[it.id] = (variantCounts[it.id] || 0) + 1; });
     var body = {
-      lineItems: picks.map(function (it) {
-        return { shopifyVariantId: it.id, variantId: it.id, quantity: 1 };
+      sellingPlanShopifyId: parseInt(LOOP_BUNDLE.sellingPlanId, 10) || null,
+      quantity: qty,
+      productVariants: Object.keys(variantCounts).map(function (vid) {
+        return { shopifyId: parseInt(vid, 10), quantity: variantCounts[vid] };
       })
     };
-    if (LOOP_BUNDLE.bundleId) body.bundleId = LOOP_BUNDLE.bundleId;
-    return fetch(LOOP_BUNDLE.createUrl, { method: 'POST', headers: headers, body: JSON.stringify(body) })
+    if (LOOP_BUNDLE.boxSizeId) body.boxSizeId = LOOP_BUNDLE.boxSizeId;
+    return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       .then(function (r) {
         return r.json().catch(function () { return {}; }).then(function (b) {
           if (!r.ok) throw new Error('Loop bundle API error ' + r.status);
@@ -2194,7 +2201,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Optional. When enabled and configured, the 3-every-3 plan is registered with Loop as ONE editable bundle: the picks are sent to Loop's Create Bundle Transaction API and the cart gets a single bundle line carrying the returned transaction id. Customers then edit the whole bundle in Loop's portal. If anything is missing or the Loop call fails, the selector automatically falls back to individual subscription lines."
+      "content": "Optional. When enabled and configured, the 3-every-3 plan is registered with Loop as ONE editable bundle: picks are POSTed to Loop's anonymous storefront Create Transaction API (no token needed) and the cart gets a single bundle line carrying the returned txnId. Customers then edit the whole bundle in Loop's portal. If anything is missing or the Loop call fails, the selector automatically falls back to individual subscription lines."
     },
     {
       "type": "checkbox",
@@ -2204,15 +2211,21 @@
     },
     {
       "type": "text",
-      "id": "loop_bundle_create_url",
-      "label": "Create-transaction endpoint URL",
-      "info": "Full URL of Loop's Create Bundle Transaction API. Copy it from developer.loopwork.co/reference/bundle or ask Loop support."
+      "id": "loop_bundle_id",
+      "label": "Loop bundle ID",
+      "info": "Required. The bundle's ID inside Loop, from the bundle's URL in the Loop admin. Used to build the API URL: api.loopsubscriptions.com/storefront/2023-10/bundle/ID/transaction"
     },
     {
       "type": "text",
-      "id": "loop_bundle_id",
-      "label": "Loop bundle ID",
-      "info": "The bundle's ID inside Loop, from the bundle's URL in the Loop admin."
+      "id": "loop_bundle_box_size_id",
+      "label": "Box size ID (optional)",
+      "info": "Only needed if Loop rejects transactions without it. From Loop's Get Bundle API or Loop support."
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_create_url",
+      "label": "Endpoint URL override (optional)",
+      "info": "Leave blank to use the standard URL built from the Loop bundle ID above. Only fill if Loop gives you a different endpoint."
     },
     {
       "type": "text",
