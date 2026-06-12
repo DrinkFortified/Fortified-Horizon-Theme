@@ -760,6 +760,21 @@
   var SIMPLE_SUBS_PLAN_M = {{ block.settings.simple_plan_monthly | json }};
   var SIMPLE_SUBS_PLAN_Q = {{ block.settings.simple_plan_quarterly | json }};
 
+  /* Loop bundle mode (quarterly only). When fully configured, the 3 pouches
+     are registered with Loop's Create Bundle Transaction API and the cart
+     gets ONE bundle line instead of 3 subscription lines, so the customer
+     can edit the whole bundle in Loop's portal later. */
+  var LOOP_BUNDLE = {
+    enabled:       {{ block.settings.loop_bundle_enabled | json }},
+    createUrl:     {{ block.settings.loop_bundle_create_url | default: '' | json }},
+    bundleId:      {{ block.settings.loop_bundle_id | default: '' | json }},
+    variantId:     {{ block.settings.loop_bundle_variant_id | default: '' | json }},
+    sellingPlanId: {{ block.settings.loop_bundle_selling_plan_id | default: '' | json }},
+    propKey:       {{ block.settings.loop_bundle_property_key | default: '_bundleId' | json }},
+    token:         {{ block.settings.loop_api_token | default: '' | json }}
+  };
+  var LOOP_BUNDLE_ON = !!(LOOP_BUNDLE.enabled && LOOP_BUNDLE.createUrl && LOOP_BUNDLE.variantId);
+
   /* Free shipping bar */
   var SHOW_SHIPPING    = {{ block.settings.show_shipping_bar | json }};
   var SHIP_THRESHOLD   = ({{ block.settings.shipping_threshold_dollars | default: 100 | json }}) * 100;
@@ -1211,6 +1226,10 @@
       if (!isOnetime) {
         var plan = findSellingPlanId(s.product, slotPlanRaw(s));
         if (plan) item.selling_plan = plan;
+        if (state.purchaseType === 'quarterly') {
+          item._bundleable = true;
+          item._label = (s.label || '') + (s.flavorName ? ' — ' + s.flavorName : '');
+        }
       }
       items.push(item);
     }
@@ -1245,6 +1264,61 @@
     return items;
   }
 
+  /* Loop bundle mode: register the picks with Loop (Create Bundle
+     Transaction), then swap the per-pouch lines for ONE bundle line that
+     carries the returned transaction id as a line-item property. Loop's
+     order webhook matches that id and creates a single, portal-editable
+     bundle subscription. Creatine add-on lines stay separate on purpose
+     (they are their own selling plans, not part of the bundle). */
+  function extractBundleTxnId(b) {
+    var pools = [b, b && b.data, b && b.transaction, b && b.data && b.data.transaction];
+    for (var i = 0; i < pools.length; i++) {
+      var p = pools[i];
+      if (!p || typeof p !== 'object') continue;
+      var v = p.bundleTransactionId || p.transactionId || p.txnId || p.id;
+      if (v) return v;
+    }
+    return null;
+  }
+
+  function loopBundleItems(items) {
+    var picks = items.filter(function (it) { return it._bundleable; });
+    var rest  = items.filter(function (it) { return !it._bundleable; });
+    if (!picks.length) return Promise.resolve(items);
+    var qty = picks[0].quantity || 1;
+    var headers = { 'Content-Type': 'application/json' };
+    if (LOOP_BUNDLE.token) headers['Authorization'] = 'Bearer ' + LOOP_BUNDLE.token;
+    headers['Idempotency-Key'] = (window.crypto && window.crypto.randomUUID)
+      ? window.crypto.randomUUID()
+      : String(Date.now()) + '-' + Math.random().toString(16).slice(2);
+    /* One transaction = one bundle of BUNDLE_COUNT pouches (quantity 1 each);
+       the qty stepper multiplies the bundle line in the cart instead. */
+    var body = {
+      lineItems: picks.map(function (it) {
+        return { shopifyVariantId: it.id, variantId: it.id, quantity: 1 };
+      })
+    };
+    if (LOOP_BUNDLE.bundleId) body.bundleId = LOOP_BUNDLE.bundleId;
+    return fetch(LOOP_BUNDLE.createUrl, { method: 'POST', headers: headers, body: JSON.stringify(body) })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (b) {
+          if (!r.ok) throw new Error('Loop bundle API error ' + r.status);
+          return b;
+        });
+      })
+      .then(function (b) {
+        var txn = extractBundleTxnId(b);
+        if (!txn) throw new Error('Loop response missing bundleTransactionId');
+        var props = {};
+        props[LOOP_BUNDLE.propKey || '_bundleId'] = String(txn);
+        picks.forEach(function (it, i) { if (it._label) props['Pouch ' + (i + 1)] = it._label; });
+        var line = { id: parseInt(LOOP_BUNDLE.variantId, 10), quantity: qty, properties: props };
+        var planId = parseInt(LOOP_BUNDLE.sellingPlanId, 10);
+        if (planId) line.selling_plan = planId;
+        return [line].concat(rest);
+      });
+  }
+
   function addToCart(oneTime) {
     setMsg('');
     if (!oneTime && !state.purchaseType) { setMsg('Please choose a plan.', true); return; }
@@ -1263,48 +1337,62 @@
       sectionIds.push(el.dataset.sectionId);
     });
 
-    var payload = { items: items };
-    if (sectionIds.length) payload.sections = sectionIds.join(',');
+    var proceed = function (finalItems) {
+      finalItems.forEach(function (it) { delete it._bundleable; delete it._label; });
+      var payload = { items: finalItems };
+      if (sectionIds.length) payload.sections = sectionIds.join(',');
 
-    fetch('/cart/add.js', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-      .then(function (r) { return r.json().then(function (body) { return { ok: r.ok, body: body }; }); })
-      .then(function (resp) {
-        if (!resp.ok) { throw new Error((resp.body && (resp.body.description || resp.body.message)) || 'Cart error'); }
-        var addResponse = resp.body;
-        return fetch('/cart.js').then(function (x) { return x.json(); }).then(function (cart) {
-          return { cart: cart, sections: addResponse.sections || null };
-        });
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
       })
-      .then(function (data) {
-        var cart = data.cart;
-        var sections = data.sections;
-        var totalQty = items.reduce(function (sum, it) { return sum + (it.quantity || 1); }, 0);
+        .then(function (r) { return r.json().then(function (body) { return { ok: r.ok, body: body }; }); })
+        .then(function (resp) {
+          if (!resp.ok) { throw new Error((resp.body && (resp.body.description || resp.body.message)) || 'Cart error'); }
+          var addResponse = resp.body;
+          return fetch('/cart.js').then(function (x) { return x.json(); }).then(function (cart) {
+            return { cart: cart, sections: addResponse.sections || null };
+          });
+        })
+        .then(function (data) {
+          var cart = data.cart;
+          var sections = data.sections;
+          var totalQty = finalItems.reduce(function (sum, it) { return sum + (it.quantity || 1); }, 0);
 
-        /* Dispatch Horizon's cart:update event so cart-items-component re-renders */
-        var evt = new Event('cart:update', { bubbles: true });
-        evt.detail = {
-          resource: cart,
-          sourceId: 'fe-' + SID,
-          data: {
-            source: 'fortified-product-selector',
-            itemCount: totalQty,
-            sections: sections
-          }
-        };
-        document.dispatchEvent(evt);
+          /* Dispatch Horizon's cart:update event so cart-items-component re-renders */
+          var evt = new Event('cart:update', { bubbles: true });
+          evt.detail = {
+            resource: cart,
+            sourceId: 'fe-' + SID,
+            data: {
+              source: 'fortified-product-selector',
+              itemCount: totalQty,
+              sections: sections
+            }
+          };
+          document.dispatchEvent(evt);
 
-        /* Open the cart drawer if it exists */
-        var drawer = document.querySelector('cart-drawer-component');
-        if (drawer && typeof drawer.open === 'function') drawer.open();
+          /* Open the cart drawer if it exists */
+          var drawer = document.querySelector('cart-drawer-component');
+          if (drawer && typeof drawer.open === 'function') drawer.open();
 
-        pushEvent('fe_add_to_cart_success', { purchase_type: oneTime ? 'onetime' : state.purchaseType });
-      })
-      .catch(function (err) { setMsg(err.message || 'Something went wrong. Please try again.', true); pushEvent('fe_add_to_cart_error', { error: err.message }); })
-      .finally(function () { atcBtn.classList.remove('is-loading'); recompute(); });
+          pushEvent('fe_add_to_cart_success', { purchase_type: oneTime ? 'onetime' : state.purchaseType });
+        })
+        .catch(function (err) { setMsg(err.message || 'Something went wrong. Please try again.', true); pushEvent('fe_add_to_cart_error', { error: err.message }); })
+        .finally(function () { atcBtn.classList.remove('is-loading'); recompute(); });
+    };
+
+    if (LOOP_BUNDLE_ON && !oneTime && state.purchaseType === 'quarterly') {
+      loopBundleItems(items).then(proceed, function (err) {
+        /* Loop unreachable or misconfigured: fall back to individual
+           subscription lines so the sale is never lost. */
+        pushEvent('fe_loop_bundle_fallback', { error: String((err && err.message) || err) });
+        proceed(items);
+      });
+    } else {
+      proceed(items);
+    }
   }
 
   if (atcBtn) atcBtn.addEventListener('click', function () { addToCart(false); });
@@ -2099,6 +2187,51 @@
       "id": "loop_session_endpoint",
       "label": "Session-token endpoint (proxy URL)",
       "info": "Optional. Your App Proxy / worker URL that returns a Loop session token for the logged-in customer. Required for customer-authenticated bundle calls."
+    },
+    {
+      "type": "header",
+      "content": "Loop Bundle (quarterly)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Optional. When enabled and configured, the 3-every-3 plan is registered with Loop as ONE editable bundle: the picks are sent to Loop's Create Bundle Transaction API and the cart gets a single bundle line carrying the returned transaction id. Customers then edit the whole bundle in Loop's portal. If anything is missing or the Loop call fails, the selector automatically falls back to individual subscription lines."
+    },
+    {
+      "type": "checkbox",
+      "id": "loop_bundle_enabled",
+      "label": "Send quarterly as one Loop bundle",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_create_url",
+      "label": "Create-transaction endpoint URL",
+      "info": "Full URL of Loop's Create Bundle Transaction API. Copy it from developer.loopwork.co/reference/bundle or ask Loop support."
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_id",
+      "label": "Loop bundle ID",
+      "info": "The bundle's ID inside Loop, from the bundle's URL in the Loop admin."
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_variant_id",
+      "label": "Bundle product variant ID",
+      "info": "Shopify variant ID of the bundle parent product Loop created."
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_selling_plan_id",
+      "label": "Bundle selling plan ID",
+      "info": "Selling plan on the bundle parent product (every-3-months frequency)."
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_property_key",
+      "label": "Cart property key",
+      "default": "_bundleId",
+      "info": "Line-item property Loop reads the transaction id from. Leave as _bundleId unless Loop support says otherwise."
     }
   ],
   "blocks": [
