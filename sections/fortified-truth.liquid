@@ -72,7 +72,7 @@
   #{{ root }} .{{ root }}__eyebrow {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.22em;
     text-transform: uppercase;
@@ -81,7 +81,7 @@
   #{{ root }} .{{ root }}__heading {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: clamp(30px, 4.8vw, 56px);
+    font-size: clamp(28px, 4.4vw, 52px);
     font-weight: 800;
     line-height: 1.04;
     text-transform: uppercase;
@@ -198,11 +198,11 @@
     font-family: var(--font-heading--family, inherit);
     font-size: 15px;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     text-decoration: none;
     padding: 15px 38px;
-    border-radius: 6px;
+    border-radius: var(--style-border-radius-buttons-primary, 8px);
     cursor: pointer;
     border: 2px solid {{ button_c }};
     transition: background 0.18s, color 0.18s, opacity 0.18s;

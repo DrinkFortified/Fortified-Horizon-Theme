@@ -34,8 +34,8 @@
   #{{ root }} { overflow-x: clip; }
   #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; }
   #{{ root }} .{{ root }}__head { text-align: center; margin: 0 auto 40px; max-width: 760px; display: flex; flex-direction: column; gap: 10px; }
-  #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: {{ accent_c }}; }
-  #{{ root }} .{{ root }}__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(30px, 4.5vw, 52px); font-weight: 800; line-height: 1.05; text-transform: uppercase; color: {{ heading_c }}; }
+  #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: {{ accent_c }}; }
+  #{{ root }} .{{ root }}__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(28px, 4.4vw, 52px); font-weight: 800; line-height: 1.05; text-transform: uppercase; color: {{ heading_c }}; }
   #{{ root }} .{{ root }}__sub { margin: 0; font-size: 16px; line-height: 1.5; color: {{ subtitle_c }}; }
 
   /* ── The grid: equal columns + equal-height rows ── */
@@ -87,7 +87,7 @@
 
   /* ── Footer button ── */
   #{{ root }} .{{ root }}__footer { display: flex; justify-content: center; margin-top: 40px; }
-  #{{ root }} .{{ root }}__cta { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-heading--family, inherit); font-size: 16px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; padding: 16px 40px; border-radius: 8px; cursor: pointer; border: 2px solid {{ button_bg_c }}; background: {{ button_bg_c }}; color: {{ button_tx_c }}; transition: filter 0.18s; }
+  #{{ root }} .{{ root }}__cta { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 16px 40px; border-radius: var(--style-border-radius-buttons-primary, 8px); cursor: pointer; border: 2px solid {{ button_bg_c }}; background: {{ button_bg_c }}; color: {{ button_tx_c }}; transition: filter 0.18s; }
   #{{ root }} .{{ root }}__cta:hover { filter: brightness(1.1); }
 
   /* ── Mobile: scroll sideways instead of stacking ── */

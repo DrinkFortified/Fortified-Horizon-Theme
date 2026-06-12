@@ -46,8 +46,8 @@
   #{{ root }} { background: var(--color-background); overflow-x: clip; max-width: 100%; }
   #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; }
   #{{ root }} .{{ root }}__head { text-align: center; max-width: 760px; margin: 0 auto 32px; display: flex; flex-direction: column; gap: 10px; }
-  #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: {{ accent_c }}; }
-  #{{ root }} .{{ root }}__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(30px, 4.5vw, 52px); font-weight: 800; line-height: 1.05; text-transform: uppercase; color: {{ heading_c }}; }
+  #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: {{ accent_c }}; }
+  #{{ root }} .{{ root }}__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(28px, 4.4vw, 52px); font-weight: 800; line-height: 1.05; text-transform: uppercase; color: {{ heading_c }}; }
   #{{ root }} .{{ root }}__sub { margin: 0; font-size: 16px; line-height: 1.5; color: {{ subtitle_c }}; }
 
   #{{ root }} .{{ root }}__radio { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
@@ -84,7 +84,7 @@
   {%- endif -%}{%- endfor -%}
 
   #{{ root }} .{{ root }}__footer { display: flex; justify-content: center; margin-top: 36px; }
-  #{{ root }} .{{ root }}__cta { display: inline-flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; font-family: var(--font-heading--family, inherit); font-size: 16px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 16px 40px; border-radius: 8px; border: 2px solid {{ button_bg_c }};
+  #{{ root }} .{{ root }}__cta { display: inline-flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 16px 40px; border-radius: var(--style-border-radius-buttons-primary, 8px); border: 2px solid {{ button_bg_c }};
     {% if btn_style == 'outline' %}background: transparent; color: {{ button_bg_c }};
     {% elsif btn_style == 'ghost' %}background: transparent; color: {{ button_bg_c }}; border-color: transparent; text-decoration: underline;
     {% else %}background: {{ button_bg_c }}; color: {{ button_tx_c }};{% endif %}
@@ -99,12 +99,12 @@
     #{{ root }} .{{ root }}__inner { max-width: 100%; overflow-x: clip; }
     #{{ root }} .{{ root }}__tabwrap { padding-inline: 16px; }
     #{{ root }} .{{ root }}__head { max-width: 100%; padding-inline: 16px; text-align: center; margin-bottom: 24px; }
-    #{{ root }} .{{ root }}__eyebrow { font-size: 12px; letter-spacing: 0.12em; overflow-wrap: break-word; }
+    #{{ root }} .{{ root }}__eyebrow { font-size: 12px; letter-spacing: 0.22em; overflow-wrap: break-word; }
     #{{ root }} .{{ root }}__heading { font-size: clamp(24px, 7vw, 34px); line-height: 1.12; overflow-wrap: break-word; }
     #{{ root }} .{{ root }}__sub { font-size: 14px; line-height: 1.55; max-width: 100%; overflow-wrap: break-word; }
 
     #{{ root }} .{{ root }}__footer { padding-inline: 16px; }
-    #{{ root }} .{{ root }}__cta { width: 100%; max-width: 100%; min-height: 44px; white-space: normal; text-align: center; padding: 14px 24px; font-size: 15px; }
+    #{{ root }} .{{ root }}__cta { width: 100%; max-width: 100%; min-height: 44px; white-space: normal; text-align: center; padding: 14px 24px; font-size: 14px; }
 
     #{{ root }} .{{ root }}__tablist { gap: 22px; }
     #{{ root }} .{{ root }}__btn { font-size: 15px; }
