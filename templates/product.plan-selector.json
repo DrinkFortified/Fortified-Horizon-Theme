@@ -473,11 +473,11 @@
       "type": "fortified-split-hero",
       "name": "FTD - Split Hero",
       "settings": {
-        "eyebrow": "Formulated For",
+        "eyebrow": "Clean Hydration, Daily",
         "eyebrow_color": "#1fa8a1",
-        "heading": "Your Best Day",
-        "body": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration with collagen, supporting skin.",
-        "button_label": "Explore All Flavors",
+        "heading": "Hydration You'd Give Your Family",
+        "body": "Clean electrolytes with Vitamin D3 + K2, zero sugar, and zero artificial sweeteners. Every milligram disclosed — the daily hydration powder you never have to second-guess.",
+        "button_label": "Shop Everyday Hydration",
         "button_link": "",
         "button_style": "outline",
         "image_focal": "center",
@@ -505,7 +505,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Sodium",
-            "description": "Supports body hydration",
+            "description": "1,210mg from Ancient Ocean® Pink Himalayan Salt to drive real hydration.",
             "icon_color_override": ""
           }
         },
@@ -513,7 +513,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Potassium",
-            "description": "Helps muscle and nerve function",
+            "description": "From real coconut water powder to support muscle and nerve function.",
             "icon_color_override": ""
           }
         },
@@ -521,15 +521,15 @@
           "type": "ingredient",
           "settings": {
             "name": "Magnesium",
-            "description": "Aids energy and recovery",
+            "description": "1,000mg magnesium malate — a highly bioavailable form for energy and recovery.",
             "icon_color_override": ""
           }
         },
         "ingredient_JFWq4n": {
           "type": "ingredient",
           "settings": {
-            "name": "Collagen",
-            "description": "Supports skin and joint health",
+            "name": "Vitamin D3 + K2",
+            "description": "130% DV Vitamin D3 paired with K2 as MK-7, the way your body uses them.",
             "icon_color_override": ""
           }
         }
@@ -542,8 +542,8 @@
       ],
       "name": "FTD - Ingredients Callout",
       "settings": {
-        "heading": "Clinically Backed Ingredients",
-        "subheading": "Electrolytes don't provide full recovery. Regenerate hydration.",
+        "heading": "Real Ingredients, Honest Amounts",
+        "subheading": "No proprietary blends. Every nutrient in FORTIFIED® is printed on the label, in a dose that actually matters.",
         "product_image_background": "#f2f2f0",
         "product_image_max_height": 500,
         "image_position_desktop": "left",
@@ -551,7 +551,7 @@
         "icon_size": 48,
         "icon_background_color": "#0a0a0a",
         "icon_color": "#ffffff",
-        "button_label": "Shop Fortified Now",
+        "button_label": "Shop FORTIFIED®",
         "button_link": "",
         "button_style": "outline",
         "color_scheme": "",
@@ -566,11 +566,11 @@
       "type": "fortified-testimonial",
       "name": "FTD - Testimonial",
       "settings": {
-        "name": "Alex Friedman",
+        "name": "Marisa K., mom of three",
         "role": "HBO Max Champion",
-        "quote": "I feel the difference in my workouts and recovery. No more cramps.",
+        "quote": "I finally found a hydration mix I don't have to hide from my kids. I can read every ingredient — no fake sweeteners, no dyes — and it actually works.",
         "quote_marks": true,
-        "button_label": "Shop Fortified Now",
+        "button_label": "Shop Clean Hydration",
         "button_link": "",
         "button_style": "filled",
         "image_focal": "center",
@@ -591,9 +591,9 @@
         "stat_EiCqMM": {
           "type": "stat",
           "settings": {
-            "number": "Over 18",
-            "label": "Years of research",
-            "description": "In collaboration with the Swiss Federal Institute of Technology de Lausanne (EPFL)",
+            "number": "0g",
+            "label": "Added Sugar",
+            "description": "Sweetened with monk fruit and fermented Reb M — never sucralose or aspartame.",
             "number_color": "",
             "link": ""
           }
@@ -601,9 +601,9 @@
         "stat_3y7DCP": {
           "type": "stat",
           "settings": {
-            "number": "500+",
-            "label": "Studies referenced",
-            "description": "Peer-reviewed studies guiding every formulation decision we make.",
+            "number": "1,210mg",
+            "label": "Sodium Per Serving",
+            "description": "From Ancient Ocean® Pink Himalayan Salt to drive real hydration.",
             "number_color": "",
             "link": ""
           }
@@ -611,9 +611,9 @@
         "stat_MTMYWk": {
           "type": "stat",
           "settings": {
-            "number": "95.6%",
-            "label": "Bioavailability",
-            "description": "Mineral absorption rate validated by independent third-party testing.",
+            "number": "100%",
+            "label": "Ingredients Disclosed",
+            "description": "No proprietary blends. Every milligram is printed on the label.",
             "number_color": "",
             "link": ""
           }
@@ -680,8 +680,8 @@
       "name": "FTD - Hero Showcase",
       "settings": {
         "eyebrow": "",
-        "heading": "Fuel Your Every Move.",
-        "body": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration.",
+        "heading": "Fuel Every Part Of Your Day",
+        "body": "From your morning ritual to your afternoon lift — clean electrolytes, real caffeine, and zero artificial junk. Pick your function.",
         "button_label": "Explore All Flavors",
         "button_link": "",
         "button_style": "outline",
@@ -748,47 +748,47 @@
           "type": "feature_row",
           "settings": {
             "label": "Sodium per serving",
-            "fortified_value": "1000mg",
+            "fortified_value": "1,210mg",
             "icon": "text"
           }
         },
         "feature_row_KpxfJU": {
           "type": "feature_row",
           "settings": {
-            "label": "Sugar-free",
-            "fortified_value": "1000mg",
+            "label": "Zero added sugar",
+            "fortified_value": "Yes",
             "icon": "check"
           }
         },
         "feature_row_mNapc3": {
           "type": "feature_row",
           "settings": {
-            "label": "Energy version (caffeine)",
-            "fortified_value": "1000mg",
+            "label": "Zero artificial sweeteners",
+            "fortified_value": "Yes",
             "icon": "check"
           }
         },
         "feature_row_miKcMw": {
           "type": "feature_row",
           "settings": {
-            "label": "Real fruit flavor",
-            "fortified_value": "1000mg",
+            "label": "Magnesium malate per serving",
+            "fortified_value": "1,000mg",
             "icon": "check"
           }
         },
         "feature_row_9VgzXB": {
           "type": "feature_row",
           "settings": {
-            "label": "Magnesium glycinate",
-            "fortified_value": "1000mg",
+            "label": "Natural caffeine option",
+            "fortified_value": "152mg",
             "icon": "check"
           }
         },
         "feature_row_hDD6rG": {
           "type": "feature_row",
           "settings": {
-            "label": "Trial price (3 sticks)",
-            "fortified_value": "$1.99",
+            "label": "Every ingredient disclosed",
+            "fortified_value": "Yes",
             "icon": "text"
           }
         },
@@ -821,16 +821,16 @@
       ],
       "name": "FTD - Comparison Table",
       "settings": {
-        "eyebrow": "THE TRUTH",
+        "eyebrow": "Compare The Labels",
         "eyebrow_color": "#1fa8a1",
-        "heading": "Why We Beat The Rest Electrolytes",
+        "heading": "Why We Beat The Rest",
         "subheading": "",
         "fortified_label": "Fortified",
         "fortified_column_color": "#0a0a0a",
         "fortified_text_color": "#ffffff",
         "check_color": "#ffffff",
         "cross_color": "#9ca3af",
-        "cta_label": "Shop Fortified Now",
+        "cta_label": "Shop FORTIFIED®",
         "cta_link": "",
         "cta_style": "outline",
         "mobile_swipe_hint": "Swipe to compare →",
@@ -1012,7 +1012,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ ENERGY",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No artificial sweeteners",
             "show_icon": true,
             "link": ""
           }
@@ -1022,7 +1022,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ ENERGY",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No synthetic dyes",
             "show_icon": true,
             "link": ""
           }
@@ -1032,7 +1032,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ PERFORMANCE",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No added sugar",
             "show_icon": true,
             "link": ""
           }
@@ -1042,7 +1042,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ HYDRATION",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No proprietary blends",
             "show_icon": true,
             "link": ""
           }
@@ -1052,7 +1052,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ FOCUS",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No fillers or junk",
             "show_icon": true,
             "link": ""
           }
@@ -1067,10 +1067,10 @@
       ],
       "name": "FTD - Truth",
       "settings": {
-        "eyebrow": "The Truth",
-        "heading": "More Than Hydration Its Daily Support",
-        "subheading": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration.",
-        "button_label": "Explore All Flavors",
+        "eyebrow": "What We Left Out",
+        "heading": "A Label You Can Actually Read",
+        "subheading": "No artificial sweeteners, no dyes, no fillers. Real ingredients in amounts that matter.",
+        "button_label": "Shop FORTIFIED®",
         "button_link": "",
         "button_style": "outline",
         "columns_desktop": 4,
@@ -1103,25 +1103,25 @@
         "benefit_3nxceG": {
           "type": "benefit",
           "settings": {
-            "text": "Improve Hydration"
+            "text": "Save 15% on every order"
           }
         },
         "benefit_NkJanf": {
           "type": "benefit",
           "settings": {
-            "text": "Replenish Electrolytes"
+            "text": "Skip, swap, or cancel anytime"
           }
         },
         "benefit_RVzUCq": {
           "type": "benefit",
           "settings": {
-            "text": "Recover Faster"
+            "text": "Never run out of your ritual"
           }
         },
         "benefit_TtVekY": {
           "type": "benefit",
           "settings": {
-            "text": "Save 15% Every Order"
+            "text": "Free creatine with quarterly plans"
           }
         }
       },
@@ -1133,10 +1133,10 @@
       ],
       "name": "FTD - Subscribe & Save",
       "settings": {
-        "eyebrow": "THE TRUTH",
+        "eyebrow": "Subscribe & Save",
         "eyebrow_color": "#1fa8a1",
-        "heading": "Subscribe & Save 15%",
-        "button_label": "Subscribe Now",
+        "heading": "Subscribe & Save 15% On Clean Hydration",
+        "button_label": "Start Your Subscription",
         "button_link": "",
         "button_style": "outline",
         "foreground_image_focal": "center",

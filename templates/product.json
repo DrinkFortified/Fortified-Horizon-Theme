@@ -818,47 +818,47 @@
           "type": "feature_row",
           "settings": {
             "label": "Sodium per serving",
-            "fortified_value": "1000mg",
+            "fortified_value": "1,210mg",
             "icon": "text"
           }
         },
         "feature_row_hW7978": {
           "type": "feature_row",
           "settings": {
-            "label": "Sugar-free",
-            "fortified_value": "1000mg",
+            "label": "Zero added sugar",
+            "fortified_value": "Yes",
             "icon": "check"
           }
         },
         "feature_row_VLtMhg": {
           "type": "feature_row",
           "settings": {
-            "label": "Energy version (caffeine)",
-            "fortified_value": "1000mg",
+            "label": "Zero artificial sweeteners",
+            "fortified_value": "Yes",
             "icon": "check"
           }
         },
         "feature_row_aLG7RH": {
           "type": "feature_row",
           "settings": {
-            "label": "Real fruit flavor",
-            "fortified_value": "1000mg",
+            "label": "Magnesium malate per serving",
+            "fortified_value": "1,000mg",
             "icon": "check"
           }
         },
         "feature_row_K646GU": {
           "type": "feature_row",
           "settings": {
-            "label": "Magnesium glycinate",
-            "fortified_value": "1000mg",
+            "label": "Natural caffeine option",
+            "fortified_value": "152mg",
             "icon": "check"
           }
         },
         "feature_row_EcFDBm": {
           "type": "feature_row",
           "settings": {
-            "label": "Trial price (3 sticks)",
-            "fortified_value": "$1.99",
+            "label": "Every ingredient disclosed",
+            "fortified_value": "Yes",
             "icon": "text"
           }
         },
@@ -891,16 +891,16 @@
       ],
       "name": "FTD - Comparison Table",
       "settings": {
-        "eyebrow": "THE TRUTH",
+        "eyebrow": "Compare The Labels",
         "eyebrow_color": "#1fa8a1",
-        "heading": "Why We Beat The Rest Electrolytes",
+        "heading": "Why We Beat The Rest",
         "subheading": "",
         "fortified_label": "Fortified",
         "fortified_column_color": "#0a0a0a",
         "fortified_text_color": "#ffffff",
         "check_color": "#ffffff",
         "cross_color": "#9ca3af",
-        "cta_label": "Shop Fortified Now",
+        "cta_label": "Shop FORTIFIED®",
         "cta_link": "",
         "cta_style": "outline",
         "mobile_swipe_hint": "Swipe to compare →",

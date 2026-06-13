@@ -1417,8 +1417,8 @@
           "settings": {
             "media_type": "image",
             "image": "shopify://shop_images/Element01.webp",
-            "category": "+ ENERGY",
-            "caption": "Electrolytes don't provide full recovery.",
+            "category": "No Fake Sweeteners",
+            "caption": "Sweetened with monk fruit and fermented Reb M. Never sucralose or aspartame.",
             "show_icon": true,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -1429,8 +1429,8 @@
           "settings": {
             "media_type": "image",
             "image": "shopify://shop_images/Element02.webp",
-            "category": "+ PERFORMANCE",
-            "caption": "Electrolytes don't provide full recovery.",
+            "category": "No Synthetic Dyes",
+            "caption": "No artificial colors, no fillers, no proprietary blends — ever.",
             "show_icon": true,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -1441,8 +1441,8 @@
           "settings": {
             "media_type": "image",
             "image": "shopify://shop_images/Element03.webp",
-            "category": "+ HYDRATION",
-            "caption": "Electrolytes don't provide full recovery.",
+            "category": "Real Minerals",
+            "caption": "Sodium from Ancient Ocean® Pink Himalayan Salt and magnesium malate.",
             "show_icon": true,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -1453,8 +1453,8 @@
           "settings": {
             "media_type": "image",
             "image": "shopify://shop_images/Element04.webp",
-            "category": "+ FOCUS",
-            "caption": "Electrolytes don't provide full recovery.",
+            "category": "Full Transparency",
+            "caption": "Every milligram disclosed. Nothing to Google at 11pm.",
             "show_icon": true,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -1469,10 +1469,10 @@
       ],
       "name": "FTD - Truth",
       "settings": {
-        "eyebrow": "The Truth",
-        "heading": "More Than Hydration Its Daily Support",
-        "subheading": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration.",
-        "button_label": "Explore All Flavors",
+        "eyebrow": "Read The Label",
+        "heading": "Hydration With Nothing To Hide",
+        "subheading": "Clean electrolytes with every milligram on the label — 1,210mg sodium from Ancient Ocean® Pink Himalayan Salt, 1,000mg magnesium malate, zero sugar, zero artificial sweeteners. The hydration powder you never have to second-guess.",
+        "button_label": "Shop Clean Hydration",
         "button_link": "shopify://collections/hydration",
         "button_style": "outline",
         "columns_desktop": 4,
@@ -1507,13 +1507,13 @@
           "type": "bars",
           "settings": {
             "number": "2.3x",
-            "headline": "Better Hydration",
-            "subtitle": "vs. water alone *",
+            "headline": "More Electrolytes",
+            "subtitle": "1,210mg sodium per serving*",
             "footnote": "* Study: Journal of Strength & Conditioning Research",
-            "bar1_label": "Water",
+            "bar1_label": "Leading brand",
             "bar1_value": 38,
             "bar1_color": "#7b8794",
-            "bar2_label": "Fortified",
+            "bar2_label": "FORTIFIED®",
             "bar2_image": "shopify://shop_images/Fortified_-_Shield.svg",
             "bar2_value": 93,
             "bar2_color": "#1fa8a1"
@@ -1523,13 +1523,13 @@
           "type": "bars",
           "settings": {
             "number": "2.3x",
-            "headline": "Better Hydration",
-            "subtitle": "vs. water alone *",
+            "headline": "More Magnesium",
+            "subtitle": "1,000mg magnesium malate per serving*",
             "footnote": "* Study: Journal of Strength & Conditioning Research",
-            "bar1_label": "Water",
+            "bar1_label": "Leading brand",
             "bar1_value": 38,
             "bar1_color": "#7b8794",
-            "bar2_label": "Fortified",
+            "bar2_label": "FORTIFIED®",
             "bar2_image": "shopify://shop_images/Fortified_-_Shield.svg",
             "bar2_value": 93,
             "bar2_color": "#1fa8a1"
@@ -1539,10 +1539,10 @@
           "type": "checklist",
           "settings": {
             "number": "0%",
-            "headline": "No Sugar. No Crash.",
-            "subtitle": "",
+            "headline": "Zero Sugar. Zero Sweetener Guilt.",
+            "subtitle": "What you will never find in a FORTIFIED® pouch:",
             "footnote": "* Based on internal product testing",
-            "items": "Improve Hydration\nBoost Energy Naturally\nSupport Muscle Function"
+            "items": "No added sugar\nNo sucralose or aspartame\nNo synthetic dyes\nNo proprietary blends"
           }
         }
       },
@@ -1553,9 +1553,9 @@
       ],
       "name": "FTD - Stats Comparison",
       "settings": {
-        "eyebrow": "The Truth",
-        "heading": "Why We Beat The Rest",
-        "subheading": "Electrolytes don't provide full recovery.",
+        "eyebrow": "The Clean Difference",
+        "heading": "Why Label-Readers Choose FORTIFIED®",
+        "subheading": "More sodium, more bioavailable magnesium, and zero sugar — measured against the hydration brands you were told to settle for.",
         "section_width": "page-width",
         "columns": 3,
         "card_gap": 20,
@@ -1583,7 +1583,7 @@
         "accent_color": "#1fa8a1",
         "heading_color": "#0a0a0a",
         "color_scheme": "",
-        "button_label": "Explore All Flavors",
+        "button_label": "Compare The Labels",
         "button_link": "",
         "button_bg": "#0a0a0a",
         "button_text": "#ffffff",
@@ -1604,33 +1604,33 @@
         "benefit_item_byWG4g": {
           "type": "benefit_item",
           "settings": {
-            "text": "Supports Mood & Focus"
+            "text": "Zero Artificial Sweeteners"
           }
         },
         "benefit_item_UGRtnC": {
           "type": "benefit_item",
           "settings": {
-            "text": "Plant-Based"
+            "text": "Every Milligram Disclosed"
           }
         },
         "benefit_item_nj4Ka3": {
           "type": "benefit_item",
           "settings": {
-            "text": "No Jitters Or Crash"
+            "text": "No Sugar, No Dyes, No Junk"
           }
         },
         "function_item_N4wXmB": {
           "type": "function_item",
           "settings": {
             "enabled": true,
-            "function_label": "Fortified Everyday",
+            "function_label": "Everyday Hydration",
             "product": "everyday",
             "coming_soon": false,
             "card_image": "shopify://shop_images/260401-FOR-EDY-30-ORG-2026_1-Front.webp",
-            "spec_1": "152mg Caffeine",
-            "spec_2": "1,200mg NA",
-            "spec_3": "",
-            "description": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix.",
+            "spec_1": "Vitamin D3 130% DV",
+            "spec_2": "Vitamin K2 MK-7",
+            "spec_3": "1,210mg Sodium",
+            "description": "Daily electrolytes plus Vitamin D3 (130% DV) and K2 as MK-7. No caffeine — drink it any time of day.",
             "flavor_option": "",
             "manual_flavors": "Original\nMango\nBerry",
             "loop_plan_monthly": "2607349819",
@@ -1641,14 +1641,14 @@
           "type": "function_item",
           "settings": {
             "enabled": true,
-            "function_label": "Fortified Energy",
+            "function_label": "Energy",
             "product": "energy",
             "coming_soon": false,
             "card_image": "shopify://shop_images/260401-FOR-ENG-30-WTM-2026_1-Front.webp",
-            "spec_1": "152mg Caffeine",
-            "spec_2": "1,200mg NA",
-            "spec_3": "",
-            "description": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix.",
+            "spec_1": "152mg Natural Caffeine",
+            "spec_2": "1,000mg Magnesium",
+            "spec_3": "1,210mg Sodium",
+            "description": "152mg natural caffeine from real coffee beans. No caffeine anhydrous, no synthetic stimulants, no crash.",
             "flavor_option": "",
             "manual_flavors": "Original\nMango\nBerry",
             "loop_plan_monthly": "2607349819",
@@ -1685,8 +1685,8 @@
         "rating_count": "",
         "star_color": "#f5a623",
         "gallery_caption": "",
-        "heading": "Everyday Hydration",
-        "subheading": "Electrolytes + D3 + K2",
+        "heading": "Build Your Clean Hydration Ritual",
+        "subheading": "Mix any function, any flavor. Zero sugar, zero artificial sweeteners, every milligram disclosed.",
         "coming_soon_text": "Soon",
         "plan_step_label": "Choose Your Plan",
         "plan_step_note": "Monthly 10% Off",
@@ -1765,40 +1765,40 @@
           "type": "row",
           "settings": {
             "image": "shopify://shop_images/Fortified_-_Shield.svg",
-            "title": "Sodium Citrate",
-            "description": "Essential electrolyte to support fluid balance, hydration, and muscle function",
+            "title": "Pink Himalayan Sodium",
+            "description": "1,210mg from Ancient Ocean® Pink Himalayan Salt — the electrolyte you lose most, dosed to actually replace it.",
             "button_label": "Hydration",
             "button_link": "",
             "stat_number": "1200MG",
             "stat_label": "Per Serving",
-            "fact_title": "Hydration Facts",
-            "fact_text": "Supports muscle function and reduces cramps"
+            "fact_title": "Why It Matters",
+            "fact_text": "Sodium drives fluid absorption so water reaches your cells instead of passing through."
           }
         },
         "row_yxUAJG": {
           "type": "row",
           "settings": {
-            "title": "Sodium Citrate",
-            "description": "Essential electrolyte to support fluid balance, hydration, and muscle function",
+            "title": "Magnesium Malate",
+            "description": "1,000mg of one of the most bioavailable magnesium forms — supports energy, muscle function, and calm.",
             "button_label": "Hydration",
             "button_link": "",
             "stat_number": "1200MG",
             "stat_label": "Per Serving",
-            "fact_title": "Hydration Facts",
-            "fact_text": "Supports muscle function and reduces cramps"
+            "fact_title": "Why It Matters",
+            "fact_text": "Most people quietly run low on magnesium from food alone."
           }
         },
         "row_zkQ7bW": {
           "type": "row",
           "settings": {
-            "title": "Sodium Citrate",
-            "description": "Essential electrolyte to support fluid balance, hydration, and muscle function",
+            "title": "Vitamin D3 + K2",
+            "description": "130% DV Vitamin D3 paired with K2 as MK-7 — together, the way your body actually uses them.",
             "button_label": "Hydration",
             "button_link": "",
             "stat_number": "1200MG",
             "stat_label": "Per Serving",
-            "fact_title": "Hydration Facts",
-            "fact_text": "Supports muscle function and reduces cramps"
+            "fact_title": "Why It Matters",
+            "fact_text": "Vitamin D3 without K2 is a conversation half finished."
           }
         },
         "tab_YtbREe": {
@@ -1812,40 +1812,40 @@
         "row_cPpRtw": {
           "type": "row",
           "settings": {
-            "title": "Sodium Citrate",
-            "description": "Essential electrolyte to support fluid balance, hydration, and muscle function",
+            "title": "Natural Caffeine",
+            "description": "152mg from real coffee beans — not caffeine anhydrous, not a lab-made stimulant with a clean-sounding name.",
             "button_label": "Hydration",
             "button_link": "",
             "stat_number": "1200MG",
             "stat_label": "Per Serving",
-            "fact_title": "Hydration Facts",
-            "fact_text": "Supports muscle function and reduces cramps"
+            "fact_title": "Why It Matters",
+            "fact_text": "A meaningful lift without the jitters or the afternoon crash."
           }
         },
         "row_zHNQix": {
           "type": "row",
           "settings": {
-            "title": "Sodium Citrate",
-            "description": "Essential electrolyte to support fluid balance, hydration, and muscle function",
+            "title": "Magnesium Malate",
+            "description": "1,000mg bioavailable magnesium to support steady energy and recovery on your most active days.",
             "button_label": "Hydration",
             "button_link": "",
             "stat_number": "1200MG",
             "stat_label": "Per Serving",
-            "fact_title": "Hydration Facts",
-            "fact_text": "Supports muscle function and reduces cramps"
+            "fact_title": "Why It Matters",
+            "fact_text": "Replaces a mineral you sweat out and rarely get enough of."
           }
         },
         "row_APEXXm": {
           "type": "row",
           "settings": {
-            "title": "Sodium Citrate",
-            "description": "Essential electrolyte to support fluid balance, hydration, and muscle function",
+            "title": "Coconut Water Powder",
+            "description": "From CocOganic® Plus — real-food potassium that rounds out the complete electrolyte matrix.",
             "button_label": "Hydration",
             "button_link": "",
             "stat_number": "1200MG",
             "stat_label": "Per Serving",
-            "fact_title": "Hydration Facts",
-            "fact_text": "Supports muscle function and reduces cramps"
+            "fact_title": "Why It Matters",
+            "fact_text": "Potassium works with sodium to keep your fluids in balance."
           }
         }
       },
@@ -1861,10 +1861,10 @@
       ],
       "name": "FTD - Tabbed Content",
       "settings": {
-        "eyebrow": "The Truth",
-        "heading": "Why We Beat The Rest",
-        "subheading": "Electrolytes don't provide full recovery.",
-        "button_label": "Shop Now",
+        "eyebrow": "What's Inside",
+        "heading": "Every Ingredient, Explained",
+        "subheading": "No proprietary blends and nothing hidden. Here is exactly what is in each pouch and why it earned its place.",
+        "button_label": "Shop The Lineup",
         "button_link": "",
         "button_style": "filled",
         "button_bg": "#0a0a0a",
@@ -1892,7 +1892,7 @@
             "media_type": "image",
             "image": "shopify://shop_images/Element02.webp",
             "category": "@someone",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No artificial sweeteners",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -1904,7 +1904,7 @@
             "media_type": "image",
             "image": "shopify://shop_images/Element01.webp",
             "category": "@TheOtherOne",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No synthetic dyes",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -1916,7 +1916,7 @@
             "media_type": "image",
             "image": "shopify://shop_images/Element03.webp",
             "category": "@Influencer",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No added sugar",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -1928,7 +1928,7 @@
             "media_type": "image",
             "image": "shopify://shop_images/Element04.webp",
             "category": "@FocusedDude",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No proprietary blends",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -1939,7 +1939,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ ENERGY",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No fillers or anti-caking junk",
             "show_icon": false,
             "link": ""
           }
@@ -1949,7 +1949,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ ENERGY",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No caffeine anhydrous",
             "show_icon": false,
             "link": ""
           }
@@ -1959,7 +1959,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ ENERGY",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "No maltodextrin",
             "show_icon": false,
             "link": ""
           }
@@ -1969,7 +1969,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ ENERGY",
-            "caption": "Electrolytes don't provide full recovery.",
+            "caption": "Nothing you can't pronounce",
             "show_icon": false,
             "link": ""
           }
@@ -1987,10 +1987,10 @@
       ],
       "name": "FTD - Social Proof",
       "settings": {
-        "eyebrow": "The Truth",
-        "heading": "More Than Hydration Its Daily Support",
-        "subheading": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration.",
-        "button_label": "Explore All Flavors",
+        "eyebrow": "What We Left Out",
+        "heading": "The Cleanest List Is The Short One",
+        "subheading": "No artificial sweeteners, no synthetic dyes, no proprietary blends, no fillers. Just real ingredients in honest amounts.",
+        "button_label": "See Every Ingredient",
         "button_link": "shopify://collections/hydration",
         "button_style": "outline",
         "columns_desktop": 4,
@@ -3122,11 +3122,11 @@
         "cta_card_r6XPCX": {
           "type": "cta_card",
           "settings": {
-            "eyebrow": "THE TRUTH",
+            "eyebrow": "Wholesale",
             "eyebrow_color": "#1fa8a1",
-            "heading": "Become A Wholesaler",
-            "body": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration.",
-            "button_label": "Explore All Flavors",
+            "heading": "Stock Hydration People Actually Trust",
+            "body": "Bring a clean-label, fully-disclosed electrolyte line to your shelves. Zero artificial sweeteners, real minerals, and a label your customers can read at a glance.",
+            "button_label": "Apply For Wholesale",
             "button_link": "",
             "button_style": "outline",
             "background_image": "shopify://shop_images/2cb6a9adb0a6ec7ca88cbc4c05082130429fc1ca.png",
@@ -3141,11 +3141,11 @@
         "cta_card_split_w7WFxB": {
           "type": "cta_card_split",
           "settings": {
-            "eyebrow": "THE TRUTH",
+            "eyebrow": "Partners",
             "eyebrow_color": "#1fa8a1",
-            "heading": "Become A Partner",
-            "body": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration.",
-            "button_label": "Subscribe Now",
+            "heading": "Partner With FORTIFIED®",
+            "body": "For gyms, practitioners, and creators who only put their name on the real thing. Clean hydration, honest amounts, nothing to hide.",
+            "button_label": "Become A Partner",
             "button_link": "",
             "button_style": "outline",
             "side_image": "shopify://shop_images/4f639bc47fc4667f50613ccb44c7f0338b27c846_1.png",
@@ -3180,25 +3180,25 @@
         "benefit_xE8i3U": {
           "type": "benefit",
           "settings": {
-            "text": "Improve Hydration"
+            "text": "Save 15% on every order"
           }
         },
         "benefit_BQ4FPY": {
           "type": "benefit",
           "settings": {
-            "text": "Replenish Electrolytes"
+            "text": "Skip, swap, or cancel anytime"
           }
         },
         "benefit_RiBeWX": {
           "type": "benefit",
           "settings": {
-            "text": "Recover Faster"
+            "text": "Never run out of your ritual"
           }
         },
         "benefit_R7apX4": {
           "type": "benefit",
           "settings": {
-            "text": "Save 15% Every Order"
+            "text": "Free creatine with quarterly plans"
           }
         }
       },
@@ -3210,10 +3210,10 @@
       ],
       "name": "FTD - Subscribe & Save",
       "settings": {
-        "eyebrow": "THE TRUTH",
+        "eyebrow": "Subscribe & Save",
         "eyebrow_color": "#1fa8a1",
-        "heading": "Subscribe & Save 15%",
-        "button_label": "Subscribe Now",
+        "heading": "Subscribe & Save 15% On Clean Hydration",
+        "button_label": "Start Your Subscription",
         "button_link": "",
         "button_style": "outline",
         "foreground_image": "shopify://shop_images/260401-FOR-ENG-30-ORG-2026_1-Front.webp",
