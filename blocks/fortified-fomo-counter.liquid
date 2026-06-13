@@ -31,9 +31,9 @@
   assign mf_key = block.settings.metafield_key | strip
   assign mf_resolved = false
   if mf_ns != blank and mf_key != blank
-    assign mf_val = shop.metafields[mf_ns][mf_key]
-    if mf_val != blank
-      assign mf_num = mf_val | plus: 0
+    assign mf_obj = shop.metafields[mf_ns][mf_key]
+    if mf_obj != blank
+      assign mf_num = mf_obj.value | plus: 0
       assign claimed = mf_num
       assign mf_resolved = true
     endif
