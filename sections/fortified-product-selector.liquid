@@ -14,6 +14,25 @@
 
 {%- liquid
   assign sid             = section.id
+
+  # FOMO gift switch: read the shared shop metafield. Once claimed >= cap, the
+  # lifetime-free quarterly creatine becomes a one-time gift (zeroed by a native
+  # "buy bundle, get creatine free" automatic discount).
+  assign fomo_gift_enabled = section.settings.fomo_gift_enabled
+  assign fomo_ns  = section.settings.fomo_metafield_namespace | default: 'fortified' | strip
+  assign fomo_key = section.settings.fomo_metafield_key | default: 'fomo_claimed' | strip
+  assign fomo_cap = section.settings.fomo_cap | default: 1000
+  assign fomo_claimed = 0
+  if fomo_ns != blank and fomo_key != blank
+    assign fomo_obj = shop.metafields[fomo_ns][fomo_key]
+    if fomo_obj != blank
+      assign fomo_claimed = fomo_obj.value | plus: 0
+    endif
+  endif
+  assign fomo_sold_out = false
+  if fomo_gift_enabled and fomo_claimed >= fomo_cap
+    assign fomo_sold_out = true
+  endif
   assign function_blocks = section.blocks | where: "type", "function_item"
   assign benefit_blocks  = section.blocks | where: "type", "benefit_item"
   assign cert_blocks     = section.blocks | where: "type", "cert_badge"
@@ -675,6 +694,9 @@
   var CR_PRICE   = parseFloat(({{ section.settings.addon_price_text | default: '' | json }} + '').replace(/[^0-9.]/g, '')) || 0;
   var CR_PLAN_M        = {{ section.settings.addon_loop_plan_monthly | default: '' | json }};
   var CR_PLAN_Q_FREE   = {{ section.settings.addon_loop_plan_quarterly | default: '' | json }};
+  var FOMO_GIFT_ON   = {{ fomo_gift_enabled | json }};
+  var FOMO_SOLD_OUT  = {{ fomo_sold_out | json }};
+  var FOMO_GIFT_TEXT = {{ section.settings.fomo_gift_text | default: 'Free creatine gift with your first order' | json }};
   var CR_PLAN_Q_50OFF  = {{ section.settings.addon_loop_plan_quarterly_50off | default: '' | json }};
 
   /* Loop bundle mode (quarterly only). When fully configured, the 3 pouches
@@ -891,6 +913,7 @@
     if (crTitle) crTitle.textContent = q ? CR_LABEL_Q : CR_LABEL_M;
     if (crDesc)  crDesc.textContent  = q ? CR_DESC_Q : CR_DESC_M;
     if (crFree)  crFree.hidden = !q;
+    if (crFree && q && FOMO_GIFT_ON && FOMO_SOLD_OUT) { crFree.innerHTML = '<span class="fe-cr-tick" aria-hidden="true">\u2713</span>' + FOMO_GIFT_TEXT; }
 
     if (overview) overview.hidden = false;
     recompute();
@@ -1001,9 +1024,15 @@
     // CR_PLAN_Q_FREE Loop plan to apply 100% off so the line is $0 at checkout.
     if (state.purchaseType === 'quarterly' && addonInput) {
       var avFree = parseInt(addonInput.dataset.addonVariant, 10);
-      var freePlanId = parseInt(CR_PLAN_Q_FREE, 10);
-      if (avFree && freePlanId) {
-        items.push({ id: avFree, quantity: qty, selling_plan: freePlanId });
+      if (avFree) {
+        if (FOMO_GIFT_ON && FOMO_SOLD_OUT) {
+          // Spots gone: creatine as a one-time gift. A native "buy bundle, get
+          // creatine free" automatic discount zeroes this line at checkout.
+          items.push({ id: avFree, quantity: qty, properties: { '_gift': 'First-order creatine gift' } });
+        } else {
+          var freePlanId = parseInt(CR_PLAN_Q_FREE, 10);
+          if (freePlanId) items.push({ id: avFree, quantity: qty, selling_plan: freePlanId });
+        }
       }
     }
     // Toggle adds the paid creatine:
@@ -1998,6 +2027,47 @@
       "label": "Cart property key",
       "default": "_bundleId",
       "info": "Line-item property Loop reads the transaction id from. Leave as _bundleId unless Loop support says otherwise."
+    },
+    {
+      "type": "header",
+      "content": "FOMO Creatine Gift"
+    },
+    {
+      "type": "paragraph",
+      "content": "Switches the free quarterly creatine from a lifetime-free subscription to a one-time gift once the shared spots metafield reaches the cap. After the cap the creatine is added as a one-time line \u2014 create a native Shopify 'Buy X get Y' automatic discount (buy the bundle, get 1 creatine free) so the gift line is $0 at checkout."
+    },
+    {
+      "type": "checkbox",
+      "id": "fomo_gift_enabled",
+      "label": "Switch creatine to one-time gift after the cap",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "fomo_metafield_namespace",
+      "label": "Spots metafield namespace",
+      "default": "fortified"
+    },
+    {
+      "type": "text",
+      "id": "fomo_metafield_key",
+      "label": "Spots metafield key",
+      "default": "fomo_claimed"
+    },
+    {
+      "type": "range",
+      "id": "fomo_cap",
+      "label": "Lifetime-free spots cap",
+      "min": 0,
+      "max": 5000,
+      "step": 50,
+      "default": 1000
+    },
+    {
+      "type": "text",
+      "id": "fomo_gift_text",
+      "label": "Gift line text (after cap)",
+      "default": "Free creatine gift with your first order"
     }
   ],
   "blocks": [
