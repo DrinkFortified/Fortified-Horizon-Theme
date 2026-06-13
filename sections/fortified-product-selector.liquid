@@ -686,11 +686,10 @@
     createUrl:     {{ section.settings.loop_bundle_create_url | default: '' | json }},
     bundleId:      {{ section.settings.loop_bundle_id | default: '' | json }},
     boxSizeId:     {{ section.settings.loop_bundle_box_size_id | default: '' | json }},
-    variantId:     {{ section.settings.loop_bundle_variant_id | default: '' | json }},
     sellingPlanId: {{ section.settings.loop_bundle_selling_plan_id | default: '' | json }},
     propKey:       {{ section.settings.loop_bundle_property_key | default: '_bundleId' | json }}
   };
-  var LOOP_BUNDLE_ON = !!(LOOP_BUNDLE.enabled && LOOP_BUNDLE.variantId && (LOOP_BUNDLE.createUrl || LOOP_BUNDLE.bundleId));
+  var LOOP_BUNDLE_ON = !!(LOOP_BUNDLE.enabled && LOOP_BUNDLE.sellingPlanId && (LOOP_BUNDLE.bundleId || LOOP_BUNDLE.createUrl));
   var PLAN_LABEL_M = {{ section.settings.monthly_label | default: '1 a Month' | json }};
   var PLAN_LABEL_Q = {{ section.settings.quarterly_label | default: '3 Every 3 Months' | json }};
 
@@ -1075,13 +1074,18 @@
       .then(function (b) {
         var txn = extractBundleTxnId(b);
         if (!txn) throw new Error('Loop response missing bundleTransactionId');
-        var props = {};
-        props[LOOP_BUNDLE.propKey || '_bundleId'] = String(txn);
-        picks.forEach(function (it, i) { if (it._label) props['Pouch ' + (i + 1)] = it._label; });
-        var line = { id: parseInt(LOOP_BUNDLE.variantId, 10), quantity: qty, properties: props };
         var planId = parseInt(LOOP_BUNDLE.sellingPlanId, 10);
-        if (planId) line.selling_plan = planId;
-        return [line].concat(rest);
+        var key = LOOP_BUNDLE.propKey || '_bundleId';
+        /* Component-model bundle: keep the individual pouch lines and stamp
+           each with the SAME transaction id + the bundle's selling plan, so
+           Loop groups them into one editable bundle subscription. No parent
+           bundle product exists in this Loop bundle type. */
+        picks.forEach(function (it) {
+          it.properties = it.properties || {};
+          it.properties[key] = String(txn);
+          if (planId) it.selling_plan = planId;
+        });
+        return picks.concat(rest);
       });
   }
 
@@ -1956,7 +1960,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Optional. When enabled and configured, the 3-every-3 plan is registered with Loop as ONE editable bundle: picks are POSTed to Loop's anonymous storefront Create Transaction API (no token needed) and the cart gets a single bundle line carrying the returned txnId. Customers then edit the whole bundle in Loop's portal. If anything is missing or the Loop call fails, the selector automatically falls back to individual subscription lines."
+      "content": "Optional. When enabled and configured, the 3-every-3 plan is registered with Loop as ONE editable bundle: picks are POSTed to Loop's anonymous storefront Create Transaction API (no token needed), then the 3 pouch lines are added to the cart each tagged with the returned txnId so Loop groups them into one editable bundle subscription. Customers then edit the whole bundle in Loop's portal. Loop's Build-Your-Bundle does NOT create a parent product, so no bundle variant ID is needed. If anything is missing or the Loop call fails, the selector falls back to individual subscription lines."
     },
     {
       "type": "checkbox",
@@ -1981,12 +1985,6 @@
       "id": "loop_bundle_create_url",
       "label": "Endpoint URL override (optional)",
       "info": "Leave blank to use the standard URL built from the Loop bundle ID above. Only fill if Loop gives you a different endpoint."
-    },
-    {
-      "type": "text",
-      "id": "loop_bundle_variant_id",
-      "label": "Bundle product variant ID",
-      "info": "Shopify variant ID of the bundle parent product Loop created."
     },
     {
       "type": "text",
