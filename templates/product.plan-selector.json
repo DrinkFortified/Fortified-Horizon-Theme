@@ -1224,18 +1224,16 @@
     "ftd_b_faq_pdp": {
       "type": "ftd-b-faq",
       "settings": {
-        "show_tabs": false,
-        "color_scheme": "scheme-1",
         "eyebrow_color": "#1FA8A1",
+        "show_tabs": false,
         "accent_color": "#1FA8A1",
         "divider_color": "#E5E5E5",
+        "color_scheme": "scheme-1",
         "section_width": "page-width",
         "content_max_width": 1100,
         "padding-block-start": 72,
         "padding-block-end": 72
-      },
-      "blocks": {},
-      "block_order": []
+      }
     }
   },
   "order": [
