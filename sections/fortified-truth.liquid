@@ -245,15 +245,46 @@
 
     <div class="{{ root }}__content">
 
-      {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+      {%- liquid
+        assign pdp = product.metafields.fortified.pdp_content.value
+        assign eyebrow_v = section.settings.eyebrow
+        assign heading_v = section.settings.heading
+        assign subheading_v = section.settings.subheading
+        assign cta_label_v = section.settings.button_label
+        assign use_pdp_cards = false
+        if pdp != blank
+          if pdp.truth_heading != blank
+            assign heading_v = pdp.truth_heading
+          endif
+          if pdp.truth_subheading != blank
+            assign subheading_v = pdp.truth_subheading
+          endif
+          if pdp.cta_label != blank
+            assign cta_label_v = pdp.cta_label
+          endif
+          if pdp.truth_cards.value != blank and pdp.truth_cards.value.size > 0
+            assign use_pdp_cards = true
+          endif
+        endif
+      -%}
+      {%- if eyebrow_v != blank or heading_v != blank or subheading_v != blank -%}
         <div class="{{ root }}__head">
-          {%- if section.settings.eyebrow != blank -%}<p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-          {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{{ section.settings.heading | newline_to_br }}</h2>{%- endif -%}
-          {%- if section.settings.subheading != blank -%}<p class="{{ root }}__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+          {%- if eyebrow_v != blank -%}<p class="{{ root }}__eyebrow">{{ eyebrow_v }}</p>{%- endif -%}
+          {%- if heading_v != blank -%}<h2 class="{{ root }}__heading">{{ heading_v | newline_to_br }}</h2>{%- endif -%}
+          {%- if subheading_v != blank -%}<p class="{{ root }}__sub">{{ subheading_v }}</p>{%- endif -%}
         </div>
       {%- endif -%}
 
       <div class="{{ root }}__grid{% if section.settings.enable_carousel %} {{ root }}__grid--scroll{% endif %}">
+        {%- if use_pdp_cards -%}
+          {%- for caption in pdp.truth_cards.value -%}
+            <div class="{{ root }}-card">
+              <div class="{{ root }}-card__body">
+                <span class="{{ root }}-card__caption">{{ caption }}</span>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- else -%}
         {%- for block in section.blocks -%}
           {%- if block.settings.link != blank -%}
             {%- assign card_tag = 'a' -%}
@@ -287,11 +318,12 @@
             </div>
           </{{ card_tag }}>
         {%- endfor -%}
+        {%- endif -%}
       </div>
 
-      {%- if section.settings.button_label != blank -%}
+      {%- if cta_label_v != blank -%}
         <div class="{{ root }}__footer">
-          <a class="{{ root }}__cta {{ cta_class }}" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ section.settings.button_label }}</a>
+          <a class="{{ root }}__cta {{ cta_class }}" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ cta_label_v }}</a>
         </div>
       {%- endif -%}
 

@@ -18,6 +18,25 @@
   assign img_max_h     = section.settings.product_image_max_height
 
   assign ing_blocks = section.blocks | where: 'type', 'ingredient'
+  assign pdp = product.metafields.fortified.pdp_content.value
+  assign heading_v = section.settings.heading
+  assign subheading_v = section.settings.subheading
+  assign cta_label_v = section.settings.button_label
+  assign use_pdp_ing = false
+  if pdp != blank
+    if pdp.ingredients_heading != blank
+      assign heading_v = pdp.ingredients_heading
+    endif
+    if pdp.ingredients_subheading != blank
+      assign subheading_v = pdp.ingredients_subheading
+    endif
+    if pdp.cta_label != blank
+      assign cta_label_v = pdp.cta_label
+    endif
+    if pdp.ingredients.value != blank and pdp.ingredients.value.size > 0
+      assign use_pdp_ing = true
+    endif
+  endif
 -%}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -53,15 +72,37 @@
     </div>
 
     <div class="ftd-ic__content">
-      {%- if section.settings.heading != blank -%}
-        <h2 class="ftd-ic__heading">{{ section.settings.heading | newline_to_br }}</h2>
+      {%- if heading_v != blank -%}
+        <h2 class="ftd-ic__heading">{{ heading_v | newline_to_br }}</h2>
       {%- endif -%}
-      {%- if section.settings.subheading != blank -%}
-        <p class="ftd-ic__sub">{{ section.settings.subheading | newline_to_br }}</p>
+      {%- if subheading_v != blank -%}
+        <p class="ftd-ic__sub">{{ subheading_v | newline_to_br }}</p>
       {%- endif -%}
 
-      {%- if ing_blocks.size > 0 -%}
+      {%- if use_pdp_ing or ing_blocks.size > 0 -%}
         <ul class="ftd-ic__grid">
+          {%- if use_pdp_ing -%}
+            {%- for ing in pdp.ingredients.value -%}
+              <li class="ftd-ic__card">
+                {%- if ing.icon != blank -%}
+                  <span class="ftd-ic__icon-wrap" style="background: var(--ftic-icon-bg); color: var(--ftic-icon-color); width: var(--ftic-icon-size); height: var(--ftic-icon-size);">
+                    {{ ing.icon | image_url: width: 96 | image_tag: loading: 'lazy', alt: ing.name }}
+                  </span>
+                {%- else -%}
+                  <span class="ftd-ic__icon-wrap ftd-ic__icon-wrap--default" style="background: var(--ftic-icon-bg); color: var(--ftic-icon-color); width: var(--ftic-icon-size); height: var(--ftic-icon-size);" aria-hidden="true"></span>
+                {%- endif -%}
+                <div class="ftd-ic__card-body">
+                  {%- if ing.name != blank -%}<p class="ftd-ic__name">{{ ing.name }}</p>{%- endif -%}
+                  {%- if ing.amount != blank or ing.description != blank -%}
+                    <p class="ftd-ic__desc">
+                      {%- if ing.amount != blank -%}<strong>{{ ing.amount }}</strong>{%- if ing.description != blank -%} — {%- endif -%}{%- endif -%}
+                      {{- ing.description -}}
+                    </p>
+                  {%- endif -%}
+                </div>
+              </li>
+            {%- endfor -%}
+          {%- else -%}
           {%- for block in ing_blocks -%}
             {%- assign per_color = block.settings.icon_color_override -%}
             <li class="ftd-ic__item" {{ block.shopify_attributes }}>
@@ -93,15 +134,16 @@
               </div>
             </li>
           {%- endfor -%}
+          {%- endif -%}
         </ul>
       {%- endif -%}
 
-      {%- if section.settings.button_label != blank -%}
+      {%- if cta_label_v != blank -%}
         <div class="ftd-ic__cta-wrap">
           <a
             class="ftd-ic__cta ftd-ic__cta--{{ btn_style }}"
             {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
-          >{{ section.settings.button_label }}</a>
+          >{{ cta_label_v }}</a>
         </div>
       {%- endif -%}
     </div>

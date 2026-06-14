@@ -34,12 +34,33 @@
   <div class="ftd-sh__inner">
     <div class="ftd-sh__panel">
       <div class="ftd-sh__panel-inner">
-        {%- if section.settings.eyebrow != blank -%}<p class="ftd-sh__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-        {%- if section.settings.heading != blank -%}<h2 class="ftd-sh__heading">{{ section.settings.heading | newline_to_br }}</h2>{%- endif -%}
-        {%- if section.settings.body != blank -%}<p class="ftd-sh__body">{{ section.settings.body | newline_to_br }}</p>{%- endif -%}
+        {%- liquid
+          assign pdp = product.metafields.fortified.pdp_content.value
+          assign eyebrow_v = section.settings.eyebrow
+          assign heading_v = section.settings.heading
+          assign body_v = section.settings.body
+          assign cta_label_v = section.settings.button_label
+          if pdp != blank
+            if pdp.eyebrow != blank
+              assign eyebrow_v = pdp.eyebrow
+            endif
+            if pdp.hero_heading != blank
+              assign heading_v = pdp.hero_heading
+            endif
+            if pdp.hero_body != blank
+              assign body_v = pdp.hero_body
+            endif
+            if pdp.cta_label != blank
+              assign cta_label_v = pdp.cta_label
+            endif
+          endif
+        -%}
+        {%- if eyebrow_v != blank -%}<p class="ftd-sh__eyebrow">{{ eyebrow_v }}</p>{%- endif -%}
+        {%- if heading_v != blank -%}<h2 class="ftd-sh__heading">{{ heading_v | newline_to_br }}</h2>{%- endif -%}
+        {%- if body_v != blank -%}<p class="ftd-sh__body">{{ body_v | newline_to_br }}</p>{%- endif -%}
         {%- if section.settings.button_label != blank -%}
           <div class="ftd-sh__cta-wrap">
-            <a class="ftd-sh__cta ftd-sh__cta--{{ btn_style }}" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ section.settings.button_label }}</a>
+            <a class="ftd-sh__cta ftd-sh__cta--{{ btn_style }}" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ cta_label_v }}</a>
           </div>
         {%- endif -%}
       </div>
