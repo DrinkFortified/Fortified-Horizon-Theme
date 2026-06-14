@@ -14,6 +14,20 @@
   assign btn_style  = section.settings.button_style
   assign focal      = section.settings.image_focal | default: 'center'
   assign quote_text = section.settings.quote
+  assign name_v = section.settings.name
+  assign cta_label_v = section.settings.button_label
+  assign pdp = product.metafields.fortified.pdp_content.value
+  if pdp != blank
+    if pdp.testimonial_quote != blank
+      assign quote_text = pdp.testimonial_quote
+    endif
+    if pdp.testimonial_name != blank
+      assign name_v = pdp.testimonial_name
+    endif
+    if pdp.cta_label != blank
+      assign cta_label_v = pdp.cta_label
+    endif
+  endif
   if section.settings.quote_marks and quote_text != blank
     assign quote_text = '“' | append: quote_text | append: '”'
   endif
@@ -31,8 +45,8 @@
 >
   <div class="ftd-testimonial__inner">
     <div class="ftd-testimonial__text">
-      {%- if section.settings.name != blank -%}
-        <p class="ftd-testimonial__name">{{ section.settings.name }}</p>
+      {%- if name_v != blank -%}
+        <p class="ftd-testimonial__name">{{ name_v }}</p>
       {%- endif -%}
       {%- if section.settings.role != blank -%}
         <p class="ftd-testimonial__role">{{ section.settings.role }}</p>
@@ -60,7 +74,7 @@
           <a
             class="ftd-testimonial__cta ftd-testimonial__cta--{{ btn_style }}"
             {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
-          >{{ section.settings.button_label }}</a>
+          >{{ cta_label_v }}</a>
         </div>
       {%- endif -%}
     </div>

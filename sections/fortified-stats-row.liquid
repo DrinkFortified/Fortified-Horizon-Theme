@@ -35,22 +35,53 @@
 >
   <div class="frs__inner">
 
-    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+    {%- liquid
+      assign pdp = product.metafields.fortified.pdp_content.value
+      assign eyebrow_v = section.settings.eyebrow
+      assign heading_v = section.settings.heading
+      assign subheading_v = section.settings.subheading
+      assign use_pdp_stats = false
+      if pdp != blank
+        if pdp.stat_1_number != blank
+          assign use_pdp_stats = true
+        endif
+      endif
+    -%}
+    {%- if eyebrow_v != blank or heading_v != blank or subheading_v != blank -%}
       <div class="frs__head">
-        {%- if section.settings.eyebrow != blank -%}
-          <p class="frs__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- if eyebrow_v != blank -%}
+          <p class="frs__eyebrow">{{ eyebrow_v }}</p>
         {%- endif -%}
-        {%- if section.settings.heading != blank -%}
-          <h2 class="frs__heading">{{ section.settings.heading }}</h2>
+        {%- if heading_v != blank -%}
+          <h2 class="frs__heading">{{ heading_v }}</h2>
         {%- endif -%}
-        {%- if section.settings.subheading != blank -%}
-          <p class="frs__sub">{{ section.settings.subheading }}</p>
+        {%- if subheading_v != blank -%}
+          <p class="frs__sub">{{ subheading_v }}</p>
         {%- endif -%}
       </div>
     {%- endif -%}
 
     {%- if section.blocks.size > 0 -%}
       <dl class="frs__grid">
+        {%- if use_pdp_stats -%}
+          {%- for i in (1..3) -%}
+            {%- assign nkey = 'stat_' | append: i | append: '_number' -%}
+            {%- assign lkey = 'stat_' | append: i | append: '_label' -%}
+            {%- assign dkey = 'stat_' | append: i | append: '_description' -%}
+            {%- assign num = pdp[nkey] -%}
+            {%- assign lab = pdp[lkey] -%}
+            {%- assign desc = pdp[dkey] -%}
+            {%- if num != blank or lab != blank -%}
+              <div class="frs__stat">
+                <dt class="frs__stat-number">{{ num }}</dt>
+                <div class="frs__stat-text">
+                  {%- if lab != blank -%}<dd class="frs__stat-label">{{ lab }}</dd>{%- endif -%}
+                  {%- if desc != blank -%}<dd class="frs__stat-desc">{{ desc }}</dd>{%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
         {%- for block in section.blocks -%}
           {%- if block.type == 'stat' -%}
             {%- assign num_color = block.settings.number_color | default: 'var(--color-foreground)' -%}
@@ -79,6 +110,7 @@
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
+        {%- endif -%}
       </dl>
     {%- endif -%}
 
