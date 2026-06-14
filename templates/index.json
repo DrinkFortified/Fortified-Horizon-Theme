@@ -1166,7 +1166,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h4>*New arrivals*</h4>",
+                    "text": "<h4>*Clean energy*</h4>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1192,7 +1192,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>New arrivals</h2>",
+                    "text": "<h2>Real Caffeine, No Crash</h2>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1218,7 +1218,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                    "text": "<p>152mg of natural caffeine from real coffee beans — never caffeine anhydrous. The same clean electrolyte base as Everyday, built for your afternoon lift.</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1284,7 +1284,7 @@
                       "type": "button",
                       "name": "t:names.button",
                       "settings": {
-                        "label": "Shop now",
+                        "label": "Shop Energy",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
                         "open_in_popup": false,
@@ -2122,7 +2122,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>New arrivals</h2>",
+                    "text": "<h2>Questions, Answered</h2>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -2148,7 +2148,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                    "text": "<p>Everything about our ingredients, shipping, and how FORTIFIED® is made — no fine print, no proprietary blends.</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -2174,7 +2174,7 @@
                   "type": "button",
                   "name": "t:names.button",
                   "settings": {
-                    "label": "Shop now",
+                    "label": "Shop FORTIFIED®",
                     "link": "shopify://collections/all",
                     "open_in_new_tab": false,
                     "open_in_popup": false,
@@ -2255,7 +2255,7 @@
                     "accordion_row_GVLJpy": {
                       "type": "_accordion-row",
                       "settings": {
-                        "heading": "Return policy",
+                        "heading": "Are there any artificial sweeteners?",
                         "open_by_default": true,
                         "icon": "none",
                         "width": 20
@@ -2264,7 +2264,7 @@
                         "text_KDgita": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Our goal is for every customer to be totally satisfied with their purchase. If this isn't the case, let us know and we'll do our best to work with you to make it right.</p>",
+                            "text": "<p>Never. We sweeten with monk fruit and fermented Reb M — zero sucralose, aspartame, or added sugar. Every sweetener is right there on the label.</p>",
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
@@ -2294,7 +2294,7 @@
                     "accordion_row_eLrTB9": {
                       "type": "_accordion-row",
                       "settings": {
-                        "heading": "Return policy",
+                        "heading": "What's actually in each pouch?",
                         "open_by_default": false,
                         "icon": "none",
                         "width": 20
@@ -2303,7 +2303,7 @@
                         "text_d3wHF3": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Our goal is for every customer to be totally satisfied with their purchase. If this isn't the case, let us know and we'll do our best to work with you to make it right.</p>",
+                            "text": "<p>1,210mg sodium from Ancient Ocean® Pink Himalayan Salt, 1,000mg magnesium malate, potassium from real coconut water, and — on Everyday — Vitamin D3 + K2. Every milligram disclosed. No proprietary blends.</p>",
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
@@ -2333,7 +2333,7 @@
                     "accordion_row_Hhjp9P": {
                       "type": "_accordion-row",
                       "settings": {
-                        "heading": "Return policy",
+                        "heading": "Is it family-friendly?",
                         "open_by_default": false,
                         "icon": "none",
                         "width": 20
@@ -2342,7 +2342,7 @@
                         "text_a3gzX9": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Our goal is for every customer to be totally satisfied with their purchase. If this isn't the case, let us know and we'll do our best to work with you to make it right.</p>",
+                            "text": "<p>FORTIFIED® is built on clean, real-food ingredients with nothing artificial. As always, check with your doctor for children or if pregnant or nursing. *These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.*</p>",
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
@@ -2372,7 +2372,7 @@
                     "accordion_row_qPqTUh": {
                       "type": "_accordion-row",
                       "settings": {
-                        "heading": "Return policy",
+                        "heading": "Energy vs. Everyday — what's the difference?",
                         "open_by_default": false,
                         "icon": "none",
                         "width": 20
@@ -2381,7 +2381,7 @@
                         "text_PdMhtP": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Our goal is for every customer to be totally satisfied with their purchase. If this isn't the case, let us know and we'll do our best to work with you to make it right.</p>",
+                            "text": "<p>Same clean electrolyte base. Energy adds 152mg natural caffeine from real coffee beans; Everyday skips the caffeine and adds Vitamin D3 + K2 for your daily foundation.</p>",
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
@@ -2411,7 +2411,7 @@
                     "accordion_row_d8tJAE": {
                       "type": "_accordion-row",
                       "settings": {
-                        "heading": "Shipping",
+                        "heading": "Shipping & subscriptions",
                         "open_by_default": false,
                         "icon": "none",
                         "width": 20
@@ -2420,7 +2420,7 @@
                         "text_pHzkY3": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>We will work quickly to ship your order as soon as possible. Once your order has shipped, you will receive an email with further information. Delivery times vary depending on your location.</p>",
+                            "text": "<p>We ship quickly and send tracking as soon as your order leaves. Subscriptions ship free, and you can skip, swap, or cancel anytime.</p>",
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
@@ -2450,7 +2450,7 @@
                     "accordion_row_B73Hnt": {
                       "type": "_accordion-row",
                       "settings": {
-                        "heading": "Manufacturing",
+                        "heading": "How is it made?",
                         "open_by_default": false,
                         "icon": "none",
                         "width": 20
@@ -2459,7 +2459,7 @@
                         "text_RiTJBQ": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Our products are manufactured both locally and globally. We carefully select our manufacturing partners to ensure our products are high quality and a fair value.</p>",
+                            "text": "<p>Made in facilities held to strict quality standards, with every ingredient sourced and disclosed. No fillers, no anti-caking junk, nothing hidden behind a blend number.</p>",
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
@@ -2668,7 +2668,7 @@
                       "type": "text",
                       "name": "t:names.heading",
                       "settings": {
-                        "text": "<h4>**New arrivals**</h4>",
+                        "text": "<h4>**Daily foundation**</h4>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -2694,7 +2694,7 @@
                       "type": "text",
                       "name": "t:names.heading",
                       "settings": {
-                        "text": "<h2>New arrivals</h2>",
+                        "text": "<h2>Everyday Hydration</h2>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -2720,7 +2720,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                        "text": "<p>Clean electrolytes plus Vitamin D3 (130% DV) and K2 as MK-7. No caffeine — your daily ritual, any time of day.</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -2746,7 +2746,7 @@
                       "type": "button",
                       "name": "t:names.button",
                       "settings": {
-                        "label": "Shop now",
+                        "label": "Shop Everyday",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
                         "open_in_popup": false,
@@ -2926,7 +2926,7 @@
                       "type": "text",
                       "name": "t:names.heading",
                       "settings": {
-                        "text": "<h4>**New arrivals**</h4>",
+                        "text": "<h4>**One ingredient**</h4>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -2952,7 +2952,7 @@
                       "type": "text",
                       "name": "t:names.heading",
                       "settings": {
-                        "text": "<h2>New arrivals</h2>",
+                        "text": "<h2>Pure Creatine</h2>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -2978,7 +2978,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                        "text": "<p>5g of pure creatine monohydrate. One ingredient, 45 servings, nothing else in the pouch. And yes — the research says it is for women too.</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -3004,7 +3004,7 @@
                       "type": "button",
                       "name": "t:names.button",
                       "settings": {
-                        "label": "Shop now",
+                        "label": "Shop Creatine",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
                         "open_in_popup": false,
@@ -3258,7 +3258,7 @@
         "text_qcCJGV": {
           "type": "text",
           "settings": {
-            "text": "<p>We make things that work better and last longer.</p>",
+            "text": "<p>Real Coffee-Bean Caffeine · Ancient Ocean® Pink Himalayan Salt · Monk Fruit Sweetened · Vitamin D3 + K2 · Made For Label-Readers</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
