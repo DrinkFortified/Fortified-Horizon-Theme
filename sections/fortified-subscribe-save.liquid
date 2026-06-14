@@ -203,15 +203,47 @@
     <div class="{{ root }}__grid {% if image_position == 'left' %}{{ root }}__grid--image-left{% endif %}">
 
       <div class="{{ root }}__text">
-        {%- if section.settings.eyebrow != blank -%}
-          <p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- liquid
+          assign px = product.metafields.fortified.pdp_extra.value
+          assign eyebrow_v = section.settings.eyebrow
+          assign heading_v = section.settings.heading
+          assign cta_label_v = section.settings.button_label
+          assign use_pdp_benefits = false
+          if px != blank
+            if px.subscribe_eyebrow != blank
+              assign eyebrow_v = px.subscribe_eyebrow
+            endif
+            if px.subscribe_heading != blank
+              assign heading_v = px.subscribe_heading
+            endif
+            if px.subscribe_cta_label != blank
+              assign cta_label_v = px.subscribe_cta_label
+            endif
+            if px.subscribe_benefits.value != blank and px.subscribe_benefits.value.size > 0
+              assign use_pdp_benefits = true
+            endif
+          endif
+        -%}
+        {%- if eyebrow_v != blank -%}
+          <p class="{{ root }}__eyebrow">{{ eyebrow_v }}</p>
         {%- endif -%}
-        {%- if section.settings.heading != blank -%}
-          <h2 class="{{ root }}__heading">{{ section.settings.heading | newline_to_br }}</h2>
+        {%- if heading_v != blank -%}
+          <h2 class="{{ root }}__heading">{{ heading_v | newline_to_br }}</h2>
         {%- endif -%}
 
         {%- assign benefits = section.blocks | where: 'type', 'benefit' -%}
-        {%- if benefits.size > 0 -%}
+        {%- if use_pdp_benefits -%}
+          <ul class="{{ root }}__list" role="list">
+            {%- for txt in px.subscribe_benefits.value -%}
+              <li class="{{ root }}__item">
+                <span class="{{ root }}__check" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 8.5 6.5 12 13 4.5"/></svg>
+                </span>
+                <span>{{ txt }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- elsif benefits.size > 0 -%}
           <ul class="{{ root }}__list">
             {%- for block in benefits -%}
               <li class="{{ root }}__item" {{ block.shopify_attributes }}>
@@ -232,7 +264,7 @@
           <a
             class="{{ root }}__btn {{ root }}__btn--{{ btn_style }}"
             {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
-          >{{ section.settings.button_label }}</a>
+          >{{ cta_label_v }}</a>
         {%- endif -%}
       </div>
 
