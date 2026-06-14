@@ -217,6 +217,7 @@
                         "label": "Shop now",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
+                        "open_in_popup": false,
                         "style_class": "button",
                         "width": "fit-content",
                         "custom_width": 100,
@@ -232,6 +233,7 @@
                         "label": "Learn More",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
+                        "open_in_popup": false,
                         "style_class": "button-secondary",
                         "width": "fit-content",
                         "custom_width": 100,
@@ -300,6 +302,7 @@
                   "settings": {
                     "image": "shopify://shop_images/Fortified_HP_Hero.png",
                     "link": "",
+                    "open_in_popup": false,
                     "image_ratio": "adapt",
                     "width": "fill",
                     "custom_width": 100,
@@ -610,6 +613,7 @@
                         "label": "Shop now",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
+                        "open_in_popup": false,
                         "style_class": "button",
                         "width": "fit-content",
                         "custom_width": 100,
@@ -625,6 +629,7 @@
                         "label": "Learn More",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
+                        "open_in_popup": false,
                         "style_class": "button-secondary",
                         "width": "fit-content",
                         "custom_width": 100,
@@ -694,6 +699,7 @@
                   "settings": {
                     "image": "shopify://shop_images/Fortified_HP_Hero.png",
                     "link": "",
+                    "open_in_popup": false,
                     "image_ratio": "adapt",
                     "width": "fill",
                     "custom_width": 100,
@@ -1281,6 +1287,7 @@
                         "label": "Shop now",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
+                        "open_in_popup": false,
                         "style_class": "button-secondary",
                         "width": "custom",
                         "custom_width": 70,
@@ -1348,6 +1355,7 @@
                   "settings": {
                     "image": "shopify://shop_images/4f639bc47fc4667f50613ccb44c7f0338b27c846_1.png",
                     "link": "",
+                    "open_in_popup": false,
                     "image_ratio": "adapt",
                     "width": "fill",
                     "custom_width": 100,
@@ -1380,7 +1388,7 @@
       "block_order": [
         "group_pq8iUY"
       ],
-      "name": "Featured",
+      "name": "TheProduct",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -1747,7 +1755,17 @@
         "card_radius": 12,
         "padding-block-start": 32,
         "padding-block-end": 0,
-        "custom_css": ""
+        "custom_css": "",
+        "loop_api_token": "",
+        "loop_api_base": "https://api.loopwork.co",
+        "loop_session_endpoint": "",
+        "loop_bundle_enabled": false,
+        "loop_bundle_id": "",
+        "loop_bundle_box_size_id": "",
+        "loop_bundle_create_url": "",
+        "loop_bundle_variant_id": "",
+        "loop_bundle_selling_plan_id": "",
+        "loop_bundle_property_key": "_bundleId"
       }
     },
     "fortified_tabs_KnFXW8": {
@@ -2159,6 +2177,7 @@
                     "label": "Shop now",
                     "link": "shopify://collections/all",
                     "open_in_new_tab": false,
+                    "open_in_popup": false,
                     "style_class": "button-secondary",
                     "width": "fit-content",
                     "custom_width": 100,
@@ -2730,6 +2749,7 @@
                         "label": "Shop now",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
+                        "open_in_popup": false,
                         "style_class": "button",
                         "width": "fit-content",
                         "custom_width": 100,
@@ -2792,6 +2812,7 @@
                       "settings": {
                         "image": "shopify://shop_images/Blank.webp",
                         "link": "",
+                        "open_in_popup": false,
                         "image_ratio": "adapt",
                         "width": "fill",
                         "custom_width": 100,
@@ -2986,6 +3007,7 @@
                         "label": "Shop now",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
+                        "open_in_popup": false,
                         "style_class": "button",
                         "width": "fit-content",
                         "custom_width": 100,
@@ -3048,6 +3070,7 @@
                       "settings": {
                         "image": "shopify://shop_images/Blank.webp",
                         "link": "",
+                        "open_in_popup": false,
                         "image_ratio": "adapt",
                         "width": "fill",
                         "custom_width": 100,
