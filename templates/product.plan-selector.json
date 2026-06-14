@@ -302,7 +302,14 @@
                 "custom_css": "",
                 "loop_api_token": "",
                 "loop_api_base": "https://api.loopwork.co",
-                "loop_session_endpoint": ""
+                "loop_session_endpoint": "",
+                "loop_bundle_enabled": false,
+                "loop_bundle_id": "",
+                "loop_bundle_box_size_id": "",
+                "loop_bundle_create_url": "",
+                "loop_bundle_variant_id": "",
+                "loop_bundle_selling_plan_id": "",
+                "loop_bundle_property_key": "_bundleId"
               },
               "blocks": {
                 "ftd_ps_benefit_xtRaUW": {
@@ -473,11 +480,11 @@
       "type": "fortified-split-hero",
       "name": "FTD - Split Hero",
       "settings": {
-        "eyebrow": "{{ product.metafields.fortified.pdp_content.value.eyebrow }}",
+        "eyebrow": "Clean Hydration, Daily",
         "eyebrow_color": "#1fa8a1",
-        "heading": "{{ product.metafields.fortified.pdp_content.value.hero_heading }}",
-        "body": "{{ product.metafields.fortified.pdp_content.value.hero_body }}",
-        "button_label": "{{ product.metafields.fortified.pdp_content.value.cta_label }}",
+        "heading": "Hydration You'd Give Your Family",
+        "body": "Clean electrolytes with Vitamin D3 + K2, zero sugar, and zero artificial sweeteners. Every milligram disclosed — the daily hydration powder you never have to second-guess.",
+        "button_label": "Shop Everyday Hydration",
         "button_link": "",
         "button_style": "outline",
         "image_focal": "center",
@@ -504,32 +511,32 @@
         "ingredient_QDqxhC": {
           "type": "ingredient",
           "settings": {
-            "name": "{{ product.metafields.fortified.pdp_content.value.ingredients.value[0].name }}",
-            "description": "{{ product.metafields.fortified.pdp_content.value.ingredients.value[0].amount }} — {{ product.metafields.fortified.pdp_content.value.ingredients.value[0].description }}",
+            "name": "Sodium",
+            "description": "1,210mg from Ancient Ocean® Pink Himalayan Salt to drive real hydration.",
             "icon_color_override": ""
           }
         },
         "ingredient_PUBdM7": {
           "type": "ingredient",
           "settings": {
-            "name": "{{ product.metafields.fortified.pdp_content.value.ingredients.value[1].name }}",
-            "description": "{{ product.metafields.fortified.pdp_content.value.ingredients.value[1].amount }} — {{ product.metafields.fortified.pdp_content.value.ingredients.value[1].description }}",
+            "name": "Potassium",
+            "description": "From real coconut water powder to support muscle and nerve function.",
             "icon_color_override": ""
           }
         },
         "ingredient_rbmhYK": {
           "type": "ingredient",
           "settings": {
-            "name": "{{ product.metafields.fortified.pdp_content.value.ingredients.value[2].name }}",
-            "description": "{{ product.metafields.fortified.pdp_content.value.ingredients.value[2].amount }} — {{ product.metafields.fortified.pdp_content.value.ingredients.value[2].description }}",
+            "name": "Magnesium",
+            "description": "1,000mg magnesium malate — a highly bioavailable form for energy and recovery.",
             "icon_color_override": ""
           }
         },
         "ingredient_JFWq4n": {
           "type": "ingredient",
           "settings": {
-            "name": "{{ product.metafields.fortified.pdp_content.value.ingredients.value[3].name }}",
-            "description": "{{ product.metafields.fortified.pdp_content.value.ingredients.value[3].amount }} — {{ product.metafields.fortified.pdp_content.value.ingredients.value[3].description }}",
+            "name": "Vitamin D3 + K2",
+            "description": "130% DV Vitamin D3 paired with K2 as MK-7, the way your body uses them.",
             "icon_color_override": ""
           }
         }
@@ -542,8 +549,8 @@
       ],
       "name": "FTD - Ingredients Callout",
       "settings": {
-        "heading": "{{ product.metafields.fortified.pdp_content.value.ingredients_heading }}",
-        "subheading": "{{ product.metafields.fortified.pdp_content.value.ingredients_subheading }}",
+        "heading": "Real Ingredients, Honest Amounts",
+        "subheading": "No proprietary blends. Every nutrient in FORTIFIED® is printed on the label, in a dose that actually matters.",
         "product_image_background": "#f2f2f0",
         "product_image_max_height": 500,
         "image_position_desktop": "left",
@@ -566,9 +573,9 @@
       "type": "fortified-testimonial",
       "name": "FTD - Testimonial",
       "settings": {
-        "name": "{{ product.metafields.fortified.pdp_content.value.testimonial_name }}",
+        "name": "Marisa K., mom of three",
         "role": "HBO Max Champion",
-        "quote": "{{ product.metafields.fortified.pdp_content.value.testimonial_quote }}",
+        "quote": "I finally found a hydration mix I don't have to hide from my kids. I can read every ingredient — no fake sweeteners, no dyes — and it actually works.",
         "quote_marks": true,
         "button_label": "Shop Clean Hydration",
         "button_link": "",
@@ -591,9 +598,9 @@
         "stat_EiCqMM": {
           "type": "stat",
           "settings": {
-            "number": "{{ product.metafields.fortified.pdp_content.value.stat_1_number }}",
-            "label": "{{ product.metafields.fortified.pdp_content.value.stat_1_label }}",
-            "description": "{{ product.metafields.fortified.pdp_content.value.stat_1_description }}",
+            "number": "0g",
+            "label": "Added Sugar",
+            "description": "Sweetened with monk fruit and fermented Reb M — never sucralose or aspartame.",
             "number_color": "",
             "link": ""
           }
@@ -601,9 +608,9 @@
         "stat_3y7DCP": {
           "type": "stat",
           "settings": {
-            "number": "{{ product.metafields.fortified.pdp_content.value.stat_2_number }}",
-            "label": "{{ product.metafields.fortified.pdp_content.value.stat_2_label }}",
-            "description": "{{ product.metafields.fortified.pdp_content.value.stat_2_description }}",
+            "number": "1,210mg",
+            "label": "Sodium Per Serving",
+            "description": "From Ancient Ocean® Pink Himalayan Salt to drive real hydration.",
             "number_color": "",
             "link": ""
           }
@@ -611,9 +618,9 @@
         "stat_MTMYWk": {
           "type": "stat",
           "settings": {
-            "number": "{{ product.metafields.fortified.pdp_content.value.stat_3_number }}",
-            "label": "{{ product.metafields.fortified.pdp_content.value.stat_3_label }}",
-            "description": "{{ product.metafields.fortified.pdp_content.value.stat_3_description }}",
+            "number": "100%",
+            "label": "Ingredients Disclosed",
+            "description": "No proprietary blends. Every milligram is printed on the label.",
             "number_color": "",
             "link": ""
           }
@@ -649,7 +656,7 @@
         "product_card_WdLdR8": {
           "type": "product_card",
           "settings": {
-            "product": "",
+            "product": "energy",
             "name_override": "",
             "price_override": "",
             "compare_at_override": "",
@@ -662,7 +669,7 @@
         "product_card_6GeVWL": {
           "type": "product_card",
           "settings": {
-            "product": "",
+            "product": "everyday",
             "name_override": "",
             "price_override": "",
             "compare_at_override": "",
@@ -948,24 +955,24 @@
         "callout_7qd93w": {
           "type": "callout",
           "settings": {
-            "title": "{{ product.metafields.fortified.pdp_content.value.callout_1_title }}",
-            "body": "{{ product.metafields.fortified.pdp_content.value.callout_1_body }}",
+            "title": "Why 1,210mg sodium?",
+            "body": "Sodium is the primary electrolyte lost in sweat and drives fluid absorption via sodium-glucose cotransport in the small intestine.",
             "accent_color": "#1fa8a1"
           }
         },
         "callout_jy8gL8": {
           "type": "callout",
           "settings": {
-            "title": "{{ product.metafields.fortified.pdp_content.value.callout_2_title }}",
-            "body": "{{ product.metafields.fortified.pdp_content.value.callout_2_body }}",
+            "title": "Why 0g sugar with 10 calories?",
+            "body": "Trace carbs come from organic whole-food ingredients. We sweeten with monk fruit and stevia, not sucralose.",
             "accent_color": "#e8833a"
           }
         },
         "callout_q9aXAa": {
           "type": "callout",
           "settings": {
-            "title": "{{ product.metafields.fortified.pdp_content.value.callout_3_title }}",
-            "body": "{{ product.metafields.fortified.pdp_content.value.callout_3_body }}",
+            "title": "Why no D3 on Energy?",
+            "body": "Energy is for performance moments. D3 belongs in your daily foundation - look for it on the Everyday label.",
             "accent_color": "#9dbe5b"
           }
         }
@@ -1012,7 +1019,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ ENERGY",
-            "caption": "{{ product.metafields.fortified.pdp_content.value.truth_cards.value[0] }}",
+            "caption": "No artificial sweeteners",
             "show_icon": true,
             "link": ""
           }
@@ -1022,7 +1029,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ ENERGY",
-            "caption": "{{ product.metafields.fortified.pdp_content.value.truth_cards.value[1] }}",
+            "caption": "No synthetic dyes",
             "show_icon": true,
             "link": ""
           }
@@ -1032,7 +1039,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ PERFORMANCE",
-            "caption": "{{ product.metafields.fortified.pdp_content.value.truth_cards.value[2] }}",
+            "caption": "No added sugar",
             "show_icon": true,
             "link": ""
           }
@@ -1042,7 +1049,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ HYDRATION",
-            "caption": "{{ product.metafields.fortified.pdp_content.value.truth_cards.value[3] }}",
+            "caption": "No proprietary blends",
             "show_icon": true,
             "link": ""
           }
@@ -1052,7 +1059,7 @@
           "settings": {
             "media_type": "image",
             "category": "+ FOCUS",
-            "caption": "{{ product.metafields.fortified.pdp_content.value.truth_cards.value[4] }}",
+            "caption": "No fillers or junk",
             "show_icon": true,
             "link": ""
           }
@@ -1068,8 +1075,8 @@
       "name": "FTD - Truth",
       "settings": {
         "eyebrow": "What We Left Out",
-        "heading": "{{ product.metafields.fortified.pdp_content.value.truth_heading }}",
-        "subheading": "{{ product.metafields.fortified.pdp_content.value.truth_subheading }}",
+        "heading": "A Label You Can Actually Read",
+        "subheading": "No artificial sweeteners, no dyes, no fillers. Real ingredients in amounts that matter.",
         "button_label": "Shop FORTIFIED®",
         "button_link": "",
         "button_style": "outline",
@@ -1174,10 +1181,10 @@
             "corner_styling": "soft",
             "card_spacing": "medium",
             "header_text_color": "#000000",
-            "star_and_reviewer_name_color": "#F9F9F9",
+            "star_and_reviewer_name_color": "#f9f9f9",
             "drop_shadow_color": "#000000",
             "overlay_and_background_color": "#000000",
-            "content_color": "#F9F9F9",
+            "content_color": "#f9f9f9",
             "header_text": "From our customers",
             "show_average_rating": true
           }
