@@ -562,7 +562,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h4>**New arrivals**</h4>",
+                    "text": "<h4>*Pure & simple*</h4>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -588,7 +588,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>New arrivals</h2>",
+                    "text": "<h2>One Ingredient. 45 Servings.</h2>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -614,7 +614,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                    "text": "<p>The clinically-studied 5g dose of creatine monohydrate, with nothing else in the pouch. No flavors, no sweeteners, no fillers. The research disagrees with everyone who told you creatine isn't for women.</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -680,7 +680,7 @@
                       "type": "button",
                       "name": "t:names.button",
                       "settings": {
-                        "label": "Shop now",
+                        "label": "Shop Creatine",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
                         "style_class": "button-secondary",
