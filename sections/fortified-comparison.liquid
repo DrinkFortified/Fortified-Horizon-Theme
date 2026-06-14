@@ -18,6 +18,37 @@
   assign feature_rows = section.blocks | where: 'type', 'feature_row'
   assign competitors  = section.blocks | where: 'type', 'competitor'
 
+  # Per-product override via product.fortified.pdp_extra metaobject.
+  assign px = product.metafields.fortified.pdp_extra.value
+  assign use_pdp_rows = false
+  assign use_pdp_competitors = false
+  assign eyebrow_v    = section.settings.eyebrow
+  assign heading_v    = section.settings.heading
+  assign subheading_v = section.settings.subheading
+  assign cta_label_v  = section.settings.cta_label
+  if px != blank
+    if px.comparison_eyebrow != blank
+      assign eyebrow_v = px.comparison_eyebrow
+    endif
+    if px.comparison_heading != blank
+      assign heading_v = px.comparison_heading
+    endif
+    if px.comparison_subheading != blank
+      assign subheading_v = px.comparison_subheading
+    endif
+    if px.comparison_cta_label != blank
+      assign cta_label_v = px.comparison_cta_label
+    endif
+    if px.comparison_rows.value != blank and px.comparison_rows.value.size > 0
+      assign feature_rows = px.comparison_rows.value
+      assign use_pdp_rows = true
+    endif
+    if px.comparison_competitors.value != blank and px.comparison_competitors.value.size > 0
+      assign competitors = px.comparison_competitors.value
+      assign use_pdp_competitors = true
+    endif
+  endif
+
   assign col_count = competitors.size | plus: 2
   assign cta_style = section.settings.cta_style | default: 'outline'
 -%}
@@ -252,9 +283,9 @@
 
     {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
       <div class="{{ root }}__head">
-        {%- if section.settings.eyebrow != blank -%}<p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-        {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{{ section.settings.heading | newline_to_br }}</h2>{%- endif -%}
-        {%- if section.settings.subheading != blank -%}<p class="{{ root }}__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+        {%- if eyebrow_v != blank -%}<p class="{{ root }}__eyebrow">{{ eyebrow_v }}</p>{%- endif -%}
+        {%- if heading_v != blank -%}<h2 class="{{ root }}__heading">{{ heading_v | newline_to_br }}</h2>{%- endif -%}
+        {%- if subheading_v != blank -%}<p class="{{ root }}__sub">{{ subheading_v }}</p>{%- endif -%}
       </div>
     {%- endif -%}
 
@@ -274,24 +305,39 @@
           {%- endif -%}
         </div>
         {%- for c in competitors -%}
-          <div class="{{ root }}__cell {{ root }}__cell--head" role="columnheader" {% if c.settings.highlight_color != blank %}style="color: {{ c.settings.highlight_color }};"{% endif %}>
-            {%- if c.settings.logo != blank -%}
-              {{ c.settings.logo | image_url: width: 200 | image_tag: class: comp_logo_class, loading: 'lazy', widths: '100,200,300', alt: c.settings.name }}
-            {%- else -%}
-              {{ c.settings.name }}
-            {%- endif -%}
-          </div>
+          {%- if use_pdp_competitors -%}
+            <div class="{{ root }}__cell {{ root }}__cell--head" role="columnheader">{{ c.name }}</div>
+          {%- else -%}
+            <div class="{{ root }}__cell {{ root }}__cell--head" role="columnheader" {% if c.settings.highlight_color != blank %}style="color: {{ c.settings.highlight_color }};"{% endif %}>
+              {%- if c.settings.logo != blank -%}
+                {{ c.settings.logo | image_url: width: 200 | image_tag: class: comp_logo_class, loading: 'lazy', widths: '100,200,300', alt: c.settings.name }}
+              {%- else -%}
+                {{ c.settings.name }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
         {%- endfor -%}
 
         {%- comment -%} Feature rows {%- endcomment -%}
         {%- for row in feature_rows -%}
           {%- assign row_index = forloop.index0 -%}
+          {%- liquid
+            if use_pdp_rows
+              assign row_label = row.label
+              assign row_icon = row.icon
+              assign row_value = row.fortified_value
+            else
+              assign row_label = row.settings.label
+              assign row_icon = row.settings.icon
+              assign row_value = row.settings.fortified_value
+            endif
+          -%}
 
-          <div class="{{ root }}__cell {{ root }}__cell--label" role="rowheader">{{ row.settings.label }}</div>
+          <div class="{{ root }}__cell {{ root }}__cell--label" role="rowheader">{{ row_label }}</div>
 
           {%- comment -%} Fortified cell {%- endcomment -%}
           <div class="{{ root }}__cell {{ root }}__cell--fortified" role="cell">
-            {%- case row.settings.icon -%}
+            {%- case row_icon -%}
               {%- when 'check' -%}
                 <span class="{{ root }}__check-circle" aria-label="Yes">
                   <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 8.5 6.5 12 13 4.5"/></svg>
@@ -301,13 +347,18 @@
                   <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
                 </span>
               {%- else -%}
-                <span>{{ row.settings.fortified_value }}</span>
+                <span>{{ row_value }}</span>
             {%- endcase -%}
           </div>
 
           {%- comment -%} Competitor cells: pull index-th line from each competitor's values {%- endcomment -%}
           {%- for c in competitors -%}
-            {%- assign lines = c.settings.values | newline_to_br | split: '<br />' -%}
+            {%- if use_pdp_competitors -%}
+              {%- assign comp_values_raw = c.values -%}
+            {%- else -%}
+              {%- assign comp_values_raw = c.settings.values -%}
+            {%- endif -%}
+            {%- assign lines = comp_values_raw | newline_to_br | split: '<br />' -%}
             {%- assign raw = lines[row_index] | default: '' | strip -%}
             {%- assign rawd = raw | downcase -%}
             <div class="{{ root }}__cell" role="cell">
@@ -339,7 +390,7 @@
         <a
           class="{{ root }}__cta {{ root }}__cta--{{ cta_style }}"
           {% if section.settings.cta_link != blank %}href="{{ section.settings.cta_link }}"{% else %}href="#" role="button"{% endif %}
-        >{{ section.settings.cta_label }}</a>
+        >{{ cta_label_v }}</a>
       </div>
     {%- endif -%}
 

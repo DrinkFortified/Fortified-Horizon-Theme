@@ -66,9 +66,26 @@
       {%- endif -%}
       <div class="fths__hero-overlay" aria-hidden="true"></div>
       <div class="fths__hero-content">
-        {%- if section.settings.eyebrow != blank -%}<p class="fths__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-        {%- if section.settings.heading != blank -%}<h2 class="fths__heading">{{ section.settings.heading | newline_to_br }}</h2>{%- endif -%}
-        {%- if section.settings.body != blank -%}<p class="fths__body">{{ section.settings.body }}</p>{%- endif -%}
+        {%- liquid
+          assign px = product.metafields.fortified.pdp_extra.value
+          assign eyebrow_v = section.settings.eyebrow
+          assign heading_v = section.settings.heading
+          assign body_v = section.settings.body
+          if px != blank
+            if px.showcase_eyebrow != blank
+              assign eyebrow_v = px.showcase_eyebrow
+            endif
+            if px.showcase_heading != blank
+              assign heading_v = px.showcase_heading
+            endif
+            if px.showcase_body != blank
+              assign body_v = px.showcase_body
+            endif
+          endif
+        -%}
+        {%- if eyebrow_v != blank -%}<p class="fths__eyebrow">{{ eyebrow_v }}</p>{%- endif -%}
+        {%- if heading_v != blank -%}<h2 class="fths__heading">{{ heading_v | newline_to_br }}</h2>{%- endif -%}
+        {%- if body_v != blank -%}<p class="fths__body">{{ body_v }}</p>{%- endif -%}
       </div>
     </div>
     <div class="fths__cards">
@@ -118,9 +135,15 @@
         {%- endif -%}
       {%- endfor -%}
     </div>
-    {%- if section.settings.button_label != blank -%}
+    {%- liquid
+      assign cta_label_v = section.settings.button_label
+      if px != blank and px.showcase_cta_label != blank
+        assign cta_label_v = px.showcase_cta_label
+      endif
+    -%}
+    {%- if cta_label_v != blank -%}
       <div class="fths__cta-wrap">
-        {%- if section.settings.button_link != blank -%}<a class="{{ cta_class }}" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>{%- else -%}<span class="{{ cta_class }}" role="button">{{ section.settings.button_label }}</span>{%- endif -%}
+        {%- if section.settings.button_link != blank -%}<a class="{{ cta_class }}" href="{{ section.settings.button_link }}">{{ cta_label_v }}</a>{%- else -%}<span class="{{ cta_class }}" role="button">{{ cta_label_v }}</span>{%- endif -%}
       </div>
     {%- endif -%}
   </div>
