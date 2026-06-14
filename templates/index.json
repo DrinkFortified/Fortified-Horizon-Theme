@@ -763,7 +763,7 @@
           "settings": {
             "content_direction": "column",
             "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
+            "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
@@ -808,10 +808,27 @@
                 "open_in_new_tab": false
               },
               "blocks": {}
+            },
+            "text_iconrow_1": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p><strong>Every Milligram Disclosed</strong><br>No proprietary blends.</p>",
+                "type_preset": "paragraph",
+                "case": "none",
+                "alignment": "center",
+                "color": "",
+                "padding-block-start": 6,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
-            "icon_hb9KAk"
+            "icon_hb9KAk",
+            "text_iconrow_1"
           ]
         },
         "group_LcafRb": {
@@ -820,7 +837,7 @@
           "settings": {
             "content_direction": "column",
             "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
+            "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
@@ -865,10 +882,27 @@
                 "open_in_new_tab": false
               },
               "blocks": {}
+            },
+            "text_iconrow_2": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p><strong>Zero Artificial Sweeteners</strong><br>Monk fruit, never sucralose.</p>",
+                "type_preset": "paragraph",
+                "case": "none",
+                "alignment": "center",
+                "color": "",
+                "padding-block-start": 6,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
-            "icon_a8AAMj"
+            "icon_a8AAMj",
+            "text_iconrow_2"
           ]
         },
         "group_CNRkGQ": {
@@ -877,7 +911,7 @@
           "settings": {
             "content_direction": "column",
             "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
+            "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
@@ -922,10 +956,27 @@
                 "open_in_new_tab": false
               },
               "blocks": {}
+            },
+            "text_iconrow_3": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p><strong>Real Coffee-Bean Caffeine</strong><br>Not caffeine anhydrous.</p>",
+                "type_preset": "paragraph",
+                "case": "none",
+                "alignment": "center",
+                "color": "",
+                "padding-block-start": 6,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
-            "icon_FqTTp9"
+            "icon_FqTTp9",
+            "text_iconrow_3"
           ]
         },
         "group_Px4wY6": {
@@ -934,7 +985,7 @@
           "settings": {
             "content_direction": "column",
             "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
+            "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
@@ -979,10 +1030,27 @@
                 "open_in_new_tab": false
               },
               "blocks": {}
+            },
+            "text_iconrow_4": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p><strong>Free Shipping on Subscriptions</strong><br>On every order.</p>",
+                "type_preset": "paragraph",
+                "case": "none",
+                "alignment": "center",
+                "color": "",
+                "padding-block-start": 6,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
-            "icon_KTXJCV"
+            "icon_KTXJCV",
+            "text_iconrow_4"
           ]
         },
         "group_9GeMGC": {
@@ -991,7 +1059,7 @@
           "settings": {
             "content_direction": "column",
             "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
+            "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
@@ -1036,10 +1104,27 @@
                 "open_in_new_tab": false
               },
               "blocks": {}
+            },
+            "text_iconrow_5": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p><strong>Skip or Cancel Anytime</strong><br>No commitment, no friction.</p>",
+                "type_preset": "paragraph",
+                "case": "none",
+                "alignment": "center",
+                "color": "",
+                "padding-block-start": 6,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
-            "icon_cdTGt7"
+            "icon_cdTGt7",
+            "text_iconrow_5"
           ]
         }
       },
