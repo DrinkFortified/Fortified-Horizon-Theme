@@ -24,18 +24,49 @@
 
   assign nutrients = section.blocks | where: 'type', 'nutrient'
   assign callouts  = section.blocks | where: 'type', 'callout'
+
+  # Per-product override: when the current product has a linked pdp_content
+  # metaobject, prefer its values. Sections still work standalone — every
+  # override falls back to the section setting / block list when blank.
+  assign pdp = product.metafields.fortified.pdp_content.value
+  assign eyebrow_v       = section.settings.eyebrow
+  assign heading_v       = section.settings.heading
+  assign servings_per_v  = section.settings.panel_servings_per
+  assign serving_size_v  = section.settings.panel_serving_size
+  assign calories_v      = section.settings.panel_calories
+  assign use_pdp_nutrients = false
+  if pdp != blank
+    if pdp.supplement_facts_eyebrow != blank
+      assign eyebrow_v = pdp.supplement_facts_eyebrow
+    endif
+    if pdp.supplement_facts_heading != blank
+      assign heading_v = pdp.supplement_facts_heading
+    endif
+    if pdp.servings_per != blank
+      assign servings_per_v = pdp.servings_per
+    endif
+    if pdp.serving_size != blank
+      assign serving_size_v = pdp.serving_size
+    endif
+    if pdp.calories != blank
+      assign calories_v = pdp.calories
+    endif
+    if pdp.nutrients.value != blank and pdp.nutrients.value.size > 0
+      assign use_pdp_nutrients = true
+    endif
+  endif
 -%}
 
 {%- capture heading_html -%}
-  {%- if section.settings.heading != blank -%}
+  {%- if heading_v != blank -%}
     {%- if emphasis_word != blank -%}
-      {%- assign parts = section.settings.heading | split: emphasis_word -%}
+      {%- assign parts = heading_v | split: emphasis_word -%}
       {%- assign joined = parts | join: '<em class="ftbsf__em">' | append: emphasis_word -%}
       {%- assign joined = joined | append: '</em>' -%}
       {%- assign final = joined | newline_to_br -%}
       {{ final }}
     {%- else -%}
-      {{ section.settings.heading | newline_to_br }}
+      {{ heading_v | newline_to_br }}
     {%- endif -%}
   {%- endif -%}
 {%- endcapture -%}
@@ -56,21 +87,21 @@
     <aside class="ftbsf__panel-wrap">
       <div class="ftbsf__panel" role="table" aria-label="{{ section.settings.panel_title | escape }}">
         <div class="ftbsf__panel-title">{{ section.settings.panel_title }}</div>
-        {%- if section.settings.panel_servings_per != blank -%}
-          <div class="ftbsf__panel-meta">{{ section.settings.panel_servings_per }}</div>
+        {%- if servings_per_v != blank -%}
+          <div class="ftbsf__panel-meta">{{ servings_per_v }}</div>
         {%- endif -%}
-        {%- if section.settings.panel_serving_size != blank -%}
-          <div class="ftbsf__panel-meta ftbsf__panel-meta--bold">Serving size <span>{{ section.settings.panel_serving_size }}</span></div>
+        {%- if serving_size_v != blank -%}
+          <div class="ftbsf__panel-meta ftbsf__panel-meta--bold">Serving size <span>{{ serving_size_v }}</span></div>
         {%- endif -%}
 
         <div class="ftbsf__rule ftbsf__rule--thick" aria-hidden="true"></div>
 
         <div class="ftbsf__amount-per">Amount Per Serving</div>
 
-        {%- if section.settings.panel_calories != blank -%}
+        {%- if calories_v != blank -%}
           <div class="ftbsf__cal-row">
             <span class="ftbsf__cal-label">Calories</span>
-            <span class="ftbsf__cal-num">{{ section.settings.panel_calories }}</span>
+            <span class="ftbsf__cal-num">{{ calories_v }}</span>
           </div>
         {%- endif -%}
 
@@ -79,22 +110,41 @@
         <div class="ftbsf__dv-head">% Daily Value*</div>
 
         <div class="ftbsf__rows">
-          {%- for block in nutrients -%}
-            {%- assign indent  = block.settings.indent_level | default: 0 -%}
-            {%- assign divider = block.settings.divider_after | default: 'thin' -%}
-            <div class="ftbsf__row ftbsf__row--indent-{{ indent }}" {{ block.shopify_attributes }}>
-              <span class="ftbsf__row-label{% if block.settings.bold_label %} ftbsf__row-label--bold{% endif %}">
-                {{ block.settings.label }}
-                {%- if block.settings.amount != blank -%}
-                  <span class="ftbsf__row-amount">{{ block.settings.amount }}</span>
-                {%- endif -%}
-              </span>
-              <span class="ftbsf__row-dv">{{ block.settings.daily_value }}</span>
-            </div>
-            {%- unless divider == 'none' -%}
-              <div class="ftbsf__rule ftbsf__rule--{{ divider }}" aria-hidden="true"></div>
-            {%- endunless -%}
-          {%- endfor -%}
+          {%- if use_pdp_nutrients -%}
+            {%- for n in pdp.nutrients.value -%}
+              {%- assign indent  = n.indent_level | default: 0 -%}
+              {%- assign divider = n.divider_after | default: 'thin' -%}
+              <div class="ftbsf__row ftbsf__row--indent-{{ indent }}">
+                <span class="ftbsf__row-label{% if n.bold_label %} ftbsf__row-label--bold{% endif %}">
+                  {{ n.label }}
+                  {%- if n.amount != blank -%}
+                    <span class="ftbsf__row-amount">{{ n.amount }}</span>
+                  {%- endif -%}
+                </span>
+                <span class="ftbsf__row-dv">{{ n.daily_value }}</span>
+              </div>
+              {%- unless divider == 'none' -%}
+                <div class="ftbsf__rule ftbsf__rule--{{ divider }}" aria-hidden="true"></div>
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for block in nutrients -%}
+              {%- assign indent  = block.settings.indent_level | default: 0 -%}
+              {%- assign divider = block.settings.divider_after | default: 'thin' -%}
+              <div class="ftbsf__row ftbsf__row--indent-{{ indent }}" {{ block.shopify_attributes }}>
+                <span class="ftbsf__row-label{% if block.settings.bold_label %} ftbsf__row-label--bold{% endif %}">
+                  {{ block.settings.label }}
+                  {%- if block.settings.amount != blank -%}
+                    <span class="ftbsf__row-amount">{{ block.settings.amount }}</span>
+                  {%- endif -%}
+                </span>
+                <span class="ftbsf__row-dv">{{ block.settings.daily_value }}</span>
+              </div>
+              {%- unless divider == 'none' -%}
+                <div class="ftbsf__rule ftbsf__rule--{{ divider }}" aria-hidden="true"></div>
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endif -%}
         </div>
 
         {%- if section.settings.panel_footnote != blank -%}
@@ -106,12 +156,12 @@
 
     {%- comment -%} RIGHT: Header + callouts {%- endcomment -%}
     <div class="ftbsf__body">
-      {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      {%- if eyebrow_v != blank or heading_v != blank -%}
         <header class="ftbsf__head">
-          {%- if section.settings.eyebrow != blank -%}
-            <p class="ftbsf__eyebrow">{{ section.settings.eyebrow }}</p>
+          {%- if eyebrow_v != blank -%}
+            <p class="ftbsf__eyebrow">{{ eyebrow_v }}</p>
           {%- endif -%}
-          {%- if section.settings.heading != blank -%}
+          {%- if heading_v != blank -%}
             <h2 class="ftbsf__heading">{{ heading_html }}</h2>
           {%- endif -%}
         </header>

@@ -1213,6 +1213,22 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "ftd_b_faq_pdp": {
+      "type": "ftd-b-faq",
+      "settings": {
+        "show_tabs": false,
+        "color_scheme": "scheme-1",
+        "eyebrow_color": "#1FA8A1",
+        "accent_color": "#1FA8A1",
+        "divider_color": "#E5E5E5",
+        "section_width": "page-width",
+        "content_max_width": 1100,
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      },
+      "blocks": {},
+      "block_order": []
     }
   },
   "order": [
@@ -1226,6 +1242,7 @@
     "fortified_comparison_CLVb4q",
     "ftd_b_supplement_facts_bmPkCy",
     "fortified_truth_qBjbt7",
+    "ftd_b_faq_pdp",
     "fortified_subscribe_save_J6Ri7m",
     "17809380431492f2ae"
   ]

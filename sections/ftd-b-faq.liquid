@@ -25,17 +25,38 @@
 
   assign filter_tabs = section.blocks | where: 'type', 'filter_tab'
   assign faq_items   = section.blocks | where: 'type', 'faq_item'
+
+  # Per-product override: when a linked pdp_content metaobject is present,
+  # use its FAQ list and headings. Falls back cleanly to section blocks.
+  assign pdp = product.metafields.fortified.pdp_content.value
+  assign eyebrow_v = section.settings.eyebrow
+  assign heading_v = section.settings.heading
+  assign use_pdp_faqs = false
+  if pdp != blank
+    if pdp.faq_eyebrow != blank
+      assign eyebrow_v = pdp.faq_eyebrow
+    endif
+    if pdp.faq_heading != blank
+      assign heading_v = pdp.faq_heading
+    endif
+    if pdp.faq_emphasis != blank
+      assign emphasis_word = pdp.faq_emphasis
+    endif
+    if pdp.faqs.value != blank and pdp.faqs.value.size > 0
+      assign use_pdp_faqs = true
+    endif
+  endif
 -%}
 
 {%- capture heading_html -%}
-  {%- if section.settings.heading != blank -%}
+  {%- if heading_v != blank -%}
     {%- if emphasis_word != blank -%}
-      {%- assign parts = section.settings.heading | split: emphasis_word -%}
+      {%- assign parts = heading_v | split: emphasis_word -%}
       {%- assign joined = parts | join: '<em class="ftbfq__em">' | append: emphasis_word -%}
       {%- assign joined = joined | append: '</em>' -%}
       {{ joined | newline_to_br }}
     {%- else -%}
-      {{ section.settings.heading | newline_to_br }}
+      {{ heading_v | newline_to_br }}
     {%- endif -%}
   {%- endif -%}
 {%- endcapture -%}
@@ -54,12 +75,12 @@
 >
   <div class="ftbfq__inner">
 
-    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+    {%- if eyebrow_v != blank or heading_v != blank -%}
       <header class="ftbfq__head">
-        {%- if section.settings.eyebrow != blank -%}
-          <p class="ftbfq__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- if eyebrow_v != blank -%}
+          <p class="ftbfq__eyebrow">{{ eyebrow_v }}</p>
         {%- endif -%}
-        {%- if section.settings.heading != blank -%}
+        {%- if heading_v != blank -%}
           <h2 class="ftbfq__heading">{{ heading_html }}</h2>
         {%- endif -%}
       </header>
@@ -85,7 +106,35 @@
       </div>
     {%- endif -%}
 
-    {%- if faq_items.size > 0 -%}
+    {%- if use_pdp_faqs -%}
+      <div class="ftbfq__list" data-ftbfq-list>
+        {%- for f in pdp.faqs.value -%}
+          {%- assign tag_attr = f.tags | default: '' | strip | downcase -%}
+          {%- assign is_open = f.open_by_default -%}
+          {%- assign panel_id = 'ftbfq-panel-' | append: section.id | append: '-' | append: forloop.index -%}
+          {%- assign btn_id   = 'ftbfq-btn-'   | append: section.id | append: '-' | append: forloop.index -%}
+          <div class="ftbfq__item{% if is_open %} is-open{% endif %}" data-ftbfq-tags="{{ tag_attr }}">
+            <button type="button"
+              class="ftbfq__q"
+              id="{{ btn_id }}"
+              aria-expanded="{% if is_open %}true{% else %}false{% endif %}"
+              aria-controls="{{ panel_id }}"
+              data-ftbfq-toggle>
+              <span class="ftbfq__q-text">{{ f.question }}</span>
+              <span class="ftbfq__chev" aria-hidden="true">
+                <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 8 11 13 6"/></svg>
+              </span>
+            </button>
+            <div class="ftbfq__a"
+              id="{{ panel_id }}"
+              role="region"
+              aria-labelledby="{{ btn_id }}">
+              <div class="ftbfq__a-inner">{{ f.answer }}</div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- elsif faq_items.size > 0 -%}
       <div class="ftbfq__list" data-ftbfq-list>
         {%- for block in faq_items -%}
           {%- assign tag_attr = block.settings.tags | default: '' | strip | downcase -%}
