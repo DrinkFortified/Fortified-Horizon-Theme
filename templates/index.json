@@ -96,7 +96,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h4>*Formulated for*</h4>",
+                    "text": "<h4>*The daily ritual*</h4>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -122,7 +122,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>Hydration that hits</h2>",
+                    "text": "<h2>One Pouch. Every Mineral That Matters.</h2>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -148,7 +148,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                    "text": "<p>1,210mg sodium from Ancient Ocean® Pink Himalayan Salt, 1,000mg magnesium malate, and Vitamin D3 + K2 — sweetened with monk fruit, never sugar or sucralose. Just real ingredients in honest amounts.</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -214,7 +214,7 @@
                       "type": "button",
                       "name": "t:names.button",
                       "settings": {
-                        "label": "Shop now",
+                        "label": "Shop The Lineup",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
                         "style_class": "button",
@@ -229,7 +229,7 @@
                       "type": "button",
                       "name": "t:names.button",
                       "settings": {
-                        "label": "Learn More",
+                        "label": "See The Ingredients",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
                         "style_class": "button-secondary",
@@ -367,7 +367,7 @@
         "text_6dKdCL": {
           "type": "text",
           "settings": {
-            "text": "<p>We make things that work better and last longer.</p>",
+            "text": "<p>Zero Sugar · Zero Artificial Sweeteners · Every Milligram Disclosed · Real Minerals, Real Amounts · Nothing To Hide</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -489,7 +489,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h4>*Formulated for*</h4>",
+                    "text": "<h4>*Read the label*</h4>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -515,7 +515,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>Hydration that hits</h2>",
+                    "text": "<h2>Hydration Worth Reading The Label For</h2>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -541,7 +541,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                    "text": "<p>Clean electrolytes with real minerals, zero sugar, and zero artificial sweeteners. Every milligram on the label — the hydration your whole family can trust.</p>",
                     "width": "fit-content",
                     "max_width": "none",
                     "alignment": "left",
@@ -607,7 +607,7 @@
                       "type": "button",
                       "name": "t:names.button",
                       "settings": {
-                        "label": "Shop now",
+                        "label": "Shop Hydration",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
                         "style_class": "button",
@@ -622,7 +622,7 @@
                       "type": "button",
                       "name": "t:names.button",
                       "settings": {
-                        "label": "Learn More",
+                        "label": "See What's Inside",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
                         "style_class": "button-secondary",
