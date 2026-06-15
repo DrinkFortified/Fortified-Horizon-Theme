@@ -786,6 +786,11 @@
   var FOMO_SOLD_OUT  = {{ fomo_sold_out | json }};
   var FOMO_GIFT_TEXT = {{ block.settings.fomo_gift_text | default: 'Free creatine gift with your first order' | json }};
   var CR_PRICE   = parseFloat(({{ block.settings.addon_price_text | default: '' | json }} + '').replace(/[^0-9.]/g, '')) || 0;
+  {%- if addon_img != blank -%}
+  var ADDON_IMG_URL = {{ addon_img | image_url: width: 90 | json }};
+  {%- else -%}
+  var ADDON_IMG_URL = '';
+  {%- endif -%}
   var PLAN_LABEL_M = {{ block.settings.monthly_label | default: '1 a Month' | json }};
   var PLAN_LABEL_Q = {{ block.settings.quarterly_label | default: '3 Every 3 Months' | json }};
   var PLAN_LABEL_OT = {{ block.settings.onetime_card_label | default: 'One Time' | json }};
@@ -1018,7 +1023,8 @@
       });
       /* "1st included free" creatine row — quarterly bundles only. */
       if (state.purchaseType === 'quarterly') {
-        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">Creatine<span class="fe-ov-line-sub">1st included free</span></span><span class="fe-ov-line-price is-free">FREE</span></li>';
+        var crThumbFree = ADDON_IMG_URL ? '<img class="fe-ov-thumb" src="' + ADDON_IMG_URL + '" alt="">' : '<span class="fe-ov-thumb"></span>';
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + crThumbFree + '<span class="fe-ov-line-txt">Creatine<span class="fe-ov-line-sub">1st included free</span></span></span><span class="fe-ov-line-price is-free">FREE</span></li>';
       }
       /* Paid creatine row — labelled per plan. Skip the "2nd / 50% off" row for one-time. */
       if (creatineCents > 0) {
@@ -1026,7 +1032,8 @@
         if (state.purchaseType === 'quarterly') crLabel = '2nd Creatine (50% off)';
         else if (state.purchaseType === 'onetime') crLabel = 'Creatine';
         else crLabel = 'Creatine (50% off)';
-        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + crLabel + '</span><span class="fe-ov-line-price">' + formatMoney(creatineCents * qty) + '</span></li>';
+        var crThumbPaid = ADDON_IMG_URL ? '<img class="fe-ov-thumb" src="' + ADDON_IMG_URL + '" alt="">' : '<span class="fe-ov-thumb"></span>';
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + crThumbPaid + '<span class="fe-ov-line-txt">' + crLabel + '</span></span><span class="fe-ov-line-price">' + formatMoney(creatineCents * qty) + '</span></li>';
       }
       ovLines.innerHTML = html;
     }

@@ -707,6 +707,11 @@
   var CR_DESC_M  = {{ section.settings.addon_desc | default: '' | json }};
   var CR_DESC_Q  = {{ section.settings.addon_desc_quarterly | default: '1st Creatine is free with your bundle. Add a second at 50% off.' | json }};
   var CR_PRICE   = parseFloat(({{ section.settings.addon_price_text | default: '' | json }} + '').replace(/[^0-9.]/g, '')) || 0;
+  {%- if addon_img != blank -%}
+  var ADDON_IMG_URL = {{ addon_img | image_url: width: 90 | json }};
+  {%- else -%}
+  var ADDON_IMG_URL = '';
+  {%- endif -%}
   var CR_PLAN_M        = {{ section.settings.addon_loop_plan_monthly | default: '' | json }};
   var CR_PLAN_Q_FREE   = {{ section.settings.addon_loop_plan_quarterly | default: '' | json }};
   var FOMO_GIFT_ON   = {{ fomo_gift_enabled | json }};
@@ -895,7 +900,8 @@
         html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + thumb + '<span class="fe-ov-line-txt">' + esc(l.name || ('Pouch ' + (i + 1))) + (l.sub ? '<span class="fe-ov-line-sub">' + esc(l.sub) + '</span>' : '') + '</span></span><span class="fe-ov-line-price">' + formatMoney(l.price * qty) + '</span></li>';
       });
       if (state.purchaseType === 'quarterly') {
-        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">Creatine<span class="fe-ov-line-sub">1st included free</span></span><span class="fe-ov-line-price is-free">FREE</span></li>';
+        var crThumbFree = ADDON_IMG_URL ? '<img class="fe-ov-thumb" src="' + ADDON_IMG_URL + '" alt="">' : '<span class="fe-ov-thumb"></span>';
+        html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + crThumbFree + '<span class="fe-ov-line-txt">Creatine<span class="fe-ov-line-sub">1st included free</span></span></span><span class="fe-ov-line-price is-free">FREE</span></li>';
       }
       if (creatineCents > 0) {
         html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + (state.purchaseType === 'quarterly' ? '2nd Creatine (50% off)' : 'Creatine (50% off)') + '</span><span class="fe-ov-line-price">' + formatMoney(creatineCents * qty) + '</span></li>';
