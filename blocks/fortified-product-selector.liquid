@@ -2324,7 +2324,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Optional. When enabled and configured, the 3-every-3 plan is registered with Loop as ONE editable bundle: picks are POSTed to Loop's anonymous storefront Create Transaction API (no token needed), then the 3 pouch lines are added to the cart each tagged with the returned txnId so Loop groups them into one editable bundle subscription. Customers then edit the whole bundle in Loop's portal. Loop's Build-Your-Bundle does NOT create a parent product, so no bundle variant ID is needed. If anything is missing or the Loop call fails, the selector falls back to individual subscription lines."
+      "content": "Optional. When configured, the 3-every-3 plan registers picks with Loop's anonymous Create Transaction API and adds the 3 pouch lines tagged with the returned txnId — Loop groups them as one editable bundle. Customers edit in Loop's portal. No bundle variant ID needed. Falls back to individual subscription lines on failure."
     },
     {
       "type": "checkbox",
