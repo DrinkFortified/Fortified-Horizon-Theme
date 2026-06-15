@@ -956,7 +956,18 @@
     var cfg = card.closest('.fe-fcards').dataset.config;
     var s = slots[cfg]; if (!s) return;
     s.configId = cfg;
-    root.querySelectorAll('.fe-fcards[data-config="' + cfg + '"] .fe-fcard').forEach(function (c) { c.classList.remove('is-active'); c.setAttribute('aria-pressed', 'false'); });
+    root.querySelectorAll('.fe-fcards[data-config="' + cfg + '"] .fe-fcard').forEach(function (c) {
+      c.classList.remove('is-active'); c.setAttribute('aria-pressed', 'false');
+      /* Clear sibling cards' flavor selections so only the active card shows
+         a picked flavor. The newly active card keeps its existing flavor
+         until resetFlavor explicitly clears it below. */
+      if (c !== card) {
+        c.querySelectorAll('.fe-flavor-opt').forEach(function (b) {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+      }
+    });
     card.classList.add('is-active'); card.setAttribute('aria-pressed', 'true');
     s.functionId = card.dataset.functionId;
     s.handle = card.dataset.productHandle;
