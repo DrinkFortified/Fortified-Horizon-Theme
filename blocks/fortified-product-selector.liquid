@@ -573,7 +573,7 @@
 
 /* ── Function card ── */
 #fe-{{ sid }} .fe-fcard {
-  display: flex; flex-direction: column; cursor: pointer; overflow: hidden;
+  display: flex; flex-direction: column; cursor: pointer; overflow: hidden; position: relative;
   border: 2px solid rgb(var(--color-foreground-rgb) / 0.14); border-radius: var(--fe-card-radius, 12px);
   background: var(--color-background); transition: border-color 0.18s, box-shadow 0.18s;
 }
@@ -601,6 +601,25 @@
 #fe-{{ sid }} .fe-fcard-flavor-label { margin: 0.15rem 0 0; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.55; color: var(--color-foreground); }
 #fe-{{ sid }} .fe-fcard-hint { margin: 0.15rem 0 0; font-size: 0.68rem; font-style: italic; opacity: 0.5; color: var(--color-foreground); }
 #fe-{{ sid }} .fe-fcard-flavors { display: flex; flex-direction: column; gap: 0.4rem; }
+/* Sticky selection (quarterly): a small "click to change" hint appears
+   under the active card so the customer knows the choice is locked but
+   editable. Inactive sibling cards become non-clickable. */
+#fe-{{ sid }} .fe-fcards[data-config^="q"] .fe-fcard.is-active::after {
+  content: "Click again to change";
+  position: absolute;
+  bottom: 6px; right: 8px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fe-selection-color, var(--color-primary-button-background));
+  opacity: 0.75;
+  pointer-events: none;
+}
+#fe-{{ sid }} .fe-fcards[data-config^="q"]:has(.fe-fcard.is-active) .fe-fcard:not(.is-active) {
+  cursor: not-allowed;
+}
+
 /* Inactive function cards in quarterly bundle: hide flavor picker so only
    the selected card shows flavors — prevents customers from clicking both. */
 #fe-{{ sid }} .fe-fcards[data-config^="q"] .fe-fcard:not(.is-active) .fe-fcard-flavor-label,
@@ -1150,10 +1169,38 @@
     });
   });
 
-  /* Select a function card for a config slot */
+  /* Select a function card for a config slot.
+     Sticky behavior (per user spec): the FIRST selection wins. Clicking a
+     different card in the same pouch while one is already active is a
+     no-op. To change the selection, the customer re-clicks the active
+     card, which clears the slot and unlocks the pouch. */
   function selectFunction(card, resetFlavor) {
     var cfg = card.closest('.fe-fcards').dataset.config;
     var s = slots[cfg]; if (!s) return;
+    var pouchGroup = card.closest('.fe-fcards');
+    var active = pouchGroup.querySelector('.fe-fcard.is-active');
+    /* Quarterly pouches (q1/q2/q3) are sticky. The monthly/onetime
+       configs keep the old switching behavior since they only have one
+       card anyway. */
+    var isQuarterlySlot = cfg && cfg.indexOf('q') === 0;
+    if (isQuarterlySlot && active && active !== card) {
+      /* First selection wins — ignore this click. */
+      return;
+    }
+    if (isQuarterlySlot && active === card) {
+      /* Re-clicked the active card → clear the slot so the customer can
+         pick a different function for this pouch. */
+      card.classList.remove('is-active'); card.setAttribute('aria-pressed', 'false');
+      card.querySelectorAll('.fe-flavor-opt').forEach(function (b) {
+        b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false');
+      });
+      s.functionId = null; s.handle = null; s.label = null;
+      s.planMonthly = null; s.planQuarterly = null;
+      s.flavorName = null; s.product = null; s.variant = null;
+      pushEvent('fe_function_cleared', { config: cfg });
+      recompute();
+      return;
+    }
     s.configId = cfg;
     root.querySelectorAll('.fe-fcards[data-config="' + cfg + '"] .fe-fcard').forEach(function (c) {
       c.classList.remove('is-active'); c.setAttribute('aria-pressed', 'false');
@@ -1225,7 +1272,12 @@
       var card = flavor.closest('.fe-fcard');
       if (!card) return;
       if (card.dataset.comingSoon === 'true') return;
-      if (!card.classList.contains('is-active')) selectFunction(card, false);
+      if (!card.classList.contains('is-active')) {
+        selectFunction(card, false);
+        /* If sticky logic rejected the activation, bail — don't change the
+           flavor selection on a non-active card. */
+        if (!card.classList.contains('is-active')) return;
+      }
       card.querySelectorAll('.fe-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
       flavor.classList.add('is-active'); flavor.setAttribute('aria-pressed', 'true');
       var s = slots[card.closest('.fe-fcards').dataset.config];
