@@ -528,6 +528,21 @@
 .fe-fcard-flavor-label { margin: 0.15rem 0 0; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.55; color: var(--color-foreground); }
 .fe-fcard-hint { margin: 0.15rem 0 0; font-size: 0.68rem; font-style: italic; opacity: 0.5; color: var(--color-foreground); }
 .fe-fcard-flavors { display: flex; flex-direction: column; gap: 0.4rem; }
+
+/* Inactive function cards in quarterly bundle: hide flavor picker so only
+   the selected card shows flavors — prevents customers from clicking both. */
+.fe-fcards[data-config^="q"] .fe-fcard:not(.is-active) .fe-fcard-flavor-label,
+.fe-fcards[data-config^="q"] .fe-fcard:not(.is-active) .fe-fcard-flavors,
+.fe-fcards[data-config^="q"] .fe-fcard:not(.is-active) .fe-fcard-hint {
+  display: none !important;
+}
+.fe-fcards[data-config^="q"] .fe-fcard:not(.is-active) {
+  opacity: 0.65;
+}
+.fe-fcards[data-config^="q"] .fe-fcard:not(.is-active):hover {
+  opacity: 0.85;
+}
+
 .fe-flavor-opt {
   display: flex; align-items: center; gap: 0.5rem; width: 100%; cursor: pointer; text-align: left;
   padding: 0.45rem 0.6rem; border-radius: 8px; background: transparent;
@@ -712,6 +727,13 @@
     propKey:       {{ section.settings.loop_bundle_property_key | default: '_bundleId' | json }}
   };
   var LOOP_BUNDLE_ON = !!(LOOP_BUNDLE.enabled && LOOP_BUNDLE.sellingPlanId && (LOOP_BUNDLE.bundleId || LOOP_BUNDLE.createUrl));
+  try {
+    if (!LOOP_BUNDLE_ON && LOOP_BUNDLE.enabled) {
+      console.warn('[FORTIFIED] Loop bundle mode ENABLED but settings incomplete. Need: sellingPlanId + (bundleId or createUrl). Current:', LOOP_BUNDLE);
+    } else if (LOOP_BUNDLE_ON) {
+      console.log('[FORTIFIED] Loop bundle mode ready. bundleId=' + LOOP_BUNDLE.bundleId + ' sellingPlanId=' + LOOP_BUNDLE.sellingPlanId);
+    }
+  } catch (_) {}
   var PLAN_LABEL_M = {{ section.settings.monthly_label | default: '1 a Month' | json }};
   var PLAN_LABEL_Q = {{ section.settings.quarterly_label | default: '3 Every 3 Months' | json }};
 
@@ -1109,9 +1131,13 @@
            each with the SAME transaction id + the bundle's selling plan, so
            Loop groups them into one editable bundle subscription. No parent
            bundle product exists in this Loop bundle type. */
+        try { console.log('[FORTIFIED] Loop bundle transaction created:', txn); } catch (_) {}
         picks.forEach(function (it) {
           it.properties = it.properties || {};
+          /* Underscored = hidden from checkout customer view but on order */
           it.properties[key] = String(txn);
+          /* Non-underscored = visible to customer in checkout + order details */
+          it.properties['Bundle'] = String(txn);
           if (planId) it.selling_plan = planId;
         });
         return picks.concat(rest);
@@ -1180,9 +1206,11 @@
     };
 
     if (LOOP_BUNDLE_ON && !oneTime && state.purchaseType === 'quarterly') {
+      try { console.log('[FORTIFIED] Loop bundle mode active - posting to', LOOP_BUNDLE.createUrl || ('https://api.loopsubscriptions.com/storefront/2023-10/bundle/' + LOOP_BUNDLE.bundleId + '/transaction')); } catch (_) {}
       loopBundleItems(items).then(proceed, function (err) {
         /* Loop unreachable or misconfigured: fall back to individual
            subscription lines so the sale is never lost. */
+        try { console.warn('[FORTIFIED] Loop bundle API failed, falling back to per-pouch subs. Error:', err); } catch (_) {}
         pushEvent('fe_loop_bundle_fallback', { error: String((err && err.message) || err) });
         proceed(items);
       });
