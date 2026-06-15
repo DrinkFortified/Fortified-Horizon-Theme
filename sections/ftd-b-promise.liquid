@@ -15,7 +15,7 @@
 -%}
 
 <section
-  class="ftbpr ftbpr--{{ image_position }} section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  class="ftbpr ftbpr--{{ image_position }} section spacing-style section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
   style="{% render 'spacing-padding', settings: section.settings %} --ftbpr-max-w: {{ section.settings.content_max_width }}px; --ftbpr-eyebrow: {{ section.settings.eyebrow_color }}; --ftbpr-quote-accent: {{ section.settings.quote_accent_color }}; --ftbpr-box-bg: {{ section.settings.promise_box_bg }}; --ftbpr-box-border: {{ section.settings.promise_box_border }}; --ftbpr-box-fg: {{ section.settings.promise_text_color }};"
   {{ section.shopify_attributes }}
 >
