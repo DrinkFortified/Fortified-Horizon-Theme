@@ -360,8 +360,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 62,
-        "padding-block-end": 62
+        "padding-block-start": 100,
+        "padding-block-end": 100
       }
     },
     "marquee_UHmEiy": {
@@ -1160,8 +1160,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 100,
+        "padding-block-end": 100
       }
     },
     "section_Bdmgw4": {
@@ -1588,8 +1588,9 @@
         "card_caption_color": "#c9c9c9",
         "button_color": "",
         "section_width": "page-width",
+        "content_max_width": 1360,
         "padding-block-start": 100,
-        "padding-block-end": 72,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
@@ -1652,18 +1653,18 @@
         "section_width": "page-width",
         "columns": 3,
         "card_gap": 20,
-        "max_width": 1100,
+        "max_width": 1360,
         "mobile_scroll": true,
         "text_alignment": "left",
-        "number_size": 56,
-        "headline_size": 22,
-        "subtitle_size": 14,
-        "footnote_size": 12,
+        "number_size": 62,
+        "headline_size": 36,
+        "subtitle_size": 22,
+        "footnote_size": 18,
         "card_bg": "#ffffff",
-        "border_color": "#e5e7eb",
-        "border_width": 1,
-        "border_radius": 16,
-        "card_padding": 32,
+        "border_color": "#000000",
+        "border_width": 2,
+        "border_radius": 14,
+        "card_padding": 48,
         "number_color": "#0a0a0a",
         "subtitle_color": "#888888",
         "show_yaxis": true,
@@ -1680,8 +1681,8 @@
         "button_link": "",
         "button_bg": "#0a0a0a",
         "button_text": "#ffffff",
-        "padding-block-start": 64,
-        "padding-block-end": 64,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
@@ -1980,9 +1981,9 @@
         "divider_color": "#c9cdd2",
         "color_scheme": "",
         "section_width": "page-width",
-        "max_width": 1280,
-        "padding-block-start": 64,
-        "padding-block-end": 64,
+        "max_width": 1360,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
@@ -2115,8 +2116,9 @@
         "card_caption_color": "#c9c9c9",
         "button_color": "",
         "section_width": "page-width",
-        "padding-block-start": 72,
-        "padding-block-end": 72,
+        "content_max_width": 1360,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
@@ -3275,7 +3277,7 @@
         "column_gap": 0,
         "card_radius": 0,
         "section_width": "full-width",
-        "content_max_width": 1240,
+        "content_max_width": 1440,
         "color_scheme": "",
         "padding-block-start": 0,
         "padding-block-end": 0,
@@ -3330,10 +3332,10 @@
         "background_overlay": 50,
         "text_color": "light",
         "section_width": "page-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "color_scheme": "scheme-5",
-        "padding-block-start": 88,
-        "padding-block-end": 72,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
@@ -3377,21 +3379,264 @@
         "padding-block-end": 24,
         "gap_between_elements": 24
       }
+    },
+    "ftd_image_hero_QHaXrm": {
+      "type": "fortified-image-hero",
+      "blocks": {},
+      "block_order": [],
+      "name": "FTD - Image Hero",
+      "settings": {
+        "eyebrow": "Formulated For",
+        "heading": "clean hydration\nmax performance",
+        "body": "Every milligram disclosed. Real minerals, real amounts, and nothing hidden behind a blend number.",
+        "button_label": "Explore All Flavors",
+        "button_link": "shopify://collections/all",
+        "button_style": "filled",
+        "button_2_label": "",
+        "button_2_link": "",
+        "button_2_style": "outline",
+        "background_image": "shopify://shop_images/2cb6a9adb0a6ec7ca88cbc4c05082130429fc1ca.png",
+        "image_focal": "center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "text_align": "left",
+        "text_max_width": 540,
+        "eyebrow_color": "#1498B5",
+        "heading_color": "#FFFFFF",
+        "body_color": "#FFFFFF",
+        "btn_filled_bg": "#FFFFFF",
+        "btn_filled_fg": "#0E0E0E",
+        "btn_outline_fg": "#FFFFFF",
+        "btn_outline_hover_fg": "#0E0E0E",
+        "image_radius": 20,
+        "min_height_desktop": 580,
+        "min_height_mobile": 420,
+        "section_width": "page-width",
+        "content_max_width": 1440,
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "custom_css": ""
+      }
+    },
+    "fortified_truth_function_cards": {
+      "type": "fortified-truth",
+      "blocks": {
+        "card_energy_F1": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/Element02.webp",
+            "category": "+ ENERGY",
+            "caption": "Natural caffeine from real coffee beans. No crash.",
+            "show_icon": true,
+            "icon": "shopify://shop_images/Logo_Shield_White.svg",
+            "link": ""
+          }
+        },
+        "card_performance_F2": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/Element03.webp",
+            "category": "+ PERFORMANCE",
+            "caption": "1,210mg sodium + 1,000mg magnesium for full recovery.",
+            "show_icon": true,
+            "icon": "shopify://shop_images/Logo_Shield_White.svg",
+            "link": ""
+          }
+        },
+        "card_hydration_F3": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/Element01.webp",
+            "category": "+ HYDRATION",
+            "caption": "Real minerals to drive fluid absorption all day.",
+            "show_icon": true,
+            "icon": "shopify://shop_images/Logo_Shield_White.svg",
+            "link": ""
+          }
+        },
+        "card_focus_F4": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/Element04.webp",
+            "category": "+ FOCUS",
+            "caption": "Steady, clean energy without the jitters.",
+            "show_icon": true,
+            "icon": "shopify://shop_images/Logo_Shield_White.svg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_energy_F1",
+        "card_performance_F2",
+        "card_hydration_F3",
+        "card_focus_F4"
+      ],
+      "name": "FTD - Function Cards",
+      "settings": {
+        "eyebrow": "The Truth",
+        "heading": "More Than Hydration\nIts Daily Support",
+        "subheading": "Electrolytes don't provide full recovery. FORTIFIED combines clean hydration with the function you need — energy, performance, focus, or daily support.",
+        "button_label": "Explore All Flavors",
+        "button_link": "shopify://collections/all",
+        "button_style": "outline",
+        "columns_desktop": 4,
+        "enable_carousel": false,
+        "card_height": 480,
+        "card_height_mobile": 360,
+        "gap": 10,
+        "corner_radius": 14,
+        "card_bg": "#1a1a1a",
+        "content_max_width": 1440,
+        "content_padding": 80,
+        "content_radius": 0,
+        "content_color_scheme": "scheme-5",
+        "background_image": "shopify://shop_images/47925c39d137f90d6d364882076d954309ff7580.png",
+        "color_scheme": "scheme-1",
+        "eyebrow_color": "#c4e1c5",
+        "heading_color": "#ffffff",
+        "text_color": "",
+        "card_label_color": "#ffffff",
+        "card_caption_color": "#c9c9c9",
+        "button_color": "#ffffff",
+        "section_width": "page-width",
+        "padding-block-start": 100,
+        "padding-block-end": 100,
+        "custom_css": ""
+      }
+    },
+    "fortified_truth_flavors_X1": {
+      "type": "fortified-truth",
+      "blocks": {
+        "card_flv_1": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/260401-FOR-EDY-30-ORG-2026_1-Front.webp",
+            "category": "ORIGINAL",
+            "caption": "Everyday Hydration",
+            "show_icon": false,
+            "link": "shopify://collections/all"
+          }
+        },
+        "card_flv_2": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/260401-FOR-ENG-30-WTM-2026_1-Front.webp",
+            "category": "WATERMELON",
+            "caption": "Energy",
+            "show_icon": false,
+            "link": "shopify://collections/all"
+          }
+        },
+        "card_flv_3": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/260401-FOR-ENG-30-ORG-2026_1-Front.webp",
+            "category": "ORIGINAL",
+            "caption": "Energy",
+            "show_icon": false,
+            "link": "shopify://collections/all"
+          }
+        },
+        "card_flv_4": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/4f639bc47fc4667f50613ccb44c7f0338b27c846_1.png",
+            "category": "MANGO",
+            "caption": "Everyday Hydration",
+            "show_icon": false,
+            "link": "shopify://collections/all"
+          }
+        },
+        "card_flv_5": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/Blank.webp",
+            "category": "BERRY",
+            "caption": "Everyday Hydration",
+            "show_icon": false,
+            "link": "shopify://collections/all"
+          }
+        },
+        "card_flv_6": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/Blank.webp",
+            "category": "CREATINE",
+            "caption": "Daily Boost",
+            "show_icon": false,
+            "link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "card_flv_1",
+        "card_flv_2",
+        "card_flv_3",
+        "card_flv_4",
+        "card_flv_5",
+        "card_flv_6"
+      ],
+      "name": "FTD - Flavor Showcase",
+      "settings": {
+        "eyebrow": "The Lineup",
+        "heading": "Six Functions. One Clean Label.",
+        "subheading": "Mix any function, any flavor. Real ingredients in honest amounts, with nothing hidden on the label.",
+        "button_label": "Shop FORTIFIED Now",
+        "button_link": "shopify://collections/all",
+        "button_style": "filled",
+        "columns_desktop": 6,
+        "enable_carousel": false,
+        "card_height": 450,
+        "card_height_mobile": 360,
+        "gap": 16,
+        "corner_radius": 12,
+        "card_bg": "#f5f5f2",
+        "content_max_width": 1500,
+        "content_padding": 56,
+        "content_radius": 0,
+        "content_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "eyebrow_color": "#1FA8A1",
+        "heading_color": "",
+        "text_color": "",
+        "card_label_color": "#0E0E0E",
+        "card_caption_color": "#5a5a5a",
+        "button_color": "",
+        "section_width": "page-width",
+        "padding-block-start": 100,
+        "padding-block-end": 100,
+        "custom_css": ""
+      }
     }
   },
   "order": [
-    "section_bJKR9j",
     "marquee_UHmEiy",
-    "hero_responsive_NX47Aq",
+    "section_bJKR9j",
     "section_QKzV4d",
+    "ftd_image_hero_QHaXrm",
+    "fortified_truth_function_cards",
     "section_Bdmgw4",
     "fortified_truth_kr6XwC",
     "fortified_stats_comparison_CLiX76",
     "fortified_product_selector_qH87DQ",
     "fortified_tabs_KnFXW8",
+    "fortified_truth_flavors_X1",
     "fortified_truth_Q6ArF9",
     "section_gkG4FQ",
     "section_cMHBh4",
+    "hero_responsive_NX47Aq",
     "fortified_two_column_cta_r4Cf7t",
     "fortified_subscribe_save_gPX8Rx",
     "marquee_LCGn7N"

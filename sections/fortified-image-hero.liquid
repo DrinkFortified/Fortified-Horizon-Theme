@@ -1,0 +1,263 @@
+{% comment %}
+  Section: FTD - Image Hero
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Full-bleed background image with overlaid eyebrow + heading + body +
+  CTA on the left. Rounded image container. Matches the Figma "clean
+  hydration / max performance" hero pattern.
+{% endcomment %}
+
+{%- liquid
+  assign sid  = section.id | replace: '_', '' | downcase
+  assign root = 'ftih-' | append: sid
+  assign btn_style = section.settings.button_style | default: 'filled'
+  assign focal = section.settings.image_focal | default: 'center'
+  assign focal_css = focal | replace: '-', ' '
+  assign overlay_dec = section.settings.overlay_opacity | divided_by: 100.0
+-%}
+
+<style>
+  #{{ root }} {
+    --{{ root }}-max-w: {{ section.settings.content_max_width }}px;
+    --{{ root }}-eyebrow: {{ section.settings.eyebrow_color }};
+    --{{ root }}-heading: {{ section.settings.heading_color }};
+    --{{ root }}-body: {{ section.settings.body_color }};
+    --{{ root }}-radius: {{ section.settings.image_radius }}px;
+    --{{ root }}-min-h: {{ section.settings.min_height_desktop }}px;
+  }
+  #{{ root }} .{{ root }}__inner {
+    max-width: var(--{{ root }}-max-w);
+    margin: 0 auto;
+    padding-inline: 24px;
+  }
+  #{{ root }} .{{ root }}__stage {
+    position: relative;
+    width: 100%;
+    min-height: var(--{{ root }}-min-h);
+    border-radius: var(--{{ root }}-radius);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: clamp(40px, 6vw, 100px) clamp(24px, 4vw, 64px);
+    isolation: isolate;
+  }
+  #{{ root }} .{{ root }}__bg,
+  #{{ root }} .{{ root }}__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  #{{ root }} .{{ root }}__bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ focal_css }};
+    display: block;
+  }
+  #{{ root }} .{{ root }}__overlay {
+    background: {{ section.settings.overlay_color }};
+    opacity: {{ overlay_dec }};
+    z-index: 1;
+  }
+  #{{ root }} .{{ root }}__text {
+    position: relative;
+    z-index: 2;
+    max-width: {{ section.settings.text_max_width }}px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  #{{ root }} .{{ root }}__eyebrow {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: clamp(16px, 1.6vw, 24px);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--{{ root }}-eyebrow);
+  }
+  #{{ root }} .{{ root }}__heading {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: clamp(40px, 5.2vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--{{ root }}-heading);
+  }
+  #{{ root }} .{{ root }}__body {
+    margin: 0;
+    max-width: 540px;
+    font-size: clamp(16px, 1.4vw, 22px);
+    line-height: 1.35;
+    color: var(--{{ root }}-body);
+  }
+  #{{ root }} .{{ root }}__cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 6px;
+  }
+  #{{ root }} .{{ root }}__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading--family, inherit);
+    font-size: clamp(15px, 1.2vw, 18px);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 18px 32px;
+    min-width: 220px;
+    border-radius: var(--style-border-radius-buttons-primary, 8px);
+    border: 2px solid currentColor;
+    transition: background 0.18s, color 0.18s, opacity 0.18s;
+    cursor: pointer;
+  }
+  #{{ root }} .{{ root }}__btn--filled  { background: {{ section.settings.btn_filled_bg }}; color: {{ section.settings.btn_filled_fg }}; border-color: {{ section.settings.btn_filled_bg }}; }
+  #{{ root }} .{{ root }}__btn--filled:hover  { opacity: 0.88; }
+  #{{ root }} .{{ root }}__btn--outline { background: transparent; color: {{ section.settings.btn_outline_fg }}; border-color: {{ section.settings.btn_outline_fg }}; }
+  #{{ root }} .{{ root }}__btn--outline:hover { background: {{ section.settings.btn_outline_fg }}; color: {{ section.settings.btn_outline_hover_fg }}; }
+
+  #{{ root }} .{{ root }}--right .{{ root }}__text { margin-left: auto; }
+  #{{ root }} .{{ root }}--center .{{ root }}__text { margin: 0 auto; text-align: center; align-items: center; }
+  #{{ root }} .{{ root }}--center .{{ root }}__cta-row { justify-content: center; }
+
+  @media (max-width: 749px) {
+    #{{ root }} {
+      --{{ root }}-min-h: {{ section.settings.min_height_mobile }}px;
+    }
+    #{{ root }} .{{ root }}__stage { padding: 32px 24px; }
+    #{{ root }} .{{ root }}__btn { min-width: 0; width: 100%; }
+  }
+
+  {{ section.settings.custom_css }}
+</style>
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="{{ root }}"
+  class="section spacing-style section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
+  <div class="{{ root }}__inner">
+    <div class="{{ root }}__stage {{ root }}--{{ section.settings.text_align }}">
+      {%- if section.settings.background_image != blank -%}
+        {{ section.settings.background_image | image_url: width: 2400 | image_tag:
+          class: root | append: '__bg',
+          loading: 'eager',
+          widths: '600,1000,1400,1800,2200,2600',
+          alt: section.settings.heading | default: ''
+        }}
+      {%- endif -%}
+      {%- if section.settings.overlay_opacity > 0 -%}
+        <div class="{{ root }}__overlay" aria-hidden="true"></div>
+      {%- endif -%}
+
+      <div class="{{ root }}__text">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h1 class="{{ root }}__heading">{{ section.settings.heading | newline_to_br }}</h1>
+        {%- endif -%}
+        {%- if section.settings.body != blank -%}
+          <p class="{{ root }}__body">{{ section.settings.body }}</p>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank or section.settings.button_2_label != blank -%}
+          <div class="{{ root }}__cta-row">
+            {%- if section.settings.button_label != blank -%}
+              <a class="{{ root }}__btn {{ root }}__btn--{{ section.settings.button_style }}"
+                 {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>
+                {{ section.settings.button_label }}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.button_2_label != blank -%}
+              <a class="{{ root }}__btn {{ root }}__btn--{{ section.settings.button_2_style }}"
+                 {% if section.settings.button_2_link != blank %}href="{{ section.settings.button_2_link }}"{% else %}href="#" role="button"{% endif %}>
+                {{ section.settings.button_2_label }}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FTD - Image Hero",
+  "tag": "section",
+  "class": "ftd-image-hero-section",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Formulated for" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "clean hydration\nmax performance" },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Electrolytes don't provide full recovery. Regenerate combines hydration with collagen supporting skin." },
+
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "button_label", "label": "Primary button label", "default": "Explore All Flavors" },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "select", "id": "button_style", "label": "Primary button style", "default": "filled", "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" } ] },
+    { "type": "text", "id": "button_2_label", "label": "Secondary button label" },
+    { "type": "url", "id": "button_2_link", "label": "Secondary button link" },
+    { "type": "select", "id": "button_2_style", "label": "Secondary button style", "default": "outline", "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" } ] },
+
+    { "type": "header", "content": "Background image" },
+    { "type": "image_picker", "id": "background_image", "label": "Background image" },
+    { "type": "select", "id": "image_focal", "label": "Image focal point", "default": "center", "options": [
+      { "value": "top-left", "label": "Top left" },
+      { "value": "top", "label": "Top" },
+      { "value": "top-right", "label": "Top right" },
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" },
+      { "value": "bottom-left", "label": "Bottom left" },
+      { "value": "bottom", "label": "Bottom" },
+      { "value": "bottom-right", "label": "Bottom right" }
+    ] },
+    { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 25 },
+
+    { "type": "header", "content": "Text" },
+    { "type": "select", "id": "text_align", "label": "Text alignment", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },
+    { "type": "range", "id": "text_max_width", "label": "Text max width", "min": 320, "max": 900, "step": 20, "unit": "px", "default": 540 },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1498B5" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#0E0E0E" },
+    { "type": "color", "id": "body_color", "label": "Body color", "default": "#0E0E0E" },
+
+    { "type": "header", "content": "Button colors" },
+    { "type": "color", "id": "btn_filled_bg", "label": "Filled bg", "default": "#0E0E0E" },
+    { "type": "color", "id": "btn_filled_fg", "label": "Filled text", "default": "#FFFFFF" },
+    { "type": "color", "id": "btn_outline_fg", "label": "Outline color", "default": "#0E0E0E" },
+    { "type": "color", "id": "btn_outline_hover_fg", "label": "Outline hover text", "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "image_radius", "label": "Image corner radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 20 },
+    { "type": "range", "id": "min_height_desktop", "label": "Min height (desktop)", "min": 320, "max": 900, "step": 10, "unit": "px", "default": 580 },
+    { "type": "range", "id": "min_height_mobile", "label": "Min height (mobile)", "min": 240, "max": 720, "step": 10, "unit": "px", "default": 420 },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1440 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 40 },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+  ],
+  "presets": [
+    {
+      "name": "FTD - Image Hero",
+      "category": "Fortified Sections"
+    }
+  ]
+}
+{% endschema %}
