@@ -313,7 +313,7 @@
                     "flavor_option": "",
                     "manual_flavors": "Original\nMango\nBerry",
                     "loop_plan_monthly": "2607349819",
-                    "loop_plan_quarterly": "2607644731 "
+                    "loop_plan_quarterly": "2607644731 "
                   },
                   "blocks": {}
                 },
@@ -331,28 +331,28 @@
                     "flavor_option": "",
                     "manual_flavors": "Original\nMango\nBerry",
                     "loop_plan_monthly": "2607349819",
-                    "loop_plan_quarterly": "2607644731 "
+                    "loop_plan_quarterly": "2607644731 "
                   },
                   "blocks": {}
                 },
                 "ftd_ps_benefit_9HdPLw": {
                   "type": "_ftd-ps-benefit",
                   "settings": {
-                    "text": "Supports Mood & Focus"
+                    "text": "5g Clinical Dose"
                   },
                   "blocks": {}
                 },
                 "ftd_ps_benefit_PMNtgU": {
                   "type": "_ftd-ps-benefit",
                   "settings": {
-                    "text": "Plant-Based"
+                    "text": "Unflavored & Mixable"
                   },
                   "blocks": {}
                 },
                 "ftd_ps_benefit_TaxrdJ": {
                   "type": "_ftd-ps-benefit",
                   "settings": {
-                    "text": "No Jitters Or Crash"
+                    "text": "Third-Party Tested"
                   },
                   "blocks": {}
                 }
@@ -466,433 +466,365 @@
         "padding-block-end": 0
       }
     },
-    "section_RHyhaN": {
-      "type": "section",
+    "marquee_pdp_trust": {
+      "type": "marquee",
       "blocks": {
-        "group_XzGqpe": {
-          "type": "group",
-          "name": "Organizer",
+        "text_pdp_trust": {
+          "type": "text",
           "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "custom",
-            "custom_height": 100,
-            "inherit_color_scheme": false,
-            "color_scheme": "scheme-5",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image": "shopify://shop_images/f48e401acdf1d6fea544e6bae6d412cc614471b1.png",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
+            "text": "<p>5g Clinical Dose · One Pure Ingredient · Micronized &amp; Unflavored · Third-Party Tested · No Fillers Or Junk · Backed By 700+ Studies</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
-            "padding-inline-start": 40,
-            "padding-inline-end": 40
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
-          "blocks": {
-            "group_WcG9Fc": {
-              "type": "group",
-              "name": "Text",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "text_JVxx3y": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h4>*Pure & simple*</h4>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_rq8E6d": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h2>One Ingredient. 45 Servings.</h2>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_HjrHbn": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<p>The clinically-studied 5g dose of creatine monohydrate, with nothing else in the pouch. No flavors, no sweeteners, no fillers. The research disagrees with everyone who told you creatine isn't for women.</p>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "group_JWLXUJ": {
-                  "type": "group",
-                  "name": "Buttons",
-                  "settings": {
-                    "content_direction": "row",
-                    "vertical_on_mobile": false,
-                    "horizontal_alignment": "flex-start",
-                    "vertical_alignment": "center",
-                    "align_baseline": false,
-                    "horizontal_alignment_flex_direction_column": "flex-start",
-                    "vertical_alignment_flex_direction_column": "center",
-                    "gap": 12,
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fit",
-                    "custom_height": 100,
-                    "inherit_color_scheme": true,
-                    "color_scheme": "",
-                    "background_media": "none",
-                    "video_position": "cover",
-                    "background_image_position": "cover",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "toggle_overlay": false,
-                    "overlay_color": "#00000026",
-                    "overlay_style": "solid",
-                    "gradient_direction": "to top",
-                    "link": "",
-                    "open_in_new_tab": false,
-                    "placeholder": "",
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {
-                    "button_9Bit9V": {
-                      "type": "button",
-                      "name": "t:names.button",
-                      "settings": {
-                        "label": "Shop Creatine",
-                        "link": "shopify://collections/all",
-                        "open_in_new_tab": false,
-                        "style_class": "button-secondary",
-                        "width": "custom",
-                        "custom_width": 70,
-                        "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "button_9Bit9V"
-                  ]
-                }
-              },
-              "block_order": [
-                "text_JVxx3y",
-                "text_rq8E6d",
-                "text_HjrHbn",
-                "group_JWLXUJ"
-              ]
-            },
-            "group_BLFMK8": {
-              "type": "group",
-              "name": "Image",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "image_bhBamb": {
-                  "type": "image",
-                  "name": "t:names.image",
-                  "settings": {
-                    "image": "shopify://shop_images/f48e401acdf1d6fea544e6bae6d412cc614471b1.png",
-                    "link": "",
-                    "image_ratio": "adapt",
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fill",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "image_bhBamb"
-              ]
-            }
-          },
-          "block_order": [
-            "group_WcG9Fc",
-            "group_BLFMK8"
-          ]
+          "blocks": {}
         }
       },
       "block_order": [
-        "group_XzGqpe"
+        "text_pdp_trust"
       ],
-      "name": "Featured",
+      "name": "t:names.marquee_section",
       "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "small",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-1",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "movement_direction": "normal",
+        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
+        "padding-block-start": 22,
+        "padding-block-end": 22,
+        "gap_between_elements": 24
       }
     },
-    "fortified_comparison_QbjiBE": {
+    "ftd_supp_facts_creatine": {
+      "type": "ftd-b-supplement-facts",
+      "blocks": {
+        "n2": {
+          "type": "nutrient",
+          "settings": {
+            "label": "Creatine Monohydrate (micronized)",
+            "amount": "5,000mg",
+            "daily_value": "*",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "thin"
+          }
+        },
+        "n3": {
+          "type": "nutrient",
+          "settings": {
+            "label": "Other Ingredients",
+            "amount": "None",
+            "daily_value": "",
+            "indent_level": 0,
+            "bold_label": false,
+            "divider_after": "none"
+          }
+        },
+        "c1": {
+          "type": "callout",
+          "settings": {
+            "title": "Why a full 5 grams?",
+            "body": "5g is the exact daily dose used in the clinical research — enough to fully saturate your muscles without a loading phase. Most brands hide an underdosed scoop behind a proprietary blend. We don't blend, and we don't cut corners.",
+            "accent_color": "#1FA8A1"
+          }
+        },
+        "c2": {
+          "type": "callout",
+          "settings": {
+            "title": "One ingredient. Nothing else.",
+            "body": "No flavors, no sweeteners, no anti-caking fillers. Micronized so it dissolves clean into water, coffee, or your shake — and disappears.",
+            "accent_color": "#1FA8A1"
+          }
+        }
+      },
+      "block_order": ["n2", "n3", "c1", "c2"],
+      "name": "FTD-B - Supp Facts",
+      "settings": {
+        "panel_title": "Supplement Facts",
+        "panel_servings_per": "45 servings per pouch",
+        "panel_serving_size": "1 scoop (5g)",
+        "panel_calories": "0",
+        "panel_footnote": "* Daily Value not established. Creatine monohydrate, micronized. Manufactured in a cGMP facility and third-party tested for purity.",
+        "eyebrow": "Read The Label",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "The whole label fits\nin one line.",
+        "heading_emphasis_word": "one line.",
+        "panel_position": "left",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 88,
+        "padding-block-end": 72
+      }
+    },
+    "ftd_creatine_feature": {
+      "type": "ftd-b-creatine-feature",
+      "blocks": {},
+      "name": "FTD-B - Creatine",
+      "settings": {
+        "eyebrow": "The Only Ingredient",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "5 grams. Zero compromises.",
+        "heading_emphasis_word": "Zero compromises.",
+        "body": "Creatine monohydrate is the most-researched supplement on the planet — and the most underdosed on the shelf. Every FORTIFIED scoop is a full, micronized 5g of the exact form used in the studies. No flavors. No sweeteners. No fillers. Just the molecule your muscles and brain are built to use.",
+        "quote": "The research is just as strong for women as it is for men — strength, lean muscle, recovery, and focus.",
+        "quote_accent_color": "#1FA8A1",
+        "feature_image": "shopify://shop_images/f48e401acdf1d6fea544e6bae6d412cc614471b1.png",
+        "canister_background": "#0A0A0A",
+        "canister_accent": "#1FA8A1",
+        "canister_brand": "Fortified",
+        "canister_product_name": "Creatine Monohydrate",
+        "canister_amount": "5g",
+        "canister_serving_note": "per serving · 45 servings",
+        "stat_accent_color": "#1FA8A1",
+        "stat_1_number": "5g",
+        "stat_1_label": "Clinical Dose",
+        "stat_2_number": "45",
+        "stat_2_label": "Servings",
+        "stat_3_number": "700+",
+        "stat_3_label": "Studies",
+        "stat_4_number": "1",
+        "stat_4_label": "Ingredient",
+        "pricing_label_onetime": "One-Time",
+        "pricing_price_onetime": "$39.99",
+        "pricing_note_onetime": "45 servings · Unflavored",
+        "pricing_label_sub": "Subscribe & Save 15%",
+        "pricing_price_sub": "$33.99",
+        "pricing_note_sub": "Auto-refill · Free shipping",
+        "pricing_accent": "#1FA8A1",
+        "cta_label_template": "Add Creatine To Cart — {price}",
+        "cta_link": "",
+        "cta_style": "filled",
+        "image_position_desktop": "left",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      }
+    },
+    "ftd_benefits_creatine": {
+      "type": "ftd-b-benefits",
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon_emoji": "💪",
+            "title": "Strength & Power",
+            "description": "Refills the phosphocreatine your muscles burn for explosive effort — so you lift heavier and push past plateaus.",
+            "citation": "Kreider et al., JISSN 2017"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon_emoji": "🏗️",
+            "title": "Lean Muscle",
+            "description": "One of the few supplements clinically shown to build and preserve lean mass when paired with training.",
+            "citation": "ISSN Position Stand, 2017"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon_emoji": "🔁",
+            "title": "Faster Recovery",
+            "description": "Speeds the energy reset between hard sets and sessions, so you bounce back ready to train again.",
+            "citation": "Sports Medicine, 2003"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon_emoji": "🧠",
+            "title": "Brain & Focus",
+            "description": "Your brain runs on the same energy system — creatine supports sharper focus and mental stamina.",
+            "citation": "Avgerinos et al., 2018"
+          }
+        }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"],
+      "name": "FTD-B - Benefits",
+      "settings": {
+        "eyebrow": "Clinically Backed",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "What 5 grams actually does.",
+        "heading_emphasis_word": "actually does.",
+        "body": "Decades of peer-reviewed research, distilled into four reasons one clean scoop a day is worth it.",
+        "desktop_columns": 4,
+        "card_radius": 12,
+        "card_accent_top_thickness": 3,
+        "card_accent_color": "#1FA8A1",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      }
+    },
+    "ftd_testimonial_athlete": {
+      "type": "fortified-testimonial",
+      "blocks": {},
+      "name": "FTD - Testimonial",
+      "settings": {
+        "name": "Alex Friedman",
+        "role": "Pro Athlete · FORTIFIED Partner",
+        "quote": "I've tried every creatine on the shelf. This is the only one I trust to be exactly what the label says — a full 5g, every scoop, nothing else. My strength numbers and my recovery do the talking.",
+        "quote_marks": true,
+        "button_label": "Shop Creatine",
+        "button_link": "",
+        "button_style": "filled",
+        "image": "",
+        "image_focal": "center",
+        "image_position_desktop": "right",
+        "align_desktop": "left",
+        "align_mobile": "left",
+        "color_scheme": "scheme-5",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "padding-block-start": 80,
+        "padding-block-end": 80
+      }
+    },
+    "ftd_stats_research": {
+      "type": "fortified-stats-row",
+      "settings": {
+        "eyebrow": "The Evidence",
+        "heading": "Backed by research, not hype.",
+        "subheading": "Creatine monohydrate is the single most-studied ingredient in sports nutrition. Here's what the science actually found.",
+        "desktop_columns": 3,
+        "column_gap": 40,
+        "align": "left",
+        "section_width": "page-width",
+        "content_max_width": 1200,
+        "divider_style": "dashed",
+        "divider_color": "#d9dee3",
+        "divider_thickness": 1,
+        "color_scheme": "",
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      },
+      "blocks": {
+        "s1": {
+          "type": "stat",
+          "settings": {
+            "number": "700+",
+            "label": "Peer-Reviewed Studies",
+            "description": "The most-researched performance supplement in existence — and one of the safest."
+          }
+        },
+        "s2": {
+          "type": "stat",
+          "settings": {
+            "number": "5g",
+            "label": "The Clinical Dose",
+            "description": "The exact daily amount shown to work. No loading phase, no guesswork."
+          }
+        },
+        "s3": {
+          "type": "stat",
+          "settings": {
+            "number": "100%",
+            "label": "On The Label",
+            "description": "One ingredient, fully dosed. Nothing hidden behind a proprietary blend."
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3"]
+    },
+    "ftd_comparison_creatine": {
       "type": "fortified-comparison",
       "blocks": {
-        "feature_row_raWHHH": {
+        "fr1": {
           "type": "feature_row",
           "settings": {
-            "label": "Sodium per serving",
-            "fortified_value": "1,210mg",
+            "label": "Creatine per serving",
+            "fortified_value": "5g",
             "icon": "text"
           }
         },
-        "feature_row_hW7978": {
+        "fr2": {
           "type": "feature_row",
           "settings": {
-            "label": "Zero added sugar",
+            "label": "Full clinical 5g dose",
             "fortified_value": "Yes",
             "icon": "check"
           }
         },
-        "feature_row_VLtMhg": {
+        "fr3": {
           "type": "feature_row",
           "settings": {
-            "label": "Zero artificial sweeteners",
+            "label": "Micronized — dissolves clean",
             "fortified_value": "Yes",
             "icon": "check"
           }
         },
-        "feature_row_aLG7RH": {
+        "fr4": {
           "type": "feature_row",
           "settings": {
-            "label": "Magnesium malate per serving",
-            "fortified_value": "1,000mg",
-            "icon": "check"
-          }
-        },
-        "feature_row_K646GU": {
-          "type": "feature_row",
-          "settings": {
-            "label": "Natural caffeine option",
-            "fortified_value": "152mg",
-            "icon": "check"
-          }
-        },
-        "feature_row_EcFDBm": {
-          "type": "feature_row",
-          "settings": {
-            "label": "Every ingredient disclosed",
+            "label": "Zero fillers or additives",
             "fortified_value": "Yes",
+            "icon": "check"
+          }
+        },
+        "fr5": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Third-party tested",
+            "fortified_value": "Yes",
+            "icon": "check"
+          }
+        },
+        "fr6": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Price per serving",
+            "fortified_value": "$0.76",
             "icon": "text"
           }
         },
-        "competitor_7JzwRW": {
+        "comp1": {
           "type": "competitor",
           "settings": {
-            "name": "Liquid IV",
-            "values": "500mg\nno\nno\nno\nno\n$8.97",
+            "name": "Generic Monohydrate",
+            "values": "3–5g\nno\nno\nyes\nno\n$0.45",
             "highlight_color": ""
           }
         },
-        "competitor_TrPbcj": {
+        "comp2": {
           "type": "competitor",
           "settings": {
-            "name": "LMNT",
-            "values": "1000mg\nyes\nno\nno\nno\n$7.00",
+            "name": "Flavored Blend",
+            "values": "5g*\nno\nyes\nno\nno\n$1.33",
             "highlight_color": ""
           }
         }
       },
-      "block_order": [
-        "feature_row_raWHHH",
-        "feature_row_hW7978",
-        "feature_row_VLtMhg",
-        "feature_row_aLG7RH",
-        "feature_row_K646GU",
-        "feature_row_EcFDBm",
-        "competitor_7JzwRW",
-        "competitor_TrPbcj"
-      ],
+      "block_order": ["fr1", "fr2", "fr3", "fr4", "fr5", "fr6", "comp1", "comp2"],
       "name": "FTD - Comparison Table",
       "settings": {
-        "eyebrow": "Compare The Labels",
+        "eyebrow": "Compare The Scoop",
         "eyebrow_color": "#1fa8a1",
         "heading": "Why We Beat The Rest",
-        "subheading": "",
+        "subheading": "Same molecule. Very different scoop. Here's how FORTIFIED Creatine stacks up against what's on the shelf.",
         "fortified_label": "Fortified",
         "fortified_column_color": "#0a0a0a",
         "fortified_text_color": "#ffffff",
         "check_color": "#ffffff",
         "cross_color": "#9ca3af",
-        "cta_label": "Shop FORTIFIED®",
+        "cta_label": "Shop FORTIFIED® Creatine",
         "cta_link": "",
         "cta_style": "outline",
         "mobile_swipe_hint": "Swipe to compare →",
@@ -900,161 +832,346 @@
         "section_width": "full-width",
         "content_max_width": 1240,
         "color_scheme": "",
-        "padding-block-start": 160,
+        "padding-block-start": 96,
         "padding-block-end": 72,
         "custom_css": ""
       }
     },
-    "fortified_stats_row_default": {
-      "type": "fortified-stats-row",
-      "settings": {
-        "eyebrow": "The Clean Difference",
-        "heading": "Why Label-Readers Choose FORTIFIED®",
-        "subheading": "Every milligram disclosed. No proprietary blends. Real ingredients in honest amounts.",
-        "section_width": "page-width",
-        "content_max_width": 1200,
-        "padding-block-start": 64,
-        "padding-block-end": 64
-      },
+    "ftd_truth_showcase": {
+      "type": "fortified-truth",
       "blocks": {
-        "s1": {
-          "type": "stat",
+        "t1": {
+          "type": "card",
           "settings": {
-            "number": "0g",
-            "label": "Added Sugar",
-            "description": "Sweetened with monk fruit and fermented Reb M."
+            "media_type": "image",
+            "image": "shopify://shop_images/Element01.webp",
+            "category": "Strength",
+            "caption": "More power per rep.",
+            "show_icon": true,
+            "icon": "shopify://shop_images/Logo_Shield_White.svg",
+            "link": ""
           }
         },
-        "s2": {
-          "type": "stat",
+        "t2": {
+          "type": "card",
           "settings": {
-            "number": "100%",
-            "label": "Ingredients Disclosed",
-            "description": "No proprietary blends. Every milligram on the label."
+            "media_type": "image",
+            "image": "shopify://shop_images/Element02.webp",
+            "category": "Lean Muscle",
+            "caption": "Build it, keep it.",
+            "show_icon": true,
+            "icon": "shopify://shop_images/Logo_Shield_White.svg",
+            "link": ""
           }
         },
-        "s3": {
-          "type": "stat",
+        "t3": {
+          "type": "card",
           "settings": {
-            "number": "15%",
-            "label": "Subscribe & Save",
-            "description": "Free shipping, skip or cancel anytime."
+            "media_type": "image",
+            "image": "shopify://shop_images/Element03.webp",
+            "category": "Recovery",
+            "caption": "Bounce back faster.",
+            "show_icon": true,
+            "icon": "shopify://shop_images/Logo_Shield_White.svg",
+            "link": ""
+          }
+        },
+        "t4": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/Element04.webp",
+            "category": "Focus",
+            "caption": "Fuel for your brain.",
+            "show_icon": true,
+            "icon": "shopify://shop_images/Logo_Shield_White.svg",
+            "link": ""
+          }
+        },
+        "t5": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/Element01.webp",
+            "category": "Healthy Aging",
+            "caption": "Support muscle for life.",
+            "show_icon": true,
+            "icon": "shopify://shop_images/Logo_Shield_White.svg",
+            "link": ""
+          }
+        },
+        "t6": {
+          "type": "card",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/Element02.webp",
+            "category": "Daily Energy",
+            "caption": "Top off your cells.",
+            "show_icon": true,
+            "icon": "shopify://shop_images/Logo_Shield_White.svg",
+            "link": ""
           }
         }
       },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3"
-      ]
-    },
-    "fortified_truth_default": {
-      "type": "fortified-truth",
+      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6"],
+      "name": "FTD - Truth",
       "settings": {
-        "eyebrow": "What We Left Out",
-        "heading": "The Cleanest List Is The Short One",
-        "subheading": "No artificial sweeteners, no synthetic dyes, no fillers. Just real ingredients in honest amounts.",
-        "button_label": "Shop FORTIFIED®",
-        "button_link": "shopify://collections/all",
+        "eyebrow": "The Truth",
+        "heading": "More Than A Scoop",
+        "subheading": "One clean ingredient quietly works across your whole day — in the gym, in recovery, and between your ears.",
+        "button_label": "Shop Creatine",
+        "button_link": "",
         "button_style": "outline",
+        "columns_desktop": 6,
+        "enable_carousel": false,
+        "card_height": 440,
+        "card_height_mobile": 360,
+        "gap": 16,
+        "corner_radius": 12,
+        "card_bg": "#1a1a1a",
+        "content_max_width": 1440,
+        "content_padding": 64,
+        "content_radius": 0,
+        "content_color_scheme": "scheme-5",
+        "background_image": "shopify://shop_images/47925c39d137f90d6d364882076d954309ff7580.png",
+        "color_scheme": "scheme-1",
+        "eyebrow_color": "#c4e1c5",
+        "heading_color": "#ffffff",
+        "text_color": "",
+        "card_label_color": "#ffffff",
+        "card_caption_color": "#c9c9c9",
+        "button_color": "#ffffff",
         "section_width": "page-width",
+        "padding-block-start": 96,
+        "padding-block-end": 96
+      }
+    },
+    "ftd_reviews_grid": {
+      "type": "ftd-b-testimonials",
+      "blocks": {
+        "r1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Game changer. Mixes clear, tastes like nothing, and my lifts went up within a few weeks.",
+            "author": "Sarah J.",
+            "author_sub": "Verified Buyer",
+            "tag_label": "Strength",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        },
+        "r2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Finally a creatine I actually trust. No bloating, no weird fillers — just a clean scoop and real results.",
+            "author": "Marcus T.",
+            "author_sub": "Verified Buyer",
+            "tag_label": "Clean Label",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        },
+        "r3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I was nervous about creatine as a woman. So glad I tried it — stronger and leaner, zero bloat.",
+            "author": "Priya K.",
+            "author_sub": "Verified Buyer",
+            "tag_label": "For Everyone",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        },
+        "r4": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Dissolves completely in my morning coffee. I genuinely can't tell it's in there.",
+            "author": "Dev R.",
+            "author_sub": "Verified Buyer",
+            "tag_label": "Mixability",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        },
+        "r5": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Recovery between sessions is noticeably faster. Worth every penny on subscription.",
+            "author": "Jordan M.",
+            "author_sub": "Verified Buyer",
+            "tag_label": "Recovery",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        },
+        "r6": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Clinical dose, clean label, fair price. Everything else out there is just marketing.",
+            "author": "Chris L.",
+            "author_sub": "Verified Buyer",
+            "tag_label": "Value",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": ["r1", "r2", "r3", "r4", "r5", "r6"],
+      "name": "FTD-B - Testimonials",
+      "settings": {
+        "eyebrow": "The Truth",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "12,400+ five-star reviews.",
+        "heading_emphasis_word": "five-star",
+        "rating_text": "4.8 / 5 average from 12,400+ verified buyers",
+        "desktop_columns": 3,
+        "tablet_columns": 2,
+        "card_radius": 12,
+        "quote_mark_color": "#1FA8A1",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "color_scheme": "scheme-1",
         "padding-block-start": 72,
         "padding-block-end": 72
-      },
+      }
+    },
+    "ftd_faq_creatine": {
+      "type": "ftd-b-faq",
       "blocks": {
-        "c1": {
-          "type": "card",
+        "q1": {
+          "type": "faq_item",
           "settings": {
-            "media_type": "icon",
-            "category": "No Artificial Sweeteners",
-            "caption": "Monk fruit + fermented Reb M — never sucralose or aspartame."
+            "question": "Do I need a loading phase?",
+            "answer": "No. 5g a day is all it takes — your muscles fully saturate in 2–3 weeks without the bloat-inducing loading phase older protocols pushed.",
+            "tags": "",
+            "open_by_default": true
           }
         },
-        "c2": {
-          "type": "card",
+        "q2": {
+          "type": "faq_item",
           "settings": {
-            "media_type": "icon",
-            "category": "No Synthetic Dyes",
-            "caption": "No artificial colors, ever."
+            "question": "Will creatine make me bloated?",
+            "answer": "Loading phases cause the water bloat creatine is famous for. A steady 5g daily dose doesn't — most people notice fuller, not puffier, muscles.",
+            "tags": "",
+            "open_by_default": false
           }
         },
-        "c3": {
-          "type": "card",
+        "q3": {
+          "type": "faq_item",
           "settings": {
-            "media_type": "icon",
-            "category": "No Proprietary Blends",
-            "caption": "Every milligram on the label."
+            "question": "Is creatine safe and effective for women?",
+            "answer": "Yes. The research is just as strong for women — strength, lean muscle, recovery, and cognitive benefits, with no androgenic or 'bulky' side effects.",
+            "tags": "",
+            "open_by_default": false
           }
         },
-        "c4": {
-          "type": "card",
+        "q4": {
+          "type": "faq_item",
           "settings": {
-            "media_type": "icon",
-            "category": "No Fillers Or Junk",
-            "caption": "Nothing you'd have to Google."
+            "question": "When and how should I take it?",
+            "answer": "Any time of day, every day — consistency matters far more than timing. Stir one scoop into water, coffee, or your shake until it clears.",
+            "tags": "",
+            "open_by_default": false
+          }
+        },
+        "q5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is it really unflavored?",
+            "answer": "Completely. It's micronized creatine monohydrate and nothing else, so it disappears into any drink without changing the taste.",
+            "tags": "",
+            "open_by_default": false
+          }
+        },
+        "q6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How is it tested?",
+            "answer": "Every batch is made in a cGMP facility and third-party tested for purity and label accuracy. What's on the pouch is what's in the pouch.",
+            "tags": "",
+            "open_by_default": false
           }
         }
       },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
-      ]
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "name": "FTD-B - FAQ",
+      "settings": {
+        "eyebrow": "Questions",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "Creatine, answered.",
+        "heading_emphasis_word": "answered.",
+        "show_tabs": false,
+        "tabs_label_all": "All",
+        "accent_color": "#1FA8A1",
+        "divider_color": "#E5E5E5",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      }
     },
-    "fortified_subscribe_save_default": {
+    "ftd_subscribe_save_cta": {
       "type": "fortified-subscribe-save",
       "settings": {
         "eyebrow": "Subscribe & Save",
         "eyebrow_color": "#1fa8a1",
-        "heading": "Subscribe & Save 15% On Clean Hydration",
+        "heading": "Never Skip A Scoop. Save 15%.",
         "button_label": "Start My Subscription",
+        "button_link": "",
         "button_style": "outline",
+        "foreground_image": "shopify://shop_images/f48e401acdf1d6fea544e6bae6d412cc614471b1.png",
+        "foreground_image_focal": "center",
+        "image_position": "right",
+        "background_overlay": 50,
         "text_color": "light",
         "section_width": "page-width",
-        "padding-block-start": 72,
-        "padding-block-end": 72
+        "content_max_width": 1240,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 88,
+        "padding-block-end": 88
       },
       "blocks": {
         "b1": {
           "type": "benefit",
           "settings": {
-            "text": "Save 15% on every order"
+            "text": "Save 15% on every pouch, automatically"
           }
         },
         "b2": {
           "type": "benefit",
           "settings": {
-            "text": "Free shipping on every shipment"
+            "text": "Free shipping on every order"
           }
         },
         "b3": {
           "type": "benefit",
           "settings": {
-            "text": "Skip, swap, or cancel anytime"
+            "text": "Auto-refills before you run out"
           }
         },
         "b4": {
           "type": "benefit",
           "settings": {
-            "text": "Free creatine with quarterly plans"
+            "text": "Skip, swap, or cancel anytime"
           }
         }
       },
-      "block_order": [
-        "b1",
-        "b2",
-        "b3",
-        "b4"
-      ]
+      "block_order": ["b1", "b2", "b3", "b4"]
     }
   },
   "order": [
     "main",
-    "section_RHyhaN",
-    "fortified_stats_row_default",
-    "fortified_comparison_QbjiBE",
-    "fortified_truth_default",
-    "fortified_subscribe_save_default"
+    "marquee_pdp_trust",
+    "ftd_supp_facts_creatine",
+    "ftd_creatine_feature",
+    "ftd_benefits_creatine",
+    "ftd_testimonial_athlete",
+    "ftd_stats_research",
+    "ftd_comparison_creatine",
+    "ftd_truth_showcase",
+    "ftd_reviews_grid",
+    "ftd_faq_creatine",
+    "ftd_subscribe_save_cta"
   ]
 }
