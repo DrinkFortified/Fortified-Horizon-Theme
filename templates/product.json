@@ -196,179 +196,8 @@
               },
               "blocks": {}
             },
-            "fortified_product_selector_VMVFGp": {
-              "type": "fortified-product-selector",
-              "name": "FTD - Product Selector",
-              "settings": {
-                "content_max_width": 1240,
-                "section_width": "full-width",
-                "heading": "",
-                "subheading": "",
-                "coming_soon_text": "Soon",
-                "show_rating": false,
-                "rating_value": "",
-                "rating_count": "",
-                "star_color": "#f5a623",
-                "plan_step_label": "Choose Your Plan",
-                "plan_step_note": "Monthly 10% Off",
-                "show_monthly": true,
-                "monthly_label": "1 a Month",
-                "monthly_badge": "Monthly",
-                "monthly_badge_color": "#1fa8a1",
-                "monthly_title": "1 Pouch\nEvery Month",
-                "monthly_desc": "Your daily ritual, delivered.",
-                "monthly_price": "$53.10",
-                "monthly_period": "/ month",
-                "monthly_was": "was $59.00/mo",
-                "monthly_checklist": "Save 15% on every order\nFree shipping always\nFlexible, cancel / pause any time",
-                "show_quarterly": true,
-                "quarterly_label": "3 Every 3 Months",
-                "quarterly_badge": "Best Value - Quarterly",
-                "quarterly_badge_color": "#e8833a",
-                "quarterly_title": "3 Pouches\nEvery 3 Months",
-                "quarterly_desc": "Mix any functions freely.",
-                "quarterly_price": "$53.10",
-                "quarterly_period": "/ month",
-                "quarterly_was": "was $59.00/mo",
-                "quarterly_checklist": "Free Creatine + Sample Pack\nFree shipping always\nFlexible, cancel / pause any time",
-                "bundle_count": 3,
-                "show_onetime": true,
-                "onetime_card_label": "One Time",
-                "onetime_badge": "Buy Once",
-                "onetime_badge_color": "#6b7280",
-                "onetime_title": "Single\nPouch",
-                "onetime_desc": "Try it first. Subscribe whenever you're ready.",
-                "onetime_price": "$59.00",
-                "onetime_period": "/ pouch",
-                "onetime_was": "",
-                "onetime_checklist": "30 servings per pouch\nShipping calculated at checkout\nNo subscription required",
-                "onetime_product": "",
-                "onetime_flavor_option": "Flavor",
-                "simplified_for_subs": true,
-                "simple_plan_monthly": "",
-                "simple_plan_quarterly": "",
-                "build_step_label": "Build {count}-Pouch Bundle",
-                "pouches_word": "Pouches",
-                "function_label": "Choose Your Function",
-                "flavor_label": "Choose Flavor:",
-                "unit_label_prefix": "Pouch",
-                "show_addon": true,
-                "addon_product": "creatine",
-                "addon_label": "Add Creatine — 50% off",
-                "addon_desc": "50% off applied automatically at checkout.",
-                "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
-                "addon_desc_quarterly": "1st Creatine is free with your bundle. Add a second at 50% off.",
-                "quarterly_free_text": "Free Creatine + Sample Pack included with your bundle",
-                "addon_price_text": "$12.00",
-                "addon_was_text": "$24.00",
-                "addon_loop_plan_monthly": "2611478587",
-                "addon_loop_plan_quarterly": "2611511355",
-                "addon_loop_plan_quarterly_50off": "2611544123",
-                "summary_label": "Your Order",
-                "total_label": "Total",
-                "overview_note": "Subscriptions ship free. Discounts applied at checkout.",
-                "show_shipping_bar": true,
-                "shipping_threshold_dollars": 100,
-                "shipping_text_subscription": "Subscriptions ship free",
-                "shipping_text_progress": "Add {amount} more for FREE shipping",
-                "shipping_text_unlocked": "FREE shipping unlocked",
-                "shipping_bar_track_color": "#efeae3",
-                "shipping_bar_fill_color": "#1fa8a1",
-                "shipping_bar_unlocked_color": "#16a34a",
-                "qty_label": "Quantity",
-                "qty_max": 20,
-                "atc_label": "Add to Cart",
-                "show_total_on_button": true,
-                "button_style": "filled",
-                "onetime_prefix": "",
-                "onetime_price_text": "",
-                "onetime_link": "",
-                "onetime_clickable": true,
-                "selection_color": "#1fa8a1",
-                "color_scheme": "",
-                "panel_color_scheme": "",
-                "button_radius": 8,
-                "card_radius": 12,
-                "padding-block-start": 32,
-                "padding-block-end": 32,
-                "custom_css": ""
-              },
-              "blocks": {
-                "ftd_ps_gallery_Bggd9Y": {
-                  "type": "gallery_image",
-                  "settings": {},
-                  "blocks": {}
-                },
-                "ftd_ps_function_yXptNE": {
-                  "type": "function_item",
-                  "settings": {
-                    "enabled": true,
-                    "function_label": "Fortified Everyday",
-                    "product": "energy",
-                    "coming_soon": false,
-                    "spec_1": "152mg Caffeine",
-                    "spec_2": "1,200mg NA",
-                    "spec_3": "",
-                    "description": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix.",
-                    "flavor_option": "",
-                    "manual_flavors": "Original\nMango\nBerry",
-                    "loop_plan_monthly": "2607349819",
-                    "loop_plan_quarterly": "2607644731 "
-                  },
-                  "blocks": {}
-                },
-                "ftd_ps_function_MgMHhx": {
-                  "type": "function_item",
-                  "settings": {
-                    "enabled": true,
-                    "function_label": "Fortified Energy",
-                    "product": "everyday",
-                    "coming_soon": false,
-                    "spec_1": "152mg Caffeine",
-                    "spec_2": "1,200mg NA",
-                    "spec_3": "",
-                    "description": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix.",
-                    "flavor_option": "",
-                    "manual_flavors": "Original\nMango\nBerry",
-                    "loop_plan_monthly": "2607349819",
-                    "loop_plan_quarterly": "2607644731 "
-                  },
-                  "blocks": {}
-                },
-                "ftd_ps_benefit_9HdPLw": {
-                  "type": "benefit_item",
-                  "settings": {
-                    "text": "5g Clinical Dose"
-                  },
-                  "blocks": {}
-                },
-                "ftd_ps_benefit_PMNtgU": {
-                  "type": "benefit_item",
-                  "settings": {
-                    "text": "Unflavored & Mixable"
-                  },
-                  "blocks": {}
-                },
-                "ftd_ps_benefit_TaxrdJ": {
-                  "type": "benefit_item",
-                  "settings": {
-                    "text": "Third-Party Tested"
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "ftd_ps_gallery_Bggd9Y",
-                "ftd_ps_function_yXptNE",
-                "ftd_ps_function_MgMHhx",
-                "ftd_ps_benefit_9HdPLw",
-                "ftd_ps_benefit_PMNtgU",
-                "ftd_ps_benefit_TaxrdJ"
-              ]
-            },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
-              "disabled": true,
               "settings": {
                 "variant_style": "buttons",
                 "show_swatches": false,
@@ -382,7 +211,6 @@
             },
             "buy_buttons_eYQEYi": {
               "type": "buy-buttons",
-              "disabled": true,
               "settings": {
                 "stacking": true,
                 "show_pickup_availability": false,
@@ -447,7 +275,6 @@
             "group_icgrde",
             "divider_VJhene",
             "fortified_fomo_counter_kGRRL9",
-            "fortified_product_selector_VMVFGp",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
             "text_aEtTtq"
@@ -465,6 +292,134 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "ftd_selector_creatine": {
+      "type": "fortified-product-selector",
+      "name": "FTD - Product Selector",
+      "settings": {
+        "content_max_width": 1240,
+        "section_width": "full-width",
+        "heading": "Build Your Strength Stack",
+        "subheading": "One ingredient, every milligram on the label. Subscribe to save, or grab a one-time scoop.",
+        "coming_soon_text": "Soon",
+        "show_rating": true,
+        "rating_value": "4.8",
+        "rating_count": "12,400+ reviews",
+        "star_color": "#f5a623",
+        "plan_step_label": "Choose Your Plan",
+        "plan_step_note": "Subscribe & save 15%",
+        "show_monthly": true,
+        "monthly_label": "Monthly",
+        "monthly_badge": "Subscribe & Save 15%",
+        "monthly_badge_color": "#1fa8a1",
+        "monthly_title": "1 Pouch\nEvery Month",
+        "monthly_desc": "Never run out. Auto-refill every 30 days.",
+        "monthly_price": "$33.99",
+        "monthly_period": "/ month",
+        "monthly_was": "$39.99",
+        "monthly_checklist": "Save 15% on every order\nFree shipping always\nSkip or cancel anytime",
+        "show_quarterly": false,
+        "quarterly_label": "Quarterly",
+        "quarterly_badge": "Best Value",
+        "quarterly_badge_color": "#e8833a",
+        "quarterly_title": "3 Pouches\nEvery 3 Months",
+        "quarterly_desc": "Stack up and save more.",
+        "quarterly_price": "$28.99",
+        "quarterly_period": "/ month",
+        "quarterly_was": "$39.99",
+        "quarterly_checklist": "Save 20% on every order\nFree shipping always\nSkip or cancel anytime",
+        "bundle_count": 3,
+        "show_onetime": true,
+        "onetime_card_label": "One Time",
+        "onetime_badge": "Buy Once",
+        "onetime_badge_color": "#6b7280",
+        "onetime_title": "Single\nPouch",
+        "onetime_desc": "Try it first. Subscribe whenever you're ready.",
+        "onetime_price": "$39.99",
+        "onetime_period": "/ pouch",
+        "onetime_was": "",
+        "onetime_checklist": "45 servings per pouch\nShipping calculated at checkout\nNo subscription required",
+        "onetime_product": "",
+        "onetime_flavor_option": "",
+        "simplified_for_subs": true,
+        "simple_plan_monthly": "",
+        "simple_plan_quarterly": "",
+        "build_step_label": "Confirm Your Order",
+        "pouches_word": "Pouches",
+        "function_label": "",
+        "flavor_label": "",
+        "unit_label_prefix": "Pouch",
+        "show_addon": false,
+        "addon_product": "",
+        "addon_label": "",
+        "addon_desc": "",
+        "addon_label_quarterly": "",
+        "addon_desc_quarterly": "",
+        "quarterly_free_text": "",
+        "addon_price_text": "",
+        "addon_was_text": "",
+        "addon_loop_plan_monthly": "",
+        "addon_loop_plan_quarterly": "",
+        "addon_loop_plan_quarterly_50off": "",
+        "summary_label": "Your Order",
+        "total_label": "Total",
+        "overview_note": "Subscriptions ship free. Cancel anytime.",
+        "show_shipping_bar": true,
+        "shipping_threshold_dollars": 50,
+        "shipping_text_subscription": "Subscriptions ship free",
+        "shipping_text_progress": "Add {amount} more for FREE shipping",
+        "shipping_text_unlocked": "FREE shipping unlocked",
+        "shipping_bar_track_color": "#efeae3",
+        "shipping_bar_fill_color": "#1fa8a1",
+        "shipping_bar_unlocked_color": "#16a34a",
+        "qty_label": "Quantity",
+        "qty_max": 20,
+        "atc_label": "Add to Cart",
+        "show_total_on_button": true,
+        "button_style": "filled",
+        "onetime_prefix": "",
+        "onetime_price_text": "",
+        "onetime_link": "",
+        "onetime_clickable": true,
+        "selection_color": "#1fa8a1",
+        "color_scheme": "",
+        "panel_color_scheme": "",
+        "button_radius": 8,
+        "card_radius": 12,
+        "padding-block-start": 16,
+        "padding-block-end": 56,
+        "custom_css": ""
+      },
+      "blocks": {
+        "ftd_ps_gallery_Bggd9Y": {
+          "type": "gallery_image",
+          "settings": {}
+        },
+        "ftd_ps_benefit_9HdPLw": {
+          "type": "benefit_item",
+          "settings": {
+            "text": "5g Clinical Dose"
+          }
+        },
+        "ftd_ps_benefit_PMNtgU": {
+          "type": "benefit_item",
+          "settings": {
+            "text": "Unflavored & Mixable"
+          }
+        },
+        "ftd_ps_benefit_TaxrdJ": {
+          "type": "benefit_item",
+          "settings": {
+            "text": "Third-Party Tested"
+          }
+        }
+      },
+      "block_order": [
+        "ftd_ps_gallery_Bggd9Y",
+        "ftd_ps_benefit_9HdPLw",
+        "ftd_ps_benefit_PMNtgU",
+        "ftd_ps_benefit_TaxrdJ"
+      ]
     },
     "marquee_pdp_trust": {
       "type": "marquee",
@@ -1162,6 +1117,7 @@
   },
   "order": [
     "main",
+    "ftd_selector_creatine",
     "marquee_pdp_trust",
     "ftd_supp_facts_creatine",
     "ftd_creatine_feature",
