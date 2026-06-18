@@ -295,12 +295,12 @@
               },
               "blocks": {
                 "ftd_ps_gallery_Bggd9Y": {
-                  "type": "_ftd-ps-gallery",
+                  "type": "gallery_image",
                   "settings": {},
                   "blocks": {}
                 },
                 "ftd_ps_function_yXptNE": {
-                  "type": "_ftd-ps-function",
+                  "type": "function_item",
                   "settings": {
                     "enabled": true,
                     "function_label": "Fortified Everyday",
@@ -318,7 +318,7 @@
                   "blocks": {}
                 },
                 "ftd_ps_function_MgMHhx": {
-                  "type": "_ftd-ps-function",
+                  "type": "function_item",
                   "settings": {
                     "enabled": true,
                     "function_label": "Fortified Energy",
@@ -336,21 +336,21 @@
                   "blocks": {}
                 },
                 "ftd_ps_benefit_9HdPLw": {
-                  "type": "_ftd-ps-benefit",
+                  "type": "benefit_item",
                   "settings": {
                     "text": "5g Clinical Dose"
                   },
                   "blocks": {}
                 },
                 "ftd_ps_benefit_PMNtgU": {
-                  "type": "_ftd-ps-benefit",
+                  "type": "benefit_item",
                   "settings": {
                     "text": "Unflavored & Mixable"
                   },
                   "blocks": {}
                 },
                 "ftd_ps_benefit_TaxrdJ": {
-                  "type": "_ftd-ps-benefit",
+                  "type": "benefit_item",
                   "settings": {
                     "text": "Third-Party Tested"
                   },
