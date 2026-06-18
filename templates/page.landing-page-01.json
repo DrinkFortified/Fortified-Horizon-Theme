@@ -1,12 +1,4 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
+/* Fortified Landing Page 01 — hydration funnel (Everyday + Energy) */
 {
   "sections": {
     "section_NwCygK": {
@@ -356,25 +348,24 @@
         "padding-block-end": 0
       }
     },
-    "main": {
-      "type": "main-page",
+    "ftd_lp_marquee_trust": {
+      "type": "marquee",
       "blocks": {
-        "heading": {
+        "text_lp_marquee": {
           "type": "text",
-          "name": "Title",
           "settings": {
-            "text": "<h1>{{ closest.page.title }}</h1>",
-            "width": "100%",
+            "text": "<p>Zero Sugar · Zero Artificial Sweeteners · Every Milligram Disclosed · 1,210mg Sodium · Real Minerals · No Crash</p>",
+            "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-primary--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
             "case": "none",
-            "wrap": "pretty",
-            "color": "",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -384,28 +375,628 @@
             "padding-inline-end": 0
           },
           "blocks": {}
+        }
+      },
+      "block_order": ["text_lp_marquee"],
+      "name": "t:names.marquee_section",
+      "settings": {
+        "movement_direction": "normal",
+        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
+        "padding-block-start": 22,
+        "padding-block-end": 22,
+        "gap_between_elements": 24
+      }
+    },
+    "ftd_lp_selector": {
+      "type": "fortified-product-selector",
+      "name": "FTD - Product Selector",
+      "settings": {
+        "content_max_width": 1240,
+        "section_width": "full-width",
+        "heading": "Lock In Your First Pouch",
+        "subheading": "Pick your function, pick your plan. Real minerals, every milligram on the label — never sugar, never crash.",
+        "coming_soon_text": "Soon",
+        "show_rating": true,
+        "rating_value": "4.8",
+        "rating_count": "12,400+ verified reviews",
+        "star_color": "#f5a623",
+        "plan_step_label": "Choose Your Plan",
+        "plan_step_note": "Subscribe & save 15%",
+        "show_monthly": true,
+        "monthly_label": "1 a Month",
+        "monthly_badge": "Subscribe & Save 15%",
+        "monthly_badge_color": "#1fa8a1",
+        "monthly_title": "1 Pouch\nEvery Month",
+        "monthly_desc": "Your daily ritual, on auto-refill.",
+        "monthly_price": "$33.99",
+        "monthly_period": "/ month",
+        "monthly_was": "$39.99",
+        "monthly_checklist": "Save 15% on every order\nFree shipping always\nSkip, swap, or cancel anytime",
+        "show_quarterly": true,
+        "quarterly_label": "3 Every 3 Months",
+        "quarterly_badge": "Best Value · 20% Off",
+        "quarterly_badge_color": "#e8833a",
+        "quarterly_title": "3 Pouches\nEvery 3 Months",
+        "quarterly_desc": "Mix functions. Save more.",
+        "quarterly_price": "$31.99",
+        "quarterly_period": "/ pouch",
+        "quarterly_was": "$39.99",
+        "quarterly_checklist": "Save 20% on every order\nFree Creatine in your first box\nFree shipping always\nSkip, swap, or cancel anytime",
+        "bundle_count": 3,
+        "show_onetime": true,
+        "onetime_card_label": "One Time",
+        "onetime_badge": "Buy Once",
+        "onetime_badge_color": "#6b7280",
+        "onetime_title": "Single\nPouch",
+        "onetime_desc": "Try it first. Subscribe whenever you're ready.",
+        "onetime_price": "$39.99",
+        "onetime_period": "/ pouch",
+        "onetime_was": "",
+        "onetime_checklist": "30 servings per pouch\nShipping calculated at checkout\nNo subscription required",
+        "onetime_product": "",
+        "onetime_flavor_option": "Flavor",
+        "simplified_for_subs": true,
+        "simple_plan_monthly": "",
+        "simple_plan_quarterly": "",
+        "build_step_label": "Build {count}-Pouch Bundle",
+        "pouches_word": "Pouches",
+        "function_label": "Choose Your Function",
+        "flavor_label": "Choose Flavor:",
+        "unit_label_prefix": "Pouch",
+        "show_addon": true,
+        "addon_product": "creatine",
+        "addon_label": "Add Creatine — 50% off",
+        "addon_desc": "50% off applied automatically at checkout.",
+        "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
+        "addon_desc_quarterly": "1st Creatine is free with your bundle. Add a second at 50% off.",
+        "quarterly_free_text": "Free Creatine included with your first bundle",
+        "addon_price_text": "$12.00",
+        "addon_was_text": "$24.00",
+        "addon_loop_plan_monthly": "2611478587",
+        "addon_loop_plan_quarterly": "2611511355",
+        "addon_loop_plan_quarterly_50off": "2611544123",
+        "summary_label": "Your Order",
+        "total_label": "Total",
+        "overview_note": "Subscriptions ship free. Cancel anytime.",
+        "show_shipping_bar": true,
+        "shipping_threshold_dollars": 50,
+        "shipping_text_subscription": "Subscriptions ship free",
+        "shipping_text_progress": "Add {amount} more for FREE shipping",
+        "shipping_text_unlocked": "FREE shipping unlocked",
+        "shipping_bar_track_color": "#efeae3",
+        "shipping_bar_fill_color": "#1fa8a1",
+        "shipping_bar_unlocked_color": "#16a34a",
+        "qty_label": "Quantity",
+        "qty_max": 20,
+        "atc_label": "Add to Cart",
+        "show_total_on_button": true,
+        "button_style": "filled",
+        "onetime_prefix": "",
+        "onetime_price_text": "",
+        "onetime_link": "",
+        "onetime_clickable": true,
+        "selection_color": "#1fa8a1",
+        "color_scheme": "",
+        "panel_color_scheme": "",
+        "button_radius": 8,
+        "card_radius": 12,
+        "padding-block-start": 56,
+        "padding-block-end": 72,
+        "custom_css": ""
+      },
+      "blocks": {
+        "lp_ps_gallery": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/260401-FOR-EDY-30-ORG-2026_1-Front.webp"
+          }
         },
-        "page-content": {
-          "type": "page-content",
-          "settings": {},
-          "blocks": {}
+        "lp_ps_fn_everyday": {
+          "type": "function_item",
+          "settings": {
+            "enabled": true,
+            "function_label": "Everyday Hydration",
+            "product": "everyday",
+            "coming_soon": false,
+            "spec_1": "1,210mg Sodium",
+            "spec_2": "1,000mg Magnesium",
+            "spec_3": "Vitamin D3 + K2",
+            "description": "Real minerals + Vitamin D3 and K2. Caffeine-free, any time of day.",
+            "flavor_option": "",
+            "manual_flavors": "Original\nMango\nBerry",
+            "loop_plan_monthly": "2607349819",
+            "loop_plan_quarterly": "2607644731"
+          }
+        },
+        "lp_ps_fn_energy": {
+          "type": "function_item",
+          "settings": {
+            "enabled": true,
+            "function_label": "Energy Hydration",
+            "product": "energy",
+            "coming_soon": false,
+            "spec_1": "152mg Natural Caffeine",
+            "spec_2": "1,210mg Sodium",
+            "spec_3": "1,000mg Magnesium",
+            "description": "Real coffee-bean caffeine + the full electrolyte stack. No anhydrous, no crash.",
+            "flavor_option": "",
+            "manual_flavors": "Original\nWatermelon\nBerry",
+            "loop_plan_monthly": "2607349819",
+            "loop_plan_quarterly": "2607644731"
+          }
+        },
+        "lp_ps_benefit_1": {
+          "type": "benefit_item",
+          "settings": {
+            "text": "1,210mg Sodium Per Serving"
+          }
+        },
+        "lp_ps_benefit_2": {
+          "type": "benefit_item",
+          "settings": {
+            "text": "Zero Sugar · Zero Artificial Sweeteners"
+          }
+        },
+        "lp_ps_benefit_3": {
+          "type": "benefit_item",
+          "settings": {
+            "text": "Every Milligram Disclosed"
+          }
         }
       },
       "block_order": [
-        "heading",
-        "page-content"
-      ],
+        "lp_ps_gallery",
+        "lp_ps_fn_everyday",
+        "lp_ps_fn_energy",
+        "lp_ps_benefit_1",
+        "lp_ps_benefit_2",
+        "lp_ps_benefit_3"
+      ]
+    },
+    "ftd_lp_ingredients_callout": {
+      "type": "fortified-ingredients-callout",
+      "blocks": {
+        "i1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "1,210mg Sodium",
+            "description": "From Ancient Ocean® Pink Himalayan Salt — the electrolyte you sweat out most.",
+            "icon": "",
+            "icon_color_override": ""
+          }
+        },
+        "i2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "1,000mg Magnesium",
+            "description": "As bioavailable magnesium malate — supports energy and muscle function.",
+            "icon": "",
+            "icon_color_override": ""
+          }
+        },
+        "i3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Real Potassium",
+            "description": "From CocOganic® Plus coconut water powder — the missing electrolyte in most mixes.",
+            "icon": "",
+            "icon_color_override": ""
+          }
+        },
+        "i4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vitamin D3 + K2",
+            "description": "130% DV D3 paired with K2 as MK-7, the way your body actually uses them.",
+            "icon": "",
+            "icon_color_override": ""
+          }
+        }
+      },
+      "block_order": ["i1", "i2", "i3", "i4"],
+      "name": "FTD - Ingredients Callout",
       "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "color_scheme": "",
-        "padding-block-start": 40,
-        "padding-block-end": 80
+        "heading": "Every milligram on the label.",
+        "subheading": "No proprietary blends. No fillers. The exact amounts the research says actually matter — printed right on the pouch.",
+        "product_image": "shopify://shop_images/260401-FOR-EDY-30-ORG-2026_1-Front.webp",
+        "product_image_background": "#F2F2F0",
+        "product_image_max_height": 520,
+        "image_position_desktop": "left",
+        "desktop_ingredients_columns": 2,
+        "icon_size": 48,
+        "icon_background_color": "#0A0A0A",
+        "icon_color": "#FFFFFF",
+        "button_label": "Shop FORTIFIED Now",
+        "button_link": "shopify://collections/all",
+        "button_style": "filled",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "padding-block-start": 88,
+        "padding-block-end": 88
       }
+    },
+    "ftd_lp_reviews": {
+      "type": "ftd-b-testimonials",
+      "blocks": {
+        "r1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I bought a stick to try and immediately subscribed. Tastes clean, no sugar bomb, no headache after my long runs.",
+            "author": "Sarah J.",
+            "author_sub": "Verified Buyer · Energy",
+            "tag_label": "No Crash",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        },
+        "r2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Finally a hydration mix where I can actually read every ingredient. The kids drink it, my wife drinks it, I drink it.",
+            "author": "Marcus T.",
+            "author_sub": "Verified Buyer · Everyday",
+            "tag_label": "Family Safe",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        },
+        "r3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Quit Liquid IV. The sodium dose here is double — and there's no sucralose aftertaste. Game over.",
+            "author": "Priya K.",
+            "author_sub": "Verified Buyer · Everyday",
+            "tag_label": "Cleaner Label",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        },
+        "r4": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Energy gives me the lift of a small coffee without the jitters. I have one before training and I'm dialed.",
+            "author": "Dev R.",
+            "author_sub": "Verified Buyer · Energy",
+            "tag_label": "Real Caffeine",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        },
+        "r5": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "My headaches from sauna days are gone. The magnesium is doing real work in here.",
+            "author": "Jordan M.",
+            "author_sub": "Verified Buyer · Everyday",
+            "tag_label": "Real Minerals",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        },
+        "r6": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Subscription is a no-brainer. Cheaper per pouch than my old electrolyte and four times cleaner.",
+            "author": "Chris L.",
+            "author_sub": "Verified Buyer · Subscriber",
+            "tag_label": "Value",
+            "tag_color": "#0a0a0a",
+            "tag_text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": ["r1", "r2", "r3", "r4", "r5", "r6"],
+      "name": "FTD-B - Testimonials",
+      "settings": {
+        "eyebrow": "The Truth",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "12,400+ five-star reviews.",
+        "heading_emphasis_word": "five-star",
+        "rating_text": "4.8 / 5 average from 12,400+ verified buyers",
+        "desktop_columns": 3,
+        "tablet_columns": 2,
+        "card_radius": 12,
+        "quote_mark_color": "#1FA8A1",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      }
+    },
+    "ftd_lp_ingredients_grid": {
+      "type": "fortified-ingredients",
+      "blocks": {
+        "g1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Sodium",
+            "description": "1,210mg from Ancient Ocean® Pink Himalayan Salt — the electrolyte you lose most.",
+            "tag_label": "Hydration",
+            "tag_color": "#1FA8A1",
+            "link": ""
+          }
+        },
+        "g2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium",
+            "description": "1,000mg of bioavailable magnesium malate for energy, muscle function, and calm.",
+            "tag_label": "Recovery",
+            "tag_color": "#1FA8A1",
+            "link": ""
+          }
+        },
+        "g3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Potassium",
+            "description": "Real-food potassium from coconut water powder — the partner sodium needs to do its job.",
+            "tag_label": "Hydration",
+            "tag_color": "#1FA8A1",
+            "link": ""
+          }
+        },
+        "g4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vitamin D3 + K2",
+            "description": "130% DV D3 paired with K2 as MK-7 — the way your body actually uses them.",
+            "tag_label": "Daily Support",
+            "tag_color": "#1FA8A1",
+            "link": ""
+          }
+        }
+      },
+      "block_order": ["g1", "g2", "g3", "g4"],
+      "name": "FTD - Ingredients",
+      "settings": {
+        "eyebrow": "What's Inside",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "Why we beat the rest.",
+        "subheading": "Every ingredient earned its spot — and you can see exactly how much you're getting.",
+        "desktop_columns": 4,
+        "card_gap": 20,
+        "card_radius": 12,
+        "mobile_layout": "scroll",
+        "cta_label": "Shop FORTIFIED Now",
+        "cta_link": "shopify://collections/all",
+        "cta_style": "outline",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      }
+    },
+    "ftd_lp_comparison": {
+      "type": "fortified-comparison",
+      "blocks": {
+        "fr1": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Sodium per serving",
+            "fortified_value": "1,210mg",
+            "icon": "text"
+          }
+        },
+        "fr2": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Zero added sugar",
+            "fortified_value": "Yes",
+            "icon": "check"
+          }
+        },
+        "fr3": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Zero artificial sweeteners",
+            "fortified_value": "Yes",
+            "icon": "check"
+          }
+        },
+        "fr4": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Magnesium per serving",
+            "fortified_value": "1,000mg",
+            "icon": "text"
+          }
+        },
+        "fr5": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Real coffee-bean caffeine option",
+            "fortified_value": "152mg",
+            "icon": "check"
+          }
+        },
+        "fr6": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Every ingredient disclosed",
+            "fortified_value": "Yes",
+            "icon": "check"
+          }
+        },
+        "comp1": {
+          "type": "competitor",
+          "settings": {
+            "name": "Liquid IV",
+            "values": "500mg\nno\nno\n50mg\nno\nno",
+            "highlight_color": ""
+          }
+        },
+        "comp2": {
+          "type": "competitor",
+          "settings": {
+            "name": "LMNT",
+            "values": "1,000mg\nyes\nyes\n60mg\nno\nyes",
+            "highlight_color": ""
+          }
+        }
+      },
+      "block_order": ["fr1", "fr2", "fr3", "fr4", "fr5", "fr6", "comp1", "comp2"],
+      "name": "FTD - Comparison Table",
+      "settings": {
+        "eyebrow": "Compare The Labels",
+        "eyebrow_color": "#1fa8a1",
+        "heading": "Why We Beat The Rest",
+        "subheading": "Same shelf. Very different label. Here's how FORTIFIED stacks up against the names you already know.",
+        "fortified_label": "Fortified",
+        "fortified_column_color": "#0a0a0a",
+        "fortified_text_color": "#ffffff",
+        "check_color": "#ffffff",
+        "cross_color": "#9ca3af",
+        "cta_label": "Shop FORTIFIED® Now",
+        "cta_link": "",
+        "cta_style": "outline",
+        "mobile_swipe_hint": "Swipe to compare →",
+        "table_radius": 16,
+        "section_width": "full-width",
+        "content_max_width": 1240,
+        "color_scheme": "",
+        "padding-block-start": 96,
+        "padding-block-end": 72,
+        "custom_css": ""
+      }
+    },
+    "ftd_lp_faq": {
+      "type": "ftd-b-faq",
+      "blocks": {
+        "q1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How is FORTIFIED different from Liquid IV or LMNT?",
+            "answer": "More than double the sodium of Liquid IV, no sugar and no sucralose, with a real-coffee-bean Energy option — and every milligram printed on the label. Nothing hidden behind a proprietary blend.",
+            "tags": "",
+            "open_by_default": true
+          }
+        },
+        "q2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Will it taste like medicine or salt water?",
+            "answer": "No. Monk fruit and fermented Reb M give it clean, light sweetness — not a sucralose bomb. Most people describe it as 'refreshing, not syrupy.'",
+            "tags": "",
+            "open_by_default": false
+          }
+        },
+        "q3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "When should I drink it?",
+            "answer": "Everyday is caffeine-free for any time of day — morning, post-sauna, after a long flight. Energy is built for the start of training or your afternoon lift instead of a second coffee.",
+            "tags": "",
+            "open_by_default": false
+          }
+        },
+        "q4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is it safe for the whole family?",
+            "answer": "Everyday is built on clean, real-food ingredients with nothing artificial — most families drink it together. As always, check with your doctor for children, or if pregnant or nursing.",
+            "tags": "",
+            "open_by_default": false
+          }
+        },
+        "q5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What if I don't love it?",
+            "answer": "30-day money-back guarantee — full refund, no questions, even on opened pouches. We only win when you actually like it.",
+            "tags": "",
+            "open_by_default": false
+          }
+        },
+        "q6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How fast does it ship?",
+            "answer": "Free shipping on every subscription, and orders ship within 24 hours from the US. You'll get tracking the moment yours leaves the warehouse.",
+            "tags": "",
+            "open_by_default": false
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "name": "FTD-B - FAQ",
+      "settings": {
+        "eyebrow": "Common Questions",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "Answered honestly.",
+        "heading_emphasis_word": "honestly.",
+        "show_tabs": false,
+        "tabs_label_all": "All",
+        "accent_color": "#1FA8A1",
+        "divider_color": "#E5E5E5",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      }
+    },
+    "ftd_lp_subscribe_cta": {
+      "type": "fortified-subscribe-save",
+      "settings": {
+        "eyebrow": "Subscribe & Save",
+        "eyebrow_color": "#1fa8a1",
+        "heading": "Lock In 15% Off. Free Creatine On Us.",
+        "button_label": "Start My Subscription",
+        "button_link": "",
+        "button_style": "outline",
+        "foreground_image": "shopify://shop_images/260401-FOR-ENG-30-ORG-2026_1-Front.webp",
+        "foreground_image_focal": "center",
+        "image_position": "right",
+        "background_overlay": 50,
+        "text_color": "light",
+        "section_width": "page-width",
+        "content_max_width": 1240,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 96,
+        "padding-block-end": 96
+      },
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "text": "Save 15% on every pouch — automatically"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "text": "Free Creatine on your first quarterly box"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "text": "Free shipping on every order"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "text": "Skip, swap, or cancel anytime — no friction"
+          }
+        }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"]
     }
   },
   "order": [
     "section_NwCygK",
-    "main"
+    "ftd_lp_marquee_trust",
+    "ftd_lp_selector",
+    "ftd_lp_ingredients_callout",
+    "ftd_lp_reviews",
+    "ftd_lp_ingredients_grid",
+    "ftd_lp_comparison",
+    "ftd_lp_faq",
+    "ftd_lp_subscribe_cta"
   ]
 }
