@@ -146,11 +146,13 @@
   <div class="{{ root }}__inner">
     <div class="{{ root }}__stage {{ root }}--{{ section.settings.text_align }}">
       {%- if section.settings.background_image != blank -%}
+        {%- assign bg_class = root | append: '__bg' -%}
+        {%- assign bg_alt = section.settings.heading | default: '' -%}
         {{ section.settings.background_image | image_url: width: 2400 | image_tag:
-          class: root | append: '__bg',
+          class: bg_class,
           loading: 'eager',
           widths: '600,1000,1400,1800,2200,2600',
-          alt: section.settings.heading | default: ''
+          alt: bg_alt
         }}
       {%- endif -%}
       {%- if section.settings.overlay_opacity > 0 -%}
