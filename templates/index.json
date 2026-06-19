@@ -400,8 +400,8 @@
       "settings": {
         "movement_direction": "normal",
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 24,
-        "padding-block-end": 24,
+        "padding-block-start": 28,
+        "padding-block-end": 28,
         "gap_between_elements": 24
       }
     },
@@ -1590,7 +1590,9 @@
         "section_width": "page-width",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "custom_css": ""
+        "custom_css": "",
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "fortified_stats_comparison_CLiX76": {
@@ -1682,7 +1684,9 @@
         "button_text": "#ffffff",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "custom_css": ""
+        "custom_css": "",
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "fortified_product_selector_qH87DQ": {
@@ -1838,8 +1842,8 @@
         "panel_color_scheme": "scheme-1",
         "button_radius": 8,
         "card_radius": 12,
-        "padding-block-start": 32,
-        "padding-block-end": 0,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
         "custom_css": "",
         "loop_api_token": "",
         "loop_api_base": "https://api.loopwork.co",
@@ -1850,7 +1854,9 @@
         "loop_bundle_create_url": "",
         "loop_bundle_variant_id": "",
         "loop_bundle_selling_plan_id": "",
-        "loop_bundle_property_key": "_bundleId"
+        "loop_bundle_property_key": "_bundleId",
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "fortified_tabs_KnFXW8": {
@@ -1983,7 +1989,9 @@
         "max_width": 1360,
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "custom_css": ""
+        "custom_css": "",
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "fortified_truth_Q6ArF9": {
@@ -2117,7 +2125,9 @@
         "section_width": "page-width",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "custom_css": ""
+        "custom_css": "",
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "section_gkG4FQ": {
@@ -3523,9 +3533,11 @@
         "section_width": "full-width",
         "content_max_width": 1440,
         "color_scheme": "",
-        "padding-block-start": 0,
-        "padding-block-end": 0,
-        "custom_css": ""
+        "padding-block-start": 100,
+        "padding-block-end": 100,
+        "custom_css": "",
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "fortified_subscribe_save_gPX8Rx": {
@@ -3580,7 +3592,9 @@
         "color_scheme": "scheme-5",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "custom_css": ""
+        "custom_css": "",
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "marquee_LCGn7N": {
@@ -3619,8 +3633,8 @@
       "settings": {
         "movement_direction": "normal",
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 24,
-        "padding-block-end": 24,
+        "padding-block-start": 28,
+        "padding-block-end": 28,
         "gap_between_elements": 24
       }
     },
@@ -3660,7 +3674,9 @@
         "color_scheme": "",
         "padding-block-start": 40,
         "padding-block-end": 40,
-        "custom_css": ""
+        "custom_css": "",
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "fortified_truth_function_cards": {
@@ -3751,7 +3767,9 @@
         "section_width": "page-width",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "custom_css": ""
+        "custom_css": "",
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "fortified_truth_flavors_X1": {
@@ -3861,7 +3879,9 @@
         "section_width": "page-width",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "custom_css": ""
+        "custom_css": "",
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     }
   },

@@ -135,8 +135,8 @@
         "panel_color_scheme": "",
         "button_radius": 60,
         "card_radius": 12,
-        "padding-block-start": 32,
-        "padding-block-end": 32,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
         "custom_css": ""
       }
     },
