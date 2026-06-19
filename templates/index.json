@@ -96,7 +96,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h4>*The daily ritual*</h4>",
+                    "text": "<h4>*Hydration that does more*</h4>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -122,7 +122,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>One Pouch. Every Mineral That Matters.</h2>",
+                    "text": "<h2>One Brand. Every Way You Hydrate.</h2>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -148,7 +148,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>1,210mg sodium from Ancient Ocean® Pink Himalayan Salt, 1,000mg magnesium malate, and Vitamin D3 + K2 — sweetened with monk fruit, never sugar or sucralose. Just real ingredients in honest amounts.</p>",
+                    "text": "<p>Clean electrolytes for your morning, your workout, and your afternoon lift — built on real minerals, never sugar or artificial sweeteners. Whether you need daily hydration with Vitamin D3 + K2, a natural caffeine boost, or single-ingredient creatine, every product is fully disclosed and built around what your body actually uses. No Mumbo Jumbo.</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -230,7 +230,7 @@
                       "type": "button",
                       "name": "t:names.button",
                       "settings": {
-                        "label": "See The Ingredients",
+                        "label": "How It Works",
                         "link": "shopify://collections/all",
                         "open_in_new_tab": false,
                         "open_in_popup": false,
@@ -1994,8 +1994,8 @@
           "settings": {
             "media_type": "image",
             "image": "shopify://shop_images/Element02.webp",
-            "category": "@someone",
-            "caption": "No artificial sweeteners",
+            "category": "Feels Like A Daily Habit",
+            "caption": "A clean ritual without the sugar crash — built into the morning, easy to keep up.",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -2006,8 +2006,8 @@
           "settings": {
             "media_type": "image",
             "image": "shopify://shop_images/Element01.webp",
-            "category": "@TheOtherOne",
-            "caption": "No synthetic dyes",
+            "category": "Supports Daily Hydration*",
+            "caption": "1,210mg sodium from Pink Himalayan Salt to support normal fluid balance.*",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -2018,8 +2018,8 @@
           "settings": {
             "media_type": "image",
             "image": "shopify://shop_images/Element03.webp",
-            "category": "@Influencer",
-            "caption": "No added sugar",
+            "category": "Supports Muscle Function*",
+            "caption": "1,000mg magnesium malate supports normal muscle and nervous system function.*",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -2030,8 +2030,8 @@
           "settings": {
             "media_type": "image",
             "image": "shopify://shop_images/Element04.webp",
-            "category": "@FocusedDude",
-            "caption": "No proprietary blends",
+            "category": "A Cleaner Pick-Me-Up",
+            "caption": "152mg natural caffeine from real coffee beans — no caffeine anhydrous, no synthetic stimulants.",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -2041,8 +2041,8 @@
           "type": "card",
           "settings": {
             "media_type": "image",
-            "category": "+ ENERGY",
-            "caption": "No fillers or anti-caking junk",
+            "category": "Nothing You Need To Google",
+            "caption": "Every milligram disclosed, every ingredient on the label — no proprietary blends.",
             "show_icon": false,
             "link": ""
           }
@@ -2051,8 +2051,8 @@
           "type": "card",
           "settings": {
             "media_type": "image",
-            "category": "+ ENERGY",
-            "caption": "No caffeine anhydrous",
+            "category": "Kid-Approved Flavor",
+            "caption": "Sweetened with monk fruit and fermented Reb M. Zero sugar, zero artificial sweeteners — flavors the whole family actually drinks.",
             "show_icon": false,
             "link": ""
           }
@@ -2061,8 +2061,8 @@
           "type": "card",
           "settings": {
             "media_type": "image",
-            "category": "+ ENERGY",
-            "caption": "No maltodextrin",
+            "category": "Easy On The Stomach",
+            "caption": "No sucralose, no maltodextrin, no fillers, no anti-caking junk — just the minerals you came for.",
             "show_icon": false,
             "link": ""
           }
@@ -2071,8 +2071,8 @@
           "type": "card",
           "settings": {
             "media_type": "image",
-            "category": "+ ENERGY",
-            "caption": "Nothing you can't pronounce",
+            "category": "A Brand You Can Trust",
+            "caption": "Made in the USA in a cGMP-compliant facility with third-party tested raw ingredients.",
             "show_icon": false,
             "link": ""
           }
@@ -2090,11 +2090,11 @@
       ],
       "name": "FTD - Social Proof",
       "settings": {
-        "eyebrow": "What We Left Out",
-        "heading": "The Cleanest List Is The Short One",
-        "subheading": "No artificial sweeteners, no synthetic dyes, no proprietary blends, no fillers. Just real ingredients in honest amounts.",
-        "button_label": "See Every Ingredient",
-        "button_link": "shopify://collections/hydration",
+        "eyebrow": "Why People Love It",
+        "heading": "Real Minerals. Real People. Real Results.*",
+        "subheading": "Honest ingredients. Honest amounts. Honest reasons to drink it every day. Here is what our community keeps coming back for.* *These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure, or prevent any disease.",
+        "button_label": "Shop The Lineup",
+        "button_link": "shopify://collections/all",
         "button_style": "outline",
         "columns_desktop": 4,
         "enable_carousel": true,
@@ -2211,7 +2211,7 @@
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "rte",
+                    "type_preset": "h2",
                     "font": "var(--font-body--family)",
                     "font_size": "1rem",
                     "line_height": "normal",
@@ -2237,7 +2237,7 @@
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "rte",
+                    "type_preset": "paragraph",
                     "font": "var(--font-body--family)",
                     "font_size": "1rem",
                     "line_height": "normal",
@@ -2353,7 +2353,7 @@
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
-                            "type_preset": "rte",
+                            "type_preset": "paragraph",
                             "font": "var(--font-body--family)",
                             "font_size": "1rem",
                             "line_height": "normal",
@@ -2392,7 +2392,7 @@
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
-                            "type_preset": "rte",
+                            "type_preset": "paragraph",
                             "font": "var(--font-body--family)",
                             "font_size": "1rem",
                             "line_height": "normal",
@@ -2431,7 +2431,7 @@
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
-                            "type_preset": "rte",
+                            "type_preset": "paragraph",
                             "font": "var(--font-body--family)",
                             "font_size": "1rem",
                             "line_height": "normal",
@@ -2470,7 +2470,7 @@
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
-                            "type_preset": "rte",
+                            "type_preset": "paragraph",
                             "font": "var(--font-body--family)",
                             "font_size": "1rem",
                             "line_height": "normal",
@@ -2509,7 +2509,7 @@
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
-                            "type_preset": "rte",
+                            "type_preset": "paragraph",
                             "font": "var(--font-body--family)",
                             "font_size": "1rem",
                             "line_height": "normal",
@@ -2548,7 +2548,7 @@
                             "width": "100%",
                             "max_width": "normal",
                             "alignment": "left",
-                            "type_preset": "rte",
+                            "type_preset": "paragraph",
                             "font": "var(--font-body--family)",
                             "font_size": "1rem",
                             "line_height": "normal",
@@ -2570,6 +2570,246 @@
                       "block_order": [
                         "text_RiTJBQ"
                       ]
+                    },
+                    "accordion_row_fEsCBLWH": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "What is FORTIFIED®?",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 20
+                      },
+                      "blocks": {
+                        "text_jQHSpR40": {
+                          "type": "text",
+                          "name": "t:names.text",
+                          "settings": {
+                            "text": "<p>FORTIFIED® is a functional hydration and supplement brand built on radical transparency. We make clean electrolytes and single-ingredient supplements for people who actually read the label — every milligram disclosed, no proprietary blends, no fillers, no fear-mongering. Our promise is simple: No Mumbo Jumbo.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "paragraph",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "color": "var(--color-foreground)",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_jQHSpR40"
+                      ]
+                    },
+                    "accordion_row_aQerLVg9": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "What is FORTIFIED® Creatine?",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 20
+                      },
+                      "blocks": {
+                        "text_XyFwA3jp": {
+                          "type": "text",
+                          "name": "t:names.text",
+                          "settings": {
+                            "text": "<p>Single-ingredient creatine monohydrate — just creatine, nothing else. No fillers, no proprietary blends, no additives. The way creatine should be.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "paragraph",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "color": "var(--color-foreground)",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_XyFwA3jp"
+                      ]
+                    },
+                    "accordion_row_nDHz373u": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "How much caffeine is in Energy?",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 20
+                      },
+                      "blocks": {
+                        "text_sIkF7tXZ": {
+                          "type": "text",
+                          "name": "t:names.text",
+                          "settings": {
+                            "text": "<p>152mg of natural caffeine, sourced from real coffee bean — roughly a strong cup of coffee. No caffeine anhydrous, no synthetic stimulants.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "paragraph",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "color": "var(--color-foreground)",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_sIkF7tXZ"
+                      ]
+                    },
+                    "accordion_row_LO3VWrjZ": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "What sweeteners do you use? Is there any sugar?",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 20
+                      },
+                      "blocks": {
+                        "text_vEzzROXN": {
+                          "type": "text",
+                          "name": "t:names.text",
+                          "settings": {
+                            "text": "<p>We use monk fruit extract and Reb M (a fermented stevia, branded OnoSweet). Zero added sugars, zero artificial sweeteners — no sucralose, no aspartame, ever.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "paragraph",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "color": "var(--color-foreground)",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_vEzzROXN"
+                      ]
+                    },
+                    "accordion_row_6CWVwPyX": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "Are there any allergens in your products?",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 20
+                      },
+                      "blocks": {
+                        "text_i3J8KSv6": {
+                          "type": "text",
+                          "name": "t:names.text",
+                          "settings": {
+                            "text": "<p>Based on the current formula sheets, no allergens are listed. As always, check the most current label on your pack, since formulas and facilities can change.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "paragraph",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "color": "var(--color-foreground)",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_i3J8KSv6"
+                      ]
+                    },
+                    "accordion_row_0r7uQSMb": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "How does Subscribe &amp; Save work? Can I cancel anytime?",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 20
+                      },
+                      "blocks": {
+                        "text_3hGk9GXs": {
+                          "type": "text",
+                          "name": "t:names.text",
+                          "settings": {
+                            "text": "<p>Subscribe &amp; Save sets up recurring deliveries and saves you 15% on every order, with free shipping. You choose the frequency, and you can skip, swap, or cancel anytime — no penalty.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "paragraph",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "color": "var(--color-foreground)",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_3hGk9GXs"
+                      ]
                     }
                   },
                   "block_order": [
@@ -2578,7 +2818,13 @@
                     "accordion_row_Hhjp9P",
                     "accordion_row_qPqTUh",
                     "accordion_row_d8tJAE",
-                    "accordion_row_B73Hnt"
+                    "accordion_row_B73Hnt",
+                    "accordion_row_fEsCBLWH",
+                    "accordion_row_aQerLVg9",
+                    "accordion_row_nDHz373u",
+                    "accordion_row_LO3VWrjZ",
+                    "accordion_row_6CWVwPyX",
+                    "accordion_row_0r7uQSMb"
                   ]
                 }
               },
@@ -3384,10 +3630,10 @@
       "block_order": [],
       "name": "FTD - Image Hero",
       "settings": {
-        "eyebrow": "Formulated For",
-        "heading": "clean hydration\nmax performance",
-        "body": "Every milligram disclosed. Real minerals, real amounts, and nothing hidden behind a blend number.",
-        "button_label": "Explore All Flavors",
+        "eyebrow": "Meet Everyday",
+        "heading": "daily hydration\nbuilt on real minerals",
+        "body": "1,210mg sodium from Pink Himalayan Salt, 150mg magnesium malate, 220mg potassium from real coconut water, plus Vitamin D3 (130% DV) and K2 as MK-7. Caffeine-free, zero sugar, zero artificial sweeteners — the clean foundation your body asks for, every single day.",
+        "button_label": "Shop Everyday",
         "button_link": "shopify://collections/all",
         "button_style": "filled",
         "button_2_label": "",
