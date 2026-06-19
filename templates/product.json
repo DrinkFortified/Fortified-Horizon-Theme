@@ -504,7 +504,12 @@
           }
         }
       },
-      "block_order": ["n2", "n3", "c1", "c2"],
+      "block_order": [
+        "n2",
+        "n3",
+        "c1",
+        "c2"
+      ],
       "name": "FTD-B - Supp Facts",
       "settings": {
         "panel_title": "Supplement Facts",
@@ -518,10 +523,10 @@
         "heading_emphasis_word": "one line.",
         "panel_position": "left",
         "section_width": "page-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "color_scheme": "scheme-1",
-        "padding-block-start": 88,
-        "padding-block-end": 72
+        "padding-block-start": 100,
+        "padding-block-end": 100
       }
     },
     "ftd_creatine_feature": {
@@ -564,10 +569,10 @@
         "cta_style": "filled",
         "image_position_desktop": "left",
         "section_width": "page-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "color_scheme": "scheme-1",
-        "padding-block-start": 72,
-        "padding-block-end": 72
+        "padding-block-start": 100,
+        "padding-block-end": 100
       }
     },
     "ftd_benefits_creatine": {
@@ -610,7 +615,12 @@
           }
         }
       },
-      "block_order": ["b1", "b2", "b3", "b4"],
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
       "name": "FTD-B - Benefits",
       "settings": {
         "eyebrow": "Clinically Backed",
@@ -623,10 +633,10 @@
         "card_accent_top_thickness": 3,
         "card_accent_color": "#1FA8A1",
         "section_width": "page-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "color_scheme": "scheme-1",
-        "padding-block-start": 72,
-        "padding-block-end": 72
+        "padding-block-start": 100,
+        "padding-block-end": 100
       }
     },
     "ftd_testimonial_athlete": {
@@ -648,9 +658,9 @@
         "align_mobile": "left",
         "color_scheme": "scheme-5",
         "section_width": "page-width",
-        "content_max_width": 1240,
-        "padding-block-start": 80,
-        "padding-block-end": 80
+        "content_max_width": 1360,
+        "padding-block-start": 100,
+        "padding-block-end": 100
       }
     },
     "ftd_stats_research": {
@@ -663,13 +673,13 @@
         "column_gap": 40,
         "align": "left",
         "section_width": "page-width",
-        "content_max_width": 1200,
+        "content_max_width": 1360,
         "divider_style": "dashed",
         "divider_color": "#d9dee3",
         "divider_thickness": 1,
         "color_scheme": "",
-        "padding-block-start": 72,
-        "padding-block-end": 72
+        "padding-block-start": 100,
+        "padding-block-end": 100
       },
       "blocks": {
         "s1": {
@@ -697,7 +707,11 @@
           }
         }
       },
-      "block_order": ["s1", "s2", "s3"]
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ]
     },
     "ftd_comparison_creatine": {
       "type": "fortified-comparison",
@@ -767,7 +781,16 @@
           }
         }
       },
-      "block_order": ["fr1", "fr2", "fr3", "fr4", "fr5", "fr6", "comp1", "comp2"],
+      "block_order": [
+        "fr1",
+        "fr2",
+        "fr3",
+        "fr4",
+        "fr5",
+        "fr6",
+        "comp1",
+        "comp2"
+      ],
       "name": "FTD - Comparison Table",
       "settings": {
         "eyebrow": "Compare The Scoop",
@@ -785,10 +808,10 @@
         "mobile_swipe_hint": "Swipe to compare →",
         "table_radius": 16,
         "section_width": "full-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "color_scheme": "",
-        "padding-block-start": 96,
-        "padding-block-end": 72,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
@@ -868,7 +891,14 @@
           }
         }
       },
-      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6"],
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6"
+      ],
       "name": "FTD - Truth",
       "settings": {
         "eyebrow": "The Truth",
@@ -884,7 +914,7 @@
         "gap": 16,
         "corner_radius": 12,
         "card_bg": "#1a1a1a",
-        "content_max_width": 1440,
+        "content_max_width": 1360,
         "content_padding": 64,
         "content_radius": 0,
         "content_color_scheme": "scheme-5",
@@ -897,8 +927,8 @@
         "card_caption_color": "#c9c9c9",
         "button_color": "#ffffff",
         "section_width": "page-width",
-        "padding-block-start": 96,
-        "padding-block-end": 96
+        "padding-block-start": 100,
+        "padding-block-end": 100
       }
     },
     "ftd_reviews_grid": {
@@ -971,7 +1001,14 @@
           }
         }
       },
-      "block_order": ["r1", "r2", "r3", "r4", "r5", "r6"],
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5",
+        "r6"
+      ],
       "name": "FTD-B - Testimonials",
       "settings": {
         "eyebrow": "The Truth",
@@ -984,10 +1021,10 @@
         "card_radius": 12,
         "quote_mark_color": "#1FA8A1",
         "section_width": "page-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "color_scheme": "scheme-1",
-        "padding-block-start": 72,
-        "padding-block-end": 72
+        "padding-block-start": 100,
+        "padding-block-end": 100
       }
     },
     "ftd_faq_creatine": {
@@ -1048,7 +1085,14 @@
           }
         }
       },
-      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
       "name": "FTD-B - FAQ",
       "settings": {
         "eyebrow": "Questions",
@@ -1061,9 +1105,9 @@
         "divider_color": "#E5E5E5",
         "color_scheme": "scheme-1",
         "section_width": "page-width",
-        "content_max_width": 1240,
-        "padding-block-start": 72,
-        "padding-block-end": 72
+        "content_max_width": 1360,
+        "padding-block-start": 100,
+        "padding-block-end": 100
       }
     },
     "ftd_subscribe_save_cta": {
@@ -1081,10 +1125,10 @@
         "background_overlay": 50,
         "text_color": "light",
         "section_width": "page-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "color_scheme": "scheme-5",
-        "padding-block-start": 88,
-        "padding-block-end": 88
+        "padding-block-start": 100,
+        "padding-block-end": 100
       },
       "blocks": {
         "b1": {
@@ -1112,7 +1156,12 @@
           }
         }
       },
-      "block_order": ["b1", "b2", "b3", "b4"]
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
     }
   },
   "order": [
