@@ -806,20 +806,21 @@
      gets ONE bundle line instead of 3 subscription lines, so the customer
      can edit the whole bundle in Loop's portal later. */
   var LOOP_BUNDLE = {
-    enabled:        {{ block.settings.loop_bundle_enabled | json }},
-    bundleId:       {{ block.settings.loop_bundle_id | default: '' | json }},
-    boxSizeId:      {{ block.settings.loop_bundle_box_size_id | default: '' | json }},
-    discountId:     {{ block.settings.loop_bundle_discount_id | default: '' | json }},
-    sellingPlanId:  {{ block.settings.loop_bundle_selling_plan_id | default: '' | json }},
-    bundleName:     {{ block.settings.loop_bundle_name | default: '' | json }},
-    propKey:        {{ block.settings.loop_bundle_property_key | default: '_bundleId' | json }}
+    enabled:           {{ block.settings.loop_bundle_enabled | json }},
+    bundleId:          {{ block.settings.loop_bundle_id | default: '' | json }},
+    bundleVariantId:   {{ block.settings.loop_bundle_variant_id | default: '' | json }},
+    bundleDiscountId:  {{ block.settings.loop_bundle_discount_id | default: '' | json }},
+    apiSellingPlanId:  {{ block.settings.loop_bundle_api_selling_plan_id | default: '' | json }},
+    cartSellingPlanId: {{ block.settings.loop_bundle_selling_plan_id | default: '' | json }},
+    bundleName:        {{ block.settings.loop_bundle_name | default: '' | json }},
+    propKey:           {{ block.settings.loop_bundle_property_key | default: '_bundleId' | json }}
   };
-  var LOOP_BUNDLE_ON = !!(LOOP_BUNDLE.enabled && LOOP_BUNDLE.bundleId && LOOP_BUNDLE.sellingPlanId);
+  var LOOP_BUNDLE_ON = !!(LOOP_BUNDLE.enabled && LOOP_BUNDLE.bundleId && LOOP_BUNDLE.apiSellingPlanId);
   try {
     if (!LOOP_BUNDLE_ON && LOOP_BUNDLE.enabled) {
-      console.warn('[FORTIFIED] Loop bundle mode ENABLED but settings incomplete. Need: bundleId (hex slug) + sellingPlanId (Shopify). Current:', LOOP_BUNDLE);
+      console.warn('[FORTIFIED] Loop bundle mode ENABLED but settings incomplete. Need: bundleId + apiSellingPlanId. Current:', LOOP_BUNDLE);
     } else if (LOOP_BUNDLE_ON) {
-      console.log('[FORTIFIED] Loop bundle mode ready. bundleId=' + LOOP_BUNDLE.bundleId + ' sellingPlanId=' + LOOP_BUNDLE.sellingPlanId);
+      console.log('[FORTIFIED] Loop bundle mode ready. bundleId=' + LOOP_BUNDLE.bundleId + ' apiSellingPlanId=' + LOOP_BUNDLE.apiSellingPlanId);
     }
   } catch (_) {}
 
@@ -1351,8 +1352,9 @@
     for (var i = 0; i < pools.length; i++) {
       var p = pools[i];
       if (!p || typeof p !== 'object') continue;
-      /* Loop's public Storefront API returns { success, data: { txnId } } */
-      var v = (p.data && p.data.txnId) || p.txnId || p.bundleTransactionId || p.transactionId || p.id;
+      /* Loop's bundle.loopwork.co returns { message, data: { loopBundleGuid } } */
+      var v = (p.data && (p.data.loopBundleGuid || p.data.txnId || p.data.id))
+            || p.loopBundleGuid || p.txnId || p.transactionId || p.id;
       if (v) return v;
     }
     return null;
@@ -1362,34 +1364,24 @@
     var picks = items.filter(function (it) { return it._bundleable; });
     var rest  = items.filter(function (it) { return !it._bundleable; });
     if (!picks.length) return Promise.resolve(items);
-    var qty = picks[0].quantity || 1;
 
-    /* Loop's documented public Storefront API:
-       POST api.loopsubscriptions.com/storefront/2023-10/bundle/{id}/transaction
-       https://developer.loopwork.co/reference/create-bundle-transaction
-       - id (path)            : the bundle's hex slug (from Loop admin URL)
-       - sellingPlanShopifyId : Shopify selling plan id (the one Shopify cart uses)
-       - productVariants[]    : Shopify variant ids customers picked
-       - quantity             : number of whole bundles
-       - boxSizeId / discountId : optional, only if Loop requires them
-       Response: { success, message, data: { txnId }, code }
-       Endpoint security is empty → anonymous, no Authorization header needed. */
-    var variantCounts = {};
-    picks.forEach(function (it) { variantCounts[it.id] = (variantCounts[it.id] || 0) + 1; });
+    /* Loop's internal Bundles SDK endpoint — same call Loop's own bundle page
+       uses, verified by capturing the request from livefortified.com/a/loop_
+       subscriptions/bundle/{...}. Takes Loop's INTERNAL numeric IDs (not
+       Shopify IDs, not the hex slug). Response:
+         { message: "Transaction created successfully",
+           data: { loopBundleGuid: "01K..." } }
+       We stamp the ULID onto every pouch line so Loop's order webhook
+       groups them into one editable bundle subscription. Anonymous endpoint,
+       no Authorization header. */
     var body = {
-      sellingPlanShopifyId: parseInt(LOOP_BUNDLE.sellingPlanId, 10) || null,
-      quantity: qty,
-      productVariants: Object.keys(variantCounts).map(function (vid) {
-        return { shopifyId: parseInt(vid, 10), quantity: variantCounts[vid] };
-      })
+      bundleId:         parseInt(LOOP_BUNDLE.bundleId, 10),
+      bundleVariantId:  parseInt(LOOP_BUNDLE.bundleVariantId, 10)  || null,
+      bundleDiscountId: parseInt(LOOP_BUNDLE.bundleDiscountId, 10) || null,
+      sellingPlanId:    parseInt(LOOP_BUNDLE.apiSellingPlanId, 10)
     };
-    if (LOOP_BUNDLE.boxSizeId)  body.boxSizeId  = LOOP_BUNDLE.boxSizeId;
-    if (LOOP_BUNDLE.discountId) body.discountId = LOOP_BUNDLE.discountId;
 
-    var url = 'https://api.loopsubscriptions.com/storefront/2023-10/bundle/'
-      + encodeURIComponent(LOOP_BUNDLE.bundleId) + '/transaction';
-
-    return fetch(url, {
+    return fetch('https://bundle.loopwork.co/api/transactions/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
@@ -1407,7 +1399,7 @@
         try { console.log('[FORTIFIED] Loop bundle API raw response:', b); } catch (_) {}
         var txn = extractBundleTxnId(b);
         if (!txn) throw new Error('Loop response missing transaction id (keys: ' + Object.keys(b || {}).join(',') + ')');
-        var cartPlanId = parseInt(LOOP_BUNDLE.sellingPlanId, 10);
+        var cartPlanId = parseInt(LOOP_BUNDLE.cartSellingPlanId, 10);
         var key = LOOP_BUNDLE.propKey || '_bundleId';
         try { console.log('[FORTIFIED] Loop bundle transaction created:', txn); } catch (_) {}
         picks.forEach(function (it) {
@@ -1489,7 +1481,7 @@
     };
 
     if (LOOP_BUNDLE_ON && !oneTime && state.purchaseType === 'quarterly') {
-      try { console.log('[FORTIFIED] Loop bundle mode active - posting to https://api.loopsubscriptions.com/storefront/2023-10/bundle/' + LOOP_BUNDLE.bundleId + '/transaction'); } catch (_) {}
+      try { console.log('[FORTIFIED] Loop bundle mode active - posting to https://bundle.loopwork.co/api/transactions/create'); } catch (_) {}
       loopBundleItems(items).then(proceed, function (err) {
         /* Loop unreachable or misconfigured: fall back to individual
            subscription lines so the sale is never lost. */
@@ -2301,7 +2293,7 @@
     },
     {
       "type": "paragraph",
-      "content": "When enabled, the quarterly 3-pouch plan calls Loop's public Storefront API (POST api.loopsubscriptions.com/storefront/2023-10/bundle/{id}/transaction) per https://developer.loopwork.co/reference/create-bundle-transaction. Loop returns a txnId; we stamp it on every pouch line as properties[_bundleId] + properties.bundleName so Loop's order webhook groups the lines into one editable bundle subscription. Anonymous endpoint, no API key needed. Falls back to individual subscriptions on failure."
+      "content": "When enabled, the quarterly 3-pouch plan calls Loop's bundle SDK endpoint (POST bundle.loopwork.co/api/transactions/create) with Loop's internal numeric IDs — the same call Loop's own bundle page uses, verified end-to-end. Loop returns { data: { loopBundleGuid: \"01K...\" } }; we stamp that ULID on every pouch line as properties[_bundleId] + properties.bundleName so Loop's order webhook groups the lines into one editable bundle subscription. Anonymous endpoint, no API key needed. Falls back to individual subscriptions on failure."
     },
     {
       "type": "checkbox",
@@ -2312,26 +2304,32 @@
     {
       "type": "text",
       "id": "loop_bundle_id",
-      "label": "Loop bundle ID (hex slug)",
-      "info": "The 32-char hex slug from the bundle's Loop URL, e.g. f6295ec6c004439da0fed7bdf3508cf2 — from https://yourdomain/a/loop_subscriptions/bundle/{this}."
+      "label": "Loop bundle ID (internal numeric)",
+      "info": "Loop's internal numeric bundleId — NOT the hex slug from the storefront URL. Find it in the payload Loop's SDK posts to bundle.loopwork.co/api/transactions/create. Example: 7439"
     },
     {
       "type": "text",
-      "id": "loop_bundle_box_size_id",
-      "label": "Box size ID (optional)",
-      "info": "Only required when the bundle has multiple fixed box sizes. Omit if your bundle has a single configured size."
+      "id": "loop_bundle_variant_id",
+      "label": "Loop bundle variant ID (internal numeric)",
+      "info": "Loop's internal bundleVariantId. Example: 14634"
     },
     {
       "type": "text",
       "id": "loop_bundle_discount_id",
-      "label": "Discount ID (optional)",
-      "info": "Loop's bundle discount ID, only needed if the bundle has a tied discount Loop requires you to reference. Otherwise leave blank."
+      "label": "Loop bundle discount ID (internal numeric)",
+      "info": "Loop's internal bundleDiscountId. Example: 49078"
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_api_selling_plan_id",
+      "label": "Loop API selling plan ID (internal numeric)",
+      "info": "Loop's internal sellingPlanId sent to bundle.loopwork.co — different from the Shopify selling plan ID below. Example: 122825"
     },
     {
       "type": "text",
       "id": "loop_bundle_selling_plan_id",
-      "label": "Shopify selling plan ID",
-      "info": "Shopify-side selling plan ID — sent to Loop as sellingPlanShopifyId AND stamped on each cart line. Example: 2607644731"
+      "label": "Shopify selling plan ID (for cart lines)",
+      "info": "Shopify-side selling plan stamped on each pouch line in the cart. Drives the discount + every-3-months recurrence. Example: 2607644731"
     },
     {
       "type": "text",
