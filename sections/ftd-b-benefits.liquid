@@ -22,6 +22,7 @@
   endif
 -%}
 
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
   class="ftbbn section spacing-style section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
   style="{% render 'spacing-padding', settings: section.settings %} --ftbbn-max-w: {{ section.settings.content_max_width }}px; --ftbbn-eyebrow: {{ section.settings.eyebrow_color }}; --ftbbn-accent: {{ section.settings.card_accent_color }}; --ftbbn-accent-top: {{ section.settings.card_accent_top_thickness }}px; --ftbbn-radius: {{ section.settings.card_radius }}px; --ftbbn-cols: {{ section.settings.desktop_columns }};"

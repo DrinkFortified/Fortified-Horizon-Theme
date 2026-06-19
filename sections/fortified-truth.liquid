@@ -117,6 +117,10 @@
     flex: 0 0 calc((100% - {{ scroll_gap }}px) / {{ cols }});
     scroll-snap-align: start;
   }
+  /* Peek mode: show ~0.25 of the next card so visitors know to scroll */
+  #{{ root }} .{{ root }}__grid--peek > .{{ root }}-card {
+    flex: 0 0 calc((100% - ({{ cols | plus: 0 }} * {{ section.settings.gap }}px)) / ({{ cols }} + 0.25));
+  }
   #{{ root }} .{{ root }}__grid--scroll::-webkit-scrollbar { height: 8px; }
   #{{ root }} .{{ root }}__grid--scroll::-webkit-scrollbar-track { background: transparent; }
   #{{ root }} .{{ root }}__grid--scroll::-webkit-scrollbar-thumb {
@@ -275,7 +279,11 @@
         </div>
       {%- endif -%}
 
-      <div class="{{ root }}__grid{% if section.settings.enable_carousel %} {{ root }}__grid--scroll{% endif %}">
+      {%- assign show_peek = false -%}
+      {%- if section.blocks.size > cols -%}
+        {%- assign show_peek = true -%}
+      {%- endif -%}
+      <div class="{{ root }}__grid{% if section.settings.enable_carousel or show_peek %} {{ root }}__grid--scroll{% endif %}{% if show_peek %} {{ root }}__grid--peek{% endif %}">
         {%- if use_pdp_cards -%}
           {%- for caption in pdp.truth_cards.value -%}
             <div class="{{ root }}-card">

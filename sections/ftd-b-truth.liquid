@@ -1,0 +1,363 @@
+{% comment %}
+  Section: FTD-B - Truth
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Cleaner "B" variant of FTD - Truth, built for product pages where the
+  parent isn't a full-width hero. No nested dark inner box — the section
+  uses one color scheme straight through. Cards lean on whitespace, with
+  optional cover image, bold label, and supporting caption.
+
+  Per-product override: when the bound product has a pdp_content metaobject
+  with truth_heading / truth_subheading / truth_cards populated, those win.
+
+  Stable class prefix: ftbtr
+{% endcomment %}
+
+{%- liquid
+  assign sid  = section.id | replace: '_', '' | downcase
+  assign root = 'ftbtr-' | append: sid
+  assign cols = section.settings.columns_desktop
+  assign gap  = section.settings.gap
+  assign pdp  = product.metafields.fortified.pdp_content.value
+
+  assign eyebrow_v  = section.settings.eyebrow
+  assign heading_v  = section.settings.heading
+  assign sub_v      = section.settings.subheading
+  assign use_pdp_cards = false
+  if pdp != blank
+    if pdp.truth_heading != blank
+      assign heading_v = pdp.truth_heading
+    endif
+    if pdp.truth_subheading != blank
+      assign sub_v = pdp.truth_subheading
+    endif
+    if pdp.truth_cards.value != blank and pdp.truth_cards.value.size > 0
+      assign use_pdp_cards = true
+    endif
+  endif
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="ftbtr section spacing-style section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="
+    {% render 'spacing-padding', settings: section.settings %}
+    --ftbtr-max-w: {{ section.settings.content_max_width }}px;
+    --ftbtr-cols: {{ cols }};
+    --ftbtr-gap: {{ gap }}px;
+    --ftbtr-card-radius: {{ section.settings.card_radius }}px;
+    --ftbtr-card-bg: {{ section.settings.card_bg }};
+    --ftbtr-card-fg: {{ section.settings.card_text_color }};
+    --ftbtr-card-label: {{ section.settings.card_label_color }};
+    --ftbtr-card-caption: {{ section.settings.card_caption_color }};
+    --ftbtr-eyebrow: {{ section.settings.eyebrow_color }};
+    --ftbtr-heading: {{ section.settings.heading_color }};
+    --ftbtr-card-media-h: {{ section.settings.card_media_height }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="ftbtr__inner">
+
+    {%- if eyebrow_v != blank or heading_v != blank or sub_v != blank -%}
+      <header class="ftbtr__head">
+        {%- if eyebrow_v != blank -%}
+          <p class="ftbtr__eyebrow">{{ eyebrow_v }}</p>
+        {%- endif -%}
+        {%- if heading_v != blank -%}
+          <h2 class="ftbtr__heading">{{ heading_v | newline_to_br }}</h2>
+        {%- endif -%}
+        {%- if sub_v != blank -%}
+          <p class="ftbtr__sub">{{ sub_v }}</p>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    {%- assign show_peek = false -%}
+    {%- if use_pdp_cards -%}
+      {%- if pdp.truth_cards.value.size > cols -%}
+        {%- assign show_peek = true -%}
+      {%- endif -%}
+    {%- else -%}
+      {%- if section.blocks.size > cols -%}
+        {%- assign show_peek = true -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    <div class="ftbtr__grid{% if show_peek %} ftbtr__grid--peek{% endif %}">
+      {%- if use_pdp_cards -%}
+        {%- for caption in pdp.truth_cards.value -%}
+          <article class="ftbtr-card ftbtr-card--text">
+            <div class="ftbtr-card__body">
+              <p class="ftbtr-card__caption">{{ caption }}</p>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'card' -%}
+            {%- assign has_img = false -%}
+            {%- if block.settings.image != blank -%}{%- assign has_img = true -%}{%- endif -%}
+            <article class="ftbtr-card{% unless has_img %} ftbtr-card--text{% endunless %}" {{ block.shopify_attributes }}>
+              {%- if has_img -%}
+                <div class="ftbtr-card__media">
+                  {{ block.settings.image | image_url: width: 800 | image_tag:
+                       class: 'ftbtr-card__img',
+                       loading: 'lazy',
+                       widths: '300,500,700,900',
+                       alt: block.settings.label }}
+                </div>
+              {%- endif -%}
+              <div class="ftbtr-card__body">
+                {%- if block.settings.label != blank -%}
+                  <p class="ftbtr-card__label">{{ block.settings.label }}</p>
+                {%- endif -%}
+                {%- if block.settings.caption != blank -%}
+                  <p class="ftbtr-card__caption">{{ block.settings.caption }}</p>
+                {%- endif -%}
+              </div>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="ftbtr__cta-row">
+        <a class="ftbtr__cta ftbtr__cta--{{ section.settings.button_style }}"
+           {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button" aria-disabled="true"{% endif %}>
+          {{ section.settings.button_label }}
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% stylesheet %}
+.ftbtr { display: block; }
+.ftbtr__inner {
+  max-width: var(--ftbtr-max-w, 1360px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+
+.ftbtr__head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+  text-align: left;
+  margin: 0 0 clamp(28px, 4vw, 48px);
+  max-width: 760px;
+}
+.ftbtr__eyebrow {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ftbtr-eyebrow, var(--color-primary, var(--color-foreground)));
+}
+.ftbtr__heading {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(28px, 4.4vw, 52px);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: var(--ftbtr-heading, var(--color-foreground-heading));
+}
+.ftbtr__sub {
+  margin: 0;
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.55;
+  color: var(--color-foreground);
+  opacity: 0.85;
+}
+
+.ftbtr__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--ftbtr-cols, 4), minmax(0, 1fr));
+  gap: var(--ftbtr-gap, 20px);
+}
+
+/* Peek mode: switch to flex scroll so the next card peeks ~25% on the right */
+.ftbtr__grid--peek {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  padding-bottom: 8px;
+}
+.ftbtr__grid--peek > .ftbtr-card {
+  flex: 0 0 calc((100% - (var(--ftbtr-cols, 4) * var(--ftbtr-gap, 20px))) / (var(--ftbtr-cols, 4) + 0.25));
+  scroll-snap-align: start;
+}
+
+/* Card */
+.ftbtr-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--ftbtr-card-bg, #ffffff);
+  color: var(--ftbtr-card-fg, var(--color-foreground));
+  border: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+  border-radius: var(--ftbtr-card-radius, 16px);
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.ftbtr-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgb(0 0 0 / 0.06);
+}
+.ftbtr-card__media {
+  position: relative;
+  width: 100%;
+  height: var(--ftbtr-card-media-h, 200px);
+  overflow: hidden;
+  background: rgb(var(--color-foreground-rgb) / 0.04);
+}
+.ftbtr-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ftbtr-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 22px 24px;
+}
+.ftbtr-card--text .ftbtr-card__body { padding: 28px 24px 28px; }
+.ftbtr-card__label {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ftbtr-card-label, var(--color-foreground-heading));
+}
+.ftbtr-card__caption {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ftbtr-card-caption, var(--color-foreground));
+  opacity: 0.92;
+}
+
+/* CTA */
+.ftbtr__cta-row {
+  margin-top: clamp(28px, 4vw, 48px);
+  display: flex;
+  justify-content: flex-start;
+}
+.ftbtr__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading--family, inherit);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 28px;
+  border-radius: var(--style-border-radius-buttons-primary, 8px);
+  border: 2px solid var(--color-primary-button-background, currentColor);
+  transition: opacity 0.18s, background 0.18s, color 0.18s;
+}
+.ftbtr__cta--filled {
+  background: var(--color-primary-button-background, #0A0A0A);
+  color: var(--color-primary-button-text, #ffffff);
+}
+.ftbtr__cta--filled:hover { opacity: 0.9; }
+.ftbtr__cta--outline {
+  background: transparent;
+  color: var(--color-foreground);
+}
+.ftbtr__cta--outline:hover {
+  background: var(--color-foreground);
+  color: var(--color-background);
+}
+
+@media (max-width: 749px) {
+  .ftbtr__grid { grid-template-columns: minmax(0, 1fr); }
+  .ftbtr__grid--peek { display: flex; }
+  .ftbtr__grid--peek > .ftbtr-card { flex: 0 0 82%; }
+  .ftbtr-card__media { height: 180px; }
+  .ftbtr__cta-row { justify-content: stretch; }
+  .ftbtr__cta { width: 100%; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FTD-B - Truth",
+  "tag": "section",
+  "class": "ftd-b-truth-section",
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Truth" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "More Than Hydration. Daily Support." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Real ingredients in honest amounts. Every milligram printed on the label." },
+
+    { "type": "header", "content": "Cards" },
+    { "type": "range", "id": "columns_desktop", "label": "Columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 4 },
+    { "type": "range", "id": "gap", "label": "Gap between cards", "min": 0, "max": 48, "step": 2, "unit": "px", "default": 20 },
+    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 28, "step": 2, "unit": "px", "default": 16 },
+    { "type": "range", "id": "card_media_height", "label": "Card image height", "min": 120, "max": 360, "step": 10, "unit": "px", "default": 200 },
+
+    { "type": "header", "content": "Card colors" },
+    { "type": "color", "id": "card_bg", "label": "Card background", "default": "#FFFFFF" },
+    { "type": "color", "id": "card_text_color", "label": "Card text", "default": "#0A0A0A" },
+    { "type": "color", "id": "card_label_color", "label": "Card label", "default": "#0A0A0A" },
+    { "type": "color", "id": "card_caption_color", "label": "Card caption", "default": "#444444" },
+
+    { "type": "header", "content": "CTA" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "select", "id": "button_style", "label": "Button style", "default": "filled", "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" } ] },
+
+    { "type": "header", "content": "Section colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow", "default": "#1FA8A1" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#0A0A0A" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 800, "max": 1800, "step": 20, "unit": "px", "default": 1360 },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 100 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 100 }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image (optional)" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Real Minerals" },
+        { "type": "textarea", "id": "caption", "label": "Caption", "default": "Honest ingredients, transparent amounts." }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "FTD-B - Truth",
+      "category": "Fortified Sections",
+      "blocks": [
+        { "type": "card", "settings": { "label": "Real minerals",        "caption": "1,210mg sodium, 1,000mg magnesium malate, 220mg potassium from coconut water." } },
+        { "type": "card", "settings": { "label": "Zero sugar",           "caption": "Sweetened with monk fruit and fermented Reb M. Never sucralose, never aspartame." } },
+        { "type": "card", "settings": { "label": "Every milligram",      "caption": "No proprietary blends. The label tells you exactly what is in every stick pack." } },
+        { "type": "card", "settings": { "label": "Made in the USA",      "caption": "Manufactured in a cGMP-compliant facility, third-party tested raw ingredients." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

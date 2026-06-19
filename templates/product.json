@@ -580,7 +580,10 @@
         "padding-block-start": 100,
         "padding-block-end": 100,
         "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "padding-inline-end": 0,
+        "show_plans": false,
+        "simple_price": "$24.00",
+        "simple_price_note": "45 servings - Unflavored"
       }
     },
     "ftd_benefits_creatine": {
@@ -678,9 +681,9 @@
     "ftd_stats_research": {
       "type": "fortified-stats-row",
       "settings": {
-        "eyebrow": "The Evidence",
-        "heading": "Backed by research, not hype.",
-        "subheading": "Creatine monohydrate is the single most-studied ingredient in sports nutrition. Here's what the science actually found.",
+        "eyebrow": "The Numbers, Disclosed",
+        "heading": "A Single Ingredient, Dosed Honestly.",
+        "subheading": "Creatine monohydrate at the dose every clinical trial actually used — 5g per serving. No proprietary blends, no “performance complex” numbers to decode.",
         "desktop_columns": 3,
         "column_gap": 40,
         "align": "left",
@@ -699,25 +702,25 @@
         "s1": {
           "type": "stat",
           "settings": {
-            "number": "700+",
-            "label": "Peer-Reviewed Studies",
-            "description": "The most-researched performance supplement in existence — and one of the safest."
+            "number": "5g",
+            "label": "Creatine per serving",
+            "description": "The dose used in nearly every peer-reviewed study — not a sprinkle on a marketing claim."
           }
         },
         "s2": {
           "type": "stat",
           "settings": {
-            "number": "5g",
-            "label": "The Clinical Dose",
-            "description": "The exact daily amount shown to work. No loading phase, no guesswork."
+            "number": "45",
+            "label": "Servings per pouch",
+            "description": "A six-week supply at one serving a day. Enough for a real loading-to-maintenance cycle."
           }
         },
         "s3": {
           "type": "stat",
           "settings": {
             "number": "100%",
-            "label": "On The Label",
-            "description": "One ingredient, fully dosed. Nothing hidden behind a proprietary blend."
+            "label": "Creatine monohydrate",
+            "description": "No additives, no fillers, no proprietary blend hiding the actual amount."
           }
         }
       },
@@ -832,117 +835,64 @@
       }
     },
     "ftd_truth_showcase": {
-      "type": "fortified-truth",
+      "type": "ftd-b-truth",
       "blocks": {
-        "t1": {
+        "c1": {
           "type": "card",
           "settings": {
-            "media_type": "image",
-            "image": "shopify://shop_images/Element01.webp",
-            "category": "Strength",
-            "caption": "More power per rep.",
-            "show_icon": true,
-            "icon": "shopify://shop_images/Logo_Shield_White.svg",
-            "link": ""
+            "label": "Single Ingredient",
+            "caption": "Just creatine monohydrate. No fillers, no proprietary blends, no anti-caking junk."
           }
         },
-        "t2": {
+        "c2": {
           "type": "card",
           "settings": {
-            "media_type": "image",
-            "image": "shopify://shop_images/Element02.webp",
-            "category": "Lean Muscle",
-            "caption": "Build it, keep it.",
-            "show_icon": true,
-            "icon": "shopify://shop_images/Logo_Shield_White.svg",
-            "link": ""
+            "label": "5g Per Serving",
+            "caption": "The dose used in nearly every peer-reviewed creatine study. We are not stingy."
           }
         },
-        "t3": {
+        "c3": {
           "type": "card",
           "settings": {
-            "media_type": "image",
-            "image": "shopify://shop_images/Element03.webp",
-            "category": "Recovery",
-            "caption": "Bounce back faster.",
-            "show_icon": true,
-            "icon": "shopify://shop_images/Logo_Shield_White.svg",
-            "link": ""
+            "label": "Decades Of Research",
+            "caption": "Creatine monohydrate is the form with the strongest published evidence base.*"
           }
         },
-        "t4": {
+        "c4": {
           "type": "card",
           "settings": {
-            "media_type": "image",
-            "image": "shopify://shop_images/Element04.webp",
-            "category": "Focus",
-            "caption": "Fuel for your brain.",
-            "show_icon": true,
-            "icon": "shopify://shop_images/Logo_Shield_White.svg",
-            "link": ""
-          }
-        },
-        "t5": {
-          "type": "card",
-          "settings": {
-            "media_type": "image",
-            "image": "shopify://shop_images/Element01.webp",
-            "category": "Healthy Aging",
-            "caption": "Support muscle for life.",
-            "show_icon": true,
-            "icon": "shopify://shop_images/Logo_Shield_White.svg",
-            "link": ""
-          }
-        },
-        "t6": {
-          "type": "card",
-          "settings": {
-            "media_type": "image",
-            "image": "shopify://shop_images/Element02.webp",
-            "category": "Daily Energy",
-            "caption": "Top off your cells.",
-            "show_icon": true,
-            "icon": "shopify://shop_images/Logo_Shield_White.svg",
-            "link": ""
+            "label": "Made In The USA",
+            "caption": "Manufactured in a cGMP-compliant facility with third-party tested raw ingredients."
           }
         }
       },
       "block_order": [
-        "t1",
-        "t2",
-        "t3",
-        "t4",
-        "t5",
-        "t6"
+        "c1",
+        "c2",
+        "c3",
+        "c4"
       ],
-      "name": "FTD - Truth",
+      "name": "FTD-B - Truth",
       "settings": {
-        "eyebrow": "The Truth",
-        "heading": "More Than A Scoop",
-        "subheading": "One clean ingredient quietly works across your whole day — in the gym, in recovery, and between your ears.",
+        "eyebrow": "The Creatine Truth",
+        "heading": "One Ingredient. Decades Of Research.",
+        "subheading": "Creatine monohydrate is the single most studied performance supplement on the planet. We did not reinvent it — we just gave it a label you can actually trust.",
+        "columns_desktop": 4,
+        "gap": 20,
+        "card_radius": 16,
+        "card_media_height": 200,
+        "card_bg": "#FFFFFF",
+        "card_text_color": "#0A0A0A",
+        "card_label_color": "#0A0A0A",
+        "card_caption_color": "#444444",
         "button_label": "Shop Creatine",
-        "button_link": "",
-        "button_style": "outline",
-        "columns_desktop": 6,
-        "enable_carousel": false,
-        "card_height": 440,
-        "card_height_mobile": 360,
-        "gap": 16,
-        "corner_radius": 12,
-        "card_bg": "#1a1a1a",
-        "content_max_width": 1360,
-        "content_padding": 64,
-        "content_radius": 0,
-        "content_color_scheme": "scheme-5",
-        "background_image": "shopify://shop_images/47925c39d137f90d6d364882076d954309ff7580.png",
+        "button_link": "shopify://collections/supplements",
+        "button_style": "filled",
         "color_scheme": "scheme-1",
-        "eyebrow_color": "#c4e1c5",
-        "heading_color": "#ffffff",
-        "text_color": "",
-        "card_label_color": "#ffffff",
-        "card_caption_color": "#c9c9c9",
-        "button_color": "#ffffff",
+        "eyebrow_color": "#1FA8A1",
+        "heading_color": "#0A0A0A",
         "section_width": "page-width",
+        "content_max_width": 1360,
         "padding-block-start": 100,
         "padding-block-end": 100,
         "padding-inline-start": 0,
