@@ -1386,8 +1386,9 @@
         });
       })
       .then(function (b) {
+        try { console.log('[FORTIFIED] Loop bundle API raw response:', b); } catch (_) {}
         var txn = extractBundleTxnId(b);
-        if (!txn) throw new Error('Loop response missing transaction id');
+        if (!txn) throw new Error('Loop response missing transaction id (response keys: ' + Object.keys(b || {}).join(',') + ')');
         var cartPlanId = parseInt(LOOP_BUNDLE.cartSellingPlanId, 10);
         var key = LOOP_BUNDLE.propKey || '_bundleId';
         try { console.log('[FORTIFIED] Loop bundle transaction created:', txn); } catch (_) {}
@@ -1470,7 +1471,7 @@
     };
 
     if (LOOP_BUNDLE_ON && !oneTime && state.purchaseType === 'quarterly') {
-      try { console.log('[FORTIFIED] Loop bundle mode active - posting to', LOOP_BUNDLE.createUrl || ('https://api.loopsubscriptions.com/storefront/2023-10/bundle/' + LOOP_BUNDLE.bundleId + '/transaction')); } catch (_) {}
+      try { console.log('[FORTIFIED] Loop bundle mode active - posting to https://bundle.loopwork.co/api/transactions/create'); } catch (_) {}
       loopBundleItems(items).then(proceed, function (err) {
         /* Loop unreachable or misconfigured: fall back to individual
            subscription lines so the sale is never lost. */
