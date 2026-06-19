@@ -2049,7 +2049,7 @@
     },
     {
       "type": "paragraph",
-      "content": "When enabled, the quarterly 3-pouch plan calls Loop's bundle SDK endpoint (POST bundle.loopwork.co/api/transactions/create) with Loop's internal numeric IDs — the same call Loop's own bundle page uses, verified end-to-end. Loop returns { data: { loopBundleGuid: \"01K...\" } }; we stamp that ULID on every pouch line as properties[_bundleId] + properties.bundleName so Loop's order webhook groups the lines into one editable bundle subscription. Anonymous endpoint, no API key needed. Falls back to individual subscriptions on failure."
+      "content": "When enabled, the quarterly 3-pouch plan POSTs to bundle.loopwork.co/api/transactions/create with Loop's internal numeric IDs, gets back a loopBundleGuid (ULID), and stamps every pouch line with it as properties[_bundleId] + properties.bundleName so Loop's order webhook groups them into one editable bundle. Anonymous endpoint. Falls back to per-pouch subscriptions on failure."
     },
     {
       "type": "checkbox",
