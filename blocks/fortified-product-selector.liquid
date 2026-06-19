@@ -806,19 +806,21 @@
      gets ONE bundle line instead of 3 subscription lines, so the customer
      can edit the whole bundle in Loop's portal later. */
   var LOOP_BUNDLE = {
-    enabled:       {{ block.settings.loop_bundle_enabled | json }},
-    createUrl:     {{ block.settings.loop_bundle_create_url | default: '' | json }},
-    bundleId:      {{ block.settings.loop_bundle_id | default: '' | json }},
-    boxSizeId:     {{ block.settings.loop_bundle_box_size_id | default: '' | json }},
-    sellingPlanId: {{ block.settings.loop_bundle_selling_plan_id | default: '' | json }},
-    propKey:       {{ block.settings.loop_bundle_property_key | default: '_bundleId' | json }}
+    enabled:           {{ block.settings.loop_bundle_enabled | json }},
+    bundleId:          {{ block.settings.loop_bundle_id | default: '' | json }},
+    bundleVariantId:   {{ block.settings.loop_bundle_variant_id | default: '' | json }},
+    bundleDiscountId:  {{ block.settings.loop_bundle_discount_id | default: '' | json }},
+    apiSellingPlanId:  {{ block.settings.loop_bundle_api_selling_plan_id | default: '' | json }},
+    cartSellingPlanId: {{ block.settings.loop_bundle_selling_plan_id | default: '' | json }},
+    bundleName:        {{ block.settings.loop_bundle_name | default: '' | json }},
+    propKey:           {{ block.settings.loop_bundle_property_key | default: '_bundleId' | json }}
   };
-  var LOOP_BUNDLE_ON = !!(LOOP_BUNDLE.enabled && LOOP_BUNDLE.sellingPlanId && (LOOP_BUNDLE.bundleId || LOOP_BUNDLE.createUrl));
+  var LOOP_BUNDLE_ON = !!(LOOP_BUNDLE.enabled && LOOP_BUNDLE.bundleId && LOOP_BUNDLE.apiSellingPlanId);
   try {
     if (!LOOP_BUNDLE_ON && LOOP_BUNDLE.enabled) {
-      console.warn('[FORTIFIED] Loop bundle mode ENABLED but settings incomplete. Need: sellingPlanId + (bundleId or createUrl). Current:', LOOP_BUNDLE);
+      console.warn('[FORTIFIED] Loop bundle mode ENABLED but settings incomplete. Need: bundleId + apiSellingPlanId. Current:', LOOP_BUNDLE);
     } else if (LOOP_BUNDLE_ON) {
-      console.log('[FORTIFIED] Loop bundle mode ready. bundleId=' + LOOP_BUNDLE.bundleId + ' sellingPlanId=' + LOOP_BUNDLE.sellingPlanId);
+      console.log('[FORTIFIED] Loop bundle mode ready. bundleId=' + LOOP_BUNDLE.bundleId + ' apiSellingPlanId=' + LOOP_BUNDLE.apiSellingPlanId);
     }
   } catch (_) {}
 
@@ -1350,7 +1352,7 @@
     for (var i = 0; i < pools.length; i++) {
       var p = pools[i];
       if (!p || typeof p !== 'object') continue;
-      var v = p.bundleTransactionId || p.transactionId || p.txnId || p.id;
+      var v = p.id || p.bundleTransactionId || p.transactionId || p.txnId;
       if (v) return v;
     }
     return null;
@@ -1360,28 +1362,23 @@
     var picks = items.filter(function (it) { return it._bundleable; });
     var rest  = items.filter(function (it) { return !it._bundleable; });
     if (!picks.length) return Promise.resolve(items);
-    var qty = picks[0].quantity || 1;
-    var url = LOOP_BUNDLE.createUrl;
-    if (!url) {
-      url = 'https://api.loopsubscriptions.com/storefront/2023-10/bundle/'
-        + encodeURIComponent(LOOP_BUNDLE.bundleId) + '/transaction';
-    }
-    /* Each pick is one slot in ONE bundle; duplicates of the same variant
-       aggregate into quantity. The qty stepper multiplies whole bundles via
-       the top-level quantity AND the cart line quantity, which Loop expects
-       to match. Anonymous endpoint (OpenAPI security: []) — no auth header,
-       and no custom headers so the request stays CORS-simple. */
-    var variantCounts = {};
-    picks.forEach(function (it) { variantCounts[it.id] = (variantCounts[it.id] || 0) + 1; });
+
+    /* Mirrors Loop's own bundle SDK call: POST to bundle.loopwork.co with the
+       4 internal numeric IDs. Loop returns { id: "<ULID>" }. We stamp that
+       ULID onto every pouch line as properties[_bundleId] so Loop's order
+       webhook groups them into one editable bundle subscription. */
     var body = {
-      sellingPlanShopifyId: parseInt(LOOP_BUNDLE.sellingPlanId, 10) || null,
-      quantity: qty,
-      productVariants: Object.keys(variantCounts).map(function (vid) {
-        return { shopifyId: parseInt(vid, 10), quantity: variantCounts[vid] };
-      })
+      bundleId:         parseInt(LOOP_BUNDLE.bundleId, 10),
+      bundleVariantId:  parseInt(LOOP_BUNDLE.bundleVariantId, 10)  || null,
+      bundleDiscountId: parseInt(LOOP_BUNDLE.bundleDiscountId, 10) || null,
+      sellingPlanId:    parseInt(LOOP_BUNDLE.apiSellingPlanId, 10)
     };
-    if (LOOP_BUNDLE.boxSizeId) body.boxSizeId = LOOP_BUNDLE.boxSizeId;
-    return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+
+    return fetch('https://bundle.loopwork.co/api/transactions/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    })
       .then(function (r) {
         return r.json().catch(function () { return {}; }).then(function (b) {
           if (!r.ok) throw new Error('Loop bundle API error ' + r.status);
@@ -1390,21 +1387,19 @@
       })
       .then(function (b) {
         var txn = extractBundleTxnId(b);
-        if (!txn) throw new Error('Loop response missing bundleTransactionId');
-        var planId = parseInt(LOOP_BUNDLE.sellingPlanId, 10);
+        if (!txn) throw new Error('Loop response missing transaction id');
+        var cartPlanId = parseInt(LOOP_BUNDLE.cartSellingPlanId, 10);
         var key = LOOP_BUNDLE.propKey || '_bundleId';
-        /* Component-model bundle: keep the individual pouch lines and stamp
-           each with the SAME transaction id + the bundle's selling plan, so
-           Loop groups them into one editable bundle subscription. No parent
-           bundle product exists in this Loop bundle type. */
         try { console.log('[FORTIFIED] Loop bundle transaction created:', txn); } catch (_) {}
         picks.forEach(function (it) {
           it.properties = it.properties || {};
-          /* Underscored = hidden from checkout customer view but on order */
+          /* Underscored key = hidden from checkout customer view but on order.
+             This is the value Loop's order webhook reads to group lines. */
           it.properties[key] = String(txn);
-          /* Non-underscored = visible to customer in checkout + order details */
-          it.properties['Bundle'] = String(txn);
-          if (planId) it.selling_plan = planId;
+          /* Visible "bundleName" matches what Loop's own SDK sets in the cart. */
+          if (LOOP_BUNDLE.bundleName) it.properties.bundleName = LOOP_BUNDLE.bundleName;
+          /* Shopify selling plan on each line — drives the discount + recurrence. */
+          if (cartPlanId) it.selling_plan = cartPlanId;
         });
         return picks.concat(rest);
       });
@@ -2287,7 +2282,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Optional. When configured, the 3-every-3 plan registers picks with Loop's anonymous Create Transaction API and adds the 3 pouch lines tagged with the returned txnId — Loop groups them as one editable bundle. Customers edit in Loop's portal. No bundle variant ID needed. Falls back to individual subscription lines on failure."
+      "content": "When enabled, the 3-every-3 plan calls bundle.loopwork.co/api/transactions/create with Loop's internal numeric IDs (NOT Shopify IDs and NOT the hex slug), gets back a transaction id, and stamps every pouch line with it as properties[_bundleId] so Loop's order webhook groups them into one editable bundle. Falls back to individual subscriptions on failure."
     },
     {
       "type": "checkbox",
@@ -2298,26 +2293,38 @@
     {
       "type": "text",
       "id": "loop_bundle_id",
-      "label": "Loop bundle ID",
-      "info": "Required. The bundle's ID inside Loop, from the bundle's URL in the Loop admin. Used to build the API URL: api.loopsubscriptions.com/storefront/2023-10/bundle/ID/transaction"
+      "label": "Loop bundle ID (internal numeric)",
+      "info": "Loop's internal numeric bundle ID, NOT the hex slug from the storefront URL. Find it in the payload Loop's SDK sends to bundle.loopwork.co/api/transactions/create. Example: 7439"
     },
     {
       "type": "text",
-      "id": "loop_bundle_box_size_id",
-      "label": "Box size ID (optional)",
-      "info": "Only needed if Loop rejects transactions without it. From Loop's Get Bundle API or Loop support."
+      "id": "loop_bundle_variant_id",
+      "label": "Loop bundle variant ID (internal numeric)",
+      "info": "Loop's internal bundleVariantId. Example: 14634"
     },
     {
       "type": "text",
-      "id": "loop_bundle_create_url",
-      "label": "Endpoint URL override (optional)",
-      "info": "Leave blank to use the standard URL built from the Loop bundle ID above. Only fill if Loop gives you a different endpoint."
+      "id": "loop_bundle_discount_id",
+      "label": "Loop bundle discount ID (internal numeric)",
+      "info": "Loop's internal bundleDiscountId. Example: 49078"
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_api_selling_plan_id",
+      "label": "Loop API selling plan ID (internal numeric)",
+      "info": "Loop's internal selling plan ID for the transaction API. Example: 122825. Different from the Shopify selling plan ID below."
     },
     {
       "type": "text",
       "id": "loop_bundle_selling_plan_id",
-      "label": "Bundle selling plan ID",
-      "info": "Selling plan on the bundle parent product (every-3-months frequency)."
+      "label": "Shopify selling plan ID for cart lines",
+      "info": "Shopify-side selling plan ID stamped on each pouch line in the cart. Drives the 20% off + every-3-months recurrence. Example: 2607644731"
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_name",
+      "label": "Bundle name (visible cart property)",
+      "info": "Human-readable bundle name shown to the customer in cart. Example: 3-Pouch Bundle — Every 3 Months"
     },
     {
       "type": "text",
