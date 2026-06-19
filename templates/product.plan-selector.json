@@ -465,11 +465,11 @@
         }
       },
       "settings": {
-        "content_width": "content-center-aligned",
+        "content_width": "content-stretched",
         "desktop_media_position": "left",
         "equal_columns": false,
         "limit_details_width": false,
-        "gap": 48,
+        "gap": 40,
         "enable_sticky_add_to_cart": true,
         "color_scheme": "",
         "padding-block-start": 0,
@@ -480,13 +480,13 @@
       "type": "fortified-split-hero",
       "name": "FTD - Split Hero",
       "settings": {
-        "eyebrow": "Clean Hydration, Daily",
+        "eyebrow": "Read The Label",
         "eyebrow_color": "#1fa8a1",
-        "heading": "Hydration You'd Give Your Family",
-        "body": "Clean electrolytes with Vitamin D3 + K2, zero sugar, and zero artificial sweeteners. Every milligram disclosed — the daily hydration powder you never have to second-guess.",
-        "button_label": "Shop Everyday Hydration",
-        "button_link": "",
-        "button_style": "outline",
+        "heading": "Hydration Worth Reading The Label For",
+        "body": "Real minerals in honest amounts — 1,210mg sodium from Pink Himalayan Salt, 1,000mg magnesium malate, and zero sugar. The hydration your whole family can trust, every milligram on the label.",
+        "button_label": "Build Your Plan",
+        "button_link": "shopify://collections/hydration",
+        "button_style": "filled",
         "image_focal": "center",
         "image_position_desktop": "right",
         "image_position_mobile": "below",
@@ -496,12 +496,12 @@
         "min_height_desktop": 480,
         "min_height_mobile": 360,
         "align_desktop": "left",
-        "align_mobile": "center",
+        "align_mobile": "left",
         "color_scheme": "",
         "section_width": "page-width",
-        "content_max_width": 1240,
-        "padding-block-start": 64,
-        "padding-block-end": 64,
+        "content_max_width": 1360,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
@@ -549,8 +549,8 @@
       ],
       "name": "FTD - Ingredients Callout",
       "settings": {
-        "heading": "Real Ingredients, Honest Amounts",
-        "subheading": "No proprietary blends. Every nutrient in FORTIFIED® is printed on the label, in a dose that actually matters.",
+        "heading": "Hydration Built From Real Minerals",
+        "subheading": "Electrolytes alone do not deliver full recovery. FORTIFIED® combines clean hydration with the function you actually need — every nutrient at a dose you can verify.",
         "product_image_background": "#f2f2f0",
         "product_image_max_height": 500,
         "image_position_desktop": "left",
@@ -559,26 +559,27 @@
         "icon_background_color": "#0a0a0a",
         "icon_color": "#ffffff",
         "button_label": "Shop FORTIFIED®",
-        "button_link": "",
-        "button_style": "outline",
+        "button_link": "shopify://collections/hydration",
+        "button_style": "filled",
         "color_scheme": "",
         "section_width": "page-width",
-        "content_max_width": 1240,
-        "padding-block-start": 64,
-        "padding-block-end": 64,
-        "custom_css": ""
+        "content_max_width": 1360,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
+        "custom_css": "",
+        "eyebrow": "Clinically Backed Ingredients"
       }
     },
     "fortified_testimonial_gifpnd": {
       "type": "fortified-testimonial",
       "name": "FTD - Testimonial",
       "settings": {
-        "name": "Marisa K., mom of three",
-        "role": "HBO Max Champion",
-        "quote": "I finally found a hydration mix I don't have to hide from my kids. I can read every ingredient — no fake sweeteners, no dyes — and it actually works.",
+        "name": "Marisa K.",
+        "role": "Mom of three",
+        "quote": "I finally found a hydration mix I do not have to hide from my kids. I can read every ingredient on the label and feel good giving it to them every day.",
         "quote_marks": true,
         "button_label": "Shop Clean Hydration",
-        "button_link": "",
+        "button_link": "shopify://collections/hydration",
         "button_style": "filled",
         "image_focal": "center",
         "image_position_desktop": "right",
@@ -586,67 +587,61 @@
         "align_mobile": "left",
         "color_scheme": "",
         "section_width": "page-width",
-        "content_max_width": 1240,
-        "padding-block-start": 64,
-        "padding-block-end": 64,
+        "content_max_width": 1360,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
     "fortified_stats_row_Re84QB": {
       "type": "fortified-stats-row",
       "blocks": {
-        "stat_EiCqMM": {
-          "type": "stat",
-          "settings": {
-            "number": "0g",
-            "label": "Added Sugar",
-            "description": "Sweetened with monk fruit and fermented Reb M — never sucralose or aspartame.",
-            "number_color": "",
-            "link": ""
-          }
-        },
-        "stat_3y7DCP": {
+        "stat_1": {
           "type": "stat",
           "settings": {
             "number": "1,210mg",
-            "label": "Sodium Per Serving",
-            "description": "From Ancient Ocean® Pink Himalayan Salt to drive real hydration.",
-            "number_color": "",
-            "link": ""
+            "label": "Sodium per serving",
+            "description": "From Ancient Ocean® Pink Himalayan Salt — the electrolyte you lose most."
           }
         },
-        "stat_MTMYWk": {
+        "stat_2": {
           "type": "stat",
           "settings": {
-            "number": "100%",
-            "label": "Ingredients Disclosed",
-            "description": "No proprietary blends. Every milligram is printed on the label.",
-            "number_color": "",
-            "link": ""
+            "number": "1,000mg",
+            "label": "Magnesium malate",
+            "description": "A bioavailable magnesium form to support normal muscle and nervous system function.*"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "number": "0g",
+            "label": "Added sugar",
+            "description": "Sweetened with monk fruit and fermented Reb M — never sucralose, aspartame, or sugar."
           }
         }
       },
       "block_order": [
-        "stat_EiCqMM",
-        "stat_3y7DCP",
-        "stat_MTMYWk"
+        "stat_1",
+        "stat_2",
+        "stat_3"
       ],
       "name": "FTD - Stats Row",
       "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "subheading": "",
+        "eyebrow": "The Numbers, Disclosed",
+        "heading": "Real Amounts, Not Marketing",
+        "subheading": "Every milligram printed on the label and matched to published recommended intakes for active adults.",
         "desktop_columns": 3,
         "column_gap": 40,
         "align": "left",
         "section_width": "page-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "divider_style": "dashed",
         "divider_color": "#9ca3af",
         "divider_thickness": 1,
         "color_scheme": "",
-        "padding-block-start": 64,
-        "padding-block-end": 64,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
@@ -686,42 +681,167 @@
       ],
       "name": "FTD - Hero Showcase",
       "settings": {
-        "eyebrow": "",
-        "heading": "Fuel Every Part Of Your Day",
-        "body": "From your morning ritual to your afternoon lift — clean electrolytes, real caffeine, and zero artificial junk. Pick your function.",
-        "button_label": "Explore All Flavors",
-        "button_link": "",
+        "eyebrow": "Built For Every Part Of Your Day",
+        "heading": "Daily Hydration. Clean Caffeine. Real Recovery.",
+        "body": "Build your hydration plan from a lineup that reads the same on every label — Everyday, Energy, Creatine. Same transparency, different functions.",
+        "button_label": "Build Your Plan",
+        "button_link": "shopify://collections/hydration",
         "button_style": "outline",
         "background_image_focal": "center",
         "overlay_color": "#000000",
-        "overlay_opacity": 25,
+        "overlay_opacity": 30,
         "text_color": "light",
         "left_width_desktop": 42,
         "card_gap": 16,
         "card_radius": 12,
         "section_width": "page-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "color_scheme": "",
-        "padding-block-start": 64,
-        "padding-block-end": 64,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
     "marquee_HFKgXX": {
       "type": "marquee",
       "blocks": {
-        "text_7FYqWh": {
+        "text_chip_1": {
           "type": "text",
           "settings": {
-            "text": "<p>Zero Sugar · Zero Artificial Sweeteners · Every Milligram Disclosed · 30 Servings · Nothing To Hide</p>",
+            "text": "<p><strong>1,210mg</strong>  Sodium</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
             "type_preset": "custom",
             "font": "var(--font-body--family)",
-            "font_size": "1rem",
+            "font_size": "1.15rem",
             "line_height": "tight",
-            "letter_spacing": "tight",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_chip_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>1,000mg</strong>  Magnesium</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1.15rem",
+            "line_height": "tight",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_chip_3": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>220mg</strong>  Potassium</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1.15rem",
+            "line_height": "tight",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_chip_4": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>130% DV</strong>  Vitamin D3</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1.15rem",
+            "line_height": "tight",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_chip_5": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>1,940mg</strong>  Chloride</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1.15rem",
+            "line_height": "tight",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_chip_6": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>0g</strong>  Added Sugar</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1.15rem",
+            "line_height": "tight",
+            "letter_spacing": "normal",
             "case": "none",
             "wrap": "nowrap",
             "color": "var(--color-foreground)",
@@ -737,15 +857,20 @@
         }
       },
       "block_order": [
-        "text_7FYqWh"
+        "text_chip_1",
+        "text_chip_2",
+        "text_chip_3",
+        "text_chip_4",
+        "text_chip_5",
+        "text_chip_6"
       ],
       "name": "t:names.marquee_section",
       "settings": {
         "movement_direction": "normal",
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 24,
-        "padding-block-end": 24,
-        "gap_between_elements": 24
+        "padding-block-start": 28,
+        "padding-block-end": 28,
+        "gap_between_elements": 32
       }
     },
     "fortified_comparison_CLVb4q": {
@@ -828,25 +953,25 @@
       ],
       "name": "FTD - Comparison Table",
       "settings": {
-        "eyebrow": "Compare The Labels",
+        "eyebrow": "The Truth",
         "eyebrow_color": "#1fa8a1",
         "heading": "Why We Beat The Rest",
-        "subheading": "",
-        "fortified_label": "Fortified",
+        "subheading": "Same category. Cleaner label. Honest amounts.",
+        "fortified_label": "FORTIFIED®",
         "fortified_column_color": "#0a0a0a",
         "fortified_text_color": "#ffffff",
         "check_color": "#ffffff",
         "cross_color": "#9ca3af",
         "cta_label": "Shop FORTIFIED®",
-        "cta_link": "",
-        "cta_style": "outline",
+        "cta_link": "shopify://collections/hydration",
+        "cta_style": "filled",
         "mobile_swipe_hint": "Swipe to compare →",
         "table_radius": 16,
         "section_width": "full-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "color_scheme": "",
-        "padding-block-start": 72,
-        "padding-block-end": 72,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
@@ -997,17 +1122,17 @@
         "panel_servings_per": "30 servings per container",
         "panel_serving_size": "1 Stick Pack (6.4g)",
         "panel_calories": "10",
-        "panel_footnote": "* 2,000 calories/day used for general nutrition advice.",
+        "panel_footnote": "* Percent Daily Values are based on a 2,000 calorie diet.",
         "eyebrow": "Why These Numbers Matter",
         "eyebrow_color": "#1fa8a1",
         "heading": "The label that made\nother brands nervous.",
         "heading_emphasis_word": "nervous.",
         "panel_position": "left",
         "section_width": "page-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "color_scheme": "",
-        "padding-block-start": 72,
-        "padding-block-end": 72,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
@@ -1074,21 +1199,21 @@
       ],
       "name": "FTD - Truth",
       "settings": {
-        "eyebrow": "What We Left Out",
-        "heading": "A Label You Can Actually Read",
-        "subheading": "No artificial sweeteners, no dyes, no fillers. Real ingredients in amounts that matter.",
+        "eyebrow": "The Truth",
+        "heading": "More Than Hydration. Daily Support.",
+        "subheading": "Electrolytes alone do not deliver full recovery. FORTIFIED® pairs clean hydration with the function you need — energy, focus, daily structure/function support.*",
         "button_label": "Shop FORTIFIED®",
-        "button_link": "",
-        "button_style": "outline",
+        "button_link": "shopify://collections/hydration",
+        "button_style": "filled",
         "columns_desktop": 4,
-        "enable_carousel": true,
+        "enable_carousel": false,
         "card_height": 420,
         "card_height_mobile": 360,
         "gap": 20,
         "corner_radius": 14,
         "card_bg": "#1a1a1a",
-        "content_max_width": 1280,
-        "content_padding": 56,
+        "content_max_width": 1360,
+        "content_padding": 64,
         "content_radius": 28,
         "content_color_scheme": "",
         "color_scheme": "",
@@ -1098,9 +1223,9 @@
         "card_label_color": "#ffffff",
         "card_caption_color": "#e6e6e6",
         "button_color": "",
-        "section_width": "full-width",
-        "padding-block-start": 72,
-        "padding-block-end": 72,
+        "section_width": "page-width",
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
       }
     },
@@ -1144,81 +1269,18 @@
         "eyebrow_color": "#1fa8a1",
         "heading": "Subscribe & Save 15% On Clean Hydration",
         "button_label": "Start Your Subscription",
-        "button_link": "",
-        "button_style": "outline",
+        "button_link": "shopify://collections/hydration",
+        "button_style": "filled",
         "foreground_image_focal": "center",
         "image_position": "right",
-        "background_overlay": 50,
+        "background_overlay": 40,
         "text_color": "light",
         "section_width": "full-width",
-        "content_max_width": 1240,
+        "content_max_width": 1360,
         "color_scheme": "",
-        "padding-block-start": 72,
-        "padding-block-end": 72,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
         "custom_css": ""
-      }
-    },
-    "17809380431492f2ae": {
-      "type": "_blocks",
-      "blocks": {
-        "judge_me_reviews_reviews_grid_widget_MxjW7i": {
-          "type": "shopify://apps/judge-me-reviews/blocks/reviews_grid_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "show_sample_reviews": true,
-            "review_selection": "all",
-            "products": [],
-            "show_media_only": false,
-            "display_order": "media_first",
-            "card_grouping": "per_media",
-            "columns_desktop": 3,
-            "rows_desktop": 3,
-            "columns_mobile": "2",
-            "rows_mobile": 6,
-            "show_stars": true,
-            "show_reviewer_name": true,
-            "show_review_title_on_hover_desktop": true,
-            "max_width": 1100,
-            "corner_styling": "soft",
-            "card_spacing": "medium",
-            "header_text_color": "#000000",
-            "star_and_reviewer_name_color": "#f9f9f9",
-            "drop_shadow_color": "#000000",
-            "overlay_and_background_color": "#000000",
-            "content_color": "#f9f9f9",
-            "header_text": "From our customers",
-            "show_average_rating": true
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_reviews_grid_widget_MxjW7i"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
       }
     },
     "ftd_b_faq_pdp": {
@@ -1230,25 +1292,149 @@
         "divider_color": "#E5E5E5",
         "color_scheme": "scheme-1",
         "section_width": "page-width",
-        "content_max_width": 1100,
-        "padding-block-start": 72,
-        "padding-block-end": 72
+        "content_max_width": 1360,
+        "padding-block-start": 100,
+        "padding-block-end": 100,
+        "eyebrow": "Common Questions",
+        "heading": "Frequently Asked Questions",
+        "heading_emphasis_word": "Questions"
       }
+    },
+    "ftd_b_reviews_pdp": {
+      "type": "ftd-b-testimonials",
+      "name": "FTD-B - Reviews Grid",
+      "settings": {
+        "eyebrow": "The Truth",
+        "eyebrow_color": "#1FA8A1",
+        "heading": "12,400+ customers reading the same label.",
+        "heading_emphasis_word": "label.",
+        "rating_text": "4.9 — 12,400+ verified reviews",
+        "desktop_columns": 4,
+        "tablet_columns": 2,
+        "card_radius": 12,
+        "quote_mark_color": "#E8E6E4",
+        "section_width": "page-width",
+        "content_max_width": 1360,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 100,
+        "padding-block-end": 100,
+        "custom_css": ""
+      },
+      "blocks": {
+        "review_1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I've been reading labels for 10 years and I've never seen a supplement this transparent.",
+            "author": "Sarah B.",
+            "author_sub": "Mom of 3 - Phoenix, AZ",
+            "tag_label": "Everyday - Monthly",
+            "tag_color": "#E8F1F8",
+            "tag_text_color": "#135289"
+          }
+        },
+        "review_2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Finally a brand that lists every milligram. My pharmacist gave it a thumbs up.",
+            "author": "David K.",
+            "author_sub": "RPh - Boston, MA",
+            "tag_label": "Energy - Monthly",
+            "tag_color": "#E8F4EC",
+            "tag_text_color": "#1F6B3A"
+          }
+        },
+        "review_3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The salt content actually works. I no longer cramp on long rides.",
+            "author": "Maya R.",
+            "author_sub": "Cyclist - Boulder, CO",
+            "tag_label": "Energy - Quarterly",
+            "tag_color": "#FDEFE2",
+            "tag_text_color": "#A0541C"
+          }
+        },
+        "review_4": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Switched the whole family. They love it and I love that I can pronounce every ingredient.",
+            "author": "Jordan P.",
+            "author_sub": "Dad of 2 - Austin, TX",
+            "tag_label": "Bundle - Quarterly",
+            "tag_color": "#EFE8F8",
+            "tag_text_color": "#5A2E89"
+          }
+        },
+        "review_5": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "152mg of caffeine from real coffee bean is the cleanest pick-me-up I've found.",
+            "author": "Amelia T.",
+            "author_sub": "Designer - NYC",
+            "tag_label": "Energy - Monthly",
+            "tag_color": "#FDEFE2",
+            "tag_text_color": "#A0541C"
+          }
+        },
+        "review_6": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "No sugar, no sucralose, no afternoon crash. This is what I was looking for.",
+            "author": "Carlos M.",
+            "author_sub": "Trainer - Miami, FL",
+            "tag_label": "Everyday - Quarterly",
+            "tag_color": "#E8F4EC",
+            "tag_text_color": "#1F6B3A"
+          }
+        },
+        "review_7": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I trust what I drink because the label tells me exactly what is in it.",
+            "author": "Priya N.",
+            "author_sub": "Nurse - Seattle, WA",
+            "tag_label": "Everyday - Monthly",
+            "tag_color": "#E8F1F8",
+            "tag_text_color": "#135289"
+          }
+        },
+        "review_8": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Salty Watermelon Energy gets me through the school pickup-to-soccer block.",
+            "author": "Beth L.",
+            "author_sub": "Mom of 2 - Denver, CO",
+            "tag_label": "Energy - Quarterly",
+            "tag_color": "#FDEFE2",
+            "tag_text_color": "#A0541C"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6",
+        "review_7",
+        "review_8"
+      ]
     }
   },
   "order": [
     "main",
     "fortified_split_hero_9JHANw",
+    "marquee_HFKgXX",
     "fortified_ingredients_callout_KYTcNc",
     "fortified_testimonial_gifpnd",
     "fortified_stats_row_Re84QB",
-    "fortified_hero_product_showcase_6qE7R9",
-    "marquee_HFKgXX",
     "fortified_comparison_CLVb4q",
-    "ftd_b_supplement_facts_bmPkCy",
     "fortified_truth_qBjbt7",
+    "ftd_b_reviews_pdp",
+    "ftd_b_supplement_facts_bmPkCy",
     "ftd_b_faq_pdp",
-    "fortified_subscribe_save_J6Ri7m",
-    "17809380431492f2ae"
+    "fortified_hero_product_showcase_6qE7R9",
+    "fortified_subscribe_save_J6Ri7m"
   ]
 }
