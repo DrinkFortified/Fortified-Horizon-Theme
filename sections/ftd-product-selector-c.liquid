@@ -121,7 +121,7 @@
               <span class="ftdc__plan-price">{{ section.settings.onetime_price | default: '$59.00' }}</span>
               <span class="ftdc__plan-period">{{ section.settings.onetime_period | default: '/ pouch' }}</span>
             </span>
-            {%- if section.settings.onetime_was != blank and section.settings.onetime_was != '—' and section.settings.onetime_was != '-' -%}<span class="ftdc__plan-was">{{ section.settings.onetime_was }}</span>{%- endif -%}
+            {%- assign _ow = section.settings.onetime_was | strip -%}{%- if _ow != blank and _ow != '-' and _ow != '—' -%}<span class="ftdc__plan-was">{{ section.settings.onetime_was }}</span>{%- endif -%}
           </label>
         {%- endif -%}
       </div>
@@ -815,7 +815,7 @@
     { "type": "text", "id": "onetime_desc", "label": "Description", "default": "Try it first. Subscribe whenever you're ready." },
     { "type": "text", "id": "onetime_price", "label": "Price (display)", "default": "$59.00" },
     { "type": "text", "id": "onetime_period", "label": "Period (display)", "default": "/ pouch" },
-    { "type": "text", "id": "onetime_was", "label": "Compare-at (display)", "default": "—", "info": "Set to — (em dash) to hide." },
+    { "type": "text", "id": "onetime_was", "label": "Compare-at (display)", "default": "-", "info": "Set to - (a single hyphen) to hide." },
 
     { "type": "header", "content": "Bundle step labels" },
     { "type": "text", "id": "bundle_label", "label": "Eyebrow above progress", "default": "Your Bundle" },
@@ -829,7 +829,7 @@
     { "type": "text", "id": "addon_label_monthly",   "label": "Monthly title",   "default": "Add Creatine — 50% off" },
     { "type": "text", "id": "addon_label_quarterly", "label": "Quarterly title", "default": "Add a 2nd Creatine — 50% off" },
     { "type": "text", "id": "addon_label_onetime",   "label": "One-time title",  "default": "Add Creatine — 25% off" },
-    { "type": "text", "id": "addon_desc_monthly",   "label": "Monthly desc" },
+    { "type": "text", "id": "addon_desc_monthly",   "label": "Monthly desc",   "default": "-" },
     { "type": "text", "id": "addon_desc_quarterly", "label": "Quarterly desc", "default": "1st Creatine is free with your bundle. Add a second at 50% off." },
     { "type": "text", "id": "addon_desc_onetime",   "label": "One-time desc",  "default": "One-time purchase. Discount applied automatically at checkout." },
     { "type": "text", "id": "addon_price_monthly",   "label": "Monthly price (display)",   "default": "$12.00" },
@@ -838,10 +838,10 @@
     { "type": "text", "id": "addon_was_monthly",   "label": "Monthly compare-at",   "default": "$24.00" },
     { "type": "text", "id": "addon_was_quarterly", "label": "Quarterly compare-at", "default": "$24.00" },
     { "type": "text", "id": "addon_was_onetime",   "label": "One-time compare-at",  "default": "$24.00" },
-    { "type": "text", "id": "addon_loop_plan_monthly",         "label": "Loop selling-plan ID — monthly (50% off)" },
-    { "type": "text", "id": "addon_loop_plan_quarterly_free",  "label": "Loop selling-plan ID — quarterly (free 1st)" },
-    { "type": "text", "id": "addon_loop_plan_quarterly_50off", "label": "Loop selling-plan ID — quarterly (2nd at 50% off)" },
-    { "type": "text", "id": "addon_discount_code_onetime", "label": "Discount code — one-time (auto-applied)", "info": "Create the code in Shopify > Discounts and paste it here. Triggers /discount/CODE?redirect=/checkout when the customer adds the one-time creatine." },
+    { "type": "text", "id": "addon_loop_plan_monthly",         "label": "Loop selling-plan ID — monthly (50% off)",         "default": "-" },
+    { "type": "text", "id": "addon_loop_plan_quarterly_free",  "label": "Loop selling-plan ID — quarterly (free 1st)",      "default": "-" },
+    { "type": "text", "id": "addon_loop_plan_quarterly_50off", "label": "Loop selling-plan ID — quarterly (2nd at 50% off)", "default": "-" },
+    { "type": "text", "id": "addon_discount_code_onetime", "label": "Discount code — one-time (auto-applied)", "default": "-", "info": "Create the code in Shopify > Discounts and paste it here. Triggers /discount/CODE?redirect=/checkout when the customer adds the one-time creatine." },
 
     { "type": "header", "content": "Sticky bar" },
     { "type": "text", "id": "total_label", "label": "'Total' label", "default": "Total" },
@@ -872,23 +872,23 @@
         { "type": "text", "id": "spec_top", "label": "Top label (e.g. 150mg CAFFEINE)", "default": "150mg CAFFEINE" },
         { "type": "text", "id": "spec_1", "label": "Spec tag 1", "default": "1,210MG SODIUM" },
         { "type": "text", "id": "spec_2", "label": "Spec tag 2", "default": "1,000MG MAGNESIUM" },
-        { "type": "text", "id": "spec_3", "label": "Spec tag 3" },
+        { "type": "text", "id": "spec_3", "label": "Spec tag 3", "default": "-" },
         { "type": "image_picker", "id": "card_image", "label": "Card image (override)" },
-        { "type": "text", "id": "flavor_option", "label": "Variant option that holds the flavor", "info": "e.g. Flavor. Must match the product's option name. Blank = first option." },
-        { "type": "text", "id": "loop_plan_monthly",   "label": "Loop selling-plan ID — monthly" },
-        { "type": "text", "id": "loop_plan_quarterly", "label": "Loop selling-plan ID — quarterly" }
+        { "type": "text", "id": "flavor_option", "label": "Variant option that holds the flavor", "default": "-", "info": "e.g. Flavor. Must match the product's option name. Set to a single hyphen to use the first option." },
+        { "type": "text", "id": "loop_plan_monthly",   "label": "Loop selling-plan ID — monthly",   "default": "-" },
+        { "type": "text", "id": "loop_plan_quarterly", "label": "Loop selling-plan ID — quarterly", "default": "-" }
       ]
     },
     {
       "type": "_ftdc_upsell",
       "name": "Custom upsell",
       "settings": [
-        { "type": "text", "id": "title", "label": "Title" },
-        { "type": "text", "id": "description", "label": "Description" },
+        { "type": "text", "id": "title", "label": "Title", "default": "-" },
+        { "type": "text", "id": "description", "label": "Description", "default": "-" },
         { "type": "image_picker", "id": "image", "label": "Image (override)" },
         { "type": "product", "id": "product", "label": "Product" },
-        { "type": "text", "id": "price_text", "label": "Price (display, optional)" },
-        { "type": "text", "id": "was_text", "label": "Compare-at (display, optional)" },
+        { "type": "text", "id": "price_text", "label": "Price (display, optional)", "default": "-" },
+        { "type": "text", "id": "was_text", "label": "Compare-at (display, optional)", "default": "-" },
         { "type": "text", "id": "plans_allowed", "label": "Plans to show on (comma-separated)", "info": "e.g. onetime,monthly,quarterly. Blank = all.", "default": "onetime,monthly,quarterly" }
       ]
     },
