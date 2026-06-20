@@ -122,7 +122,119 @@
           </thead>
 
           <tbody class="LOOP_t11ied-w6_bundles"  role="rowgroup">
+            {% assign ftd_rendered_bundle_ids = '' %}
             {% for item in cart.items %}
+              {%- liquid
+                assign ftd_item_bundle_id = ''
+                assign ftd_item_bundle_name = ''
+                for prop in item.properties
+                  if prop.first == '_bundleId'
+                    assign ftd_item_bundle_id = prop.last
+                  endif
+                  if prop.first == 'bundleName'
+                    assign ftd_item_bundle_name = prop.last
+                  endif
+                endfor
+              -%}
+              {%- if ftd_item_bundle_id != blank -%}
+                {%- assign ftd_id_token = '|' | append: ftd_item_bundle_id | append: '|' -%}
+                {%- if ftd_rendered_bundle_ids contains ftd_id_token -%}
+                  {%- continue -%}
+                {%- endif -%}
+                {%- assign ftd_rendered_bundle_ids = ftd_rendered_bundle_ids | append: ftd_id_token -%}
+                {%- liquid
+                  assign ftd_bundle_total = 0
+                  assign ftd_bundle_qty = 0
+                  assign ftd_bundle_keys = ''
+                  assign ftd_bundle_items_str = ''
+                  for sibling in cart.items
+                    assign sib_bundle_id = ''
+                    for sp in sibling.properties
+                      if sp.first == '_bundleId'
+                        assign sib_bundle_id = sp.last
+                      endif
+                    endfor
+                    if sib_bundle_id == ftd_item_bundle_id
+                      assign ftd_bundle_total = ftd_bundle_total | plus: sibling.final_line_price
+                      assign ftd_bundle_qty = ftd_bundle_qty | plus: sibling.quantity
+                      assign ftd_bundle_keys = ftd_bundle_keys | append: sibling.key | append: ','
+                      capture ftd_line_text
+                        echo sibling.product.title
+                        if sibling.variant.title != 'Default Title'
+                          echo ' — '
+                          echo sibling.variant.title
+                        endif
+                        if sibling.quantity > 1
+                          echo ' × '
+                          echo sibling.quantity
+                        endif
+                      endcapture
+                      assign ftd_bundle_items_str = ftd_bundle_items_str | append: ftd_line_text | append: '|||'
+                    endif
+                  endfor
+                  assign ftd_bundle_display_name = ftd_item_bundle_name | default: 'Bundle'
+                -%}
+                <tr
+                  role="row"
+                  class="cart-items__table-row cart-items__bundle-row{% unless item.unit_price_measurement %} cart-items__table-row--full-width-variants{% endunless %}"
+                  ref="cartItemRows[]"
+                  data-bundle-id="{{ ftd_item_bundle_id | escape }}"
+                  data-bundle-line-keys="{{ ftd_bundle_keys | escape }}"
+                >
+                  <td class="cart-items__media" role="cell" headers="productImage">
+                    {%- if item.image -%}
+                      <a href="{{ item.url }}" class="cart-items__media-container" style="--ratio:1;">
+                        {{- item.image | image_url: width: 250 | image_tag: class: 'cart-items__media-image' -}}
+                      </a>
+                    {%- endif -%}
+                  </td>
+                  <td class="cart-items__details cart-primary-typography" role="cell" headers="productInformation">
+                    <div class="cart-items__product-info">
+                      <p>
+                        <span class="cart-items__title">{{ ftd_bundle_display_name }}</span>
+                      </p>
+                    </div>
+                    <div class="cart-items__variants-wrapper">
+                      <ul class="cart-items__bundle list-unstyled">
+                        {%- assign ftd_bundle_items_arr = ftd_bundle_items_str | split: '|||' -%}
+                        {%- for ftd_line in ftd_bundle_items_arr -%}
+                          {%- if ftd_line != blank -%}
+                            <li>{{ ftd_line }}</li>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </ul>
+                      {%- if item.selling_plan_allocation -%}
+                        <p>{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                      {%- endif -%}
+                    </div>
+                  </td>
+                  <td class="cart-items__quantity" role="cell" headers="quantity">
+                    <div class="cart-items__quantity-controls">
+                      <button
+                        class="button cart-items__remove"
+                        type="button"
+                        data-ftd-bundle-remove
+                        aria-label="{{ 'accessibility.remove_item' | t: title: ftd_bundle_display_name | escape }}"
+                      >
+                        {{- 'icon-delete.svg' | inline_asset_content -}}
+                        <span class="visually-hidden">{{ 'accessibility.remove' | t }}</span>
+                      </button>
+                    </div>
+                  </td>
+                  <td class="cart-items__error hidden" role="cell" headers="quantity"></td>
+                  {%- liquid
+                    if settings.currency_code_enabled_cart_items
+                      assign ftd_bundle_price_display = ftd_bundle_total | money_with_currency
+                    else
+                      assign ftd_bundle_price_display = ftd_bundle_total | money
+                    endif
+                  -%}
+                  <td class="cart-items__price cart-secondary-typography" role="cell" headers="productTotal">
+                    <text-component value="{{ ftd_bundle_price_display | strip_html }}">{{ ftd_bundle_price_display }}</text-component>
+                  </td>
+                </tr>
+                {%- continue -%}
+              {%- endif -%}
               <tr
                 role="row"
                 class="cart-items__table-row{% if item.parent_relationship.parent != null %} cart-items__nested-line{% endif %}{% unless item.unit_price_measurement %} cart-items__table-row--full-width-variants{% endunless %}"
@@ -930,5 +1042,43 @@
       opacity: 1;
     }
   }
+  .cart-items__bundle-row .cart-items__title {
+    font-weight: var(--font-weight-bold);
+  }
+  .cart-items__bundle-row .cart-items__bundle {
+    margin-block-start: var(--margin-2xs);
+  }
 {% endstylesheet %}
 
+<script>
+  (function () {
+    function findSectionIds() {
+      var ids = [];
+      document.querySelectorAll('cart-items-component[data-section-id]').forEach(function (el) {
+        ids.push(el.dataset.sectionId);
+      });
+      return ids;
+    }
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('[data-ftd-bundle-remove]');
+      if (!btn) return;
+      e.preventDefault();
+      var row = btn.closest('[data-bundle-line-keys]');
+      if (!row) return;
+      var keys = row.dataset.bundleLineKeys.split(',').filter(Boolean);
+      if (!keys.length) return;
+      btn.disabled = true;
+      var updates = {};
+      keys.forEach(function (k) { updates[k] = 0; });
+      var sections = findSectionIds().join(',');
+      fetch('/cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ updates: updates, sections: sections, sections_url: window.location.pathname })
+      }).then(function (r) { return r.json(); }).then(function () {
+        document.dispatchEvent(new CustomEvent('cart:update', { bubbles: true, detail: { source: 'ftd-bundle-remove' } }));
+        window.location.reload();
+      }).catch(function () { window.location.reload(); });
+    });
+  })();
+</script>
