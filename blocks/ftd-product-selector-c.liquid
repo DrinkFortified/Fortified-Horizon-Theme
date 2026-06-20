@@ -316,6 +316,14 @@
     </div>
 
   </div>
+
+  {%- comment %}
+    Hidden block slot — required for the theme editor to recognize this
+    parent as a container and surface the nested "Add block" menu. The
+    UI is rendered from block.settings by the markup above; the child
+    block files render as display:none so this slot is invisible.
+  {%- endcomment %}
+  <div style="display:none" data-ftdc-slot>{% content_for 'blocks' %}</div>
 </section>
 
 {% stylesheet %}
