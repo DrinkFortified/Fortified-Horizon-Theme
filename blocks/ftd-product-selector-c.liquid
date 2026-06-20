@@ -1,7 +1,7 @@
 {% comment %}
-  Section: FTD - Product Selector C
+  Block: FTD - Product Selector C
   ----------------------------------------------------------------------
-  Variant 1 of 3 (the standalone section). Block + Slide-over variants
+  Variant 2 of 3 (theme block). Drop into any section that accepts theme blocks.
   to follow — all three will share the same flow logic; for v1 the
   markup/CSS/JS lives inline here so the section is self-contained.
 
@@ -19,46 +19,46 @@
 {% endcomment %}
 
 {%- liquid
-  assign sid = section.id
-  assign function_blocks = section.blocks | where: 'type', 'ftdc_function'
-  assign upsell_blocks   = section.blocks | where: 'type', 'ftdc_upsell'
-  assign bullet_blocks   = section.blocks | where: 'type', 'ftdc_bullet'
+  assign sid = block.id
+  assign function_blocks = block.blocks | where: 'type', 'ftdc_function'
+  assign upsell_blocks   = block.blocks | where: 'type', 'ftdc_upsell'
+  assign bullet_blocks   = block.blocks | where: 'type', 'ftdc_bullet'
 
-  assign show_onetime   = section.settings.show_onetime
-  assign show_monthly   = section.settings.show_monthly
-  assign show_quarterly = section.settings.show_quarterly
-  assign bundle_count   = section.settings.bundle_count | default: 3
+  assign show_onetime   = block.settings.show_onetime
+  assign show_monthly   = block.settings.show_monthly
+  assign show_quarterly = block.settings.show_quarterly
+  assign bundle_count   = block.settings.bundle_count | default: 3
 
-  assign addon          = section.settings.addon_product
+  assign addon          = block.settings.addon_product
   assign addon_variant_id = ''
   if addon != blank and addon.selected_or_first_available_variant != blank
     assign addon_variant_id = addon.selected_or_first_available_variant.id
   endif
 -%}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background color-{{ block.settings.color_scheme }}"></div>
 
 <section
   id="ftdc-{{ sid }}"
-  class="ftdc spacing-style color-{{ section.settings.color_scheme }}"
+  class="ftdc spacing-style color-{{ block.settings.color_scheme }}"
   data-section-id="{{ sid }}"
   style="
-    {% render 'spacing-padding', settings: section.settings %}
-    --ftdc-accent: {{ section.settings.accent_color }};
-    --ftdc-radius: {{ section.settings.card_radius }}px;
-    --ftdc-max-w: {{ section.settings.content_max_width }}px;
+    
+    --ftdc-accent: {{ block.settings.accent_color }};
+    --ftdc-radius: {{ block.settings.card_radius }}px;
+    --ftdc-max-w: {{ block.settings.content_max_width }}px;
   "
-  {{ section.shopify_attributes }}
+  {{ block.shopify_attributes }}
 >
   <div class="ftdc__inner">
 
     {%- comment %} ───── HEADER ───── {%- endcomment %}
     <header class="ftdc__header">
-      {%- if section.settings.heading != blank -%}
-        <h2 class="ftdc__heading">{{ section.settings.heading }}</h2>
+      {%- if block.settings.heading != blank -%}
+        <h2 class="ftdc__heading">{{ block.settings.heading }}</h2>
       {%- endif -%}
-      {%- if section.settings.description != blank -%}
-        <div class="ftdc__desc">{{ section.settings.description }}</div>
+      {%- if block.settings.description != blank -%}
+        <div class="ftdc__desc">{{ block.settings.description }}</div>
       {%- endif -%}
       {%- if bullet_blocks.size > 0 -%}
         <ul class="ftdc__bullets list-unstyled">
@@ -74,9 +74,9 @@
 
     {%- comment %} ───── STEP PROGRESS ───── {%- endcomment %}
     <ol class="ftdc__steps" role="list" aria-label="Order steps">
-      <li class="ftdc__step-pill is-active" data-step-pill="plans"><span class="ftdc__step-num">1</span><span class="ftdc__step-label">{{ section.settings.step_label_1 | default: 'Plan' }}</span></li>
-      <li class="ftdc__step-pill" data-step-pill="products"><span class="ftdc__step-num">2</span><span class="ftdc__step-label">{{ section.settings.step_label_2 | default: 'Bundle' }}</span></li>
-      <li class="ftdc__step-pill" data-step-pill="upsells"><span class="ftdc__step-num">3</span><span class="ftdc__step-label">{{ section.settings.step_label_3 | default: 'Boost' }}</span></li>
+      <li class="ftdc__step-pill is-active" data-step-pill="plans"><span class="ftdc__step-num">1</span><span class="ftdc__step-label">{{ block.settings.step_label_1 | default: 'Plan' }}</span></li>
+      <li class="ftdc__step-pill" data-step-pill="products"><span class="ftdc__step-num">2</span><span class="ftdc__step-label">{{ block.settings.step_label_2 | default: 'Bundle' }}</span></li>
+      <li class="ftdc__step-pill" data-step-pill="upsells"><span class="ftdc__step-num">3</span><span class="ftdc__step-label">{{ block.settings.step_label_3 | default: 'Boost' }}</span></li>
     </ol>
 
     {%- comment %} ───── STEP 1 — PLANS ───── {%- endcomment %}
@@ -86,42 +86,42 @@
           <label class="ftdc__plan is-active" data-plan="quarterly">
             <input type="radio" name="ftdc-plan-{{ sid }}" value="quarterly" checked>
             <span class="ftdc__plan-tick" aria-hidden="true"></span>
-            {%- if section.settings.quarterly_badge != blank -%}<span class="ftdc__plan-badge">{{ section.settings.quarterly_badge }}</span>{%- endif -%}
-            <span class="ftdc__plan-title">{{ section.settings.quarterly_title | default: '3 Pouches Every 3 Months' }}</span>
-            {%- if section.settings.quarterly_desc != blank -%}<span class="ftdc__plan-desc">{{ section.settings.quarterly_desc }}</span>{%- endif -%}
+            {%- if block.settings.quarterly_badge != blank -%}<span class="ftdc__plan-badge">{{ block.settings.quarterly_badge }}</span>{%- endif -%}
+            <span class="ftdc__plan-title">{{ block.settings.quarterly_title | default: '3 Pouches Every 3 Months' }}</span>
+            {%- if block.settings.quarterly_desc != blank -%}<span class="ftdc__plan-desc">{{ block.settings.quarterly_desc }}</span>{%- endif -%}
             <span class="ftdc__plan-pricing">
-              <span class="ftdc__plan-price">{{ section.settings.quarterly_price | default: '$53.10' }}</span>
-              <span class="ftdc__plan-period">{{ section.settings.quarterly_period | default: '/ month' }}</span>
+              <span class="ftdc__plan-price">{{ block.settings.quarterly_price | default: '$53.10' }}</span>
+              <span class="ftdc__plan-period">{{ block.settings.quarterly_period | default: '/ month' }}</span>
             </span>
-            {%- if section.settings.quarterly_was != blank -%}<span class="ftdc__plan-was">{{ section.settings.quarterly_was }}</span>{%- endif -%}
+            {%- if block.settings.quarterly_was != blank -%}<span class="ftdc__plan-was">{{ block.settings.quarterly_was }}</span>{%- endif -%}
           </label>
         {%- endif -%}
         {%- if show_monthly -%}
           <label class="ftdc__plan" data-plan="monthly">
             <input type="radio" name="ftdc-plan-{{ sid }}" value="monthly">
             <span class="ftdc__plan-tick" aria-hidden="true"></span>
-            {%- if section.settings.monthly_badge != blank -%}<span class="ftdc__plan-badge">{{ section.settings.monthly_badge }}</span>{%- endif -%}
-            <span class="ftdc__plan-title">{{ section.settings.monthly_title | default: '1 Pouch Every Month' }}</span>
-            {%- if section.settings.monthly_desc != blank -%}<span class="ftdc__plan-desc">{{ section.settings.monthly_desc }}</span>{%- endif -%}
+            {%- if block.settings.monthly_badge != blank -%}<span class="ftdc__plan-badge">{{ block.settings.monthly_badge }}</span>{%- endif -%}
+            <span class="ftdc__plan-title">{{ block.settings.monthly_title | default: '1 Pouch Every Month' }}</span>
+            {%- if block.settings.monthly_desc != blank -%}<span class="ftdc__plan-desc">{{ block.settings.monthly_desc }}</span>{%- endif -%}
             <span class="ftdc__plan-pricing">
-              <span class="ftdc__plan-price">{{ section.settings.monthly_price | default: '$53.10' }}</span>
-              <span class="ftdc__plan-period">{{ section.settings.monthly_period | default: '/ month' }}</span>
+              <span class="ftdc__plan-price">{{ block.settings.monthly_price | default: '$53.10' }}</span>
+              <span class="ftdc__plan-period">{{ block.settings.monthly_period | default: '/ month' }}</span>
             </span>
-            {%- if section.settings.monthly_was != blank -%}<span class="ftdc__plan-was">{{ section.settings.monthly_was }}</span>{%- endif -%}
+            {%- if block.settings.monthly_was != blank -%}<span class="ftdc__plan-was">{{ block.settings.monthly_was }}</span>{%- endif -%}
           </label>
         {%- endif -%}
         {%- if show_onetime -%}
           <label class="ftdc__plan" data-plan="onetime">
             <input type="radio" name="ftdc-plan-{{ sid }}" value="onetime">
             <span class="ftdc__plan-tick" aria-hidden="true"></span>
-            {%- if section.settings.onetime_badge != blank -%}<span class="ftdc__plan-badge">{{ section.settings.onetime_badge }}</span>{%- endif -%}
-            <span class="ftdc__plan-title">{{ section.settings.onetime_title | default: 'Single Pouch' }}</span>
-            {%- if section.settings.onetime_desc != blank -%}<span class="ftdc__plan-desc">{{ section.settings.onetime_desc }}</span>{%- endif -%}
+            {%- if block.settings.onetime_badge != blank -%}<span class="ftdc__plan-badge">{{ block.settings.onetime_badge }}</span>{%- endif -%}
+            <span class="ftdc__plan-title">{{ block.settings.onetime_title | default: 'Single Pouch' }}</span>
+            {%- if block.settings.onetime_desc != blank -%}<span class="ftdc__plan-desc">{{ block.settings.onetime_desc }}</span>{%- endif -%}
             <span class="ftdc__plan-pricing">
-              <span class="ftdc__plan-price">{{ section.settings.onetime_price | default: '$59.00' }}</span>
-              <span class="ftdc__plan-period">{{ section.settings.onetime_period | default: '/ pouch' }}</span>
+              <span class="ftdc__plan-price">{{ block.settings.onetime_price | default: '$59.00' }}</span>
+              <span class="ftdc__plan-period">{{ block.settings.onetime_period | default: '/ pouch' }}</span>
             </span>
-            {%- assign _ow = section.settings.onetime_was | strip -%}{%- if _ow != blank and _ow != '-' and _ow != '—' -%}<span class="ftdc__plan-was">{{ section.settings.onetime_was }}</span>{%- endif -%}
+            {%- assign _ow = block.settings.onetime_was | strip -%}{%- if _ow != blank and _ow != '-' and _ow != '—' -%}<span class="ftdc__plan-was">{{ block.settings.onetime_was }}</span>{%- endif -%}
           </label>
         {%- endif -%}
       </div>
@@ -130,11 +130,11 @@
     {%- comment %} ───── STEP 2 — PRODUCTS ───── {%- endcomment %}
     <div class="ftdc__step" data-step="products" hidden>
       <button class="ftdc__back" type="button" data-step-back="plans" aria-label="Back to plan">
-        <span aria-hidden="true">←</span> {{ section.settings.back_label | default: 'Back' }}
+        <span aria-hidden="true">←</span> {{ block.settings.back_label | default: 'Back' }}
       </button>
       <div class="ftdc__bundle-head">
-        <p class="ftdc__bundle-eyebrow">{{ section.settings.bundle_label | default: 'Your Bundle' }}</p>
-        <p class="ftdc__bundle-progress-text" data-progress-text>0 {{ section.settings.of_word | default: 'of' }} {{ bundle_count }} {{ section.settings.selected_word | default: 'selected' }}</p>
+        <p class="ftdc__bundle-eyebrow">{{ block.settings.bundle_label | default: 'Your Bundle' }}</p>
+        <p class="ftdc__bundle-progress-text" data-progress-text>0 {{ block.settings.of_word | default: 'of' }} {{ bundle_count }} {{ block.settings.selected_word | default: 'selected' }}</p>
         <div class="ftdc__bundle-bar"><div class="ftdc__bundle-bar-fill" data-progress-fill style="width:0%"></div></div>
       </div>
 
@@ -215,7 +215,7 @@
                     {%- if v.compare_at_price > v.price -%}<s class="ftdc__card-was">{{ v.compare_at_price | money }}</s>{%- endif -%}
                   </div>
                   <div class="ftdc__card-action">
-                    <button class="ftdc__add" type="button" data-card-action="add">{{ section.settings.add_label | default: 'ADD' }}</button>
+                    <button class="ftdc__add" type="button" data-card-action="add">{{ block.settings.add_label | default: 'ADD' }}</button>
                     <div class="ftdc__qty" hidden>
                       <button class="ftdc__qty-btn" type="button" data-card-action="dec" aria-label="Decrease">−</button>
                       <input class="ftdc__qty-input" type="number" min="0" value="0" inputmode="numeric" aria-label="Quantity">
@@ -233,30 +233,30 @@
     {%- comment %} ───── STEP 3 — UPSELLS ───── {%- endcomment %}
     <div class="ftdc__step" data-step="upsells" hidden>
       <button class="ftdc__back" type="button" data-step-back="products" aria-label="Back to bundle">
-        <span aria-hidden="true">←</span> {{ section.settings.back_label | default: 'Back' }}
+        <span aria-hidden="true">←</span> {{ block.settings.back_label | default: 'Back' }}
       </button>
 
       {%- if addon != blank -%}
         <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine>
           <div class="ftdc__upsell-media">
-            {%- assign addon_img = section.settings.addon_image | default: addon.featured_image -%}
+            {%- assign addon_img = block.settings.addon_image | default: addon.featured_image -%}
             {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
           </div>
           <div class="ftdc__upsell-body">
-            <p class="ftdc__upsell-title" data-creatine-title>{{ section.settings.addon_label_monthly | default: 'Add Creatine — 50% off' }}</p>
-            <p class="ftdc__upsell-desc" data-creatine-desc>{{ section.settings.addon_desc_monthly | default: '' }}</p>
+            <p class="ftdc__upsell-title" data-creatine-title>{{ block.settings.addon_label_monthly | default: 'Add Creatine — 50% off' }}</p>
+            <p class="ftdc__upsell-desc" data-creatine-desc>{{ block.settings.addon_desc_monthly | default: '' }}</p>
             <div class="ftdc__upsell-pricing">
-              <span class="ftdc__upsell-price" data-creatine-price>{{ section.settings.addon_price_monthly | default: '$12.00' }}</span>
-              {%- if section.settings.addon_was_monthly != blank -%}<s class="ftdc__upsell-was" data-creatine-was>{{ section.settings.addon_was_monthly }}</s>{%- endif -%}
+              <span class="ftdc__upsell-price" data-creatine-price>{{ block.settings.addon_price_monthly | default: '$12.00' }}</span>
+              {%- if block.settings.addon_was_monthly != blank -%}<s class="ftdc__upsell-was" data-creatine-was>{{ block.settings.addon_was_monthly }}</s>{%- endif -%}
             </div>
           </div>
           <div class="ftdc__upsell-toggle">
             <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input
                    data-variant="{{ addon_variant_id }}"
-                   data-plan-monthly="{{ section.settings.addon_loop_plan_monthly }}"
-                   data-plan-quarterly-free="{{ section.settings.addon_loop_plan_quarterly_free }}"
-                   data-plan-quarterly-50off="{{ section.settings.addon_loop_plan_quarterly_50off }}"
-                   data-discount-onetime="{{ section.settings.addon_discount_code_onetime }}">
+                   data-plan-monthly="{{ block.settings.addon_loop_plan_monthly }}"
+                   data-plan-quarterly-free="{{ block.settings.addon_loop_plan_quarterly_free }}"
+                   data-plan-quarterly-50off="{{ block.settings.addon_loop_plan_quarterly_50off }}"
+                   data-discount-onetime="{{ block.settings.addon_discount_code_onetime }}">
             <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
           </div>
         </div>
@@ -291,10 +291,10 @@
 
       <div class="ftdc__step-actions">
         <button class="ftdc__btn ftdc__btn--ghost" type="button" data-step-back="products">
-          {{ section.settings.add_more_label | default: 'Add More' }}
+          {{ block.settings.add_more_label | default: 'Add More' }}
         </button>
         <button class="ftdc__btn ftdc__btn--primary" type="button" data-action="checkout">
-          {{ section.settings.checkout_label | default: 'Checkout' }}
+          {{ block.settings.checkout_label | default: 'Checkout' }}
         </button>
       </div>
     </div>
@@ -303,15 +303,15 @@
     <div class="ftdc__bar" data-bar>
       <div class="ftdc__bar-summary">
         <span class="ftdc__bar-total">
-          <strong>{{ section.settings.total_label | default: 'Total' }}:</strong>
+          <strong>{{ block.settings.total_label | default: 'Total' }}:</strong>
           <span data-bar-total>$0.00</span>
         </span>
         <span class="ftdc__bar-saved" data-bar-saved-wrap hidden>
-          ({{ section.settings.saved_word | default: 'Saved' }} <span data-bar-saved>$0.00</span>)
+          ({{ block.settings.saved_word | default: 'Saved' }} <span data-bar-saved>$0.00</span>)
         </span>
       </div>
       <button class="ftdc__bar-action" type="button" data-action="next">
-        <span data-bar-label>{{ section.settings.action_label_step1 | default: 'Continue' }}</span>
+        <span data-bar-label>{{ block.settings.action_label_step1 | default: 'Continue' }}</span>
       </button>
     </div>
 
@@ -446,29 +446,29 @@
 
 <script>
 (function () {
-  var SID = {{ section.id | json }};
+  var SID = {{ block.id | json }};
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
 
   var BUNDLE_COUNT = parseInt({{ bundle_count | json }}, 10) || 3;
 
   /* Creatine labels / pricing per plan (mirrors B). */
-  var ADDON_LABEL_M  = {{ section.settings.addon_label_monthly   | default: 'Add Creatine — 50% off'           | json }};
-  var ADDON_LABEL_Q  = {{ section.settings.addon_label_quarterly | default: 'Add a 2nd Creatine — 50% off'     | json }};
-  var ADDON_LABEL_OT = {{ section.settings.addon_label_onetime   | default: 'Add Creatine — 25% off'           | json }};
-  var ADDON_DESC_M   = {{ section.settings.addon_desc_monthly    | default: ''                                 | json }};
-  var ADDON_DESC_Q   = {{ section.settings.addon_desc_quarterly  | default: '1st Creatine is free with your bundle. Add a second at 50% off.' | json }};
-  var ADDON_DESC_OT  = {{ section.settings.addon_desc_onetime    | default: 'One-time purchase. Discount applied at checkout.'                | json }};
-  var ADDON_PRICE_M  = {{ section.settings.addon_price_monthly   | default: '$12.00'                           | json }};
-  var ADDON_PRICE_Q  = {{ section.settings.addon_price_quarterly | default: '$12.00'                           | json }};
-  var ADDON_PRICE_OT = {{ section.settings.addon_price_onetime   | default: '$18.00'                           | json }};
-  var ADDON_WAS_M    = {{ section.settings.addon_was_monthly     | default: '$24.00'                           | json }};
-  var ADDON_WAS_Q    = {{ section.settings.addon_was_quarterly   | default: '$24.00'                           | json }};
-  var ADDON_WAS_OT   = {{ section.settings.addon_was_onetime     | default: '$24.00'                           | json }};
+  var ADDON_LABEL_M  = {{ block.settings.addon_label_monthly   | default: 'Add Creatine — 50% off'           | json }};
+  var ADDON_LABEL_Q  = {{ block.settings.addon_label_quarterly | default: 'Add a 2nd Creatine — 50% off'     | json }};
+  var ADDON_LABEL_OT = {{ block.settings.addon_label_onetime   | default: 'Add Creatine — 25% off'           | json }};
+  var ADDON_DESC_M   = {{ block.settings.addon_desc_monthly    | default: ''                                 | json }};
+  var ADDON_DESC_Q   = {{ block.settings.addon_desc_quarterly  | default: '1st Creatine is free with your bundle. Add a second at 50% off.' | json }};
+  var ADDON_DESC_OT  = {{ block.settings.addon_desc_onetime    | default: 'One-time purchase. Discount applied at checkout.'                | json }};
+  var ADDON_PRICE_M  = {{ block.settings.addon_price_monthly   | default: '$12.00'                           | json }};
+  var ADDON_PRICE_Q  = {{ block.settings.addon_price_quarterly | default: '$12.00'                           | json }};
+  var ADDON_PRICE_OT = {{ block.settings.addon_price_onetime   | default: '$18.00'                           | json }};
+  var ADDON_WAS_M    = {{ block.settings.addon_was_monthly     | default: '$24.00'                           | json }};
+  var ADDON_WAS_Q    = {{ block.settings.addon_was_quarterly   | default: '$24.00'                           | json }};
+  var ADDON_WAS_OT   = {{ block.settings.addon_was_onetime     | default: '$24.00'                           | json }};
 
-  var ACTION_LABEL_PLANS    = {{ section.settings.action_label_step1 | default: 'Continue' | json }};
-  var ACTION_LABEL_PRODUCTS = {{ section.settings.action_label_step2 | default: 'Continue' | json }};
-  var CHECKOUT_LABEL        = {{ section.settings.checkout_label     | default: 'Checkout' | json }};
+  var ACTION_LABEL_PLANS    = {{ block.settings.action_label_step1 | default: 'Continue' | json }};
+  var ACTION_LABEL_PRODUCTS = {{ block.settings.action_label_step2 | default: 'Continue' | json }};
+  var CHECKOUT_LABEL        = {{ block.settings.checkout_label     | default: 'Checkout' | json }};
 
   /* State */
   var STEPS_ORDER = ['plans', 'products', 'upsells'];
@@ -617,8 +617,8 @@
     /* Estimate display total. Real prices apply at checkout via the
        selling-plan discount. We approximate using plan-typical discounts
        so the bar matches what the customer sees on the cart page. */
-    var monthlyMul   = (parseInt({{ section.settings.monthly_estimate_pct   | default: 90 | json }}, 10) || 90) / 100;
-    var quarterlyMul = (parseInt({{ section.settings.quarterly_estimate_pct | default: 90 | json }}, 10) || 90) / 100;
+    var monthlyMul   = (parseInt({{ block.settings.monthly_estimate_pct   | default: 90 | json }}, 10) || 90) / 100;
+    var quarterlyMul = (parseInt({{ block.settings.quarterly_estimate_pct | default: 90 | json }}, 10) || 90) / 100;
     var mul = 1;
     if (state.plan === 'monthly')   mul = monthlyMul;
     if (state.plan === 'quarterly') mul = quarterlyMul;
@@ -775,9 +775,7 @@
 {% schema %}
 {
   "name": "FTD - Product Selector C",
-  "tag": "section",
-  "class": "ftdc-section",
-  "settings": [
+  "class": "ftdc-block","settings": [
     { "type": "header", "content": "Header" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Build Your Clean Hydration Ritual" },
     { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Mix any function, with any organic flavor. Zero sugar, zero artificial sweeteners, every milligram disclosed.</p>" },
@@ -856,11 +854,7 @@
     { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#1FA8A1" },
     { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 12 },
     { "type": "range", "id": "content_max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top padding",    "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding-block-end",   "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 }
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
   ],
   "blocks": [
     {
