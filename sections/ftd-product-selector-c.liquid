@@ -20,9 +20,9 @@
 
 {%- liquid
   assign sid = section.id
-  assign function_blocks = section.blocks | where: 'type', 'ftdc_function'
-  assign upsell_blocks   = section.blocks | where: 'type', 'ftdc_upsell'
-  assign bullet_blocks   = section.blocks | where: 'type', 'ftdc_bullet'
+  assign function_blocks = section.blocks | where: 'type', '_ftd-c-function'
+  assign upsell_blocks   = section.blocks | where: 'type', '_ftd-c-upsell'
+  assign bullet_blocks   = section.blocks | where: 'type', '_ftd-c-bullet'
 
   assign show_onetime   = section.settings.show_onetime
   assign show_monthly   = section.settings.show_monthly
@@ -316,6 +316,14 @@
     </div>
 
   </div>
+
+  {%- comment %}
+    Hidden block slot — required for the theme editor to surface the
+    nested "Add block" menu. The visible UI is rendered from
+    section.blocks by the markup above; the children render as
+    display:none so this slot is invisible.
+  {%- endcomment %}
+  <div style="display:none" data-ftdc-slot>{% content_for 'blocks' %}</div>
 </section>
 
 {% stylesheet %}
@@ -800,138 +808,497 @@
   "tag": "section",
   "class": "ftdc-section",
   "settings": [
-    { "type": "header", "content": "Header" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Build Your Clean Hydration Ritual" },
-    { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Mix any function, with any organic flavor. Zero sugar, zero artificial sweeteners, every milligram disclosed.</p>" },
-
-    { "type": "header", "content": "Step labels" },
-    { "type": "text", "id": "step_label_1", "label": "Step 1 pill label", "default": "Plan" },
-    { "type": "text", "id": "step_label_2", "label": "Step 2 pill label", "default": "Bundle" },
-    { "type": "text", "id": "step_label_3", "label": "Step 3 pill label", "default": "Boost" },
-    { "type": "text", "id": "back_label", "label": "Back-button label", "default": "Back" },
-
-    { "type": "header", "content": "Plan: Quarterly (3-pack)" },
-    { "type": "checkbox", "id": "show_quarterly", "label": "Show quarterly plan", "default": true },
-    { "type": "text", "id": "quarterly_badge", "label": "Badge", "default": "Best Value" },
-    { "type": "text", "id": "quarterly_title", "label": "Title", "default": "3 Pouches Every 3 Months" },
-    { "type": "text", "id": "quarterly_desc", "label": "Description", "default": "Mix any functions freely." },
-    { "type": "text", "id": "quarterly_price", "label": "Price (display)", "default": "$53.10" },
-    { "type": "text", "id": "quarterly_period", "label": "Period (display)", "default": "/ month" },
-    { "type": "text", "id": "quarterly_was", "label": "Compare-at (display)", "default": "$59.00" },
-    { "type": "range", "id": "bundle_count", "label": "Bundle size", "min": 2, "max": 6, "step": 1, "default": 3 },
-    { "type": "range", "id": "quarterly_estimate_pct", "label": "Quarterly price estimate (% of compare)", "min": 50, "max": 100, "step": 1, "default": 90, "info": "Used in the sticky-bar total. Real price applies at checkout." },
-
-    { "type": "header", "content": "Plan: Monthly" },
-    { "type": "checkbox", "id": "show_monthly", "label": "Show monthly plan", "default": true },
-    { "type": "text", "id": "monthly_badge", "label": "Badge", "default": "Monthly" },
-    { "type": "text", "id": "monthly_title", "label": "Title", "default": "1 Pouch Every Month" },
-    { "type": "text", "id": "monthly_desc", "label": "Description", "default": "Your daily ritual, delivered." },
-    { "type": "text", "id": "monthly_price", "label": "Price (display)", "default": "$53.10" },
-    { "type": "text", "id": "monthly_period", "label": "Period (display)", "default": "/ month" },
-    { "type": "text", "id": "monthly_was", "label": "Compare-at (display)", "default": "$59.00" },
-    { "type": "range", "id": "monthly_estimate_pct", "label": "Monthly price estimate (% of compare)", "min": 50, "max": 100, "step": 1, "default": 90 },
-
-    { "type": "header", "content": "Plan: One-time" },
-    { "type": "checkbox", "id": "show_onetime", "label": "Show one-time plan", "default": true },
-    { "type": "text", "id": "onetime_badge", "label": "Badge", "default": "Buy Once" },
-    { "type": "text", "id": "onetime_title", "label": "Title", "default": "Single Pouch" },
-    { "type": "text", "id": "onetime_desc", "label": "Description", "default": "Try it first. Subscribe whenever you're ready." },
-    { "type": "text", "id": "onetime_price", "label": "Price (display)", "default": "$59.00" },
-    { "type": "text", "id": "onetime_period", "label": "Period (display)", "default": "/ pouch" },
-    { "type": "text", "id": "onetime_was", "label": "Compare-at (display)", "default": "-", "info": "Set to - (a single hyphen) to hide." },
-
-    { "type": "header", "content": "Bundle step labels" },
-    { "type": "text", "id": "bundle_label", "label": "Eyebrow above progress", "default": "Your Bundle" },
-    { "type": "text", "id": "of_word", "label": "Word: 'of'", "default": "of" },
-    { "type": "text", "id": "selected_word", "label": "Word: 'selected'", "default": "selected" },
-    { "type": "text", "id": "add_label", "label": "Card ADD button label", "default": "ADD" },
-
-    { "type": "header", "content": "Creatine upsell (mirrors B)" },
-    { "type": "product", "id": "addon_product", "label": "Creatine product" },
-    { "type": "image_picker", "id": "addon_image", "label": "Creatine image (override)" },
-    { "type": "text", "id": "addon_label_monthly",   "label": "Monthly title",   "default": "Add Creatine — 50% off" },
-    { "type": "text", "id": "addon_label_quarterly", "label": "Quarterly title", "default": "Add a 2nd Creatine — 50% off" },
-    { "type": "text", "id": "addon_label_onetime",   "label": "One-time title",  "default": "Add Creatine — 25% off" },
-    { "type": "text", "id": "addon_desc_monthly",   "label": "Monthly desc",   "default": "-" },
-    { "type": "text", "id": "addon_desc_quarterly", "label": "Quarterly desc", "default": "1st Creatine is free with your bundle. Add a second at 50% off." },
-    { "type": "text", "id": "addon_desc_onetime",   "label": "One-time desc",  "default": "One-time purchase. Discount applied automatically at checkout." },
-    { "type": "text", "id": "addon_price_monthly",   "label": "Monthly price (display)",   "default": "$12.00" },
-    { "type": "text", "id": "addon_price_quarterly", "label": "Quarterly price (display)", "default": "$12.00" },
-    { "type": "text", "id": "addon_price_onetime",   "label": "One-time price (display)",  "default": "$18.00" },
-    { "type": "text", "id": "addon_was_monthly",   "label": "Monthly compare-at",   "default": "$24.00" },
-    { "type": "text", "id": "addon_was_quarterly", "label": "Quarterly compare-at", "default": "$24.00" },
-    { "type": "text", "id": "addon_was_onetime",   "label": "One-time compare-at",  "default": "$24.00" },
-    { "type": "text", "id": "addon_loop_plan_monthly",         "label": "Loop selling-plan ID — monthly (50% off)",         "default": "-" },
-    { "type": "text", "id": "addon_loop_plan_quarterly_free",  "label": "Loop selling-plan ID — quarterly (free 1st)",      "default": "-" },
-    { "type": "text", "id": "addon_loop_plan_quarterly_50off", "label": "Loop selling-plan ID — quarterly (2nd at 50% off)", "default": "-" },
-    { "type": "text", "id": "addon_discount_code_onetime", "label": "Discount code — one-time (auto-applied)", "default": "-", "info": "Create the code in Shopify > Discounts and paste it here. Triggers /discount/CODE?redirect=/checkout when the customer adds the one-time creatine." },
-
-    { "type": "header", "content": "Sticky bar" },
-    { "type": "text", "id": "total_label", "label": "'Total' label", "default": "Total" },
-    { "type": "text", "id": "saved_word", "label": "Word: 'Saved'", "default": "Saved" },
-    { "type": "text", "id": "action_label_step1", "label": "Step 1 action label", "default": "Continue" },
-    { "type": "text", "id": "action_label_step2", "label": "Step 2 action label", "default": "Continue" },
-    { "type": "text", "id": "checkout_label",     "label": "Step 3 / Checkout label", "default": "Checkout" },
-    { "type": "text", "id": "add_more_label",     "label": "'Add More' button label", "default": "Add More" },
-
-    { "type": "header", "content": "Appearance" },
-    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#1FA8A1" },
-    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 12 },
-    { "type": "range", "id": "content_max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top padding",    "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding-block-end",   "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 }
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Build Your Clean Hydration Ritual"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Mix any function, with any organic flavor. Zero sugar, zero artificial sweeteners, every milligram disclosed.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Step labels"
+    },
+    {
+      "type": "text",
+      "id": "step_label_1",
+      "label": "Step 1 pill label",
+      "default": "Plan"
+    },
+    {
+      "type": "text",
+      "id": "step_label_2",
+      "label": "Step 2 pill label",
+      "default": "Bundle"
+    },
+    {
+      "type": "text",
+      "id": "step_label_3",
+      "label": "Step 3 pill label",
+      "default": "Boost"
+    },
+    {
+      "type": "text",
+      "id": "back_label",
+      "label": "Back-button label",
+      "default": "Back"
+    },
+    {
+      "type": "header",
+      "content": "Plan: Quarterly (3-pack)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quarterly",
+      "label": "Show quarterly plan",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "quarterly_badge",
+      "label": "Badge",
+      "default": "Best Value"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_title",
+      "label": "Title",
+      "default": "3 Pouches Every 3 Months"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_desc",
+      "label": "Description",
+      "default": "Mix any functions freely."
+    },
+    {
+      "type": "text",
+      "id": "quarterly_price",
+      "label": "Price (display)",
+      "default": "$53.10"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_period",
+      "label": "Period (display)",
+      "default": "/ month"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_was",
+      "label": "Compare-at (display)",
+      "default": "$59.00"
+    },
+    {
+      "type": "range",
+      "id": "bundle_count",
+      "label": "Bundle size",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "quarterly_estimate_pct",
+      "label": "Quarterly price estimate (% of compare)",
+      "min": 50,
+      "max": 100,
+      "step": 1,
+      "default": 90,
+      "info": "Used in the sticky-bar total. Real price applies at checkout."
+    },
+    {
+      "type": "header",
+      "content": "Plan: Monthly"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_monthly",
+      "label": "Show monthly plan",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "monthly_badge",
+      "label": "Badge",
+      "default": "Monthly"
+    },
+    {
+      "type": "text",
+      "id": "monthly_title",
+      "label": "Title",
+      "default": "1 Pouch Every Month"
+    },
+    {
+      "type": "text",
+      "id": "monthly_desc",
+      "label": "Description",
+      "default": "Your daily ritual, delivered."
+    },
+    {
+      "type": "text",
+      "id": "monthly_price",
+      "label": "Price (display)",
+      "default": "$53.10"
+    },
+    {
+      "type": "text",
+      "id": "monthly_period",
+      "label": "Period (display)",
+      "default": "/ month"
+    },
+    {
+      "type": "text",
+      "id": "monthly_was",
+      "label": "Compare-at (display)",
+      "default": "$59.00"
+    },
+    {
+      "type": "range",
+      "id": "monthly_estimate_pct",
+      "label": "Monthly price estimate (% of compare)",
+      "min": 50,
+      "max": 100,
+      "step": 1,
+      "default": 90
+    },
+    {
+      "type": "header",
+      "content": "Plan: One-time"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_onetime",
+      "label": "Show one-time plan",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "onetime_badge",
+      "label": "Badge",
+      "default": "Buy Once"
+    },
+    {
+      "type": "text",
+      "id": "onetime_title",
+      "label": "Title",
+      "default": "Single Pouch"
+    },
+    {
+      "type": "text",
+      "id": "onetime_desc",
+      "label": "Description",
+      "default": "Try it first. Subscribe whenever you're ready."
+    },
+    {
+      "type": "text",
+      "id": "onetime_price",
+      "label": "Price (display)",
+      "default": "$59.00"
+    },
+    {
+      "type": "text",
+      "id": "onetime_period",
+      "label": "Period (display)",
+      "default": "/ pouch"
+    },
+    {
+      "type": "text",
+      "id": "onetime_was",
+      "label": "Compare-at (display)",
+      "default": "-",
+      "info": "Set to - (a single hyphen) to hide."
+    },
+    {
+      "type": "header",
+      "content": "Bundle step labels"
+    },
+    {
+      "type": "text",
+      "id": "bundle_label",
+      "label": "Eyebrow above progress",
+      "default": "Your Bundle"
+    },
+    {
+      "type": "text",
+      "id": "of_word",
+      "label": "Word: 'of'",
+      "default": "of"
+    },
+    {
+      "type": "text",
+      "id": "selected_word",
+      "label": "Word: 'selected'",
+      "default": "selected"
+    },
+    {
+      "type": "text",
+      "id": "add_label",
+      "label": "Card ADD button label",
+      "default": "ADD"
+    },
+    {
+      "type": "header",
+      "content": "Creatine upsell (mirrors B)"
+    },
+    {
+      "type": "product",
+      "id": "addon_product",
+      "label": "Creatine product"
+    },
+    {
+      "type": "image_picker",
+      "id": "addon_image",
+      "label": "Creatine image (override)"
+    },
+    {
+      "type": "text",
+      "id": "addon_label_monthly",
+      "label": "Monthly title",
+      "default": "Add Creatine \u2014 50% off"
+    },
+    {
+      "type": "text",
+      "id": "addon_label_quarterly",
+      "label": "Quarterly title",
+      "default": "Add a 2nd Creatine \u2014 50% off"
+    },
+    {
+      "type": "text",
+      "id": "addon_label_onetime",
+      "label": "One-time title",
+      "default": "Add Creatine \u2014 25% off"
+    },
+    {
+      "type": "text",
+      "id": "addon_desc_monthly",
+      "label": "Monthly desc",
+      "default": "-"
+    },
+    {
+      "type": "text",
+      "id": "addon_desc_quarterly",
+      "label": "Quarterly desc",
+      "default": "1st Creatine is free with your bundle. Add a second at 50% off."
+    },
+    {
+      "type": "text",
+      "id": "addon_desc_onetime",
+      "label": "One-time desc",
+      "default": "One-time purchase. Discount applied automatically at checkout."
+    },
+    {
+      "type": "text",
+      "id": "addon_price_monthly",
+      "label": "Monthly price (display)",
+      "default": "$12.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_price_quarterly",
+      "label": "Quarterly price (display)",
+      "default": "$12.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_price_onetime",
+      "label": "One-time price (display)",
+      "default": "$18.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_was_monthly",
+      "label": "Monthly compare-at",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_was_quarterly",
+      "label": "Quarterly compare-at",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_was_onetime",
+      "label": "One-time compare-at",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_monthly",
+      "label": "Loop selling-plan ID \u2014 monthly (50% off)",
+      "default": "-"
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_quarterly_free",
+      "label": "Loop selling-plan ID \u2014 quarterly (free 1st)",
+      "default": "-"
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_quarterly_50off",
+      "label": "Loop selling-plan ID \u2014 quarterly (2nd at 50% off)",
+      "default": "-"
+    },
+    {
+      "type": "text",
+      "id": "addon_discount_code_onetime",
+      "label": "Discount code \u2014 one-time (auto-applied)",
+      "default": "-",
+      "info": "Create the code in Shopify > Discounts and paste it here. Triggers /discount/CODE?redirect=/checkout when the customer adds the one-time creatine."
+    },
+    {
+      "type": "header",
+      "content": "Sticky bar"
+    },
+    {
+      "type": "text",
+      "id": "total_label",
+      "label": "'Total' label",
+      "default": "Total"
+    },
+    {
+      "type": "text",
+      "id": "saved_word",
+      "label": "Word: 'Saved'",
+      "default": "Saved"
+    },
+    {
+      "type": "text",
+      "id": "action_label_step1",
+      "label": "Step 1 action label",
+      "default": "Continue"
+    },
+    {
+      "type": "text",
+      "id": "action_label_step2",
+      "label": "Step 2 action label",
+      "default": "Continue"
+    },
+    {
+      "type": "text",
+      "id": "checkout_label",
+      "label": "Step 3 / Checkout label",
+      "default": "Checkout"
+    },
+    {
+      "type": "text",
+      "id": "add_more_label",
+      "label": "'Add More' button label",
+      "default": "Add More"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Max width",
+      "min": 600,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    }
   ],
   "blocks": [
     {
-      "type": "ftdc_function",
-      "name": "Function (product)",
-      "settings": [
-        { "type": "text", "id": "function_label", "label": "Function name", "default": "Energy" },
-        { "type": "product", "id": "product", "label": "Product" },
-        { "type": "checkbox", "id": "coming_soon", "label": "Coming soon", "default": false },
-        { "type": "text", "id": "spec_top", "label": "Top label (e.g. 150mg CAFFEINE)", "default": "150mg CAFFEINE" },
-        { "type": "text", "id": "spec_1", "label": "Spec tag 1", "default": "1,210MG SODIUM" },
-        { "type": "text", "id": "spec_2", "label": "Spec tag 2", "default": "1,000MG MAGNESIUM" },
-        { "type": "text", "id": "spec_3", "label": "Spec tag 3", "default": "-" },
-        { "type": "image_picker", "id": "card_image", "label": "Card image (override)" },
-        { "type": "text", "id": "flavor_option", "label": "Variant option that holds the flavor", "default": "-", "info": "e.g. Flavor. Must match the product's option name. Set to a single hyphen to use the first option." },
-        { "type": "text", "id": "loop_plan_monthly",   "label": "Loop selling-plan ID — monthly",   "default": "-" },
-        { "type": "text", "id": "loop_plan_quarterly", "label": "Loop selling-plan ID — quarterly", "default": "-" }
-      ]
+      "type": "_ftd-c-function"
     },
     {
-      "type": "ftdc_upsell",
-      "name": "Custom upsell",
-      "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "-" },
-        { "type": "text", "id": "description", "label": "Description", "default": "-" },
-        { "type": "image_picker", "id": "image", "label": "Image (override)" },
-        { "type": "product", "id": "product", "label": "Product" },
-        { "type": "text", "id": "price_text", "label": "Price (display, optional)", "default": "-" },
-        { "type": "text", "id": "was_text", "label": "Compare-at (display, optional)", "default": "-" },
-        { "type": "text", "id": "plans_allowed", "label": "Plans to show on (comma-separated)", "info": "e.g. onetime,monthly,quarterly. Blank = all.", "default": "onetime,monthly,quarterly" }
-      ]
+      "type": "_ftd-c-upsell"
     },
     {
-      "type": "ftdc_bullet",
-      "name": "Bullet point",
-      "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Real Fruit Organic Flavors" }
-      ]
+      "type": "_ftd-c-bullet"
     }
   ],
   "presets": [
     {
       "name": "FTD - Product Selector C",
       "category": "Fortified Sections",
-      "blocks": [
-        { "type": "ftdc_bullet", "settings": { "text": "Real Fruit Organic Flavors" } },
-        { "type": "ftdc_bullet", "settings": { "text": "Zero Artificial Sweeteners" } },
-        { "type": "ftdc_function" },
-        { "type": "ftdc_function" }
+      "blocks": {
+        "ftd_c_bullet_1": {
+          "type": "_ftd-c-bullet",
+          "settings": {
+            "text": "Real Fruit Organic Flavors"
+          }
+        },
+        "ftd_c_bullet_2": {
+          "type": "_ftd-c-bullet",
+          "settings": {
+            "text": "Zero Artificial Sweeteners"
+          }
+        },
+        "ftd_c_function_1": {
+          "type": "_ftd-c-function"
+        },
+        "ftd_c_function_2": {
+          "type": "_ftd-c-function"
+        }
+      },
+      "block_order": [
+        "ftd_c_bullet_1",
+        "ftd_c_bullet_2",
+        "ftd_c_function_1",
+        "ftd_c_function_2"
       ]
     }
   ]
