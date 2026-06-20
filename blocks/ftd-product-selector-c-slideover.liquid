@@ -314,6 +314,23 @@
   var BUNDLE_COUNT = parseInt({{ bundle_count | json }}, 10) || 3;
   var STEPS_ORDER = ['plans', 'products', 'upsells'];
   var state = { step: 'plans', plan: 'quarterly', selections: {} };
+
+  /* Loop bundle mode (quarterly only). When fully configured, the pouches
+     are registered with Loop's Create Bundle Transaction API and the cart
+     gets pouch lines stamped with one shared loopBundleGuid so the customer
+     can edit the whole bundle in Loop's portal later. */
+  var LOOP_BUNDLE = {
+    enabled:           {{ block.settings.loop_bundle_enabled | json }},
+    bundleId:          {{ block.settings.loop_bundle_id | default: '' | json }},
+    bundleVariantId:   {{ block.settings.loop_bundle_variant_id | default: '' | json }},
+    bundleDiscountId:  {{ block.settings.loop_bundle_discount_id | default: '' | json }},
+    apiSellingPlanId:  {{ block.settings.loop_bundle_api_selling_plan_id | default: '' | json }},
+    cartSellingPlanId: {{ block.settings.loop_bundle_selling_plan_id | default: '' | json }},
+    bundleName:        {{ block.settings.loop_bundle_name | default: '' | json }},
+    propKey:           {{ block.settings.loop_bundle_property_key | default: '_bundleId' | json }}
+  };
+  function _loopBundleSentinel(v) { return v && v !== '-' && v !== '—'; }
+  var LOOP_BUNDLE_ON = !!(LOOP_BUNDLE.enabled && _loopBundleSentinel(LOOP_BUNDLE.bundleId) && _loopBundleSentinel(LOOP_BUNDLE.apiSellingPlanId));
   function $(s, c) { return (c || root).querySelector(s); }
   function $$(s, c) { return Array.prototype.slice.call((c || root).querySelectorAll(s)); }
   function fmtMoney(c) { return '$' + (Math.max(0, c) / 100).toFixed(2); }
@@ -460,7 +477,11 @@
     Object.keys(state.selections).forEach(function (k) {
       var s = state.selections[k]; var it = { id: parseInt(s.variantId, 10), quantity: s.qty };
       if (state.plan === 'monthly') { var p = parseInt(s.planMonthly, 10); if (p) it.selling_plan = p; }
-      else if (state.plan === 'quarterly') { var p = parseInt(s.planQuarterly, 10); if (p) it.selling_plan = p; }
+      else if (state.plan === 'quarterly') {
+        var p = parseInt(s.planQuarterly, 10); if (p) it.selling_plan = p;
+        /* Marked for Loop bundle grouping; stripped before /cart/add.js. */
+        it._bundleable = true;
+      }
       items.push(it);
     });
     var cr = $('[data-creatine-input]');
@@ -476,6 +497,50 @@
     }
     return items;
   }
+
+  /* Loop's bundle.loopwork.co returns { message, data: { loopBundleGuid } } */
+  function extractBundleTxnId(b) {
+    var pools = [b, b && b.data, b && b.transaction, b && b.data && b.data.transaction];
+    for (var i = 0; i < pools.length; i++) {
+      var p = pools[i]; if (!p || typeof p !== 'object') continue;
+      var v = (p.data && (p.data.loopBundleGuid || p.data.txnId || p.data.id))
+            || p.loopBundleGuid || p.txnId || p.transactionId || p.id;
+      if (v) return v;
+    }
+    return null;
+  }
+  function loopBundleItems(items) {
+    var picks = items.filter(function (it) { return it._bundleable; });
+    var rest  = items.filter(function (it) { return !it._bundleable; });
+    if (!picks.length) return Promise.resolve(items);
+    var body = {
+      bundleId:         parseInt(LOOP_BUNDLE.bundleId, 10),
+      bundleVariantId:  parseInt(LOOP_BUNDLE.bundleVariantId, 10)  || null,
+      bundleDiscountId: parseInt(LOOP_BUNDLE.bundleDiscountId, 10) || null,
+      sellingPlanId:    parseInt(LOOP_BUNDLE.apiSellingPlanId, 10)
+    };
+    return fetch('https://bundle.loopwork.co/api/transactions/create', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) {
+        if (!r.ok) throw new Error('Loop bundle API ' + r.status + ': ' + ((b && (b.message || b.error)) || ''));
+        return b;
+      }); })
+      .then(function (b) {
+        var txn = extractBundleTxnId(b);
+        if (!txn) throw new Error('Loop response missing transaction id');
+        var cartPlanId = parseInt(LOOP_BUNDLE.cartSellingPlanId, 10);
+        var key = LOOP_BUNDLE.propKey || '_bundleId';
+        picks.forEach(function (it) {
+          it.properties = it.properties || {};
+          it.properties[key] = String(txn);
+          if (LOOP_BUNDLE.bundleName) it.properties.bundleName = LOOP_BUNDLE.bundleName;
+          if (cartPlanId) it.selling_plan = cartPlanId;
+        });
+        return picks.concat(rest);
+      });
+  }
+
   function doCheckout() {
     if (!canProc()) return;
     var items = buildItems(); if (!items.length) return;
@@ -483,10 +548,25 @@
     var cr = $('[data-creatine-input]');
     var ot = state.plan === 'onetime' && cr && cr.checked;
     var d = ot ? (cr.dataset.discountOnetime || '') : '';
-    fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: items }) })
-      .then(function (r) { if (!r.ok) return r.json().then(function (b) { throw new Error((b && b.message) || 'Cart error'); }); return r.json(); })
-      .then(function () { window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout'; })
-      .catch(function (e) { if (actBtn) actBtn.disabled = false; if (coBtn) coBtn.disabled = false; alert(e.message || 'Something went wrong'); });
+
+    function postCart(finalItems) {
+      finalItems.forEach(function (it) { delete it._bundleable; });
+      return fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: finalItems }) })
+        .then(function (r) { if (!r.ok) return r.json().then(function (b) { throw new Error((b && b.message) || 'Cart error'); }); return r.json(); })
+        .then(function () { window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout'; });
+    }
+
+    var run;
+    if (LOOP_BUNDLE_ON && state.plan === 'quarterly') {
+      run = loopBundleItems(items).then(postCart, function (err) {
+        /* Loop unreachable or misconfigured: fall back to individual lines. */
+        try { console.warn('[FTDC] Loop bundle failed, falling back. Error:', err); } catch (_) {}
+        return postCart(items);
+      });
+    } else {
+      run = postCart(items);
+    }
+    run.catch(function (e) { if (actBtn) actBtn.disabled = false; if (coBtn) coBtn.disabled = false; alert(e.message || 'Something went wrong'); });
   }
 
   showStep('plans'); updateProgress(); updateBar();
@@ -592,6 +672,16 @@
     { "type": "text", "id": "addon_loop_plan_quarterly_free", "label": "Loop plan quarterly free", "default": "-" },
     { "type": "text", "id": "addon_loop_plan_quarterly_50off", "label": "Loop plan quarterly 50off", "default": "-" },
     { "type": "text", "id": "addon_discount_code_onetime", "label": "Discount code one-time", "default": "-" },
+    { "type": "header", "content": "Loop bundle (quarterly only)" },
+    { "type": "paragraph", "content": "When enabled, the quarterly plan POSTs to bundle.loopwork.co with Loop's INTERNAL numeric IDs, gets back a loopBundleGuid, and stamps every pouch line with _bundleId + bundleName so Loop's order webhook groups them into one editable bundle. Anonymous endpoint. Falls back to per-pouch subscriptions on failure." },
+    { "type": "checkbox", "id": "loop_bundle_enabled", "label": "Use Loop bundle on quarterly", "default": false },
+    { "type": "text", "id": "loop_bundle_id", "label": "Loop bundleId (internal numeric)", "default": "-", "info": "Loop's internal numeric bundleId, NOT the hex slug from the storefront URL. Find it in the payload Loop's bundle page posts." },
+    { "type": "text", "id": "loop_bundle_variant_id", "label": "Loop bundleVariantId (optional)", "default": "-" },
+    { "type": "text", "id": "loop_bundle_discount_id", "label": "Loop bundleDiscountId (optional)", "default": "-" },
+    { "type": "text", "id": "loop_bundle_api_selling_plan_id", "label": "Loop sellingPlanId (internal)", "default": "-", "info": "Loop's internal sellingPlanId for the bundle API call — different from the Shopify selling plan." },
+    { "type": "text", "id": "loop_bundle_selling_plan_id", "label": "Shopify selling plan id (cart line)", "default": "-", "info": "Shopify selling plan that goes on each pouch line in the cart." },
+    { "type": "text", "id": "loop_bundle_name", "label": "Visible bundle name", "default": "Build Your Bundle" },
+    { "type": "text", "id": "loop_bundle_property_key", "label": "Cart line property key", "default": "_bundleId", "info": "Leave as _bundleId unless Loop support says otherwise." },
     { "type": "header", "content": "Sticky bar" },
     { "type": "text", "id": "total_label", "label": "Total", "default": "Total" },
     { "type": "text", "id": "saved_word", "label": "Saved", "default": "Saved" },
