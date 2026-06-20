@@ -121,17 +121,27 @@
               <button class="ftdc__back" type="button" data-step-back="products" aria-label="Back to bundle"><span aria-hidden="true">←</span> {{ block.settings.back_label | default: 'Back' }}</button>
 
               {%- comment %} Hardcoded "Creatine included free" indicator — only
-              shown on quarterly. Not exposed in theme settings. {%- endcomment %}
+              shown on quarterly. Title/desc/FREE label are not exposed in
+              theme settings; image reuses the addon image so the merchant
+              only manages one creatine asset. {%- endcomment %}
+              {%- assign included_img = block.settings.addon_image | default: addon.featured_image -%}
               <div class="ftdc__upsell ftdc__upsell--included" data-creatine-included hidden aria-hidden="true">
-                <div class="ftdc__upsell-media ftdc__upsell-media--badge">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div class="ftdc__upsell-media">
+                  {%- if included_img != blank -%}
+                    <img src="{{ included_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">
+                  {%- endif -%}
                 </div>
                 <div class="ftdc__upsell-body">
                   <p class="ftdc__upsell-title">Creatine — Included</p>
                   <p class="ftdc__upsell-desc">Free with your 3-month bundle.</p>
+                  <div class="ftdc__upsell-pricing">
+                    <span class="ftdc__upsell-price ftdc__upsell-price--free">FREE</span>
+                  </div>
                 </div>
-                <div class="ftdc__upsell-pricing">
-                  <span class="ftdc__upsell-price ftdc__upsell-price--free">FREE</span>
+                <div class="ftdc__upsell-toggle">
+                  <span class="ftdc__included-check" aria-label="Included" role="img">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
                 </div>
               </div>
 
@@ -281,8 +291,8 @@
   .ftdc__upsell input:checked + .ftdc__switch { background: var(--ftdc-accent, var(--color-primary-button-background)); }
   .ftdc__upsell input:checked + .ftdc__switch::after { transform: translateX(18px); }
   .ftdc__upsell--included { border-color: var(--ftdc-accent, var(--color-primary-button-background)); background: color-mix(in srgb, var(--ftdc-accent, var(--color-primary-button-background)) 8%, var(--color-background)); }
-  .ftdc__upsell-media--badge { background: var(--ftdc-accent, var(--color-primary-button-background)); color: #fff; }
   .ftdc__upsell-price--free { color: var(--ftdc-accent, var(--color-primary-button-background)); letter-spacing: 0.06em; }
+  .ftdc__included-check { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ftdc-accent, var(--color-primary-button-background)); color: #fff; }
   .ftdc__step-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1.25rem; }
   .ftdc__btn { padding: 0.85rem 1.25rem; font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 10px; cursor: pointer; border: 1.5px solid var(--color-foreground); }
   .ftdc__btn--ghost { background: transparent; color: var(--color-foreground); }
