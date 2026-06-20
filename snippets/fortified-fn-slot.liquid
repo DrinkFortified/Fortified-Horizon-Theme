@@ -1,0 +1,181 @@
+{% comment %}
+  Fortified Function Slot (consolidated per-slot picker)
+  ----------------------------------------------------------------------
+  Renders ONE consolidated build slot — used per pouch in the quarterly
+  bundle and once in the monthly view. Replaces the per-function-card
+  grid. Layout (top to bottom):
+      hero image (swaps with the active function)
+      description (swaps with the active function)
+      "Select your function" + function radial selector
+      "Select your flavor" + flavor radial selector (variants of active fn)
+
+  Accepted params:
+    config            - 'monthly' | 'q1' | 'q2' | 'q3' …
+    function_blocks   - array of _ftd-ps-function blocks (only enabled)
+    function_label    - heading above the function radial group
+    flavor_label      - heading above the flavor radial group
+    coming_soon_text  - badge text for coming-soon functions
+{% endcomment %}
+
+{%- liquid
+  assign active_fb = nil
+  for fb in function_blocks
+    if fb.settings.enabled
+      assign active_fb = fb
+      break
+    endif
+  endfor
+-%}
+
+<div class="fe-slot" data-config="{{ config }}">
+  <div class="fe-slot-hero">
+    {%- if active_fb != nil -%}
+      {%- assign hero_img = active_fb.settings.card_image | default: active_fb.settings.thumbnail_image -%}
+      {%- if hero_img == blank and active_fb.settings.product != blank -%}
+        {%- assign hero_img = active_fb.settings.product.featured_image -%}
+      {%- endif -%}
+      {%- if hero_img != blank -%}
+        <img class="fe-slot-hero-img"
+             data-slot-hero
+             src="{{ hero_img | image_url: width: 600 }}"
+             alt="{{ active_fb.settings.function_label | escape }}"
+             loading="lazy" width="320" height="320">
+      {%- else -%}
+        <div class="fe-slot-hero-ph" data-slot-hero aria-hidden="true"></div>
+      {%- endif -%}
+    {%- endif -%}
+    <span class="fe-slot-hero-tick" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </div>
+
+  <p class="fe-slot-desc" data-slot-desc>
+    {%- if active_fb != nil and active_fb.settings.description != blank -%}{{ active_fb.settings.description }}{%- endif -%}
+  </p>
+
+  <div class="fe-slot-step" data-step="function">
+    <p class="fe-step-label">{{ function_label | default: 'Select your function' }}</p>
+    <div class="fe-slot-radials fe-slot-radials--functions" role="radiogroup" data-function-group>
+      {%- for fb in function_blocks -%}
+        {%- if fb.settings.enabled -%}
+          {%- assign prod = fb.settings.product -%}
+          {%- assign thumb = fb.settings.thumbnail_image -%}
+          {%- if thumb == blank -%}{%- assign thumb = fb.settings.card_image -%}{%- endif -%}
+          {%- if thumb == blank and prod != blank -%}{%- assign thumb = prod.featured_image -%}{%- endif -%}
+          {%- assign hero_for_fn = fb.settings.card_image | default: fb.settings.thumbnail_image -%}
+          {%- if hero_for_fn == blank and prod != blank -%}{%- assign hero_for_fn = prod.featured_image -%}{%- endif -%}
+
+          {%- comment %} Build the variant list JSON so JS can render flavor radios without another round-trip {%- endcomment -%}
+          {%- assign flavor_opt = nil -%}
+          {%- if prod != blank and prod.options_with_values.size > 0 -%}
+            {%- assign want = fb.settings.flavor_option | downcase | strip -%}
+            {%- if want != blank -%}
+              {%- for opt in prod.options_with_values -%}
+                {%- assign have = opt.name | downcase | strip -%}
+                {%- if have == want -%}{%- assign flavor_opt = opt -%}{%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+            {%- if flavor_opt == nil -%}{%- assign flavor_opt = prod.options_with_values.first -%}{%- endif -%}
+          {%- endif -%}
+
+          {%- capture variants_json -%}
+            [
+            {%- if flavor_opt != nil -%}
+              {%- for val in flavor_opt.values -%}
+                {%- assign vthumb = '' -%}
+                {%- assign vid = '' -%}
+                {%- for v in prod.variants -%}
+                  {%- if v.options contains val -%}
+                    {%- assign vid = v.id -%}
+                    {%- if v.featured_image != blank -%}{%- assign vthumb = v.featured_image | image_url: width: 96 -%}{%- endif -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                { "name": {{ val | json }}, "id": {{ vid | json }}, "thumb": {{ vthumb | json }} }{%- unless forloop.last %},{% endunless -%}
+              {%- endfor -%}
+            {%- else -%}
+              {%- assign manual_lines = fb.settings.manual_flavors | newline_to_br | split: '<br />' -%}
+              {%- for m in manual_lines -%}
+                {%- assign mt = m | strip -%}
+                {%- if mt != blank -%}
+                  { "name": {{ mt | json }}, "id": "", "thumb": "" }{%- unless forloop.last %},{% endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+            ]
+          {%- endcapture -%}
+
+          <button type="button"
+                  class="fe-flavor-opt fe-radial--function{% if active_fb != nil and fb.id == active_fb.id %} is-active{% endif %}"
+                  data-function-radial
+                  data-function-id="{{ fb.id }}"
+                  data-product-handle="{{ prod.handle }}"
+                  data-function-label="{{ fb.settings.function_label | escape }}"
+                  data-plan-monthly="{{ fb.settings.loop_plan_monthly }}"
+                  data-plan-quarterly="{{ fb.settings.loop_plan_quarterly }}"
+                  data-hero-image="{% if hero_for_fn != blank %}{{ hero_for_fn | image_url: width: 600 }}{% endif %}"
+                  data-thumbnail="{% if thumb != blank %}{{ thumb | image_url: width: 96 }}{% endif %}"
+                  data-description="{{ fb.settings.description | strip_html | escape }}"
+                  data-variants='{{ variants_json | strip }}'
+                  aria-pressed="{% if active_fb != nil and fb.id == active_fb.id %}true{% else %}false{% endif %}"
+                  {%- if fb.settings.coming_soon %} data-coming-soon="true" aria-disabled="true"{%- endif %}>
+            {%- if thumb != blank -%}
+              <span class="fe-flavor-swatch"><img src="{{ thumb | image_url: width: 48 }}" alt="" width="20" height="20"></span>
+            {%- endif -%}
+            <span class="fe-flavor-name">{{ fb.settings.function_label }}{% if fb.settings.coming_soon %} <em class="fe-badge">{{ coming_soon_text | default: 'Soon' }}</em>{% endif %}</span>
+            <span class="fe-flavor-radio" aria-hidden="true"></span>
+          </button>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="fe-slot-step" data-step="flavor">
+    <p class="fe-step-label">{{ flavor_label | default: 'Select your flavor' }}</p>
+    <div class="fe-slot-radials fe-slot-radials--flavors" role="radiogroup" data-flavor-group>
+      {%- comment %} Initial render: flavors of the active function. JS will repopulate on function change. {%- endcomment -%}
+      {%- if active_fb != nil -%}
+        {%- assign prod = active_fb.settings.product -%}
+        {%- assign flavor_opt = nil -%}
+        {%- if prod != blank and prod.options_with_values.size > 0 -%}
+          {%- assign want = active_fb.settings.flavor_option | downcase | strip -%}
+          {%- if want != blank -%}
+            {%- for opt in prod.options_with_values -%}
+              {%- assign have = opt.name | downcase | strip -%}
+              {%- if have == want -%}{%- assign flavor_opt = opt -%}{%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+          {%- if flavor_opt == nil -%}{%- assign flavor_opt = prod.options_with_values.first -%}{%- endif -%}
+        {%- endif -%}
+
+        {%- if flavor_opt != nil -%}
+          {%- for val in flavor_opt.values -%}
+            {%- assign vthumb = '' -%}
+            {%- for v in prod.variants -%}
+              {%- if v.options contains val -%}
+                {%- if v.featured_image != blank -%}{%- assign vthumb = v.featured_image | image_url: width: 96 -%}{%- endif -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+            <button type="button" class="fe-flavor-opt" data-flavor-name="{{ val | escape }}" data-thumbnail="{{ vthumb }}" aria-pressed="false">
+              {%- if vthumb != blank -%}<span class="fe-flavor-swatch"><img src="{{ vthumb }}" alt="" width="20" height="20"></span>{%- endif -%}
+              <span class="fe-flavor-name">{{ val }}</span>
+              <span class="fe-flavor-radio" aria-hidden="true"></span>
+            </button>
+          {%- endfor -%}
+        {%- else -%}
+          {%- assign manual_lines = active_fb.settings.manual_flavors | newline_to_br | split: '<br />' -%}
+          {%- for m in manual_lines -%}
+            {%- assign mt = m | strip -%}
+            {%- if mt != blank -%}
+              <button type="button" class="fe-flavor-opt" data-flavor-name="{{ mt | escape }}" data-thumbnail="" aria-pressed="false">
+                <span class="fe-flavor-name">{{ mt }}</span>
+                <span class="fe-flavor-radio" aria-hidden="true"></span>
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>

@@ -261,13 +261,12 @@
           </div>
         {%- else -%}
           <div class="fe-build-view fe-build-view--monthly" data-build-view="monthly">
-            <div class="fe-fcards" data-config="monthly">
-              {%- for fb in function_blocks -%}
-                {%- if fb.settings.enabled -%}
-                  {%- render 'fortified-fn-card', card_block: fb, config: 'monthly', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
-                {%- endif -%}
-              {%- endfor -%}
-            </div>
+            {%- render 'fortified-fn-slot',
+                config: 'monthly',
+                function_blocks: function_blocks,
+                function_label: block.settings.function_label,
+                flavor_label: flavor_label,
+                coming_soon_text: coming_soon_txt -%}
           </div>
         {%- endif -%}
 
@@ -312,13 +311,13 @@
             {%- for i in (1..bundle_count) -%}
               <div class="fe-pouch">
                 <p class="fe-pouch-title">{{ block.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
-                <div class="fe-fcards" data-config="q{{ i }}">
-                  {%- for fb in function_blocks -%}
-                    {%- if fb.settings.enabled -%}
-                      {%- render 'fortified-fn-card', card_block: fb, config: 'q', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
-                    {%- endif -%}
-                  {%- endfor -%}
-                </div>
+                {%- assign slot_cfg = 'q' | append: i -%}
+                {%- render 'fortified-fn-slot',
+                    config: slot_cfg,
+                    function_blocks: function_blocks,
+                    function_label: block.settings.function_label,
+                    flavor_label: flavor_label,
+                    coming_soon_text: coming_soon_txt -%}
               </div>
             {%- endfor -%}
           </div>
@@ -765,6 +764,67 @@
   #fe-{{ sid }} .fe-step--locked > :not(.fe-step-head) { display: none; }
   #fe-{{ sid }} .fe-step--locked .fe-step-head { opacity: 0.5; margin-bottom: 0; }
 }
+
+/* ────────────────────────────────────────────────────────────────────
+   Consolidated build slot (one panel per pouch; hero image swaps with
+   the active function, flavors filter to that function's variants).
+   ──────────────────────────────────────────────────────────────────── */
+#fe-{{ sid }} .fe-slot {
+  display: flex; flex-direction: column; gap: 0.85rem;
+  padding: 1rem; border: 2px solid rgb(var(--color-foreground-rgb) / 0.14);
+  border-radius: var(--fe-card-radius, 12px); background: var(--color-background);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+#fe-{{ sid }} .fe-slot.is-complete {
+  border-color: var(--fe-selection-color, var(--color-primary-button-background));
+}
+#fe-{{ sid }} .fe-slot-hero {
+  position: relative; width: 100%; aspect-ratio: 1 / 1;
+  /* 30% smaller than the previous 300px+ hero card image */
+  max-width: 210px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  background: rgb(var(--color-foreground-rgb) / 0.04);
+  border-radius: var(--fe-card-radius, 12px); overflow: hidden;
+}
+#fe-{{ sid }} .fe-slot-hero-img,
+#fe-{{ sid }} .fe-slot-hero-ph { width: 100%; height: 100%; object-fit: contain; display: block; transition: opacity 0.2s ease; }
+#fe-{{ sid }} .fe-slot-hero-ph { background: linear-gradient(135deg, rgb(var(--color-foreground-rgb) / 0.06), rgb(var(--color-foreground-rgb) / 0.12)); }
+#fe-{{ sid }} .fe-slot-hero.is-swapping .fe-slot-hero-img { opacity: 0.35; }
+#fe-{{ sid }} .fe-slot-hero-tick {
+  position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center; color: #fff;
+  background: var(--fe-selection-color, var(--color-primary-button-background));
+  opacity: 0; transform: scale(0.5); transition: opacity 0.18s, transform 0.18s;
+}
+#fe-{{ sid }} .fe-slot.is-complete .fe-slot-hero-tick { opacity: 1; transform: scale(1); }
+#fe-{{ sid }} .fe-slot-desc {
+  margin: 0; font-size: 0.78rem; line-height: 1.45; opacity: 0.7; color: var(--color-foreground);
+  text-align: center; min-height: 1.1em;
+}
+#fe-{{ sid }} .fe-slot-desc:empty { display: none; }
+
+#fe-{{ sid }} .fe-slot-step { display: flex; flex-direction: column; gap: 0.5rem; border-radius: 10px; padding: 0.35rem; margin: -0.35rem; transition: box-shadow 0.25s ease; }
+#fe-{{ sid }} .fe-step-label { margin: 0; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-foreground); opacity: 0.7; }
+#fe-{{ sid }} .fe-slot-radials { display: flex; flex-direction: column; gap: 0.4rem; }
+#fe-{{ sid }} .fe-slot-radials .fe-flavor-opt { padding: 0.55rem 0.7rem; }
+#fe-{{ sid }} .fe-radial--function .fe-flavor-name { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; }
+
+/* Soft-pulse guide: glows around the next step the customer needs to act on.
+   Stops the moment they pick something in that step. */
+@keyframes fe-step-pulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 35%, transparent); }
+  70%  { box-shadow: 0 0 0 10px color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 0%,  transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 0%,  transparent); }
+}
+#fe-{{ sid }} .fe-slot-step.is-needs-attention {
+  animation: fe-step-pulse 1.8s ease-out infinite;
+  background: color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 4%, transparent);
+}
+#fe-{{ sid }} .fe-slot-step.is-needs-attention .fe-step-label { opacity: 1; color: var(--fe-selection-color, var(--color-primary-button-background)); }
+@media (prefers-reduced-motion: reduce) {
+  #fe-{{ sid }} .fe-slot-step.is-needs-attention { animation: none; }
+}
+
 {{ block.settings.custom_css }}
 </style>
 
@@ -1193,8 +1253,105 @@
     loadSlotProduct(cfg);
   }
 
+  /* ──────────────────────────────────────────────────────────────────
+     Consolidated build-slot helpers (new .fe-slot UI). Each .fe-slot has
+     one hero image, a function radial group and a flavor radial group;
+     picking a function swaps the hero image + description and rebuilds
+     the flavor radio list from that function's variants. We seed each
+     slot on init so the underlying slots[] state matches the rendered
+     "first function" so the cart logic keeps working unchanged. */
+  function slotPulseStep(slotEl, stepName) {
+    if (!slotEl) return;
+    slotEl.querySelectorAll('.fe-slot-step').forEach(function (s) { s.classList.remove('is-needs-attention'); });
+    if (!stepName) { slotEl.classList.add('is-complete'); return; }
+    var step = slotEl.querySelector('.fe-slot-step[data-step="' + stepName + '"]');
+    if (step) step.classList.add('is-needs-attention');
+  }
+  function slotRenderFlavors(slotEl, variants) {
+    var group = slotEl.querySelector('[data-flavor-group]');
+    if (!group) return;
+    if (!variants || !variants.length) { group.innerHTML = ''; return; }
+    group.innerHTML = variants.map(function (v) {
+      var thumb = v.thumb || '';
+      var swatch = thumb ? '<span class="fe-flavor-swatch"><img src="' + thumb + '" alt="" width="20" height="20"></span>' : '';
+      var name = esc(v.name || '');
+      return '<button type="button" class="fe-flavor-opt" data-flavor-name="' + name + '" data-thumbnail="' + esc(thumb) + '" aria-pressed="false">' + swatch + '<span class="fe-flavor-name">' + name + '</span><span class="fe-flavor-radio" aria-hidden="true"></span></button>';
+    }).join('');
+  }
+  function slotApplyFunction(slotEl, btn, resetFlavor) {
+    if (!slotEl || !btn) return;
+    var cfg = slotEl.dataset.config;
+    var s = slots[cfg]; if (!s) return;
+    s.configId = cfg;
+    s.functionId    = btn.dataset.functionId;
+    s.handle        = btn.dataset.productHandle;
+    s.label         = btn.dataset.functionLabel;
+    s.planMonthly   = btn.dataset.planMonthly || null;
+    s.planQuarterly = btn.dataset.planQuarterly || null;
+    /* function radial visuals */
+    slotEl.querySelectorAll('[data-function-radial]').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+    btn.classList.add('is-active'); btn.setAttribute('aria-pressed', 'true');
+    /* swap hero image + description */
+    var heroWrap = slotEl.querySelector('.fe-slot-hero');
+    var heroImg  = slotEl.querySelector('[data-slot-hero]');
+    var heroSrc  = btn.dataset.heroImage || '';
+    if (heroWrap && heroImg) {
+      heroWrap.classList.add('is-swapping');
+      var newImg = new Image();
+      newImg.onload = function () { if (heroImg.tagName === 'IMG') heroImg.src = heroSrc; heroWrap.classList.remove('is-swapping'); };
+      newImg.onerror = function () { heroWrap.classList.remove('is-swapping'); };
+      if (heroSrc) newImg.src = heroSrc; else heroWrap.classList.remove('is-swapping');
+      heroImg.alt = btn.dataset.functionLabel || '';
+    }
+    var descEl = slotEl.querySelector('[data-slot-desc]');
+    if (descEl) descEl.textContent = btn.dataset.description || '';
+    /* rebuild flavor list and clear any previously-selected flavor */
+    var variants = []; try { variants = JSON.parse(btn.dataset.variants || '[]'); } catch (err) {}
+    slotRenderFlavors(slotEl, variants);
+    if (resetFlavor) s.flavorName = null;
+    loadSlotProduct(cfg);
+    /* guide: next step depends on whether a flavor is set */
+    slotPulseStep(slotEl, s.flavorName ? null : 'flavor');
+  }
+  /* Init each slot: ensure slots[] state matches the rendered active function */
+  root.querySelectorAll('.fe-slot').forEach(function (slotEl) {
+    var activeBtn = slotEl.querySelector('[data-function-radial].is-active') || slotEl.querySelector('[data-function-radial]');
+    if (!activeBtn) return;
+    slotApplyFunction(slotEl, activeBtn, true);
+    /* prime the guide on the function step until they click ANY function */
+    slotPulseStep(slotEl, 'function');
+  });
+
   /* Delegated clicks: flavor first, then function card */
   root.addEventListener('click', function (e) {
+    /* New consolidated slot — function radial */
+    var fnRadial = e.target.closest('[data-function-radial]');
+    if (fnRadial && root.contains(fnRadial)) {
+      if (fnRadial.dataset.comingSoon === 'true') return;
+      var slotEl = fnRadial.closest('.fe-slot');
+      pushEvent('fe_function_selected', { function_id: fnRadial.dataset.functionId });
+      slotApplyFunction(slotEl, fnRadial, true);
+      return;
+    }
+    /* New consolidated slot — flavor radial */
+    var slotFlavor = e.target.closest('[data-flavor-group] .fe-flavor-opt');
+    if (slotFlavor && root.contains(slotFlavor)) {
+      var slotEl2 = slotFlavor.closest('.fe-slot');
+      if (!slotEl2) return;
+      var grpEl = slotFlavor.closest('[data-flavor-group]');
+      if (grpEl) grpEl.querySelectorAll('.fe-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+      slotFlavor.classList.add('is-active'); slotFlavor.setAttribute('aria-pressed', 'true');
+      var sSlot = slots[slotEl2.dataset.config];
+      if (sSlot) {
+        sSlot.flavorName = slotFlavor.dataset.flavorName;
+        if (sSlot.product) sSlot.variant = findVariant(sSlot.product, sSlot.flavorName);
+        pushEvent('fe_flavor_selected', { config: sSlot.configId, flavor: sSlot.flavorName });
+        recompute();
+      }
+      slotPulseStep(slotEl2, null);
+      return;
+    }
+
     var simpleFlavor = e.target.closest('.fe-flavor-opt[data-simple-slot-id]');
     if (simpleFlavor && root.contains(simpleFlavor)) {
       var slotId = simpleFlavor.dataset.simpleSlotId;
