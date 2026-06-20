@@ -120,6 +120,21 @@
             <div class="ftdc__step" data-step="upsells" hidden>
               <button class="ftdc__back" type="button" data-step-back="products" aria-label="Back to bundle"><span aria-hidden="true">←</span> {{ block.settings.back_label | default: 'Back' }}</button>
 
+              {%- comment %} Hardcoded "Creatine included free" indicator — only
+              shown on quarterly. Not exposed in theme settings. {%- endcomment %}
+              <div class="ftdc__upsell ftdc__upsell--included" data-creatine-included hidden aria-hidden="true">
+                <div class="ftdc__upsell-media ftdc__upsell-media--badge">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="ftdc__upsell-body">
+                  <p class="ftdc__upsell-title">Creatine — Included</p>
+                  <p class="ftdc__upsell-desc">Free with your 3-month bundle.</p>
+                </div>
+                <div class="ftdc__upsell-pricing">
+                  <span class="ftdc__upsell-price ftdc__upsell-price--free">FREE</span>
+                </div>
+              </div>
+
               {%- if addon != blank -%}
                 <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine>
                   <div class="ftdc__upsell-media">
@@ -174,7 +189,7 @@
   .ftdc-slideover-trigger--filled { background: var(--color-foreground); color: var(--color-background); }
   .ftdc-slideover-trigger--outline { background: transparent; color: var(--color-foreground); }
   .ftdc-slideover-trigger:hover { opacity: 0.9; }
-  .ftdc-slideover { position: fixed; inset: 0; z-index: 9999; pointer-events: none; visibility: hidden; }
+  .ftdc-slideover { position: fixed; inset: 0; z-index: 2147483647; pointer-events: none; visibility: hidden; }
   .ftdc-slideover.is-open { pointer-events: auto; visibility: visible; }
   .ftdc-slideover__backdrop { position: absolute; inset: 0; background: rgb(0 0 0 / 0.45); opacity: 0; transition: opacity 0.25s ease; }
   .ftdc-slideover.is-open .ftdc-slideover__backdrop { opacity: 1; }
@@ -265,6 +280,9 @@
   .ftdc__switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--color-background); transition: transform 0.18s; box-shadow: 0 1px 2px rgb(0 0 0 / 0.2); }
   .ftdc__upsell input:checked + .ftdc__switch { background: var(--ftdc-accent, var(--color-primary-button-background)); }
   .ftdc__upsell input:checked + .ftdc__switch::after { transform: translateX(18px); }
+  .ftdc__upsell--included { border-color: var(--ftdc-accent, var(--color-primary-button-background)); background: color-mix(in srgb, var(--ftdc-accent, var(--color-primary-button-background)) 8%, var(--color-background)); }
+  .ftdc__upsell-media--badge { background: var(--ftdc-accent, var(--color-primary-button-background)); color: #fff; }
+  .ftdc__upsell-price--free { color: var(--ftdc-accent, var(--color-primary-button-background)); letter-spacing: 0.06em; }
   .ftdc__step-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1.25rem; }
   .ftdc__btn { padding: 0.85rem 1.25rem; font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 10px; cursor: pointer; border: 1.5px solid var(--color-foreground); }
   .ftdc__btn--ghost { background: transparent; color: var(--color-foreground); }
@@ -330,6 +348,11 @@
     updateBar();
   }
 
+  function updateCreatineIncluded() {
+    var el = $('[data-creatine-included]');
+    if (el) el.hidden = state.plan !== 'quarterly';
+  }
+
   $$('input[name="ftdc-plan-' + SID + '"]').forEach(function (r) {
     r.addEventListener('change', function () {
       state.plan = r.value;
@@ -337,9 +360,10 @@
       var l = r.closest('.ftdc__plan'); if (l) l.classList.add('is-active');
       state.selections = {};
       $$('.ftdc__card').forEach(reset);
-      updateBar(); updateProgress();
+      updateBar(); updateProgress(); updateCreatineIncluded();
     });
   });
+  updateCreatineIncluded();
 
   function reset(c) {
     c.classList.remove('is-selected');
@@ -457,9 +481,12 @@
 
   showStep('plans'); updateProgress(); updateBar();
 
-  /* Slide-over open/close */
+  /* Slide-over open/close. Portal to <body> so no ancestor's
+     transform/filter/will-change traps the dialog inside its
+     stacking context. */
   var dialog = document.getElementById('ftdc-slideover-' + SID);
   if (!dialog) return;
+  if (dialog.parentNode !== document.body) document.body.appendChild(dialog);
   var triggers = document.querySelectorAll('[data-ftdc-slideover-open="' + SID + '"]');
   var closers  = document.querySelectorAll('[data-ftdc-slideover-close="' + SID + '"]');
   var lastFocus = null;
