@@ -20,9 +20,9 @@
 
 {%- liquid
   assign sid = block.id
-  assign function_blocks = block.blocks | where: 'type', '_ftdc_function'
-  assign upsell_blocks   = block.blocks | where: 'type', '_ftdc_upsell'
-  assign bullet_blocks   = block.blocks | where: 'type', '_ftdc_bullet'
+  assign function_blocks = block.blocks | where: 'type', '_ftdc-function'
+  assign upsell_blocks   = block.blocks | where: 'type', '_ftdc-upsell'
+  assign bullet_blocks   = block.blocks | where: 'type', '_ftdc-bullet'
 
   assign show_onetime   = block.settings.show_onetime
   assign show_monthly   = block.settings.show_monthly
@@ -988,7 +988,7 @@
   ],
   "blocks": [
     {
-      "type": "_ftdc_function",
+      "type": "_ftdc-function",
       "name": "Function (product)",
       "settings": [
         { "type": "text", "id": "function_label", "label": "Function name", "default": "Energy" },
@@ -1005,7 +1005,7 @@
       ]
     },
     {
-      "type": "_ftdc_upsell",
+      "type": "_ftdc-upsell",
       "name": "Custom upsell",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "-" },
@@ -1018,7 +1018,7 @@
       ]
     },
     {
-      "type": "_ftdc_bullet",
+      "type": "_ftdc-bullet",
       "name": "Bullet point",
       "settings": [
         { "type": "text", "id": "text", "label": "Text", "default": "Real Fruit Organic Flavors" }
@@ -1030,10 +1030,10 @@
       "name": "FTD - ProductSelector-CS",
       "category": "Fortified Sections",
       "blocks": [
-        { "type": "_ftdc_bullet", "settings": { "text": "Real Fruit Organic Flavors" } },
-        { "type": "_ftdc_bullet", "settings": { "text": "Zero Artificial Sweeteners" } },
-        { "type": "_ftdc_function" },
-        { "type": "_ftdc_function" }
+        { "type": "_ftdc-bullet", "settings": { "text": "Real Fruit Organic Flavors" } },
+        { "type": "_ftdc-bullet", "settings": { "text": "Zero Artificial Sweeteners" } },
+        { "type": "_ftdc-function" },
+        { "type": "_ftdc-function" }
       ]
     }
   ]
