@@ -20,9 +20,9 @@
 
 {%- liquid
   assign sid = section.id
-  assign function_blocks = section.blocks | where: 'type', '_ftdc_function'
-  assign upsell_blocks   = section.blocks | where: 'type', '_ftdc_upsell'
-  assign bullet_blocks   = section.blocks | where: 'type', '_ftdc_bullet'
+  assign function_blocks = section.blocks | where: 'type', 'ftdc_function'
+  assign upsell_blocks   = section.blocks | where: 'type', 'ftdc_upsell'
+  assign bullet_blocks   = section.blocks | where: 'type', 'ftdc_bullet'
 
   assign show_onetime   = section.settings.show_onetime
   assign show_monthly   = section.settings.show_monthly
@@ -863,7 +863,7 @@
   ],
   "blocks": [
     {
-      "type": "_ftdc_function",
+      "type": "ftdc_function",
       "name": "Function (product)",
       "settings": [
         { "type": "text", "id": "function_label", "label": "Function name", "default": "Energy" },
@@ -880,7 +880,7 @@
       ]
     },
     {
-      "type": "_ftdc_upsell",
+      "type": "ftdc_upsell",
       "name": "Custom upsell",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "-" },
@@ -893,7 +893,7 @@
       ]
     },
     {
-      "type": "_ftdc_bullet",
+      "type": "ftdc_bullet",
       "name": "Bullet point",
       "settings": [
         { "type": "text", "id": "text", "label": "Text", "default": "Real Fruit Organic Flavors" }
@@ -905,10 +905,10 @@
       "name": "FTD - Product Selector C",
       "category": "Fortified Sections",
       "blocks": [
-        { "type": "_ftdc_bullet", "settings": { "text": "Real Fruit Organic Flavors" } },
-        { "type": "_ftdc_bullet", "settings": { "text": "Zero Artificial Sweeteners" } },
-        { "type": "_ftdc_function" },
-        { "type": "_ftdc_function" }
+        { "type": "ftdc_bullet", "settings": { "text": "Real Fruit Organic Flavors" } },
+        { "type": "ftdc_bullet", "settings": { "text": "Zero Artificial Sweeteners" } },
+        { "type": "ftdc_function" },
+        { "type": "ftdc_function" }
       ]
     }
   ]
