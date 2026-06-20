@@ -1,0 +1,15 @@
+{%- comment -%}
+  Nested theme block: one bullet point in the header of FTD - Product
+  Selector C (and the Slide-over variant).
+{%- endcomment -%}
+<div style="display:none" data-ftd-c="bullet" {{ block.shopify_attributes }}></div>
+
+{% schema %}
+{
+  "name": "Bullet point",
+  "tag": null,
+  "settings": [
+    { "type": "text", "id": "text", "label": "Text", "default": "Real Fruit Organic Flavors" }
+  ]
+}
+{% endschema %}

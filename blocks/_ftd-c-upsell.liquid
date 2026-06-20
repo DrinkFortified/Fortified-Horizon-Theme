@@ -1,0 +1,21 @@
+{%- comment -%}
+  Nested theme block: a custom upsell inside FTD - Product Selector C
+  (and the Slide-over variant).
+{%- endcomment -%}
+<div style="display:none" data-ftd-c="upsell" {{ block.shopify_attributes }}></div>
+
+{% schema %}
+{
+  "name": "Custom upsell",
+  "tag": null,
+  "settings": [
+    { "type": "text",         "id": "title",         "label": "Title", "default": "Add-on" },
+    { "type": "text",         "id": "description",   "label": "Description", "default": "-" },
+    { "type": "image_picker", "id": "image",         "label": "Image (override)" },
+    { "type": "product",      "id": "product",       "label": "Product" },
+    { "type": "text",         "id": "price_text",    "label": "Price (display, optional)", "default": "-" },
+    { "type": "text",         "id": "was_text",      "label": "Compare-at (display, optional)", "default": "-" },
+    { "type": "text",         "id": "plans_allowed", "label": "Plans to show on (comma-separated)", "default": "onetime,monthly,quarterly", "info": "Use any of: onetime, monthly, quarterly. Default = all." }
+  ]
+}
+{% endschema %}

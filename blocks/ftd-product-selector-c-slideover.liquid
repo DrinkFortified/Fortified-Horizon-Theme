@@ -986,44 +986,10 @@
     { "type": "range", "id": "content_max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
   ],
-    "blocks": [
-    {
-      "type": "_ftd-c-function",
-      "name": "Function",
-      "settings": [
-        { "type": "text",         "id": "function_label", "label": "Function name", "default": "Energy" },
-        { "type": "product",      "id": "product",        "label": "Product" },
-        { "type": "checkbox",     "id": "coming_soon",    "label": "Coming soon", "default": false },
-        { "type": "text",         "id": "spec_top",       "label": "Top label (e.g. 150mg CAFFEINE)", "default": "150mg CAFFEINE" },
-        { "type": "text",         "id": "spec_1",         "label": "Spec tag 1", "default": "1,210MG SODIUM" },
-        { "type": "text",         "id": "spec_2",         "label": "Spec tag 2", "default": "1,000MG MAGNESIUM" },
-        { "type": "text",         "id": "spec_3",         "label": "Spec tag 3", "default": "-" },
-        { "type": "image_picker", "id": "card_image",     "label": "Card image (override)" },
-        { "type": "text",         "id": "flavor_option",  "label": "Variant option that holds the flavor", "default": "-", "info": "e.g. Flavor. Must match the product's option name. Set to - to use the first option." },
-        { "type": "text",         "id": "loop_plan_monthly",   "label": "Loop selling-plan ID — monthly",   "default": "-" },
-        { "type": "text",         "id": "loop_plan_quarterly", "label": "Loop selling-plan ID — quarterly", "default": "-" }
-      ]
-    },
-    {
-      "type": "_ftd-c-upsell",
-      "name": "Custom upsell",
-      "settings": [
-        { "type": "text",         "id": "title",         "label": "Title", "default": "Add-on" },
-        { "type": "text",         "id": "description",   "label": "Description", "default": "-" },
-        { "type": "image_picker", "id": "image",         "label": "Image (override)" },
-        { "type": "product",      "id": "product",       "label": "Product" },
-        { "type": "text",         "id": "price_text",    "label": "Price (display, optional)", "default": "-" },
-        { "type": "text",         "id": "was_text",      "label": "Compare-at (display, optional)", "default": "-" },
-        { "type": "text",         "id": "plans_allowed", "label": "Plans to show on (comma-separated)", "default": "onetime,monthly,quarterly", "info": "Use any of: onetime, monthly, quarterly. Default = all." }
-      ]
-    },
-    {
-      "type": "_ftd-c-bullet",
-      "name": "Bullet point",
-      "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Real Fruit Organic Flavors" }
-      ]
-    }
+      "blocks": [
+    { "type": "_ftd-c-function" },
+    { "type": "_ftd-c-upsell" },
+    { "type": "_ftd-c-bullet" }
   ],
   "presets": [
     {
