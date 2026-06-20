@@ -20,9 +20,9 @@
 
 {%- liquid
   assign sid = block.id
-  assign function_blocks = block.blocks | where: 'type', 'ftdc_function'
-  assign upsell_blocks   = block.blocks | where: 'type', 'ftdc_upsell'
-  assign bullet_blocks   = block.blocks | where: 'type', 'ftdc_bullet'
+  assign function_blocks = block.blocks | where: 'type', '_ftdc_function'
+  assign upsell_blocks   = block.blocks | where: 'type', '_ftdc_upsell'
+  assign bullet_blocks   = block.blocks | where: 'type', '_ftdc_bullet'
 
   assign show_onetime   = block.settings.show_onetime
   assign show_monthly   = block.settings.show_monthly
@@ -87,13 +87,13 @@
             <input type="radio" name="ftdc-plan-{{ sid }}" value="quarterly" checked>
             <span class="ftdc__plan-tick" aria-hidden="true"></span>
             {%- if block.settings.quarterly_badge != blank -%}<span class="ftdc__plan-badge">{{ block.settings.quarterly_badge }}</span>{%- endif -%}
-            <span class="ftdc__plan-title">{{ block.settings.quarterly_title | default: '3 Pouches Every 3 Months' }}</span>
-            {%- if block.settings.quarterly_desc != blank -%}<span class="ftdc__plan-desc">{{ block.settings.quarterly_desc }}</span>{%- endif -%}
-            <span class="ftdc__plan-pricing">
+            <div class="ftdc__plan-title">{{ block.settings.quarterly_title | default: '3 Pouches Every 3 Months' }}</div>
+            {%- if block.settings.quarterly_desc != blank -%}<div class="ftdc__plan-desc">{{ block.settings.quarterly_desc }}</div>{%- endif -%}
+            <div class="ftdc__plan-pricing">
               <span class="ftdc__plan-price">{{ block.settings.quarterly_price | default: '$53.10' }}</span>
               <span class="ftdc__plan-period">{{ block.settings.quarterly_period | default: '/ month' }}</span>
-            </span>
-            {%- if block.settings.quarterly_was != blank -%}<span class="ftdc__plan-was">{{ block.settings.quarterly_was }}</span>{%- endif -%}
+            </div>
+            {%- if block.settings.quarterly_was != blank -%}<div class="ftdc__plan-was">{{ block.settings.quarterly_was }}</div>{%- endif -%}
           </label>
         {%- endif -%}
         {%- if show_monthly -%}
@@ -101,13 +101,13 @@
             <input type="radio" name="ftdc-plan-{{ sid }}" value="monthly">
             <span class="ftdc__plan-tick" aria-hidden="true"></span>
             {%- if block.settings.monthly_badge != blank -%}<span class="ftdc__plan-badge">{{ block.settings.monthly_badge }}</span>{%- endif -%}
-            <span class="ftdc__plan-title">{{ block.settings.monthly_title | default: '1 Pouch Every Month' }}</span>
-            {%- if block.settings.monthly_desc != blank -%}<span class="ftdc__plan-desc">{{ block.settings.monthly_desc }}</span>{%- endif -%}
-            <span class="ftdc__plan-pricing">
+            <div class="ftdc__plan-title">{{ block.settings.monthly_title | default: '1 Pouch Every Month' }}</div>
+            {%- if block.settings.monthly_desc != blank -%}<div class="ftdc__plan-desc">{{ block.settings.monthly_desc }}</div>{%- endif -%}
+            <div class="ftdc__plan-pricing">
               <span class="ftdc__plan-price">{{ block.settings.monthly_price | default: '$53.10' }}</span>
               <span class="ftdc__plan-period">{{ block.settings.monthly_period | default: '/ month' }}</span>
-            </span>
-            {%- if block.settings.monthly_was != blank -%}<span class="ftdc__plan-was">{{ block.settings.monthly_was }}</span>{%- endif -%}
+            </div>
+            {%- if block.settings.monthly_was != blank -%}<div class="ftdc__plan-was">{{ block.settings.monthly_was }}</div>{%- endif -%}
           </label>
         {%- endif -%}
         {%- if show_onetime -%}
@@ -115,13 +115,13 @@
             <input type="radio" name="ftdc-plan-{{ sid }}" value="onetime">
             <span class="ftdc__plan-tick" aria-hidden="true"></span>
             {%- if block.settings.onetime_badge != blank -%}<span class="ftdc__plan-badge">{{ block.settings.onetime_badge }}</span>{%- endif -%}
-            <span class="ftdc__plan-title">{{ block.settings.onetime_title | default: 'Single Pouch' }}</span>
-            {%- if block.settings.onetime_desc != blank -%}<span class="ftdc__plan-desc">{{ block.settings.onetime_desc }}</span>{%- endif -%}
-            <span class="ftdc__plan-pricing">
+            <div class="ftdc__plan-title">{{ block.settings.onetime_title | default: 'Single Pouch' }}</div>
+            {%- if block.settings.onetime_desc != blank -%}<div class="ftdc__plan-desc">{{ block.settings.onetime_desc }}</div>{%- endif -%}
+            <div class="ftdc__plan-pricing">
               <span class="ftdc__plan-price">{{ block.settings.onetime_price | default: '$59.00' }}</span>
               <span class="ftdc__plan-period">{{ block.settings.onetime_period | default: '/ pouch' }}</span>
-            </span>
-            {%- assign _ow = block.settings.onetime_was | strip -%}{%- if _ow != blank and _ow != '-' and _ow != '—' -%}<span class="ftdc__plan-was">{{ block.settings.onetime_was }}</span>{%- endif -%}
+            </div>
+            {%- assign _ow = block.settings.onetime_was | strip -%}{%- if _ow != blank and _ow != '-' and _ow != '—' -%}<div class="ftdc__plan-was">{{ block.settings.onetime_was }}</div>{%- endif -%}
           </label>
         {%- endif -%}
       </div>
@@ -351,7 +351,7 @@
 
   /* Step 1 — plans */
   .ftdc__plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.85rem; }
-  .ftdc__plan { position: relative; display: grid; grid-template-columns: 1fr; gap: 0.45rem; padding: 1rem 1.1rem; border: 2px solid rgb(var(--color-foreground-rgb) / 0.12); border-radius: var(--ftdc-radius, 12px); background: var(--color-background); cursor: pointer; transition: border-color 0.18s, box-shadow 0.18s; }
+  .ftdc__plan { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.45rem; padding: 1rem 1.1rem; border: 2px solid rgb(var(--color-foreground-rgb) / 0.12); border-radius: var(--ftdc-radius, 12px); background: var(--color-background); cursor: pointer; transition: border-color 0.18s, box-shadow 0.18s; overflow: hidden; min-width: 0; }
   .ftdc__plan:hover { border-color: rgb(var(--color-foreground-rgb) / 0.3); }
   .ftdc__plan.is-active { border-color: var(--ftdc-accent, var(--color-primary-button-background)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ftdc-accent, var(--color-primary-button-background)) 14%, transparent); }
   .ftdc__plan input { position: absolute; opacity: 0; pointer-events: none; }
@@ -361,10 +361,10 @@
   .ftdc__plan-badge { display: inline-flex; align-self: flex-start; padding: 0.15rem 0.55rem; border-radius: 4px; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; background: var(--ftdc-accent, var(--color-primary-button-background)); color: #fff; }
   .ftdc__plan-title { font-size: 17px; font-weight: 800; line-height: 1.2; color: var(--color-foreground); padding-right: 36px; overflow-wrap: break-word; }
   .ftdc__plan-desc { font-size: 13px; line-height: 1.4; opacity: 0.7; color: var(--color-foreground); overflow-wrap: break-word; }
-  .ftdc__plan-pricing { display: flex; align-items: baseline; gap: 0.35rem; margin-top: 0.25rem; }
   .ftdc__plan-price { font-size: 22px; font-weight: 800; color: var(--color-foreground); }
   .ftdc__plan-period { font-size: 13px; opacity: 0.7; color: var(--color-foreground); }
-  .ftdc__plan-was { font-size: 12px; color: rgb(var(--color-foreground-rgb) / 0.5); text-decoration: line-through; }
+  .ftdc__plan-pricing { display: flex; align-items: baseline; gap: 0.35rem; margin-top: 0.25rem; flex-wrap: wrap; min-width: 0; }
+  .ftdc__plan-was { display: block; font-size: 12px; color: rgb(var(--color-foreground-rgb) / 0.5); text-decoration: line-through; overflow-wrap: break-word; }
 
   /* Step 2 — bundle head + grid */
   .ftdc__bundle-head { text-align: center; margin: 0.5rem 0 1.25rem; }
@@ -793,7 +793,7 @@
     { "type": "text", "id": "quarterly_desc", "label": "Description", "default": "Mix any functions freely." },
     { "type": "text", "id": "quarterly_price", "label": "Price (display)", "default": "$53.10" },
     { "type": "text", "id": "quarterly_period", "label": "Period (display)", "default": "/ month" },
-    { "type": "text", "id": "quarterly_was", "label": "Compare-at (display)", "default": "was $59.00/mo" },
+    { "type": "text", "id": "quarterly_was", "label": "Compare-at (display)", "default": "$59.00" },
     { "type": "range", "id": "bundle_count", "label": "Bundle size", "min": 2, "max": 6, "step": 1, "default": 3 },
     { "type": "range", "id": "quarterly_estimate_pct", "label": "Quarterly price estimate (% of compare)", "min": 50, "max": 100, "step": 1, "default": 90, "info": "Used in the sticky-bar total. Real price applies at checkout." },
 
@@ -804,7 +804,7 @@
     { "type": "text", "id": "monthly_desc", "label": "Description", "default": "Your daily ritual, delivered." },
     { "type": "text", "id": "monthly_price", "label": "Price (display)", "default": "$53.10" },
     { "type": "text", "id": "monthly_period", "label": "Period (display)", "default": "/ month" },
-    { "type": "text", "id": "monthly_was", "label": "Compare-at (display)", "default": "was $59.00/mo" },
+    { "type": "text", "id": "monthly_was", "label": "Compare-at (display)", "default": "$59.00" },
     { "type": "range", "id": "monthly_estimate_pct", "label": "Monthly price estimate (% of compare)", "min": 50, "max": 100, "step": 1, "default": 90 },
 
     { "type": "header", "content": "Plan: One-time" },
@@ -858,7 +858,7 @@
   ],
   "blocks": [
     {
-      "type": "ftdc_function",
+      "type": "_ftdc_function",
       "name": "Function (product)",
       "settings": [
         { "type": "text", "id": "function_label", "label": "Function name", "default": "Energy" },
@@ -875,7 +875,7 @@
       ]
     },
     {
-      "type": "ftdc_upsell",
+      "type": "_ftdc_upsell",
       "name": "Custom upsell",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "-" },
@@ -888,7 +888,7 @@
       ]
     },
     {
-      "type": "ftdc_bullet",
+      "type": "_ftdc_bullet",
       "name": "Bullet point",
       "settings": [
         { "type": "text", "id": "text", "label": "Text", "default": "Real Fruit Organic Flavors" }
@@ -900,10 +900,10 @@
       "name": "FTD - Product Selector C",
       "category": "Fortified Sections",
       "blocks": [
-        { "type": "ftdc_bullet", "settings": { "text": "Real Fruit Organic Flavors" } },
-        { "type": "ftdc_bullet", "settings": { "text": "Zero Artificial Sweeteners" } },
-        { "type": "ftdc_function" },
-        { "type": "ftdc_function" }
+        { "type": "_ftdc_bullet", "settings": { "text": "Real Fruit Organic Flavors" } },
+        { "type": "_ftdc_bullet", "settings": { "text": "Zero Artificial Sweeteners" } },
+        { "type": "_ftdc_function" },
+        { "type": "_ftdc_function" }
       ]
     }
   ]
