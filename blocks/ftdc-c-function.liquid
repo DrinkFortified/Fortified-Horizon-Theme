@@ -1,0 +1,28 @@
+{% comment %}
+  Theme block: FTD-C Function
+  Stores one function/product configuration for the FTD Product
+  Selector C family (Section / Block / Slide-over). Renders nothing
+  visible — the parent selector reads block.settings directly.
+{% endcomment %}
+
+<div style="display:none" data-ftdc-c="function" {{ block.shopify_attributes }}></div>
+
+{% schema %}
+{
+  "name": "FTD-C Function",
+  "tag": null,
+  "settings": [
+    { "type": "text",         "id": "function_label", "label": "Function name",                                                                     "default": "Energy" },
+    { "type": "product",      "id": "product",        "label": "Product" },
+    { "type": "checkbox",     "id": "coming_soon",    "label": "Coming soon",                                                                       "default": false },
+    { "type": "text",         "id": "spec_top",       "label": "Top label (e.g. 150mg CAFFEINE)",                                                   "default": "150mg CAFFEINE" },
+    { "type": "text",         "id": "spec_1",         "label": "Spec tag 1",                                                                        "default": "1,210MG SODIUM" },
+    { "type": "text",         "id": "spec_2",         "label": "Spec tag 2",                                                                        "default": "1,000MG MAGNESIUM" },
+    { "type": "text",         "id": "spec_3",         "label": "Spec tag 3",                                                                        "default": "-" },
+    { "type": "image_picker", "id": "card_image",     "label": "Card image (override)" },
+    { "type": "text",         "id": "flavor_option",  "label": "Variant option that holds the flavor",                                              "default": "-", "info": "e.g. Flavor. Must match the product's option name. Set to - to use the first option." },
+    { "type": "text",         "id": "loop_plan_monthly",   "label": "Loop selling-plan ID — monthly",                                               "default": "-" },
+    { "type": "text",         "id": "loop_plan_quarterly", "label": "Loop selling-plan ID — quarterly",                                             "default": "-" }
+  ]
+}
+{% endschema %}
