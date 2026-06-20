@@ -1,0 +1,130 @@
+{% comment %}
+  Fortified Function Card
+  ----------------------------------------------------------------------
+  Renders one selectable "function" product card (image + name + spec tags
+  + description + flavor chooser) for the Product Selector section.
+
+  Flavors are read from the function's PRODUCT variants — pick the product
+  on the function block and its variant options become the flavor buttons.
+  Choose which variant option is the flavor with "Flavor option name"
+  (defaults to the first option). If no product is set yet, the optional
+  "Manual flavors" list is used so the card still previews.
+
+  Reused for every pouch slot; the owning .feb-fcards wrapper carries the
+  unique `config` id that JS uses to scope the selection.
+
+  Accepted params:
+    card_block       - the function_item block
+    config           - config/pouch id string (wrapper carries the real one)
+    flavor_label     - heading text above the flavor buttons
+    coming_soon_text - badge text for coming-soon functions
+{% endcomment %}
+
+{%- liquid
+  assign fb = card_block
+  assign prod = fb.settings.product
+  assign cardimg = fb.settings.card_image | default: fb.settings.thumbnail_image
+  if cardimg == blank and prod != blank
+    assign cardimg = prod.featured_image
+  endif
+
+  # Resolve which product option holds the flavors.
+  assign flavor_opt = null
+  if prod != blank and prod.options_with_values.size > 0
+    assign want = fb.settings.flavor_option | downcase | strip
+    if want != blank
+      for opt in prod.options_with_values
+        assign have = opt.name | downcase | strip
+        if have == want
+          assign flavor_opt = opt
+        endif
+      endfor
+    endif
+    if flavor_opt == null
+      assign flavor_opt = prod.options_with_values.first
+    endif
+  endif
+
+  assign manual_raw = fb.settings.manual_flavors | strip
+  assign manual_flavors = fb.settings.manual_flavors | newline_to_br | split: '<br />'
+-%}
+
+<div
+  class="feb-fcard"
+  data-config="{{ config }}"
+  data-function-id="{{ fb.id }}"
+  data-product-handle="{{ prod.handle }}"
+  data-function-label="{{ fb.settings.function_label | escape }}"
+  data-plan-monthly="{{ fb.settings.loop_plan_monthly }}"
+  data-plan-quarterly="{{ fb.settings.loop_plan_quarterly }}"
+  data-thumbnail="{% if fb.settings.thumbnail_image != blank %}{{ fb.settings.thumbnail_image | image_url: width: 200 }}{% elsif cardimg != blank %}{{ cardimg | image_url: width: 200 }}{% endif %}"
+  role="button"
+  tabindex="0"
+  aria-pressed="false"
+  {%- if fb.settings.coming_soon %} data-coming-soon="true" aria-disabled="true"{%- endif %}
+>
+  <div class="feb-fcard-media">
+    {%- if cardimg != blank -%}
+      <img src="{{ cardimg | image_url: width: 480 }}" alt="{{ fb.settings.function_label | escape }}" loading="lazy" width="240" height="240">
+    {%- else -%}
+      <div class="feb-fcard-ph"><span>{{ fb.settings.function_label }}</span></div>
+    {%- endif -%}
+    <span class="feb-fcard-tick" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </div>
+
+  <div class="feb-fcard-body">
+    <p class="feb-fcard-name">
+      {{ fb.settings.function_label }}
+      {%- if fb.settings.coming_soon -%}<em class="feb-badge">{{ coming_soon_text | default: 'Soon' }}</em>{%- endif -%}
+    </p>
+
+    {%- if fb.settings.spec_1 != blank or fb.settings.spec_2 != blank or fb.settings.spec_3 != blank -%}
+      <div class="feb-fcard-specs">
+        {%- if fb.settings.spec_1 != blank -%}<span class="feb-spec">{{ fb.settings.spec_1 }}</span>{%- endif -%}
+        {%- if fb.settings.spec_2 != blank -%}<span class="feb-spec">{{ fb.settings.spec_2 }}</span>{%- endif -%}
+        {%- if fb.settings.spec_3 != blank -%}<span class="feb-spec">{{ fb.settings.spec_3 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if fb.settings.description != blank -%}
+      <p class="feb-fcard-desc">{{ fb.settings.description }}</p>
+    {%- endif -%}
+
+    {%- if flavor_opt != null and flavor_opt.values.size > 0 -%}
+      <p class="feb-fcard-flavor-label">{{ flavor_label | default: 'Choose Flavor:' }}</p>
+      <div class="feb-fcard-flavors" role="group" aria-label="{{ flavor_label | default: 'Flavor' | escape }}">
+        {%- for val in flavor_opt.values -%}
+          {%- assign vthumb = '' -%}
+          {%- for v in prod.variants -%}
+            {%- if v.options contains val -%}
+              {%- if v.featured_image != blank -%}{%- assign vthumb = v.featured_image | image_url: width: 80 -%}{%- endif -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+          <button type="button" class="feb-flavor-opt" data-flavor-name="{{ val | escape }}" data-thumbnail="{{ vthumb }}" aria-pressed="false">
+            {%- if vthumb != blank -%}<span class="feb-flavor-swatch"><img src="{{ vthumb }}" alt="" width="20" height="20"></span>{%- endif -%}
+            <span class="feb-flavor-name">{{ val }}</span>
+            <span class="feb-flavor-radio" aria-hidden="true"></span>
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- elsif manual_raw != blank -%}
+      <p class="feb-fcard-flavor-label">{{ flavor_label | default: 'Choose Flavor:' }}</p>
+      <div class="feb-fcard-flavors" role="group" aria-label="{{ flavor_label | default: 'Flavor' | escape }}">
+        {%- for m in manual_flavors -%}
+          {%- assign mt = m | strip -%}
+          {%- if mt != blank -%}
+            <button type="button" class="feb-flavor-opt" data-flavor-name="{{ mt | escape }}" data-thumbnail="" aria-pressed="false">
+              <span class="feb-flavor-name">{{ mt }}</span>
+              <span class="feb-flavor-radio" aria-hidden="true"></span>
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- elsif prod == blank -%}
+      <p class="feb-fcard-hint">Add a product to load flavors.</p>
+    {%- endif -%}
+  </div>
+</div>
