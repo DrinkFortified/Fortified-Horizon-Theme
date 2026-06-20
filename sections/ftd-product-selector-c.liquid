@@ -1,34 +1,23 @@
 {% comment %}
   Section: FTD - Product Selector C
   ----------------------------------------------------------------------
-  Variant 1 of 3 (the standalone section). Block + Slide-over variants
-  to follow — all three will share the same flow logic; for v1 the
-  markup/CSS/JS lives inline here so the section is self-contained.
+  Wizard: Plan -> Products -> Upsells -> Cart.
 
-  Flow: Plan → Products → Upsells → Cart (linear wizard).
-    Step 1  Plan picker (3 toggleable plans: One-time / Monthly / 3-pack)
-    Step 2  Product grid with qty steppers + progress indicator
-    Step 3  Creatine upsell (logic mirrors B) + custom upsell blocks
-            + Add More (back to Step 2) and Checkout buttons
-  Sticky bottom bar shows total + saved + a context-aware action label.
-
-  Loop bundle integration (bundle.loopwork.co transactions) is held for
-  the next iteration so the cart-add path stays simple for v1. Quarterly
-  orders still ship as a per-pouch selling-plan subscription until the
-  Loop hook lands.
+  Architecture note: theme blocks dropped into a section can ONLY be
+  rendered via {% content_for 'blocks' %} — `section.blocks` does NOT
+  expose them to the parent's Liquid scope. So each nested block
+  (_ftd-c-function, _ftd-c-bullet, _ftd-c-upsell) renders its own
+  markup with a data-slot attribute, and the JS below moves the
+  rendered elements out of the hidden staging area into the right
+  containers (.ftdc__bullets / .ftdc__grid / .ftdc__upsells) on init.
 {% endcomment %}
 
 {%- liquid
   assign sid = section.id
-  assign function_blocks = section.blocks | where: 'type', '_ftd-c-function'
-  assign upsell_blocks   = section.blocks | where: 'type', '_ftd-c-upsell'
-  assign bullet_blocks   = section.blocks | where: 'type', '_ftd-c-bullet'
-
   assign show_onetime   = section.settings.show_onetime
   assign show_monthly   = section.settings.show_monthly
   assign show_quarterly = section.settings.show_quarterly
   assign bundle_count   = section.settings.bundle_count | default: 3
-
   assign addon          = section.settings.addon_product
   assign addon_variant_id = ''
   if addon != blank and addon.selected_or_first_available_variant != blank
@@ -42,37 +31,17 @@
   id="ftdc-{{ sid }}"
   class="ftdc spacing-style color-{{ section.settings.color_scheme }}"
   data-section-id="{{ sid }}"
-  style="
-    {% render 'spacing-padding', settings: section.settings %}
-    --ftdc-accent: {{ section.settings.accent_color }};
-    --ftdc-radius: {{ section.settings.card_radius }}px;
-    --ftdc-max-w: {{ section.settings.content_max_width }}px;
-  "
+  style="{% render 'spacing-padding', settings: section.settings %} --ftdc-accent: {{ section.settings.accent_color }}; --ftdc-radius: {{ section.settings.card_radius }}px; --ftdc-max-w: {{ section.settings.content_max_width }}px;"
   {{ section.shopify_attributes }}
 >
   <div class="ftdc__inner">
 
-    {%- comment %} ───── HEADER ───── {%- endcomment %}
     <header class="ftdc__header">
-      {%- if section.settings.heading != blank -%}
-        <h2 class="ftdc__heading">{{ section.settings.heading }}</h2>
-      {%- endif -%}
-      {%- if section.settings.description != blank -%}
-        <div class="ftdc__desc">{{ section.settings.description }}</div>
-      {%- endif -%}
-      {%- if bullet_blocks.size > 0 -%}
-        <ul class="ftdc__bullets list-unstyled">
-          {%- for b in bullet_blocks -%}
-            <li class="ftdc__bullet">
-              <span class="ftdc__bullet-dot" aria-hidden="true"></span>
-              <span class="ftdc__bullet-text">{{ b.settings.text }}</span>
-            </li>
-          {%- endfor -%}
-        </ul>
-      {%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="ftdc__heading">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.description != blank -%}<div class="ftdc__desc">{{ section.settings.description }}</div>{%- endif -%}
+      <ul class="ftdc__bullets list-unstyled" data-bullets hidden></ul>
     </header>
 
-    {%- comment %} ───── STEP PROGRESS ───── {%- endcomment %}
     <ol class="ftdc__steps" role="list" aria-label="Order steps">
       <li class="ftdc__step-pill is-active" data-step-pill="plans"><span class="ftdc__step-num">1</span><span class="ftdc__step-label">{{ section.settings.step_label_1 | default: 'Plan' }}</span></li>
       <li class="ftdc__step-pill" data-step-pill="products"><span class="ftdc__step-num">2</span><span class="ftdc__step-label">{{ section.settings.step_label_2 | default: 'Bundle' }}</span></li>
@@ -81,7 +50,7 @@
 
     {%- comment %} ───── STEP 1 — PLANS ───── {%- endcomment %}
     <div class="ftdc__step is-active" data-step="plans">
-      <div class="ftdc__plans">
+      <div class="ftdc__plans" data-plan-order="{{ section.settings.plan_order | default: 'quarterly,monthly,onetime' }}">
         {%- if show_quarterly -%}
           <label class="ftdc__plan is-active" data-plan="quarterly">
             <input type="radio" name="ftdc-plan-{{ sid }}" value="quarterly" checked>
@@ -89,10 +58,7 @@
             {%- if section.settings.quarterly_badge != blank -%}<span class="ftdc__plan-badge">{{ section.settings.quarterly_badge }}</span>{%- endif -%}
             <div class="ftdc__plan-title">{{ section.settings.quarterly_title | default: '3 Pouches Every 3 Months' }}</div>
             {%- if section.settings.quarterly_desc != blank -%}<div class="ftdc__plan-desc">{{ section.settings.quarterly_desc }}</div>{%- endif -%}
-            <div class="ftdc__plan-pricing">
-              <span class="ftdc__plan-price">{{ section.settings.quarterly_price | default: '$53.10' }}</span>
-              <span class="ftdc__plan-period">{{ section.settings.quarterly_period | default: '/ month' }}</span>
-            </div>
+            <div class="ftdc__plan-pricing"><span class="ftdc__plan-price">{{ section.settings.quarterly_price | default: '$53.10' }}</span><span class="ftdc__plan-period">{{ section.settings.quarterly_period | default: '/ month' }}</span></div>
             {%- if section.settings.quarterly_was != blank -%}<div class="ftdc__plan-was">{{ section.settings.quarterly_was }}</div>{%- endif -%}
           </label>
         {%- endif -%}
@@ -103,10 +69,7 @@
             {%- if section.settings.monthly_badge != blank -%}<span class="ftdc__plan-badge">{{ section.settings.monthly_badge }}</span>{%- endif -%}
             <div class="ftdc__plan-title">{{ section.settings.monthly_title | default: '1 Pouch Every Month' }}</div>
             {%- if section.settings.monthly_desc != blank -%}<div class="ftdc__plan-desc">{{ section.settings.monthly_desc }}</div>{%- endif -%}
-            <div class="ftdc__plan-pricing">
-              <span class="ftdc__plan-price">{{ section.settings.monthly_price | default: '$53.10' }}</span>
-              <span class="ftdc__plan-period">{{ section.settings.monthly_period | default: '/ month' }}</span>
-            </div>
+            <div class="ftdc__plan-pricing"><span class="ftdc__plan-price">{{ section.settings.monthly_price | default: '$53.10' }}</span><span class="ftdc__plan-period">{{ section.settings.monthly_period | default: '/ month' }}</span></div>
             {%- if section.settings.monthly_was != blank -%}<div class="ftdc__plan-was">{{ section.settings.monthly_was }}</div>{%- endif -%}
           </label>
         {%- endif -%}
@@ -117,11 +80,9 @@
             {%- if section.settings.onetime_badge != blank -%}<span class="ftdc__plan-badge">{{ section.settings.onetime_badge }}</span>{%- endif -%}
             <div class="ftdc__plan-title">{{ section.settings.onetime_title | default: 'Single Pouch' }}</div>
             {%- if section.settings.onetime_desc != blank -%}<div class="ftdc__plan-desc">{{ section.settings.onetime_desc }}</div>{%- endif -%}
-            <div class="ftdc__plan-pricing">
-              <span class="ftdc__plan-price">{{ section.settings.onetime_price | default: '$59.00' }}</span>
-              <span class="ftdc__plan-period">{{ section.settings.onetime_period | default: '/ pouch' }}</span>
-            </div>
-            {%- assign _ow = section.settings.onetime_was | strip -%}{%- if _ow != blank and _ow != '-' and _ow != '—' -%}<div class="ftdc__plan-was">{{ section.settings.onetime_was }}</div>{%- endif -%}
+            <div class="ftdc__plan-pricing"><span class="ftdc__plan-price">{{ section.settings.onetime_price | default: '$59.00' }}</span><span class="ftdc__plan-period">{{ section.settings.onetime_period | default: '/ pouch' }}</span></div>
+            {%- assign _ow = section.settings.onetime_was | strip -%}
+            {%- if _ow != blank and _ow != '-' and _ow != '—' -%}<div class="ftdc__plan-was">{{ section.settings.onetime_was }}</div>{%- endif -%}
           </label>
         {%- endif -%}
       </div>
@@ -129,112 +90,22 @@
 
     {%- comment %} ───── STEP 2 — PRODUCTS ───── {%- endcomment %}
     <div class="ftdc__step" data-step="products" hidden>
-      <button class="ftdc__back" type="button" data-step-back="plans" aria-label="Back to plan">
-        <span aria-hidden="true">←</span> {{ section.settings.back_label | default: 'Back' }}
-      </button>
+      <button class="ftdc__back" type="button" data-step-back="plans" aria-label="Back to plan"><span aria-hidden="true">←</span> {{ section.settings.back_label | default: 'Back' }}</button>
       <div class="ftdc__bundle-head">
         <p class="ftdc__bundle-eyebrow">{{ section.settings.bundle_label | default: 'Your Bundle' }}</p>
         <p class="ftdc__bundle-progress-text" data-progress-text>0 {{ section.settings.of_word | default: 'of' }} {{ bundle_count }} {{ section.settings.selected_word | default: 'selected' }}</p>
         <div class="ftdc__bundle-bar"><div class="ftdc__bundle-bar-fill" data-progress-fill style="width:0%"></div></div>
       </div>
-
-      <div class="ftdc__grid">
-        {%- for fb in function_blocks -%}
-          {%- assign prod = fb.settings.product -%}
-          {%- if prod != blank -%}
-            {%- assign flavor_opt_name = '' -%}
-            {%- assign matched = false -%}
-            {%- assign want = fb.settings.flavor_option | downcase | strip -%}
-            {%- if want != '' -%}
-              {%- for opt in prod.options_with_values -%}
-                {%- assign have = opt.name | downcase | strip -%}
-                {%- if have == want -%}
-                  {%- assign flavor_opt_name = opt.name -%}
-                  {%- assign matched = true -%}
-                {%- endif -%}
-              {%- endfor -%}
-            {%- endif -%}
-            {%- unless matched -%}
-              {%- if prod.options_with_values.first != blank -%}
-                {%- assign flavor_opt_name = prod.options_with_values.first.name -%}
-              {%- endif -%}
-            {%- endunless -%}
-
-            {%- for v in prod.variants -%}
-              {%- assign show_card = true -%}
-              {%- if fb.settings.coming_soon and v == prod.variants.first -%}{%- endif -%}
-              {%- assign flavor_name = '' -%}
-              {%- if flavor_opt_name != '' -%}
-                {%- for o in v.options -%}
-                  {%- assign idx = forloop.index0 -%}
-                  {%- assign opt_name = prod.options_with_values[idx].name -%}
-                  {%- if opt_name == flavor_opt_name -%}
-                    {%- assign flavor_name = o -%}
-                  {%- endif -%}
-                {%- endfor -%}
-              {%- endif -%}
-              {%- if flavor_name == '' -%}{%- assign flavor_name = v.title -%}{%- endif -%}
-
-              {%- assign card_img = v.featured_image -%}
-              {%- if card_img == blank -%}{%- assign card_img = fb.settings.card_image -%}{%- endif -%}
-              {%- if card_img == blank -%}{%- assign card_img = prod.featured_image -%}{%- endif -%}
-
-              <article class="ftdc__card"
-                       data-fn-id="{{ fb.id }}"
-                       data-fn-label="{{ fb.settings.function_label | escape }}"
-                       data-variant-id="{{ v.id }}"
-                       data-product-handle="{{ prod.handle }}"
-                       data-flavor-name="{{ flavor_name | escape }}"
-                       data-plan-monthly="{{ fb.settings.loop_plan_monthly }}"
-                       data-plan-quarterly="{{ fb.settings.loop_plan_quarterly }}"
-                       data-variant-price="{{ v.price }}"
-                       data-variant-compare="{{ v.compare_at_price | default: 0 }}"
-                       {%- if fb.settings.coming_soon %} data-coming-soon="true" aria-disabled="true"{%- endif %}>
-                <div class="ftdc__card-media">
-                  {%- if card_img != blank -%}
-                    <img src="{{ card_img | image_url: width: 480 }}" alt="{{ fb.settings.function_label | escape }} – {{ flavor_name | escape }}" loading="lazy" width="240" height="240">
-                  {%- else -%}
-                    <div class="ftdc__card-ph" aria-hidden="true"></div>
-                  {%- endif -%}
-                  <span class="ftdc__card-tick" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </div>
-                <div class="ftdc__card-body">
-                  {%- if fb.settings.spec_top != blank and fb.settings.spec_top != '-' -%}<span class="ftdc__card-spec-top">{{ fb.settings.spec_top }}</span>{%- endif -%}
-                  <h3 class="ftdc__card-name">{{ fb.settings.function_label }}{%- if flavor_name != blank %} <span class="ftdc__card-flavor">{{ flavor_name }}</span>{%- endif -%}</h3>
-                  {%- if fb.settings.spec_1 != blank or fb.settings.spec_2 != blank or fb.settings.spec_3 != blank -%}
-                    <div class="ftdc__card-specs">
-                      {%- if fb.settings.spec_1 != blank -%}<span class="ftdc__spec">{{ fb.settings.spec_1 }}</span>{%- endif -%}
-                      {%- if fb.settings.spec_2 != blank -%}<span class="ftdc__spec">{{ fb.settings.spec_2 }}</span>{%- endif -%}
-                      {%- if fb.settings.spec_3 != blank -%}<span class="ftdc__spec">{{ fb.settings.spec_3 }}</span>{%- endif -%}
-                    </div>
-                  {%- endif -%}
-                  <div class="ftdc__card-pricing">
-                    <span class="ftdc__card-price" data-card-price>{{ v.price | money }}</span>
-                    {%- if v.compare_at_price > v.price -%}<s class="ftdc__card-was">{{ v.compare_at_price | money }}</s>{%- endif -%}
-                  </div>
-                  <div class="ftdc__card-action">
-                    <button class="ftdc__add" type="button" data-card-action="add">{{ section.settings.add_label | default: 'ADD' }}</button>
-                    <div class="ftdc__qty" hidden>
-                      <button class="ftdc__qty-btn" type="button" data-card-action="dec" aria-label="Decrease">−</button>
-                      <input class="ftdc__qty-input" type="number" min="0" value="0" inputmode="numeric" aria-label="Quantity">
-                      <button class="ftdc__qty-btn" type="button" data-card-action="inc" aria-label="Increase">+</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            {%- endfor -%}
-          {%- endif -%}
-        {%- endfor -%}
+      <div class="ftdc__empty" data-grid-empty hidden>
+        <p><strong>No products configured yet.</strong></p>
+        <p>In the theme editor sidebar, click each <em>Function</em> block inside this section and pick a Shopify product. Each product variant will render as a selectable card here.</p>
       </div>
+      <div class="ftdc__grid" data-grid></div>
     </div>
 
     {%- comment %} ───── STEP 3 — UPSELLS ───── {%- endcomment %}
     <div class="ftdc__step" data-step="upsells" hidden>
-      <button class="ftdc__back" type="button" data-step-back="products" aria-label="Back to bundle">
-        <span aria-hidden="true">←</span> {{ section.settings.back_label | default: 'Back' }}
-      </button>
+      <button class="ftdc__back" type="button" data-step-back="products" aria-label="Back to bundle"><span aria-hidden="true">←</span> {{ section.settings.back_label | default: 'Back' }}</button>
 
       {%- if addon != blank -%}
         <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine>
@@ -251,142 +122,65 @@
             </div>
           </div>
           <div class="ftdc__upsell-toggle">
-            <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input
-                   data-variant="{{ addon_variant_id }}"
-                   data-plan-monthly="{{ section.settings.addon_loop_plan_monthly }}"
-                   data-plan-quarterly-free="{{ section.settings.addon_loop_plan_quarterly_free }}"
-                   data-plan-quarterly-50off="{{ section.settings.addon_loop_plan_quarterly_50off }}"
-                   data-discount-onetime="{{ section.settings.addon_discount_code_onetime }}">
+            <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input data-variant="{{ addon_variant_id }}" data-plan-monthly="{{ section.settings.addon_loop_plan_monthly }}" data-plan-quarterly-free="{{ section.settings.addon_loop_plan_quarterly_free }}" data-plan-quarterly-50off="{{ section.settings.addon_loop_plan_quarterly_50off }}" data-discount-onetime="{{ section.settings.addon_discount_code_onetime }}">
             <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
           </div>
         </div>
       {%- endif -%}
 
-      {%- for ub in upsell_blocks -%}
-        {%- assign u_prod = ub.settings.product -%}
-        {%- if u_prod != blank -%}
-          {%- assign u_variant = u_prod.selected_or_first_available_variant -%}
-          {%- assign u_img = ub.settings.image | default: u_prod.featured_image -%}
-          <div class="ftdc__upsell" data-upsell-block
-               data-variant="{{ u_variant.id }}"
-               data-plans-allowed="{{ ub.settings.plans_allowed | default: 'onetime,monthly,quarterly' }}">
-            <div class="ftdc__upsell-media">
-              {%- if u_img != blank -%}<img src="{{ u_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
-            </div>
-            <div class="ftdc__upsell-body">
-              <p class="ftdc__upsell-title">{{ ub.settings.title | default: u_prod.title }}</p>
-              {%- if ub.settings.description != blank -%}<p class="ftdc__upsell-desc">{{ ub.settings.description }}</p>{%- endif -%}
-              <div class="ftdc__upsell-pricing">
-                <span class="ftdc__upsell-price">{{ ub.settings.price_text | default: u_variant.price | money }}</span>
-                {%- if ub.settings.was_text != blank -%}<s class="ftdc__upsell-was">{{ ub.settings.was_text }}</s>{%- endif -%}
-              </div>
-            </div>
-            <div class="ftdc__upsell-toggle">
-              <input type="checkbox" id="ftdc-up-{{ sid }}-{{ ub.id }}" class="visually-hidden" data-upsell-input>
-              <label for="ftdc-up-{{ sid }}-{{ ub.id }}" class="ftdc__switch" aria-hidden="true"></label>
-            </div>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
+      <div class="ftdc__upsells" data-upsells></div>
 
       <div class="ftdc__step-actions">
-        <button class="ftdc__btn ftdc__btn--ghost" type="button" data-step-back="products">
-          {{ section.settings.add_more_label | default: 'Add More' }}
-        </button>
-        <button class="ftdc__btn ftdc__btn--primary" type="button" data-action="checkout">
-          {{ section.settings.checkout_label | default: 'Checkout' }}
-        </button>
+        <button class="ftdc__btn ftdc__btn--ghost" type="button" data-step-back="products">{{ section.settings.add_more_label | default: 'Add More' }}</button>
+        <button class="ftdc__btn ftdc__btn--primary" type="button" data-action="checkout">{{ section.settings.checkout_label | default: 'Checkout' }}</button>
       </div>
     </div>
 
-    {%- comment %} ───── STICKY CART BAR ───── {%- endcomment %}
     <div class="ftdc__bar" data-bar>
       <div class="ftdc__bar-summary">
-        <span class="ftdc__bar-total">
-          <strong>{{ section.settings.total_label | default: 'Total' }}:</strong>
-          <span data-bar-total>$0.00</span>
-        </span>
-        <span class="ftdc__bar-saved" data-bar-saved-wrap hidden>
-          ({{ section.settings.saved_word | default: 'Saved' }} <span data-bar-saved>$0.00</span>)
-        </span>
+        <span class="ftdc__bar-total"><strong>{{ section.settings.total_label | default: 'Total' }}:</strong> <span data-bar-total>$0.00</span></span>
+        <span class="ftdc__bar-saved" data-bar-saved-wrap hidden>({{ section.settings.saved_word | default: 'Saved' }} <span data-bar-saved>$0.00</span>)</span>
       </div>
-      <button class="ftdc__bar-action" type="button" data-action="next">
-        <span data-bar-label>{{ section.settings.action_label_step1 | default: 'Continue' }}</span>
-      </button>
+      <button class="ftdc__bar-action" type="button" data-action="next"><span data-bar-label>{{ section.settings.action_label_step1 | default: 'Continue' }}</span></button>
     </div>
 
   </div>
 
-  {%- comment %}
-    Hidden block slot — required for the theme editor to surface the
-    nested "Add block" menu. The visible UI is rendered from
-    section.blocks by the markup above; the children render as
-    display:none so this slot is invisible.
-  {%- endcomment %}
-  <div style="display:none" data-ftdc-slot>{% content_for 'blocks' %}</div>
+  {%- comment %} Hidden staging: child theme blocks render here, then JS
+  moves each one (by data-slot) into the right container above. {%- endcomment %}
+  <div style="display:none" data-ftdc-stage aria-hidden="true">{% content_for 'blocks' %}</div>
 </section>
 
 {% stylesheet %}
   .ftdc { position: relative; }
   .ftdc__inner { max-width: var(--ftdc-max-w, 1240px); margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); padding-block-end: 96px; }
-
-  /* Header */
   .ftdc__header { text-align: center; margin-block-end: clamp(20px, 3vw, 32px); }
   .ftdc__heading { margin: 0 0 0.5em; font-size: clamp(28px, 4.4vw, 56px); font-weight: 900; line-height: 1; text-transform: uppercase; color: var(--color-foreground); }
   .ftdc__desc { margin: 0 auto 1em; font-size: clamp(15px, 1.25vw, 17px); line-height: 1.55; opacity: 0.75; max-width: 36em; color: var(--color-foreground); }
   .ftdc__bullets { display: flex; flex-direction: column; gap: 0.65rem; align-items: flex-start; max-width: 22em; margin: 1.25rem auto 0; padding: 0; list-style: none; }
+  .ftdc__bullets[hidden] { display: none; }
   .ftdc__bullet { display: flex; align-items: center; gap: 0.75rem; }
   .ftdc__bullet-dot { width: 22px; height: 22px; border-radius: 50%; background: color-mix(in srgb, var(--ftdc-accent, var(--color-primary-button-background)) 18%, transparent); position: relative; flex-shrink: 0; }
   .ftdc__bullet-dot::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: var(--ftdc-accent, var(--color-primary-button-background)); }
   .ftdc__bullet-text { font-size: 15px; font-weight: 700; color: var(--color-foreground); }
-
-  /* Step progress pills */
   .ftdc__steps { display: flex; justify-content: center; gap: 0.75rem; padding: 0; margin: 0 0 clamp(20px, 3vw, 32px); list-style: none; }
   .ftdc__step-pill { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.4rem 0.85rem; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgb(var(--color-foreground-rgb) / 0.06); color: rgb(var(--color-foreground-rgb) / 0.6); transition: background 0.18s, color 0.18s; }
   .ftdc__step-pill.is-active { background: var(--color-foreground); color: var(--color-background); }
   .ftdc__step-pill.is-done   { color: var(--ftdc-accent, var(--color-primary-button-background)); }
   .ftdc__step-num { width: 18px; height: 18px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; background: currentColor; color: var(--color-background); }
   .ftdc__step-pill.is-active .ftdc__step-num { background: var(--color-background); color: var(--color-foreground); }
-
-  /* Step container */
   .ftdc__step { display: none; }
-  .ftdc__step.is-active { display: block; animation: ftdc-fade-in 0.2s ease; }
-  @keyframes ftdc-fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .ftdc__step.is-active { display: block; }
   [hidden] { display: none !important; }
-
-  .ftdc__back { display: inline-flex; align-items: center; gap: 0.35rem; background: none; border: 0; padding: 0.25rem 0.5rem 0.75rem; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; color: var(--color-foreground); cursor: pointer; opacity: 0.7; transition: opacity 0.15s; }
-  .ftdc__back:hover { opacity: 1; }
-
-  /* Step 1 — plans */
+  .ftdc__back { display: inline-flex; align-items: center; gap: 0.35rem; background: none; border: 0; padding: 0.25rem 0.5rem 0.75rem; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; color: var(--color-foreground); cursor: pointer; opacity: 0.7; }
   .ftdc__plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.85rem; }
-  /* Force-stack the plan card contents vertically. Defensive against
-     <label> / theme rules that try to make labels inline/flex. */
-  .ftdc .ftdc__plan {
-    position: relative !important;
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    flex-direction: column !important;
-    gap: 0.45rem !important;
-    padding: 1rem 1.1rem !important;
-    border: 2px solid rgb(var(--color-foreground-rgb) / 0.12);
-    border-radius: var(--ftdc-radius, 12px);
-    background: var(--color-background);
-    cursor: pointer;
-    transition: border-color 0.18s, box-shadow 0.18s;
-    overflow: hidden;
-    min-width: 0 !important;
-    width: 100% !important;
-  }
+  .ftdc .ftdc__plan { position: relative !important; display: grid !important; grid-template-columns: minmax(0, 1fr) !important; gap: 0.45rem !important; padding: 1rem 1.1rem !important; border: 2px solid rgb(var(--color-foreground-rgb) / 0.12); border-radius: var(--ftdc-radius, 12px); background: var(--color-background); cursor: pointer; transition: border-color 0.18s, box-shadow 0.18s; overflow: hidden; min-width: 0 !important; width: 100% !important; }
   .ftdc .ftdc__plan > * { min-width: 0; max-width: 100%; }
-  .ftdc .ftdc__plan-title,
-  .ftdc .ftdc__plan-desc,
-  .ftdc .ftdc__plan-pricing,
-  .ftdc .ftdc__plan-was { display: block !important; width: 100% !important; }
+  .ftdc .ftdc__plan-title, .ftdc .ftdc__plan-desc, .ftdc .ftdc__plan-pricing, .ftdc .ftdc__plan-was { display: block !important; width: 100% !important; }
   .ftdc .ftdc__plan-pricing { display: flex !important; align-items: baseline; gap: 0.35rem; margin-top: 0.25rem; flex-wrap: wrap; }
-  .ftdc__plan:hover { border-color: rgb(var(--color-foreground-rgb) / 0.3); }
   .ftdc__plan.is-active { border-color: var(--ftdc-accent, var(--color-primary-button-background)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ftdc-accent, var(--color-primary-button-background)) 14%, transparent); }
   .ftdc__plan input { position: absolute; opacity: 0; pointer-events: none; }
-  .ftdc__plan-tick { position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgb(var(--color-foreground-rgb) / 0.25); display: inline-flex; align-items: center; justify-content: center; transition: background 0.18s, border-color 0.18s; }
+  .ftdc__plan-tick { position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgb(var(--color-foreground-rgb) / 0.25); display: inline-flex; align-items: center; justify-content: center; }
   .ftdc__plan.is-active .ftdc__plan-tick { background: var(--ftdc-accent, var(--color-primary-button-background)); border-color: var(--ftdc-accent, var(--color-primary-button-background)); }
   .ftdc__plan.is-active .ftdc__plan-tick::after { content: ''; width: 6px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); margin-top: -2px; }
   .ftdc__plan-badge { display: inline-flex; align-self: flex-start; padding: 0.15rem 0.55rem; border-radius: 4px; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; background: var(--ftdc-accent, var(--color-primary-button-background)); color: #fff; }
@@ -394,29 +188,28 @@
   .ftdc__plan-desc { font-size: 13px; line-height: 1.4; opacity: 0.7; color: var(--color-foreground); overflow-wrap: break-word; }
   .ftdc__plan-price { font-size: 22px; font-weight: 800; color: var(--color-foreground); }
   .ftdc__plan-period { font-size: 13px; opacity: 0.7; color: var(--color-foreground); }
-  .ftdc__plan-was { display: block; font-size: 12px; color: rgb(var(--color-foreground-rgb) / 0.5); text-decoration: line-through; overflow-wrap: break-word; }
-
-  /* Step 2 — bundle head + grid */
+  .ftdc__plan-was { display: block; font-size: 12px; color: rgb(var(--color-foreground-rgb) / 0.5); text-decoration: line-through; }
   .ftdc__bundle-head { text-align: center; margin: 0.5rem 0 1.25rem; }
   .ftdc__bundle-eyebrow { margin: 0 0 0.35rem; font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; color: var(--color-foreground); }
   .ftdc__bundle-progress-text { margin: 0 0 0.6rem; font-size: 14px; color: var(--color-foreground); }
   .ftdc__bundle-bar { width: 100%; max-width: 32em; margin: 0 auto; height: 6px; background: rgb(var(--color-foreground-rgb) / 0.08); border-radius: 999px; overflow: hidden; }
   .ftdc__bundle-bar-fill { height: 100%; background: var(--ftdc-accent, var(--color-primary-button-background)); border-radius: inherit; transition: width 0.25s ease; }
-
+  .ftdc__empty { padding: 1.25rem 1.25rem; border-radius: var(--ftdc-radius, 12px); border: 2px dashed rgb(var(--color-foreground-rgb) / 0.2); background: rgb(var(--color-foreground-rgb) / 0.03); text-align: center; max-width: 38em; margin: 0 auto 1.25rem; color: var(--color-foreground); }
+  .ftdc__empty p { margin: 0 0 0.5rem; font-size: 14px; line-height: 1.5; }
+  .ftdc__empty p:last-child { margin-bottom: 0; opacity: 0.75; font-size: 13px; }
   .ftdc__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.85rem; }
   @media (max-width: 599px) { .ftdc__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; } }
-
-  .ftdc__card { position: relative; display: flex; flex-direction: column; background: var(--color-background); border: 2px solid rgb(var(--color-foreground-rgb) / 0.12); border-radius: var(--ftdc-radius, 12px); overflow: hidden; transition: border-color 0.18s, box-shadow 0.18s; min-width: 0; }
+  .ftdc__card { position: relative; display: flex; flex-direction: column; background: var(--color-background); border: 2px solid rgb(var(--color-foreground-rgb) / 0.12); border-radius: var(--ftdc-radius, 12px); overflow: hidden; min-width: 0; }
   .ftdc__card.is-selected { border-color: var(--color-foreground); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-foreground) 12%, transparent); }
-  .ftdc__card[data-coming-soon] { opacity: 0.55; pointer-events: none; }
+  .ftdc__card--placeholder { opacity: 0.6; outline: 2px dashed rgb(var(--color-foreground-rgb) / 0.2); }
   .ftdc__card-media { position: relative; aspect-ratio: 1 / 1; background: rgb(var(--color-foreground-rgb) / 0.04); display: flex; align-items: center; justify-content: center; padding: 0.65rem; flex-shrink: 0; }
   .ftdc__card-media img { width: 100%; height: 100%; object-fit: contain; }
-  .ftdc__card-ph { width: 100%; height: 100%; }
-  .ftdc__card-tick { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border-radius: 50%; background: var(--ftdc-accent, var(--color-primary-button-background)); color: #fff; display: inline-flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.6); transition: opacity 0.18s, transform 0.18s; pointer-events: none; }
-  .ftdc__card.is-selected .ftdc__card-tick { opacity: 1; transform: scale(1); }
-  .ftdc__card-body { padding: 0.85rem 0.9rem 0.95rem; display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; flex: 1; }
-  .ftdc__card-spec-top { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.55); margin: 0; }
-  .ftdc__card-name { margin: 0; font-size: 12.5px; font-weight: 800; line-height: 1.3; text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-foreground); overflow-wrap: break-word; word-break: break-word; hyphens: auto; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em; }
+  .ftdc__card-tick { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border-radius: 50%; background: var(--ftdc-accent, var(--color-primary-button-background)); color: #fff; display: inline-flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; }
+  .ftdc__card.is-selected .ftdc__card-tick { opacity: 1; }
+  .ftdc__card-body { padding: 0.85rem 0.9rem; display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; flex: 1; }
+  .ftdc__card-hint { margin: 0; font-size: 11px; opacity: 0.7; }
+  .ftdc__card-spec-top { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.55); }
+  .ftdc__card-name { margin: 0; font-size: 12.5px; font-weight: 800; line-height: 1.3; text-transform: uppercase; color: var(--color-foreground); overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em; }
   .ftdc__card-flavor { font-weight: 700; opacity: 0.85; display: block; margin-top: 0.15rem; }
   .ftdc__card-specs { display: flex; flex-wrap: wrap; gap: 0.3rem; }
   .ftdc__spec { font-size: 9.5px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.22rem 0.45rem; border-radius: 4px; border: 1px solid color-mix(in srgb, var(--ftdc-accent, var(--color-primary-button-background)) 80%, transparent); color: var(--ftdc-accent, var(--color-primary-button-background)); white-space: nowrap; }
@@ -424,53 +217,32 @@
   .ftdc__card-price { font-weight: 800; font-size: 15px; color: var(--color-foreground); }
   .ftdc__card-was { font-size: 12px; color: rgb(var(--color-foreground-rgb) / 0.5); text-decoration: line-through; }
   .ftdc__card-action { margin-top: 0.4rem; }
-  .ftdc__add { width: 100%; padding: 0.55rem 0.75rem; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 8px; border: 1.5px solid var(--color-foreground); background: transparent; color: var(--color-foreground); cursor: pointer; transition: background 0.15s, color 0.15s; }
-  .ftdc__add:hover { background: var(--color-foreground); color: var(--color-background); }
+  .ftdc__add { width: 100%; padding: 0.55rem 0.75rem; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 8px; border: 1.5px solid var(--color-foreground); background: transparent; color: var(--color-foreground); cursor: pointer; }
   .ftdc__qty { display: grid; grid-template-columns: auto 1fr auto; align-items: stretch; border-radius: 8px; border: 1.5px solid var(--color-foreground); overflow: hidden; }
   .ftdc__qty-btn { padding: 0.55rem 0.7rem; background: var(--color-foreground); color: var(--color-background); border: 0; font-size: 14px; font-weight: 800; cursor: pointer; }
-  .ftdc__qty-input { border: 0; text-align: center; font-size: 14px; font-weight: 800; background: var(--color-background); color: var(--color-foreground); width: 100%; -moz-appearance: textfield; padding: 0; }
-  .ftdc__qty-input::-webkit-outer-spin-button,
-  .ftdc__qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-
-  /* Step 3 — upsells */
+  .ftdc__qty-input { border: 0; text-align: center; font-size: 14px; font-weight: 800; background: var(--color-background); color: var(--color-foreground); width: 100%; padding: 0; }
   .ftdc__upsell { display: grid; grid-template-columns: 80px 1fr auto; gap: 0.85rem; align-items: center; padding: 0.85rem 1rem; border-radius: var(--ftdc-radius, 12px); border: 2px solid rgb(var(--color-foreground-rgb) / 0.12); background: var(--color-background); margin-bottom: 0.75rem; }
   .ftdc__upsell-media { width: 80px; height: 80px; border-radius: 10px; overflow: hidden; background: rgb(var(--color-foreground-rgb) / 0.06); display: inline-flex; align-items: center; justify-content: center; }
   .ftdc__upsell-media img { width: 100%; height: 100%; object-fit: cover; }
-  .ftdc__upsell-body { min-width: 0; }
   .ftdc__upsell-title { margin: 0; font-size: 15px; font-weight: 800; line-height: 1.25; color: var(--color-foreground); }
   .ftdc__upsell-desc { margin: 0.2rem 0 0.35rem; font-size: 12px; line-height: 1.4; opacity: 0.7; color: var(--color-foreground); }
   .ftdc__upsell-pricing { display: flex; align-items: baseline; gap: 0.4rem; }
   .ftdc__upsell-price { font-weight: 800; font-size: 15px; color: var(--color-foreground); }
   .ftdc__upsell-was { font-size: 12px; color: rgb(var(--color-foreground-rgb) / 0.5); text-decoration: line-through; }
-  .ftdc__upsell-toggle { display: inline-flex; }
-  .ftdc__switch { display: inline-flex; width: 44px; height: 26px; background: rgb(var(--color-foreground-rgb) / 0.2); border-radius: 999px; position: relative; cursor: pointer; transition: background 0.18s; }
-  .ftdc__switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--color-background); transition: transform 0.18s, background 0.18s; box-shadow: 0 1px 2px rgb(0 0 0 / 0.2); }
+  .ftdc__switch { display: inline-flex; width: 44px; height: 26px; background: rgb(var(--color-foreground-rgb) / 0.2); border-radius: 999px; position: relative; cursor: pointer; }
+  .ftdc__switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--color-background); transition: transform 0.18s; box-shadow: 0 1px 2px rgb(0 0 0 / 0.2); }
   .ftdc__upsell input:checked + .ftdc__switch { background: var(--ftdc-accent, var(--color-primary-button-background)); }
   .ftdc__upsell input:checked + .ftdc__switch::after { transform: translateX(18px); }
-
   .ftdc__step-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1.25rem; }
-  .ftdc__btn { padding: 0.85rem 1.25rem; font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 10px; cursor: pointer; transition: opacity 0.15s, background 0.15s, color 0.15s; border: 1.5px solid var(--color-foreground); }
+  .ftdc__btn { padding: 0.85rem 1.25rem; font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 10px; cursor: pointer; border: 1.5px solid var(--color-foreground); }
   .ftdc__btn--ghost { background: transparent; color: var(--color-foreground); }
-  .ftdc__btn--ghost:hover { background: var(--color-foreground); color: var(--color-background); }
   .ftdc__btn--primary { background: var(--color-foreground); color: var(--color-background); }
-  .ftdc__btn--primary:hover { opacity: 0.88; }
-
-  /* Sticky cart bar */
-  .ftdc__bar { position: sticky; bottom: clamp(8px, 2vw, 18px); z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 1.1rem; margin: 1.5rem auto 0; max-width: 38em; background: var(--color-background); border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.12); border-radius: 999px; box-shadow: 0 10px 30px rgb(0 0 0 / 0.08); }
-  .ftdc__bar-summary { display: flex; align-items: baseline; gap: 0.5rem; font-size: 14px; color: var(--color-foreground); min-width: 0; }
+  .ftdc__bar { position: sticky; bottom: 12px; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 1.1rem; margin: 1.5rem auto 0; max-width: 38em; background: var(--color-background); border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.12); border-radius: 999px; box-shadow: 0 10px 30px rgb(0 0 0 / 0.08); }
+  .ftdc__bar-summary { display: flex; align-items: baseline; gap: 0.5rem; font-size: 14px; color: var(--color-foreground); }
   .ftdc__bar-total { font-weight: 700; white-space: nowrap; }
   .ftdc__bar-saved { font-size: 12px; opacity: 0.7; white-space: nowrap; }
-  .ftdc__bar-action { padding: 0.55rem 1.25rem; background: var(--color-foreground); color: var(--color-background); border: 0; border-radius: 999px; font-size: 13px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
-  .ftdc__bar-action:hover:not(:disabled) { opacity: 0.88; }
+  .ftdc__bar-action { padding: 0.55rem 1.25rem; background: var(--color-foreground); color: var(--color-background); border: 0; border-radius: 999px; font-size: 13px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
   .ftdc__bar-action:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  @media (max-width: 599px) {
-    .ftdc__bar { border-radius: 16px; padding: 0.75rem 0.9rem; }
-    .ftdc__step-actions { grid-template-columns: 1fr; }
-    .ftdc__steps { gap: 0.4rem; }
-    .ftdc__step-pill { padding: 0.3rem 0.6rem; font-size: 10px; }
-  }
-
   .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 {% endstylesheet %}
 
@@ -479,326 +251,193 @@
   var SID = {{ section.id | json }};
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
-
   var BUNDLE_COUNT = parseInt({{ bundle_count | json }}, 10) || 3;
-
-  /* Creatine labels / pricing per plan (mirrors B). */
-  var ADDON_LABEL_M  = {{ section.settings.addon_label_monthly   | default: 'Add Creatine — 50% off'           | json }};
-  var ADDON_LABEL_Q  = {{ section.settings.addon_label_quarterly | default: 'Add a 2nd Creatine — 50% off'     | json }};
-  var ADDON_LABEL_OT = {{ section.settings.addon_label_onetime   | default: 'Add Creatine — 25% off'           | json }};
-  var ADDON_DESC_M   = {{ section.settings.addon_desc_monthly    | default: ''                                 | json }};
-  var ADDON_DESC_Q   = {{ section.settings.addon_desc_quarterly  | default: '1st Creatine is free with your bundle. Add a second at 50% off.' | json }};
-  var ADDON_DESC_OT  = {{ section.settings.addon_desc_onetime    | default: 'One-time purchase. Discount applied at checkout.'                | json }};
-  var ADDON_PRICE_M  = {{ section.settings.addon_price_monthly   | default: '$12.00'                           | json }};
-  var ADDON_PRICE_Q  = {{ section.settings.addon_price_quarterly | default: '$12.00'                           | json }};
-  var ADDON_PRICE_OT = {{ section.settings.addon_price_onetime   | default: '$18.00'                           | json }};
-  var ADDON_WAS_M    = {{ section.settings.addon_was_monthly     | default: '$24.00'                           | json }};
-  var ADDON_WAS_Q    = {{ section.settings.addon_was_quarterly   | default: '$24.00'                           | json }};
-  var ADDON_WAS_OT   = {{ section.settings.addon_was_onetime     | default: '$24.00'                           | json }};
-
-  var ACTION_LABEL_PLANS    = {{ section.settings.action_label_step1 | default: 'Continue' | json }};
-  var ACTION_LABEL_PRODUCTS = {{ section.settings.action_label_step2 | default: 'Continue' | json }};
-  var CHECKOUT_LABEL        = {{ section.settings.checkout_label     | default: 'Checkout' | json }};
-
-  /* State */
   var STEPS_ORDER = ['plans', 'products', 'upsells'];
-  var state = {
-    step: 'plans',
-    plan: 'quarterly',
-    selections: {}  /* variantId -> {qty, fnId, productHandle, planMonthly, planQuarterly, price, compareAt} */
-  };
-
-  /* Helpers */
-  function $(sel, ctx) { return (ctx || root).querySelector(sel); }
-  function $$(sel, ctx) { return Array.prototype.slice.call((ctx || root).querySelectorAll(sel)); }
+  var state = { step: 'plans', plan: 'quarterly', selections: {} };
+  function $(s, c) { return (c || root).querySelector(s); }
+  function $$(s, c) { return Array.prototype.slice.call((c || root).querySelectorAll(s)); }
   function fmtMoney(c) { return '$' + (Math.max(0, c) / 100).toFixed(2); }
 
-  /* Determine the default plan from the rendered checked radio. */
-  var pre = $('input[name="ftdc-plan-' + SID + '"]:checked');
-  if (pre) state.plan = pre.value;
+  /* ── Sort the staged child blocks into their real slots ── */
+  function sortStagedBlocks() {
+    var stage = $('[data-ftdc-stage]');
+    if (!stage) return;
+    var bullets = $('[data-bullets]');
+    var grid = $('[data-grid]');
+    var upsells = $('[data-upsells]');
+    var moved = { bullet: 0, fn: 0, fnPh: 0, up: 0 };
+    /* Move whole wrappers so editor's shopify_attributes stays on the same node tree. */
+    $$('[data-slot="bullet"]', stage).forEach(function (n) { if (bullets) { bullets.appendChild(n); moved.bullet++; } });
+    $$('[data-slot="function"]', stage).forEach(function (n) { if (grid) { grid.appendChild(n); moved.fn++; } });
+    $$('[data-slot="function-placeholder"]', stage).forEach(function (n) { if (grid) { grid.appendChild(n); moved.fnPh++; } });
+    $$('[data-slot="upsell"]', stage).forEach(function (n) { if (upsells) { upsells.appendChild(n); moved.up++; } });
+    if (bullets) bullets.hidden = moved.bullet === 0;
+    var gridEmpty = $('[data-grid-empty]');
+    if (gridEmpty) gridEmpty.hidden = (moved.fn > 0); /* hide hint when there's a real card */
+  }
+  sortStagedBlocks();
 
-  /* ---------- Step nav ---------- */
+  /* ── Reorder plan cards based on the plan_order setting ── */
+  var plansContainer = $('.ftdc__plans');
+  if (plansContainer && plansContainer.dataset.planOrder) {
+    plansContainer.dataset.planOrder.split(',').forEach(function (name) {
+      var n = name.trim(); if (!n) return;
+      var plan = plansContainer.querySelector('[data-plan="' + n + '"]');
+      if (plan) plansContainer.appendChild(plan);
+    });
+  }
+  var firstPlan = plansContainer ? plansContainer.querySelector('.ftdc__plan') : null;
+  if (firstPlan) {
+    $$('.ftdc__plan').forEach(function (p) { p.classList.remove('is-active'); var r = p.querySelector('input'); if (r) r.checked = false; });
+    firstPlan.classList.add('is-active');
+    var fr = firstPlan.querySelector('input'); if (fr) { fr.checked = true; state.plan = fr.value; }
+  }
+
   function showStep(name) {
-    if (STEPS_ORDER.indexOf(name) === -1) return;
     state.step = name;
     var idx = STEPS_ORDER.indexOf(name);
-    $$('.ftdc__step', root).forEach(function (s) {
-      var match = s.getAttribute('data-step') === name;
-      s.hidden = !match;
-      s.classList.toggle('is-active', match);
-    });
-    $$('.ftdc__step-pill', root).forEach(function (pill) {
-      var pillIdx = STEPS_ORDER.indexOf(pill.getAttribute('data-step-pill'));
-      pill.classList.toggle('is-active', pillIdx === idx);
-      pill.classList.toggle('is-done', pillIdx < idx);
-    });
+    $$('.ftdc__step').forEach(function (s) { var m = s.dataset.step === name; s.hidden = !m; s.classList.toggle('is-active', m); });
+    $$('.ftdc__step-pill').forEach(function (p) { var pi = STEPS_ORDER.indexOf(p.dataset.stepPill); p.classList.toggle('is-active', pi === idx); p.classList.toggle('is-done', pi < idx); });
     updateBar();
   }
 
-  /* ---------- Plan picker ---------- */
-  $$('input[name="ftdc-plan-' + SID + '"]', root).forEach(function (radio) {
-    radio.addEventListener('change', function () {
-      state.plan = radio.value;
-      $$('.ftdc__plan', root).forEach(function (p) { p.classList.remove('is-active'); });
-      var lbl = radio.closest('.ftdc__plan');
-      if (lbl) lbl.classList.add('is-active');
-      /* Plan changes -> reset selections (rules differ per plan). */
+  $$('input[name="ftdc-plan-' + SID + '"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      state.plan = r.value;
+      $$('.ftdc__plan').forEach(function (p) { p.classList.remove('is-active'); });
+      var l = r.closest('.ftdc__plan'); if (l) l.classList.add('is-active');
       state.selections = {};
-      $$('.ftdc__card', root).forEach(resetCardSelection);
-      updateProgress();
-      updateCreatineCard();
-      updateBar();
+      $$('.ftdc__card').forEach(reset);
+      updateBar(); updateProgress();
     });
   });
 
-  /* ---------- Cards: add / qty stepper ---------- */
-  function resetCardSelection(card) {
-    card.classList.remove('is-selected');
-    var add  = $('.ftdc__add', card);
-    var qty  = $('.ftdc__qty', card);
-    var qInp = $('.ftdc__qty-input', card);
-    if (add) add.hidden = false;
-    if (qty) qty.hidden = true;
-    if (qInp) qInp.value = 0;
+  function reset(c) {
+    c.classList.remove('is-selected');
+    var a = $('.ftdc__add', c), q = $('.ftdc__qty', c), i = $('.ftdc__qty-input', c);
+    if (a) a.hidden = false; if (q) q.hidden = true; if (i) i.value = 0;
   }
-  function setCardQty(card, n) {
-    if (card.dataset.comingSoon === 'true') return;
+  function setQty(c, n) {
     n = Math.max(0, Math.floor(n));
-    /* Quarterly cap: don't let the customer exceed bundle_count across all cards. */
     if (state.plan === 'quarterly') {
-      var others = totalSelectedQty() - (state.selections[card.dataset.variantId] ? state.selections[card.dataset.variantId].qty : 0);
-      var capForThis = Math.max(0, BUNDLE_COUNT - others);
-      if (n > capForThis) n = capForThis;
+      var others = totalQty() - (state.selections[c.dataset.variantId] ? state.selections[c.dataset.variantId].qty : 0);
+      n = Math.min(n, Math.max(0, BUNDLE_COUNT - others));
     }
-    var vid = card.dataset.variantId;
-    var add = $('.ftdc__add', card);
-    var qty = $('.ftdc__qty', card);
-    var qInp = $('.ftdc__qty-input', card);
+    var v = c.dataset.variantId, a = $('.ftdc__add', c), q = $('.ftdc__qty', c), i = $('.ftdc__qty-input', c);
     if (n === 0) {
-      delete state.selections[vid];
-      card.classList.remove('is-selected');
-      if (add) add.hidden = false;
-      if (qty) qty.hidden = true;
-      if (qInp) qInp.value = 0;
+      delete state.selections[v]; c.classList.remove('is-selected');
+      if (a) a.hidden = false; if (q) q.hidden = true; if (i) i.value = 0;
     } else {
-      state.selections[vid] = {
-        qty: n,
-        variantId: vid,
-        fnId: card.dataset.fnId,
-        fnLabel: card.dataset.fnLabel,
-        flavorName: card.dataset.flavorName,
-        productHandle: card.dataset.productHandle,
-        planMonthly: card.dataset.planMonthly || '',
-        planQuarterly: card.dataset.planQuarterly || '',
-        price: parseInt(card.dataset.variantPrice, 10) || 0,
-        compareAt: parseInt(card.dataset.variantCompare, 10) || 0
+      state.selections[v] = {
+        qty: n, variantId: v, fnId: c.dataset.fnId, fnLabel: c.dataset.fnLabel, flavorName: c.dataset.flavorName,
+        planMonthly: c.dataset.planMonthly || '', planQuarterly: c.dataset.planQuarterly || '',
+        price: parseInt(c.dataset.variantPrice, 10) || 0, compareAt: parseInt(c.dataset.variantCompare, 10) || 0
       };
-      card.classList.add('is-selected');
-      if (add) add.hidden = true;
-      if (qty) qty.hidden = false;
-      if (qInp) qInp.value = n;
+      c.classList.add('is-selected');
+      if (a) a.hidden = true; if (q) q.hidden = false; if (i) i.value = n;
     }
-    updateProgress();
-    updateBar();
+    updateProgress(); updateBar();
   }
-  $$('.ftdc__card', root).forEach(function (card) {
-    card.addEventListener('click', function (e) {
-      var btn = e.target.closest('[data-card-action]');
-      if (!btn) return;
-      var action = btn.getAttribute('data-card-action');
-      var qInp = $('.ftdc__qty-input', card);
-      var cur = parseInt(qInp ? qInp.value : 0, 10) || 0;
-      if (action === 'add') setCardQty(card, 1);
-      else if (action === 'inc') setCardQty(card, cur + 1);
-      else if (action === 'dec') setCardQty(card, cur - 1);
+
+  $$('.ftdc__card[data-slot="function"]').forEach(function (c) {
+    c.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-card-action]'); if (!b) return;
+      var i = $('.ftdc__qty-input', c), cur = parseInt(i ? i.value : 0, 10) || 0;
+      if (b.dataset.cardAction === 'add') setQty(c, 1);
+      else if (b.dataset.cardAction === 'inc') setQty(c, cur + 1);
+      else if (b.dataset.cardAction === 'dec') setQty(c, cur - 1);
     });
-    var qInp = $('.ftdc__qty-input', card);
-    if (qInp) {
-      qInp.addEventListener('change', function () {
-        setCardQty(card, parseInt(qInp.value, 10) || 0);
-      });
-    }
+    var i = $('.ftdc__qty-input', c);
+    if (i) i.addEventListener('change', function () { setQty(c, parseInt(i.value, 10) || 0); });
   });
 
-  /* ---------- Progress, total, bar ---------- */
-  function totalSelectedQty() {
-    var n = 0;
-    Object.keys(state.selections).forEach(function (k) { n += state.selections[k].qty; });
-    return n;
-  }
-  function bundleSize() {
-    return state.plan === 'quarterly' ? BUNDLE_COUNT : 0;
-  }
+  function totalQty() { var n = 0; Object.keys(state.selections).forEach(function (k) { n += state.selections[k].qty; }); return n; }
+  function bundleSize() { return state.plan === 'quarterly' ? BUNDLE_COUNT : 0; }
   function updateProgress() {
-    var n = totalSelectedQty();
-    var size = bundleSize();
-    var pt = $('[data-progress-text]', root);
-    var pf = $('[data-progress-fill]', root);
+    var n = totalQty(), s = bundleSize(), pt = $('[data-progress-text]'), pf = $('[data-progress-fill]');
     if (!pt || !pf) return;
-    if (size) {
-      pt.textContent = n + ' of ' + size + ' selected';
-      pf.style.width = Math.min(100, n / size * 100) + '%';
-    } else {
-      pt.textContent = n ? (n + ' selected') : 'Choose your pouches';
-      pf.style.width = n > 0 ? '100%' : '0%';
-    }
+    if (s) { pt.textContent = n + ' of ' + s + ' selected'; pf.style.width = Math.min(100, n / s * 100) + '%'; }
+    else   { pt.textContent = n ? (n + ' selected') : 'Choose your pouches'; pf.style.width = n > 0 ? '100%' : '0%'; }
   }
-  function computeTotal() {
-    /* Estimate display total. Real prices apply at checkout via the
-       selling-plan discount. We approximate using plan-typical discounts
-       so the bar matches what the customer sees on the cart page. */
-    var monthlyMul   = (parseInt({{ section.settings.monthly_estimate_pct   | default: 90 | json }}, 10) || 90) / 100;
-    var quarterlyMul = (parseInt({{ section.settings.quarterly_estimate_pct | default: 90 | json }}, 10) || 90) / 100;
-    var mul = 1;
-    if (state.plan === 'monthly')   mul = monthlyMul;
-    if (state.plan === 'quarterly') mul = quarterlyMul;
-    var total = 0, saved = 0;
+  function compute() {
+    var mu = ({{ section.settings.monthly_estimate_pct | default: 90 }} / 100);
+    var qu = ({{ section.settings.quarterly_estimate_pct | default: 90 }} / 100);
+    var mul = state.plan === 'monthly' ? mu : state.plan === 'quarterly' ? qu : 1;
+    var t = 0, sa = 0;
     Object.keys(state.selections).forEach(function (k) {
-      var s = state.selections[k];
-      var unit = s.price * mul;
-      total += unit * s.qty;
-      var compare = s.compareAt > s.price ? s.compareAt : s.price;
-      saved += Math.max(0, compare - unit) * s.qty;
+      var s = state.selections[k]; var u = s.price * mul; t += u * s.qty;
+      var c = s.compareAt > s.price ? s.compareAt : s.price;
+      sa += Math.max(0, c - u) * s.qty;
     });
-    return { total: Math.round(total), saved: Math.round(saved) };
+    return { total: Math.round(t), saved: Math.round(sa) };
   }
   function updateBar() {
-    var t = computeTotal();
-    var bt = $('[data-bar-total]', root);
-    var sw = $('[data-bar-saved-wrap]', root);
-    var sv = $('[data-bar-saved]', root);
+    var t = compute(), bt = $('[data-bar-total]'), sw = $('[data-bar-saved-wrap]'), sv = $('[data-bar-saved]');
     if (bt) bt.textContent = fmtMoney(t.total);
-    if (sw && sv) {
-      if (t.saved > 0) { sw.hidden = false; sv.textContent = fmtMoney(t.saved); }
-      else sw.hidden = true;
-    }
-    var label = $('[data-bar-label]', root);
-    var btn   = $('.ftdc__bar-action', root);
-    var ready = canProceed();
-    if (state.step === 'plans')         { if (label) label.textContent = ACTION_LABEL_PLANS;    if (btn) btn.disabled = false; }
-    else if (state.step === 'products') { if (label) label.textContent = ACTION_LABEL_PRODUCTS; if (btn) btn.disabled = !ready; }
-    else                                { if (label) label.textContent = CHECKOUT_LABEL;        if (btn) btn.disabled = !ready; }
+    if (sw && sv) { if (t.saved > 0) { sw.hidden = false; sv.textContent = fmtMoney(t.saved); } else sw.hidden = true; }
+    var lab = $('[data-bar-label]'), btn = $('.ftdc__bar-action'), r = canProc();
+    if (state.step === 'plans') { if (lab) lab.textContent = 'Continue'; if (btn) btn.disabled = false; }
+    else if (state.step === 'products') { if (lab) lab.textContent = 'Continue'; if (btn) btn.disabled = !r; }
+    else { if (lab) lab.textContent = 'Checkout'; if (btn) btn.disabled = !r; }
   }
-  function canProceed() {
-    if (state.step === 'plans')    return !!state.plan;
-    if (state.step === 'products') {
-      var n = totalSelectedQty();
-      var size = bundleSize();
-      return size ? n === size : n > 0;
-    }
+  function canProc() {
+    if (state.step === 'plans') return !!state.plan;
+    if (state.step === 'products') { var n = totalQty(), s = bundleSize(); return s ? n === s : n > 0; }
     return true;
   }
 
-  /* ---------- Creatine card swap on plan change ---------- */
-  function updateCreatineCard() {
-    var t = $('[data-creatine-title]', root);
-    var d = $('[data-creatine-desc]',  root);
-    var p = $('[data-creatine-price]', root);
-    var w = $('[data-creatine-was]',   root);
-    if (!t) return;
-    if (state.plan === 'quarterly')      { t.textContent = ADDON_LABEL_Q;  d.textContent = ADDON_DESC_Q;  if (p) p.textContent = ADDON_PRICE_Q;  if (w) w.textContent = ADDON_WAS_Q; }
-    else if (state.plan === 'monthly')   { t.textContent = ADDON_LABEL_M;  d.textContent = ADDON_DESC_M;  if (p) p.textContent = ADDON_PRICE_M;  if (w) w.textContent = ADDON_WAS_M; }
-    else                                  { t.textContent = ADDON_LABEL_OT; d.textContent = ADDON_DESC_OT; if (p) p.textContent = ADDON_PRICE_OT; if (w) w.textContent = ADDON_WAS_OT; }
-  }
-
-  /* ---------- Step actions: next / back / checkout ---------- */
-  $$('[data-step-back]', root).forEach(function (b) {
-    b.addEventListener('click', function () { showStep(b.getAttribute('data-step-back')); });
+  $$('[data-step-back]').forEach(function (b) { b.addEventListener('click', function () { showStep(b.dataset.stepBack); }); });
+  var actBtn = $('.ftdc__bar-action');
+  if (actBtn) actBtn.addEventListener('click', function () {
+    if (state.step === 'plans') showStep('products');
+    else if (state.step === 'products') { if (canProc()) showStep('upsells'); }
+    else doCheckout();
   });
-  var actionBtn = $('.ftdc__bar-action', root);
-  if (actionBtn) {
-    actionBtn.addEventListener('click', function () {
-      if (state.step === 'plans')         showStep('products');
-      else if (state.step === 'products') { if (canProceed()) showStep('upsells'); }
-      else                                doCheckout();
-    });
-  }
-  var checkoutBtn = $('[data-action="checkout"]', root);
-  if (checkoutBtn) checkoutBtn.addEventListener('click', doCheckout);
+  var coBtn = $('[data-action="checkout"]');
+  if (coBtn) coBtn.addEventListener('click', doCheckout);
 
-  /* ---------- Cart-add ---------- */
-  function buildCartItems() {
+  function buildItems() {
     var items = [];
     Object.keys(state.selections).forEach(function (k) {
-      var s = state.selections[k];
-      var item = { id: parseInt(s.variantId, 10), quantity: s.qty };
-      if (state.plan === 'monthly') {
-        var pm = parseInt(s.planMonthly, 10); if (pm) item.selling_plan = pm;
-      } else if (state.plan === 'quarterly') {
-        var pq = parseInt(s.planQuarterly, 10); if (pq) item.selling_plan = pq;
-      }
-      items.push(item);
+      var s = state.selections[k]; var it = { id: parseInt(s.variantId, 10), quantity: s.qty };
+      if (state.plan === 'monthly') { var p = parseInt(s.planMonthly, 10); if (p) it.selling_plan = p; }
+      else if (state.plan === 'quarterly') { var p = parseInt(s.planQuarterly, 10); if (p) it.selling_plan = p; }
+      items.push(it);
     });
-    /* Creatine */
-    var crInput = $('[data-creatine-input]', root);
-    if (crInput && crInput.checked) {
-      var crVid = parseInt(crInput.getAttribute('data-variant'), 10);
-      if (crVid) {
-        var crItem = { id: crVid, quantity: 1 };
-        if (state.plan === 'monthly') {
-          var crpm = parseInt(crInput.getAttribute('data-plan-monthly'), 10);
-          if (crpm) crItem.selling_plan = crpm;
-        } else if (state.plan === 'quarterly') {
-          /* Free first-creatine via the configured free selling-plan. */
-          var crpfree = parseInt(crInput.getAttribute('data-plan-quarterly-free'), 10);
-          if (crpfree) crItem.selling_plan = crpfree;
-        } else {
-          /* One-time creatine -> tag so the post-add flow can redirect through /discount/CODE */
-          crItem.properties = { _upsell: 'creatine-onetime' };
-        }
-        items.push(crItem);
+    var cr = $('[data-creatine-input]');
+    if (cr && cr.checked) {
+      var cv = parseInt(cr.dataset.variant, 10);
+      if (cv) {
+        var ci = { id: cv, quantity: 1 };
+        if (state.plan === 'monthly') { var p = parseInt(cr.dataset.planMonthly, 10); if (p) ci.selling_plan = p; }
+        else if (state.plan === 'quarterly') { var p = parseInt(cr.dataset.planQuarterlyFree, 10); if (p) ci.selling_plan = p; }
+        else { ci.properties = { _upsell: 'creatine-onetime' }; }
+        items.push(ci);
       }
     }
-    /* Custom upsells */
-    $$('[data-upsell-block]', root).forEach(function (u) {
-      var allowed = (u.getAttribute('data-plans-allowed') || '').split(',').map(function (x) { return x.trim(); });
-      if (allowed.length && allowed.indexOf(state.plan) === -1) return;
-      var input = $('[data-upsell-input]', u);
-      if (!input || !input.checked) return;
-      var vid = parseInt(u.getAttribute('data-variant'), 10);
-      if (vid) items.push({ id: vid, quantity: 1 });
-    });
     return items;
   }
-
   function doCheckout() {
-    if (!canProceed()) return;
-    var items = buildCartItems();
-    if (!items.length) return;
-    actionBtn && (actionBtn.disabled = true);
-    checkoutBtn && (checkoutBtn.disabled = true);
-
-    var crInput = $('[data-creatine-input]', root);
-    var creatineOT = state.plan === 'onetime' && crInput && crInput.checked;
-    var discountOT = creatineOT ? (crInput.getAttribute('data-discount-onetime') || '') : '';
-
+    if (!canProc()) return;
+    var items = buildItems(); if (!items.length) return;
+    if (actBtn) actBtn.disabled = true; if (coBtn) coBtn.disabled = true;
+    var cr = $('[data-creatine-input]');
+    var ot = state.plan === 'onetime' && cr && cr.checked;
+    var d = ot ? (cr.dataset.discountOnetime || '') : '';
     fetch('/cart/add.js', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ items: items })
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: items })
     }).then(function (r) {
-      if (!r.ok) return r.json().then(function (b) { throw new Error((b && (b.description || b.message)) || 'Cart error'); });
+      if (!r.ok) return r.json().then(function (b) { throw new Error((b && b.message) || 'Cart error'); });
       return r.json();
     }).then(function () {
-      if (discountOT) {
-        window.location.href = '/discount/' + encodeURIComponent(discountOT) + '?redirect=/checkout';
-      } else {
-        window.location.href = '/checkout';
-      }
+      window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout';
     }).catch(function (e) {
-      /* Soft fail -> re-enable, surface message in console */
-      console.error('ftdc checkout', e);
-      actionBtn && (actionBtn.disabled = false);
-      checkoutBtn && (checkoutBtn.disabled = false);
-      alert(e.message || 'Something went wrong. Please try again.');
+      if (actBtn) actBtn.disabled = false; if (coBtn) coBtn.disabled = false;
+      alert(e.message || 'Something went wrong');
     });
   }
 
-  /* ---------- Init ---------- */
-  showStep('plans');
-  updateProgress();
-  updateCreatineCard();
-  updateBar();
+  showStep('plans'); updateProgress(); updateBar();
 })();
 </script>
 
@@ -808,498 +447,97 @@
   "tag": "section",
   "class": "ftdc-section",
   "settings": [
-    {
-      "type": "header",
-      "content": "Header"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Build Your Clean Hydration Ritual"
-    },
-    {
-      "type": "richtext",
-      "id": "description",
-      "label": "Description",
-      "default": "<p>Mix any function, with any organic flavor. Zero sugar, zero artificial sweeteners, every milligram disclosed.</p>"
-    },
-    {
-      "type": "header",
-      "content": "Step labels"
-    },
-    {
-      "type": "text",
-      "id": "step_label_1",
-      "label": "Step 1 pill label",
-      "default": "Plan"
-    },
-    {
-      "type": "text",
-      "id": "step_label_2",
-      "label": "Step 2 pill label",
-      "default": "Bundle"
-    },
-    {
-      "type": "text",
-      "id": "step_label_3",
-      "label": "Step 3 pill label",
-      "default": "Boost"
-    },
-    {
-      "type": "text",
-      "id": "back_label",
-      "label": "Back-button label",
-      "default": "Back"
-    },
-    {
-      "type": "header",
-      "content": "Plan: Quarterly (3-pack)"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_quarterly",
-      "label": "Show quarterly plan",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "quarterly_badge",
-      "label": "Badge",
-      "default": "Best Value"
-    },
-    {
-      "type": "text",
-      "id": "quarterly_title",
-      "label": "Title",
-      "default": "3 Pouches Every 3 Months"
-    },
-    {
-      "type": "text",
-      "id": "quarterly_desc",
-      "label": "Description",
-      "default": "Mix any functions freely."
-    },
-    {
-      "type": "text",
-      "id": "quarterly_price",
-      "label": "Price (display)",
-      "default": "$53.10"
-    },
-    {
-      "type": "text",
-      "id": "quarterly_period",
-      "label": "Period (display)",
-      "default": "/ month"
-    },
-    {
-      "type": "text",
-      "id": "quarterly_was",
-      "label": "Compare-at (display)",
-      "default": "$59.00"
-    },
-    {
-      "type": "range",
-      "id": "bundle_count",
-      "label": "Bundle size",
-      "min": 2,
-      "max": 6,
-      "step": 1,
-      "default": 3
-    },
-    {
-      "type": "range",
-      "id": "quarterly_estimate_pct",
-      "label": "Quarterly price estimate (% of compare)",
-      "min": 50,
-      "max": 100,
-      "step": 1,
-      "default": 90,
-      "info": "Used in the sticky-bar total. Real price applies at checkout."
-    },
-    {
-      "type": "header",
-      "content": "Plan: Monthly"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_monthly",
-      "label": "Show monthly plan",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "monthly_badge",
-      "label": "Badge",
-      "default": "Monthly"
-    },
-    {
-      "type": "text",
-      "id": "monthly_title",
-      "label": "Title",
-      "default": "1 Pouch Every Month"
-    },
-    {
-      "type": "text",
-      "id": "monthly_desc",
-      "label": "Description",
-      "default": "Your daily ritual, delivered."
-    },
-    {
-      "type": "text",
-      "id": "monthly_price",
-      "label": "Price (display)",
-      "default": "$53.10"
-    },
-    {
-      "type": "text",
-      "id": "monthly_period",
-      "label": "Period (display)",
-      "default": "/ month"
-    },
-    {
-      "type": "text",
-      "id": "monthly_was",
-      "label": "Compare-at (display)",
-      "default": "$59.00"
-    },
-    {
-      "type": "range",
-      "id": "monthly_estimate_pct",
-      "label": "Monthly price estimate (% of compare)",
-      "min": 50,
-      "max": 100,
-      "step": 1,
-      "default": 90
-    },
-    {
-      "type": "header",
-      "content": "Plan: One-time"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_onetime",
-      "label": "Show one-time plan",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "onetime_badge",
-      "label": "Badge",
-      "default": "Buy Once"
-    },
-    {
-      "type": "text",
-      "id": "onetime_title",
-      "label": "Title",
-      "default": "Single Pouch"
-    },
-    {
-      "type": "text",
-      "id": "onetime_desc",
-      "label": "Description",
-      "default": "Try it first. Subscribe whenever you're ready."
-    },
-    {
-      "type": "text",
-      "id": "onetime_price",
-      "label": "Price (display)",
-      "default": "$59.00"
-    },
-    {
-      "type": "text",
-      "id": "onetime_period",
-      "label": "Period (display)",
-      "default": "/ pouch"
-    },
-    {
-      "type": "text",
-      "id": "onetime_was",
-      "label": "Compare-at (display)",
-      "default": "-",
-      "info": "Set to - (a single hyphen) to hide."
-    },
-    {
-      "type": "header",
-      "content": "Bundle step labels"
-    },
-    {
-      "type": "text",
-      "id": "bundle_label",
-      "label": "Eyebrow above progress",
-      "default": "Your Bundle"
-    },
-    {
-      "type": "text",
-      "id": "of_word",
-      "label": "Word: 'of'",
-      "default": "of"
-    },
-    {
-      "type": "text",
-      "id": "selected_word",
-      "label": "Word: 'selected'",
-      "default": "selected"
-    },
-    {
-      "type": "text",
-      "id": "add_label",
-      "label": "Card ADD button label",
-      "default": "ADD"
-    },
-    {
-      "type": "header",
-      "content": "Creatine upsell (mirrors B)"
-    },
-    {
-      "type": "product",
-      "id": "addon_product",
-      "label": "Creatine product"
-    },
-    {
-      "type": "image_picker",
-      "id": "addon_image",
-      "label": "Creatine image (override)"
-    },
-    {
-      "type": "text",
-      "id": "addon_label_monthly",
-      "label": "Monthly title",
-      "default": "Add Creatine \u2014 50% off"
-    },
-    {
-      "type": "text",
-      "id": "addon_label_quarterly",
-      "label": "Quarterly title",
-      "default": "Add a 2nd Creatine \u2014 50% off"
-    },
-    {
-      "type": "text",
-      "id": "addon_label_onetime",
-      "label": "One-time title",
-      "default": "Add Creatine \u2014 25% off"
-    },
-    {
-      "type": "text",
-      "id": "addon_desc_monthly",
-      "label": "Monthly desc",
-      "default": "-"
-    },
-    {
-      "type": "text",
-      "id": "addon_desc_quarterly",
-      "label": "Quarterly desc",
-      "default": "1st Creatine is free with your bundle. Add a second at 50% off."
-    },
-    {
-      "type": "text",
-      "id": "addon_desc_onetime",
-      "label": "One-time desc",
-      "default": "One-time purchase. Discount applied automatically at checkout."
-    },
-    {
-      "type": "text",
-      "id": "addon_price_monthly",
-      "label": "Monthly price (display)",
-      "default": "$12.00"
-    },
-    {
-      "type": "text",
-      "id": "addon_price_quarterly",
-      "label": "Quarterly price (display)",
-      "default": "$12.00"
-    },
-    {
-      "type": "text",
-      "id": "addon_price_onetime",
-      "label": "One-time price (display)",
-      "default": "$18.00"
-    },
-    {
-      "type": "text",
-      "id": "addon_was_monthly",
-      "label": "Monthly compare-at",
-      "default": "$24.00"
-    },
-    {
-      "type": "text",
-      "id": "addon_was_quarterly",
-      "label": "Quarterly compare-at",
-      "default": "$24.00"
-    },
-    {
-      "type": "text",
-      "id": "addon_was_onetime",
-      "label": "One-time compare-at",
-      "default": "$24.00"
-    },
-    {
-      "type": "text",
-      "id": "addon_loop_plan_monthly",
-      "label": "Loop selling-plan ID \u2014 monthly (50% off)",
-      "default": "-"
-    },
-    {
-      "type": "text",
-      "id": "addon_loop_plan_quarterly_free",
-      "label": "Loop selling-plan ID \u2014 quarterly (free 1st)",
-      "default": "-"
-    },
-    {
-      "type": "text",
-      "id": "addon_loop_plan_quarterly_50off",
-      "label": "Loop selling-plan ID \u2014 quarterly (2nd at 50% off)",
-      "default": "-"
-    },
-    {
-      "type": "text",
-      "id": "addon_discount_code_onetime",
-      "label": "Discount code \u2014 one-time (auto-applied)",
-      "default": "-",
-      "info": "Create the code in Shopify > Discounts and paste it here. Triggers /discount/CODE?redirect=/checkout when the customer adds the one-time creatine."
-    },
-    {
-      "type": "header",
-      "content": "Sticky bar"
-    },
-    {
-      "type": "text",
-      "id": "total_label",
-      "label": "'Total' label",
-      "default": "Total"
-    },
-    {
-      "type": "text",
-      "id": "saved_word",
-      "label": "Word: 'Saved'",
-      "default": "Saved"
-    },
-    {
-      "type": "text",
-      "id": "action_label_step1",
-      "label": "Step 1 action label",
-      "default": "Continue"
-    },
-    {
-      "type": "text",
-      "id": "action_label_step2",
-      "label": "Step 2 action label",
-      "default": "Continue"
-    },
-    {
-      "type": "text",
-      "id": "checkout_label",
-      "label": "Step 3 / Checkout label",
-      "default": "Checkout"
-    },
-    {
-      "type": "text",
-      "id": "add_more_label",
-      "label": "'Add More' button label",
-      "default": "Add More"
-    },
-    {
-      "type": "header",
-      "content": "Appearance"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent color",
-      "default": "#1FA8A1"
-    },
-    {
-      "type": "range",
-      "id": "card_radius",
-      "label": "Card corner radius",
-      "min": 0,
-      "max": 24,
-      "step": 1,
-      "unit": "px",
-      "default": 12
-    },
-    {
-      "type": "range",
-      "id": "content_max_width",
-      "label": "Max width",
-      "min": 600,
-      "max": 1600,
-      "step": 20,
-      "unit": "px",
-      "default": 1240
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "Padding"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "Top padding",
-      "min": 0,
-      "max": 160,
-      "step": 2,
-      "unit": "px",
-      "default": 64
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "Bottom padding",
-      "min": 0,
-      "max": 160,
-      "step": 2,
-      "unit": "px",
-      "default": 64
-    }
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Build Your Clean Hydration Ritual" },
+    { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Mix any function, with any organic flavor.</p>" },
+    { "type": "text", "id": "step_label_1", "label": "Step 1", "default": "Plan" },
+    { "type": "text", "id": "step_label_2", "label": "Step 2", "default": "Bundle" },
+    { "type": "text", "id": "step_label_3", "label": "Step 3", "default": "Boost" },
+    { "type": "text", "id": "back_label", "label": "Back label", "default": "Back" },
+    { "type": "header", "content": "Plan order" },
+    { "type": "text", "id": "plan_order", "label": "Order of plans (comma-separated)", "default": "quarterly,monthly,onetime", "info": "Any order using: quarterly, monthly, onetime. First in the list is preselected." },
+    { "type": "header", "content": "Quarterly" },
+    { "type": "checkbox", "id": "show_quarterly", "label": "Show quarterly", "default": true },
+    { "type": "text", "id": "quarterly_badge", "label": "Badge", "default": "Best Value" },
+    { "type": "text", "id": "quarterly_title", "label": "Title", "default": "3 Pouches Every 3 Months" },
+    { "type": "text", "id": "quarterly_desc", "label": "Desc", "default": "Mix any functions freely." },
+    { "type": "text", "id": "quarterly_price", "label": "Price", "default": "$53.10" },
+    { "type": "text", "id": "quarterly_period", "label": "Period", "default": "/ month" },
+    { "type": "text", "id": "quarterly_was", "label": "Was", "default": "$59.00" },
+    { "type": "range", "id": "bundle_count", "label": "Bundle size", "min": 2, "max": 6, "step": 1, "default": 3 },
+    { "type": "range", "id": "quarterly_estimate_pct", "label": "Quarterly est %", "min": 50, "max": 100, "step": 1, "default": 90 },
+    { "type": "header", "content": "Monthly" },
+    { "type": "checkbox", "id": "show_monthly", "label": "Show monthly", "default": true },
+    { "type": "text", "id": "monthly_badge", "label": "Badge", "default": "Monthly" },
+    { "type": "text", "id": "monthly_title", "label": "Title", "default": "1 Pouch Every Month" },
+    { "type": "text", "id": "monthly_desc", "label": "Desc", "default": "Your daily ritual, delivered." },
+    { "type": "text", "id": "monthly_price", "label": "Price", "default": "$53.10" },
+    { "type": "text", "id": "monthly_period", "label": "Period", "default": "/ month" },
+    { "type": "text", "id": "monthly_was", "label": "Was", "default": "$59.00" },
+    { "type": "range", "id": "monthly_estimate_pct", "label": "Monthly est %", "min": 50, "max": 100, "step": 1, "default": 90 },
+    { "type": "header", "content": "One-time" },
+    { "type": "checkbox", "id": "show_onetime", "label": "Show one-time", "default": true },
+    { "type": "text", "id": "onetime_badge", "label": "Badge", "default": "Buy Once" },
+    { "type": "text", "id": "onetime_title", "label": "Title", "default": "Single Pouch" },
+    { "type": "text", "id": "onetime_desc", "label": "Desc", "default": "Try it first." },
+    { "type": "text", "id": "onetime_price", "label": "Price", "default": "$59.00" },
+    { "type": "text", "id": "onetime_period", "label": "Period", "default": "/ pouch" },
+    { "type": "text", "id": "onetime_was", "label": "Was", "default": "-" },
+    { "type": "header", "content": "Bundle step" },
+    { "type": "text", "id": "bundle_label", "label": "Eyebrow", "default": "Your Bundle" },
+    { "type": "text", "id": "of_word", "label": "Word 'of'", "default": "of" },
+    { "type": "text", "id": "selected_word", "label": "Word 'selected'", "default": "selected" },
+    { "type": "text", "id": "add_label", "label": "ADD label", "default": "ADD" },
+    { "type": "header", "content": "Creatine upsell" },
+    { "type": "product", "id": "addon_product", "label": "Creatine product" },
+    { "type": "image_picker", "id": "addon_image", "label": "Image override" },
+    { "type": "text", "id": "addon_label_monthly", "label": "Monthly title", "default": "Add Creatine — 50% off" },
+    { "type": "text", "id": "addon_label_quarterly", "label": "Quarterly title", "default": "Add a 2nd Creatine — 50% off" },
+    { "type": "text", "id": "addon_label_onetime", "label": "One-time title", "default": "Add Creatine — 25% off" },
+    { "type": "text", "id": "addon_desc_monthly", "label": "Monthly desc", "default": "-" },
+    { "type": "text", "id": "addon_desc_quarterly", "label": "Quarterly desc", "default": "1st Creatine is free with your bundle." },
+    { "type": "text", "id": "addon_desc_onetime", "label": "One-time desc", "default": "One-time. Discount auto-applied." },
+    { "type": "text", "id": "addon_price_monthly", "label": "Monthly price", "default": "$12.00" },
+    { "type": "text", "id": "addon_price_quarterly", "label": "Quarterly price", "default": "$12.00" },
+    { "type": "text", "id": "addon_price_onetime", "label": "One-time price", "default": "$18.00" },
+    { "type": "text", "id": "addon_was_monthly", "label": "Monthly was", "default": "$24.00" },
+    { "type": "text", "id": "addon_was_quarterly", "label": "Quarterly was", "default": "$24.00" },
+    { "type": "text", "id": "addon_was_onetime", "label": "One-time was", "default": "$24.00" },
+    { "type": "text", "id": "addon_loop_plan_monthly", "label": "Loop plan monthly", "default": "-" },
+    { "type": "text", "id": "addon_loop_plan_quarterly_free", "label": "Loop plan quarterly free", "default": "-" },
+    { "type": "text", "id": "addon_loop_plan_quarterly_50off", "label": "Loop plan quarterly 50off", "default": "-" },
+    { "type": "text", "id": "addon_discount_code_onetime", "label": "Discount code one-time", "default": "-" },
+    { "type": "header", "content": "Sticky bar" },
+    { "type": "text", "id": "total_label", "label": "Total", "default": "Total" },
+    { "type": "text", "id": "saved_word", "label": "Saved", "default": "Saved" },
+    { "type": "text", "id": "action_label_step1", "label": "Step 1 action", "default": "Continue" },
+    { "type": "text", "id": "action_label_step2", "label": "Step 2 action", "default": "Continue" },
+    { "type": "text", "id": "checkout_label", "label": "Checkout", "default": "Checkout" },
+    { "type": "text", "id": "add_more_label", "label": "Add More", "default": "Add More" },
+    { "type": "header", "content": "Appearance" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1FA8A1" },
+    { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 12 },
+    { "type": "range", "id": "content_max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 }
   ],
   "blocks": [
-    {
-      "type": "_ftd-c-function"
-    },
-    {
-      "type": "_ftd-c-upsell"
-    },
-    {
-      "type": "_ftd-c-bullet"
-    }
+    { "type": "_ftd-c-function" },
+    { "type": "_ftd-c-upsell" },
+    { "type": "_ftd-c-bullet" }
   ],
   "presets": [
     {
       "name": "FTD - Product Selector C",
       "category": "Fortified Sections",
       "blocks": {
-        "ftd_c_bullet_1": {
-          "type": "_ftd-c-bullet",
-          "settings": {
-            "text": "Real Fruit Organic Flavors"
-          }
-        },
-        "ftd_c_bullet_2": {
-          "type": "_ftd-c-bullet",
-          "settings": {
-            "text": "Zero Artificial Sweeteners"
-          }
-        },
-        "ftd_c_function_1": {
-          "type": "_ftd-c-function"
-        },
-        "ftd_c_function_2": {
-          "type": "_ftd-c-function"
-        }
+        "b1": { "type": "_ftd-c-bullet", "settings": { "text": "Real Fruit Organic Flavors" } },
+        "b2": { "type": "_ftd-c-bullet", "settings": { "text": "Zero Artificial Sweeteners" } },
+        "f1": { "type": "_ftd-c-function" },
+        "f2": { "type": "_ftd-c-function" }
       },
-      "block_order": [
-        "ftd_c_bullet_1",
-        "ftd_c_bullet_2",
-        "ftd_c_function_1",
-        "ftd_c_function_2"
-      ]
+      "block_order": ["b1", "b2", "f1", "f2"]
     }
   ]
 }

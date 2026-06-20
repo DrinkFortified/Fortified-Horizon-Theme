@@ -1,8 +1,50 @@
 {%- comment -%}
-  Nested theme block: a custom upsell inside FTD - Product Selector C
-  (and the Slide-over variant).
+  Self-rendering custom upsell. JS in the parent section moves it
+  into the .ftdc__upsells container in Step 3 on init.
 {%- endcomment -%}
-<div style="display:none" data-ftd-c="upsell" {{ block.shopify_attributes }}></div>
+{%- liquid
+  assign u_prod = block.settings.product
+  assign u_variant_id = ''
+  assign u_price = block.settings.price_text
+  if u_prod != blank and u_prod.selected_or_first_available_variant != blank
+    assign u_variant_id = u_prod.selected_or_first_available_variant.id
+    if u_price == blank or u_price == '-'
+      assign u_price = u_prod.selected_or_first_available_variant.price | money
+    endif
+  endif
+  assign u_img = block.settings.image | default: u_prod.featured_image
+  assign u_was = block.settings.was_text
+-%}
+<div class="ftdc__upsell-wrap" data-slot="upsell-group" style="display:contents" {{ block.shopify_attributes }}>
+  {%- if u_prod != blank -%}
+    <div class="ftdc__upsell" data-slot="upsell"
+         data-upsell-block
+         data-variant="{{ u_variant_id }}"
+         data-plans-allowed="{{ block.settings.plans_allowed | default: 'onetime,monthly,quarterly' }}">
+      <div class="ftdc__upsell-media">
+        {%- if u_img != blank -%}
+          <img src="{{ u_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="ftdc__upsell-body">
+        <p class="ftdc__upsell-title">{{ block.settings.title | default: u_prod.title }}</p>
+        {%- if block.settings.description != blank and block.settings.description != '-' -%}
+          <p class="ftdc__upsell-desc">{{ block.settings.description }}</p>
+        {%- endif -%}
+        <div class="ftdc__upsell-pricing">
+          <span class="ftdc__upsell-price">{{ u_price }}</span>
+          {%- if u_was != blank and u_was != '-' -%}
+            <s class="ftdc__upsell-was">{{ u_was }}</s>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="ftdc__upsell-toggle">
+        <input type="checkbox" id="ftdc-up-{{ block.id }}" class="visually-hidden" data-upsell-input>
+        <label for="ftdc-up-{{ block.id }}" class="ftdc__switch" aria-hidden="true"></label>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
 
 {% schema %}
 {

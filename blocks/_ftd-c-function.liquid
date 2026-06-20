@@ -1,9 +1,105 @@
 {%- comment -%}
-  Nested theme block: a single "function" inside FTD - Product Selector C
-  (and the Slide-over variant). The parent reads block.settings directly
-  and renders the card — this block has no visible output of its own.
+  Self-rendering Function block: emits one <article> per product variant.
+  JS in the parent section moves the rendered cards from the hidden
+  staging area into the Step 2 grid on init.
+
+  Theme blocks dropped into a section cannot be iterated via section.blocks
+  in the parent's Liquid scope, so each block has to render its own markup.
 {%- endcomment -%}
-<div style="display:none" data-ftd-c="function" {{ block.shopify_attributes }}></div>
+{%- liquid
+  assign prod = block.settings.product
+  assign sec_settings = block.section.settings
+  assign add_label = sec_settings.add_label | default: 'ADD'
+
+  assign flavor_opt_name = ''
+  assign want = block.settings.flavor_option | downcase | strip
+  if prod != blank and want != '' and want != '-'
+    for opt in prod.options_with_values
+      assign have = opt.name | downcase | strip
+      if have == want
+        assign flavor_opt_name = opt.name
+        break
+      endif
+    endfor
+  endif
+  if flavor_opt_name == '' and prod != blank and prod.options_with_values.first != blank
+    assign flavor_opt_name = prod.options_with_values.first.name
+  endif
+-%}
+<div class="ftdc__fn-wrap" data-slot="function-group" style="display:contents" {{ block.shopify_attributes }}>
+  {%- if prod == blank -%}
+    {%- comment -%}No product picked — emit a hint card so the editor still
+    sees something tied to this block.{%- endcomment -%}
+    <article class="ftdc__card ftdc__card--placeholder" data-slot="function-placeholder" data-fn-id="{{ block.id }}">
+      <div class="ftdc__card-media"><div class="ftdc__card-ph" aria-hidden="true"></div></div>
+      <div class="ftdc__card-body">
+        <span class="ftdc__card-spec-top">Function</span>
+        <h3 class="ftdc__card-name">{{ block.settings.function_label | default: 'Pick a product' }}</h3>
+        <p class="ftdc__card-hint">Open this Function block in the sidebar and pick a product.</p>
+      </div>
+    </article>
+  {%- else -%}
+    {%- for v in prod.variants -%}
+      {%- assign flavor_name = '' -%}
+      {%- if flavor_opt_name != '' -%}
+        {%- for o in v.options -%}
+          {%- assign idx = forloop.index0 -%}
+          {%- assign opt_name = prod.options_with_values[idx].name -%}
+          {%- if opt_name == flavor_opt_name -%}
+            {%- assign flavor_name = o -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- if flavor_name == '' -%}{%- assign flavor_name = v.title -%}{%- endif -%}
+      {%- assign card_img = v.featured_image | default: block.settings.card_image | default: prod.featured_image -%}
+      <article class="ftdc__card" data-slot="function"
+               data-fn-id="{{ block.id }}"
+               data-fn-label="{{ block.settings.function_label | escape }}"
+               data-variant-id="{{ v.id }}"
+               data-product-handle="{{ prod.handle }}"
+               data-flavor-name="{{ flavor_name | escape }}"
+               data-plan-monthly="{{ block.settings.loop_plan_monthly }}"
+               data-plan-quarterly="{{ block.settings.loop_plan_quarterly }}"
+               data-variant-price="{{ v.price }}"
+               data-variant-compare="{{ v.compare_at_price | default: 0 }}"
+               {%- if block.settings.coming_soon %} data-coming-soon="true" aria-disabled="true"{%- endif %}>
+        <div class="ftdc__card-media">
+          {%- if card_img != blank -%}
+            <img src="{{ card_img | image_url: width: 480 }}" alt="{{ block.settings.function_label | escape }} – {{ flavor_name | escape }}" loading="lazy" width="240" height="240">
+          {%- else -%}
+            <div class="ftdc__card-ph" aria-hidden="true"></div>
+          {%- endif -%}
+          <span class="ftdc__card-tick" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
+        <div class="ftdc__card-body">
+          {%- if block.settings.spec_top != blank and block.settings.spec_top != '-' -%}<span class="ftdc__card-spec-top">{{ block.settings.spec_top }}</span>{%- endif -%}
+          <h3 class="ftdc__card-name">{{ block.settings.function_label }}{%- if flavor_name != blank %} <span class="ftdc__card-flavor">{{ flavor_name }}</span>{%- endif -%}</h3>
+          {%- if block.settings.spec_1 != blank or block.settings.spec_2 != blank or block.settings.spec_3 != blank -%}
+            <div class="ftdc__card-specs">
+              {%- if block.settings.spec_1 != blank and block.settings.spec_1 != '-' -%}<span class="ftdc__spec">{{ block.settings.spec_1 }}</span>{%- endif -%}
+              {%- if block.settings.spec_2 != blank and block.settings.spec_2 != '-' -%}<span class="ftdc__spec">{{ block.settings.spec_2 }}</span>{%- endif -%}
+              {%- if block.settings.spec_3 != blank and block.settings.spec_3 != '-' -%}<span class="ftdc__spec">{{ block.settings.spec_3 }}</span>{%- endif -%}
+            </div>
+          {%- endif -%}
+          <div class="ftdc__card-pricing">
+            <span class="ftdc__card-price" data-card-price>{{ v.price | money }}</span>
+            {%- if v.compare_at_price > v.price -%}<s class="ftdc__card-was">{{ v.compare_at_price | money }}</s>{%- endif -%}
+          </div>
+          <div class="ftdc__card-action">
+            <button class="ftdc__add" type="button" data-card-action="add">{{ add_label }}</button>
+            <div class="ftdc__qty" hidden>
+              <button class="ftdc__qty-btn" type="button" data-card-action="dec" aria-label="Decrease">−</button>
+              <input class="ftdc__qty-input" type="number" min="0" value="0" inputmode="numeric" aria-label="Quantity">
+              <button class="ftdc__qty-btn" type="button" data-card-action="inc" aria-label="Increase">+</button>
+            </div>
+          </div>
+        </div>
+      </article>
+    {%- endfor -%}
+  {%- endif -%}
+</div>
 
 {% schema %}
 {

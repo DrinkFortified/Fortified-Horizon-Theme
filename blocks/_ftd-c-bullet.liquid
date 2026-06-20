@@ -1,8 +1,11 @@
 {%- comment -%}
-  Nested theme block: one bullet point in the header of FTD - Product
-  Selector C (and the Slide-over variant).
+  Self-rendering bullet point. JS in the parent section moves it
+  from the hidden staging area into the .ftdc__bullets list on init.
 {%- endcomment -%}
-<div style="display:none" data-ftd-c="bullet" {{ block.shopify_attributes }}></div>
+<li class="ftdc__bullet" data-slot="bullet" {{ block.shopify_attributes }}>
+  <span class="ftdc__bullet-dot" aria-hidden="true"></span>
+  <span class="ftdc__bullet-text">{{ block.settings.text }}</span>
+</li>
 
 {% schema %}
 {
