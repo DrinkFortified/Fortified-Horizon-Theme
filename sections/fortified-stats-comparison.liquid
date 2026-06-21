@@ -92,20 +92,52 @@
 
   /* ── Mobile: scroll sideways instead of stacking ── */
   @media (max-width: 749px) {
+    #{{ root }} .{{ root }}__head { margin-bottom: 28px; }
+    #{{ root }} .{{ root }}__heading { font-size: clamp(24px, 7vw, 36px); }
+    #{{ root }} .{{ root }}__sub { font-size: 15px; }
+
+    #{{ root }} .ftsc-card { padding: 20px; border-radius: 14px; }
+    #{{ root }} .ftsc-card__num { font-size: clamp(36px, 11vw, {{ section.settings.number_size }}px); }
+    #{{ root }} .ftsc-card__headline { font-size: clamp(16px, 4.6vw, {{ section.settings.headline_size }}px); }
+    #{{ root }} .ftsc-card__body { margin-top: 14px; }
+    #{{ root }} .ftsc-card__foot { margin-top: 14px; }
+
+    /* Chart: shrink y-axis gutter, bars become percentage-based so they never overflow */
+    #{{ root }} .ftsc-chart { height: 140px; padding-left: {% if section.settings.show_yaxis %}26{% else %}0{% endif %}px; }
+    #{{ root }} .ftsc-grid-line { left: {% if section.settings.show_yaxis %}26{% else %}0{% endif %}px; }
+    #{{ root }} .ftsc-bars { left: {% if section.settings.show_yaxis %}26{% else %}0{% endif %}px; gap: 14px; }
+    #{{ root }} .ftsc-bar { width: 36%; max-width: 36%; }
+    #{{ root }} .ftsc-lbls { padding-left: {% if section.settings.show_yaxis %}26{% else %}0{% endif %}px; gap: 14px; margin-top: 10px; }
+    #{{ root }} .ftsc-lbl { width: 36%; max-width: 36%; font-size: 12px; }
+    #{{ root }} .ftsc-lbl img { height: 16px; }
+    #{{ root }} .ftsc-y { font-size: 10px; }
+
+    /* Checklist: smaller text + icon */
+    #{{ root }} .ftsc-list { gap: 10px; }
+    #{{ root }} .ftsc-list li { font-size: 14px; }
+    #{{ root }} .ftsc-list svg { width: 18px; height: 18px; }
+
+    #{{ root }} .{{ root }}__footer { margin-top: 28px; }
+    #{{ root }} .{{ root }}__cta { padding: 14px 28px; font-size: 13px; }
+
     {% if section.settings.mobile_scroll %}
     #{{ root }} .{{ root }}__grid {
       grid-template-columns: none;
       grid-auto-flow: column;
-      grid-auto-columns: 82%;
+      grid-auto-columns: 86%;
+      gap: 14px;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scroll-padding-inline: 16px;
-      padding-bottom: 6px;
+      padding-bottom: 8px;
+      /* allow the scroller to bleed out to the page edge for a cleaner look */
+      margin-inline: calc(var(--page-margin, 16px) * -1);
+      padding-inline: var(--page-margin, 16px);
     }
     #{{ root }} .ftsc-card { scroll-snap-align: start; }
     {% else %}
-    #{{ root }} .{{ root }}__grid { grid-template-columns: 1fr; }
+    #{{ root }} .{{ root }}__grid { grid-template-columns: 1fr; gap: 14px; }
     {% endif %}
   }
 
