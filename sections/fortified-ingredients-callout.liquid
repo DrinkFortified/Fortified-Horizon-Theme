@@ -179,7 +179,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(16px, 4vw, 32px);
+  padding: 12px;
   min-height: 280px;
 }
 .ftd-ic__img {
@@ -310,16 +310,22 @@
   .ftd-ic__cta { width: 100%; }
 }
 
-/* Desktop */
+/* Desktop. The image column is always the 30fr (narrower) track and the
+   content column is always 70fr, regardless of which side the image
+   appears on. We swap the order of the column widths AND the order of
+   the children so each lands in its intended track — using `order:` on
+   its own would re-render the items but leave the image in the 70fr
+   column, which made the image balloon when set to 'right'. */
 @media (min-width: 750px) {
   .ftd-ic__inner {
-    grid-template-columns: 30fr 70fr;
     gap: clamp(32px, 5vw, 56px);
   }
-  .ftd-ic--img-right .ftd-ic__media   { order: 2; }
-  .ftd-ic--img-right .ftd-ic__content { order: 1; }
+  .ftd-ic--img-left  .ftd-ic__inner { grid-template-columns: 30fr 70fr; }
+  .ftd-ic--img-right .ftd-ic__inner { grid-template-columns: 70fr 30fr; }
   .ftd-ic--img-left  .ftd-ic__media   { order: 1; }
   .ftd-ic--img-left  .ftd-ic__content { order: 2; }
+  .ftd-ic--img-right .ftd-ic__content { order: 1; }
+  .ftd-ic--img-right .ftd-ic__media   { order: 2; }
   .ftd-ic__grid {
     grid-template-columns: repeat(var(--ftic-cols-d, 2), minmax(0, 1fr));
   }

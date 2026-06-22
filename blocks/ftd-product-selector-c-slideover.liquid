@@ -22,9 +22,42 @@
   if addon != blank and addon.selected_or_first_available_variant != blank
     assign addon_variant_id = addon.selected_or_first_available_variant.id
   endif
+  assign acc_monthly   = block.settings.monthly_accent_color   | default: '#1FA8A1'
+  assign acc_quarterly = block.settings.quarterly_accent_color | default: '#E8833A'
+  assign acc_onetime   = block.settings.onetime_accent_color   | default: '#8E8E93'
 -%}
 
 {{ 'ftdc.css' | asset_url | stylesheet_tag }}
+
+<style>
+  /* Per-plan accent: override --ftdc-accent on each plan card so EVERYTHING
+     that reads the accent (badge background, top stripe, selected border,
+     tick, glow) uses that plan's color consistently. */
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="monthly"] { --ftdc-accent: {{ acc_monthly }}; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"] { --ftdc-accent: {{ acc_quarterly }}; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] { --ftdc-accent: {{ acc_onetime }}; }
+  #ftdc-{{ sid }} .ftdc__plan { border-top: 4px solid var(--ftdc-accent, var(--color-primary-button-background)); }
+  /* Image stacks on top of the plans inside the slide-over (panel is too
+     narrow for a side-by-side layout), then the plans below: two
+     subscriptions on the top row, Buy Once spanning the full width below. */
+  #ftdc-{{ sid }} .ftdc__step--has-image.is-active { display: block; }
+  #ftdc-{{ sid }} .ftdc__plans-image { margin-bottom: 1rem; }
+  #ftdc-{{ sid }} .ftdc__plans-image img { width: 100%; height: auto; display: block; border-radius: var(--ftdc-radius, 12px); object-fit: cover; max-height: 280px; }
+  #ftdc-{{ sid }} .ftdc__plans { grid-template-columns: 1fr 1fr; }
+  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"] { grid-column: 1 / -1; }
+  /* Center the bundle (Step 2) cards: fixed-width tracks + justify-content
+     so a partial row sits centered instead of left-aligned. Desktop only —
+     the mobile 2-column layout from ftdc.css is left as-is. */
+  #ftdc-{{ sid }} .ftdc__grid { justify-content: center; }
+  @media (min-width: 600px) {
+    #ftdc-{{ sid }} .ftdc__grid { grid-template-columns: repeat(auto-fill, minmax(200px, 230px)); }
+  }
+  @media (max-width: 749px) {
+    #ftdc-{{ sid }} .ftdc__plans-image img { max-height: 200px; }
+    #ftdc-{{ sid }} .ftdc__plans { grid-template-columns: 1fr; }
+    #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"] { grid-column: auto; }
+  }
+</style>
 
 <div class="ftdc-slideover-wrap" {{ block.shopify_attributes }}>
   <button class="ftdc-slideover-trigger ftdc-slideover-trigger--{{ block.settings.button_style | default: 'filled' }}"
@@ -64,7 +97,12 @@
             </ol>
 
             {%- comment %} ───── STEP 1 — PLANS ───── {%- endcomment %}
-            <div class="ftdc__step is-active" data-step="plans">
+            <div class="ftdc__step is-active{% if block.settings.plan_image != blank %} ftdc__step--has-image{% endif %}" data-step="plans">
+              {%- if block.settings.plan_image != blank -%}
+                <div class="ftdc__plans-image">
+                  <img src="{{ block.settings.plan_image | image_url: width: 1000 }}" alt="" width="560" height="560" loading="lazy">
+                </div>
+              {%- endif -%}
               <div class="ftdc__plans" data-plan-order="{{ block.settings.plan_order | default: 'quarterly,monthly,onetime' }}">
                 {%- if show_quarterly -%}
                   <label class="ftdc__plan is-active" data-plan="quarterly">
@@ -517,6 +555,7 @@
     { "type": "text", "id": "quarterly_price", "label": "Price", "default": "$53.10" },
     { "type": "text", "id": "quarterly_period", "label": "Period", "default": "/ month" },
     { "type": "text", "id": "quarterly_was", "label": "Was", "default": "$59.00" },
+    { "type": "color", "id": "quarterly_accent_color", "label": "Accent color", "default": "#E8833A" },
     { "type": "range", "id": "bundle_count", "label": "Bundle size", "min": 2, "max": 6, "step": 1, "default": 3 },
     { "type": "range", "id": "quarterly_estimate_pct", "label": "Quarterly est %", "min": 50, "max": 100, "step": 1, "default": 90 },
     { "type": "header", "content": "Monthly" },
@@ -527,6 +566,7 @@
     { "type": "text", "id": "monthly_price", "label": "Price", "default": "$53.10" },
     { "type": "text", "id": "monthly_period", "label": "Period", "default": "/ month" },
     { "type": "text", "id": "monthly_was", "label": "Was", "default": "$59.00" },
+    { "type": "color", "id": "monthly_accent_color", "label": "Accent color", "default": "#1FA8A1" },
     { "type": "range", "id": "monthly_estimate_pct", "label": "Monthly est %", "min": 50, "max": 100, "step": 1, "default": 90 },
     { "type": "header", "content": "One-time" },
     { "type": "checkbox", "id": "show_onetime", "label": "Show one-time", "default": true },
@@ -536,6 +576,7 @@
     { "type": "text", "id": "onetime_price", "label": "Price", "default": "$59.00" },
     { "type": "text", "id": "onetime_period", "label": "Period", "default": "/ pouch" },
     { "type": "text", "id": "onetime_was", "label": "Was", "default": "-" },
+    { "type": "color", "id": "onetime_accent_color", "label": "Accent color", "default": "#8E8E93" },
     { "type": "header", "content": "Bundle step" },
     { "type": "text", "id": "bundle_label", "label": "Eyebrow", "default": "Your Bundle" },
     { "type": "text", "id": "of_word", "label": "Word 'of'", "default": "of" },
@@ -578,7 +619,8 @@
     { "type": "text", "id": "checkout_label", "label": "Checkout", "default": "Checkout" },
     { "type": "text", "id": "add_more_label", "label": "Add More", "default": "Add More" },
     { "type": "header", "content": "Appearance" },
-    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1FA8A1" },
+    { "type": "image_picker", "id": "plan_image", "label": "Plan selector image" },
+    { "type": "color", "id": "accent_color", "label": "Accent (global fallback)", "default": "#1FA8A1", "info": "Used for steps 2-3 and any plan without its own accent color set." },
     { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 12 },
     { "type": "range", "id": "content_max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
