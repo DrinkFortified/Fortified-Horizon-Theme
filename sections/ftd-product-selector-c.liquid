@@ -32,13 +32,13 @@
 {{ 'ftdc.css' | asset_url | stylesheet_tag }}
 
 <style>
-  #ftdc-{{ sid }} .ftdc__plan { border-top: 4px solid transparent; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="monthly"] { border-top-color: {{ acc_monthly }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"] { border-top-color: {{ acc_quarterly }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] { border-top-color: {{ acc_onetime }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="monthly"] .ftdc__plan-badge { color: {{ acc_monthly }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"] .ftdc__plan-badge { color: {{ acc_quarterly }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-badge { color: {{ acc_onetime }}; }
+  /* Per-plan accent: override --ftdc-accent on each plan card so EVERYTHING
+     that reads the accent (badge background, top stripe, selected border,
+     tick, glow) uses that plan's color consistently. */
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="monthly"] { --ftdc-accent: {{ acc_monthly }}; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"] { --ftdc-accent: {{ acc_quarterly }}; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] { --ftdc-accent: {{ acc_onetime }}; }
+  #ftdc-{{ sid }} .ftdc__plan { border-top: 4px solid var(--ftdc-accent, var(--color-primary-button-background)); }
   #ftdc-{{ sid }} .ftdc__step--has-image.is-active { display: grid; grid-template-columns: minmax(180px, 320px) 1fr; gap: 1.4rem; align-items: start; }
   #ftdc-{{ sid }} .ftdc__plans-image { position: sticky; top: 1rem; }
   #ftdc-{{ sid }} .ftdc__plans-image img { width: 100%; height: auto; display: block; border-radius: var(--ftdc-radius, 12px); object-fit: cover; }
