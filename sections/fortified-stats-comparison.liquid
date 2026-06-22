@@ -31,7 +31,7 @@
 -%}
 
 <style>
-  #{{ root }} { overflow-x: clip; }
+  #{{ root }} { overflow-x: hidden; }
   #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; }
   #{{ root }} .{{ root }}__head { text-align: center; margin: 0 auto 40px; max-width: 760px; display: flex; flex-direction: column; gap: 10px; }
   #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: {{ accent_c }}; }
@@ -121,21 +121,24 @@
     #{{ root }} .{{ root }}__cta { padding: 14px 28px; font-size: 13px; }
 
     {% if section.settings.mobile_scroll %}
+    /* horizontal snap scroller with a visible peek of the next card */
     #{{ root }} .{{ root }}__grid {
       grid-template-columns: none;
       grid-auto-flow: column;
-      grid-auto-columns: 86%;
+      grid-auto-columns: 78%;
       gap: 14px;
       overflow-x: auto;
+      overflow-y: visible;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      scroll-padding-inline: 16px;
-      padding-bottom: 8px;
-      /* allow the scroller to bleed out to the page edge for a cleaner look */
-      margin-inline: calc(var(--page-margin, 16px) * -1);
-      padding-inline: var(--page-margin, 16px);
+      scroll-padding-inline: 16px 16px;
+      padding-bottom: 12px;
+      padding-inline-end: 14%;  /* leaves room so the last card can snap to start */
     }
     #{{ root }} .ftsc-card { scroll-snap-align: start; }
+    /* hide scrollbar visually but keep functionality */
+    #{{ root }} .{{ root }}__grid::-webkit-scrollbar { height: 0; display: none; }
+    #{{ root }} .{{ root }}__grid { scrollbar-width: none; }
     {% else %}
     #{{ root }} .{{ root }}__grid { grid-template-columns: 1fr; gap: 14px; }
     {% endif %}
