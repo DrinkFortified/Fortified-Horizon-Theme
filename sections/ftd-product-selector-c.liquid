@@ -39,9 +39,13 @@
   #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"] { --ftdc-accent: {{ acc_quarterly }}; }
   #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] { --ftdc-accent: {{ acc_onetime }}; }
   #ftdc-{{ sid }} .ftdc__plan { border-top: 4px solid var(--ftdc-accent, var(--color-primary-button-background)); }
-  #ftdc-{{ sid }} .ftdc__step--has-image.is-active { display: grid; grid-template-columns: minmax(180px, 320px) 1fr; gap: 1.4rem; align-items: start; }
+  #ftdc-{{ sid }} .ftdc__step--has-image.is-active { display: grid; grid-template-columns: minmax(300px, 460px) 1fr; gap: 1.4rem; align-items: start; }
   #ftdc-{{ sid }} .ftdc__plans-image { position: sticky; top: 1rem; }
   #ftdc-{{ sid }} .ftdc__plans-image img { width: 100%; height: auto; display: block; border-radius: var(--ftdc-radius, 12px); object-fit: cover; }
+  /* Plan layout: the two subscriptions side-by-side on top, Buy Once
+     spanning the full width beneath them. */
+  #ftdc-{{ sid }} .ftdc__plans { grid-template-columns: 1fr 1fr; }
+  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"] { grid-column: 1 / -1; }
   /* Center the bundle (Step 2) cards: fixed-width tracks + justify-content
      so a partial row sits centered instead of left-aligned. Desktop only —
      the mobile 2-column layout from ftdc.css is left as-is. */
@@ -53,6 +57,8 @@
     #ftdc-{{ sid }} .ftdc__step--has-image.is-active { grid-template-columns: 1fr; gap: 1rem; }
     #ftdc-{{ sid }} .ftdc__plans-image { position: static; }
     #ftdc-{{ sid }} .ftdc__plans-image img { max-height: 220px; }
+    #ftdc-{{ sid }} .ftdc__plans { grid-template-columns: 1fr; }
+    #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"] { grid-column: auto; }
   }
 </style>
 
@@ -81,7 +87,7 @@
     <div class="ftdc__step is-active{% if section.settings.plan_image != blank %} ftdc__step--has-image{% endif %}" data-step="plans">
       {%- if section.settings.plan_image != blank -%}
         <div class="ftdc__plans-image">
-          <img src="{{ section.settings.plan_image | image_url: width: 800 }}" alt="" width="320" height="320" loading="lazy">
+          <img src="{{ section.settings.plan_image | image_url: width: 1000 }}" alt="" width="460" height="460" loading="lazy">
         </div>
       {%- endif -%}
       <div class="ftdc__plans" data-plan-order="{{ section.settings.plan_order | default: 'quarterly,monthly,onetime' }}">
