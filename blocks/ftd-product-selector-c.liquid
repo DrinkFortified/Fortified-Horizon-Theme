@@ -424,8 +424,9 @@
   .ftdc__card-price { font-weight: 800; font-size: 15px; color: var(--color-foreground); }
   .ftdc__card-was { font-size: 12px; color: rgb(var(--color-foreground-rgb) / 0.5); text-decoration: line-through; }
   .ftdc__card-action { margin-top: 0.4rem; }
-  .ftdc__add { width: 100%; padding: 0.55rem 0.75rem; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 8px; border: 1.5px solid var(--color-foreground); background: transparent; color: var(--color-foreground); cursor: pointer; transition: background 0.15s, color 0.15s; }
-  .ftdc__add:hover { background: var(--color-foreground); color: var(--color-background); }
+  /* Per-card Add button inherits Horizon's secondary-button look */
+  .ftdc__add { width: 100%; display: inline-grid; align-content: center; text-align: center; cursor: pointer; appearance: none; font-family: var(--button-font-family-secondary, var(--font-paragraph--family)); font-style: var(--font-paragraph--style); font-weight: var(--font-paragraph--weight); font-size: var(--font-paragraph--size); line-height: var(--font-paragraph--line-height); text-transform: var(--button-text-case-secondary); color: var(--color-secondary-button-text); background-color: var(--color-secondary-button-background); border: none; box-shadow: inset 0 0 0 var(--style-border-width-secondary) var(--color-secondary-button-border); padding-block: calc(var(--button-padding-block) * 0.55); padding-inline: var(--button-padding-inline); border-radius: var(--style-border-radius-buttons-secondary); transition: color var(--animation-speed) var(--animation-easing), background-color var(--animation-speed) var(--animation-easing); }
+  .ftdc__add:hover { color: var(--color-secondary-button-hover-text); background-color: var(--color-secondary-button-hover-background); }
   .ftdc__qty { display: grid; grid-template-columns: auto 1fr auto; align-items: stretch; border-radius: 8px; border: 1.5px solid var(--color-foreground); overflow: hidden; }
   .ftdc__qty-btn { padding: 0.55rem 0.7rem; background: var(--color-foreground); color: var(--color-background); border: 0; font-size: 14px; font-weight: 800; cursor: pointer; }
   .ftdc__qty-input { border: 0; text-align: center; font-size: 14px; font-weight: 800; background: var(--color-background); color: var(--color-foreground); width: 100%; -moz-appearance: textfield; padding: 0; }
@@ -449,19 +450,21 @@
   .ftdc__upsell input:checked + .ftdc__switch::after { transform: translateX(18px); }
 
   .ftdc__step-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1.25rem; }
-  .ftdc__btn { padding: 0.85rem 1.25rem; font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 10px; cursor: pointer; transition: opacity 0.15s, background 0.15s, color 0.15s; border: 1.5px solid var(--color-foreground); }
-  .ftdc__btn--ghost { background: transparent; color: var(--color-foreground); }
-  .ftdc__btn--ghost:hover { background: var(--color-foreground); color: var(--color-background); }
-  .ftdc__btn--primary { background: var(--color-foreground); color: var(--color-background); }
-  .ftdc__btn--primary:hover { opacity: 0.88; }
+  /* Inherit Horizon's native button look */
+  .ftdc__btn { display: inline-grid; align-content: center; text-align: center; cursor: pointer; appearance: none; font-family: var(--font-paragraph--family); font-style: var(--font-paragraph--style); font-weight: var(--font-paragraph--weight); font-size: var(--font-paragraph--size); line-height: var(--font-paragraph--line-height); padding-block: var(--button-padding-block); padding-inline: var(--button-padding-inline); margin-block: 0; transition: color var(--animation-speed) var(--animation-easing), box-shadow var(--animation-speed) var(--animation-easing), background-color var(--animation-speed) var(--animation-easing); color: var(--button-color); background-color: var(--button-background-color); border: none; box-shadow: inset 0 0 0 var(--button-border-width, 0) var(--button-border-color); }
+  .ftdc__btn--primary { --button-color: var(--color-primary-button-text); --button-background-color: var(--color-primary-button-background); --button-border-color: var(--color-primary-button-border); --button-border-width: var(--style-border-width-primary); font-family: var(--button-font-family-primary); text-transform: var(--button-text-case-primary); border-radius: var(--style-border-radius-buttons-primary); }
+  .ftdc__btn--primary:hover { --button-color: var(--color-primary-button-hover-text); --button-background-color: var(--color-primary-button-hover-background); --button-border-color: var(--color-primary-button-hover-border); }
+  .ftdc__btn--ghost { --button-color: var(--color-secondary-button-text); --button-background-color: var(--color-secondary-button-background); --button-border-color: var(--color-secondary-button-border); --button-border-width: var(--style-border-width-secondary); font-family: var(--button-font-family-secondary); text-transform: var(--button-text-case-secondary); border-radius: var(--style-border-radius-buttons-secondary); }
+  .ftdc__btn--ghost:hover { --button-color: var(--color-secondary-button-hover-text); --button-background-color: var(--color-secondary-button-hover-background); --button-border-color: var(--color-secondary-button-hover-border); }
 
   /* Sticky cart bar */
   .ftdc__bar { position: sticky; bottom: clamp(8px, 2vw, 18px); z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 1.1rem; margin: 1.5rem auto 0; max-width: 38em; background: var(--color-background); border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.12); border-radius: 999px; box-shadow: 0 10px 30px rgb(0 0 0 / 0.08); }
   .ftdc__bar-summary { display: flex; align-items: baseline; gap: 0.5rem; font-size: 14px; color: var(--color-foreground); min-width: 0; }
   .ftdc__bar-total { font-weight: 700; white-space: nowrap; }
   .ftdc__bar-saved { font-size: 12px; opacity: 0.7; white-space: nowrap; }
-  .ftdc__bar-action { padding: 0.55rem 1.25rem; background: var(--color-foreground); color: var(--color-background); border: 0; border-radius: 999px; font-size: 13px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
-  .ftdc__bar-action:hover:not(:disabled) { opacity: 0.88; }
+  /* Bar action uses native button vars, pill-shaped */
+  .ftdc__bar-action { display: inline-grid; align-content: center; cursor: pointer; appearance: none; font-family: var(--button-font-family-primary, var(--font-paragraph--family)); font-weight: var(--font-paragraph--weight); font-size: var(--font-paragraph--size); line-height: var(--font-paragraph--line-height); text-transform: var(--button-text-case-primary); color: var(--color-primary-button-text); background-color: var(--color-primary-button-background); border: none; box-shadow: inset 0 0 0 var(--style-border-width-primary, 0) var(--color-primary-button-border); padding-block: calc(var(--button-padding-block) * 0.6); padding-inline: var(--button-padding-inline); border-radius: 999px; transition: color var(--animation-speed) var(--animation-easing), background-color var(--animation-speed) var(--animation-easing); }
+  .ftdc__bar-action:hover:not(:disabled) { color: var(--color-primary-button-hover-text); background-color: var(--color-primary-button-hover-background); }
   .ftdc__bar-action:disabled { opacity: 0.4; cursor: not-allowed; }
 
   @media (max-width: 599px) {
