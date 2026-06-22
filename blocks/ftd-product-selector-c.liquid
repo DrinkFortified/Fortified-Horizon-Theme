@@ -34,35 +34,21 @@
 -%}
 
 <style>
-  /* Per-plan accent — mirrors Product Selector A's pattern:
-     each plan card gets a colored top stripe, the SELECTED state stays
-     universal (--ftdc-accent). Schema defaults match A's defaults. */
   #ftdc-{{ sid }} .ftdc__plan { border-top: 4px solid transparent; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="monthly"]   { border-top-color: {{ acc_monthly }}; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="monthly"] { border-top-color: {{ acc_monthly }}; }
   #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"] { border-top-color: {{ acc_quarterly }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"]   { border-top-color: {{ acc_onetime }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="monthly"]   .ftdc__plan-badge { color: {{ acc_monthly }}; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] { border-top-color: {{ acc_onetime }}; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="monthly"] .ftdc__plan-badge { color: {{ acc_monthly }}; }
   #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"] .ftdc__plan-badge { color: {{ acc_quarterly }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"]   .ftdc__plan-badge { color: {{ acc_onetime }}; }
-
-  /* Optional static image to the left of the plan picker (Step 1 only).
-     When set, Step 1 becomes a 2-col grid: image | plans. When blank,
-     Step 1 stays a single block exactly like before (no wrapper changes). */
-  {%- if block.settings.plan_image != blank -%}
-  #ftdc-{{ sid }} .ftdc__step[data-step="plans"].is-active {
-    display: grid;
-    grid-template-columns: minmax(180px, 320px) 1fr;
-    gap: 1.4rem;
-    align-items: start;
-  }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-badge { color: {{ acc_onetime }}; }
+  #ftdc-{{ sid }} .ftdc__step--has-image.is-active { display: grid; grid-template-columns: minmax(180px, 320px) 1fr; gap: 1.4rem; align-items: start; }
   #ftdc-{{ sid }} .ftdc__plans-image { position: sticky; top: 1rem; }
   #ftdc-{{ sid }} .ftdc__plans-image img { width: 100%; height: auto; display: block; border-radius: var(--ftdc-radius, 12px); object-fit: cover; }
   @media (max-width: 749px) {
-    #ftdc-{{ sid }} .ftdc__step[data-step="plans"].is-active { grid-template-columns: 1fr; gap: 1rem; }
+    #ftdc-{{ sid }} .ftdc__step--has-image.is-active { grid-template-columns: 1fr; gap: 1rem; }
     #ftdc-{{ sid }} .ftdc__plans-image { position: static; }
     #ftdc-{{ sid }} .ftdc__plans-image img { max-height: 220px; }
   }
-  {%- endif -%}
 </style>
 
 <section
@@ -87,19 +73,10 @@
     </ol>
 
     {%- comment %} ───── STEP 1 — PLANS ───── {%- endcomment %}
-    <div class="ftdc__step is-active" data-step="plans">
+    <div class="ftdc__step is-active{% if block.settings.plan_image != blank %} ftdc__step--has-image{% endif %}" data-step="plans">
       {%- if block.settings.plan_image != blank -%}
-        {%- assign _pimg = block.settings.plan_image -%}
         <div class="ftdc__plans-image">
-          <img
-            src="{{ _pimg | image_url: width: 800 }}"
-            srcset="{{ _pimg | image_url: width: 400 }} 400w, {{ _pimg | image_url: width: 800 }} 800w, {{ _pimg | image_url: width: 1200 }} 1200w"
-            sizes="(max-width: 749px) 100vw, 320px"
-            alt="{{ _pimg.alt | default: '' | escape }}"
-            width="{{ _pimg.width }}"
-            height="{{ _pimg.height }}"
-            loading="lazy"
-          >
+          <img src="{{ block.settings.plan_image | image_url: width: 800 }}" alt="" width="320" height="320" loading="lazy">
         </div>
       {%- endif -%}
       <div class="ftdc__plans" data-plan-order="{{ block.settings.plan_order | default: 'quarterly,monthly,onetime' }}">
@@ -137,7 +114,7 @@
             {%- if _ow != blank and _ow != '-' and _ow != '—' -%}<div class="ftdc__plan-was">{{ block.settings.onetime_was }}</div>{%- endif -%}
           </label>
         {%- endif -%}
-      </div>{%- comment %} /.ftdc__plans {%- endcomment %}
+      </div>
     </div>
 
     {%- comment %} ───── STEP 2 — PRODUCTS ───── {%- endcomment %}
