@@ -7,16 +7,15 @@
   data + per-product callouts.
 
   Why a BLOCK (not a section): Shopify's new theme-blocks architecture
-  renders nested theme blocks via {% content_for 'blocks' %} ONLY
+  renders nested theme blocks via the content_for blocks tag ONLY
   inside parent BLOCKS. Sections that try the same pattern silently
   emit nothing. A block with a presets array appears in the section
   picker exactly like a section.
 
-  Child blocks self-render into a hidden staging div via
-  {% content_for 'blocks' %}; JS reads each rendered <article
-  data-slot="supp-panel">, builds a tab button from its data-* attrs,
-  and moves the panel into the active panel container. First tab is
-  active on initial load.
+  Child blocks self-render into a hidden staging div; JS reads each
+  rendered article with data-slot="supp-panel", builds a tab button
+  from its data-* attrs, and moves the panel into the active panel
+  container. First tab is active on initial load.
 {% endcomment %}
 
 {%- liquid
@@ -258,8 +257,7 @@
       "blocks": {
         "p1": { "type": "_ftd-c-supp-product" },
         "p2": { "type": "_ftd-c-supp-product" }
-      },
-      "block_order": ["p1", "p2"]
+      }
     }
   ]
 }
