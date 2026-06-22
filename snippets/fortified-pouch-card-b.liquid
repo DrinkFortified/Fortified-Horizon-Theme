@@ -1,0 +1,117 @@
+{% comment %}
+  Fortified Pouch Card B
+  ----------------------------------------------------------------------
+  Renders ONE pouch slot as a single card with:
+    • a row of "function" pills (Everyday / Energy / Creatine ...)
+    • a row of "flavor" pills (one group per function — only the active
+      function's flavor group is visible)
+
+  Replaces the older "N function cards per pouch" layout. Keeps the
+  existing data attributes the section's JS already listens for
+  (data-function-id / data-product-handle / data-function-label /
+  data-plan-monthly / data-plan-quarterly / data-flavor-name) so the
+  selection model stays unchanged.
+
+  Accepted params:
+    function_blocks   - array of function_item section blocks
+    config            - this pouch slot's config id (e.g. "monthly", "q1")
+    pouch_title       - optional title rendered above the pills
+    flavor_label      - label above the flavor pills
+    coming_soon_text  - badge text for coming-soon functions
+{% endcomment %}
+
+<div class="feb-pouch-card" data-config="{{ config }}" data-pouch-config="{{ config }}">
+  {%- if pouch_title != blank -%}
+    <p class="feb-pouch-card-title">{{ pouch_title }}</p>
+  {%- endif -%}
+
+  <p class="feb-pouch-card-step-label">{{ function_label_text | default: 'Function' }}</p>
+  <div class="feb-fn-row" role="radiogroup" aria-label="Function">
+    {%- for fb in function_blocks -%}
+      {%- if fb.settings.enabled -%}
+        <button
+          type="button"
+          class="feb-fn-pill"
+          data-config="{{ config }}"
+          data-function-id="{{ fb.id }}"
+          data-product-handle="{{ fb.settings.product.handle }}"
+          data-function-label="{{ fb.settings.function_label | escape }}"
+          data-plan-monthly="{{ fb.settings.loop_plan_monthly }}"
+          data-plan-quarterly="{{ fb.settings.loop_plan_quarterly }}"
+          data-thumbnail="{% if fb.settings.thumbnail_image != blank %}{{ fb.settings.thumbnail_image | image_url: width: 200 }}{% elsif fb.settings.card_image != blank %}{{ fb.settings.card_image | image_url: width: 200 }}{% elsif fb.settings.product.featured_image != blank %}{{ fb.settings.product.featured_image | image_url: width: 200 }}{% endif %}"
+          aria-pressed="false"
+          {%- if fb.settings.coming_soon %} data-coming-soon="true" aria-disabled="true"{%- endif %}
+        >
+          <span class="feb-fn-pill-label">
+            {{ fb.settings.function_label }}
+            {%- if fb.settings.coming_soon -%}<em class="feb-badge">{{ coming_soon_text | default: 'Soon' }}</em>{%- endif -%}
+          </span>
+        </button>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <p class="feb-pouch-card-step-label feb-pouch-card-step-label--flavor">{{ flavor_label | default: 'Choose Flavor:' }}</p>
+
+  {%- comment %} Render one flavor group per function block; CSS hides all
+    groups except the one for the currently-active function pill. {%- endcomment %}
+  {%- for fb in function_blocks -%}
+    {%- if fb.settings.enabled -%}
+      {%- liquid
+        assign prod = fb.settings.product
+        assign flavor_opt = null
+        if prod != blank and prod.options_with_values.size > 0
+          assign want = fb.settings.flavor_option | downcase | strip
+          if want != blank
+            for opt in prod.options_with_values
+              assign have = opt.name | downcase | strip
+              if have == want
+                assign flavor_opt = opt
+              endif
+            endfor
+          endif
+          if flavor_opt == null
+            assign flavor_opt = prod.options_with_values.first
+          endif
+        endif
+        assign manual_raw = fb.settings.manual_flavors | strip
+        assign manual_flavors = fb.settings.manual_flavors | newline_to_br | split: '<br />'
+      -%}
+
+      <div class="feb-flavor-group" data-for-function="{{ fb.id }}" hidden>
+        {%- if flavor_opt != null and flavor_opt.values.size > 0 -%}
+          <div class="feb-fcard-flavors" role="group" aria-label="{{ flavor_label | default: 'Flavor' | escape }}">
+            {%- for val in flavor_opt.values -%}
+              {%- assign vthumb = '' -%}
+              {%- for v in prod.variants -%}
+                {%- if v.options contains val -%}
+                  {%- if v.featured_image != blank -%}{%- assign vthumb = v.featured_image | image_url: width: 80 -%}{%- endif -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+              <button type="button" class="feb-flavor-opt" data-flavor-name="{{ val | escape }}" data-thumbnail="{{ vthumb }}" aria-pressed="false">
+                {%- if vthumb != blank -%}<span class="feb-flavor-swatch"><img src="{{ vthumb }}" alt="" width="20" height="20"></span>{%- endif -%}
+                <span class="feb-flavor-name">{{ val }}</span>
+                <span class="feb-flavor-radio" aria-hidden="true"></span>
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- elsif manual_raw != blank -%}
+          <div class="feb-fcard-flavors" role="group" aria-label="{{ flavor_label | default: 'Flavor' | escape }}">
+            {%- for m in manual_flavors -%}
+              {%- assign mt = m | strip -%}
+              {%- if mt != blank -%}
+                <button type="button" class="feb-flavor-opt" data-flavor-name="{{ mt | escape }}" data-thumbnail="" aria-pressed="false">
+                  <span class="feb-flavor-name">{{ mt }}</span>
+                  <span class="feb-flavor-radio" aria-hidden="true"></span>
+                </button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <p class="feb-fcard-hint">Pick a product on this function block to load flavors.</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+</div>

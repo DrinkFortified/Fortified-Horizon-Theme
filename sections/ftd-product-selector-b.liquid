@@ -279,28 +279,30 @@
           <span class="feb-step-note" id="feb-counter-{{ sid }}"></span>
         </div>
 
-        {%- comment %} Monthly: one pouch {%- endcomment %}
+        {%- comment %} Monthly: one pouch card (function pills + flavor pills) {%- endcomment %}
         <div class="feb-build-view feb-build-view--monthly" data-build-view="monthly">
           <div class="feb-fcards" data-config="monthly">
-            {%- for fb in function_blocks -%}
-              {%- if fb.settings.enabled -%}
-                {%- render 'fortified-fn-card-b', card_block: fb, config: 'monthly', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
-              {%- endif -%}
-            {%- endfor -%}
+            {%- render 'fortified-pouch-card-b',
+              function_blocks: function_blocks,
+              config: 'monthly',
+              pouch_title: blank,
+              flavor_label: flavor_label,
+              coming_soon_text: coming_soon_txt -%}
           </div>
         </div>
 
-        {%- comment %} Quarterly: one pouch group per unit {%- endcomment %}
+        {%- comment %} Quarterly: one pouch card per unit {%- endcomment %}
         <div class="feb-build-view feb-build-view--quarterly" data-build-view="quarterly">
           {%- for i in (1..bundle_count) -%}
+            {%- assign pouch_title_str = section.settings.unit_label_prefix | default: 'Pouch' | append: ' ' | append: i -%}
             <div class="feb-pouch">
-              <p class="feb-pouch-title">{{ section.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
               <div class="feb-fcards" data-config="q{{ i }}">
-                {%- for fb in function_blocks -%}
-                  {%- if fb.settings.enabled -%}
-                    {%- render 'fortified-fn-card-b', card_block: fb, config: 'q', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
-                  {%- endif -%}
-                {%- endfor -%}
+                {%- render 'fortified-pouch-card-b',
+                  function_blocks: function_blocks,
+                  config: 'q' | append: i,
+                  pouch_title: pouch_title_str,
+                  flavor_label: flavor_label,
+                  coming_soon_text: coming_soon_txt -%}
               </div>
             </div>
           {%- endfor -%}
@@ -540,8 +542,52 @@
 .feb-build-view.is-active { display: block; }
 .feb-pouch + .feb-pouch { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.1); }
 .feb-pouch-title { margin: 0 0 0.75rem; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.04em; color: var(--color-foreground); }
-.feb-fcards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-@media (max-width: 480px) { .feb-fcards { grid-template-columns: 1fr; } }
+/* New pouch-card layout (one card per pouch slot with function pills + flavor pills) */
+.feb-fcards { display: block; }
+.feb-pouch-card {
+  display: flex; flex-direction: column; gap: 0.7rem;
+  padding: 1rem 1.1rem;
+  background: var(--color-background);
+  border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.14);
+  border-radius: var(--ftdc-radius, 12px);
+}
+.feb-pouch-card-title { margin: 0 0 0.2rem; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(var(--color-foreground-rgb) / 0.7); }
+.feb-pouch-card-step-label { margin: 0; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; color: var(--color-foreground); }
+.feb-pouch-card-step-label--flavor { opacity: 0; transition: opacity 0.2s; }
+.feb-pouch-card-step-label--flavor.is-visible { opacity: 0.55; }
+
+.feb-fn-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.feb-fn-pill {
+  appearance: none; cursor: pointer; font: inherit;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.55rem 0.95rem;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.18);
+  border-radius: 999px;
+  font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+.feb-fn-pill:hover:not([data-coming-soon="true"]) { border-color: rgb(var(--color-foreground-rgb) / 0.45); }
+.feb-fn-pill.is-active {
+  background: var(--feb-selection-color, var(--color-primary-button-background));
+  color: var(--color-primary-button-text);
+  border-color: var(--feb-selection-color, var(--color-primary-button-background));
+}
+.feb-fn-pill[data-coming-soon="true"] { opacity: 0.45; cursor: not-allowed; }
+.feb-fn-pill-label { display: inline-flex; align-items: center; gap: 0.35rem; }
+
+.feb-flavor-group { display: block; }
+.feb-flavor-group[hidden] { display: none !important; }
+.feb-flavor-group .feb-fcard-flavors { display: flex; flex-wrap: wrap; gap: 0.4rem; flex-direction: row; }
+.feb-flavor-group .feb-flavor-opt { flex: 0 0 auto; padding: 0.5rem 0.85rem; }
+.feb-flavor-group .feb-fcard-hint { margin: 0; font-size: 0.72rem; font-style: italic; opacity: 0.6; color: var(--color-foreground); }
+
+@media (max-width: 480px) {
+  .feb-pouch-card { padding: 0.9rem; }
+  .feb-fn-pill { padding: 0.5rem 0.8rem; font-size: 0.78rem; }
+  .feb-flavor-group .feb-flavor-opt { padding: 0.45rem 0.7rem; }
+}
 
 /* ── Function card ── */
 .feb-fcard {
@@ -942,12 +988,13 @@
     var ph = root.querySelector('.feb-main-ph'); if (ph) ph.style.display = 'none';
   }
   function slotImage(s) {
-    var card = s.configId ? root.querySelector('.feb-fcards[data-config="' + s.configId + '"] .feb-fcard.is-active') : null;
-    var flBtn = card ? card.querySelector('.feb-flavor-opt.is-active') : null;
+    var pouch = s.configId ? root.querySelector('.feb-pouch-card[data-config="' + s.configId + '"]') : null;
+    var pill = pouch ? pouch.querySelector('.feb-fn-pill.is-active') : null;
+    var flBtn = pouch ? pouch.querySelector('.feb-flavor-opt.is-active') : null;
     if (flBtn && flBtn.dataset.thumbnail) return flBtn.dataset.thumbnail;
     if (s.variant && s.variant.featured_image && s.variant.featured_image.src) return s.variant.featured_image.src;
     if (s.product && s.product.featured_image) return s.product.featured_image;
-    if (card && card.dataset.thumbnail) return card.dataset.thumbnail;
+    if (pill && pill.dataset.thumbnail) return pill.dataset.thumbnail;
     return '';
   }
 
@@ -1077,74 +1124,93 @@
     applyPurchaseType(preselectedPlan.value);
   }
 
-  /* Select a function card for a config slot. Free switching: clicking
-     any card activates it and clears the previously-selected card's
-     visual state (CSS hides the inactive card's flavor picker, so only
-     one shows as selected at a time). */
-  function selectFunction(card, resetFlavor) {
-    var cfg = card.closest('.feb-fcards').dataset.config;
+  /* Select a function pill for a config slot. The slot now owns one
+     ".feb-pouch-card" with a row of function pills and one flavor group
+     per function (only the active function's group is visible). */
+  function selectFunction(pill, resetFlavor) {
+    var pouchCard = pill.closest('.feb-pouch-card');
+    var cfg = (pouchCard && pouchCard.dataset.config) || pill.dataset.config;
     var s = slots[cfg]; if (!s) return;
     s.configId = cfg;
-    root.querySelectorAll('.feb-fcards[data-config="' + cfg + '"] .feb-fcard').forEach(function (c) {
-      c.classList.remove('is-active'); c.setAttribute('aria-pressed', 'false');
-      /* Clear sibling cards' flavor selections so only the active card shows
-         a picked flavor. The newly active card keeps its existing flavor
-         until resetFlavor explicitly clears it below. */
-      if (c !== card) {
-        c.querySelectorAll('.feb-flavor-opt').forEach(function (b) {
+
+    /* Mark pill state within this pouch only */
+    if (pouchCard) {
+      pouchCard.querySelectorAll('.feb-fn-pill').forEach(function (p) {
+        p.classList.remove('is-active');
+        p.setAttribute('aria-pressed', 'false');
+      });
+    }
+    pill.classList.add('is-active');
+    pill.setAttribute('aria-pressed', 'true');
+
+    s.functionId = pill.dataset.functionId;
+    s.handle = pill.dataset.productHandle;
+    s.label = pill.dataset.functionLabel;
+    s.planMonthly = pill.dataset.planMonthly || null;
+    s.planQuarterly = pill.dataset.planQuarterly || null;
+
+    /* Show only the flavor group that matches the active function */
+    if (pouchCard) {
+      pouchCard.querySelectorAll('.feb-flavor-group').forEach(function (g) {
+        var on = g.dataset.forFunction === s.functionId;
+        if (on) { g.removeAttribute('hidden'); g.classList.add('is-active'); }
+        else    { g.setAttribute('hidden', ''); g.classList.remove('is-active'); }
+      });
+      /* Reveal the flavor step label once a function is picked */
+      var flavorLabel = pouchCard.querySelector('.feb-pouch-card-step-label--flavor');
+      if (flavorLabel) flavorLabel.classList.add('is-visible');
+    }
+
+    if (resetFlavor) {
+      if (pouchCard) {
+        pouchCard.querySelectorAll('.feb-flavor-opt').forEach(function (b) {
           b.classList.remove('is-active');
           b.setAttribute('aria-pressed', 'false');
         });
       }
-    });
-    card.classList.add('is-active'); card.setAttribute('aria-pressed', 'true');
-    s.functionId = card.dataset.functionId;
-    s.handle = card.dataset.productHandle;
-    s.label = card.dataset.functionLabel;
-    s.planMonthly = card.dataset.planMonthly || null;
-    s.planQuarterly = card.dataset.planQuarterly || null;
-    if (resetFlavor) {
-      card.querySelectorAll('.feb-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
       s.flavorName = null;
     }
+
     loadSlotProduct(cfg);
   }
 
-  /* Delegated clicks: flavor first, then function card */
+  /* Delegated clicks: flavor first, then function pill */
   root.addEventListener('click', function (e) {
     var flavor = e.target.closest('.feb-flavor-opt');
     if (flavor && root.contains(flavor)) {
-      var card = flavor.closest('.feb-fcard');
-      if (!card) return;
-      if (card.dataset.comingSoon === 'true') return;
-      if (!card.classList.contains('is-active')) {
-        selectFunction(card, false);
-        /* If sticky logic rejected the activation, bail — don't change the
-           flavor selection on a non-active card. */
-        if (!card.classList.contains('is-active')) return;
-      }
-      card.querySelectorAll('.feb-flavor-opt').forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false'); });
+      var pouchCard = flavor.closest('.feb-pouch-card');
+      if (!pouchCard) return;
+      var activePill = pouchCard.querySelector('.feb-fn-pill.is-active');
+      if (!activePill) return; /* must pick a function first */
+      pouchCard.querySelectorAll('.feb-flavor-opt').forEach(function (b) {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-pressed', 'false');
+      });
       flavor.classList.add('is-active'); flavor.setAttribute('aria-pressed', 'true');
-      var s = slots[card.closest('.feb-fcards').dataset.config];
+      var s = slots[pouchCard.dataset.config];
+      if (!s) return;
       s.flavorName = flavor.dataset.flavorName;
       if (s.product) { s.variant = findVariant(s.product, s.flavorName); var img = slotImage(s); if (img) setMainImage(img); }
       pushEvent('feb_flavor_selected', { config: s.configId, flavor: s.flavorName });
       recompute();
       return;
     }
-    var fcard = e.target.closest('.feb-fcard');
-    if (fcard && root.contains(fcard)) {
-      if (fcard.dataset.comingSoon === 'true') return;
-      pushEvent('feb_function_selected', { function_id: fcard.dataset.functionId });
-      selectFunction(fcard, true);
+    var pill = e.target.closest('.feb-fn-pill');
+    if (pill && root.contains(pill)) {
+      if (pill.dataset.comingSoon === 'true') return;
+      pushEvent('feb_function_selected', { function_id: pill.dataset.functionId });
+      selectFunction(pill, true);
     }
   });
 
-  /* Keyboard select on function card */
+  /* Keyboard select on function pill */
   root.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter' && e.key !== ' ') return;
-    var fcard = e.target.closest('.feb-fcard');
-    if (fcard && root.contains(fcard) && fcard === e.target) { e.preventDefault(); if (fcard.dataset.comingSoon !== 'true') selectFunction(fcard, true); }
+    var pill = e.target.closest('.feb-fn-pill');
+    if (pill && root.contains(pill) && pill === e.target) {
+      e.preventDefault();
+      if (pill.dataset.comingSoon !== 'true') selectFunction(pill, true);
+    }
   });
 
   /* Thumbnails */
