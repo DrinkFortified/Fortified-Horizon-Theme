@@ -298,6 +298,23 @@
     if (state.plan === 'quarterly') {
       var others = totalQty() - (state.selections[c.dataset.variantId] ? state.selections[c.dataset.variantId].qty : 0);
       n = Math.min(n, Math.max(0, BUNDLE_COUNT - others));
+    } else if (state.plan === 'monthly') {
+      /* Monthly = exactly 1 pouch total. Selecting another card replaces
+         the current selection rather than stacking. */
+      n = Math.min(n, 1);
+      if (n > 0) {
+        Object.keys(state.selections).forEach(function (k) {
+          if (k !== c.dataset.variantId) {
+            delete state.selections[k];
+            var other = root.querySelector('.ftdc__card[data-variant-id="' + k + '"]');
+            if (other) {
+              other.classList.remove('is-selected');
+              var oa = other.querySelector('.ftdc__add'), oq = other.querySelector('.ftdc__qty'), oi = other.querySelector('.ftdc__qty-input');
+              if (oa) oa.hidden = false; if (oq) oq.hidden = true; if (oi) oi.value = 0;
+            }
+          }
+        });
+      }
     }
     var v = c.dataset.variantId, a = $('.ftdc__add', c), q = $('.ftdc__qty', c), i = $('.ftdc__qty-input', c);
     if (n === 0) {
@@ -324,7 +341,7 @@
   });
 
   function totalQty() { var n = 0; Object.keys(state.selections).forEach(function (k) { n += state.selections[k].qty; }); return n; }
-  function bundleSize() { return state.plan === 'quarterly' ? BUNDLE_COUNT : 0; }
+  function bundleSize() { return state.plan === 'quarterly' ? BUNDLE_COUNT : (state.plan === 'monthly' ? 1 : 0); }
   function updateProgress() {
     var n = totalQty(), s = bundleSize(), pt = $('[data-progress-text]'), pf = $('[data-progress-fill]');
     if (!pt || !pf) return;
