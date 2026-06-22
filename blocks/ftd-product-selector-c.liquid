@@ -27,6 +27,32 @@
 
 {{ 'ftdc.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign acc_monthly   = block.settings.monthly_accent_color   | default: block.settings.accent_color
+  assign acc_quarterly = block.settings.quarterly_accent_color | default: block.settings.accent_color
+  assign acc_onetime   = block.settings.onetime_accent_color   | default: block.settings.accent_color
+-%}
+
+<style>
+  /* Per-plan accent: each plan card overrides --ftdc-accent so the
+     existing .ftdc__plan.is-active rule (border + glow + tick fill in
+     assets/ftdc.css) follows that plan's color. Scoped to this block. */
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="monthly"]   { --ftdc-accent: {{ acc_monthly }}; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"] { --ftdc-accent: {{ acc_quarterly }}; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"]   { --ftdc-accent: {{ acc_onetime }}; }
+
+  /* Optional image to the left of the plan picker (Step 1 only). */
+  #ftdc-{{ sid }} .ftdc__plans-with-image { display: grid; grid-template-columns: minmax(180px, 320px) 1fr; gap: 1.4rem; align-items: start; }
+  #ftdc-{{ sid }} .ftdc__plans-with-image--noimg { grid-template-columns: 1fr; }
+  #ftdc-{{ sid }} .ftdc__plans-image { position: sticky; top: 1rem; }
+  #ftdc-{{ sid }} .ftdc__plans-image img { width: 100%; height: auto; display: block; border-radius: var(--ftdc-radius, 12px); object-fit: cover; }
+  @media (max-width: 749px) {
+    #ftdc-{{ sid }} .ftdc__plans-with-image { grid-template-columns: 1fr; gap: 1rem; }
+    #ftdc-{{ sid }} .ftdc__plans-image { position: static; }
+    #ftdc-{{ sid }} .ftdc__plans-image img { max-height: 220px; }
+  }
+</style>
+
 <section
   id="ftdc-{{ sid }}"
   class="ftdc color-{{ block.settings.color_scheme }}"
@@ -50,7 +76,22 @@
 
     {%- comment %} ───── STEP 1 — PLANS ───── {%- endcomment %}
     <div class="ftdc__step is-active" data-step="plans">
-      <div class="ftdc__plans" data-plan-order="{{ block.settings.plan_order | default: 'quarterly,monthly,onetime' }}">
+      <div class="ftdc__plans-with-image{% if block.settings.plan_image == blank %} ftdc__plans-with-image--noimg{% endif %}">
+        {%- if block.settings.plan_image != blank -%}
+          {%- assign _pimg = block.settings.plan_image -%}
+          <div class="ftdc__plans-image">
+            <img
+              src="{{ _pimg | image_url: width: 800 }}"
+              srcset="{{ _pimg | image_url: width: 400 }} 400w, {{ _pimg | image_url: width: 800 }} 800w, {{ _pimg | image_url: width: 1200 }} 1200w"
+              sizes="(max-width: 749px) 100vw, 320px"
+              alt="{{ _pimg.alt | default: '' | escape }}"
+              width="{{ _pimg.width }}"
+              height="{{ _pimg.height }}"
+              loading="lazy"
+            >
+          </div>
+        {%- endif -%}
+        <div class="ftdc__plans" data-plan-order="{{ block.settings.plan_order | default: 'quarterly,monthly,onetime' }}">
         {%- if show_quarterly -%}
           <label class="ftdc__plan is-active" data-plan="quarterly">
             <input type="radio" name="ftdc-plan-{{ sid }}" value="quarterly" checked>
@@ -85,7 +126,8 @@
             {%- if _ow != blank and _ow != '-' and _ow != '—' -%}<div class="ftdc__plan-was">{{ block.settings.onetime_was }}</div>{%- endif -%}
           </label>
         {%- endif -%}
-      </div>
+        </div>{%- comment %} /.ftdc__plans {%- endcomment %}
+      </div>{%- comment %} /.ftdc__plans-with-image {%- endcomment %}
     </div>
 
     {%- comment %} ───── STEP 2 — PRODUCTS ───── {%- endcomment %}
@@ -525,7 +567,11 @@
     { "type": "text", "id": "checkout_label", "label": "Checkout", "default": "Checkout" },
     { "type": "text", "id": "add_more_label", "label": "Add More", "default": "Add More" },
     { "type": "header", "content": "Appearance" },
-    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1FA8A1" },
+    { "type": "image_picker", "id": "plan_image", "label": "Plan selector image (left)", "info": "Optional. Shown beside Step 1 (the plan picker) only. Leave blank to keep the plan picker full-width." },
+    { "type": "color", "id": "accent_color", "label": "Accent (fallback)", "default": "#1FA8A1", "info": "Used when a per-plan color below is left blank." },
+    { "type": "color", "id": "monthly_accent_color",   "label": "Monthly accent color",   "default": "#1FA8A1" },
+    { "type": "color", "id": "quarterly_accent_color", "label": "Quarterly accent color", "default": "#E8833A" },
+    { "type": "color", "id": "onetime_accent_color",   "label": "One-time accent color",  "default": "#8E8E93" },
     { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 12 },
     { "type": "range", "id": "content_max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
