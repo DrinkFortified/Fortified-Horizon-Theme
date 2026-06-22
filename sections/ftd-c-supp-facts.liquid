@@ -1,0 +1,414 @@
+{% comment %}
+  Section: FTD-C - Supp Facts
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Tabbed Supplement Facts comparison. Modeled directly on
+  sections/fortified-tabs.liquid (the working "FTD - Tabbed Content"):
+  classic section.blocks, pure-CSS tab switching via hidden radios and
+  `:checked ~` selectors. No JS, no theme blocks, no content_for —
+  exactly the pattern that already renders correctly in this theme.
+
+  One block type: "product_tab". Each block becomes both a tab button
+  (top) and a tab panel (below) holding a Nutrition Facts panel + an
+  eyebrow/heading + up to 3 callouts.
+
+  Data source priority per field:
+    1. block setting (override)
+    2. product metafield (fortified.pdp_content metaobject)
+    3. blank — that field simply hides
+{% endcomment %}
+
+{%- liquid
+  assign sid  = section.id | replace: '_', '' | downcase
+  assign root = 'ftcsf-' | append: sid
+
+  assign tab_total = 0
+  assign active = 1
+  assign found = false
+  for b in section.blocks
+    if b.type == 'product_tab'
+      assign tab_total = tab_total | plus: 1
+      if b.settings.start_active and found == false
+        assign active = tab_total
+        assign found = true
+      endif
+    endif
+  endfor
+
+  assign panel_pos     = section.settings.panel_position | default: 'left'
+  assign tab_style     = section.settings.tab_style      | default: 'pill'
+  assign default_acc   = section.settings.default_accent_color | default: '#1FA8A1'
+  if section.settings.section_width == 'full-width'
+    assign max_w = '100%'
+  else
+    assign max_w = section.settings.content_max_width | append: 'px'
+  endif
+-%}
+
+<style>
+  #{{ root }} { background: var(--color-background); --ftcsf-accent: {{ default_acc }}; }
+  #{{ root }} .{{ root }}__inner { max-width: {{ max_w }}; margin: 0 auto; padding: 0 1rem; }
+  #{{ root }} .{{ root }}__head { text-align: center; margin: 0 0 1.5rem; }
+  #{{ root }} .{{ root }}__eyebrow { margin: 0 0 0.35rem; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ftcsf-accent); }
+  #{{ root }} .{{ root }}__heading { margin: 0; font-size: clamp(1.6rem, 2.6vw, 2.2rem); line-height: 1.15; }
+
+  /* Hidden radios (one per tab) drive the CSS-only switching. */
+  #{{ root }} .{{ root }}__radio { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  /* Tab row (labels driven by the radios). */
+  #{{ root }} .{{ root }}__tabs { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin: 0 0 1.6rem; padding: 0; }
+  #{{ root }} .{{ root }}__tab { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.55rem 1rem; border-radius: 999px; border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.18); background: var(--color-background); color: var(--color-foreground); font-size: 0.85rem; font-weight: 700; cursor: pointer; user-select: none; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+  #{{ root }} .{{ root }}__tab:hover { border-color: rgb(var(--color-foreground-rgb) / 0.4); }
+  #{{ root }} .{{ root }}__tab-thumb { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; background: rgb(var(--color-foreground-rgb) / 0.08); }
+  #{{ root }}.{{ root }}--tabs-underline .{{ root }}__tab { border-radius: 0; border: 0; border-bottom: 2px solid transparent; padding: 0.55rem 0.4rem; background: transparent; color: rgb(var(--color-foreground-rgb) / 0.6); }
+
+  /* Panels (hidden by default — :checked ~ rule below reveals the active one). */
+  #{{ root }} .{{ root }}__panel { display: none; }
+  #{{ root }} .{{ root }}__panel-inner {
+    display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 2.4rem; align-items: start;
+  }
+  #{{ root }}.{{ root }}--panel-right .{{ root }}__panel-inner { grid-template-columns: 1fr minmax(280px, 360px); }
+  #{{ root }}.{{ root }}--panel-right .{{ root }}__panel-wrap { order: 2; }
+  #{{ root }}.{{ root }}--panel-right .{{ root }}__body { order: 1; }
+  @media (max-width: 749px) {
+    #{{ root }} .{{ root }}__panel-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+    #{{ root }}.{{ root }}--panel-right .{{ root }}__panel-wrap { order: 1; }
+    #{{ root }}.{{ root }}--panel-right .{{ root }}__body { order: 2; }
+  }
+
+  /* Per-tab :checked rules: when radio N is checked, tab N gets the active
+     style and panel N becomes display:block. Generated per block. */
+  {%- assign ci = 0 -%}
+  {%- for b in section.blocks -%}{%- if b.type == 'product_tab' -%}{%- assign ci = ci | plus: 1 -%}
+    {%- assign tab_accent = b.settings.accent_color | default: default_acc -%}
+    #{{ root }}-r-{{ ci }}:checked ~ .{{ root }}__inner .{{ root }}__tab--{{ ci }} {
+      background: {{ tab_accent }}; border-color: {{ tab_accent }}; color: #fff;
+    }
+    #{{ root }}.{{ root }}--tabs-underline #{{ root }}-r-{{ ci }}:checked ~ .{{ root }}__inner .{{ root }}__tab--{{ ci }} {
+      background: transparent; color: var(--color-foreground); border-bottom-color: {{ tab_accent }};
+    }
+    #{{ root }}-r-{{ ci }}:checked ~ .{{ root }}__inner .{{ root }}__panel--{{ ci }} {
+      display: block;
+    }
+    #{{ root }}-r-{{ ci }}:focus-visible ~ .{{ root }}__inner .{{ root }}__tab--{{ ci }} {
+      outline: 2px solid {{ tab_accent }}; outline-offset: 4px;
+    }
+  {%- endif -%}{%- endfor -%}
+
+  /* Nutrition Facts panel. */
+  #{{ root }} .{{ root }}__nfp { border: 2px solid var(--color-foreground); padding: 0.85rem 1rem; background: var(--color-background); font-family: Helvetica, Arial, sans-serif; }
+  #{{ root }} .{{ root }}__nfp-title { font-size: 1.8rem; font-weight: 900; line-height: 1; padding-bottom: 0.3rem; border-bottom: 6px solid var(--color-foreground); }
+  #{{ root }} .{{ root }}__nfp-meta { margin: 0.4rem 0 0; font-size: 0.85rem; }
+  #{{ root }} .{{ root }}__nfp-meta--bold { display: flex; justify-content: space-between; font-weight: 700; }
+  #{{ root }} .{{ root }}__rule { display: block; margin: 0.35rem 0; background: var(--color-foreground); }
+  #{{ root }} .{{ root }}__rule--thin { height: 1px; }
+  #{{ root }} .{{ root }}__rule--med  { height: 3px; }
+  #{{ root }} .{{ root }}__rule--thick { height: 6px; }
+  #{{ root }} .{{ root }}__amount-per { margin-top: 0.5rem; font-size: 0.8rem; font-style: italic; font-weight: 700; }
+  #{{ root }} .{{ root }}__cal-row { display: flex; justify-content: space-between; align-items: flex-end; }
+  #{{ root }} .{{ root }}__cal-label { font-size: 1.1rem; font-weight: 900; }
+  #{{ root }} .{{ root }}__cal-num { font-size: 1.6rem; font-weight: 900; line-height: 1; }
+  #{{ root }} .{{ root }}__dv-head { text-align: right; font-size: 0.78rem; font-weight: 700; }
+  #{{ root }} .{{ root }}__rows { margin-top: 0.2rem; }
+  #{{ root }} .{{ root }}__row { display: flex; justify-content: space-between; gap: 0.5rem; font-size: 0.86rem; padding: 0.25rem 0; }
+  #{{ root }} .{{ root }}__row--indent-1 { padding-left: 1rem; }
+  #{{ root }} .{{ root }}__row--indent-2 { padding-left: 2rem; }
+  #{{ root }} .{{ root }}__row--indent-3 { padding-left: 3rem; }
+  #{{ root }} .{{ root }}__row-label--bold { font-weight: 800; }
+  #{{ root }} .{{ root }}__row-amount { margin-left: 0.35rem; font-weight: 500; }
+  #{{ root }} .{{ root }}__row-dv { font-weight: 800; white-space: nowrap; }
+  #{{ root }} .{{ root }}__footnote { margin: 0.5rem 0 0; font-size: 0.7rem; line-height: 1.4; opacity: 0.7; }
+
+  /* Right column. */
+  #{{ root }} .{{ root }}__panel-head { margin: 0 0 1.2rem; }
+  #{{ root }} .{{ root }}__panel-eyebrow { margin: 0 0 0.35rem; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ftcsf-tab-accent, var(--ftcsf-accent)); }
+  #{{ root }} .{{ root }}__panel-heading { margin: 0; font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1.2; }
+  #{{ root }} .{{ root }}__callouts { display: flex; flex-direction: column; gap: 1rem; }
+  #{{ root }} .{{ root }}__callout { padding: 1rem 1.1rem; border-radius: 12px; background: color-mix(in srgb, var(--ftcsf-callout-accent, var(--ftcsf-accent)) 7%, var(--color-background)); border-left: 4px solid var(--ftcsf-callout-accent, var(--ftcsf-accent)); }
+  #{{ root }} .{{ root }}__callout-title { margin: 0 0 0.3rem; font-size: 1rem; font-weight: 800; color: var(--color-foreground); }
+  #{{ root }} .{{ root }}__callout-body { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--color-foreground); opacity: 0.85; }
+
+  #{{ root }} .{{ root }}__empty { text-align: center; opacity: 0.6; font-size: 0.9rem; line-height: 1.45; padding: 2rem 1rem; }
+</style>
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="{{ root }}"
+  class="section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }} {{ root }}--panel-{{ panel_pos }} {{ root }}--tabs-{{ tab_style }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
+
+  {%- comment %} 1) Radios as the FIRST siblings of .__inner so :checked ~ .__inner can reach into tabs+panels. {%- endcomment %}
+  {%- assign ci = 0 -%}
+  {%- for b in section.blocks -%}{%- if b.type == 'product_tab' -%}{%- assign ci = ci | plus: 1 -%}
+    <input type="radio" class="{{ root }}__radio" name="{{ root }}-state" id="{{ root }}-r-{{ ci }}" {% if ci == active %}checked{% endif %}>
+  {%- endif -%}{%- endfor -%}
+
+  <div class="{{ root }}__inner">
+
+    {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
+      <header class="{{ root }}__head">
+        {%- if section.settings.eyebrow != blank -%}<p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{{ section.settings.heading }}</h2>{%- endif -%}
+      </header>
+    {%- endif -%}
+
+    {%- if tab_total == 0 -%}
+      <p class="{{ root }}__empty">
+        <strong>No products configured yet.</strong>
+        Add a <em>Supp Facts Product Tab</em> block in the editor and pick a Shopify product.
+      </p>
+    {%- else -%}
+
+      {%- comment %} 2) Tab buttons (labels point at the radios above). {%- endcomment %}
+      <div class="{{ root }}__tabs" role="tablist" aria-label="{{ section.settings.tablist_label | default: 'Compare products' | escape }}">
+        {%- assign ci = 0 -%}
+        {%- for b in section.blocks -%}{%- if b.type == 'product_tab' -%}{%- assign ci = ci | plus: 1 -%}
+          {%- assign t_prod = b.settings.product -%}
+          {%- assign t_label = b.settings.tab_label -%}
+          {%- if t_label == blank -%}{%- if t_prod != blank -%}{%- assign t_label = t_prod.title -%}{%- else -%}{%- assign t_label = 'Tab ' | append: ci -%}{%- endif -%}{%- endif -%}
+          {%- assign t_img = b.settings.tab_image -%}
+          {%- if t_img == blank and t_prod != blank -%}{%- assign t_img = t_prod.featured_image -%}{%- endif -%}
+          <label class="{{ root }}__tab {{ root }}__tab--{{ ci }}" for="{{ root }}-r-{{ ci }}" role="tab" {{ b.shopify_attributes }}>
+            {%- if t_img != blank -%}<img class="{{ root }}__tab-thumb" src="{{ t_img | image_url: width: 44 }}" alt="" width="22" height="22" loading="lazy">{%- endif -%}
+            <span class="{{ root }}__tab-label">{{ t_label }}</span>
+          </label>
+        {%- endif -%}{%- endfor -%}
+      </div>
+
+      {%- comment %} 3) Panels (one per tab block). {%- endcomment %}
+      <div class="{{ root }}__panels">
+        {%- assign ci = 0 -%}
+        {%- for b in section.blocks -%}{%- if b.type == 'product_tab' -%}{%- assign ci = ci | plus: 1 -%}
+
+          {%- liquid
+            assign prod = b.settings.product
+            assign pdp = nil
+            if prod != blank
+              assign pdp = prod.metafields.fortified.pdp_content.value
+            endif
+
+            assign eyebrow_v       = b.settings.eyebrow
+            assign heading_v       = b.settings.heading
+            assign servings_per_v  = b.settings.servings_per
+            assign serving_size_v  = b.settings.serving_size
+            assign calories_v      = b.settings.calories
+            assign use_pdp_nutrients = false
+
+            if pdp != blank
+              if eyebrow_v == blank and pdp.supplement_facts_eyebrow != blank
+                assign eyebrow_v = pdp.supplement_facts_eyebrow
+              endif
+              if heading_v == blank and pdp.supplement_facts_heading != blank
+                assign heading_v = pdp.supplement_facts_heading
+              endif
+              if servings_per_v == blank and pdp.servings_per != blank
+                assign servings_per_v = pdp.servings_per
+              endif
+              if serving_size_v == blank and pdp.serving_size != blank
+                assign serving_size_v = pdp.serving_size
+              endif
+              if calories_v == blank and pdp.calories != blank
+                assign calories_v = pdp.calories
+              endif
+              if pdp.nutrients.value != blank and pdp.nutrients.value.size > 0
+                assign use_pdp_nutrients = true
+              endif
+            endif
+
+            assign accent_c = b.settings.accent_color | default: default_acc
+          -%}
+
+          <article class="{{ root }}__panel {{ root }}__panel--{{ ci }}" role="tabpanel" style="--ftcsf-accent: {{ accent_c }}; --ftcsf-tab-accent: {{ accent_c }};">
+            <div class="{{ root }}__panel-inner">
+
+              {%- comment %} LEFT: Nutrition Facts {%- endcomment %}
+              <aside class="{{ root }}__panel-wrap">
+                <div class="{{ root }}__nfp" role="table" aria-label="Supplement Facts">
+                  <div class="{{ root }}__nfp-title">{{ b.settings.panel_title | default: 'Supplement Facts' }}</div>
+                  {%- if servings_per_v != blank -%}<div class="{{ root }}__nfp-meta">{{ servings_per_v }}</div>{%- endif -%}
+                  {%- if serving_size_v != blank -%}<div class="{{ root }}__nfp-meta {{ root }}__nfp-meta--bold">Serving size <span>{{ serving_size_v }}</span></div>{%- endif -%}
+
+                  <div class="{{ root }}__rule {{ root }}__rule--thick" aria-hidden="true"></div>
+                  <div class="{{ root }}__amount-per">Amount Per Serving</div>
+
+                  {%- if calories_v != blank -%}
+                    <div class="{{ root }}__cal-row">
+                      <span class="{{ root }}__cal-label">Calories</span>
+                      <span class="{{ root }}__cal-num">{{ calories_v }}</span>
+                    </div>
+                  {%- endif -%}
+
+                  <div class="{{ root }}__rule {{ root }}__rule--med" aria-hidden="true"></div>
+                  <div class="{{ root }}__dv-head">% Daily Value*</div>
+
+                  <div class="{{ root }}__rows">
+                    {%- if use_pdp_nutrients -%}
+                      {%- for n in pdp.nutrients.value -%}
+                        {%- assign indent  = n.indent_level | default: 0 -%}
+                        {%- assign divider = n.divider_after | default: 'thin' -%}
+                        <div class="{{ root }}__row {{ root }}__row--indent-{{ indent }}">
+                          <span class="{{ root }}__row-label{% if n.bold_label %} {{ root }}__row-label--bold{% endif %}">
+                            {{ n.label }}
+                            {%- if n.amount != blank -%}<span class="{{ root }}__row-amount">{{ n.amount }}</span>{%- endif -%}
+                          </span>
+                          <span class="{{ root }}__row-dv">{{ n.daily_value }}</span>
+                        </div>
+                        {%- unless divider == 'none' -%}<div class="{{ root }}__rule {{ root }}__rule--{{ divider }}" aria-hidden="true"></div>{%- endunless -%}
+                      {%- endfor -%}
+                    {%- else -%}
+                      {%- comment %}
+                        Inline fallback: parse nutrients_text textarea.
+                        Per line: Label | Amount | DV | indent(0-3) | bold(0/1) | divider(thin|med|thick|none)
+                      {%- endcomment %}
+                      {%- assign nrows = b.settings.nutrients_text | newline_to_br | split: '<br />' -%}
+                      {%- for row in nrows -%}
+                        {%- assign trimmed = row | strip -%}
+                        {%- if trimmed != '' -%}
+                          {%- assign parts = trimmed | split: '|' -%}
+                          {%- assign nlabel = parts[0] | strip -%}
+                          {%- assign namount = parts[1] | default: '' | strip -%}
+                          {%- assign ndv = parts[2] | default: '' | strip -%}
+                          {%- assign nindent = parts[3] | default: 0 | strip -%}
+                          {%- assign nbold = parts[4] | default: '0' | strip -%}
+                          {%- assign ndiv = parts[5] | default: 'thin' | strip -%}
+                          <div class="{{ root }}__row {{ root }}__row--indent-{{ nindent }}">
+                            <span class="{{ root }}__row-label{% if nbold == '1' %} {{ root }}__row-label--bold{% endif %}">
+                              {{ nlabel }}
+                              {%- if namount != '' -%}<span class="{{ root }}__row-amount">{{ namount }}</span>{%- endif -%}
+                            </span>
+                            <span class="{{ root }}__row-dv">{{ ndv }}</span>
+                          </div>
+                          {%- unless ndiv == 'none' -%}<div class="{{ root }}__rule {{ root }}__rule--{{ ndiv }}" aria-hidden="true"></div>{%- endunless -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- endif -%}
+                  </div>
+
+                  {%- if b.settings.panel_footnote != blank -%}
+                    <div class="{{ root }}__rule {{ root }}__rule--thick" aria-hidden="true"></div>
+                    <p class="{{ root }}__footnote">{{ b.settings.panel_footnote }}</p>
+                  {%- endif -%}
+                </div>
+              </aside>
+
+              {%- comment %} RIGHT: eyebrow / heading + callouts {%- endcomment %}
+              <div class="{{ root }}__body">
+                {%- if eyebrow_v != blank or heading_v != blank -%}
+                  <header class="{{ root }}__panel-head">
+                    {%- if eyebrow_v != blank -%}<p class="{{ root }}__panel-eyebrow">{{ eyebrow_v }}</p>{%- endif -%}
+                    {%- if heading_v != blank -%}<h2 class="{{ root }}__panel-heading">{{ heading_v }}</h2>{%- endif -%}
+                  </header>
+                {%- endif -%}
+
+                <div class="{{ root }}__callouts">
+                  {%- for n in (1..3) -%}
+                    {%- assign t_id = 'callout_' | append: n | append: '_title' -%}
+                    {%- assign b_id = 'callout_' | append: n | append: '_body' -%}
+                    {%- assign c_id = 'callout_' | append: n | append: '_accent' -%}
+                    {%- assign ct = b.settings[t_id] -%}
+                    {%- assign cb = b.settings[b_id] -%}
+                    {%- assign cc = b.settings[c_id] | default: accent_c -%}
+                    {%- if ct != blank or cb != blank -%}
+                      <article class="{{ root }}__callout" style="--ftcsf-callout-accent: {{ cc }};">
+                        {%- if ct != blank -%}<h3 class="{{ root }}__callout-title">{{ ct }}</h3>{%- endif -%}
+                        {%- if cb != blank -%}<p class="{{ root }}__callout-body">{{ cb }}</p>{%- endif -%}
+                      </article>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+
+            </div>
+          </article>
+        {%- endif -%}{%- endfor -%}
+      </div>
+
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FTD-C - Supp Facts",
+  "tag": "section",
+  "class": "ftd-c-supp-facts-section",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width",
+      "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 800, "max": 1600, "step": 20, "default": 1200, "unit": "px" },
+    { "type": "select", "id": "panel_position", "label": "Nutrition panel position", "default": "left",
+      "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ] },
+    { "type": "select", "id": "tab_style", "label": "Tab style", "default": "pill",
+      "options": [ { "value": "pill", "label": "Pill" }, { "value": "underline", "label": "Underline" } ] },
+    { "type": "color", "id": "default_accent_color", "label": "Default accent color", "default": "#1FA8A1" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Section header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "text", "id": "tablist_label", "label": "Tablist aria-label", "default": "Compare products" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 200, "step": 4, "default": 64, "unit": "px" },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 200, "step": 4, "default": 64, "unit": "px" }
+  ],
+  "blocks": [
+    {
+      "type": "product_tab",
+      "name": "Supp Facts Product Tab",
+      "settings": [
+        { "type": "header", "content": "Tab" },
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "tab_label", "label": "Tab label", "info": "Falls back to the product title." },
+        { "type": "image_picker", "id": "tab_image", "label": "Tab thumbnail (optional)", "info": "Falls back to the product's featured image." },
+        { "type": "color", "id": "accent_color", "label": "Tab accent color", "default": "#1FA8A1" },
+        { "type": "checkbox", "id": "start_active", "label": "Show this tab first", "default": false },
+
+        { "type": "header", "content": "Right column overrides" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow (override)", "info": "Falls back to metafield." },
+        { "type": "text", "id": "heading", "label": "Heading (override)" },
+
+        { "type": "header", "content": "Nutrition panel (override)" },
+        { "type": "text", "id": "panel_title", "label": "Panel title", "default": "Supplement Facts" },
+        { "type": "text", "id": "servings_per", "label": "Servings per container" },
+        { "type": "text", "id": "serving_size", "label": "Serving size" },
+        { "type": "text", "id": "calories", "label": "Calories" },
+        { "type": "textarea", "id": "nutrients_text", "label": "Nutrients (inline fallback)",
+          "info": "Used only when the product has no fortified.pdp_content metafield. One nutrient per line: Label | Amount | DV% | indent(0-3) | bold(1/0) | divider(thin|med|thick|none). Example: Sodium | 200mg | 9% | 0 | 1 | thin" },
+        { "type": "text", "id": "panel_footnote", "label": "Panel footnote", "default": "* Percent Daily Values are based on a 2,000 calorie diet." },
+
+        { "type": "header", "content": "Callouts (right column)" },
+        { "type": "text",     "id": "callout_1_title",  "label": "Callout 1 title" },
+        { "type": "textarea", "id": "callout_1_body",   "label": "Callout 1 body" },
+        { "type": "color",    "id": "callout_1_accent", "label": "Callout 1 accent", "default": "#1FA8A1" },
+        { "type": "text",     "id": "callout_2_title",  "label": "Callout 2 title" },
+        { "type": "textarea", "id": "callout_2_body",   "label": "Callout 2 body" },
+        { "type": "color",    "id": "callout_2_accent", "label": "Callout 2 accent", "default": "#E8833A" },
+        { "type": "text",     "id": "callout_3_title",  "label": "Callout 3 title" },
+        { "type": "textarea", "id": "callout_3_body",   "label": "Callout 3 body" },
+        { "type": "color",    "id": "callout_3_accent", "label": "Callout 3 accent", "default": "#8E8E93" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FTD-C - Supp Facts",
+      "category": "Fortified Sections",
+      "settings": {
+        "eyebrow": "Compare",
+        "heading": "How each formula breaks down",
+        "panel_position": "left",
+        "tab_style": "pill"
+      },
+      "blocks": [
+        { "type": "product_tab", "settings": { "start_active": true } },
+        { "type": "product_tab" }
+      ]
+    }
+  ]
+}
+{% endschema %}
