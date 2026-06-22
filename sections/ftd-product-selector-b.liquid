@@ -247,12 +247,29 @@
 
       {%- comment %} ───── STEP 1: PLAN ───── {%- endcomment %}
       <div class="feb-step" id="feb-plan-group-{{ sid }}">
-        <div class="feb-step-head">
-          <p class="feb-step-title"><span class="feb-step-num">1</span>{{ section.settings.plan_step_label | default: 'Choose Your Plan' }}</p>
-          {%- if section.settings.plan_step_note != blank -%}<span class="feb-step-note">{{ section.settings.plan_step_note }}</span>{%- endif -%}
-        </div>
+        <div class="feb-plan-with-image{% if section.settings.plan_image == blank %} feb-plan-with-image--noimg{% endif %}">
+          {%- if section.settings.plan_image != blank -%}
+            <div class="feb-plan-image">
+              {%- assign _pimg = section.settings.plan_image -%}
+              <img
+                src="{{ _pimg | image_url: width: 800 }}"
+                srcset="{{ _pimg | image_url: width: 400 }} 400w, {{ _pimg | image_url: width: 800 }} 800w, {{ _pimg | image_url: width: 1200 }} 1200w"
+                sizes="(max-width: 749px) 100vw, 320px"
+                alt="{{ _pimg.alt | default: '' | escape }}"
+                width="{{ _pimg.width }}"
+                height="{{ _pimg.height }}"
+                loading="lazy"
+              >
+            </div>
+          {%- endif -%}
 
-        <div class="feb-plans">
+          <div class="feb-plan-col">
+            <div class="feb-step-head">
+              <p class="feb-step-title"><span class="feb-step-num">1</span>{{ section.settings.plan_step_label | default: 'Choose Your Plan' }}</p>
+              {%- if section.settings.plan_step_note != blank -%}<span class="feb-step-note">{{ section.settings.plan_step_note }}</span>{%- endif -%}
+            </div>
+
+            <div class="feb-plans">
           {%- if show_quarterly -%}
             <label class="feb-plan is-active" data-plan="quarterly">
               <input type="radio" name="feb-plan-{{ sid }}" value="quarterly" checked>
@@ -296,27 +313,29 @@
           {%- comment %} OTP plan is rendered as a wide horizontal card BELOW the plan grid (see .feb-otp-card-wide below). {%- endcomment %}
         </div>
 
-        {%- if show_onetime -%}
-          <label class="feb-otp-card-wide" data-plan="onetime">
-            <input type="radio" name="feb-plan-{{ sid }}" value="onetime">
-            <span class="feb-otp-card-tick" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <span class="feb-otp-card-body">
-              {%- if section.settings.onetime_badge != blank -%}<span class="feb-otp-card-badge">{{ section.settings.onetime_badge }}</span>{%- endif -%}
-              <span class="feb-otp-card-title">
-                {%- for line in onetime_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}{{ lt }} {%- endif -%}{%- endfor -%}
-              </span>
-              {%- if section.settings.onetime_desc != blank -%}<span class="feb-otp-card-desc">{{ section.settings.onetime_desc }}</span>{%- endif -%}
-            </span>
-            <span class="feb-otp-card-price-col">
-              <span class="feb-otp-card-price" data-plan-price="onetime">{{ section.settings.onetime_price }}</span>
-              <span class="feb-otp-card-period">{{ section.settings.onetime_period }}</span>
-              {%- assign _ow = section.settings.onetime_was | strip -%}
-              {%- if _ow != blank and _ow != '-' and _ow != '—' -%}
-                <span class="feb-otp-card-was" data-plan-was="onetime">{{ section.settings.onetime_was }}</span>
-              {%- endif -%}
-            </span>
-          </label>
-        {%- endif -%}
+            {%- if show_onetime -%}
+              <label class="feb-otp-card-wide" data-plan="onetime">
+                <input type="radio" name="feb-plan-{{ sid }}" value="onetime">
+                <span class="feb-otp-card-tick" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="feb-otp-card-body">
+                  {%- if section.settings.onetime_badge != blank -%}<span class="feb-otp-card-badge">{{ section.settings.onetime_badge }}</span>{%- endif -%}
+                  <span class="feb-otp-card-title">
+                    {%- for line in onetime_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}{{ lt }} {%- endif -%}{%- endfor -%}
+                  </span>
+                  {%- if section.settings.onetime_desc != blank -%}<span class="feb-otp-card-desc">{{ section.settings.onetime_desc }}</span>{%- endif -%}
+                </span>
+                <span class="feb-otp-card-price-col">
+                  <span class="feb-otp-card-price" data-plan-price="onetime">{{ section.settings.onetime_price }}</span>
+                  <span class="feb-otp-card-period">{{ section.settings.onetime_period }}</span>
+                  {%- assign _ow = section.settings.onetime_was | strip -%}
+                  {%- if _ow != blank and _ow != '-' and _ow != '—' -%}
+                    <span class="feb-otp-card-was" data-plan-was="onetime">{{ section.settings.onetime_was }}</span>
+                  {%- endif -%}
+                </span>
+              </label>
+            {%- endif -%}
+          </div>{%- comment %} /.feb-plan-col {%- endcomment %}
+        </div>{%- comment %} /.feb-plan-with-image {%- endcomment %}
       </div>
 
       {%- comment %} ───── STEP 2: BUILD BUNDLE ───── {%- endcomment %}
@@ -580,6 +599,18 @@
 .feb-step--locked .feb-step-num { background: rgb(var(--color-foreground-rgb) / 0.2); color: rgb(var(--color-foreground-rgb) / 0.6); }
 
 /* ── Plan cards ── */
+/* ── Optional image to the left of the plan picker (Step 1 only) ── */
+.feb-plan-with-image { display: grid; grid-template-columns: minmax(180px, 320px) 1fr; gap: 1.4rem; align-items: start; }
+.feb-plan-with-image--noimg { grid-template-columns: 1fr; }
+.feb-plan-image { position: sticky; top: 1rem; }
+.feb-plan-image img { width: 100%; height: auto; display: block; border-radius: var(--ftdc-radius, 12px); object-fit: cover; }
+.feb-plan-col { min-width: 0; }
+@media (max-width: 749px) {
+  .feb-plan-with-image { grid-template-columns: 1fr; gap: 1rem; }
+  .feb-plan-image { position: static; max-width: 100%; }
+  .feb-plan-image img { max-height: 220px; object-fit: cover; }
+}
+
 .feb-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 @media (max-width: 480px) { .feb-plans { grid-template-columns: 1fr; } }
 .feb-plan {
@@ -648,9 +679,15 @@
   .feb-otp-card-price-col { grid-column: 1 / -1; flex-direction: row; align-items: baseline; gap: 0.5rem; justify-content: flex-end; }
 }
 .feb-plan:hover { border-color: rgb(var(--color-foreground-rgb) / 0.3); }
+/* Each plan's selected state is driven by its OWN accent (--feb-plan-accent),
+   set per-plan via data-plan below — so the Monthly/Quarterly badge colors
+   in the section settings now also color the border + tick + glow when
+   that plan is the active one. */
+.feb-plan[data-plan="monthly"]    { --feb-plan-accent: var(--feb-monthly-badge,   #1FA8A1); }
+.feb-plan[data-plan="quarterly"]  { --feb-plan-accent: var(--feb-quarterly-badge, #E8833A); }
 .feb-plan.is-active {
-  border-color: var(--feb-selection-color, var(--color-primary-button-background));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--feb-selection-color, var(--color-primary-button-background)) 18%, transparent);
+  border-color: var(--feb-plan-accent, var(--feb-selection-color, var(--color-primary-button-background)));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--feb-plan-accent, var(--feb-selection-color, var(--color-primary-button-background))) 18%, transparent);
 }
 .feb-plan input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
 .feb-plan-tick {
@@ -659,7 +696,11 @@
   border: 2px solid rgb(var(--color-foreground-rgb) / 0.2); color: #fff; background: transparent;
   opacity: 0; transform: scale(0.6); transition: opacity 0.18s, transform 0.18s;
 }
-.feb-plan.is-active .feb-plan-tick { opacity: 1; transform: scale(1); background: var(--feb-selection-color, var(--color-primary-button-background)); border-color: var(--feb-selection-color, var(--color-primary-button-background)); }
+.feb-plan.is-active .feb-plan-tick {
+  opacity: 1; transform: scale(1);
+  background: var(--feb-plan-accent, var(--feb-selection-color, var(--color-primary-button-background)));
+  border-color: var(--feb-plan-accent, var(--feb-selection-color, var(--color-primary-button-background)));
+}
 .feb-plan-badge {
   align-self: flex-start; font-size: 0.55rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
   padding: 0.3em 0.6em; border-radius: 5px; border: 1.5px solid currentColor;
@@ -1848,6 +1889,12 @@
           "label": "Selector left, gallery right"
         }
       ]
+    },
+    {
+      "type": "image_picker",
+      "id": "plan_image",
+      "label": "Plan selector image (left)",
+      "info": "Optional. Shown only beside Step 1 (the plan picker). Leave blank to keep the plan picker full-width."
     },
     {
       "type": "range",
