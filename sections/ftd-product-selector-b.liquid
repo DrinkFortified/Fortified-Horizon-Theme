@@ -40,6 +40,7 @@
 
   assign show_monthly    = section.settings.show_monthly
   assign show_quarterly  = section.settings.show_quarterly
+  assign show_onetime    = section.settings.show_onetime
   assign bundle_count    = section.settings.bundle_count | default: 3
   assign img_position    = section.settings.image_position | default: 'center center'
   assign btn_style       = section.settings.button_style | default: 'filled'
@@ -57,6 +58,7 @@
 
   assign monthly_title_lines   = section.settings.monthly_title   | newline_to_br | split: '<br />'
   assign quarterly_title_lines = section.settings.quarterly_title | newline_to_br | split: '<br />'
+  assign onetime_title_lines   = section.settings.onetime_title   | newline_to_br | split: '<br />'
 
   assign default_main = ''
   if gallery_blocks.size > 0 and gallery_blocks.first.settings.image != blank
@@ -99,6 +101,23 @@
   {%- endif -%}
 {%- endcapture -%}
 
+{%- capture onetime_list_html -%}
+  {%- assign o_html = section.settings.onetime_checklist -%}
+  {%- if o_html contains '<p' -%}
+    {%- assign o_items = o_html | split: '</p>' -%}
+    {%- for raw in o_items -%}
+      {%- assign clean = raw | replace: '<p>', '' | strip -%}
+      {%- if clean != '' -%}<span class="feb-plan-li"><span class="feb-li-check" aria-hidden="true">✓</span>{{ clean }}</span>{%- endif -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- assign o_lines = o_html | newline_to_br | split: '<br />' -%}
+    {%- for line in o_lines -%}
+      {%- assign cl = line | strip -%}
+      {%- if cl != '' -%}<span class="feb-plan-li"><span class="feb-li-check" aria-hidden="true">✓</span>{{ cl }}</span>{%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
   id="feb-{{ sid }}"
@@ -117,6 +136,10 @@
     --feb-doctor-bg: {{ section.settings.doctor_badge_bg }};
     --feb-monthly-badge: {{ section.settings.monthly_badge_color }};
     --feb-quarterly-badge: {{ section.settings.quarterly_badge_color }};
+    --feb-onetime-badge: {{ section.settings.onetime_badge_color }};
+    --feb-ship-track: {{ section.settings.shipping_bar_track_color }};
+    --feb-ship-fill: {{ section.settings.shipping_bar_fill_color }};
+    --feb-ship-unlocked: {{ section.settings.shipping_bar_unlocked_color }};
     --feb-panel-width: {{ section.settings.panel_width }}px;
     --feb-max-width: {{ section.settings.content_max_width }}px;
   "
@@ -269,6 +292,29 @@
               {%- endif -%}
             </label>
           {%- endif -%}
+
+          {%- if show_onetime -%}
+            <label class="feb-plan" data-plan="onetime">
+              <input type="radio" name="feb-plan-{{ sid }}" value="onetime">
+              <span class="feb-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              {%- if section.settings.onetime_badge != blank -%}<span class="feb-plan-badge feb-plan-badge--onetime">{{ section.settings.onetime_badge }}</span>{%- endif -%}
+              <span class="feb-plan-title">
+                {%- for line in onetime_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="feb-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
+              </span>
+              {%- if section.settings.onetime_desc != blank -%}<span class="feb-plan-desc">{{ section.settings.onetime_desc }}</span>{%- endif -%}
+              <span class="feb-plan-price-row">
+                <span class="feb-plan-price" data-plan-price="onetime">{{ section.settings.onetime_price }}</span>
+                <span class="feb-plan-period">{{ section.settings.onetime_period }}</span>
+              </span>
+              {%- assign _ow = section.settings.onetime_was | strip -%}
+              {%- if _ow != blank and _ow != '-' and _ow != '—' -%}
+                <span class="feb-plan-was" data-plan-was="onetime">{{ section.settings.onetime_was }}</span>
+              {%- endif -%}
+              {%- if onetime_list_html != blank -%}
+                <span class="feb-plan-list">{{ onetime_list_html }}</span>
+              {%- endif -%}
+            </label>
+          {%- endif -%}
         </div>
       </div>
 
@@ -307,6 +353,28 @@
               </div>
             </div>
           {%- endfor -%}
+        </div>
+
+        {%- comment %} One-time: reuses the monthly view but lets the customer pick a free-form quantity.
+        The pouch card is shared with the monthly view via JS (we keep a single `monthly` slot
+        and multiply it by the chosen qty in addToCart). {%- endcomment %}
+        <div class="feb-build-view feb-build-view--onetime" data-build-view="onetime">
+          <div class="feb-fcards" data-config="monthly">
+            {%- render 'fortified-pouch-card-b',
+              function_blocks: function_blocks,
+              config: 'monthly',
+              pouch_title: blank,
+              flavor_label: flavor_label,
+              coming_soon_text: coming_soon_txt -%}
+          </div>
+          <div class="feb-otp-qty" data-otp-qty hidden>
+            <span class="feb-otp-qty-label">{{ section.settings.onetime_qty_label | default: 'Quantity' }}</span>
+            <div class="feb-otp-qty-control">
+              <button type="button" class="feb-otp-qty-btn" data-otp-step="-1" aria-label="Decrease">−</button>
+              <input id="feb-otp-qty-input-{{ sid }}" class="feb-otp-qty-input" type="number" min="1" value="1" inputmode="numeric" aria-label="Quantity">
+              <button type="button" class="feb-otp-qty-btn" data-otp-step="1" aria-label="Increase">+</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -356,6 +424,16 @@
         <p class="feb-ov-label">{{ section.settings.summary_label | default: 'Your Order' }}</p>
         <ul class="feb-ov-lines" id="feb-ov-lines-{{ sid }}"></ul>
         <div class="feb-ov-total"><span>{{ section.settings.total_label | default: 'Total' }}</span><span class="feb-ov-total-val" id="feb-ov-total-{{ sid }}">--</span></div>
+
+        {%- if section.settings.show_shipping_bar -%}
+          <div class="feb-ship" id="feb-ship-{{ sid }}" hidden>
+            <p class="feb-ship-text" id="feb-ship-text-{{ sid }}"></p>
+            <div class="feb-ship-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+              <span class="feb-ship-fill" id="feb-ship-fill-{{ sid }}" style="width:0%"></span>
+            </div>
+          </div>
+        {%- endif -%}
+
         {%- if section.settings.overview_note != blank -%}<p class="feb-ov-note">{{ section.settings.overview_note }}</p>{%- endif -%}
       </div>
 
@@ -508,6 +586,8 @@
 }
 .feb-plan[data-plan="monthly"] { border-top-color: var(--feb-monthly-badge, #1FA8A1); }
 .feb-plan[data-plan="quarterly"] { border-top-color: var(--feb-quarterly-badge, #E8833A); }
+.feb-plan[data-plan="onetime"] { border-top-color: var(--feb-onetime-badge, #8E8E93); }
+.feb-plan-badge--onetime { color: var(--feb-onetime-badge, #8E8E93); }
 .feb-plan:hover { border-color: rgb(var(--color-foreground-rgb) / 0.3); }
 .feb-plan.is-active {
   border-color: var(--feb-selection-color, var(--color-primary-button-background));
@@ -707,6 +787,25 @@
 .feb-ov-total-val { font-size: 1.05rem; font-weight: 800; }
 .feb-ov-note { margin: 0.5rem 0 0; font-size: 0.68rem; opacity: 0.5; color: var(--color-foreground); }
 
+/* ── Free shipping progress bar (inside .feb-overview) ── */
+.feb-ship { display: flex; flex-direction: column; gap: 8px; margin: 0.75rem 0 0; padding-top: 0.6rem; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.08); }
+.feb-ship[hidden] { display: none !important; }
+.feb-ship-text { margin: 0; font-size: 0.78rem; font-weight: 700; color: var(--color-foreground); opacity: 0.85; }
+.feb-ship-bar { height: 8px; border-radius: 999px; background: var(--feb-ship-track, #EFEAE3); overflow: hidden; }
+.feb-ship-fill { display: block; height: 100%; background: var(--feb-ship-fill, #1FA8A1); border-radius: 999px; transition: width 0.4s ease, background 0.3s ease; }
+.feb-ship.is-unlocked .feb-ship-fill { background: var(--feb-ship-unlocked, #16A34A); }
+
+/* ── One-time purchase quantity stepper ── */
+.feb-otp-qty { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0.9rem 0 0; padding: 0.75rem 1rem; border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.14); border-radius: var(--ftdc-radius, 12px); background: var(--color-background); }
+.feb-otp-qty[hidden] { display: none !important; }
+.feb-otp-qty-label { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-foreground); }
+.feb-otp-qty-control { display: inline-flex; align-items: stretch; border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.2); border-radius: 999px; overflow: hidden; }
+.feb-otp-qty-btn { appearance: none; cursor: pointer; padding: 0.4rem 0.85rem; background: var(--color-background); color: var(--color-foreground); border: 0; font-size: 1rem; font-weight: 800; line-height: 1; }
+.feb-otp-qty-btn:hover:not(:disabled) { background: rgb(var(--color-foreground-rgb) / 0.06); }
+.feb-otp-qty-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.feb-otp-qty-input { width: 3rem; border: 0; text-align: center; font-size: 0.95rem; font-weight: 800; background: transparent; color: var(--color-foreground); -moz-appearance: textfield; }
+.feb-otp-qty-input::-webkit-outer-spin-button, .feb-otp-qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
 /* ── Quantity + ATC ── */
 .feb-atc-wrap { display: flex; flex-direction: column; gap: 0.6rem; }
 .feb-atc-row { display: flex; gap: 0.6rem; align-items: stretch; }
@@ -893,6 +992,7 @@
   } catch (_) {}
   var PLAN_LABEL_M = {{ section.settings.monthly_label | default: '1 a Month' | json }};
   var PLAN_LABEL_Q = {{ section.settings.quarterly_label | default: '3 Every 3 Months' | json }};
+  var PLAN_LABEL_OT = {{ section.settings.onetime_label | default: 'One-time purchase' | json }};
 
   var root = document.getElementById('feb-' + SID);
   if (!root) return;
@@ -914,14 +1014,25 @@
   var ovLines = root.querySelector('#feb-ov-lines-' + SID);
   var ovTotal = root.querySelector('#feb-ov-total-' + SID);
   var oneTimeBtn = root.querySelector('#feb-onetime-' + SID);
-  var monthlyView = root.querySelector('.feb-build-view--monthly');
+  var monthlyView   = root.querySelector('.feb-build-view--monthly');
   var quarterlyView = root.querySelector('.feb-build-view--quarterly');
+  var onetimeView   = root.querySelector('.feb-build-view--onetime');
+  var otpQtyEl      = root.querySelector('[data-otp-qty]');
+  var otpQtyInput   = root.querySelector('#feb-otp-qty-input-' + SID);
+  /* Free-shipping bar nodes (rendered only when show_shipping_bar is on) */
+  var shipEl   = root.querySelector('#feb-ship-' + SID);
+  var shipFill = root.querySelector('#feb-ship-fill-' + SID);
+  var shipText = root.querySelector('#feb-ship-text-' + SID);
+  var SHIP_THRESHOLD = ({{ section.settings.shipping_threshold_dollars | default: 100 | json }}) * 100;
+  var SHIP_TEXT_SUB      = {{ section.settings.shipping_label_subscription | default: 'Free shipping included with your subscription' | json }};
+  var SHIP_TEXT_PROGRESS = {{ section.settings.shipping_label_progress | default: 'Add {amount} more for free shipping' | json }};
+  var SHIP_TEXT_UNLOCKED = {{ section.settings.shipping_label_unlocked | default: 'Free shipping unlocked!' | json }};
 
   /* Replace the {count} placeholder on load so it never shows literally
      before a plan is picked. Updated again per-plan in applyPurchaseType. */
   if (buildLabelEl) buildLabelEl.textContent = BUILD_LABEL.replace('{count}', BUNDLE_COUNT);
 
-  var state = { purchaseType: null };
+  var state = { purchaseType: null, onetimeQty: 1 };
   var slots = {};
   function newSlot() { return { functionId: null, handle: null, label: null, planMonthly: null, planQuarterly: null, flavorName: null, product: null, variant: null, configId: null }; }
   slots.monthly = newSlot();
@@ -974,11 +1085,17 @@
   }
 
   function activeSlotIds() {
-    if (state.purchaseType === 'monthly') return ['monthly'];
+    if (state.purchaseType === 'monthly')  return ['monthly'];
+    if (state.purchaseType === 'onetime')  return ['monthly']; /* OTP reuses the monthly slot, multiplied by state.onetimeQty */
     if (state.purchaseType === 'quarterly') { var a = []; for (var i = 1; i <= BUNDLE_COUNT; i++) a.push('q' + i); return a; }
     return [];
   }
-  function slotPlanRaw(s) { return state.purchaseType === 'monthly' ? s.planMonthly : s.planQuarterly; }
+  /* OTP has no selling plan — it's a regular one-time purchase. */
+  function slotPlanRaw(s) {
+    if (state.purchaseType === 'monthly')   return s.planMonthly;
+    if (state.purchaseType === 'quarterly') return s.planQuarterly;
+    return null;
+  }
 
   function setMainImage(src) {
     if (!mainImg || !src || cleanSrc(mainImg.src) === cleanSrc(src)) return;
@@ -1018,6 +1135,9 @@
 
   function recompute() {
     var ids = activeSlotIds();
+    var isOtp = state.purchaseType === 'onetime';
+    /* OTP reuses the single monthly slot, multiplied by the OTP qty stepper. */
+    var pouchMultiplier = isOtp ? Math.max(1, state.onetimeQty || 1) : 1;
     var completed = 0, pouchSubtotal = 0, ready = ids.length > 0;
     var lines = [];
     ids.forEach(function (id) {
@@ -1026,7 +1146,7 @@
         completed++;
         var pr = subPrice(s.product, s.variant, slotPlanRaw(s));
         if (pr == null) pr = s.variant.price;
-        pouchSubtotal += pr;
+        pouchSubtotal += pr * pouchMultiplier;
         lines.push({ name: s.label, sub: s.flavorName, price: pr, thumb: slotImage(s) });
       } else { ready = false; }
     });
@@ -1034,8 +1154,13 @@
     var qty = getQty();
     var addonOn = !!(addonInput && addonInput.checked);
     var creatineCents = 0;
-    if (addonOn && (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly')) {
-      creatineCents = Math.round(CR_PRICE * 100);
+    if (addonOn) {
+      if (isOtp) {
+        var crOtCents = parseFloat((CR_PRICE_OT + '').replace(/[^0-9.]/g, ''));
+        if (!isNaN(crOtCents) && crOtCents > 0) creatineCents = Math.round(crOtCents * 100);
+      } else if (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly') {
+        creatineCents = Math.round(CR_PRICE * 100);
+      }
     }
     var total = (pouchSubtotal + creatineCents) * qty;
 
@@ -1046,11 +1171,15 @@
     if (ovLines) {
       var html = '';
       if (state.purchaseType) {
-        html += '<li class="feb-ov-line"><span class="feb-ov-line-name">' + esc(state.purchaseType === 'quarterly' ? PLAN_LABEL_Q : PLAN_LABEL_M) + '</span></li>';
+        var planLabel = isOtp ? PLAN_LABEL_OT : (state.purchaseType === 'quarterly' ? PLAN_LABEL_Q : PLAN_LABEL_M);
+        html += '<li class="feb-ov-line"><span class="feb-ov-line-name">' + esc(planLabel) + '</span></li>';
       }
       lines.forEach(function (l, i) {
         var thumb = l.thumb ? '<img class="feb-ov-thumb" src="' + l.thumb + '" alt="">' : '<span class="feb-ov-thumb"></span>';
-        html += '<li class="feb-ov-line"><span class="feb-ov-line-name">' + thumb + '<span class="feb-ov-line-txt">' + esc(l.name || ('Pouch ' + (i + 1))) + (l.sub ? '<span class="feb-ov-line-sub">' + esc(l.sub) + '</span>' : '') + '</span></span><span class="feb-ov-line-price">' + formatMoney(l.price * qty) + '</span></li>';
+        var lineQty = isOtp ? pouchMultiplier * qty : qty;
+        var lineSubText = l.sub || '';
+        if (isOtp && pouchMultiplier > 1) lineSubText += (lineSubText ? ' · ' : '') + '× ' + pouchMultiplier;
+        html += '<li class="feb-ov-line"><span class="feb-ov-line-name">' + thumb + '<span class="feb-ov-line-txt">' + esc(l.name || ('Pouch ' + (i + 1))) + (lineSubText ? '<span class="feb-ov-line-sub">' + esc(lineSubText) + '</span>' : '') + '</span></span><span class="feb-ov-line-price">' + formatMoney(l.price * lineQty) + '</span></li>';
       });
       if (state.purchaseType === 'quarterly') {
         var crThumbFree = ADDON_IMG_URL ? '<img class="feb-ov-thumb" src="' + ADDON_IMG_URL + '" alt="">' : '<span class="feb-ov-thumb"></span>';
@@ -1058,15 +1187,43 @@
       }
       if (creatineCents > 0) {
         var crThumbPaid = ADDON_IMG_URL ? '<img class="feb-ov-thumb" src="' + ADDON_IMG_URL + '" alt="">' : '<span class="feb-ov-thumb"></span>';
-        html += '<li class="feb-ov-line"><span class="feb-ov-line-name">' + crThumbPaid + '<span class="feb-ov-line-txt">' + (state.purchaseType === 'quarterly' ? '2nd Creatine (50% off)' : 'Creatine (50% off)') + '</span></span><span class="feb-ov-line-price">' + formatMoney(creatineCents * qty) + '</span></li>';
+        var crLabel = isOtp ? 'Creatine (25% off)' : (state.purchaseType === 'quarterly' ? '2nd Creatine (50% off)' : 'Creatine (50% off)');
+        html += '<li class="feb-ov-line"><span class="feb-ov-line-name">' + crThumbPaid + '<span class="feb-ov-line-txt">' + crLabel + '</span></span><span class="feb-ov-line-price">' + formatMoney(creatineCents * qty) + '</span></li>';
       }
       ovLines.innerHTML = html;
     }
     if (ovTotal) ovTotal.textContent = (ready || lines.length) ? formatMoney(total) : '--';
 
+    updateShipping(total);
     updatePlanPrices();
     setAtcEnabled(ready);
     return ready;
+  }
+
+  /* Free-shipping progress: subscription plans always show "free shipping included";
+     OTP fills the bar as the cart total approaches SHIP_THRESHOLD. */
+  function updateShipping(t) {
+    if (!shipEl) return;
+    shipEl.hidden = false;
+    if (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly') {
+      if (shipFill) shipFill.style.width = '100%';
+      shipEl.classList.add('is-unlocked');
+      if (shipText) shipText.textContent = SHIP_TEXT_SUB;
+    } else if (state.purchaseType === 'onetime') {
+      if (t >= SHIP_THRESHOLD) {
+        if (shipFill) shipFill.style.width = '100%';
+        shipEl.classList.add('is-unlocked');
+        if (shipText) shipText.textContent = SHIP_TEXT_UNLOCKED;
+      } else {
+        var pct = SHIP_THRESHOLD > 0 ? (t / SHIP_THRESHOLD * 100) : 0;
+        if (shipFill) shipFill.style.width = pct.toFixed(1) + '%';
+        shipEl.classList.remove('is-unlocked');
+        var remaining = Math.max(SHIP_THRESHOLD - t, 0);
+        if (shipText) shipText.textContent = SHIP_TEXT_PROGRESS.replace('{amount}', formatMoney(remaining));
+      }
+    } else {
+      shipEl.hidden = true;
+    }
   }
 
   function loadSlotProduct(id) {
@@ -1085,8 +1242,10 @@
     state.purchaseType = type;
     if (monthlyView) monthlyView.classList.toggle('is-active', type === 'monthly');
     if (quarterlyView) quarterlyView.classList.toggle('is-active', type === 'quarterly');
+    if (onetimeView)   onetimeView.classList.toggle('is-active', type === 'onetime');
+    if (otpQtyEl)      otpQtyEl.hidden = type !== 'onetime';
     if (buildGroup) { buildGroup.classList.remove('feb-step--locked'); buildGroup.removeAttribute('aria-disabled'); }
-    var count = type === 'monthly' ? 1 : BUNDLE_COUNT;
+    var count = (type === 'monthly' || type === 'onetime') ? 1 : BUNDLE_COUNT;
     if (buildLabelEl) buildLabelEl.textContent = BUILD_LABEL.replace('{count}', count);
 
     /* Creatine card: unlock + adapt copy. Quarterly shows the "1st free" line and offers a 2nd at 50%. */
@@ -1118,6 +1277,25 @@
       applyPurchaseType(radio.value);
     });
   });
+
+  /* OTP quantity stepper */
+  function setOtpQty(n) {
+    n = Math.max(1, Math.floor(n) || 1);
+    state.onetimeQty = n;
+    if (otpQtyInput && parseInt(otpQtyInput.value, 10) !== n) otpQtyInput.value = n;
+    recompute();
+  }
+  if (otpQtyEl) {
+    otpQtyEl.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-otp-step]'); if (!b) return;
+      var step = parseInt(b.dataset.otpStep, 10) || 0;
+      setOtpQty(state.onetimeQty + step);
+    });
+  }
+  if (otpQtyInput) {
+    otpQtyInput.addEventListener('change', function () { setOtpQty(parseInt(otpQtyInput.value, 10) || 1); });
+    otpQtyInput.addEventListener('input',  function () { var v = parseInt(otpQtyInput.value, 10); if (v >= 1) setOtpQty(v); });
+  }
   var preselectedPlan = root.querySelector('input[name="feb-plan-' + SID + '"]:checked');
   if (preselectedPlan) {
     var preLabel = preselectedPlan.closest('.feb-plan');
@@ -1247,6 +1425,8 @@
 
   function buildItems(oneTime) {
     var items = [], ids = activeSlotIds(), qty = getQty();
+    /* OTP pouch quantity = (page qty stepper) × (OTP qty stepper). */
+    var pouchQtyMul = state.purchaseType === 'onetime' ? Math.max(1, state.onetimeQty || 1) : 1;
     if (oneTime) {
       var first = ids.map(function (id) { return slots[id]; }).find(function (s) { return s && s.variant; });
       if (!first) return null;
@@ -1255,7 +1435,7 @@
     for (var k = 0; k < ids.length; k++) {
       var s = slots[ids[k]];
       if (!s.variant) return null;
-      var item = { id: s.variant.id, quantity: qty };
+      var item = { id: s.variant.id, quantity: qty * pouchQtyMul };
       var plan = findSellingPlanId(s.product, slotPlanRaw(s));
       if (plan) item.selling_plan = plan;
       if (state.purchaseType === 'quarterly') {
@@ -1418,7 +1598,9 @@
           var totalQty = finalItems.reduce(function (sum, it) { return sum + (it.quantity || 1); }, 0);
 
           /* One-time + creatine + configured discount = auto-apply via /discount/CODE */
-          var addedOnetimeCreatine = oneTime && finalItems.some(function (it) {
+          /* OTP creatine discount auto-apply: triggered by either the
+             one-time bypass button OR the OTP plan radio. */
+          var addedOnetimeCreatine = (oneTime || state.purchaseType === 'onetime') && finalItems.some(function (it) {
             return it.properties && it.properties._upsell === 'creatine-onetime';
           });
           if (addedOnetimeCreatine && CR_DISCOUNT_OT) {
@@ -1858,6 +2040,129 @@
       "label": "Quarterly checklist",
       "info": "One paragraph = one checklist item. Use the editor to bold, italicize, or link text inside an item.",
       "default": "<p>Free Creatine + Sample Pack</p><p>Free shipping always</p><p>Flexible, cancel / pause any time</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_onetime",
+      "label": "Show \"One-time purchase\" plan",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "onetime_badge",
+      "label": "One-time badge",
+      "default": "One-time"
+    },
+    {
+      "type": "color_background",
+      "id": "onetime_badge_color",
+      "label": "One-time badge color (top stripe)",
+      "default": "#8E8E93"
+    },
+    {
+      "type": "text",
+      "id": "onetime_title",
+      "label": "One-time title (one line per row)",
+      "default": "Single Pouch"
+    },
+    {
+      "type": "text",
+      "id": "onetime_desc",
+      "label": "One-time desc",
+      "default": "Try it first."
+    },
+    {
+      "type": "text",
+      "id": "onetime_price",
+      "label": "One-time price",
+      "default": "$59.00"
+    },
+    {
+      "type": "text",
+      "id": "onetime_period",
+      "label": "One-time period",
+      "default": "/ pouch"
+    },
+    {
+      "type": "text",
+      "id": "onetime_was",
+      "label": "One-time was (leave - to hide)",
+      "default": "-"
+    },
+    {
+      "type": "richtext",
+      "id": "onetime_checklist",
+      "label": "One-time checklist",
+      "info": "One paragraph = one checklist item. Mention the shipping rule here if you want it on the plan card.",
+      "default": "<p><strong>Free shipping unlocks at $100+</strong></p><p>No subscription</p><p>Cancel anytime — it's a single purchase</p>"
+    },
+    {
+      "type": "text",
+      "id": "onetime_label",
+      "label": "Cart summary label",
+      "default": "One-time purchase"
+    },
+    {
+      "type": "text",
+      "id": "onetime_qty_label",
+      "label": "Quantity stepper label",
+      "default": "Quantity"
+    },
+    {
+      "type": "header",
+      "content": "Free Shipping Bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_bar",
+      "label": "Show free shipping bar in order summary",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "shipping_threshold_dollars",
+      "label": "Free shipping threshold ($)",
+      "min": 0,
+      "max": 250,
+      "step": 5,
+      "default": 100,
+      "info": "Cart total in dollars required to unlock free shipping on one-time purchases."
+    },
+    {
+      "type": "text",
+      "id": "shipping_label_subscription",
+      "label": "Subscription label",
+      "default": "Free shipping included with your subscription"
+    },
+    {
+      "type": "text",
+      "id": "shipping_label_progress",
+      "label": "Progress label (use {amount} for remaining)",
+      "default": "Add {amount} more for free shipping"
+    },
+    {
+      "type": "text",
+      "id": "shipping_label_unlocked",
+      "label": "Unlocked label",
+      "default": "Free shipping unlocked!"
+    },
+    {
+      "type": "color",
+      "id": "shipping_bar_track_color",
+      "label": "Shipping bar track",
+      "default": "#EFEAE3"
+    },
+    {
+      "type": "color",
+      "id": "shipping_bar_fill_color",
+      "label": "Shipping bar fill",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "color",
+      "id": "shipping_bar_unlocked_color",
+      "label": "Shipping bar unlocked",
+      "default": "#16A34A"
     },
     {
       "type": "range",
