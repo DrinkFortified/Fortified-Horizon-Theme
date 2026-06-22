@@ -27,30 +27,6 @@
 
 {{ 'ftdc.css' | asset_url | stylesheet_tag }}
 
-{%- liquid
-  assign acc_monthly   = block.settings.monthly_accent_color   | default: '#1FA8A1'
-  assign acc_quarterly = block.settings.quarterly_accent_color | default: '#E8833A'
-  assign acc_onetime   = block.settings.onetime_accent_color   | default: '#8E8E93'
--%}
-
-<style>
-  #ftdc-{{ sid }} .ftdc__plan { border-top: 4px solid transparent; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="monthly"] { border-top-color: {{ acc_monthly }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"] { border-top-color: {{ acc_quarterly }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] { border-top-color: {{ acc_onetime }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="monthly"] .ftdc__plan-badge { color: {{ acc_monthly }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"] .ftdc__plan-badge { color: {{ acc_quarterly }}; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-badge { color: {{ acc_onetime }}; }
-  #ftdc-{{ sid }} .ftdc__step--has-image.is-active { display: grid; grid-template-columns: minmax(180px, 320px) 1fr; gap: 1.4rem; align-items: start; }
-  #ftdc-{{ sid }} .ftdc__plans-image { position: sticky; top: 1rem; }
-  #ftdc-{{ sid }} .ftdc__plans-image img { width: 100%; height: auto; display: block; border-radius: var(--ftdc-radius, 12px); object-fit: cover; }
-  @media (max-width: 749px) {
-    #ftdc-{{ sid }} .ftdc__step--has-image.is-active { grid-template-columns: 1fr; gap: 1rem; }
-    #ftdc-{{ sid }} .ftdc__plans-image { position: static; }
-    #ftdc-{{ sid }} .ftdc__plans-image img { max-height: 220px; }
-  }
-</style>
-
 <section
   id="ftdc-{{ sid }}"
   class="ftdc color-{{ block.settings.color_scheme }}"
@@ -73,12 +49,7 @@
     </ol>
 
     {%- comment %} ───── STEP 1 — PLANS ───── {%- endcomment %}
-    <div class="ftdc__step is-active{% if block.settings.plan_image != blank %} ftdc__step--has-image{% endif %}" data-step="plans">
-      {%- if block.settings.plan_image != blank -%}
-        <div class="ftdc__plans-image">
-          <img src="{{ block.settings.plan_image | image_url: width: 800 }}" alt="" width="320" height="320" loading="lazy">
-        </div>
-      {%- endif -%}
+    <div class="ftdc__step is-active" data-step="plans">
       <div class="ftdc__plans" data-plan-order="{{ block.settings.plan_order | default: 'quarterly,monthly,onetime' }}">
         {%- if show_quarterly -%}
           <label class="ftdc__plan is-active" data-plan="quarterly">
