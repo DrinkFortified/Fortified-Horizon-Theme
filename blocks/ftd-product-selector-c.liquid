@@ -70,6 +70,7 @@
   class="ftdc color-{{ block.settings.color_scheme }}"
   data-section-id="{{ sid }}"
   style="--ftdc-accent: {{ block.settings.accent_color }}; --ftdc-radius: {{ block.settings.card_radius }}px; --ftdc-max-w: {{ block.settings.content_max_width }}px;"
+  {{ block.shopify_attributes }}
 >
   <div class="ftdc__inner">
 
@@ -496,7 +497,7 @@
 {% schema %}
 {
   "name": "FTD - Product Selector C",
-  "tag": "div",
+  "tag": null,
   "settings": [
     { "type": "header", "content": "Header" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Build Your Clean Hydration Ritual" },
@@ -576,11 +577,11 @@
     { "type": "text", "id": "checkout_label", "label": "Checkout", "default": "Checkout" },
     { "type": "text", "id": "add_more_label", "label": "Add More", "default": "Add More" },
     { "type": "header", "content": "Appearance" },
-    { "type": "image_picker", "id": "plan_image", "label": "Plan selector image (left)", "info": "Optional. Shown beside Step 1 (the plan picker) only. Leave blank to keep the plan picker full-width." },
-    { "type": "color", "id": "accent_color", "label": "Accent (fallback)", "default": "#1FA8A1", "info": "Used when a per-plan color below is left blank." },
-    { "type": "color", "id": "monthly_accent_color",   "label": "Monthly accent color",   "default": "#1FA8A1" },
-    { "type": "color", "id": "quarterly_accent_color", "label": "Quarterly accent color", "default": "#E8833A" },
-    { "type": "color", "id": "onetime_accent_color",   "label": "One-time accent color",  "default": "#8E8E93" },
+    { "type": "image_picker", "id": "plan_image", "label": "Plan selector image" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1FA8A1" },
+    { "type": "color", "id": "monthly_accent_color", "label": "Monthly accent", "default": "#1FA8A1" },
+    { "type": "color", "id": "quarterly_accent_color", "label": "Quarterly accent", "default": "#E8833A" },
+    { "type": "color", "id": "onetime_accent_color", "label": "One-time accent", "default": "#8E8E93" },
     { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 12 },
     { "type": "range", "id": "content_max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
