@@ -294,12 +294,13 @@
         {%- comment %} Quarterly: one pouch card per unit {%- endcomment %}
         <div class="feb-build-view feb-build-view--quarterly" data-build-view="quarterly">
           {%- for i in (1..bundle_count) -%}
-            {%- assign pouch_title_str = section.settings.unit_label_prefix | default: 'Pouch' | append: ' ' | append: i -%}
+            {%- capture qcfg -%}q{{ i }}{%- endcapture -%}
+            {%- capture pouch_title_str -%}{{ section.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}{%- endcapture -%}
             <div class="feb-pouch">
-              <div class="feb-fcards" data-config="q{{ i }}">
+              <div class="feb-fcards" data-config="{{ qcfg }}">
                 {%- render 'fortified-pouch-card-b',
                   function_blocks: function_blocks,
-                  config: 'q' | append: i,
+                  config: qcfg,
                   pouch_title: pouch_title_str,
                   flavor_label: flavor_label,
                   coming_soon_text: coming_soon_txt -%}
@@ -1129,8 +1130,16 @@
      per function (only the active function's group is visible). */
   function selectFunction(pill, resetFlavor) {
     var pouchCard = pill.closest('.feb-pouch-card');
-    var cfg = (pouchCard && pouchCard.dataset.config) || pill.dataset.config;
-    var s = slots[cfg]; if (!s) return;
+    /* Look up the slot config from the most reliable source first: the
+       pouch card, then the pill itself, then the .feb-fcards wrapper as
+       a last resort. The wrapper's data-config is always set by the
+       parent section even if the snippet ever fails to forward it. */
+    var fcardsWrap = pill.closest('.feb-fcards');
+    var cfg = (pouchCard && pouchCard.dataset.config) ||
+              pill.dataset.config ||
+              (fcardsWrap && fcardsWrap.dataset.config);
+    var s = cfg ? slots[cfg] : null;
+    if (!s) { try { console.warn('[FEB] selectFunction: no slot for cfg', cfg, 'pouchCard:', pouchCard, 'pill:', pill); } catch (_) {} return; }
     s.configId = cfg;
 
     /* Mark pill state within this pouch only */
@@ -1187,7 +1196,9 @@
         b.setAttribute('aria-pressed', 'false');
       });
       flavor.classList.add('is-active'); flavor.setAttribute('aria-pressed', 'true');
-      var s = slots[pouchCard.dataset.config];
+      var fcardsWrap = pouchCard.closest('.feb-fcards');
+      var cfg = pouchCard.dataset.config || (fcardsWrap && fcardsWrap.dataset.config);
+      var s = cfg ? slots[cfg] : null;
       if (!s) return;
       s.flavorName = flavor.dataset.flavorName;
       if (s.product) { s.variant = findVariant(s.product, s.flavorName); var img = slotImage(s); if (img) setMainImage(img); }
