@@ -70,7 +70,6 @@
   class="ftdc color-{{ block.settings.color_scheme }}"
   data-section-id="{{ sid }}"
   style="--ftdc-accent: {{ block.settings.accent_color }}; --ftdc-radius: {{ block.settings.card_radius }}px; --ftdc-max-w: {{ block.settings.content_max_width }}px;"
-  {{ block.shopify_attributes }}
 >
   <div class="ftdc__inner">
 
@@ -497,7 +496,7 @@
 {% schema %}
 {
   "name": "FTD - Product Selector C",
-  "tag": null,
+  "tag": "div",
   "settings": [
     { "type": "header", "content": "Header" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Build Your Clean Hydration Ritual" },
