@@ -42,6 +42,13 @@
   #ftdc-{{ sid }} .ftdc__step--has-image.is-active { display: grid; grid-template-columns: minmax(180px, 320px) 1fr; gap: 1.4rem; align-items: start; }
   #ftdc-{{ sid }} .ftdc__plans-image { position: sticky; top: 1rem; }
   #ftdc-{{ sid }} .ftdc__plans-image img { width: 100%; height: auto; display: block; border-radius: var(--ftdc-radius, 12px); object-fit: cover; }
+  /* Center the bundle (Step 2) cards: fixed-width tracks + justify-content
+     so a partial row sits centered instead of left-aligned. Desktop only —
+     the mobile 2-column layout from ftdc.css is left as-is. */
+  #ftdc-{{ sid }} .ftdc__grid { justify-content: center; }
+  @media (min-width: 600px) {
+    #ftdc-{{ sid }} .ftdc__grid { grid-template-columns: repeat(auto-fill, minmax(200px, 230px)); }
+  }
   @media (max-width: 749px) {
     #ftdc-{{ sid }} .ftdc__step--has-image.is-active { grid-template-columns: 1fr; gap: 1rem; }
     #ftdc-{{ sid }} .ftdc__plans-image { position: static; }
