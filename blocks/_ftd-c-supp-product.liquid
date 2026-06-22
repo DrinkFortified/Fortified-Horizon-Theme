@@ -1,0 +1,224 @@
+{%- comment -%}
+  Child block for FTD-C - Supp Facts (one per product tab).
+
+  Self-rendering: emits a full <article data-slot="supp-panel"> tagged
+  with the product handle / label. The parent section's JS moves these
+  out of the hidden staging area into the tab grid and wires up the
+  tab buttons.
+
+  Data source priority (per field):
+    1. block.settings.<field> if set                                     ← inline override
+    2. product.metafields.fortified.pdp_content (metaobject)             ← shared library
+    3. section setting fallback (handled in parent template)             ← global default
+{%- endcomment -%}
+{%- liquid
+  assign prod = block.settings.product
+  assign label = block.settings.tab_label
+  if label == blank
+    if prod != blank
+      assign label = prod.title
+    else
+      assign label = 'Pick a product'
+    endif
+  endif
+
+  assign pdp = nil
+  if prod != blank
+    assign pdp = prod.metafields.fortified.pdp_content.value
+  endif
+
+  assign eyebrow_v       = block.settings.eyebrow
+  assign heading_v       = block.settings.heading
+  assign servings_per_v  = block.settings.servings_per
+  assign serving_size_v  = block.settings.serving_size
+  assign calories_v      = block.settings.calories
+  assign use_pdp_nutrients = false
+
+  if pdp != blank
+    if eyebrow_v == blank and pdp.supplement_facts_eyebrow != blank
+      assign eyebrow_v = pdp.supplement_facts_eyebrow
+    endif
+    if heading_v == blank and pdp.supplement_facts_heading != blank
+      assign heading_v = pdp.supplement_facts_heading
+    endif
+    if servings_per_v == blank and pdp.servings_per != blank
+      assign servings_per_v = pdp.servings_per
+    endif
+    if serving_size_v == blank and pdp.serving_size != blank
+      assign serving_size_v = pdp.serving_size
+    endif
+    if calories_v == blank and pdp.calories != blank
+      assign calories_v = pdp.calories
+    endif
+    if pdp.nutrients.value != blank and pdp.nutrients.value.size > 0
+      assign use_pdp_nutrients = true
+    endif
+  endif
+
+  assign accent_c = block.settings.accent_color | default: '#1FA8A1'
+
+  assign card_img = block.settings.tab_image
+  if card_img == blank and prod != blank
+    assign card_img = prod.featured_image
+  endif
+-%}
+
+<article class="ftcsf__panel"
+         data-slot="supp-panel"
+         data-tab-id="{{ block.id }}"
+         data-tab-label="{{ label | escape }}"
+         data-tab-handle="{{ prod.handle }}"
+         data-tab-thumb="{% if card_img != blank %}{{ card_img | image_url: width: 96 }}{% endif %}"
+         data-tab-accent="{{ accent_c }}"
+         style="--ftcsf-accent: {{ accent_c }};"
+         hidden
+         {{ block.shopify_attributes }}>
+
+  {%- comment -%} LEFT: Nutrition Facts panel {%- endcomment -%}
+  <aside class="ftcsf__panel-wrap">
+    <div class="ftcsf__nfp" role="table" aria-label="Supplement Facts">
+      <div class="ftcsf__nfp-title">{{ block.settings.panel_title | default: 'Supplement Facts' }}</div>
+
+      {%- if servings_per_v != blank -%}
+        <div class="ftcsf__nfp-meta">{{ servings_per_v }}</div>
+      {%- endif -%}
+      {%- if serving_size_v != blank -%}
+        <div class="ftcsf__nfp-meta ftcsf__nfp-meta--bold">Serving size <span>{{ serving_size_v }}</span></div>
+      {%- endif -%}
+
+      <div class="ftcsf__rule ftcsf__rule--thick" aria-hidden="true"></div>
+      <div class="ftcsf__amount-per">Amount Per Serving</div>
+
+      {%- if calories_v != blank -%}
+        <div class="ftcsf__cal-row">
+          <span class="ftcsf__cal-label">Calories</span>
+          <span class="ftcsf__cal-num">{{ calories_v }}</span>
+        </div>
+      {%- endif -%}
+
+      <div class="ftcsf__rule ftcsf__rule--med" aria-hidden="true"></div>
+      <div class="ftcsf__dv-head">% Daily Value*</div>
+
+      <div class="ftcsf__rows">
+        {%- if use_pdp_nutrients -%}
+          {%- for n in pdp.nutrients.value -%}
+            {%- assign indent  = n.indent_level | default: 0 -%}
+            {%- assign divider = n.divider_after | default: 'thin' -%}
+            <div class="ftcsf__row ftcsf__row--indent-{{ indent }}">
+              <span class="ftcsf__row-label{% if n.bold_label %} ftcsf__row-label--bold{% endif %}">
+                {{ n.label }}
+                {%- if n.amount != blank -%}<span class="ftcsf__row-amount">{{ n.amount }}</span>{%- endif -%}
+              </span>
+              <span class="ftcsf__row-dv">{{ n.daily_value }}</span>
+            </div>
+            {%- unless divider == 'none' -%}
+              <div class="ftcsf__rule ftcsf__rule--{{ divider }}" aria-hidden="true"></div>
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- comment -%}
+            Inline fallback: parse `nutrients_text` textarea.
+            Format per line: Label | Amount | DV | indent(0-3) | bold(0/1) | divider(thin|med|thick|none)
+          {%- endcomment -%}
+          {%- assign nrows = block.settings.nutrients_text | newline_to_br | split: '<br />' -%}
+          {%- for row in nrows -%}
+            {%- assign trimmed = row | strip -%}
+            {%- if trimmed != '' -%}
+              {%- assign parts = trimmed | split: '|' -%}
+              {%- assign nlabel = parts[0] | strip -%}
+              {%- assign namount = parts[1] | default: '' | strip -%}
+              {%- assign ndv = parts[2] | default: '' | strip -%}
+              {%- assign nindent = parts[3] | default: 0 | strip -%}
+              {%- assign nbold = parts[4] | default: '0' | strip -%}
+              {%- assign ndiv = parts[5] | default: 'thin' | strip -%}
+              <div class="ftcsf__row ftcsf__row--indent-{{ nindent }}">
+                <span class="ftcsf__row-label{% if nbold == '1' %} ftcsf__row-label--bold{% endif %}">
+                  {{ nlabel }}
+                  {%- if namount != '' -%}<span class="ftcsf__row-amount">{{ namount }}</span>{%- endif -%}
+                </span>
+                <span class="ftcsf__row-dv">{{ ndv }}</span>
+              </div>
+              {%- unless ndiv == 'none' -%}
+                <div class="ftcsf__rule ftcsf__rule--{{ ndiv }}" aria-hidden="true"></div>
+              {%- endunless -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+
+      {%- if block.settings.panel_footnote != blank -%}
+        <div class="ftcsf__rule ftcsf__rule--thick" aria-hidden="true"></div>
+        <p class="ftcsf__footnote">{{ block.settings.panel_footnote }}</p>
+      {%- endif -%}
+    </div>
+  </aside>
+
+  {%- comment -%} RIGHT: Eyebrow / heading + callouts {%- endcomment -%}
+  <div class="ftcsf__body">
+    {%- if eyebrow_v != blank or heading_v != blank -%}
+      <header class="ftcsf__head">
+        {%- if eyebrow_v != blank -%}<p class="ftcsf__eyebrow">{{ eyebrow_v }}</p>{%- endif -%}
+        {%- if heading_v != blank -%}<h2 class="ftcsf__heading">{{ heading_v }}</h2>{%- endif -%}
+      </header>
+    {%- endif -%}
+
+    <div class="ftcsf__callouts">
+      {%- for n in (1..3) -%}
+        {%- assign t_id = 'callout_' | append: n | append: '_title' -%}
+        {%- assign b_id = 'callout_' | append: n | append: '_body' -%}
+        {%- assign c_id = 'callout_' | append: n | append: '_accent' -%}
+        {%- assign t = block.settings[t_id] -%}
+        {%- assign b = block.settings[b_id] -%}
+        {%- assign c = block.settings[c_id] | default: accent_c -%}
+        {%- if t != blank or b != blank -%}
+          <article class="ftcsf__callout" style="--ftcsf-callout-accent: {{ c }};">
+            {%- if t != blank -%}<h3 class="ftcsf__callout-title">{{ t }}</h3>{%- endif -%}
+            {%- if b != blank -%}<p class="ftcsf__callout-body">{{ b }}</p>{%- endif -%}
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Supp Facts Product Tab",
+  "tag": null,
+  "settings": [
+    { "type": "header", "content": "Tab" },
+    { "type": "product", "id": "product", "label": "Product" },
+    { "type": "text", "id": "tab_label", "label": "Tab label", "info": "Falls back to the product title." },
+    { "type": "image_picker", "id": "tab_image", "label": "Tab thumbnail (optional)", "info": "Shown in the tab button. Falls back to the product's featured image." },
+    { "type": "color", "id": "accent_color", "label": "Tab accent color", "default": "#1FA8A1" },
+
+    { "type": "header", "content": "Right column overrides" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (override)", "info": "Falls back to metafield, then section setting." },
+    { "type": "text", "id": "heading", "label": "Heading (override)" },
+
+    { "type": "header", "content": "Nutrition panel (override)" },
+    { "type": "text", "id": "panel_title", "label": "Panel title", "default": "Supplement Facts" },
+    { "type": "text", "id": "servings_per", "label": "Servings per container (override)" },
+    { "type": "text", "id": "serving_size", "label": "Serving size (override)" },
+    { "type": "text", "id": "calories", "label": "Calories (override)" },
+    {
+      "type": "textarea",
+      "id": "nutrients_text",
+      "label": "Nutrients (inline fallback)",
+      "info": "Used ONLY when the product has no fortified.pdp_content metafield. One nutrient per line: Label | Amount | DV% | indent(0-3) | bold(1/0) | divider(thin|med|thick|none). Example: Sodium | 200mg | 9% | 0 | 1 | thin"
+    },
+    { "type": "text", "id": "panel_footnote", "label": "Panel footnote", "default": "* Percent Daily Values are based on a 2,000 calorie diet." },
+
+    { "type": "header", "content": "Callouts (right column)" },
+    { "type": "text",     "id": "callout_1_title",  "label": "Callout 1 title" },
+    { "type": "textarea", "id": "callout_1_body",   "label": "Callout 1 body" },
+    { "type": "color",    "id": "callout_1_accent", "label": "Callout 1 accent", "default": "#1FA8A1" },
+    { "type": "text",     "id": "callout_2_title",  "label": "Callout 2 title" },
+    { "type": "textarea", "id": "callout_2_body",   "label": "Callout 2 body" },
+    { "type": "color",    "id": "callout_2_accent", "label": "Callout 2 accent", "default": "#E8833A" },
+    { "type": "text",     "id": "callout_3_title",  "label": "Callout 3 title" },
+    { "type": "textarea", "id": "callout_3_body",   "label": "Callout 3 body" },
+    { "type": "color",    "id": "callout_3_accent", "label": "Callout 3 accent", "default": "#8E8E93" }
+  ]
+}
+{% endschema %}
