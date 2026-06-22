@@ -207,10 +207,14 @@
   function $$(s, c) { return Array.prototype.slice.call((c || root).querySelectorAll(s)); }
   function fmtMoney(c) { return '$' + (Math.max(0, c) / 100).toFixed(2); }
 
-  /* ── Sort the staged child blocks into their real slots ── */
+  /* ── Sort the staged child blocks into their real slots ──
+     Runs once on script parse, then again on DOMContentLoaded as a
+     safety net for slow block hydration. A MutationObserver picks up
+     any blocks added later (e.g. in the theme editor when a new
+     Function block is dropped). */
   function sortStagedBlocks() {
     var stage = $('[data-ftdc-stage]');
-    if (!stage) return;
+    if (!stage) return 0;
     var bullets = $('[data-bullets]');
     var grid = $('[data-grid]');
     var upsells = $('[data-upsells]');
@@ -220,11 +224,24 @@
     $$('[data-slot="function"]', stage).forEach(function (n) { if (grid) { grid.appendChild(n); moved.fn++; } });
     $$('[data-slot="function-placeholder"]', stage).forEach(function (n) { if (grid) { grid.appendChild(n); moved.fnPh++; } });
     $$('[data-slot="upsell"]', stage).forEach(function (n) { if (upsells) { upsells.appendChild(n); moved.up++; } });
-    if (bullets) bullets.hidden = moved.bullet === 0;
+    if (bullets) bullets.hidden = (bullets.children.length === 0);
     var gridEmpty = $('[data-grid-empty]');
-    if (gridEmpty) gridEmpty.hidden = (moved.fn > 0); /* hide hint when there's a real card */
+    if (gridEmpty) {
+      var hasFn = grid && grid.querySelector('[data-slot="function"]');
+      gridEmpty.hidden = !!hasFn;
+    }
+    return moved.fn + moved.fnPh + moved.bullet + moved.up;
   }
   sortStagedBlocks();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', sortStagedBlocks, { once: true });
+  }
+  /* Watch the stage for late-arriving blocks (editor live preview) */
+  var stageEl = $('[data-ftdc-stage]');
+  if (stageEl && typeof MutationObserver !== 'undefined') {
+    var mo = new MutationObserver(function () { sortStagedBlocks(); });
+    mo.observe(stageEl, { childList: true, subtree: true });
+  }
 
   /* ── Reorder plan cards based on the plan_order setting ── */
   var plansContainer = $('.ftdc__plans');
@@ -294,16 +311,23 @@
     updateProgress(); updateBar();
   }
 
-  $$('.ftdc__card[data-slot="function"]').forEach(function (c) {
-    c.addEventListener('click', function (e) {
-      var b = e.target.closest('[data-card-action]'); if (!b) return;
-      var i = $('.ftdc__qty-input', c), cur = parseInt(i ? i.value : 0, 10) || 0;
-      if (b.dataset.cardAction === 'add') setQty(c, 1);
-      else if (b.dataset.cardAction === 'inc') setQty(c, cur + 1);
-      else if (b.dataset.cardAction === 'dec') setQty(c, cur - 1);
-    });
-    var i = $('.ftdc__qty-input', c);
-    if (i) i.addEventListener('change', function () { setQty(c, parseInt(i.value, 10) || 0); });
+  /* Delegated card actions so cards moved into the grid after init still respond */
+  root.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-card-action]');
+    if (!btn) return;
+    var card = btn.closest('.ftdc__card[data-slot="function"]');
+    if (!card || !root.contains(card)) return;
+    var input = $('.ftdc__qty-input', card);
+    var cur = parseInt(input ? input.value : 0, 10) || 0;
+    if (btn.dataset.cardAction === 'add') setQty(card, 1);
+    else if (btn.dataset.cardAction === 'inc') setQty(card, cur + 1);
+    else if (btn.dataset.cardAction === 'dec') setQty(card, cur - 1);
+  });
+  root.addEventListener('change', function (e) {
+    if (!e.target.matches('.ftdc__qty-input')) return;
+    var card = e.target.closest('.ftdc__card[data-slot="function"]');
+    if (!card || !root.contains(card)) return;
+    setQty(card, parseInt(e.target.value, 10) || 0);
   });
 
   function totalQty() { var n = 0; Object.keys(state.selections).forEach(function (k) { n += state.selections[k].qty; }); return n; }
