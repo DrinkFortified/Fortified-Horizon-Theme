@@ -365,6 +365,24 @@
         {%- assign addon_img = block.settings.addon_image | default: addon.featured_image -%}
         <div class="fe-creatine" id="fe-creatine-{{ sid }}" hidden>
           <p class="fe-cr-free" id="fe-cr-free-{{ sid }}" hidden><span class="fe-cr-tick" aria-hidden="true">✓</span>{{ block.settings.quarterly_free_text | default: 'Free Creatine + Sample Pack included with your bundle' }}</p>
+
+          {%- if block.settings.show_free_promo -%}
+            {%- assign promo_img = block.settings.free_promo_image | default: addon_img -%}
+            <div class="fe-cr-promo" id="fe-cr-promo-{{ sid }}" hidden aria-live="polite">
+              <span class="fe-cr-promo-media">
+                {%- if promo_img != blank -%}<img src="{{ promo_img | image_url: width: 160 }}" alt="" width="64" height="64" loading="lazy">{%- else -%}<span class="fe-cr-ph">★</span>{%- endif -%}
+              </span>
+              <span class="fe-cr-promo-text">
+                {%- if block.settings.free_promo_badge != blank -%}<span class="fe-cr-promo-badge">{{ block.settings.free_promo_badge }}</span>{%- endif -%}
+                <span class="fe-cr-promo-title">{{ block.settings.free_promo_title | default: '1st Creatine FREE with your bundle' }}</span>
+                {%- if block.settings.free_promo_desc != blank -%}<span class="fe-cr-promo-desc">{{ block.settings.free_promo_desc }}</span>{%- endif -%}
+              </span>
+              <span class="fe-cr-promo-check" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          {%- endif -%}
+
           <label class="fe-cr-card">
             <span class="fe-cr-media">
               {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 120 }}" alt="" width="58" height="58" loading="lazy">{%- else -%}<span class="fe-cr-ph">5g</span>{%- endif -%}
@@ -636,6 +654,20 @@
 #fe-{{ sid }} .fe-creatine[hidden] { display: none !important; }
 #fe-{{ sid }} .fe-overview[hidden] { display: none !important; }
 #fe-{{ sid }} .fe-cr-free { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 0.8rem; font-weight: 700; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-cr-promo {
+  display: grid; grid-template-columns: 64px 1fr auto; align-items: center; gap: 0.85rem;
+  padding: 0.85rem 1rem; border-radius: var(--fe-card-radius, 12px);
+  background: color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 8%, var(--color-background));
+  border: 1.5px solid color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 35%, transparent);
+}
+#fe-{{ sid }} .fe-cr-promo[hidden] { display: none !important; }
+#fe-{{ sid }} .fe-cr-promo-media { width: 64px; height: 64px; border-radius: 10px; overflow: hidden; background: rgb(var(--color-foreground-rgb) / 0.06); display: inline-flex; align-items: center; justify-content: center; }
+#fe-{{ sid }} .fe-cr-promo-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#fe-{{ sid }} .fe-cr-promo-text { display: flex; flex-direction: column; gap: 0.18rem; min-width: 0; }
+#fe-{{ sid }} .fe-cr-promo-badge { display: inline-flex; align-self: flex-start; align-items: center; padding: 0.12rem 0.45rem; border-radius: 4px; font-size: 0.58rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; background: var(--fe-selection-color, var(--color-primary-button-background)); color: #fff; }
+#fe-{{ sid }} .fe-cr-promo-title { font-size: 0.92rem; font-weight: 800; color: var(--color-foreground); line-height: 1.2; }
+#fe-{{ sid }} .fe-cr-promo-desc { font-size: 0.74rem; line-height: 1.4; color: var(--color-foreground); opacity: 0.7; }
+#fe-{{ sid }} .fe-cr-promo-check { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #fff; background: var(--fe-selection-color, var(--color-primary-button-background)); flex-shrink: 0; }
 #fe-{{ sid }} .fe-cr-tick { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; font-size: 0.7rem; font-weight: 800; background: var(--fe-selection-color, var(--color-primary-button-background)); color: var(--color-primary-button-text); }
 #fe-{{ sid }} .fe-cr-card {
   position: relative; display: flex; align-items: center; gap: 0.85rem; padding: 0.85rem 1rem; cursor: pointer;
@@ -1141,6 +1173,9 @@
     /* "1st included free" line shows only on quarterly. */
     if (crFree)  crFree.hidden = type !== 'quarterly';
       if (crFree && type === 'quarterly' && FOMO_GIFT_ON && FOMO_SOLD_OUT) { crFree.innerHTML = '<span class="fe-cr-tick" aria-hidden="true">\u2713</span>' + FOMO_GIFT_TEXT; }
+    /* Free-creatine promo card (non-interactive) only on quarterly. */
+    var crPromo = root.querySelector('#fe-cr-promo-' + SID);
+    if (crPromo) crPromo.hidden = type !== 'quarterly';
 
     /* Quantity stepper appears only for one-time. */
     if (qtyGroup) qtyGroup.hidden = type !== 'onetime';
@@ -1960,6 +1995,40 @@
       "id": "addon_image",
       "label": "Add-on image",
       "info": "Optional. Falls back to the product image."
+    },
+    {
+      "type": "header",
+      "content": "Free-creatine promo card (quarterly only)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_free_promo",
+      "label": "Show free-creatine promo card",
+      "default": false,
+      "info": "Non-interactive card above the creatine upsell. Visible only when the quarterly plan is active."
+    },
+    {
+      "type": "image_picker",
+      "id": "free_promo_image",
+      "label": "Promo image",
+      "info": "Optional. Falls back to the creatine add-on image."
+    },
+    {
+      "type": "text",
+      "id": "free_promo_badge",
+      "label": "Promo badge",
+      "default": "Included"
+    },
+    {
+      "type": "text",
+      "id": "free_promo_title",
+      "label": "Promo title",
+      "default": "1st Creatine FREE with your bundle"
+    },
+    {
+      "type": "text",
+      "id": "free_promo_desc",
+      "label": "Promo description"
     },
     {
       "type": "text",
