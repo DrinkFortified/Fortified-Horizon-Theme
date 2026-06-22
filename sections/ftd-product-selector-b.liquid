@@ -1025,7 +1025,7 @@
   var shipText = root.querySelector('#feb-ship-text-' + SID);
   var SHIP_THRESHOLD = ({{ section.settings.shipping_threshold_dollars | default: 100 | json }}) * 100;
   var SHIP_TEXT_SUB      = {{ section.settings.shipping_label_subscription | default: 'Free shipping included with your subscription' | json }};
-  var SHIP_TEXT_PROGRESS = {{ section.settings.shipping_label_progress | default: 'Add {amount} more for free shipping' | json }};
+  var SHIP_TEXT_PROGRESS = {{ section.settings.shipping_label_progress | default: 'Add [amount] more for free shipping' | json }};
   var SHIP_TEXT_UNLOCKED = {{ section.settings.shipping_label_unlocked | default: 'Free shipping unlocked!' | json }};
 
   /* Replace the {count} placeholder on load so it never shows literally
@@ -1219,7 +1219,7 @@
         if (shipFill) shipFill.style.width = pct.toFixed(1) + '%';
         shipEl.classList.remove('is-unlocked');
         var remaining = Math.max(SHIP_THRESHOLD - t, 0);
-        if (shipText) shipText.textContent = SHIP_TEXT_PROGRESS.replace('{amount}', formatMoney(remaining));
+        if (shipText) shipText.textContent = SHIP_TEXT_PROGRESS.replace('[amount]', formatMoney(remaining));
       }
     } else {
       shipEl.hidden = true;
@@ -2137,8 +2137,8 @@
     {
       "type": "text",
       "id": "shipping_label_progress",
-      "label": "Progress label (use {amount} for remaining)",
-      "default": "Add {amount} more for free shipping"
+      "label": "Progress label (use [amount] for remaining)",
+      "default": "Add [amount] more for free shipping"
     },
     {
       "type": "text",
