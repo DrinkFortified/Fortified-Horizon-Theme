@@ -893,6 +893,24 @@
     height: var(--icon-size-md);
   }
 
+  /* Header CTA pill — sits left of the account/cart icons, opens the
+     FTD product-selector slide-over when its href matches the trigger. */
+  .header-actions__cta {
+    --button-color: inherit;
+    padding-block: 0.55rem;
+    padding-inline: 1rem;
+    font-size: 0.85rem;
+    line-height: 1;
+    white-space: nowrap;
+    align-self: center;
+    margin-inline-end: var(--gap-sm, 8px);
+    text-decoration: none;
+  }
+  .header-actions__cta:hover { text-decoration: none; }
+  @media (max-width: 749px) {
+    .header-actions__cta { display: none; }
+  }
+
   .header:has(#Details-menu-drawer-container[open]) {
     contain: style;
   }
@@ -1543,6 +1561,39 @@
       ],
       "default": "none",
       "visible_if": "{{ section.settings.actions_display_style == 'text' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "cta_button_show",
+      "label": "Show CTA button",
+      "default": true,
+      "info": "Adds a pill button to the right of the menu, before the account/cart icons."
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "label": "CTA button label",
+      "default": "Build Your Bundle",
+      "visible_if": "{{ section.settings.cta_button_show }}"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_link",
+      "label": "CTA button link",
+      "default": "#open-bundle",
+      "info": "Use #open-bundle to open the FTD product-selector slide-over (block must exist on the page), or paste any URL.",
+      "visible_if": "{{ section.settings.cta_button_show }}"
+    },
+    {
+      "type": "select",
+      "id": "cta_button_style",
+      "label": "CTA button style",
+      "default": "primary",
+      "options": [
+        { "value": "primary", "label": "Filled" },
+        { "value": "secondary", "label": "Outline" }
+      ],
+      "visible_if": "{{ section.settings.cta_button_show }}"
     },
     {
       "type": "header",

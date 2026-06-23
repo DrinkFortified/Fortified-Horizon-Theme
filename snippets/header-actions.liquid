@@ -63,6 +63,19 @@
   {% endif %}
   {{- block.shopify_attributes -}}
 >
+  {%- if section and section.settings.cta_button_show and section.settings.cta_button_label != blank -%}
+    {%- assign cta_link = section.settings.cta_button_link | default: '#open-bundle' -%}
+    {%- assign cta_class = 'button-secondary' -%}
+    {%- if section.settings.cta_button_style == 'primary' -%}{%- assign cta_class = 'button' -%}{%- endif -%}
+    <a
+      href="{{ cta_link }}"
+      class="{{ cta_class }} header-actions__action header-actions__cta"
+      data-testid="header-cta"
+    >
+      {{ section.settings.cta_button_label }}
+    </a>
+  {%- endif -%}
+
   {% if shop.customer_accounts_enabled %}
     {% liquid
       assign account_actions_style = ''
