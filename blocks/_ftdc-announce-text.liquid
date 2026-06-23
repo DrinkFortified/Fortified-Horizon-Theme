@@ -1,0 +1,36 @@
+{%- comment -%}
+  Self-rendering text announcement bar for FTD Product Selector C.
+  Parent wizard JS moves it from the hidden staging area into the
+  .ftdc__announce slot on init.
+{%- endcomment -%}
+{%- liquid
+  assign bg = block.settings.bg | default: '#0A0A0A'
+  assign fg = block.settings.fg | default: '#FFFFFF'
+  assign weight = 'normal'
+  if block.settings.bold
+    assign weight = '700'
+  endif
+-%}
+<div class="ftdc__announce-bar ftdc__announce-bar--text" data-slot="announce"
+     style="background:{{ bg }}; color:{{ fg }}; font-weight:{{ weight }};"
+     {{ block.shopify_attributes }}>
+  {%- if block.settings.link != blank -%}
+    <a class="ftdc__announce-link" href="{{ block.settings.link }}" style="color:inherit; text-decoration:none;">{{ block.settings.text }}</a>
+  {%- else -%}
+    <span>{{ block.settings.text }}</span>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Announce — Text",
+  "tag": null,
+  "settings": [
+    { "type": "text", "id": "text", "label": "Text", "default": "Free shipping on subscriptions" },
+    { "type": "url",  "id": "link", "label": "Link (optional)" },
+    { "type": "color","id": "bg", "label": "Background", "default": "#0A0A0A" },
+    { "type": "color","id": "fg", "label": "Text color", "default": "#FFFFFF" },
+    { "type": "checkbox", "id": "bold", "label": "Bold text", "default": false }
+  ]
+}
+{% endschema %}

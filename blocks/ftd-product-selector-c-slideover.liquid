@@ -57,6 +57,18 @@
     #ftdc-{{ sid }} .ftdc__plans { grid-template-columns: 1fr; }
     #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"] { grid-column: auto; }
   }
+  /* Announcement bar (slot above wizard header). One or more bars stacked. */
+  #ftdc-{{ sid }} .ftdc__announce { display: flex; flex-direction: column; margin: -1rem -1rem 1rem; }
+  #ftdc-{{ sid }} .ftdc__announce[hidden] { display: none; }
+  #ftdc-{{ sid }} .ftdc__announce-bar { padding: 0.55rem 1rem; font-size: 0.82rem; line-height: 1.3; text-align: center; }
+  #ftdc-{{ sid }} .ftdc__announce-bar--fomo { padding: 0.55rem 1rem 0.65rem; }
+  #ftdc-{{ sid }} .ftdc__announce-fomo-row { display: block; }
+  #ftdc-{{ sid }} .ftdc__announce-fomo-line strong { font-weight: 800; }
+  #ftdc-{{ sid }} .ftdc__announce-fomo-bar { display: block; margin: 0.4rem auto 0; max-width: 320px; height: var(--ftdc-fomo-h, 6px); background: var(--ftdc-fomo-track); border-radius: 999px; overflow: hidden; }
+  #ftdc-{{ sid }} .ftdc__announce-fomo-bar-fill { height: 100%; background: var(--ftdc-fomo-fill); transition: width 0.35s ease; }
+  #ftdc-{{ sid }} .ftdc__announce-link { text-decoration: none; }
+  #ftdc-{{ sid }} .ftdc__announce-link:hover { text-decoration: underline; }
+
   /* Step 4 — Review */
   #ftdc-{{ sid }} .ftdc__review-plan { margin: 0.25rem 0 0; font-weight: 700; }
   #ftdc-{{ sid }} .ftdc__review-lines { margin: 1rem 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
@@ -102,6 +114,8 @@
           style="--ftdc-accent: {{ block.settings.accent_color }}; --ftdc-radius: {{ block.settings.card_radius }}px; --ftdc-max-w: {{ block.settings.content_max_width }}px;"
         >
           <div class="ftdc__inner">
+
+            <div class="ftdc__announce" data-announce hidden></div>
 
             <header class="ftdc__header">
               {%- if block.settings.heading != blank -%}<h2 class="ftdc__heading">{{ block.settings.heading }}</h2>{%- endif -%}
@@ -317,12 +331,15 @@
     var bullets = $('[data-bullets]');
     var grid = $('[data-grid]');
     var upsells = $('[data-upsells]');
-    var moved = { bullet: 0, fn: 0, fnPh: 0, up: 0 };
+    var announce = $('[data-announce]');
+    var moved = { bullet: 0, fn: 0, fnPh: 0, up: 0, ann: 0 };
+    $$('[data-slot="announce"]', stage).forEach(function (n) { if (announce) { announce.appendChild(n); moved.ann++; } });
     $$('[data-slot="bullet"]', stage).forEach(function (n) { if (bullets) { bullets.appendChild(n); moved.bullet++; } });
     $$('[data-slot="function"]', stage).forEach(function (n) { if (grid) { grid.appendChild(n); moved.fn++; } });
     $$('[data-slot="function-placeholder"]', stage).forEach(function (n) { if (grid) { grid.appendChild(n); moved.fnPh++; } });
     $$('[data-slot="upsell"]', stage).forEach(function (n) { if (upsells) { upsells.appendChild(n); moved.up++; } });
     if (bullets) bullets.hidden = moved.bullet === 0;
+    if (announce) announce.hidden = moved.ann === 0;
     var gridEmpty = $('[data-grid-empty]');
     if (gridEmpty) gridEmpty.hidden = (moved.fn > 0);
   }
@@ -781,19 +798,22 @@
   "blocks": [
     { "type": "_ftd-c-function" },
     { "type": "_ftd-c-upsell" },
-    { "type": "_ftd-c-bullet" }
+    { "type": "_ftd-c-bullet" },
+    { "type": "_ftdc-announce-fomo" },
+    { "type": "_ftdc-announce-text" }
   ],
   "presets": [
     {
       "name": "FTD - ProductSelector-CS",
       "category": "Fortified Sections",
       "blocks": {
+        "a1": { "type": "_ftdc-announce-fomo" },
         "b1": { "type": "_ftd-c-bullet", "settings": { "text": "Real Fruit Organic Flavors" } },
         "b2": { "type": "_ftd-c-bullet", "settings": { "text": "Zero Artificial Sweeteners" } },
         "f1": { "type": "_ftd-c-function" },
         "f2": { "type": "_ftd-c-function" }
       },
-      "block_order": ["b1", "b2", "f1", "f2"]
+      "block_order": ["a1", "b1", "b2", "f1", "f2"]
     }
   ]
 }
