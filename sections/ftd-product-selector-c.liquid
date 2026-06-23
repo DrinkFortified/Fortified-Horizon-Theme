@@ -63,14 +63,16 @@
   /* Step 4 — Review */
   #ftdc-{{ sid }} .ftdc__review-plan { margin: 0.25rem 0 0; font-weight: 700; }
   #ftdc-{{ sid }} .ftdc__review-lines { margin: 1rem 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-  #ftdc-{{ sid }} .ftdc__review-line { display: grid; grid-template-columns: 1fr auto auto; align-items: baseline; gap: 0.75rem; padding: 0.75rem 0; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12); }
+  #ftdc-{{ sid }} .ftdc__review-line { display: grid; grid-template-columns: 56px 1fr auto auto; align-items: center; gap: 0.85rem; padding: 0.75rem 0; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12); }
   #ftdc-{{ sid }} .ftdc__review-line:first-child { border-top: 0; padding-top: 0; }
-  #ftdc-{{ sid }} .ftdc__review-line-name { font-weight: 600; }
+  #ftdc-{{ sid }} .ftdc__review-line-thumb { width: 56px; height: 56px; border-radius: 8px; background: rgb(var(--color-foreground-rgb) / 0.06); overflow: hidden; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  #ftdc-{{ sid }} .ftdc__review-line-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #ftdc-{{ sid }} .ftdc__review-line-name { font-weight: 600; line-height: 1.25; }
   #ftdc-{{ sid }} .ftdc__review-line-qty { color: rgb(var(--color-foreground-rgb) / 0.6); font-variant-numeric: tabular-nums; }
   #ftdc-{{ sid }} .ftdc__review-line-price { font-weight: 700; font-variant-numeric: tabular-nums; }
   #ftdc-{{ sid }} .ftdc__review-line-price--free { color: var(--ftdc-accent, #1FA8A1); }
   #ftdc-{{ sid }} .ftdc__review-extra { margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed rgb(var(--color-foreground-rgb) / 0.2); }
-  #ftdc-{{ sid }} .ftdc__review-extra .ftdc__review-line--extra { grid-template-columns: 1fr auto; border-top: 0; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+  #ftdc-{{ sid }} .ftdc__review-extra .ftdc__review-line--extra { grid-template-columns: 56px 1fr auto; border-top: 0; padding-top: 0.5rem; padding-bottom: 0.5rem; }
   #ftdc-{{ sid }} .ftdc__review-totals { margin: 1rem 0 1.25rem; padding-top: 0.75rem; border-top: 2px solid rgb(var(--color-foreground-rgb) / 0.2); display: flex; flex-direction: column; gap: 0.4rem; }
   #ftdc-{{ sid }} .ftdc__review-row { display: flex; align-items: baseline; justify-content: space-between; margin: 0; }
   #ftdc-{{ sid }} .ftdc__review-row dt { margin: 0; font-weight: 600; }
@@ -452,12 +454,17 @@
         var name = s.fnLabel || 'Item';
         if (s.flavorName) name += ' — ' + s.flavorName;
         var lineTotal = Math.round(s.price * mul) * s.qty;
+        var card = root.querySelector('.ftdc__card[data-variant-id="' + s.variantId + '"]');
+        var img  = card ? card.querySelector('img') : null;
+        var imgSrc = img ? (img.currentSrc || img.getAttribute('src') || '') : '';
         var li = document.createElement('li');
         li.className = 'ftdc__review-line';
+        var thumb = document.createElement('span'); thumb.className = 'ftdc__review-line-thumb';
+        if (imgSrc) { var ti = document.createElement('img'); ti.src = imgSrc; ti.alt = ''; ti.loading = 'lazy'; ti.width = 56; ti.height = 56; thumb.appendChild(ti); }
         var n  = document.createElement('span'); n.className = 'ftdc__review-line-name';  n.textContent  = name;
         var q  = document.createElement('span'); q.className = 'ftdc__review-line-qty';   q.textContent  = '× ' + s.qty;
         var p  = document.createElement('span'); p.className = 'ftdc__review-line-price'; p.textContent  = fmtMoney(lineTotal);
-        li.appendChild(n); li.appendChild(q); li.appendChild(p);
+        li.appendChild(thumb); li.appendChild(n); li.appendChild(q); li.appendChild(p);
         lines.appendChild(li);
       });
     }
@@ -465,8 +472,12 @@
     if (extra) {
       extra.innerHTML = '';
       var extras = [];
+      var creatineUpsellImg = (function () {
+        var crEl = $('[data-upsell-creatine] .ftdc__upsell-media img') || $('[data-creatine-included] .ftdc__upsell-media img');
+        return crEl ? (crEl.currentSrc || crEl.getAttribute('src') || '') : '';
+      })();
       if (state.plan === 'quarterly') {
-        extras.push({ name: 'Creatine', note: 'Included free with your bundle', price: 'FREE', free: true });
+        extras.push({ name: 'Creatine', note: 'Included free with your bundle', price: 'FREE', free: true, imgSrc: creatineUpsellImg });
       }
       var cr = $('[data-creatine-input]');
       if (cr && cr.checked) {
@@ -476,16 +487,19 @@
           name:  titleNode ? titleNode.textContent.trim() : 'Creatine add-on',
           note:  '',
           price: priceNode ? priceNode.textContent.trim() : '',
-          free:  false
+          free:  false,
+          imgSrc: creatineUpsellImg
         });
       }
       if (extras.length) {
         extra.hidden = false;
         extras.forEach(function (e) {
           var row = document.createElement('div'); row.className = 'ftdc__review-line ftdc__review-line--extra';
+          var thumb = document.createElement('span'); thumb.className = 'ftdc__review-line-thumb';
+          if (e.imgSrc) { var ti = document.createElement('img'); ti.src = e.imgSrc; ti.alt = ''; ti.loading = 'lazy'; ti.width = 56; ti.height = 56; thumb.appendChild(ti); }
           var n = document.createElement('span'); n.className = 'ftdc__review-line-name'; n.textContent = e.name + (e.note ? ' — ' + e.note : '');
           var p = document.createElement('span'); p.className = 'ftdc__review-line-price' + (e.free ? ' ftdc__review-line-price--free' : ''); p.textContent = e.price;
-          row.appendChild(n); row.appendChild(p);
+          row.appendChild(thumb); row.appendChild(n); row.appendChild(p);
           extra.appendChild(row);
         });
       } else {
