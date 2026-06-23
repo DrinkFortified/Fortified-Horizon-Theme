@@ -97,7 +97,7 @@
   id="ftdc-{{ sid }}"
   class="ftdc color-{{ section.settings.color_scheme }}"
   data-section-id="{{ sid }}"
-  style="--ftdc-accent: {{ section.settings.accent_color }}; --ftdc-radius: {{ section.settings.card_radius }}px; --ftdc-max-w: {{ section.settings.content_max_width }}px;"
+  style="--ftdc-accent: {{ section.settings.accent_color }}; --ftdc-radius: {{ section.settings.card_radius }}px; --ftdc-max-w: {{ section.settings.content_max_width }}px; padding-block-start: {{ section.settings.padding-block-start | default: 64 }}px; padding-block-end: {{ section.settings.padding-block-end | default: 64 }}px;"
   {{ section.shopify_attributes }}
 >
   <div class="ftdc__inner">
@@ -740,7 +740,10 @@
     { "type": "color", "id": "accent_color", "label": "Accent (global fallback)", "default": "#1FA8A1", "info": "Used for steps 2-3 and any plan without its own accent color set." },
     { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 12 },
     { "type": "range", "id": "content_max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 64 }
   ],
   "blocks": [
     { "type": "_ftd-c-function" },
