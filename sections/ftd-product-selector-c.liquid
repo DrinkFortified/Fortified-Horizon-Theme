@@ -60,6 +60,23 @@
     #ftdc-{{ sid }} .ftdc__plans { grid-template-columns: 1fr; }
     #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"] { grid-column: auto; }
   }
+  /* Step 4 — Review */
+  #ftdc-{{ sid }} .ftdc__review-plan { margin: 0.25rem 0 0; font-weight: 700; }
+  #ftdc-{{ sid }} .ftdc__review-lines { margin: 1rem 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  #ftdc-{{ sid }} .ftdc__review-line { display: grid; grid-template-columns: 1fr auto auto; align-items: baseline; gap: 0.75rem; padding: 0.75rem 0; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12); }
+  #ftdc-{{ sid }} .ftdc__review-line:first-child { border-top: 0; padding-top: 0; }
+  #ftdc-{{ sid }} .ftdc__review-line-name { font-weight: 600; }
+  #ftdc-{{ sid }} .ftdc__review-line-qty { color: rgb(var(--color-foreground-rgb) / 0.6); font-variant-numeric: tabular-nums; }
+  #ftdc-{{ sid }} .ftdc__review-line-price { font-weight: 700; font-variant-numeric: tabular-nums; }
+  #ftdc-{{ sid }} .ftdc__review-line-price--free { color: var(--ftdc-accent, #1FA8A1); }
+  #ftdc-{{ sid }} .ftdc__review-extra { margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed rgb(var(--color-foreground-rgb) / 0.2); }
+  #ftdc-{{ sid }} .ftdc__review-extra .ftdc__review-line--extra { grid-template-columns: 1fr auto; border-top: 0; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+  #ftdc-{{ sid }} .ftdc__review-totals { margin: 1rem 0 1.25rem; padding-top: 0.75rem; border-top: 2px solid rgb(var(--color-foreground-rgb) / 0.2); display: flex; flex-direction: column; gap: 0.4rem; }
+  #ftdc-{{ sid }} .ftdc__review-row { display: flex; align-items: baseline; justify-content: space-between; margin: 0; }
+  #ftdc-{{ sid }} .ftdc__review-row dt { margin: 0; font-weight: 600; }
+  #ftdc-{{ sid }} .ftdc__review-row dd { margin: 0; font-variant-numeric: tabular-nums; }
+  #ftdc-{{ sid }} .ftdc__review-row--total dt, #ftdc-{{ sid }} .ftdc__review-row--total dd { font-size: 1.15rem; font-weight: 800; }
+  #ftdc-{{ sid }} .ftdc__review-row--saved dd { color: var(--ftdc-accent, #1FA8A1); }
 </style>
 
 <section
@@ -81,6 +98,7 @@
       <li class="ftdc__step-pill is-active" data-step-pill="plans"><span class="ftdc__step-num">1</span><span class="ftdc__step-label">{{ section.settings.step_label_1 | default: 'Plan' }}</span></li>
       <li class="ftdc__step-pill" data-step-pill="products"><span class="ftdc__step-num">2</span><span class="ftdc__step-label">{{ section.settings.step_label_2 | default: 'Bundle' }}</span></li>
       <li class="ftdc__step-pill" data-step-pill="upsells"><span class="ftdc__step-num">3</span><span class="ftdc__step-label">{{ section.settings.step_label_3 | default: 'Boost' }}</span></li>
+      <li class="ftdc__step-pill" data-step-pill="review"><span class="ftdc__step-num">4</span><span class="ftdc__step-label">{{ section.settings.step_label_4 | default: 'Review' }}</span></li>
     </ol>
 
     {%- comment %} ───── STEP 1 — PLANS ───── {%- endcomment %}
@@ -197,6 +215,31 @@
 
       <div class="ftdc__step-actions">
         <button class="ftdc__btn ftdc__btn--ghost" type="button" data-step-back="products">{{ section.settings.add_more_label | default: 'Add More' }}</button>
+        <button class="ftdc__btn ftdc__btn--primary" type="button" data-action="review">{{ section.settings.review_label | default: 'Review Order' }}</button>
+      </div>
+    </div>
+
+    {%- comment %} ───── STEP 4 — REVIEW ───── {%- endcomment %}
+    <div class="ftdc__step" data-step="review" hidden>
+      <button class="ftdc__back" type="button" data-step-back="upsells" aria-label="Back to add-ons"><span aria-hidden="true">←</span> {{ section.settings.back_label | default: 'Back' }}</button>
+      <div class="ftdc__bundle-head">
+        <p class="ftdc__bundle-eyebrow">{{ section.settings.review_eyebrow | default: 'Review your order' }}</p>
+        <p class="ftdc__review-plan" data-review-plan></p>
+      </div>
+      <ul class="ftdc__review-lines list-unstyled" data-review-lines></ul>
+      <div class="ftdc__review-extra" data-review-extra hidden></div>
+      <dl class="ftdc__review-totals">
+        <div class="ftdc__review-row ftdc__review-row--saved" data-review-saved-wrap hidden>
+          <dt>{{ section.settings.saved_word | default: 'Saved' }}</dt>
+          <dd data-review-saved>$0.00</dd>
+        </div>
+        <div class="ftdc__review-row ftdc__review-row--total">
+          <dt>{{ section.settings.total_label | default: 'Total' }}</dt>
+          <dd data-review-total>$0.00</dd>
+        </div>
+      </dl>
+      <div class="ftdc__step-actions">
+        <button class="ftdc__btn ftdc__btn--ghost" type="button" data-step-back="upsells">{{ section.settings.edit_order_label | default: 'Edit Order' }}</button>
         <button class="ftdc__btn ftdc__btn--primary" type="button" data-action="checkout">{{ section.settings.checkout_label | default: 'Checkout' }}</button>
       </div>
     </div>
@@ -222,8 +265,13 @@
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
   var BUNDLE_COUNT = parseInt({{ bundle_count | json }}, 10) || 3;
-  var STEPS_ORDER = ['plans', 'products', 'upsells'];
+  var STEPS_ORDER = ['plans', 'products', 'upsells', 'review'];
   var state = { step: 'plans', plan: 'quarterly', selections: {} };
+  var PLAN_NAMES = {
+    monthly:   {{ section.settings.monthly_title   | default: 'Monthly Subscription' | json }},
+    quarterly: {{ section.settings.quarterly_title | default: 'Quarterly Bundle'     | json }},
+    onetime:   {{ section.settings.onetime_title   | default: 'One-Time Purchase'    | json }}
+  };
 
   /* Loop bundle mode (quarterly only). When fully configured, the pouches
      are registered with Loop's Create Bundle Transaction API and the cart
@@ -281,6 +329,7 @@
     var idx = STEPS_ORDER.indexOf(name);
     $$('.ftdc__step').forEach(function (s) { var m = s.dataset.step === name; s.hidden = !m; s.classList.toggle('is-active', m); });
     $$('.ftdc__step-pill').forEach(function (p) { var pi = STEPS_ORDER.indexOf(p.dataset.stepPill); p.classList.toggle('is-active', pi === idx); p.classList.toggle('is-done', pi < idx); });
+    if (name === 'review') renderReview();
     updateBar();
   }
 
@@ -378,9 +427,10 @@
     if (bt) bt.textContent = fmtMoney(t.total);
     if (sw && sv) { if (t.saved > 0) { sw.hidden = false; sv.textContent = fmtMoney(t.saved); } else sw.hidden = true; }
     var lab = $('[data-bar-label]'), btn = $('.ftdc__bar-action'), r = canProc();
-    if (state.step === 'plans') { if (lab) lab.textContent = 'Continue'; if (btn) btn.disabled = false; }
-    else if (state.step === 'products') { if (lab) lab.textContent = 'Continue'; if (btn) btn.disabled = !r; }
-    else { if (lab) lab.textContent = 'Checkout'; if (btn) btn.disabled = !r; }
+    if (state.step === 'plans')         { if (lab) lab.textContent = 'Continue';     if (btn) btn.disabled = false; }
+    else if (state.step === 'products') { if (lab) lab.textContent = 'Continue';     if (btn) btn.disabled = !r; }
+    else if (state.step === 'upsells')  { if (lab) lab.textContent = 'Review Order'; if (btn) btn.disabled = !r; }
+    else                                { if (lab) lab.textContent = 'Checkout';     if (btn) btn.disabled = !r; }
   }
   function canProc() {
     if (state.step === 'plans') return !!state.plan;
@@ -388,15 +438,81 @@
     return true;
   }
 
+  function renderReview() {
+    var planEl = $('[data-review-plan]');
+    if (planEl) planEl.textContent = PLAN_NAMES[state.plan] || state.plan;
+    var lines = $('[data-review-lines]');
+    if (lines) {
+      lines.innerHTML = '';
+      var mul = state.plan === 'monthly'   ? ({{ section.settings.monthly_estimate_pct   | default: 90 }} / 100)
+              : state.plan === 'quarterly' ? ({{ section.settings.quarterly_estimate_pct | default: 90 }} / 100)
+              : 1;
+      Object.keys(state.selections).forEach(function (k) {
+        var s = state.selections[k];
+        var name = s.fnLabel || 'Item';
+        if (s.flavorName) name += ' — ' + s.flavorName;
+        var lineTotal = Math.round(s.price * mul) * s.qty;
+        var li = document.createElement('li');
+        li.className = 'ftdc__review-line';
+        var n  = document.createElement('span'); n.className = 'ftdc__review-line-name';  n.textContent  = name;
+        var q  = document.createElement('span'); q.className = 'ftdc__review-line-qty';   q.textContent  = '× ' + s.qty;
+        var p  = document.createElement('span'); p.className = 'ftdc__review-line-price'; p.textContent  = fmtMoney(lineTotal);
+        li.appendChild(n); li.appendChild(q); li.appendChild(p);
+        lines.appendChild(li);
+      });
+    }
+    var extra = $('[data-review-extra]');
+    if (extra) {
+      extra.innerHTML = '';
+      var extras = [];
+      if (state.plan === 'quarterly') {
+        extras.push({ name: 'Creatine', note: 'Included free with your bundle', price: 'FREE', free: true });
+      }
+      var cr = $('[data-creatine-input]');
+      if (cr && cr.checked) {
+        var priceNode = $('[data-creatine-price]');
+        var titleNode = $('[data-creatine-title]');
+        extras.push({
+          name:  titleNode ? titleNode.textContent.trim() : 'Creatine add-on',
+          note:  '',
+          price: priceNode ? priceNode.textContent.trim() : '',
+          free:  false
+        });
+      }
+      if (extras.length) {
+        extra.hidden = false;
+        extras.forEach(function (e) {
+          var row = document.createElement('div'); row.className = 'ftdc__review-line ftdc__review-line--extra';
+          var n = document.createElement('span'); n.className = 'ftdc__review-line-name'; n.textContent = e.name + (e.note ? ' — ' + e.note : '');
+          var p = document.createElement('span'); p.className = 'ftdc__review-line-price' + (e.free ? ' ftdc__review-line-price--free' : ''); p.textContent = e.price;
+          row.appendChild(n); row.appendChild(p);
+          extra.appendChild(row);
+        });
+      } else {
+        extra.hidden = true;
+      }
+    }
+    var t = compute();
+    var rt = $('[data-review-total]');
+    var sv = $('[data-review-saved]');
+    var sw = $('[data-review-saved-wrap]');
+    if (rt) rt.textContent = fmtMoney(t.total);
+    if (sv && sw) {
+      if (t.saved > 0) { sw.hidden = false; sv.textContent = fmtMoney(t.saved); }
+      else sw.hidden = true;
+    }
+  }
+
   $$('[data-step-back]').forEach(function (b) { b.addEventListener('click', function () { showStep(b.dataset.stepBack); }); });
   var actBtn = $('.ftdc__bar-action');
   if (actBtn) actBtn.addEventListener('click', function () {
     if (state.step === 'plans') showStep('products');
     else if (state.step === 'products') { if (canProc()) showStep('upsells'); }
+    else if (state.step === 'upsells') showStep('review');
     else doCheckout();
   });
-  var coBtn = $('[data-action="checkout"]');
-  if (coBtn) coBtn.addEventListener('click', doCheckout);
+  $$('[data-action="review"]').forEach(function (b) { b.addEventListener('click', function () { if (canProc()) showStep('review'); }); });
+  $$('[data-action="checkout"]').forEach(function (b) { b.addEventListener('click', doCheckout); });
 
   function buildItems() {
     var items = [];
@@ -470,7 +586,7 @@
   function doCheckout() {
     if (!canProc()) return;
     var items = buildItems(); if (!items.length) return;
-    if (actBtn) actBtn.disabled = true; if (coBtn) coBtn.disabled = true;
+    if (actBtn) actBtn.disabled = true; $$('[data-action="checkout"]').forEach(function (b) { b.disabled = true; });
     var cr = $('[data-creatine-input]');
     var ot = state.plan === 'onetime' && cr && cr.checked;
     var d = ot ? (cr.dataset.discountOnetime || '') : '';
@@ -492,7 +608,7 @@
     } else {
       run = postCart(items);
     }
-    run.catch(function (e) { if (actBtn) actBtn.disabled = false; if (coBtn) coBtn.disabled = false; alert(e.message || 'Something went wrong'); });
+    run.catch(function (e) { if (actBtn) actBtn.disabled = false; $$('[data-action="checkout"]').forEach(function (b) { b.disabled = false; }); alert(e.message || 'Something went wrong'); });
   }
 
   showStep('plans'); updateProgress(); updateBar();
@@ -510,7 +626,11 @@
     { "type": "text", "id": "step_label_1", "label": "Step 1", "default": "Plan" },
     { "type": "text", "id": "step_label_2", "label": "Step 2", "default": "Bundle" },
     { "type": "text", "id": "step_label_3", "label": "Step 3", "default": "Boost" },
+    { "type": "text", "id": "step_label_4", "label": "Step 4", "default": "Review" },
     { "type": "text", "id": "back_label", "label": "Back label", "default": "Back" },
+    { "type": "text", "id": "review_eyebrow", "label": "Review eyebrow", "default": "Review your order" },
+    { "type": "text", "id": "review_label", "label": "Upsells action label", "default": "Review Order", "info": "Label of the button that moves from Step 3 to Step 4." },
+    { "type": "text", "id": "edit_order_label", "label": "Edit-order label", "default": "Edit Order" },
     { "type": "header", "content": "Plan order" },
     { "type": "text", "id": "plan_order", "label": "Order of plans (comma-separated)", "default": "quarterly,monthly,onetime", "info": "Any order using: quarterly, monthly, onetime. First in the list is preselected." },
     { "type": "header", "content": "Quarterly" },
