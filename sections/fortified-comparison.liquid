@@ -270,6 +270,13 @@
   }
 
   [hidden]{display:none!important}
+
+  /* Primary + secondary CTA row: equal width, side-by-side on all viewports. */
+  #{{ root }} .ftd-cta-row { display: flex; gap: 12px; flex-wrap: nowrap; justify-content: center; align-items: stretch; }
+  #{{ root }} .ftd-cta-row > .{{ root }}__cta,
+  #{{ root }} .ftd-cta-row > .button,
+  #{{ root }} .ftd-cta-row > .button-secondary { flex: 1 1 0; min-width: 0; max-width: 260px; justify-content: center; text-align: center; }
+
   {{ section.settings.custom_css }}
 </style>
 
@@ -387,7 +394,7 @@
     </div>
 
     {%- if section.settings.cta_label != blank or section.settings.secondary_button_label != blank -%}
-      <div class="{{ root }}__footer" style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:center;">
+      <div class="{{ root }}__footer ftd-cta-row">
         {%- if section.settings.cta_label != blank -%}
           <a
             class="{{ root }}__cta {{ root }}__cta--{{ cta_style }}"
