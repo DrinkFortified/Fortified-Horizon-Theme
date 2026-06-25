@@ -69,6 +69,13 @@
   #ftdc-{{ sid }} .ftdc__announce-link { text-decoration: none; }
   #ftdc-{{ sid }} .ftdc__announce-link:hover { text-decoration: underline; }
 
+  /* Merged step 2 add-ons section (was step 3) */
+  #ftdc-{{ sid }} .ftdc__bundle-addons { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px dashed rgb(var(--color-foreground-rgb) / 0.18); display: flex; flex-direction: column; gap: 0.75rem; }
+  #ftdc-{{ sid }} .ftdc__bundle-addons-head { margin: 0 0 0.25rem; }
+  /* Pills are now interactive — hover affordance. */
+  #ftdc-{{ sid }} .ftdc__step-pill { transition: opacity 0.15s; }
+  #ftdc-{{ sid }} .ftdc__step-pill:hover { opacity: 0.85; }
+
   /* Step 4 — Review */
   #ftdc-{{ sid }} .ftdc__review-plan { margin: 0.25rem 0 0; font-weight: 700; }
   #ftdc-{{ sid }} .ftdc__review-lines { margin: 1rem 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
@@ -124,10 +131,9 @@
             </header>
 
             <ol class="ftdc__steps" role="list" aria-label="Order steps">
-              <li class="ftdc__step-pill is-active" data-step-pill="plans"><span class="ftdc__step-num">1</span><span class="ftdc__step-label">{{ block.settings.step_label_1 | default: 'Plan' }}</span></li>
-              <li class="ftdc__step-pill" data-step-pill="products"><span class="ftdc__step-num">2</span><span class="ftdc__step-label">{{ block.settings.step_label_2 | default: 'Bundle' }}</span></li>
-              <li class="ftdc__step-pill" data-step-pill="upsells"><span class="ftdc__step-num">3</span><span class="ftdc__step-label">{{ block.settings.step_label_3 | default: 'Boost' }}</span></li>
-              <li class="ftdc__step-pill" data-step-pill="review"><span class="ftdc__step-num">4</span><span class="ftdc__step-label">{{ block.settings.step_label_4 | default: 'Review' }}</span></li>
+              <li class="ftdc__step-pill is-active" data-step-pill="plans" role="button" tabindex="0"><span class="ftdc__step-num">1</span><span class="ftdc__step-label">{{ block.settings.step_label_1 | default: 'Plan' }}</span></li>
+              <li class="ftdc__step-pill" data-step-pill="products" role="button" tabindex="0"><span class="ftdc__step-num">2</span><span class="ftdc__step-label">{{ block.settings.step_label_2 | default: 'Bundle' }}</span></li>
+              <li class="ftdc__step-pill" data-step-pill="review" role="button" tabindex="0"><span class="ftdc__step-num">3</span><span class="ftdc__step-label">{{ block.settings.step_label_4 | default: 'Review' }}</span></li>
             </ol>
 
             {%- comment %} ───── STEP 1 — PLANS ───── {%- endcomment %}
@@ -199,69 +205,64 @@
                 <p>In the theme editor sidebar, click each <em>Function</em> block inside this slide-over and pick a Shopify product. Each product variant will render as a selectable card here.</p>
               </div>
               <div class="ftdc__grid" data-grid></div>
-            </div>
 
-            {%- comment %} ───── STEP 3 — UPSELLS ───── {%- endcomment %}
-            <div class="ftdc__step" data-step="upsells" hidden>
-              <button class="ftdc__back" type="button" data-step-back="products" aria-label="Back to bundle"><span aria-hidden="true">←</span> {{ block.settings.back_label | default: 'Back' }}</button>
+              {%- comment %} ── Add-ons (merged from old Step 3) ── {%- endcomment %}
+              <div class="ftdc__bundle-addons">
+                <p class="ftdc__bundle-eyebrow ftdc__bundle-addons-head">{{ block.settings.addons_label | default: 'Add to your order' }}</p>
 
-              {%- comment %} Hardcoded "Creatine included free" indicator — only
-              shown on quarterly. Title/desc/FREE label are not exposed in
-              theme settings; image reuses the addon image so the merchant
-              only manages one creatine asset. {%- endcomment %}
-              {%- assign included_img = block.settings.addon_image | default: addon.featured_image -%}
-              <div class="ftdc__upsell ftdc__upsell--included" data-creatine-included hidden aria-hidden="true">
-                <div class="ftdc__upsell-media">
-                  {%- if included_img != blank -%}
-                    <img src="{{ included_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">
-                  {%- endif -%}
-                </div>
-                <div class="ftdc__upsell-body">
-                  <p class="ftdc__upsell-title">Creatine — Included</p>
-                  <p class="ftdc__upsell-desc">Free with your 3-month bundle.</p>
-                  <div class="ftdc__upsell-pricing">
-                    <span class="ftdc__upsell-price ftdc__upsell-price--free">FREE</span>
-                  </div>
-                </div>
-                <div class="ftdc__upsell-toggle">
-                  <span class="ftdc__included-check" aria-label="Included" role="img">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </div>
-              </div>
-
-              {%- if addon != blank -%}
-                <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine>
+                {%- assign included_img = block.settings.addon_image | default: addon.featured_image -%}
+                <div class="ftdc__upsell ftdc__upsell--included" data-creatine-included hidden aria-hidden="true">
                   <div class="ftdc__upsell-media">
-                    {%- assign addon_img = block.settings.addon_image | default: addon.featured_image -%}
-                    {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
+                    {%- if included_img != blank -%}
+                      <img src="{{ included_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">
+                    {%- endif -%}
                   </div>
                   <div class="ftdc__upsell-body">
-                    <p class="ftdc__upsell-title" data-creatine-title>{{ block.settings.addon_label_monthly | default: 'Add Creatine — 50% off' }}</p>
-                    <p class="ftdc__upsell-desc" data-creatine-desc>{{ block.settings.addon_desc_monthly | default: '' }}</p>
+                    <p class="ftdc__upsell-title">Creatine — Included</p>
+                    <p class="ftdc__upsell-desc">Free with your 3-month bundle.</p>
                     <div class="ftdc__upsell-pricing">
-                      <span class="ftdc__upsell-price" data-creatine-price>{{ block.settings.addon_price_monthly | default: '$12.00' }}</span>
-                      {%- if block.settings.addon_was_monthly != blank -%}<s class="ftdc__upsell-was" data-creatine-was>{{ block.settings.addon_was_monthly }}</s>{%- endif -%}
+                      <span class="ftdc__upsell-price ftdc__upsell-price--free">FREE</span>
                     </div>
                   </div>
                   <div class="ftdc__upsell-toggle">
-                    <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input data-variant="{{ addon_variant_id }}" data-plan-monthly="{{ block.settings.addon_loop_plan_monthly }}" data-plan-quarterly-free="{{ block.settings.addon_loop_plan_quarterly_free }}" data-plan-quarterly-50off="{{ block.settings.addon_loop_plan_quarterly_50off }}" data-discount-onetime="{{ block.settings.addon_discount_code_onetime }}">
-                    <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
+                    <span class="ftdc__included-check" aria-label="Included" role="img">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
                   </div>
                 </div>
-              {%- endif -%}
 
-              <div class="ftdc__upsells" data-upsells></div>
+                {%- if addon != blank -%}
+                  <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine>
+                    <div class="ftdc__upsell-media">
+                      {%- assign addon_img = block.settings.addon_image | default: addon.featured_image -%}
+                      {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
+                    </div>
+                    <div class="ftdc__upsell-body">
+                      <p class="ftdc__upsell-title" data-creatine-title>{{ block.settings.addon_label_monthly | default: 'Add Creatine — 50% off' }}</p>
+                      <p class="ftdc__upsell-desc" data-creatine-desc>{{ block.settings.addon_desc_monthly | default: '' }}</p>
+                      <div class="ftdc__upsell-pricing">
+                        <span class="ftdc__upsell-price" data-creatine-price>{{ block.settings.addon_price_monthly | default: '$12.00' }}</span>
+                        {%- if block.settings.addon_was_monthly != blank -%}<s class="ftdc__upsell-was" data-creatine-was>{{ block.settings.addon_was_monthly }}</s>{%- endif -%}
+                      </div>
+                    </div>
+                    <div class="ftdc__upsell-toggle">
+                      <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input data-variant="{{ addon_variant_id }}" data-plan-monthly="{{ block.settings.addon_loop_plan_monthly }}" data-plan-quarterly-free="{{ block.settings.addon_loop_plan_quarterly_free }}" data-plan-quarterly-50off="{{ block.settings.addon_loop_plan_quarterly_50off }}" data-discount-onetime="{{ block.settings.addon_discount_code_onetime }}">
+                      <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                <div class="ftdc__upsells" data-upsells></div>
+              </div>
 
               <div class="ftdc__step-actions">
-                <button class="ftdc__btn ftdc__btn--ghost" type="button" data-step-back="products">{{ block.settings.add_more_label | default: 'Add More' }}</button>
                 <button class="ftdc__btn ftdc__btn--primary" type="button" data-action="review">{{ block.settings.review_label | default: 'Review Order' }}</button>
               </div>
             </div>
 
             {%- comment %} ───── STEP 4 — REVIEW ───── {%- endcomment %}
             <div class="ftdc__step" data-step="review" hidden>
-              <button class="ftdc__back" type="button" data-step-back="upsells" aria-label="Back to add-ons"><span aria-hidden="true">←</span> {{ block.settings.back_label | default: 'Back' }}</button>
+              <button class="ftdc__back" type="button" data-step-back="products" aria-label="Back to bundle"><span aria-hidden="true">←</span> {{ block.settings.back_label | default: 'Back' }}</button>
               <div class="ftdc__bundle-head">
                 <p class="ftdc__bundle-eyebrow">{{ block.settings.review_eyebrow | default: 'Review your order' }}</p>
                 <p class="ftdc__review-plan" data-review-plan></p>
@@ -309,7 +310,9 @@
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
   var BUNDLE_COUNT = parseInt({{ bundle_count | json }}, 10) || 3;
-  var STEPS_ORDER = ['plans', 'products', 'upsells', 'review'];
+  var STEPS_ORDER = ['plans', 'products', 'review'];
+  var STORAGE_KEY = 'ftdcWizardState_v1';
+  var RETURN_FLAG_KEY = 'ftdcReturnToReview';
   var state = { step: 'plans', plan: 'quarterly', selections: {} };
   var PLAN_NAMES = {
     monthly:   {{ block.settings.monthly_title   | default: 'Monthly Subscription' | json }},
@@ -458,8 +461,7 @@
     if (sw && sv) { if (t.saved > 0) { sw.hidden = false; sv.textContent = fmtMoney(t.saved); } else sw.hidden = true; }
     var lab = $('[data-bar-label]'), btn = $('.ftdc__bar-action'), r = canProc();
     if (state.step === 'plans')         { if (lab) lab.textContent = 'Continue';     if (btn) btn.disabled = false; }
-    else if (state.step === 'products') { if (lab) lab.textContent = 'Continue';     if (btn) btn.disabled = !r; }
-    else if (state.step === 'upsells')  { if (lab) lab.textContent = 'Review Order'; if (btn) btn.disabled = !r; }
+    else if (state.step === 'products') { if (lab) lab.textContent = 'Review Order'; if (btn) btn.disabled = !r; }
     else                                { if (lab) lab.textContent = 'Checkout';     if (btn) btn.disabled = !r; }
   }
   function canProc() {
@@ -549,12 +551,66 @@
   var actBtn = $('.ftdc__bar-action');
   if (actBtn) actBtn.addEventListener('click', function () {
     if (state.step === 'plans') showStep('products');
-    else if (state.step === 'products') { if (canProc()) showStep('upsells'); }
-    else if (state.step === 'upsells') showStep('review');
+    else if (state.step === 'products') { if (canProc()) showStep('review'); }
     else doCheckout();
   });
   $$('[data-action="review"]').forEach(function (b) { b.addEventListener('click', function () { if (canProc()) showStep('review'); }); });
   $$('[data-action="checkout"]').forEach(function (b) { b.addEventListener('click', doCheckout); });
+
+  /* Pills: clicking a step pill jumps to that step (any direction). */
+  $$('.ftdc__step-pill').forEach(function (p) {
+    p.style.cursor = 'pointer';
+    p.addEventListener('click', function () { var t = p.dataset.stepPill; if (t) showStep(t); });
+    p.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); var t = p.dataset.stepPill; if (t) showStep(t); }
+    });
+  });
+
+  /* Persist + restore wizard state. Used to let the customer come back
+     from /checkout via the homepage logo and land on the Review step
+     with their selections intact. */
+  function persistState() {
+    try {
+      var cr = $('[data-creatine-input]');
+      var data = { plan: state.plan, selections: state.selections, creatineChecked: !!(cr && cr.checked), ts: new Date().getTime() };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (_) {}
+  }
+  function restoreState() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      var data = JSON.parse(raw);
+      if (!data || !data.plan) return false;
+      /* Expire after 7 days. */
+      if (data.ts && (new Date().getTime() - data.ts) > 7 * 24 * 60 * 60 * 1000) {
+        localStorage.removeItem(STORAGE_KEY);
+        return false;
+      }
+      state.plan = data.plan;
+      state.selections = data.selections || {};
+      var radio = root.querySelector('input[name="ftdc-plan-' + SID + '"][value="' + data.plan + '"]');
+      if (radio) {
+        $$('.ftdc__plan').forEach(function (p) { p.classList.remove('is-active'); });
+        var l = radio.closest('.ftdc__plan'); if (l) l.classList.add('is-active');
+        radio.checked = true;
+      }
+      Object.keys(state.selections).forEach(function (v) {
+        var sel = state.selections[v];
+        var card = root.querySelector('.ftdc__card[data-variant-id="' + v + '"]');
+        if (card) {
+          card.classList.add('is-selected');
+          var a = card.querySelector('.ftdc__add'), q = card.querySelector('.ftdc__qty'), i = card.querySelector('.ftdc__qty-input');
+          if (a) a.hidden = true; if (q) q.hidden = false; if (i) i.value = sel.qty;
+        }
+      });
+      if (data.creatineChecked) {
+        var cr2 = $('[data-creatine-input]');
+        if (cr2) cr2.checked = true;
+      }
+      return true;
+    } catch (_) { return false; }
+  }
 
   function buildItems() {
     var items = [];
@@ -628,6 +684,10 @@
   function doCheckout() {
     if (!canProc()) return;
     var items = buildItems(); if (!items.length) return;
+    /* Stash state + a session flag so a return-from-checkout visit to the
+       homepage auto-restores selections and lands on Step 3 (Review). */
+    persistState();
+    try { sessionStorage.setItem(RETURN_FLAG_KEY, '1'); } catch (_) {}
     if (actBtn) actBtn.disabled = true; $$('[data-action="checkout"]').forEach(function (b) { b.disabled = true; });
     var cr = $('[data-creatine-input]');
     var ot = state.plan === 'onetime' && cr && cr.checked;
@@ -662,6 +722,20 @@
   }
 
   showStep('plans'); updateProgress(); updateBar();
+
+  /* Return-from-checkout auto-open: if the customer hit the homepage
+     logo from /checkout, restore their wizard state and jump to Review. */
+  try {
+    if (sessionStorage.getItem(RETURN_FLAG_KEY) === '1') {
+      sessionStorage.removeItem(RETURN_FLAG_KEY);
+      if (restoreState()) {
+        updateProgress(); updateBar(); updateCreatineIncluded();
+        showStep('review');
+        /* Slide-over only: pop the dialog so they actually see the review. */
+        setTimeout(function () { try { openDlg(); } catch (_) {} }, 60);
+      }
+    }
+  } catch (_) {}
 
   /* Slide-over open/close. Portal to <body> so no ancestor's
      transform/filter/will-change traps the dialog inside its
