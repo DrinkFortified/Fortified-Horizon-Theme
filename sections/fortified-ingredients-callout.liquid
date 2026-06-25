@@ -141,8 +141,10 @@
       {%- if cta_label_v != blank or section.settings.secondary_button_label != blank -%}
         <div class="ftd-ic__cta-wrap">
           {%- if cta_label_v != blank -%}
+            {%- assign _ic_cls = 'button' -%}
+            {%- if btn_style == 'outline' -%}{%- assign _ic_cls = 'button button-secondary' -%}{%- endif -%}
             <a
-              class="ftd-ic__cta ftd-ic__cta--{{ btn_style }}"
+              class="{{ _ic_cls }}"
               {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
             >{{ cta_label_v }}</a>
           {%- endif -%}
