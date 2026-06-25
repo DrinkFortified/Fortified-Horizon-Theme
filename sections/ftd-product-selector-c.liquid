@@ -123,10 +123,21 @@
     </ol>
 
     {%- comment %} ───── STEP 1 — PLANS ───── {%- endcomment %}
-    <div class="ftdc__step is-active{% if section.settings.plan_image != blank %} ftdc__step--has-image{% endif %}" data-step="plans">
-      {%- if section.settings.plan_image != blank -%}
+    {%- assign plan_img_mob  = section.settings.plan_image_mobile | default: section.settings.plan_image -%}
+    {%- assign plan_img_desk = section.settings.plan_image        | default: section.settings.plan_image_mobile -%}
+    {%- assign has_plan_img  = false -%}
+    {%- if section.settings.plan_image != blank or section.settings.plan_image_mobile != blank -%}
+      {%- assign has_plan_img = true -%}
+    {%- endif -%}
+    <div class="ftdc__step is-active{% if has_plan_img %} ftdc__step--has-image{% endif %}" data-step="plans">
+      {%- if has_plan_img -%}
         <div class="ftdc__plans-image">
-          <img src="{{ section.settings.plan_image | image_url: width: 1000 }}" alt="" width="460" height="460" loading="lazy">
+          <picture>
+            {%- if plan_img_mob != blank -%}
+              <source media="(max-width: 749px)" srcset="{{ plan_img_mob | image_url: width: 800 }}">
+            {%- endif -%}
+            <img src="{{ plan_img_desk | image_url: width: 1000 }}" alt="" width="460" height="460" loading="lazy">
+          </picture>
         </div>
       {%- endif -%}
       <div class="ftdc__plans" data-plan-order="{{ section.settings.plan_order | default: 'quarterly,monthly,onetime' }}">
@@ -812,7 +823,8 @@
     { "type": "text", "id": "checkout_label", "label": "Checkout", "default": "Checkout" },
     { "type": "text", "id": "add_more_label", "label": "Add More", "default": "Add More" },
     { "type": "header", "content": "Appearance" },
-    { "type": "image_picker", "id": "plan_image", "label": "Plan selector image" },
+    { "type": "image_picker", "id": "plan_image",        "label": "Plan selector image (desktop)", "info": "Optional. Shown above the plan cards on Step 1. Used at all viewport widths if no mobile image is set." },
+    { "type": "image_picker", "id": "plan_image_mobile", "label": "Plan selector image (mobile)",  "info": "Optional. Used at viewports ≤ 749px. Falls back to the desktop image if blank." },
     { "type": "color", "id": "accent_color", "label": "Accent (global fallback)", "default": "#1FA8A1", "info": "Used for steps 2-3 and any plan without its own accent color set." },
     { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 12 },
     { "type": "range", "id": "content_max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
