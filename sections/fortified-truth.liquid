@@ -24,6 +24,11 @@
   assign root = 'fttc-' | append: sid
   assign cols = section.settings.columns_desktop
   assign scroll_gap = cols | minus: 1 | times: section.settings.gap
+  # Unified scheme: the content scheme drives both the outer section and the
+  # inner content area, so the colored region is always edge-to-edge instead
+  # of being trapped inside a constrained "card". Falls back to the legacy
+  # outer color_scheme for backward compatibility.
+  assign primary_scheme = section.settings.content_color_scheme | default: section.settings.color_scheme | default: 'scheme-1'
   assign eyebrow_c = section.settings.eyebrow_color | default: 'var(--color-primary)'
   assign heading_c = section.settings.heading_color | default: 'var(--color-foreground-heading)'
   assign text_c    = section.settings.text_color    | default: 'var(--color-foreground)'
@@ -33,27 +38,31 @@
 -%}
 
 <style>
+  /* Outer section paints edge-to-edge using the color scheme; no separate
+     "card" container. The inner element constrains CONTENT width only. */
   #{{ root }} {
-    background: var(--color-background, #ffffff);
+    position: relative;
+    background: var(--color-background);
+    color: {{ text_c }};
   }
 
-  /* Let the inner dark box break out of Horizon's page-width central column
-     so its own max-width (the "Content width" slider) actually controls the
-     rendered width even when section_width is "page-width". The ID selector
-     out-specifies Horizon's `.section--page-width > *` rule. */
-  #{{ root }} > .{{ root }}__inner { grid-column: 1 / -1; }
+  /* Override Horizon's .section--page-width > * (grid-column: 2) so the
+     inner content area can span the full grid and use its own max-width. */
+  #{{ root }} > .{{ root }}__inner,
+  #{{ root }} > .{{ root }}__bgtex { grid-column: 1 / -1; }
 
-  /* Page-width dark content box */
+  /* Content container: max-width + centering + padding. No bg, no radius. */
   #{{ root }} .{{ root }}__inner {
     position: relative;
+    z-index: 1;
+    width: 100%;
     max-width: {{ section.settings.content_max_width }}px;
     margin: 0 auto;
-    background: var(--color-background, #0E0E0E);
-    color: {{ text_c }};
-    border-radius: {{ section.settings.content_radius }}px;
     padding: {{ section.settings.content_padding }}px;
-    overflow: hidden;
+    box-sizing: border-box;
   }
+
+  /* Optional background texture — covers the entire section, not just inner. */
   #{{ root }} .{{ root }}__bgtex {
     position: absolute;
     inset: 0;
@@ -239,19 +248,19 @@
 {%- assign bg_tex = section.settings.background_image -%}
 {%- assign cta_class = root | append: '__cta--' | append: section.settings.button_style -%}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background color-{{ primary_scheme }}"></div>
 <section
   id="{{ root }}"
-  class="ftd-truth section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }}"
+  class="ftd-truth section section--{{ section.settings.section_width }} spacing-style color-{{ primary_scheme }}"
   style="{% render 'spacing-padding', settings: section.settings %}"
   {{ section.shopify_attributes }}
 >
-  <div class="{{ root }}__inner color-{{ section.settings.content_color_scheme }}">
+  {%- if bg_tex != blank -%}
+    {%- assign bg_tex_url = bg_tex | image_url: width: 2400 -%}
+    <div class="{{ root }}__bgtex" style="background-image:url('{{ bg_tex_url }}')" aria-hidden="true"></div>
+  {%- endif -%}
 
-    {%- if bg_tex != blank -%}
-      {%- assign bg_tex_url = bg_tex | image_url: width: 1600 -%}
-      <div class="{{ root }}__bgtex" style="background-image:url('{{ bg_tex_url }}')" aria-hidden="true"></div>
-    {%- endif -%}
+  <div class="{{ root }}__inner">
 
     <div class="{{ root }}__content">
 
@@ -370,17 +379,17 @@
     { "type": "range", "id": "corner_radius", "label": "Card corner radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 14 },
     { "type": "color", "id": "card_bg", "label": "Card background (no image)", "default": "#1A1A1A" },
 
-    { "type": "header", "content": "Content box" },
-    { "type": "paragraph", "content": "The dark box is constrained to this width; the area outside it shows the section background (white)." },
-    { "type": "range", "id": "content_max_width", "label": "Content width (page width)", "min": 600, "max": 4800, "step": 50, "unit": "px", "default": 1300, "info": "At or near the upper end of this range, the box will fill the full viewport width (since it cannot exceed your screen)." },
+    { "type": "header", "content": "Content area" },
+    { "type": "paragraph", "content": "The section paints edge-to-edge with the color scheme below; this slider controls the max width of the CONTENT (heading + cards) inside it." },
+    { "type": "range", "id": "content_max_width", "label": "Content width", "min": 600, "max": 4800, "step": 50, "unit": "px", "default": 1300 },
     { "type": "range", "id": "content_padding", "label": "Inner padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
-    { "type": "range", "id": "content_radius", "label": "Box corner radius", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 28 },
-    { "type": "color_scheme", "id": "content_color_scheme", "label": "Content box color scheme", "default": "scheme-2" },
-    { "type": "image_picker", "id": "background_image", "label": "Content background texture", "info": "Optional. Layered inside the box at low opacity." },
+    { "type": "color_scheme", "id": "content_color_scheme", "label": "Section color scheme", "default": "scheme-2", "info": "Drives the full-width section background and text colors." },
+    { "type": "image_picker", "id": "background_image", "label": "Background texture", "info": "Optional. Layered across the full section at low opacity." },
+    { "type": "range", "id": "content_radius", "label": "Box corner radius (legacy)", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 0, "info": "Deprecated — the section is now edge-to-edge so no card edge is visible." },
 
     { "type": "header", "content": "Colors" },
-    { "type": "paragraph", "content": "Leave a color blank to inherit it from the color scheme." },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Section color scheme (outside the box)", "default": "scheme-1" },
+    { "type": "paragraph", "content": "Leave a color blank to inherit it from the section color scheme." },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Outer color scheme (legacy, unused)", "default": "scheme-1", "info": "Deprecated. The 'Section color scheme' above now controls the whole section." },
     { "type": "color", "id": "eyebrow_color", "label": "Eyebrow", "default": "#9DBE5B" },
     { "type": "color", "id": "heading_color", "label": "Heading" },
     { "type": "color", "id": "text_color", "label": "Body text" },
