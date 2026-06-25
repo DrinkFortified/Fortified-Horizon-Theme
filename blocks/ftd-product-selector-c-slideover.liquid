@@ -637,7 +637,15 @@
       finalItems.forEach(function (it) { delete it._bundleable; });
       return fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: finalItems }) })
         .then(function (r) { if (!r.ok) return r.json().then(function (b) { throw new Error((b && b.message) || 'Cart error'); }); return r.json(); })
-        .then(function () { window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout'; });
+        .then(function () {
+          var checkoutUrl = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout';
+          /* Insert /cart into history so the browser back-button from
+             /checkout lands on the cart review, not the page that
+             launched the wizard. pushState doesn't navigate, just
+             stamps a history entry that the back button can pop to. */
+          try { history.pushState({}, '', '/cart'); } catch (_) {}
+          window.location.href = checkoutUrl;
+        });
     }
 
     var run;
