@@ -208,28 +208,9 @@
     text-shadow: 0 1px 8px rgba(0,0,0,0.5);
   }
 
-  /* Footer button */
+  /* Footer button — uses Horizon's standard .button / .button-secondary
+     classes for consistency across the page. */
   #{{ root }} .{{ root }}__footer { display: flex; justify-content: center; margin-top: 40px; }
-  #{{ root }} .{{ root }}__cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-heading--family, inherit);
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 15px 38px;
-    border-radius: var(--style-border-radius-buttons-primary, 8px);
-    cursor: pointer;
-    border: 2px solid {{ button_c }};
-    transition: background 0.18s, color 0.18s, opacity 0.18s;
-  }
-  #{{ root }} .{{ root }}__cta--outline { background: transparent; color: {{ button_c }}; }
-  #{{ root }} .{{ root }}__cta--outline:hover { background: {{ button_c }}; color: var(--color-background, #0E0E0E); }
-  #{{ root }} .{{ root }}__cta--filled { background: {{ button_c }}; color: var(--color-background, #0E0E0E); }
-  #{{ root }} .{{ root }}__cta--filled:hover { opacity: 0.88; }
 
   /* Mobile: single stacked column */
   @media (max-width: 749px) {
@@ -246,7 +227,11 @@
 </style>
 
 {%- assign bg_tex = section.settings.background_image -%}
-{%- assign cta_class = root | append: '__cta--' | append: section.settings.button_style -%}
+{%- if section.settings.button_style == 'outline' -%}
+  {%- assign cta_class = 'button button-secondary' -%}
+{%- else -%}
+  {%- assign cta_class = 'button' -%}
+{%- endif -%}
 
 <div class="section-background color-{{ primary_scheme }}"></div>
 <section
@@ -346,7 +331,7 @@
 
       {%- if cta_label_v != blank -%}
         <div class="{{ root }}__footer">
-          <a class="{{ root }}__cta {{ cta_class }}" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ cta_label_v }}</a>
+          <a class="{{ cta_class }}" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ cta_label_v }}</a>
         </div>
       {%- endif -%}
 

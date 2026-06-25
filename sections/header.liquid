@@ -894,9 +894,11 @@
   }
 
   /* Header CTA pill — sits left of the account/cart icons, opens the
-     FTD product-selector slide-over when its href matches the trigger. */
+     FTD product-selector slide-over when its href matches the trigger.
+     Explicit color/background overrides because .header-actions__action
+     above resets --button-color to var(--color-foreground), which would
+     otherwise blend the label into the button bg. */
   .header-actions__cta {
-    --button-color: inherit;
     padding-block: 0.55rem;
     padding-inline: 1rem;
     font-size: 0.85rem;
@@ -905,8 +907,24 @@
     align-self: center;
     margin-inline-end: var(--gap-sm, 8px);
     text-decoration: none;
+    border: 0;
+    border-radius: var(--style-border-radius-buttons-primary, 999px);
   }
-  .header-actions__cta:hover { text-decoration: none; }
+  .header-actions__cta.button {
+    --button-color: var(--color-primary-button-text);
+    --button-background-color: var(--color-primary-button-background);
+    color: var(--color-primary-button-text);
+    background: var(--color-primary-button-background);
+  }
+  .header-actions__cta.button-secondary {
+    --button-color: var(--color-secondary-button-text);
+    --button-background-color: var(--color-secondary-button-background);
+    color: var(--color-secondary-button-text);
+    background: var(--color-secondary-button-background);
+    box-shadow: inset 0 0 0 var(--style-border-width-secondary, 1px) var(--color-secondary-button-border, currentColor);
+    border-radius: var(--style-border-radius-buttons-secondary, 999px);
+  }
+  .header-actions__cta:hover { text-decoration: none; opacity: 0.92; }
   @media (max-width: 749px) {
     .header-actions__cta { display: none; }
   }
