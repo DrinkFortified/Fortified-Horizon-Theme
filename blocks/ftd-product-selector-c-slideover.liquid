@@ -114,7 +114,9 @@
 </style>
 
 <div class="ftdc-slideover-wrap" {{ block.shopify_attributes }}>
-  <button class="ftdc-slideover-trigger ftdc-slideover-trigger--{{ block.settings.button_style | default: 'filled' }}"
+  {%- assign _trig_cls = 'button' -%}
+  {%- if block.settings.button_style == 'outline' -%}{%- assign _trig_cls = 'button button-secondary' -%}{%- endif -%}
+  <button class="{{ _trig_cls }}"
           type="button"
           data-ftdc-slideover-open="{{ sid }}"
           aria-haspopup="dialog"
