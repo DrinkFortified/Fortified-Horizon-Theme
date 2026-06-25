@@ -201,9 +201,15 @@
       </div>
     {%- endif -%}
 
-    {%- if section.settings.button_label != blank -%}
-      <div class="{{ root }}__footer">
-        <a class="{{ root }}__cta" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ section.settings.button_label }}</a>
+    {%- if section.settings.button_label != blank or section.settings.secondary_button_label != blank -%}
+      <div class="{{ root }}__footer" style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:center;">
+        {%- if section.settings.button_label != blank -%}
+          <a class="button" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ section.settings.button_label }}</a>
+        {%- endif -%}
+        {%- if section.settings.secondary_button_label != blank -%}
+          {%- assign sec_link = section.settings.secondary_button_link | default: '#shopify-section-ftd_c_supp_facts_4JN74r' -%}
+          <a class="button button-secondary" href="{{ sec_link }}">{{ section.settings.secondary_button_label }}</a>
+        {%- endif -%}
       </div>
     {%- endif -%}
 
@@ -224,6 +230,9 @@
     { "type": "header", "content": "Button" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Fortified Now" },
     { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Secondary CTA (Learn More)" },
+    { "type": "text", "id": "secondary_button_label", "label": "Secondary button label", "default": "Learn More" },
+    { "type": "text", "id": "secondary_button_link",  "label": "Secondary button link",  "default": "#shopify-section-ftd_c_supp_facts_4JN74r", "info": "Defaults to the Supplement Facts section." },
     { "type": "select", "id": "button_style", "label": "Button style", "default": "filled",
       "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" }, { "value": "ghost", "label": "Ghost" } ] },
     { "type": "color", "id": "button_bg", "label": "Button background", "default": "#0A0A0A" },

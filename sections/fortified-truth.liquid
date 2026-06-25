@@ -329,9 +329,15 @@
         {%- endif -%}
       </div>
 
-      {%- if cta_label_v != blank -%}
+      {%- if cta_label_v != blank or section.settings.secondary_button_label != blank -%}
         <div class="{{ root }}__footer">
-          <a class="{{ cta_class }}" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ cta_label_v }}</a>
+          {%- if cta_label_v != blank -%}
+            <a class="{{ cta_class }}" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}>{{ cta_label_v }}</a>
+          {%- endif -%}
+          {%- if section.settings.secondary_button_label != blank -%}
+            {%- assign sec_link = section.settings.secondary_button_link | default: '#shopify-section-ftd_c_supp_facts_4JN74r' -%}
+            <a class="button button-secondary" href="{{ sec_link }}">{{ section.settings.secondary_button_label }}</a>
+          {%- endif -%}
         </div>
       {%- endif -%}
 
@@ -349,6 +355,10 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Truth" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "More Than Hydration Its Daily Support" },
     { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration." },
+
+    { "type": "header", "content": "Secondary CTA (Learn More)" },
+    { "type": "text", "id": "secondary_button_label", "label": "Secondary button label", "default": "Learn More" },
+    { "type": "text", "id": "secondary_button_link",  "label": "Secondary button link",  "default": "#shopify-section-ftd_c_supp_facts_4JN74r", "info": "Defaults to the Supplement Facts section on the homepage. Replace with any anchor (#shopify-section-...) or URL." },
 
     { "type": "header", "content": "Button" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore All Flavors" },
