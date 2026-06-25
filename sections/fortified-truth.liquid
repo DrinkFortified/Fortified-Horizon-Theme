@@ -37,6 +37,12 @@
     background: var(--color-background, #ffffff);
   }
 
+  /* Let the inner dark box break out of Horizon's page-width central column
+     so its own max-width (the "Content width" slider) actually controls the
+     rendered width even when section_width is "page-width". The ID selector
+     out-specifies Horizon's `.section--page-width > *` rule. */
+  #{{ root }} > .{{ root }}__inner { grid-column: 1 / -1; }
+
   /* Page-width dark content box */
   #{{ root }} .{{ root }}__inner {
     position: relative;
