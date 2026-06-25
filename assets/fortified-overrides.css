@@ -1,0 +1,67 @@
+/* ============================================================
+ * Fortified theme overrides — loaded after base.css.
+ * Keep small and additive; this file should not duplicate Horizon
+ * rules, only flip behavior we want different across the storefront.
+ * ============================================================ */
+
+/* Swap button default + hover variants so the "hover look" is the
+ * resting state on every primary/secondary button. Hover still
+ * produces a visible change (now reverts to Horizon's prior default),
+ * keeping the affordance for keyboard / pointer users. */
+.button,
+button.shopify-payment-button__button--unbranded {
+  --button-color: var(--color-primary-button-hover-text);
+  --button-background-color: var(--color-primary-button-hover-background);
+  --button-border-color: var(--color-primary-button-hover-border);
+}
+.button:hover,
+button.shopify-payment-button__button--unbranded:hover {
+  --button-color: var(--color-primary-button-text);
+  --button-background-color: var(--color-primary-button-background);
+  --button-border-color: var(--color-primary-button-border);
+}
+
+.button-secondary {
+  --button-color: var(--color-secondary-button-hover-text);
+  --button-background-color: var(--color-secondary-button-hover-background);
+  --button-border-color: var(--color-secondary-button-hover-border);
+}
+.button-secondary:hover {
+  --button-color: var(--color-secondary-button-text);
+  --button-background-color: var(--color-secondary-button-background);
+  --button-border-color: var(--color-secondary-button-border);
+}
+
+/* Selector-C wizard bar action — its own selector, mirror the swap. */
+.ftdc__bar-action {
+  color: var(--color-primary-button-hover-text);
+  background-color: var(--color-primary-button-hover-background);
+  box-shadow: inset 0 0 0 var(--style-border-width-primary, 0) var(--color-primary-button-hover-border);
+}
+.ftdc__bar-action:hover {
+  color: var(--color-primary-button-text);
+  background-color: var(--color-primary-button-background);
+  box-shadow: inset 0 0 0 var(--style-border-width-primary, 0) var(--color-primary-button-border);
+}
+
+/* Selector-C wizard ghost / primary btns — also pull from the swapped vars. */
+.ftdc__btn--primary {
+  --button-color: var(--color-primary-button-hover-text);
+  --button-background-color: var(--color-primary-button-hover-background);
+  --button-border-color: var(--color-primary-button-hover-border);
+}
+.ftdc__btn--primary:hover {
+  --button-color: var(--color-primary-button-text);
+  --button-background-color: var(--color-primary-button-background);
+  --button-border-color: var(--color-primary-button-border);
+}
+.ftdc__btn--ghost {
+  --button-color: var(--color-secondary-button-hover-text);
+  --button-background-color: var(--color-secondary-button-hover-background);
+  --button-border-color: var(--color-secondary-button-hover-border);
+}
+.ftdc__btn--ghost:hover {
+  --button-color: var(--color-secondary-button-text);
+  --button-background-color: var(--color-secondary-button-background);
+  --button-border-color: var(--color-secondary-button-border);
+}
