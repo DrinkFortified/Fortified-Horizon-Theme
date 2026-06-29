@@ -77,18 +77,18 @@
   #{{ root }} .{{ root }}__eyebrow {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: 13px;
+    font-size: var(--ftd-eyebrow-size);
     font-weight: 700;
-    letter-spacing: 0.22em;
+    letter-spacing: var(--ftd-eyebrow-spacing);
     text-transform: uppercase;
     color: var(--{{ root }}-accent);
   }
   #{{ root }} .{{ root }}__heading {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: clamp(32px, 5vw, 60px);
+    font-size: var(--ftd-h2-size);
     font-weight: 800;
-    line-height: 1.02;
+    line-height: var(--ftd-h2-line);
     text-transform: uppercase;
     letter-spacing: -0.01em;
   }
@@ -174,7 +174,6 @@
     }
     #{{ root }} .{{ root }}__grid--image-left .{{ root }}__text  { order: 1; }
     #{{ root }} .{{ root }}__grid--image-left .{{ root }}__media { order: 2; }
-    #{{ root }} .{{ root }}__heading { font-size: clamp(28px, 8vw, 40px); }
     #{{ root }} .{{ root }}__media { aspect-ratio: 4 / 3; }
   }
 

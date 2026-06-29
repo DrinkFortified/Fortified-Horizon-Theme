@@ -34,7 +34,7 @@
           {%- assign bg_alt = block.settings.heading | default: '' -%}
           {%- assign opacity_dec = block.settings.overlay_opacity | divided_by: 100.0 -%}
           <div
-            class="ftcta-card ftcta-card--{{ tone }}"
+            class="ftcta-card ftcta-card--{{ tone }}{% if block.settings.card_color_scheme != blank %} color-{{ block.settings.card_color_scheme }} ftcta-card--scheme{% endif %}"
             style="--ftcta-min-h: {{ block.settings.min_height_desktop }}px; --ftcta-min-h-m: {{ block.settings.min_height_mobile }}px;"
             {{ block.shopify_attributes }}
           >
@@ -80,9 +80,19 @@
           {%- assign focal_css = focal | replace: '-', ' ' -%}
           {%- assign img_style = 'object-position: ' | append: focal_css | append: ';' -%}
           {%- assign img_alt = block.settings.heading | default: '' -%}
+          {%- comment -%}
+            When a color scheme is chosen, the card paints from the scheme
+            (color-XXX sets --color-background/foreground) and we let the
+            CSS fall back to var(--color-background). The manual
+            background_color is only used when no scheme is selected.
+          {%- endcomment -%}
+          {%- assign split_bg = '' -%}
+          {%- if block.settings.card_color_scheme == blank and block.settings.background_color != blank -%}
+            {%- assign split_bg = 'background-color: ' | append: block.settings.background_color | append: ';' -%}
+          {%- endif -%}
           <div
-            class="ftcta-split ftcta-split--text-{{ tone }} ftcta-split--image-{{ img_side }}"
-            style="background-color: {{ block.settings.background_color }}; --ftcta-min-h: {{ block.settings.min_height_desktop }}px; --ftcta-min-h-m: {{ block.settings.min_height_mobile }}px;"
+            class="ftcta-split ftcta-split--text-{{ tone }} ftcta-split--image-{{ img_side }}{% if block.settings.card_color_scheme != blank %} color-{{ block.settings.card_color_scheme }} ftcta-split--scheme{% endif %}"
+            style="{{ split_bg }} --ftcta-min-h: {{ block.settings.min_height_desktop }}px; --ftcta-min-h-m: {{ block.settings.min_height_mobile }}px;"
             {{ block.shopify_attributes }}
           >
             <div class="ftcta-split__content">
@@ -133,6 +143,9 @@
     min-height: var(--ftcta-min-h, 420px);
     background-color: #111; isolation: isolate;
   }
+  /* Color-scheme card background (shows when no image, or behind a
+     semi-transparent overlay). */
+  .ftcta-card--scheme { background-color: var(--color-background); }
   .ftcta-card__bg {
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover; z-index: 0; display: block;
@@ -147,14 +160,14 @@
   .ftcta-card--dark  { color: #0E0E0E; }
   .ftcta-card__eyebrow {
     margin: 0; font-family: var(--font-heading--family, inherit);
-    font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+    font-size: var(--ftd-eyebrow-size); font-weight: 700; letter-spacing: var(--ftd-eyebrow-spacing); text-transform: uppercase;
   }
   .ftcta-card__heading {
     margin: 0; font-family: var(--font-heading--family, inherit);
-    font-size: clamp(26px, 3.4vw, 44px); font-weight: 800; line-height: 1.04;
+    font-size: var(--ftd-h2-size); font-weight: 800; line-height: var(--ftd-h2-line);
     text-transform: uppercase; letter-spacing: -0.01em;
   }
-  .ftcta-card__body { margin: 0; font-size: 15px; line-height: 1.5; opacity: 0.82; max-width: 460px; }
+  .ftcta-card__body { margin: 0; font-size: var(--ftd-sub-size); line-height: var(--ftd-sub-line); opacity: 0.82; max-width: 460px; }
 
   /* ---- Variant 2: text + side image card ---- */
   .ftcta-split {
@@ -178,16 +191,21 @@
   }
   .ftcta-split--text-light { color: #FFFFFF; }
   .ftcta-split--text-dark  { color: #0E0E0E; }
+  /* When a color scheme is selected, paint the card + text from the
+     scheme tokens and let the scheme drive the body/heading color too. */
+  .ftcta-split--scheme { background-color: var(--color-background); color: var(--color-foreground); }
+  .ftcta-split--scheme .ftcta-split__heading,
+  .ftcta-split--scheme .ftcta-split__body { color: var(--color-foreground); }
   .ftcta-split__eyebrow {
     margin: 0; font-family: var(--font-heading--family, inherit);
-    font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+    font-size: var(--ftd-eyebrow-size); font-weight: 700; letter-spacing: var(--ftd-eyebrow-spacing); text-transform: uppercase;
   }
   .ftcta-split__heading {
     margin: 0; font-family: var(--font-heading--family, inherit);
-    font-size: clamp(26px, 3.4vw, 44px); font-weight: 800; line-height: 1.04;
+    font-size: var(--ftd-h2-size); font-weight: 800; line-height: var(--ftd-h2-line);
     text-transform: uppercase; letter-spacing: -0.01em;
   }
-  .ftcta-split__body { margin: 0; font-size: 15px; line-height: 1.5; opacity: 0.82; max-width: 460px; }
+  .ftcta-split__body { margin: 0; font-size: var(--ftd-sub-size); line-height: var(--ftd-sub-line); opacity: 0.82; max-width: 460px; }
 
   /* ---- Shared button styles (applies to both variants) ---- */
   .ftcta-card__btn, .ftcta-split__btn {
@@ -277,6 +295,7 @@
         ] },
         { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
         { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 0 },
+        { "type": "color_scheme", "id": "card_color_scheme", "label": "Card color scheme (fallback)", "info": "Paints the card background when no image is set, or shows behind a semi-transparent overlay." },
 
         { "type": "header", "content": "Text" },
         { "type": "select", "id": "text_color", "label": "Text color", "default": "light", "options": [ { "value": "light", "label": "Light" }, { "value": "dark", "label": "Dark" } ] },
@@ -315,8 +334,9 @@
         ] },
 
         { "type": "header", "content": "Background & text" },
-        { "type": "color", "id": "background_color", "label": "Card background", "default": "#F5F5F2" },
-        { "type": "select", "id": "text_color", "label": "Text color", "default": "dark", "options": [ { "value": "light", "label": "Light" }, { "value": "dark", "label": "Dark" } ] },
+        { "type": "color_scheme", "id": "card_color_scheme", "label": "Card color scheme", "info": "When set, the card background AND text colors come from this scheme. Overrides the manual card background / text color below." },
+        { "type": "color", "id": "background_color", "label": "Card background (manual)", "default": "#F5F5F2", "info": "Used only when no card color scheme is selected above." },
+        { "type": "select", "id": "text_color", "label": "Text color (manual)", "default": "dark", "options": [ { "value": "light", "label": "Light" }, { "value": "dark", "label": "Dark" } ] },
 
         { "type": "header", "content": "Sizing" },
         { "type": "range", "id": "min_height_desktop", "label": "Min height (desktop)", "min": 280, "max": 700, "step": 10, "unit": "px", "default": 420 },

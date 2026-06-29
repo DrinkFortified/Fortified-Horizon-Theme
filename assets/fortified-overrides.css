@@ -4,6 +4,19 @@
  * rules, only flip behavior we want different across the storefront.
  * ============================================================ */
 
+/* ---- Shared type scale + spacing tokens ----
+ * FTD sections reference these so headers / eyebrows / subheads /
+ * section padding stay consistent across the homepage. Tweak here to
+ * retune the whole page at once. */
+:root {
+  --ftd-eyebrow-size: 0.8125rem;            /* 13px */
+  --ftd-eyebrow-spacing: 0.18em;
+  --ftd-h2-size: clamp(2rem, 1.1rem + 3vw, 3rem);     /* 32 -> 48px */
+  --ftd-h2-line: 1.1;
+  --ftd-sub-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem); /* 16 -> 18px */
+  --ftd-sub-line: 1.6;
+}
+
 /* Swap button default + hover variants so the "hover look" is the
  * resting state on every primary/secondary button. Hover still
  * produces a visible change (now reverts to Horizon's prior default),
