@@ -1,15 +1,17 @@
 {%- comment -%}
-  ftd-rich-text — inline markdown for FORTIFIED section copy.
+  ftd-rich-text — inline gradient-text markers for FORTIFIED copy.
 
   Usage:
     {%- render 'ftd-rich-text', text: heading_v -%}
 
-  Markers (processed longest-first so they don't collide):
+  ONLY the gradient markers are handled here, processed 4-first so the
+  two don't collide:
     ****text****  -> gradient B fill  (.ftd-grad--4)
     ***text***    -> gradient A fill  (.ftd-grad--3)
-    **text**      -> <strong>
-    *text*        -> <em class="ftd-kicker">
-  Newlines become <br>.
+
+  Single * and double ** asterisks are intentionally left UNTOUCHED so
+  any existing modifiers the merchant uses keep behaving exactly as
+  before. Newlines become <br>.
 
   Gradient colors + angle live in assets/fortified-overrides.css
   (.ftd-grad--3 / .ftd-grad--4) so they're easy to retune in one place.
@@ -41,29 +43,5 @@
     endif
   endfor
 
-  # Stage 3: ** -> strong
-  assign s3 = ''
-  assign parts = s2 | split: '**'
-  for p in parts
-    assign m = forloop.index | modulo: 2
-    if m == 0
-      assign s3 = s3 | append: '<strong>' | append: p | append: '</strong>'
-    else
-      assign s3 = s3 | append: p
-    endif
-  endfor
-
-  # Stage 4: * -> kicker em
-  assign s4 = ''
-  assign parts = s3 | split: '*'
-  for p in parts
-    assign m = forloop.index | modulo: 2
-    if m == 0
-      assign s4 = s4 | append: '<em class="ftd-kicker">' | append: p | append: '</em>'
-    else
-      assign s4 = s4 | append: p
-    endif
-  endfor
-
-  echo s4 | newline_to_br
+  echo s2 | newline_to_br
 -%}
