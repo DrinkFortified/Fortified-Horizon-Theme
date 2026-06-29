@@ -44,7 +44,7 @@
 
 <style>
   #{{ root }} { background: var(--color-background); overflow-x: clip; max-width: 100%; }
-  #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; }
+  #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.content_max_width | default: section.settings.max_width | default: 1360 }}px; margin: 0 auto; }
   #{{ root }} .{{ root }}__head { text-align: center; max-width: 760px; margin: 0 auto 32px; display: flex; flex-direction: column; gap: 10px; }
   #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-eyebrow-size); font-weight: 700; letter-spacing: var(--ftd-eyebrow-spacing); text-transform: uppercase; color: {{ accent_c }}; }
   #{{ root }} .{{ root }}__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-h2-size); font-weight: 800; line-height: var(--ftd-h2-line); text-transform: uppercase; color: {{ heading_c }}; }
@@ -254,7 +254,7 @@
 
     { "type": "header", "content": "Layout" },
     { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1360 },
 
     { "type": "header", "content": "Padding" },
     { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 64 },

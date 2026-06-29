@@ -52,6 +52,19 @@
   margin-bottom: 0.35em;
 }
 
+/* ---- Responsive section padding cap ----
+ * Desktop section padding is set per-section via --padding-block-start/end.
+ * On phones, big values (88-100px) leave too much dead space, so cap the
+ * applied padding at 56px. This only ever REDUCES padding (min()), so small
+ * values (0/24/48) are left untouched. Scoped to sections, not blocks. */
+@media (max-width: 749px) {
+  .section.spacing-style {
+    padding-block:
+      calc(min(var(--padding-block-start, 0px), 56px) + var(--section-top-offset, 0px))
+      min(var(--padding-block-end, 0px), 56px);
+  }
+}
+
 /* Swap button default + hover variants so the "hover look" is the
  * resting state on every primary/secondary button. Hover still
  * produces a visible change (now reverts to Horizon's prior default),
