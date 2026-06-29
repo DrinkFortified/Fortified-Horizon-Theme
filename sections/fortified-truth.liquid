@@ -211,9 +211,9 @@
   /* Footer button — uses Horizon's standard .button / .button-secondary
      classes for consistency across the page. */
   #{{ root }} .{{ root }}__footer { display: flex; justify-content: center; margin-top: 40px; }
-  #{{ root }} .{{ root }}__footer--cta-row { gap: 12px; flex-wrap: nowrap; align-items: stretch; }
+  #{{ root }} .{{ root }}__footer--cta-row { gap: 14px; flex-wrap: wrap; align-items: stretch; }
   #{{ root }} .{{ root }}__footer--cta-row > .button,
-  #{{ root }} .{{ root }}__footer--cta-row > .button-secondary { flex: 1 1 0; min-width: 0; max-width: 260px; justify-content: center; text-align: center; }
+  #{{ root }} .{{ root }}__footer--cta-row > .button-secondary { flex: 0 1 auto; min-width: 12rem; white-space: nowrap; justify-content: center; text-align: center; }
 
   /* Mobile: single stacked column */
   @media (max-width: 749px) {

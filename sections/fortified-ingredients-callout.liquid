@@ -281,10 +281,10 @@
 }
 
 /* CTA */
-.ftd-ic__cta-wrap { display: flex; gap: 12px; flex-wrap: nowrap; margin-top: 4px; align-items: stretch; }
+.ftd-ic__cta-wrap { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; align-items: stretch; }
 .ftd-ic__cta-wrap > .ftd-ic__cta,
 .ftd-ic__cta-wrap > .button,
-.ftd-ic__cta-wrap > .button-secondary { flex: 1 1 0; min-width: 0; max-width: 240px; justify-content: center; text-align: center; }
+.ftd-ic__cta-wrap > .button-secondary { flex: 0 1 auto; min-width: 12rem; white-space: nowrap; justify-content: center; text-align: center; }
 .ftd-ic__cta {
   display: inline-flex;
   align-items: center;
@@ -320,7 +320,7 @@
   .ftd-ic__grid { grid-template-columns: 1fr !important; }
   .ftd-ic__cta-wrap > .ftd-ic__cta,
   .ftd-ic__cta-wrap > .button,
-  .ftd-ic__cta-wrap > .button-secondary { max-width: none; }
+  .ftd-ic__cta-wrap > .button-secondary { flex: 1 1 auto; min-width: 0; }
 }
 
 /* Desktop. The image column is always the 30fr (narrower) track and the
