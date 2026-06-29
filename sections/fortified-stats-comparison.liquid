@@ -166,7 +166,7 @@
       <div class="{{ root }}__head">
         {%- if section.settings.eyebrow != blank -%}<h4 class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</h4>{%- endif -%}
         {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{%- render 'ftd-rich-text', text: section.settings.heading -%}</h2>{%- endif -%}
-        {%- if section.settings.subheading != blank -%}<p class="{{ root }}__sub">{%- render 'ftd-rich-text', text: section.settings.subheading -%}</p>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}<div class="{{ root }}__sub">{%- render 'ftd-rich-text', text: section.settings.subheading -%}</div>{%- endif -%}
       </div>
     {%- endif -%}
 
@@ -242,7 +242,7 @@
     { "type": "header", "content": "Heading" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow (H4)", "default": "The Truth" },
     { "type": "text", "id": "heading", "label": "Heading (H2)", "default": "Why We Beat The Rest" },
-    { "type": "textarea", "id": "subheading", "label": "Description", "default": "Electrolytes don't provide full recovery." },
+    { "type": "richtext", "id": "subheading", "label": "Description", "default": "<p>Electrolytes don't provide full recovery.</p>" },
 
     { "type": "header", "content": "Layout" },
     { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },

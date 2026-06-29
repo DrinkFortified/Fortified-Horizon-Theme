@@ -35,6 +35,14 @@
   --ftd-grad-4: linear-gradient(-65deg, #ef3a53 0%, #a63c74 60%, #5e72b2 100%);
 }
 
+/* ---- Rich-text body fields ----
+ * Body/subheading/quote fields converted to `richtext` self-wrap their
+ * content in <p>. Their containers are <div class="...__sub|__body|__quote">.
+ * Reset the outer paragraph margins so the rich text sits flush like the old
+ * plain <p> did, while keeping spacing between multiple paragraphs. */
+.section :is([class$="__sub"], [class$="__body"], [class$="__quote"]) > p:first-child { margin-top: 0; }
+.section :is([class$="__sub"], [class$="__body"], [class$="__quote"]) > p:last-child  { margin-bottom: 0; }
+
 /* ---- Inline gradient text (from ***3-star*** / ****4-star**** markers) ----
  * Clips a gradient to the glyphs. Falls back to a brand color where
  * background-clip:text is unsupported. */

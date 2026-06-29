@@ -278,7 +278,7 @@
         <div class="{{ root }}__head">
           {%- if eyebrow_v != blank -%}<p class="{{ root }}__eyebrow">{{ eyebrow_v }}</p>{%- endif -%}
           {%- if heading_v != blank -%}<h2 class="{{ root }}__heading">{%- render 'ftd-rich-text', text: heading_v -%}</h2>{%- endif -%}
-          {%- if subheading_v != blank -%}<p class="{{ root }}__sub">{%- render 'ftd-rich-text', text: subheading_v -%}</p>{%- endif -%}
+          {%- if subheading_v != blank -%}<div class="{{ root }}__sub">{%- render 'ftd-rich-text', text: subheading_v -%}</div>{%- endif -%}
         </div>
       {%- endif -%}
 
@@ -357,7 +357,7 @@
     { "type": "header", "content": "Heading" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Truth" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "More Than Hydration Its Daily Support" },
-    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration." },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Electrolytes don't provide full recovery. UNDO Regenerate combines hydration.</p>" },
 
     { "type": "header", "content": "Secondary CTA (Learn More)" },
     { "type": "text", "id": "secondary_button_label", "label": "Secondary button label", "default": "Learn More" },

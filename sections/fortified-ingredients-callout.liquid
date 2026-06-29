@@ -76,7 +76,7 @@
         <h2 class="ftd-ic__heading">{%- render 'ftd-rich-text', text: heading_v -%}</h2>
       {%- endif -%}
       {%- if subheading_v != blank -%}
-        <p class="ftd-ic__sub">{%- render 'ftd-rich-text', text: subheading_v -%}</p>
+        <div class="ftd-ic__sub">{%- render 'ftd-rich-text', text: subheading_v -%}</div>
       {%- endif -%}
 
       {%- if use_pdp_ing or ing_blocks.size > 0 -%}
@@ -357,7 +357,7 @@
   "settings": [
     { "type": "header", "content": "Content" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Clinically Backed Ingredients" },
-    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Electrolytes don't provide full recovery. Regenerate hydration." },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Electrolytes don't provide full recovery. Regenerate hydration.</p>" },
 
     { "type": "header", "content": "Product image" },
     { "type": "image_picker", "id": "product_image", "label": "Product image" },

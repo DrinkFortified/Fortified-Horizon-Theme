@@ -293,7 +293,7 @@
       <div class="{{ root }}__head">
         {%- if eyebrow_v != blank -%}<p class="{{ root }}__eyebrow">{{ eyebrow_v }}</p>{%- endif -%}
         {%- if heading_v != blank -%}<h2 class="{{ root }}__heading">{%- render 'ftd-rich-text', text: heading_v -%}</h2>{%- endif -%}
-        {%- if subheading_v != blank -%}<p class="{{ root }}__sub">{%- render 'ftd-rich-text', text: subheading_v -%}</p>{%- endif -%}
+        {%- if subheading_v != blank -%}<div class="{{ root }}__sub">{%- render 'ftd-rich-text', text: subheading_v -%}</div>{%- endif -%}
       </div>
     {%- endif -%}
 
@@ -437,7 +437,7 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
     { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Why We Beat The Rest Electrolytes" },
-    { "type": "textarea", "id": "subheading", "label": "Subheading" },
+    { "type": "richtext", "id": "subheading", "label": "Subheading" },
 
     { "type": "header", "content": "Fortified column" },
     { "type": "text", "id": "fortified_label", "label": "Column label", "default": "Fortified" },

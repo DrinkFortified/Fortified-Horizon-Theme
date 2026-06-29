@@ -60,7 +60,7 @@
                 <h3 class="ftcta-card__heading">{%- render 'ftd-rich-text', text: block.settings.heading -%}</h3>
               {%- endif -%}
               {%- if block.settings.body != blank -%}
-                <p class="ftcta-card__body">{{ block.settings.body }}</p>
+                <div class="ftcta-card__body">{{ block.settings.body }}</div>
               {%- endif -%}
               {%- if block.settings.button_label != blank -%}
                 <a
@@ -103,7 +103,7 @@
                 <h3 class="ftcta-split__heading">{%- render 'ftd-rich-text', text: block.settings.heading -%}</h3>
               {%- endif -%}
               {%- if block.settings.body != blank -%}
-                <p class="ftcta-split__body">{{ block.settings.body }}</p>
+                <div class="ftcta-split__body">{{ block.settings.body }}</div>
               {%- endif -%}
               {%- if block.settings.button_label != blank -%}
                 <a
@@ -275,7 +275,7 @@
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
         { "type": "text", "id": "heading", "label": "Heading", "default": "Built For The Work" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "152mg of natural caffeine from real coffee beans. Not anhydrous. Not synthetic." },
+        { "type": "richtext", "id": "body", "label": "Body", "default": "<p>152mg of natural caffeine from real coffee beans. Not anhydrous. Not synthetic.</p>" },
         { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Energy" },
         { "type": "url", "id": "button_link", "label": "Button link" },
         { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline" }, { "value": "filled", "label": "Filled" } ] },
@@ -313,7 +313,7 @@
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
         { "type": "text", "id": "heading", "label": "Heading", "default": "Built For The Other 23 Hours" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "Clean electrolytes, plus D3 and K2 most people are quietly running low on." },
+        { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Clean electrolytes, plus D3 and K2 most people are quietly running low on.</p>" },
         { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Everyday" },
         { "type": "url", "id": "button_link", "label": "Button link" },
         { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline" }, { "value": "filled", "label": "Filled" } ] },
