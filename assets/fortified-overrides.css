@@ -16,6 +16,20 @@
   --ftd-sub-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem); /* 16 -> 18px */
   --ftd-sub-line: 1.6;
 
+  /* ---- 8pt spacing scale ---- one language for every gap on the page.
+   * Outer section padding lives in each section's editor settings; these
+   * tokens drive the INNER element spacing so every section's
+   * eyebrow -> heading -> body -> CTA cadence matches. */
+  --ftd-s1: 4px;
+  --ftd-s2: 8px;
+  --ftd-s3: 12px;   /* eyebrow -> heading, inline button/bullet gaps */
+  --ftd-s4: 16px;   /* heading -> subheading, mobile grid gap */
+  --ftd-s5: 24px;   /* card / grid gap */
+  --ftd-s6: 32px;   /* header -> content (mobile) */
+  --ftd-s7: 48px;   /* header -> content (desktop), content -> CTA */
+  --ftd-s8: 64px;   /* standard section padding reference */
+  --ftd-s9: 88px;   /* colored-band section padding reference */
+
   /* Inline gradient-text fills (ftd-rich-text snippet: ***A*** / ****B****) */
   --ftd-grad-3: linear-gradient(-65deg, #f9cf1d 0%, #f8981d 60%, #f15924 100%);
   --ftd-grad-4: linear-gradient(-65deg, #ef3a53 0%, #a63c74 60%, #5e72b2 100%);
@@ -52,16 +66,16 @@
   margin-bottom: 0.35em;
 }
 
-/* ---- Responsive section padding cap ----
- * Desktop section padding is set per-section via --padding-block-start/end.
- * On phones, big values (88-100px) leave too much dead space, so cap the
- * applied padding at 56px. This only ever REDUCES padding (min()), so small
- * values (0/24/48) are left untouched. Scoped to sections, not blocks. */
+/* ---- Responsive section padding ----
+ * Desktop section padding is set per-section via --padding-block-start/end
+ * (the editor values). On phones we scale those down proportionally (~38%)
+ * so the rhythm tightens without ever increasing a value: 64->40, 88->55,
+ * 44->27, 24->15, 0->0. Scoped to sections, not blocks. */
 @media (max-width: 749px) {
   .section.spacing-style {
     padding-block:
-      calc(min(var(--padding-block-start, 0px), 56px) + var(--section-top-offset, 0px))
-      min(var(--padding-block-end, 0px), 56px);
+      calc(var(--padding-block-start, 0px) * 0.62 + var(--section-top-offset, 0px))
+      calc(var(--padding-block-end, 0px) * 0.62);
   }
 }
 
