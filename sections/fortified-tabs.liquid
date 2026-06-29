@@ -45,7 +45,7 @@
 <style>
   #{{ root }} { background: var(--color-background); overflow-x: clip; max-width: 100%; }
   #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.content_max_width | default: section.settings.max_width | default: 1360 }}px; margin: 0 auto; }
-  #{{ root }} .{{ root }}__head { text-align: center; max-width: 760px; margin: 0 auto 32px; display: flex; flex-direction: column; gap: 10px; }
+  #{{ root }} .{{ root }}__head { text-align: center; max-width: 760px; margin: 0 auto var(--ftd-s7, 48px); display: flex; flex-direction: column; gap: var(--ftd-s3, 12px); }
   #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-eyebrow-size); font-weight: 700; letter-spacing: var(--ftd-eyebrow-spacing); text-transform: uppercase; color: {{ accent_c }}; }
   #{{ root }} .{{ root }}__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-h2-size); font-weight: 800; line-height: var(--ftd-h2-line); text-transform: uppercase; color: {{ heading_c }}; }
   #{{ root }} .{{ root }}__sub { margin: 0; font-size: var(--ftd-sub-size); line-height: var(--ftd-sub-line); color: {{ subtitle_c }}; }
@@ -98,7 +98,7 @@
        overflowing it. */
     #{{ root }} .{{ root }}__inner { max-width: 100%; overflow-x: clip; }
     #{{ root }} .{{ root }}__tabwrap { padding-inline: 16px; }
-    #{{ root }} .{{ root }}__head { max-width: 100%; padding-inline: 16px; text-align: center; margin-bottom: 24px; }
+    #{{ root }} .{{ root }}__head { max-width: 100%; padding-inline: 16px; text-align: center; margin-bottom: var(--ftd-s6, 32px); }
     #{{ root }} .{{ root }}__eyebrow { overflow-wrap: break-word; }
     #{{ root }} .{{ root }}__heading { overflow-wrap: break-word; }
     #{{ root }} .{{ root }}__sub { max-width: 100%; overflow-wrap: break-word; }

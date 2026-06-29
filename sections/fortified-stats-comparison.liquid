@@ -33,7 +33,7 @@
 <style>
   #{{ root }} { overflow-x: hidden; min-width: 0; }
   #{{ root }} .{{ root }}__inner { max-width: {{ section.settings.content_max_width | default: section.settings.max_width | default: 1360 }}px; margin: 0 auto; width: 100%; min-width: 0; box-sizing: border-box; }
-  #{{ root }} .{{ root }}__head { text-align: center; margin: 0 auto 40px; max-width: 760px; display: flex; flex-direction: column; gap: 10px; }
+  #{{ root }} .{{ root }}__head { text-align: center; margin: 0 auto var(--ftd-s7, 48px); max-width: 760px; display: flex; flex-direction: column; gap: var(--ftd-s3, 12px); }
   #{{ root }} .{{ root }}__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-eyebrow-size); font-weight: 700; letter-spacing: var(--ftd-eyebrow-spacing); text-transform: uppercase; color: {{ accent_c }}; }
   #{{ root }} .{{ root }}__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-h2-size); font-weight: 800; line-height: var(--ftd-h2-line); text-transform: uppercase; color: {{ heading_c }}; }
   #{{ root }} .{{ root }}__sub { margin: 0; font-size: var(--ftd-sub-size); line-height: var(--ftd-sub-line); color: {{ subtitle_c }}; }
