@@ -15,6 +15,41 @@
   --ftd-h2-line: 1.1;
   --ftd-sub-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem); /* 16 -> 18px */
   --ftd-sub-line: 1.6;
+
+  /* Inline gradient-text fills (ftd-rich-text snippet: ***A*** / ****B****) */
+  --ftd-grad-3: linear-gradient(-65deg, #f9cf1d 0%, #f8981d 60%, #f15924 100%);
+  --ftd-grad-4: linear-gradient(-65deg, #ef3a53 0%, #a63c74 60%, #5e72b2 100%);
+}
+
+/* ---- Inline gradient text (from ***3-star*** / ****4-star**** markers) ----
+ * Clips a gradient to the glyphs. Falls back to a brand color where
+ * background-clip:text is unsupported. */
+.ftd-grad {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  background-repeat: no-repeat;
+  /* Keep the gradient sized to the text so multi-word phrases share one sweep. */
+  background-size: 100% 100%;
+}
+.ftd-grad--3 { background-image: var(--ftd-grad-3); }
+.ftd-grad--4 { background-image: var(--ftd-grad-4); }
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .ftd-grad { -webkit-text-fill-color: currentColor; color: #f15924; }
+  .ftd-grad--4 { color: #a63c74; }
+}
+
+/* Kicker (single *asterisk* wrap) — small eyebrow-ish emphasis inline. */
+.ftd-kicker {
+  font-style: normal;
+  display: block;
+  font-size: var(--ftd-eyebrow-size);
+  font-weight: 700;
+  letter-spacing: var(--ftd-eyebrow-spacing);
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 0.35em;
 }
 
 /* Swap button default + hover variants so the "hover look" is the

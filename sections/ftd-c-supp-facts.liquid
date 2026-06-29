@@ -150,7 +150,7 @@
     {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
       <header class="{{ root }}__head">
         {%- if section.settings.eyebrow != blank -%}<p class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-        {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{%- render 'ftd-rich-text', text: section.settings.heading -%}</h2>{%- endif -%}
       </header>
     {%- endif -%}
 

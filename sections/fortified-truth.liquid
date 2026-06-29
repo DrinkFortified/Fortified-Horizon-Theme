@@ -277,8 +277,8 @@
       {%- if eyebrow_v != blank or heading_v != blank or subheading_v != blank -%}
         <div class="{{ root }}__head">
           {%- if eyebrow_v != blank -%}<p class="{{ root }}__eyebrow">{{ eyebrow_v }}</p>{%- endif -%}
-          {%- if heading_v != blank -%}<h2 class="{{ root }}__heading">{{ heading_v | newline_to_br }}</h2>{%- endif -%}
-          {%- if subheading_v != blank -%}<p class="{{ root }}__sub">{{ subheading_v }}</p>{%- endif -%}
+          {%- if heading_v != blank -%}<h2 class="{{ root }}__heading">{%- render 'ftd-rich-text', text: heading_v -%}</h2>{%- endif -%}
+          {%- if subheading_v != blank -%}<p class="{{ root }}__sub">{%- render 'ftd-rich-text', text: subheading_v -%}</p>{%- endif -%}
         </div>
       {%- endif -%}
 

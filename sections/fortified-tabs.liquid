@@ -148,8 +148,8 @@
     {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
       <div class="{{ root }}__head">
         {%- if section.settings.eyebrow != blank -%}<h4 class="{{ root }}__eyebrow">{{ section.settings.eyebrow }}</h4>{%- endif -%}
-        {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{{ section.settings.heading }}</h2>{%- endif -%}
-        {%- if section.settings.subheading != blank -%}<p class="{{ root }}__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="{{ root }}__heading">{%- render 'ftd-rich-text', text: section.settings.heading -%}</h2>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}<p class="{{ root }}__sub">{%- render 'ftd-rich-text', text: section.settings.subheading -%}</p>{%- endif -%}
       </div>
     {%- endif -%}
 

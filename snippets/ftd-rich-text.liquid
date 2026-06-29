@@ -1,0 +1,69 @@
+{%- comment -%}
+  ftd-rich-text — inline markdown for FORTIFIED section copy.
+
+  Usage:
+    {%- render 'ftd-rich-text', text: heading_v -%}
+
+  Markers (processed longest-first so they don't collide):
+    ****text****  -> gradient B fill  (.ftd-grad--4)
+    ***text***    -> gradient A fill  (.ftd-grad--3)
+    **text**      -> <strong>
+    *text*        -> <em class="ftd-kicker">
+  Newlines become <br>.
+
+  Gradient colors + angle live in assets/fortified-overrides.css
+  (.ftd-grad--3 / .ftd-grad--4) so they're easy to retune in one place.
+{%- endcomment -%}
+{%- liquid
+  assign src = text | default: ''
+
+  # Stage 1: **** -> gradient B
+  assign s1 = ''
+  assign parts = src | split: '****'
+  for p in parts
+    assign m = forloop.index | modulo: 2
+    if m == 0
+      assign s1 = s1 | append: '<span class="ftd-grad ftd-grad--4">' | append: p | append: '</span>'
+    else
+      assign s1 = s1 | append: p
+    endif
+  endfor
+
+  # Stage 2: *** -> gradient A
+  assign s2 = ''
+  assign parts = s1 | split: '***'
+  for p in parts
+    assign m = forloop.index | modulo: 2
+    if m == 0
+      assign s2 = s2 | append: '<span class="ftd-grad ftd-grad--3">' | append: p | append: '</span>'
+    else
+      assign s2 = s2 | append: p
+    endif
+  endfor
+
+  # Stage 3: ** -> strong
+  assign s3 = ''
+  assign parts = s2 | split: '**'
+  for p in parts
+    assign m = forloop.index | modulo: 2
+    if m == 0
+      assign s3 = s3 | append: '<strong>' | append: p | append: '</strong>'
+    else
+      assign s3 = s3 | append: p
+    endif
+  endfor
+
+  # Stage 4: * -> kicker em
+  assign s4 = ''
+  assign parts = s3 | split: '*'
+  for p in parts
+    assign m = forloop.index | modulo: 2
+    if m == 0
+      assign s4 = s4 | append: '<em class="ftd-kicker">' | append: p | append: '</em>'
+    else
+      assign s4 = s4 | append: p
+    endif
+  endfor
+
+  echo s4 | newline_to_br
+-%}

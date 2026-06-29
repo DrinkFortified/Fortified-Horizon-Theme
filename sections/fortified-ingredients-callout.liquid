@@ -73,10 +73,10 @@
 
     <div class="ftd-ic__content">
       {%- if heading_v != blank -%}
-        <h2 class="ftd-ic__heading">{{ heading_v | newline_to_br }}</h2>
+        <h2 class="ftd-ic__heading">{%- render 'ftd-rich-text', text: heading_v -%}</h2>
       {%- endif -%}
       {%- if subheading_v != blank -%}
-        <p class="ftd-ic__sub">{{ subheading_v | newline_to_br }}</p>
+        <p class="ftd-ic__sub">{%- render 'ftd-rich-text', text: subheading_v -%}</p>
       {%- endif -%}
 
       {%- if use_pdp_ing or ing_blocks.size > 0 -%}

@@ -57,7 +57,7 @@
                 <p class="ftcta-card__eyebrow" style="color: {{ block.settings.eyebrow_color }};">{{ block.settings.eyebrow }}</p>
               {%- endif -%}
               {%- if block.settings.heading != blank -%}
-                <h3 class="ftcta-card__heading">{{ block.settings.heading | newline_to_br }}</h3>
+                <h3 class="ftcta-card__heading">{%- render 'ftd-rich-text', text: block.settings.heading -%}</h3>
               {%- endif -%}
               {%- if block.settings.body != blank -%}
                 <p class="ftcta-card__body">{{ block.settings.body }}</p>
@@ -100,7 +100,7 @@
                 <p class="ftcta-split__eyebrow" style="color: {{ block.settings.eyebrow_color }};">{{ block.settings.eyebrow }}</p>
               {%- endif -%}
               {%- if block.settings.heading != blank -%}
-                <h3 class="ftcta-split__heading">{{ block.settings.heading | newline_to_br }}</h3>
+                <h3 class="ftcta-split__heading">{%- render 'ftd-rich-text', text: block.settings.heading -%}</h3>
               {%- endif -%}
               {%- if block.settings.body != blank -%}
                 <p class="ftcta-split__body">{{ block.settings.body }}</p>
