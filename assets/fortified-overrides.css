@@ -22,11 +22,11 @@
    * eyebrow -> heading -> body -> CTA cadence matches. */
   --ftd-s1: 4px;
   --ftd-s2: 8px;
-  --ftd-s3: 12px;   /* eyebrow -> heading, inline button/bullet gaps */
-  --ftd-s4: 16px;   /* heading -> subheading, mobile grid gap */
-  --ftd-s5: 24px;   /* card / grid gap */
-  --ftd-s6: 32px;   /* header -> content (mobile) */
-  --ftd-s7: 48px;   /* header -> content (desktop), content -> CTA */
+  --ftd-s3: 16px;   /* eyebrow -> heading, inline button/bullet gaps */
+  --ftd-s4: 22px;   /* heading -> subheading, body stack spacing */
+  --ftd-s5: 28px;   /* card / grid gap */
+  --ftd-s6: 40px;   /* header -> content (mobile) */
+  --ftd-s7: 60px;   /* header -> content (desktop), content -> CTA */
   --ftd-s8: 64px;   /* standard section padding reference */
   --ftd-s9: 88px;   /* colored-band section padding reference */
 
