@@ -18,6 +18,7 @@
   if copyright == blank
     assign copyright = 'Copyright © ' | append: year | append: ' ' | append: brand | append: ' - All Rights Reserved'
   endif
+  assign logo_style = 'width:' | append: section.settings.logo_width | append: 'px'
 -%}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -37,7 +38,7 @@
           loading: 'lazy',
           widths: '200,300,450,600',
           alt: brand,
-          style: 'width:' | append: section.settings.logo_width | append: 'px'
+          style: logo_style
         }}
       {%- elsif settings.logo != blank -%}
         {{ settings.logo | image_url: width: 600 | image_tag:
@@ -45,7 +46,7 @@
           loading: 'lazy',
           widths: '200,300,450,600',
           alt: brand,
-          style: 'width:' | append: section.settings.logo_width | append: 'px'
+          style: logo_style
         }}
       {%- else -%}
         <span class="ftd-footer__wordmark">{{ brand }}</span>
