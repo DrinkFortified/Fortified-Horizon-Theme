@@ -277,11 +277,14 @@
 
 .ftbfq__heading {
   margin: 0;
-  font-family: var(--font-h2--family, var(--font-heading--family, inherit));
-  font-size: var(--font-h2--size, clamp(28px, 4.4vw, 52px));
-  font-weight: var(--font-h2--weight, 800);
-  line-height: var(--font-h2--line-height, 1.04);
-  letter-spacing: var(--font-h2--spacing, 0);
+  /* Match the shared FTD section heading token used by every other
+     homepage section (ingredients-callout / truth / comparison / stats /
+     tabs) so all section headers render identically. */
+  font-family: var(--font-heading--family, inherit);
+  font-size: var(--ftd-h2-size);
+  font-weight: 800;
+  line-height: var(--ftd-h2-line);
+  letter-spacing: normal;
   text-transform: uppercase;
   color: var(--color-foreground);
 }

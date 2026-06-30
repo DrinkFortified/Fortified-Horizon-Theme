@@ -1,0 +1,246 @@
+{% comment %}
+  Section: FTD - Footer
+  Category: Fortified Sections
+  ----------------------------------------------------------------------
+  Centered brand footer: logo, contact email, an inline row of utility
+  links (from a menu), an FDA disclaimer box, a medical-information
+  paragraph, social icons, and a copyright line. Mirrors the compact,
+  centered DTC-supplement footer layout. Everything is editable; colors
+  come from the chosen color scheme so it restyles with the theme.
+{% endcomment %}
+
+{%- liquid
+  assign sid  = section.id | replace: '_', '' | downcase
+  assign root = 'ftdf-' | append: sid
+  assign year = 'now' | date: '%Y'
+  assign brand = section.settings.brand_name | default: shop.name
+  assign copyright = section.settings.copyright_text
+  if copyright == blank
+    assign copyright = 'Copyright © ' | append: year | append: ' ' | append: brand | append: ' - All Rights Reserved'
+  endif
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="{{ root }}"
+  class="ftd-footer section section--full-width spacing-style color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
+  <div class="ftd-footer__inner">
+
+    {%- comment %} Logo / wordmark {%- endcomment %}
+    <a href="{{ routes.root_url }}" class="ftd-footer__logo-link" aria-label="{{ brand }}">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 600 | image_tag:
+          class: 'ftd-footer__logo',
+          loading: 'lazy',
+          widths: '200,300,450,600',
+          alt: brand,
+          style: 'width:' | append: section.settings.logo_width | append: 'px'
+        }}
+      {%- elsif settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 600 | image_tag:
+          class: 'ftd-footer__logo',
+          loading: 'lazy',
+          widths: '200,300,450,600',
+          alt: brand,
+          style: 'width:' | append: section.settings.logo_width | append: 'px'
+        }}
+      {%- else -%}
+        <span class="ftd-footer__wordmark">{{ brand }}</span>
+      {%- endif -%}
+    </a>
+
+    {%- comment %} Contact email {%- endcomment %}
+    {%- if section.settings.email != blank -%}
+      <p class="ftd-footer__email">
+        {{ section.settings.email_label }}
+        <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>
+      </p>
+    {%- endif -%}
+
+    {%- comment %} Utility links (from a menu) rendered inline with separators {%- endcomment %}
+    {%- if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 -%}
+      <nav class="ftd-footer__links" aria-label="{{ 'sections.footer.navigation' | t | default: 'Footer' }}">
+        {%- for link in linklists[section.settings.menu].links -%}
+          <a class="ftd-footer__link" href="{{ link.url }}">{{ link.title }}</a>
+          {%- unless forloop.last -%}<span class="ftd-footer__sep" aria-hidden="true">|</span>{%- endunless -%}
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
+
+    {%- comment %} FDA / disclaimer box {%- endcomment %}
+    {%- if section.settings.disclaimer != blank -%}
+      <div class="ftd-footer__disclaimer{% if section.settings.disclaimer_border %} ftd-footer__disclaimer--boxed{% endif %}">
+        {{ section.settings.disclaimer }}
+      </div>
+    {%- endif -%}
+
+    {%- comment %} Medical / informational paragraph {%- endcomment %}
+    {%- if section.settings.medical_info != blank -%}
+      <div class="ftd-footer__medical">{{ section.settings.medical_info }}</div>
+    {%- endif -%}
+
+    {%- comment %} Social icons {%- endcomment %}
+    {%- capture social -%}
+      {%- if section.settings.facebook_url != blank -%}
+        <a class="ftd-footer__social" href="{{ section.settings.facebook_url }}" aria-label="Facebook" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.3-1.5 1.6-1.5h1.6V3.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v2.3H7.9V13H10v8h3.5Z"/></svg>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.instagram_url != blank -%}
+        <a class="ftd-footer__social" href="{{ section.settings.instagram_url }}" aria-label="Instagram" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.tiktok_url != blank -%}
+        <a class="ftd-footer__social" href="{{ section.settings.tiktok_url }}" aria-label="TikTok" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.3 2 1.5 3.4 3.5 3.6v2.6c-1.3.1-2.5-.3-3.6-1v5.6c0 4-3.3 6.6-6.9 5.5-2.6-.8-3.9-3.7-2.9-6.3.8-2 2.9-3.2 5.1-2.9v2.7c-.4-.1-.8-.1-1.2 0-1 .2-1.7 1.1-1.5 2.2.2 1.3 1.7 2 2.9 1.3.7-.4 1-1.1 1-1.9V3h3.1Z"/></svg>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.youtube_url != blank -%}
+        <a class="ftd-footer__social" href="{{ section.settings.youtube_url }}" aria-label="YouTube" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2c-.2-.9-.9-1.5-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.4c-.9.3-1.6.9-1.8 1.8C2 8.7 2 12 2 12s0 3.3.4 4.8c.2.9.9 1.5 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.4c.9-.3 1.6-.9 1.8-1.8.4-1.5.4-4.8.4-4.8s0-3.3-.4-4.8ZM10 15V9l5 3-5 3Z"/></svg>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.x_url != blank -%}
+        <a class="ftd-footer__social" href="{{ section.settings.x_url }}" aria-label="X" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.5 3h3l-6.6 7.5L21.8 21h-6l-4.7-6.1L5.6 21H2.5l7.1-8L2.3 3h6.1l4.2 5.6L17.5 3Zm-1 16h1.7L7.6 4.8H5.8L16.5 19Z"/></svg>
+        </a>
+      {%- endif -%}
+    {%- endcapture -%}
+    {%- assign social_trimmed = social | strip -%}
+    {%- if social_trimmed != blank -%}
+      <div class="ftd-footer__socials">{{ social }}</div>
+    {%- endif -%}
+
+    {%- comment %} Copyright {%- endcomment %}
+    <p class="ftd-footer__copyright">{{ copyright }}</p>
+
+  </div>
+</section>
+
+{% stylesheet %}
+.ftd-footer { color: var(--color-foreground); background: var(--color-background); }
+.ftd-footer__inner {
+  max-width: var(--ftdf-max-w, 1100px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 48px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(20px, 3vw, 30px);
+}
+
+.ftd-footer__logo-link { display: inline-flex; text-decoration: none; }
+.ftd-footer__logo { display: block; height: auto; max-width: 100%; }
+.ftd-footer__wordmark {
+  font-family: var(--font-heading--family, inherit);
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-foreground-heading, var(--color-foreground));
+}
+
+.ftd-footer__email { margin: 0; font-size: 15px; line-height: 1.5; }
+.ftd-footer__email a { color: inherit; text-decoration: none; }
+.ftd-footer__email a:hover { text-decoration: underline; }
+
+.ftd-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px 10px;
+  max-width: 760px;
+}
+.ftd-footer__link {
+  color: inherit;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  opacity: 0.92;
+}
+.ftd-footer__link:hover { text-decoration: underline; opacity: 1; }
+.ftd-footer__sep { opacity: 0.4; font-size: 14px; user-select: none; }
+
+.ftd-footer__disclaimer,
+.ftd-footer__medical {
+  max-width: 1180px;
+  font-size: 13px;
+  line-height: 1.55;
+  opacity: 0.78;
+}
+.ftd-footer__disclaimer p,
+.ftd-footer__medical p { margin: 0; }
+.ftd-footer__disclaimer p + p,
+.ftd-footer__medical p + p { margin-top: 0.6em; }
+.ftd-footer__disclaimer--boxed {
+  padding: clamp(16px, 2.4vw, 26px) clamp(18px, 3vw, 34px);
+  border: 1px solid rgb(var(--color-foreground-rgb) / 0.4);
+  border-radius: 4px;
+}
+
+.ftd-footer__socials { display: flex; align-items: center; justify-content: center; gap: 18px; }
+.ftd-footer__social { color: inherit; opacity: 0.9; display: inline-flex; transition: opacity 0.15s, transform 0.15s; }
+.ftd-footer__social:hover { opacity: 1; transform: translateY(-1px); }
+
+.ftd-footer__copyright { margin: 0; font-size: 13px; opacity: 0.7; }
+
+@media (max-width: 749px) {
+  .ftd-footer__links { gap: 4px 8px; }
+  .ftd-footer__link, .ftd-footer__sep { font-size: 14px; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FTD - Footer",
+  "tag": "section",
+  "class": "ftd-footer-section",
+  "settings": [
+    { "type": "header", "content": "Brand" },
+    { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Optional. Falls back to the theme logo, then the brand name as text." },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 360, "step": 5, "unit": "px", "default": 180 },
+    { "type": "text", "id": "brand_name", "label": "Brand name", "info": "Used for the wordmark fallback and copyright. Defaults to the store name.", "default": "FORTIFIED" },
+
+    { "type": "header", "content": "Contact" },
+    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email us at:" },
+    { "type": "text", "id": "email", "label": "Email address", "default": "support@livefortified.com" },
+
+    { "type": "header", "content": "Utility links" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "info": "Links render inline, separated by | . Manage them under Navigation." },
+
+    { "type": "header", "content": "Disclaimer" },
+    { "type": "checkbox", "id": "disclaimer_border", "label": "Box the disclaimer", "default": true },
+    { "type": "richtext", "id": "disclaimer", "label": "FDA disclaimer", "default": "<p>*These statements have not been approved by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Testimonials found at livefortified.com are unverified results, and may not reflect the typical purchaser's experience, may not apply to the average person and are not intended to represent or guarantee that anyone will achieve the same or similar results.</p>" },
+
+    { "type": "header", "content": "Medical information" },
+    { "type": "richtext", "id": "medical_info", "label": "Medical information", "default": "<p>Information on the Fortified site is provided for informational purposes only. It is not meant to substitute for medical advice from your physician or other medical professional. You should not use the information contained herein for diagnosing or treating a health problem or disease, or prescribing any medication. Carefully read all product documentation. If you have or suspect that you have a medical problem, promptly contact your regular health care provider.</p>" },
+
+    { "type": "header", "content": "Social" },
+    { "type": "text", "id": "facebook_url", "label": "Facebook URL" },
+    { "type": "text", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "text", "id": "tiktok_url", "label": "TikTok URL" },
+    { "type": "text", "id": "youtube_url", "label": "YouTube URL" },
+    { "type": "text", "id": "x_url", "label": "X (Twitter) URL" },
+
+    { "type": "header", "content": "Copyright" },
+    { "type": "text", "id": "copyright_text", "label": "Copyright text", "info": "Leave blank to auto-generate: Copyright © {year} {brand} - All Rights Reserved." },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-5" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 56 }
+  ],
+  "presets": [
+    { "name": "FTD - Footer", "category": "Fortified Sections" }
+  ],
+  "enabled_on": { "groups": ["footer"] }
+}
+{% endschema %}
