@@ -22,6 +22,10 @@
 {%- liquid
   assign sid  = section.id | replace: '_', '' | downcase
   assign root = 'fttc-' | append: sid
+  assign anchor_id = section.settings.anchor_id | strip | handleize
+  if anchor_id != blank
+    assign root = anchor_id
+  endif
   assign cols = section.settings.columns_desktop
   assign scroll_gap = cols | minus: 1 | times: section.settings.gap
   # Unified scheme: the content scheme drives both the outer section and the
@@ -354,6 +358,8 @@
   "tag": "section",
   "class": "ftd-truth-section",
   "settings": [
+    { "type": "header", "content": "Anchor" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
     { "type": "header", "content": "Heading" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Truth" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "More Than Hydration Its Daily Support" },

@@ -10,10 +10,16 @@
   if section.settings.media_position == 'right'
     assign media_class_modifier = media_class_modifier | append: ' media-with-content--media-right'
   endif
+
+  assign anchor_id = section.settings.anchor_id | strip | handleize
+  if anchor_id == blank
+    assign anchor_id = 'section-' | append: section.id
+  endif
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
+  id="{{ anchor_id }}"
   class="section section--{{ section.settings.section_width }} disable-section-top-offset media-with-content color-{{ section.settings.color_scheme }} spacing-style {{ media_class_modifier }}"
   data-testid="media-with-content"
   style="
@@ -204,6 +210,16 @@
     "groups": ["header"]
   },
   "settings": [
+    {
+      "type": "header",
+      "content": "Anchor"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only."
+    },
     {
       "type": "select",
       "id": "media_position",

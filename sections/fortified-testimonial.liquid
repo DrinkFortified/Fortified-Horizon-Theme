@@ -31,10 +31,17 @@
   if section.settings.quote_marks and quote_text != blank
     assign quote_text = '“' | append: quote_text | append: '”'
   endif
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'fttm-' | append: sid
+  assign anchor_id = section.settings.anchor_id | strip | handleize
+  if anchor_id != blank
+    assign root = anchor_id
+  endif
 -%}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
+  id="{{ root }}"
   class="ftd-testimonial section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }} ftd-testimonial--img-{{ img_pos }} ftd-testimonial--align-d-{{ align_d }} ftd-testimonial--align-m-{{ align_m }}"
   style="
     {% render 'spacing-padding', settings: section.settings %}
@@ -256,6 +263,8 @@
   "tag": "section",
   "class": "ftd-testimonial-section",
   "settings": [
+    { "type": "header", "content": "Anchor" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
     { "type": "header", "content": "Content" },
     { "type": "text", "id": "name", "label": "Athlete name", "default": "Alex Friedman" },
     { "type": "text", "id": "role", "label": "Role / title", "default": "HBO Max Champion" },

@@ -13,9 +13,16 @@
   assign max_w = section.settings.content_max_width
   assign gap = section.settings.column_gap
   assign radius = section.settings.card_radius
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'ftcta-' | append: sid
+  assign anchor_id = section.settings.anchor_id | strip | handleize
+  if anchor_id != blank
+    assign root = anchor_id
+  endif
 -%}
 
 <section
+  id="{{ root }}"
   class="ftcta section spacing-style section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
   style="{% render 'spacing-padding', settings: section.settings %} --ftcta-max-w: {{ max_w }}px; --ftcta-gap: {{ gap }}px; --ftcta-radius: {{ radius }}px;"
   {{ section.shopify_attributes }}
@@ -250,6 +257,8 @@
   "tag": "section",
   "class": "ftd-two-column-cta-section",
   "settings": [
+    { "type": "header", "content": "Anchor" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "column_gap", "label": "Column gap", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 0 },
     { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 0 },

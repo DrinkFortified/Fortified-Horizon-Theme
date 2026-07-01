@@ -5,8 +5,16 @@
   @param {string} children - The children of the section
 {%- enddoc -%}
 
+{%- liquid
+  assign anchor_id = section.settings.anchor_id | strip | handleize
+  if anchor_id == blank
+    assign anchor_id = 'section-' | append: section.id
+  endif
+-%}
+
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
+  id="{{ anchor_id }}"
   class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
   data-testid="ui-test-section"
 

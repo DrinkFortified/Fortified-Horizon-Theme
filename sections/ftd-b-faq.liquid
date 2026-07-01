@@ -46,6 +46,12 @@
       assign use_pdp_faqs = true
     endif
   endif
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'ftbfq-' | append: sid
+  assign anchor_id = section.settings.anchor_id | strip | handleize
+  if anchor_id != blank
+    assign root = anchor_id
+  endif
 -%}
 
 {%- capture heading_html -%}
@@ -63,6 +69,7 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
+  id="{{ root }}"
   class="ftbfq section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }}"
   style="
     {% render 'spacing-padding', settings: section.settings %}
@@ -414,6 +421,8 @@
   "tag": "section",
   "class": "ftd-b-faq-section",
   "settings": [
+    { "type": "header", "content": "Anchor" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
     { "type": "header", "content": "Header" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Common Questions" },
     { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },

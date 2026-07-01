@@ -37,10 +37,17 @@
       assign use_pdp_ing = true
     endif
   endif
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'ftic-' | append: sid
+  assign anchor_id = section.settings.anchor_id | strip | handleize
+  if anchor_id != blank
+    assign root = anchor_id
+  endif
 -%}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
+  id="{{ root }}"
   class="ftd-ic section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }} ftd-ic--img-{{ img_pos }}"
   style="
     {% render 'spacing-padding', settings: section.settings %}
@@ -355,6 +362,8 @@
   "tag": "section",
   "class": "ftd-ingredients-callout-section",
   "settings": [
+    { "type": "header", "content": "Anchor" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
     { "type": "header", "content": "Content" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Clinically Backed Ingredients" },
     { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Electrolytes don't provide full recovery. Regenerate hydration.</p>" },

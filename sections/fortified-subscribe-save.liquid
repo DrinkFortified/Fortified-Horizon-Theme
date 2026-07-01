@@ -10,6 +10,10 @@
 {%- liquid
   assign sid  = section.id | replace: '_', '' | downcase
   assign root = 'ftss-' | append: sid
+  assign anchor_id = section.settings.anchor_id | strip | handleize
+  if anchor_id != blank
+    assign root = anchor_id
+  endif
   assign btn_style = section.settings.button_style | default: 'outline'
   assign tone = section.settings.text_color | default: 'light'
   assign image_position = section.settings.image_position | default: 'right'
@@ -287,6 +291,8 @@
   "tag": "section",
   "class": "ftd-subscribe-save-section",
   "settings": [
+    { "type": "header", "content": "Anchor" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
     { "type": "header", "content": "Heading" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
     { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },

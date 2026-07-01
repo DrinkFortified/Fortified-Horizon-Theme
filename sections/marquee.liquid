@@ -7,9 +7,16 @@
 ></script>
 
 {% assign gap_between_elements = section.settings.gap_between_elements %}
+{%- liquid
+  assign anchor_id = section.settings.anchor_id | strip | handleize
+  if anchor_id == blank
+    assign anchor_id = 'section-' | append: section.id
+  endif
+-%}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <marquee-component
+  id="{{ anchor_id }}"
   class="section spacing-style gap-style color-{{ section.settings.color_scheme }}"
   style="
     {%- render 'spacing-style', settings: section.settings %};
@@ -111,6 +118,16 @@
     }
   ],
   "settings": [
+    {
+      "type": "header",
+      "content": "Anchor"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only."
+    },
     {
       "type": "select",
       "id": "movement_direction",

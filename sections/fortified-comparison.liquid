@@ -14,6 +14,10 @@
 {%- liquid
   assign sid  = section.id | replace: '_', '' | downcase
   assign root = 'ftcmp-' | append: sid
+  assign anchor_id = section.settings.anchor_id | strip | handleize
+  if anchor_id != blank
+    assign root = anchor_id
+  endif
 
   assign feature_rows = section.blocks | where: 'type', 'feature_row'
   assign competitors  = section.blocks | where: 'type', 'competitor'
@@ -433,6 +437,8 @@
   "tag": "section",
   "class": "ftd-comparison-section",
   "settings": [
+    { "type": "header", "content": "Anchor" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
     { "type": "header", "content": "Heading" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
     { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
