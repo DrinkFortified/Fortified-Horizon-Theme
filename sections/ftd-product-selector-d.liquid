@@ -114,8 +114,10 @@
   /* Header description: room for ~4 lines of copy without feeling cramped. */
   #ftdc-{{ sid }} .ftdc__desc { max-width: 44em; }
 
-  /* Bullets in two columns instead of one stacked column. */
+  /* Bullets in two columns instead of one stacked column, kept tight to
+     their own dot/text pairing (not stretched by the grid). */
   #ftdc-{{ sid }} .ftdc__bullets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1.75rem; max-width: 34em; align-items: start; }
+  #ftdc-{{ sid }} .ftdc__bullet { justify-self: start; gap: 0.5rem; }
 
   /* "Was" price: keep the muted styling, drop the strikethrough. */
   #ftdc-{{ sid }} .ftdc__plan-was { text-decoration: none; }
