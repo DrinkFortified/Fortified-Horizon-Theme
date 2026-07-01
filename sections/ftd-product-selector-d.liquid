@@ -419,7 +419,9 @@
       items.push(it);
     });
     var cr = $('[data-creatine-input]');
-    if (cr && cr.checked) {
+    /* Creatine is an add-on to a hydration order — never send it alone.
+       Requires at least one pouch selected in Step 2, regardless of plan. */
+    if (cr && cr.checked && Object.keys(state.selections).length > 0) {
       var cv = parseInt(cr.dataset.variant, 10);
       if (cv) {
         var cp = {}; cp[CART_SEL] = CART_OWNER; cp._role = 'creatine';
@@ -790,11 +792,12 @@
         var crEl = $('[data-upsell-creatine] .ftdc__upsell-media img') || $('[data-creatine-included] .ftdc__upsell-media img');
         return crEl ? (crEl.currentSrc || crEl.getAttribute('src') || '') : '';
       })();
-      if (state.plan === 'quarterly') {
+      var hasSelections = Object.keys(state.selections).length > 0;
+      if (state.plan === 'quarterly' && hasSelections) {
         extras.push({ name: 'Creatine', note: 'Included free with your bundle', price: 'FREE', free: true, imgSrc: creatineUpsellImg });
       }
       var cr = $('[data-creatine-input]');
-      if (cr && cr.checked) {
+      if (cr && cr.checked && hasSelections) {
         var priceNode = $('[data-creatine-price]');
         var titleNode = $('[data-creatine-title]');
         extras.push({
@@ -908,7 +911,8 @@
       items.push(it);
     });
     var cr = $('[data-creatine-input]');
-    if (cr && cr.checked) {
+    /* Creatine is an add-on to a hydration order — never send it alone. */
+    if (cr && cr.checked && Object.keys(state.selections).length > 0) {
       var cv = parseInt(cr.dataset.variant, 10);
       if (cv) {
         var ci = { id: cv, quantity: 1 };
