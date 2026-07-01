@@ -1143,7 +1143,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>Real Fruit Organic Flavors</p>",
+            "text": "<p>Real-Fruit Organic Flavors</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -1363,6 +1363,18 @@
             "padding-inline-end": 0
           },
           "blocks": {}
+        },
+        "divider_tUMdEq": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
@@ -1379,7 +1391,8 @@
         "text_WJcRzG",
         "divider_MbNfAp",
         "icon_dbchFx",
-        "text_6dKdCL"
+        "text_6dKdCL",
+        "divider_tUMdEq"
       ],
       "name": "t:names.marquee_section",
       "settings": {
@@ -1986,7 +1999,6 @@
         "icon_color": "#ffffff",
         "button_label": "Build Your Bundle",
         "button_link": "#open-bundle",
-        "center_cta": true,
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "button_style": "filled",
@@ -2768,7 +2780,7 @@
         "monthly_estimate_pct": 90,
         "show_onetime": true,
         "onetime_badge": "Buy Once",
-        "onetime_title": "Single Pouch",
+        "onetime_title": "30-Day Supply",
         "onetime_desc": "Try it first.",
         "onetime_price": "$59.00",
         "onetime_period": "/ pouch",
@@ -3567,8 +3579,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Because every other \"clean\" hydration on the shelf still hid something — a sweetener nobody asked for, an electrolyte dosed too low to matter, a blend nobody could decode. FORTIFIED® is the answer for the people who actually read labels. The full dose. The real source. The whole story on the front of the pouch.</p>",
-                    "width": "fit-content",
-                    "max_width": "narrow",
+                    "width": "100%",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
