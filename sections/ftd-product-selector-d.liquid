@@ -617,8 +617,12 @@
     if (el) el.hidden = !isQuarterly;
     var crRow = $('[data-upsell-creatine]');
     if (crRow) crRow.hidden = isQuarterly;
+    /* Only ever FORCE the checkbox on for quarterly. Never force it off here
+       — this runs after hydrateFromCart too, and a monthly/one-time
+       customer who genuinely paid for the add-on would otherwise get it
+       silently unchecked (and removed from cart on the next sync). */
     var cr = $('[data-creatine-input]');
-    if (cr) cr.checked = isQuarterly;
+    if (cr && isQuarterly) cr.checked = true;
   }
 
   var upsellAutoScrolled = false;
@@ -631,6 +635,11 @@
       state.selections = {};
       $$('.ftdc__card').forEach(reset);
       upsellAutoScrolled = false;
+      /* Reset the add-on choice on every plan switch (selections above also
+         reset) — updateCreatineIncluded() will re-force it on if the new
+         plan is quarterly; other plans start unchecked until manually set. */
+      var cr0 = $('[data-creatine-input]');
+      if (cr0) cr0.checked = false;
       updateBar(); updateProgress(); updateCreatineIncluded(); scheduleSync();
       /* Mobile: auto-advance to the Bundle step so the customer doesn't
          have to scroll back up and tap Continue. */
