@@ -331,6 +331,7 @@
       "disabled": true,
       "name": "Hero Sign Up",
       "settings": {
+        "anchor_id": "",
         "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
@@ -713,6 +714,7 @@
       "disabled": true,
       "name": "Hero",
       "settings": {
+        "anchor_id": "",
         "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
@@ -879,7 +881,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<h6>Real-fruit organic flavors, zero sugars, nothing hidden, the vitamins and minerals your body actually uses — fully disclosed on the front of the pouch. <br/><br/>No Mumbo Jumbo.</h6>",
+                    "text": "<h6>Real organic fruit flavors, zero sugar, fully disclosed ingredients with and the vitamins and minerals your body actually needs. No mumbo jumbo.</h6>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -901,21 +903,21 @@
                   },
                   "blocks": {}
                 },
-                "group_gyTGCk": {
+                "group_6Uw6Dz": {
                   "type": "group",
-                  "name": "Buttons",
+                  "name": "t:names.group",
                   "settings": {
-                    "content_direction": "row",
-                    "vertical_on_mobile": false,
+                    "content_direction": "column",
+                    "vertical_on_mobile": true,
                     "horizontal_alignment": "flex-start",
                     "vertical_alignment": "center",
                     "align_baseline": false,
-                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "horizontal_alignment_flex_direction_column": "center",
                     "vertical_alignment_flex_direction_column": "center",
                     "gap": 12,
-                    "width": "fill",
+                    "width": "fit-content",
                     "custom_width": 100,
-                    "width_mobile": "fill",
+                    "width_mobile": "fit-content",
                     "custom_width_mobile": 100,
                     "height": "fit",
                     "custom_height": 100,
@@ -935,49 +937,121 @@
                     "link": "",
                     "open_in_new_tab": false,
                     "placeholder": "",
-                    "padding-block-start": 25,
+                    "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
                   "blocks": {
-                    "button_UjfxHa": {
-                      "type": "button",
-                      "name": "t:names.button",
+                    "group_dEPc9B": {
+                      "type": "group",
+                      "name": "Buttons",
                       "settings": {
-                        "label": "Build Your Bundle",
-                        "link": "#open-bundle",
-                        "open_in_new_tab": false,
-                        "open_in_popup": false,
-                        "style_class": "button",
-                        "width": "fit-content",
+                        "content_direction": "row",
+                        "vertical_on_mobile": false,
+                        "horizontal_alignment": "flex-start",
+                        "vertical_alignment": "center",
+                        "align_baseline": false,
+                        "horizontal_alignment_flex_direction_column": "flex-start",
+                        "vertical_alignment_flex_direction_column": "center",
+                        "gap": 12,
+                        "width": "fill",
                         "custom_width": 100,
-                        "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
+                        "width_mobile": "fill",
+                        "custom_width_mobile": 100,
+                        "height": "fit",
+                        "custom_height": 100,
+                        "inherit_color_scheme": true,
+                        "color_scheme": "",
+                        "background_media": "none",
+                        "video_position": "cover",
+                        "background_image_position": "cover",
+                        "border": "none",
+                        "border_width": 1,
+                        "border_opacity": 100,
+                        "border_radius": 0,
+                        "toggle_overlay": false,
+                        "overlay_color": "#00000026",
+                        "overlay_style": "solid",
+                        "gradient_direction": "to top",
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "placeholder": "",
+                        "padding-block-start": 25,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
                       },
-                      "blocks": {}
+                      "blocks": {
+                        "button_j6yi3m": {
+                          "type": "button",
+                          "name": "t:names.button",
+                          "settings": {
+                            "label": "Build Your Bundle",
+                            "link": "#open-bundle",
+                            "open_in_new_tab": false,
+                            "open_in_popup": false,
+                            "style_class": "button",
+                            "width": "fit-content",
+                            "custom_width": 100,
+                            "width_mobile": "fit-content",
+                            "custom_width_mobile": 100
+                          },
+                          "blocks": {}
+                        },
+                        "button_Nre9zK": {
+                          "type": "button",
+                          "name": "t:names.button",
+                          "disabled": true,
+                          "settings": {
+                            "label": "Learn More",
+                            "link": "#open-bundle",
+                            "open_in_new_tab": false,
+                            "open_in_popup": false,
+                            "style_class": "button-secondary",
+                            "width": "fit-content",
+                            "custom_width": 100,
+                            "width_mobile": "fit-content",
+                            "custom_width_mobile": 100
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "button_j6yi3m",
+                        "button_Nre9zK"
+                      ]
                     },
-                    "button_8KkjaM": {
-                      "type": "button",
-                      "name": "t:names.button",
-                      "disabled": true,
+                    "text_eQJMfH": {
+                      "type": "text",
+                      "name": "t:names.text",
                       "settings": {
-                        "label": "Learn More",
-                        "link": "#open-bundle",
-                        "open_in_new_tab": false,
-                        "open_in_popup": false,
-                        "style_class": "button-secondary",
+                        "text": "<p>45-Day Money Back Guarantee</p>",
                         "width": "fit-content",
-                        "custom_width": 100,
-                        "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "font_size": "0.625rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
                       },
                       "blocks": {}
                     }
                   },
                   "block_order": [
-                    "button_UjfxHa",
-                    "button_8KkjaM"
+                    "group_dEPc9B",
+                    "text_eQJMfH"
                   ]
                 }
               },
@@ -985,7 +1059,7 @@
                 "text_iNarNX",
                 "text_LgWpXC",
                 "text_JQdnUq",
-                "group_gyTGCk"
+                "group_6Uw6Dz"
               ]
             },
             "group_HnKrct": {
@@ -1096,6 +1170,7 @@
       ],
       "name": "Hero",
       "settings": {
+        "anchor_id": "",
         "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
@@ -1117,9 +1192,9 @@
         "border_opacity": 100,
         "border_radius": 0,
         "toggle_overlay": true,
-        "overlay_color": "#00000026",
+        "overlay_color": "#0000004f",
         "overlay_style": "solid",
-        "gradient_direction": "to top",
+        "gradient_direction": "to bottom",
         "padding-block-start": 64,
         "padding-block-end": 64
       }
@@ -1168,6 +1243,7 @@
         "divider_EV7LkM": {
           "type": "_divider",
           "name": "t:names.divider",
+          "disabled": true,
           "settings": {
             "thickness": 1,
             "corner_radius": "square",
@@ -1218,6 +1294,7 @@
         "divider_ipAHXY": {
           "type": "_divider",
           "name": "t:names.divider",
+          "disabled": true,
           "settings": {
             "thickness": 1,
             "corner_radius": "square",
@@ -1268,6 +1345,7 @@
         "divider_RDitNK": {
           "type": "_divider",
           "name": "t:names.divider",
+          "disabled": true,
           "settings": {
             "thickness": 1,
             "corner_radius": "square",
@@ -1318,6 +1396,7 @@
         "divider_MbNfAp": {
           "type": "_divider",
           "name": "t:names.divider",
+          "disabled": true,
           "settings": {
             "thickness": 1,
             "corner_radius": "square",
@@ -1367,6 +1446,7 @@
         "divider_tUMdEq": {
           "type": "_divider",
           "name": "t:names.divider",
+          "disabled": true,
           "settings": {
             "thickness": 1,
             "corner_radius": "square",
@@ -1396,6 +1476,7 @@
       ],
       "name": "t:names.marquee_section",
       "settings": {
+        "anchor_id": "",
         "movement_direction": "normal",
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
         "padding-block-start": 24,
@@ -1842,6 +1923,7 @@
       "disabled": true,
       "name": "Logos",
       "settings": {
+        "anchor_id": "",
         "content_direction": "row",
         "vertical_on_mobile": true,
         "horizontal_alignment": "center",
@@ -1894,7 +1976,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Magnesium",
-            "description": "1,000mg bioavailable malate. The mineral most of us quietly run low on.",
+            "description": "150mg bioavailable malate. The mineral most of us quietly run low on.",
             "icon": "shopify://shop_images/Magnesium2-b.svg",
             "icon_color_override": ""
           }
@@ -1917,6 +1999,7 @@
       ],
       "name": "FTD - Ingredients Callout",
       "settings": {
+        "anchor_id": "",
         "heading": "***Everyday***\nElectrolytes + D3 & K2",
         "subheading": "<p><strong>The Hydration You'd Pour For Your Family</strong><br/><br/>Pink Himalayan sodium, bioavailable magnesium, and the D3 + K2 pairing your body actually uses — because real food alone usually isn't enough. Zero caffeine, zero sugar, zero ingredients you'd have to Google.</p>",
         "product_image": "shopify://shop_images/1.png",
@@ -1927,7 +2010,7 @@
         "icon_size": 72,
         "icon_background_color": "#0a0a0a",
         "icon_color": "#ffffff",
-        "button_label": "Build Your Bundle",
+        "button_label": "",
         "button_link": "#open-bundle",
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
@@ -1965,7 +2048,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Magnesium",
-            "description": "1,000mg bioavailable malate. Steady energy and recovery on your active days.",
+            "description": "150mg bioavailable malate. Steady energy and recovery on your active days.",
             "icon": "shopify://shop_images/Magnesium2-b.svg",
             "icon_color_override": ""
           }
@@ -1987,6 +2070,7 @@
       ],
       "name": "FTD - Ingredients Callout",
       "settings": {
+        "anchor_id": "",
         "heading": "****Energy****\nElectrolytes + Caffeine",
         "subheading": "<p><strong>Natural Caffeine. No Crash. No Junk.</strong><br/><br/>152mg from actual coffee beans — not the synthetic \"anhydrous\" stuff hiding in your pre-workout. Same clean electrolyte base as Everyday, with a meaningful lift for the moments that need it.</p>",
         "product_image": "shopify://shop_images/2.png",
@@ -2000,7 +2084,7 @@
         "button_label": "Build Your Bundle",
         "button_link": "#open-bundle",
         "secondary_button_label": "",
-        "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
+        "secondary_button_link": "",
         "button_style": "filled",
         "color_scheme": "",
         "section_width": "page-width",
@@ -2031,7 +2115,7 @@
             "media_type": "image",
             "image": "shopify://shop_images/Hero-2.webp",
             "category": "Precise Doses",
-            "caption": "1,210mg sodium and 1,000mg magnesium. Not a sprinkle — the amount your body actually uses.",
+            "caption": "150mg sodium and 1,200mg magnesium. Not a sprinkle.",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -2042,8 +2126,8 @@
           "settings": {
             "media_type": "image",
             "image": "shopify://shop_images/Hero-3.webp",
-            "category": "Every Milligram Disclosed",
-            "caption": "No \"proprietary blend\" hiding what's in your scoop. The pouch is the whole story.",
+            "category": "Full Disclosure",
+            "caption": "No \"proprietary blend\" hiding what's inside, our label is the whole story.",
             "show_icon": false,
             "link": ""
           }
@@ -2053,8 +2137,8 @@
           "settings": {
             "media_type": "image",
             "image": "shopify://shop_images/Hero-4.webp",
-            "category": "Function + Flavor, Your Call",
-            "caption": "Daily, energy, or both. Watermelon or orange. Your ritual, your rules.",
+            "category": "Function & Flavor",
+            "caption": "Daily, Energy, or both. Watermelon or orange. Your ritual, your rules.",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -2069,6 +2153,7 @@
       ],
       "name": "FTD - Truth",
       "settings": {
+        "anchor_id": "",
         "eyebrow": "Read The Label",
         "heading": "The Hydration Brand That Doesn't Make You Squint",
         "subheading": "<p>Every milligram on the front of the pouch. No proprietary blends, no asterisks, no marketing math — just real ingredients in honest amounts, the way the label was supposed to work.</p>",
@@ -2109,7 +2194,8 @@
           "settings": {
             "product": "everyday",
             "tab_label": "Everyday",
-            "accent_color": "#1fa8a1",
+            "tab_image": "shopify://shop_images/Everyday.svg",
+            "accent_color": "#f9cf1d",
             "start_active": true,
             "eyebrow": "Why These Numbers Matter",
             "heading": "Everyday label",
@@ -2122,7 +2208,7 @@
             "callout_1_title": "Why D3 + K2 together?",
             "callout_1_body": "Research increasingly points to their relationship in supporting where calcium actually ends up in the body. Vitamin D3 without K2 is a conversation half finished.",
             "callout_1_accent": "#1fa8a1",
-            "callout_2_title": "Why 1,210mg sodium daily?",
+            "callout_2_title": "Why 1,200mg sodium daily?",
             "callout_2_body": "Sodium drives fluid absorption — without enough of it, water passes through instead of reaching your cells. Daily replacement is foundational.",
             "callout_2_accent": "#e8833a",
             "callout_3_title": "Why no caffeine?",
@@ -2135,10 +2221,11 @@
           "settings": {
             "product": "energy",
             "tab_label": "Energy",
-            "accent_color": "#e8833a",
+            "tab_image": "shopify://shop_images/Energy.svg",
+            "accent_color": "#ef3a53",
             "start_active": false,
             "eyebrow": "Why These Numbers Matter",
-            "heading": "The Energy label that madeother pre-workouts nervous.",
+            "heading": "Energy label",
             "panel_title": "Supplement Facts",
             "servings_per": "",
             "serving_size": "",
@@ -2148,7 +2235,7 @@
             "callout_1_title": "Why 152mg natural caffeine?",
             "callout_1_body": "A meaningful lift — about a strong cup of coffee — from the same source humans have used for centuries, delivered without the synthetic-stimulant baggage.",
             "callout_1_accent": "#e8833a",
-            "callout_2_title": "Why 1,210mg sodium?",
+            "callout_2_title": "Why 1,200mg sodium?",
             "callout_2_body": "Sodium is the primary electrolyte lost in sweat and the one that actually drives fluid absorption. Most hydration brands underdose it; we don't.",
             "callout_2_accent": "#1fa8a1",
             "callout_3_title": "Why no D3 on Energy?",
@@ -2161,10 +2248,10 @@
           "settings": {
             "product": "creatine",
             "tab_label": "Creatine",
-            "accent_color": "#0a0a0a",
+            "accent_color": "#858585",
             "start_active": false,
             "eyebrow": "Why These Numbers Matter",
-            "heading": "The Creatine label thatfits in a single line.",
+            "heading": "Creatine label",
             "panel_title": "Supplement Facts",
             "servings_per": "",
             "serving_size": "",
@@ -2190,6 +2277,7 @@
       ],
       "name": "FTD-C - Supp Facts",
       "settings": {
+        "anchor_id": "",
         "section_width": "page-width",
         "content_max_width": 1360,
         "panel_position": "left",
@@ -2525,6 +2613,7 @@
       ],
       "name": "Bundle Builder",
       "settings": {
+        "anchor_id": "",
         "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
@@ -2548,7 +2637,7 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 64,
+        "padding-block-start": 0,
         "padding-block-end": 64
       }
     },
@@ -2597,7 +2686,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>Just REAL ingredients </p>",
+                "text": "<h4>Just REAL ingredients </h4>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -2628,6 +2717,7 @@
       },
       "name": "t:names.editorial_jumbo_text",
       "settings": {
+        "anchor_id": "",
         "media_position": "right",
         "media_width": "medium",
         "media_height": "60svh",
@@ -2642,6 +2732,7 @@
       "type": "fortified-fomo-counter",
       "name": "FTD - FOMO Counter",
       "settings": {
+        "anchor_id": "",
         "total_spots": 1000,
         "claimed_count_thousands": 0,
         "claimed_count_units": 0,
@@ -2695,7 +2786,7 @@
         "ftd_c_bullet_KXpQNQ": {
           "type": "_ftd-c-bullet",
           "settings": {
-            "text": "Real Fruit Organic Flavors"
+            "text": "Real-Fruit Organic Flavors"
           },
           "blocks": {}
         },
@@ -2706,6 +2797,20 @@
           },
           "blocks": {}
         },
+        "ftd_c_bullet_9qMzCQ": {
+          "type": "_ftd-c-bullet",
+          "settings": {
+            "text": "Cancel Anytime"
+          },
+          "blocks": {}
+        },
+        "ftd_c_bullet_iBbphK": {
+          "type": "_ftd-c-bullet",
+          "settings": {
+            "text": "45 Day Money Back Guarantee"
+          },
+          "blocks": {}
+        },
         "ftd_c_function_pkzaNH": {
           "type": "_ftd-c-function",
           "settings": {
@@ -2713,12 +2818,12 @@
             "product": "everyday",
             "coming_soon": false,
             "spec_top": "D3 + K2",
-            "spec_1": "1,210MG SODIUM",
-            "spec_2": "1,000MG MAGNESIUM",
+            "spec_1": "150MG SODIUM",
+            "spec_2": "1,200MG MAGNESIUM",
             "spec_3": "-",
             "flavor_option": "-",
-            "loop_plan_monthly": "-",
-            "loop_plan_quarterly": "-"
+            "loop_plan_monthly": "2607349819",
+            "loop_plan_quarterly": "2607644731"
           },
           "blocks": {}
         },
@@ -2729,8 +2834,8 @@
             "product": "energy",
             "coming_soon": false,
             "spec_top": "150mg CAFFEINE",
-            "spec_1": "1,210MG SODIUM",
-            "spec_2": "1,000MG MAGNESIUM",
+            "spec_1": "150MG SODIUM",
+            "spec_2": "1,200MG MAGNESIUM",
             "spec_3": "-",
             "flavor_option": "-",
             "loop_plan_monthly": "-",
@@ -2743,11 +2848,14 @@
         "ftdc_announce_fomo_cABmYX",
         "ftd_c_bullet_KXpQNQ",
         "ftd_c_bullet_HMiw3i",
+        "ftd_c_bullet_9qMzCQ",
+        "ftd_c_bullet_iBbphK",
         "ftd_c_function_pkzaNH",
         "ftd_c_function_gbkDqk"
       ],
       "name": "FTD - Product Selector D",
       "settings": {
+        "anchor_id": "#flow",
         "heading": "Build Your Clean Hydration Ritual",
         "description": "<p>Mix any function, with any organic flavor.</p>",
         "step_label_1": "Plan",
@@ -2760,18 +2868,18 @@
         "edit_order_label": "Edit Order",
         "plan_order": "quarterly,monthly,onetime",
         "show_quarterly": true,
-        "quarterly_badge": "Best Value",
-        "quarterly_title": "3 Pouches Every 3 Months",
-        "quarterly_desc": "Mix any functions freely.",
-        "quarterly_price": "$53.10",
+        "quarterly_badge": "Most Popular - 20% OFF",
+        "quarterly_title": "3 Month Supply Every 3 Months",
+        "quarterly_desc": "Free 45-day supply of Creatine",
+        "quarterly_price": "$47.20",
         "quarterly_period": "/ month",
-        "quarterly_was": "$59.00",
+        "quarterly_was": "Save $42.79 per month",
         "quarterly_accent_color": "#e8833a",
         "bundle_count": 3,
         "quarterly_estimate_pct": 90,
         "show_monthly": true,
-        "monthly_badge": "Monthly",
-        "monthly_title": "1 Pouch Every Month",
+        "monthly_badge": "Monthly - 10% OFF",
+        "monthly_title": "1 Month Supply Every Month",
         "monthly_desc": "Your daily ritual, delivered.",
         "monthly_price": "$53.10",
         "monthly_period": "/ month",
@@ -2779,9 +2887,9 @@
         "monthly_accent_color": "#1fa8a1",
         "monthly_estimate_pct": 90,
         "show_onetime": true,
-        "onetime_badge": "Buy Once",
+        "onetime_badge": "Buy Once - NO FREE SHIPPING",
         "onetime_title": "30-Day Supply",
-        "onetime_desc": "Try it first.",
+        "onetime_desc": "Try it out",
         "onetime_price": "$59.00",
         "onetime_period": "/ pouch",
         "onetime_was": "-",
@@ -2803,9 +2911,9 @@
         "addon_was_monthly": "$24.00",
         "addon_was_quarterly": "$24.00",
         "addon_was_onetime": "$24.00",
-        "addon_loop_plan_monthly": "-",
-        "addon_loop_plan_quarterly_free": "-",
-        "addon_loop_plan_quarterly_50off": "-",
+        "addon_loop_plan_monthly": "2611478587",
+        "addon_loop_plan_quarterly_free": "2611511355",
+        "addon_loop_plan_quarterly_50off": "2611478587",
         "addon_discount_code_onetime": "-",
         "loop_bundle_enabled": true,
         "loop_bundle_id": "7439",
@@ -2817,7 +2925,7 @@
         "loop_bundle_property_key": "_bundleId",
         "total_label": "Total",
         "saved_word": "Saved",
-        "action_label_step1": "Continue",
+        "action_label_step1": "Next →",
         "action_label_step2": "Continue",
         "checkout_label": "Checkout",
         "add_more_label": "Add More",
@@ -2883,6 +2991,7 @@
       ],
       "name": "FTD - Stats Comparison",
       "settings": {
+        "anchor_id": "",
         "eyebrow": "The Clean Difference",
         "heading": "Why Label-Readers Won't Drink Anything Else",
         "subheading": "<p>More of what your body actually needs. None of what it doesn't. Side-by-side with the hydration brands you were told to settle for.</p>",
@@ -2929,6 +3038,7 @@
       "disabled": true,
       "name": "FTD - Testimonial",
       "settings": {
+        "anchor_id": "",
         "name": "Marisa K.",
         "role": "Mom of three · Verified subscriber",
         "quote": "<p>I finally stopped reading the back of every electrolyte pouch. The front of FORTIFIED® IS the whole story — and I can hand it to my kids without a second thought.</p>",
@@ -3028,6 +3138,7 @@
       ],
       "name": "FTD - Comparison Table",
       "settings": {
+        "anchor_id": "",
         "eyebrow": "The Receipt",
         "eyebrow_color": "#ffffff",
         "heading": "Side By Side With What's On The Shelf",
@@ -3164,6 +3275,7 @@
       "disabled": true,
       "name": "FTD - Tabbed Content",
       "settings": {
+        "anchor_id": "",
         "eyebrow": "What's In Your Pouch",
         "heading": "Why Each Ingredient Earned Its Spot",
         "subheading": "<p>No proprietary blends. Nothing hidden behind a \"performance complex\" on the back. The exact reason each ingredient is in your scoop — and what it does for you.</p>",
@@ -3245,6 +3357,7 @@
       "disabled": true,
       "name": "FTD - Flavor Showcase",
       "settings": {
+        "anchor_id": "",
         "eyebrow": "Mix & Match",
         "heading": "Two Functions. Real Flavors.\nOne Honest Label.",
         "subheading": "<p>Salty Watermelon or Salty Orange. Daily foundation or clean lift. Pick your function, pick your flavor — your ritual, your way.</p>",
@@ -3372,6 +3485,7 @@
       ],
       "name": "FTD-B - FAQ",
       "settings": {
+        "anchor_id": "",
         "eyebrow": "Common Questions",
         "eyebrow_color": "#1fa8a1",
         "heading": "Answered honestly.",
@@ -3431,6 +3545,7 @@
       ],
       "name": "Reviews",
       "settings": {
+        "anchor_id": "",
         "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
@@ -3650,6 +3765,7 @@
       },
       "name": "t:names.editorial",
       "settings": {
+        "anchor_id": "",
         "media_position": "right",
         "media_width": "medium",
         "media_height": "60svh",
@@ -3761,6 +3877,7 @@
       "disabled": true,
       "name": "FTD - Social Proof",
       "settings": {
+        "anchor_id": "",
         "eyebrow": "What We Left Out",
         "heading": "The Cleanest List Is The Short One",
         "subheading": "<p>No artificial sweeteners. No synthetic dyes. No proprietary blends. No fillers. Nothing on the label you wouldn't recognize from a pantry.</p>",
@@ -3844,6 +3961,7 @@
       "disabled": true,
       "name": "FTD - Two-Column CTA",
       "settings": {
+        "anchor_id": "",
         "column_gap": 0,
         "card_radius": 0,
         "section_width": "full-width",
@@ -3890,6 +4008,7 @@
       ],
       "name": "FTD - Subscribe & Save",
       "settings": {
+        "anchor_id": "",
         "eyebrow": "Subscribe & Save",
         "eyebrow_color": "#1fa8a1",
         "heading": "Lock In Your Ritual. Save 15% Forever.",
@@ -3953,6 +4072,7 @@
         "divider_rgYW8L": {
           "type": "_divider",
           "name": "t:names.divider",
+          "disabled": true,
           "settings": {
             "thickness": 1,
             "corner_radius": "square",
@@ -4003,6 +4123,7 @@
         "divider_PjfbqC": {
           "type": "_divider",
           "name": "t:names.divider",
+          "disabled": true,
           "settings": {
             "thickness": 1,
             "corner_radius": "square",
@@ -4053,6 +4174,7 @@
         "divider_zUy6RQ": {
           "type": "_divider",
           "name": "t:names.divider",
+          "disabled": true,
           "settings": {
             "thickness": 1,
             "corner_radius": "square",
@@ -4103,6 +4225,7 @@
         "divider_YakRHn": {
           "type": "_divider",
           "name": "t:names.divider",
+          "disabled": true,
           "settings": {
             "thickness": 1,
             "corner_radius": "square",
@@ -4148,6 +4271,19 @@
             "padding-inline-end": 0
           },
           "blocks": {}
+        },
+        "divider_yYDwbF": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "disabled": true,
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
@@ -4164,10 +4300,12 @@
         "text_rbCFrk",
         "divider_YakRHn",
         "icon_6Ejyje",
-        "text_BkByEb"
+        "text_BkByEb",
+        "divider_yYDwbF"
       ],
       "name": "t:names.marquee_section",
       "settings": {
+        "anchor_id": "",
         "movement_direction": "normal",
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
         "padding-block-start": 24,
