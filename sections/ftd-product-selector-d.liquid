@@ -76,21 +76,55 @@
   #ftdc-{{ sid }} .ftdc__announce-link { text-decoration: none; }
   #ftdc-{{ sid }} .ftdc__announce-link:hover { text-decoration: underline; }
 
-  /* Sticky-bar inline warning ("Add N more selections to continue"). */
-  #ftdc-{{ sid }} .ftdc__bar { flex-wrap: wrap; }
-  #ftdc-{{ sid }} .ftdc__bar-warning {
-    flex-basis: 100%;
-    order: -1;
-    margin: -0.5rem -1rem 0.6rem;
-    padding: 0.55rem 1rem;
-    background: #FEF3C7;
-    color: #92400E;
+  /* Bottom action bar: no longer pinned — sits in normal flow at the end of
+     the step content, so visitors scroll down to reach it. */
+  #ftdc-{{ sid }} .ftdc__bar { position: static; bottom: auto; }
+
+  /* "Add N more selections to continue" now lives under the progress bar
+     instead of inside the bottom pill (where it broke the pill's rounded
+     shape and looked visually broken). */
+  #ftdc-{{ sid }} .ftdc__bundle-warning {
+    margin: 0.5rem auto 0;
+    max-width: 32em;
     font-size: 0.82rem;
     font-weight: 700;
     text-align: center;
-    border-bottom: 1px solid #FCD34D;
+    color: #92400E;
   }
-  #ftdc-{{ sid }} .ftdc__bar-warning[hidden] { display: none; }
+  #ftdc-{{ sid }} .ftdc__bundle-warning[hidden] { display: none; }
+
+  /* Bundle progress header stays pinned while scrolling the product grid. */
+  #ftdc-{{ sid }} .ftdc__step[data-step="products"] .ftdc__bundle-head {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    background: var(--color-background);
+    padding-block: 0.75rem 0.5rem;
+  }
+
+  /* Badge: tighter, closer to the text. */
+  #ftdc-{{ sid }} .ftdc__plan-badge { padding: 0.05rem 0.4rem; line-height: 1.5; }
+
+  /* Header description: room for ~4 lines of copy without feeling cramped. */
+  #ftdc-{{ sid }} .ftdc__desc { max-width: 44em; }
+
+  /* Bullets in two columns instead of one stacked column. */
+  #ftdc-{{ sid }} .ftdc__bullets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1.75rem; max-width: 34em; align-items: start; }
+
+  /* "Was" price: keep the muted styling, drop the strikethrough. */
+  #ftdc-{{ sid }} .ftdc__plan-was { text-decoration: none; }
+
+  /* Header (heading/description/bullets) only makes sense on the Plan step. */
+  #ftdc-{{ sid }}[data-active-step="products"] .ftdc__header,
+  #ftdc-{{ sid }}[data-active-step="review"] .ftdc__header { display: none; }
+
+  /* Review step: savings sits inline, to the left of the total. */
+  #ftdc-{{ sid }} .ftdc__review-totals { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: baseline; gap: 0.35rem 1.25rem; }
+  #ftdc-{{ sid }} .ftdc__review-row { justify-content: flex-start; gap: 0.4rem; }
+
+  @media (max-width: 749px) {
+    #ftdc-{{ sid }} .ftdc__bullets { grid-template-columns: 1fr; }
+  }
 
   /* Merged step 2 add-ons section (was step 3) */
   #ftdc-{{ sid }} .ftdc__bundle-addons { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px dashed rgb(var(--color-foreground-rgb) / 0.18); display: flex; flex-direction: column; gap: 0.75rem; }
@@ -206,6 +240,7 @@
         <p class="ftdc__bundle-eyebrow">{{ section.settings.bundle_label | default: 'Your Bundle' }}</p>
         <p class="ftdc__bundle-progress-text" data-progress-text>0 {{ section.settings.of_word | default: 'of' }} {{ bundle_count }} {{ section.settings.selected_word | default: 'selected' }}</p>
         <div class="ftdc__bundle-bar"><div class="ftdc__bundle-bar-fill" data-progress-fill style="width:0%"></div></div>
+        <p class="ftdc__bundle-warning" data-bar-warning hidden role="status"></p>
       </div>
       <div class="ftdc__empty" data-grid-empty hidden>
         <p><strong>No products configured yet.</strong></p>
@@ -283,13 +318,12 @@
         </div>
       </dl>
       <div class="ftdc__step-actions">
-        <button class="ftdc__btn ftdc__btn--ghost" type="button" data-step-back="upsells">{{ section.settings.edit_order_label | default: 'Edit Order' }}</button>
+        <button class="ftdc__btn ftdc__btn--ghost" type="button" data-step-back="products">{{ section.settings.edit_order_label | default: 'Edit Order' }}</button>
         <button class="ftdc__btn ftdc__btn--primary" type="button" data-action="checkout">{{ section.settings.checkout_label | default: 'Checkout' }}</button>
       </div>
     </div>
 
     <div class="ftdc__bar" data-bar>
-      <div class="ftdc__bar-warning" data-bar-warning hidden role="status"></div>
       <div class="ftdc__bar-summary">
         <span class="ftdc__bar-total"><strong>{{ section.settings.total_label | default: 'Total' }}:</strong> <span data-bar-total>$0.00</span></span>
         <span class="ftdc__bar-saved" data-bar-saved-wrap hidden>({{ section.settings.saved_word | default: 'Saved' }} <span data-bar-saved>$0.00</span>)</span>
@@ -319,6 +353,13 @@
     monthly:   {{ section.settings.monthly_title   | default: 'Monthly Subscription' | json }},
     quarterly: {{ section.settings.quarterly_title | default: 'Quarterly Bundle'     | json }},
     onetime:   {{ section.settings.onetime_title   | default: 'One-Time Purchase'    | json }}
+  };
+  /* Editable step->CTA copy for the bottom action bar (was hardcoded, so
+     merchant edits to these settings were silently ignored). */
+  var BAR_LABELS = {
+    plans:    {{ section.settings.action_label_step1 | default: 'Continue'     | json }},
+    products: {{ section.settings.action_label_step2 | default: 'Review Order' | json }},
+    review:   {{ section.settings.checkout_label      | default: 'Checkout'     | json }}
   };
 
   /* Loop bundle mode (quarterly only). When fully configured, the pouches
@@ -462,9 +503,13 @@
       $$('.ftdc__card').forEach(reset);
       pouch.forEach(function (l) { var card = root.querySelector('.ftdc__card[data-variant-id="' + l.variant_id + '"]'); if (card) applyQty(card, l.quantity); });
       var cr = $('[data-creatine-input]');
-      if (cr) cr.checked = ours.some(function (l) { return (l.properties || {})._role === 'creatine'; });
+      var hadCreatine = ours.some(function (l) { return (l.properties || {})._role === 'creatine'; });
+      if (cr) cr.checked = hadCreatine;
       hydrating = false;
       updateProgress(); updateCreatineIncluded(); paintTotalsFromCart(cart);
+      /* Existing quarterly cart from before free creatine was auto-included
+         — reconcile once so the promised free item actually lands in cart. */
+      if (state.plan === 'quarterly' && !hadCreatine && cr && cr.checked) scheduleSync();
     }).catch(function (e) { hydrating = false; try { console.error('[FTDC-D] hydrate', e); } catch (_) {} });
   }
   /* Loop bundle (Option A): mint a transaction, then stamp _bundleId +
@@ -537,6 +582,7 @@
     opts = opts || {};
     var shouldScroll = opts.scroll !== false;
     state.step = name;
+    root.dataset.activeStep = name;
     var idx = STEPS_ORDER.indexOf(name);
     $$('.ftdc__step').forEach(function (s) { var m = s.dataset.step === name; s.hidden = !m; s.classList.toggle('is-active', m); });
     $$('.ftdc__step-pill').forEach(function (p) { var pi = STEPS_ORDER.indexOf(p.dataset.stepPill); p.classList.toggle('is-active', pi === idx); p.classList.toggle('is-done', pi < idx); });
@@ -553,10 +599,21 @@
     }
   }
 
+  /* Quarterly bundles include creatine free — force the toggle on and hide
+     the manual "Add Creatine" row (it would otherwise contradict the
+     "Included — FREE" banner and require a redundant manual step). Any
+     other plan restores the manual, priced toggle. */
   function updateCreatineIncluded() {
     var el = $('[data-creatine-included]');
-    if (el) el.hidden = state.plan !== 'quarterly';
+    var isQuarterly = state.plan === 'quarterly';
+    if (el) el.hidden = !isQuarterly;
+    var crRow = $('[data-upsell-creatine]');
+    if (crRow) crRow.hidden = isQuarterly;
+    var cr = $('[data-creatine-input]');
+    if (cr) cr.checked = isQuarterly;
   }
+
+  var upsellAutoScrolled = false;
 
   $$('input[name="ftdc-plan-' + SID + '"]').forEach(function (r) {
     r.addEventListener('change', function () {
@@ -565,6 +622,7 @@
       var l = r.closest('.ftdc__plan'); if (l) l.classList.add('is-active');
       state.selections = {};
       $$('.ftdc__card').forEach(reset);
+      upsellAutoScrolled = false;
       updateBar(); updateProgress(); updateCreatineIncluded(); scheduleSync();
       /* Mobile: auto-advance to the Bundle step so the customer doesn't
          have to scroll back up and tap Continue. */
@@ -613,6 +671,13 @@
       if (a) a.hidden = true; if (q) q.hidden = false; if (i) i.value = n;
     }
     updateProgress(); updateBar(); scheduleSync();
+    /* Quarterly bundle just filled up for the first time this visit — ease
+       the customer down to the add-ons instead of leaving it to scroll. */
+    if (state.plan === 'quarterly' && !upsellAutoScrolled && totalQty() === BUNDLE_COUNT) {
+      upsellAutoScrolled = true;
+      var addons = $('.ftdc__bundle-addons');
+      if (addons) setTimeout(function () { addons.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 220);
+    }
   }
 
   $$('.ftdc__card[data-slot="function"]').forEach(function (c) {
@@ -652,9 +717,8 @@
     if (bt) bt.textContent = fmtMoney(t.total);
     if (sw && sv) { if (t.saved > 0) { sw.hidden = false; sv.textContent = fmtMoney(t.saved); } else sw.hidden = true; }
     var lab = $('[data-bar-label]'), btn = $('.ftdc__bar-action'), r = canProc();
-    if (state.step === 'plans')         { if (lab) lab.textContent = 'Continue';     if (btn) btn.disabled = false; }
-    else if (state.step === 'products') { if (lab) lab.textContent = 'Review Order'; if (btn) btn.disabled = !r; }
-    else                                { if (lab) lab.textContent = 'Checkout';     if (btn) btn.disabled = !r; }
+    if (lab) lab.textContent = BAR_LABELS[state.step] || BAR_LABELS.plans;
+    if (btn) btn.disabled = state.step === 'plans' ? false : !r;
     /* Quarterly + Bundle step: warn when not all 3 slots are filled. */
     var w = $('[data-bar-warning]');
     if (w) {

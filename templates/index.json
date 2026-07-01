@@ -1986,6 +1986,7 @@
         "icon_color": "#ffffff",
         "button_label": "Build Your Bundle",
         "button_link": "#open-bundle",
+        "center_cta": true,
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "button_style": "filled",

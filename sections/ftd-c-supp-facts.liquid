@@ -88,7 +88,13 @@
     #{{ root }}-r-{{ ci }}:checked ~ .{{ root }}__inner .{{ root }}__tab--{{ ci }} {
       background: {{ tab_accent }}; border-color: {{ tab_accent }}; color: #fff;
     }
+    #{{ root }} .{{ root }}__tab--{{ ci }}:hover {
+      background: {{ tab_accent }}; border-color: {{ tab_accent }}; color: #fff;
+    }
     #{{ root }}.{{ root }}--tabs-underline #{{ root }}-r-{{ ci }}:checked ~ .{{ root }}__inner .{{ root }}__tab--{{ ci }} {
+      background: transparent; color: var(--color-foreground); border-bottom-color: {{ tab_accent }};
+    }
+    #{{ root }}.{{ root }}--tabs-underline .{{ root }}__tab--{{ ci }}:hover {
       background: transparent; color: var(--color-foreground); border-bottom-color: {{ tab_accent }};
     }
     #{{ root }}-r-{{ ci }}:checked ~ .{{ root }}__inner .{{ root }}__panel--{{ ci }} {
@@ -333,6 +339,21 @@
 
   </div>
 </section>
+
+<script>
+(function () {
+  var section = document.getElementById({{ root | json }});
+  if (!section) return;
+  var radios = section.querySelectorAll('.{{ root }}__radio');
+  for (var i = 0; i < radios.length; i++) {
+    radios[i].addEventListener('change', function () {
+      setTimeout(function () {
+        section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 30);
+    });
+  }
+})();
+</script>
 
 {% schema %}
 {
