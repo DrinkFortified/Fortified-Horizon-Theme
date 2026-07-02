@@ -16,7 +16,7 @@
 -%}
 
 <section
-  class="ftbst section spacing-style section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  class="ftbst section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
   style="{% render 'spacing-padding', settings: section.settings %} --ftbst-max-w: {{ section.settings.content_max_width }}px; --ftbst-panel-bg: {{ section.settings.panel_background }}; --ftbst-panel-fg: {{ section.settings.panel_text_color }}; --ftbst-accent: {{ section.settings.accent_color }}; --ftbst-accent-top: {{ section.settings.accent_top_border_thickness }}px; --ftbst-cols: {{ section.settings.desktop_columns }}; --ftbst-div-color: {{ section.settings.divider_color }}; --ftbst-div-opacity: {{ div_opacity }};"
   {{ section.shopify_attributes }}
 >

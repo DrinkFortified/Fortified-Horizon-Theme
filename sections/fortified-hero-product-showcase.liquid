@@ -86,17 +86,6 @@
         {%- if eyebrow_v != blank -%}<p class="fths__eyebrow">{{ eyebrow_v }}</p>{%- endif -%}
         {%- if heading_v != blank -%}<h2 class="fths__heading">{{ heading_v | newline_to_br }}</h2>{%- endif -%}
         {%- if body_v != blank -%}<p class="fths__body">{{ body_v }}</p>{%- endif -%}
-        {%- liquid
-          assign cta_label_v = section.settings.button_label
-          if px != blank and px.showcase_cta_label != blank
-            assign cta_label_v = px.showcase_cta_label
-          endif
-        -%}
-        {%- if cta_label_v != blank -%}
-          <div class="fths__cta-wrap">
-            {%- if section.settings.button_link != blank -%}<a class="{{ cta_class }}" href="{{ section.settings.button_link }}">{{ cta_label_v }}</a>{%- else -%}<span class="{{ cta_class }}" role="button">{{ cta_label_v }}</span>{%- endif -%}
-          </div>
-        {%- endif -%}
       </div>
     </div>
     <div class="fths__cards">
@@ -146,6 +135,17 @@
         {%- endif -%}
       {%- endfor -%}
     </div>
+    {%- liquid
+      assign cta_label_v = section.settings.button_label
+      if px != blank and px.showcase_cta_label != blank
+        assign cta_label_v = px.showcase_cta_label
+      endif
+    -%}
+    {%- if cta_label_v != blank -%}
+      <div class="fths__cta-wrap">
+        {%- if section.settings.button_link != blank -%}<a class="{{ cta_class }}" href="{{ section.settings.button_link }}">{{ cta_label_v }}</a>{%- else -%}<span class="{{ cta_class }}" role="button">{{ cta_label_v }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -155,9 +155,9 @@
 .fths__hero { position: relative; grid-area: hero; min-height: clamp(420px, 56vw, 640px); border-radius: var(--fths-card-radius, 12px); overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: clamp(28px, 4vw, 56px); isolation: isolate; background-color: #0a0a0a; }
 .fths__hero-bg { position: absolute; inset: 0; background-size: cover; background-position: var(--fths-focal, center center); background-repeat: no-repeat; z-index: 0; }
 .fths__hero-overlay { position: absolute; inset: 0; background-color: var(--fths-overlay-color, #000); opacity: var(--fths-overlay-alpha, 0.25); z-index: 1; pointer-events: none; }
-.fths__hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; gap: clamp(12px, 1.6vw, 18px); color: var(--fths-text-color, #fff); max-width: 32rem; align-items: flex-start; }
+.fths__hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; gap: clamp(12px, 1.6vw, 18px); color: var(--fths-text-color, #fff); max-width: 32rem; }
 .fths__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: inherit; }
-.fths__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(28px, 4.4vw, 56px); font-weight: 800; line-height: 1.02; text-transform: uppercase; color: inherit; overflow-wrap: normal; word-break: keep-all; hyphens: manual; }
+.fths__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(32px, 5vw, 64px); font-weight: 800; line-height: 1.02; text-transform: uppercase; color: inherit; }
 .fths__body { margin: 0; font-size: 16px; line-height: 1.55; color: inherit; opacity: 0.92; max-width: 28rem; }
 .fths__cards { grid-area: cards; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--fths-card-gap, 16px); align-content: stretch; }
 .fths-card { display: flex; flex-direction: column; background: var(--color-background, #fff); color: var(--color-foreground, #111); border-radius: var(--fths-card-radius, 12px); overflow: hidden; box-shadow: 0 6px 20px rgb(var(--color-foreground-rgb) / 0.08); border: 1px solid rgb(var(--color-foreground-rgb) / 0.06); }
@@ -174,20 +174,21 @@
 .fths-card__btn--filled:hover { opacity: 0.88; }
 .fths-card__btn--outline { background: transparent; color: var(--color-primary-button-background, var(--color-foreground)); }
 .fths-card__btn--outline:hover { background: var(--color-primary-button-background, var(--color-foreground)); color: var(--color-primary-button-text, var(--color-background)); }
-.fths__cta-wrap { margin-top: clamp(8px, 1.4vw, 16px); }
-.fths__cta { display: inline-flex; align-items: center; justify-content: center; padding: 14px 32px; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; border-radius: var(--style-border-radius-buttons-primary, 8px); border: 2px solid var(--fths-btn-outline-text, #fff); cursor: pointer; transition: opacity 0.18s ease, background 0.18s ease, color 0.18s ease; }
+.fths__cta-wrap { grid-area: hero; align-self: end; justify-self: start; position: relative; z-index: 3; margin: clamp(20px, 3vw, 32px) 0 0 clamp(28px, 4vw, 56px); padding-bottom: clamp(28px, 4vw, 56px); pointer-events: none; }
+.fths__cta { pointer-events: auto; display: inline-flex; align-items: center; justify-content: center; padding: 14px 32px; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; border-radius: var(--style-border-radius-buttons-primary, 8px); border: 2px solid var(--fths-btn-outline-text, #fff); cursor: pointer; transition: opacity 0.18s ease, background 0.18s ease, color 0.18s ease; }
 .fths__cta--outline { background: transparent; color: var(--fths-btn-outline-text, #fff); }
 .fths__cta--outline:hover { background: var(--fths-btn-outline-text, #fff); color: #0a0a0a; }
 .fths__cta--filled { background: var(--color-primary-button-background, var(--fths-btn-outline-text, #fff)); color: var(--color-primary-button-text, #0a0a0a); }
 .fths__cta--filled:hover { opacity: 0.88; }
 @media (max-width: 749px) {
-  .fths__inner { grid-template-columns: 1fr; grid-template-areas: "hero" "cards"; gap: clamp(16px, 4vw, 24px); padding-inline: clamp(14px, 4vw, 24px); }
+  .fths__inner { grid-template-columns: 1fr; grid-template-areas: "hero" "cards" "cta"; gap: clamp(16px, 4vw, 24px); padding-inline: clamp(14px, 4vw, 24px); }
   .fths__hero { min-height: clamp(320px, 70vw, 460px); padding: clamp(24px, 6vw, 36px); text-align: center; align-items: center; justify-content: center; }
   .fths__hero-content { align-items: center; text-align: center; }
   .fths__cards { grid-template-columns: 1fr; gap: var(--fths-card-gap, 16px); }
   .fths-card { flex-direction: row; align-items: stretch; }
   .fths-card__media { flex: 0 0 40%; aspect-ratio: 1 / 1; width: auto; }
   .fths-card__body { flex: 1 1 auto; justify-content: center; padding: clamp(12px, 4vw, 18px); }
+  .fths__cta-wrap { grid-area: cta; align-self: stretch; justify-self: stretch; margin: 0; padding: 0; display: flex; justify-content: center; }
   .fths__cta { width: 100%; max-width: 28rem; }
 }
 [hidden] { display: none !important; }

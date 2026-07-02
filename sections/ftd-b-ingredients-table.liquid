@@ -15,7 +15,7 @@
 -%}
 
 <section
-  class="ftbig section spacing-style section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  class="ftbig section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
   style="{% render 'spacing-padding', settings: section.settings %} --ftbig-max-w: {{ section.settings.content_max_width }}px; --ftbig-eyebrow: {{ section.settings.eyebrow_color }}; --ftbig-accent: {{ section.settings.accent_color }}; --ftbig-hover-opacity: {{ hover_opacity }};"
   {{ section.shopify_attributes }}
 >

@@ -17,7 +17,7 @@
 -%}
 
 <section
-  class="ftbcm section spacing-style section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  class="ftbcm section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
   style="{% render 'spacing-padding', settings: section.settings %} --ftbcm-max-w: {{ section.settings.content_max_width }}px; --ftbcm-eyebrow: {{ section.settings.eyebrow_color }}; --ftbcm-panel-bg: {{ section.settings.panel_background }}; --ftbcm-panel-fg: {{ section.settings.panel_text_color }}; --ftbcm-panel-muted-fg: {{ section.settings.panel_text_color }}; --ftbcm-muted-opacity: {{ muted_opacity }}; --ftbcm-fcol-bg: {{ section.settings.fortified_column_color }}; --ftbcm-fcol-fg: {{ section.settings.fortified_column_text }}; --ftbcm-yes: {{ section.settings.yes_color }}; --ftbcm-no: {{ section.settings.no_color }}; --ftbcm-partial: {{ section.settings.partial_color }}; --ftbcm-cols: {{ competitors.size }};"
   {{ section.shopify_attributes }}
 >

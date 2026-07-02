@@ -1,4 +1,12 @@
-/* Fortified PDP — default template (Creatine + variantless products) */
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -169,6 +177,7 @@
             "fortified_fomo_counter_kGRRL9": {
               "type": "fortified-fomo-counter",
               "name": "Block - FOMO Counter",
+              "disabled": true,
               "settings": {
                 "total_spots": 1000,
                 "claimed_count_thousands": 0,
@@ -295,103 +304,6 @@
     },
     "ftd_selector_creatine": {
       "type": "fortified-product-selector",
-      "name": "FTD - Product Selector",
-      "settings": {
-        "content_max_width": 1240,
-        "section_width": "full-width",
-        "heading": "Build Your Strength Stack",
-        "subheading": "One ingredient, every milligram on the label. Subscribe to save, or grab a one-time scoop.",
-        "coming_soon_text": "Soon",
-        "show_rating": true,
-        "rating_value": "4.8",
-        "rating_count": "12,400+ reviews",
-        "star_color": "#f5a623",
-        "plan_step_label": "Choose Your Plan",
-        "plan_step_note": "Subscribe & save 15%",
-        "show_monthly": true,
-        "monthly_label": "Monthly",
-        "monthly_badge": "Subscribe & Save 15%",
-        "monthly_badge_color": "#1fa8a1",
-        "monthly_title": "1 Pouch\nEvery Month",
-        "monthly_desc": "Never run out. Auto-refill every 30 days.",
-        "monthly_price": "$33.99",
-        "monthly_period": "/ month",
-        "monthly_was": "$39.99",
-        "monthly_checklist": "Save 15% on every order\nFree shipping always\nSkip or cancel anytime",
-        "show_quarterly": false,
-        "quarterly_label": "Quarterly",
-        "quarterly_badge": "Best Value",
-        "quarterly_badge_color": "#e8833a",
-        "quarterly_title": "3 Pouches\nEvery 3 Months",
-        "quarterly_desc": "Stack up and save more.",
-        "quarterly_price": "$28.99",
-        "quarterly_period": "/ month",
-        "quarterly_was": "$39.99",
-        "quarterly_checklist": "Save 20% on every order\nFree shipping always\nSkip or cancel anytime",
-        "bundle_count": 3,
-        "show_onetime": true,
-        "onetime_card_label": "One Time",
-        "onetime_badge": "Buy Once",
-        "onetime_badge_color": "#6b7280",
-        "onetime_title": "Single\nPouch",
-        "onetime_desc": "Try it first. Subscribe whenever you're ready.",
-        "onetime_price": "$39.99",
-        "onetime_period": "/ pouch",
-        "onetime_was": "",
-        "onetime_checklist": "45 servings per pouch\nShipping calculated at checkout\nNo subscription required",
-        "onetime_product": "",
-        "onetime_flavor_option": "",
-        "simplified_for_subs": true,
-        "simple_plan_monthly": "",
-        "simple_plan_quarterly": "",
-        "build_step_label": "Confirm Your Order",
-        "pouches_word": "Pouches",
-        "function_label": "",
-        "flavor_label": "",
-        "unit_label_prefix": "Pouch",
-        "show_addon": false,
-        "addon_product": "",
-        "addon_label": "",
-        "addon_desc": "",
-        "addon_label_quarterly": "",
-        "addon_desc_quarterly": "",
-        "quarterly_free_text": "",
-        "addon_price_text": "",
-        "addon_was_text": "",
-        "addon_loop_plan_monthly": "",
-        "addon_loop_plan_quarterly": "",
-        "addon_loop_plan_quarterly_50off": "",
-        "summary_label": "Your Order",
-        "total_label": "Total",
-        "overview_note": "Subscriptions ship free. Cancel anytime.",
-        "show_shipping_bar": true,
-        "shipping_threshold_dollars": 50,
-        "shipping_text_subscription": "Subscriptions ship free",
-        "shipping_text_progress": "Add {amount} more for FREE shipping",
-        "shipping_text_unlocked": "FREE shipping unlocked",
-        "shipping_bar_track_color": "#efeae3",
-        "shipping_bar_fill_color": "#1fa8a1",
-        "shipping_bar_unlocked_color": "#16a34a",
-        "qty_label": "Quantity",
-        "qty_max": 20,
-        "atc_label": "Add to Cart",
-        "show_total_on_button": true,
-        "button_style": "filled",
-        "onetime_prefix": "",
-        "onetime_price_text": "",
-        "onetime_link": "",
-        "onetime_clickable": true,
-        "selection_color": "#1fa8a1",
-        "color_scheme": "",
-        "panel_color_scheme": "",
-        "button_radius": 8,
-        "card_radius": 12,
-        "padding-block-start": 64,
-        "padding-block-end": 64,
-        "custom_css": "",
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
-      },
       "blocks": {
         "ftd_ps_gallery_Bggd9Y": {
           "type": "gallery_image",
@@ -421,7 +333,107 @@
         "ftd_ps_benefit_9HdPLw",
         "ftd_ps_benefit_PMNtgU",
         "ftd_ps_benefit_TaxrdJ"
-      ]
+      ],
+      "disabled": true,
+      "name": "FTD - Product Selector",
+      "settings": {
+        "layout_direction": "image-left",
+        "content_max_width": 1240,
+        "section_width": "full-width",
+        "show_progress": true,
+        "progress_label_1": "Plan",
+        "progress_label_2": "Build",
+        "progress_label_3": "Review",
+        "panel_width": 460,
+        "show_thumbnails": true,
+        "thumbnail_position": "left",
+        "media_color_scheme": "",
+        "show_doctor_badge": true,
+        "doctor_badge_text": "Doctor Recommended",
+        "doctor_badge_bg": "#0a0a0a",
+        "show_rating": true,
+        "rating_value": "4.8",
+        "rating_count": "12,400+ reviews",
+        "star_color": "#f5a623",
+        "gallery_caption": "Electrolytes D3+K3",
+        "heading": "Build Your Strength Stack",
+        "subheading": "One ingredient, every milligram on the label. Subscribe to save, or grab a one-time scoop.",
+        "coming_soon_text": "Soon",
+        "plan_step_label": "Choose Your Plan",
+        "plan_step_note": "Subscribe & save 15%",
+        "show_monthly": true,
+        "monthly_badge": "Subscribe & Save 15%",
+        "monthly_badge_color": "#1fa8a1",
+        "monthly_title": "1 Pouch\nEvery Month",
+        "monthly_desc": "Never run out. Auto-refill every 30 days.",
+        "monthly_price": "$33.99",
+        "monthly_period": "/ month",
+        "monthly_was": "$39.99",
+        "monthly_checklist": "Save 15% on every order\nFree shipping always\nSkip or cancel anytime",
+        "show_quarterly": false,
+        "quarterly_badge": "Best Value",
+        "quarterly_badge_color": "#e8833a",
+        "quarterly_title": "3 Pouches\nEvery 3 Months",
+        "quarterly_desc": "Stack up and save more.",
+        "quarterly_price": "$28.99",
+        "quarterly_period": "/ month",
+        "quarterly_was": "$39.99",
+        "quarterly_checklist": "Save 20% on every order\nFree shipping always\nSkip or cancel anytime",
+        "bundle_count": 3,
+        "build_step_label": "Confirm Your Order",
+        "pouches_word": "Pouches",
+        "function_label": "",
+        "flavor_label": "",
+        "unit_label_prefix": "Pouch",
+        "show_addon": false,
+        "addon_product": "",
+        "addon_label": "",
+        "addon_desc": "",
+        "addon_label_quarterly": "",
+        "addon_desc_quarterly": "",
+        "quarterly_free_text": "",
+        "addon_price_text": "",
+        "addon_was_text": "",
+        "addon_loop_plan_monthly": "",
+        "addon_loop_plan_quarterly": "",
+        "addon_loop_plan_quarterly_50off": "",
+        "summary_label": "Your Order",
+        "total_label": "Total",
+        "overview_note": "Subscriptions ship free. Cancel anytime.",
+        "atc_label": "Add to Cart",
+        "show_total_on_button": true,
+        "button_style": "filled",
+        "onetime_prefix": "",
+        "onetime_price_text": "",
+        "onetime_link": "",
+        "onetime_clickable": true,
+        "media_height_mobile": 380,
+        "media_height_desktop": 560,
+        "image_position": "center center",
+        "image_padding": 16,
+        "selection_color": "#1fa8a1",
+        "color_scheme": "",
+        "panel_color_scheme": "",
+        "button_radius": 8,
+        "card_radius": 12,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "custom_css": "",
+        "loop_api_token": "",
+        "loop_api_base": "https://api.loopwork.co",
+        "loop_session_endpoint": "",
+        "loop_bundle_enabled": false,
+        "loop_bundle_id": "",
+        "loop_bundle_box_size_id": "",
+        "loop_bundle_create_url": "",
+        "loop_bundle_selling_plan_id": "",
+        "loop_bundle_property_key": "_bundleId",
+        "fomo_gift_enabled": false,
+        "fomo_metafield_namespace": "fortified",
+        "fomo_metafield_key": "fomo_claimed",
+        "fomo_cap": 1000,
+        "fomo_gift_text": "Free creatine gift with your first order"
+      }
     },
     "marquee_pdp_trust": {
       "type": "marquee",
@@ -461,9 +473,7 @@
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
         "padding-block-start": 28,
         "padding-block-end": 28,
-        "gap_between_elements": 24,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "gap_between_elements": 24
       }
     },
     "ftd_supp_facts_creatine": {
@@ -496,7 +506,7 @@
           "settings": {
             "title": "Why a full 5 grams?",
             "body": "5g is the exact daily dose used in the clinical research — enough to fully saturate your muscles without a loading phase. Most brands hide an underdosed scoop behind a proprietary blend. We don't blend, and we don't cut corners.",
-            "accent_color": "#1FA8A1"
+            "accent_color": "#1fa8a1"
           }
         },
         "c2": {
@@ -504,7 +514,7 @@
           "settings": {
             "title": "One ingredient. Nothing else.",
             "body": "No flavors, no sweeteners, no anti-caking fillers. Micronized so it dissolves clean into water, coffee, or your shake — and disappears.",
-            "accent_color": "#1FA8A1"
+            "accent_color": "#1fa8a1"
           }
         }
       },
@@ -522,7 +532,7 @@
         "panel_calories": "0",
         "panel_footnote": "* Daily Value not established. Creatine monohydrate, micronized. Manufactured in a cGMP facility and third-party tested for purity.",
         "eyebrow": "Read The Label",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "The whole label fits\nin one line.",
         "heading_emphasis_word": "one line.",
         "panel_position": "left",
@@ -531,30 +541,28 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "custom_css": ""
       }
     },
     "ftd_creatine_feature": {
       "type": "ftd-b-creatine-feature",
-      "blocks": {},
       "name": "FTD-B - Creatine",
       "settings": {
         "eyebrow": "The Only Ingredient",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "5 grams. Zero compromises.",
         "heading_emphasis_word": "Zero compromises.",
         "body": "Creatine monohydrate is the most-researched supplement on the planet — and the most underdosed on the shelf. Every FORTIFIED scoop is a full, micronized 5g of the exact form used in the studies. No flavors. No sweeteners. No fillers. Just the molecule your muscles and brain are built to use.",
         "quote": "The research is just as strong for women as it is for men — strength, lean muscle, recovery, and focus.",
-        "quote_accent_color": "#1FA8A1",
+        "quote_accent_color": "#1fa8a1",
         "feature_image": "shopify://shop_images/f48e401acdf1d6fea544e6bae6d412cc614471b1.png",
-        "canister_background": "#0A0A0A",
-        "canister_accent": "#1FA8A1",
+        "canister_background": "#0a0a0a",
+        "canister_accent": "#1fa8a1",
         "canister_brand": "Fortified",
         "canister_product_name": "Creatine Monohydrate",
         "canister_amount": "5g",
         "canister_serving_note": "per serving · 45 servings",
-        "stat_accent_color": "#1FA8A1",
+        "stat_accent_color": "#1fa8a1",
         "stat_1_number": "5g",
         "stat_1_label": "Clinical Dose",
         "stat_2_number": "45",
@@ -563,14 +571,17 @@
         "stat_3_label": "Studies",
         "stat_4_number": "1",
         "stat_4_label": "Ingredient",
+        "show_plans": false,
+        "simple_price": "$24.00",
+        "simple_price_note": "45 servings - Unflavored",
         "pricing_label_onetime": "One-Time",
         "pricing_price_onetime": "$39.99",
         "pricing_note_onetime": "45 servings · Unflavored",
         "pricing_label_sub": "Subscribe & Save 15%",
         "pricing_price_sub": "$33.99",
         "pricing_note_sub": "Auto-refill · Free shipping",
-        "pricing_accent": "#1FA8A1",
-        "cta_label_template": "Add Creatine To Cart — {price}",
+        "pricing_accent": "#1fa8a1",
+        "cta_label_template": "Add Creatine",
         "cta_link": "",
         "cta_style": "filled",
         "image_position_desktop": "left",
@@ -579,11 +590,7 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0,
-        "show_plans": false,
-        "simple_price": "$24.00",
-        "simple_price_note": "45 servings - Unflavored"
+        "custom_css": ""
       }
     },
     "ftd_benefits_creatine": {
@@ -635,26 +642,24 @@
       "name": "FTD-B - Benefits",
       "settings": {
         "eyebrow": "Clinically Backed",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "What 5 grams actually does.",
         "heading_emphasis_word": "actually does.",
         "body": "Decades of peer-reviewed research, distilled into four reasons one clean scoop a day is worth it.",
         "desktop_columns": 4,
         "card_radius": 12,
         "card_accent_top_thickness": 3,
-        "card_accent_color": "#1FA8A1",
+        "card_accent_color": "#1fa8a1",
         "section_width": "page-width",
         "content_max_width": 1360,
         "color_scheme": "scheme-1",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "custom_css": ""
       }
     },
     "ftd_testimonial_athlete": {
       "type": "fortified-testimonial",
-      "blocks": {},
       "name": "FTD - Testimonial",
       "settings": {
         "name": "Alex Friedman",
@@ -664,7 +669,6 @@
         "button_label": "Shop Creatine",
         "button_link": "",
         "button_style": "filled",
-        "image": "",
         "image_focal": "center",
         "image_position_desktop": "right",
         "align_desktop": "left",
@@ -674,12 +678,48 @@
         "content_max_width": 1360,
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "custom_css": ""
       }
     },
     "ftd_stats_research": {
       "type": "fortified-stats-row",
+      "blocks": {
+        "s1": {
+          "type": "stat",
+          "settings": {
+            "number": "5g",
+            "label": "Creatine per serving",
+            "description": "The dose used in nearly every peer-reviewed study — not a sprinkle on a marketing claim.",
+            "number_color": "",
+            "link": ""
+          }
+        },
+        "s2": {
+          "type": "stat",
+          "settings": {
+            "number": "45",
+            "label": "Servings per pouch",
+            "description": "A six-week supply at one serving a day. Enough for a real loading-to-maintenance cycle.",
+            "number_color": "",
+            "link": ""
+          }
+        },
+        "s3": {
+          "type": "stat",
+          "settings": {
+            "number": "100%",
+            "label": "Creatine monohydrate",
+            "description": "No additives, no fillers, no proprietary blend hiding the actual amount.",
+            "number_color": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
       "settings": {
         "eyebrow": "The Numbers, Disclosed",
         "heading": "A Single Ingredient, Dosed Honestly.",
@@ -695,40 +735,8 @@
         "color_scheme": "",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
-      },
-      "blocks": {
-        "s1": {
-          "type": "stat",
-          "settings": {
-            "number": "5g",
-            "label": "Creatine per serving",
-            "description": "The dose used in nearly every peer-reviewed study — not a sprinkle on a marketing claim."
-          }
-        },
-        "s2": {
-          "type": "stat",
-          "settings": {
-            "number": "45",
-            "label": "Servings per pouch",
-            "description": "A six-week supply at one serving a day. Enough for a real loading-to-maintenance cycle."
-          }
-        },
-        "s3": {
-          "type": "stat",
-          "settings": {
-            "number": "100%",
-            "label": "Creatine monohydrate",
-            "description": "No additives, no fillers, no proprietary blend hiding the actual amount."
-          }
-        }
-      },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3"
-      ]
+        "custom_css": ""
+      }
     },
     "ftd_comparison_creatine": {
       "type": "fortified-comparison",
@@ -829,9 +837,7 @@
         "color_scheme": "",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "custom_css": "",
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "custom_css": ""
       }
     },
     "ftd_truth_showcase": {
@@ -881,22 +887,20 @@
         "gap": 20,
         "card_radius": 16,
         "card_media_height": 200,
-        "card_bg": "#FFFFFF",
-        "card_text_color": "#0A0A0A",
-        "card_label_color": "#0A0A0A",
+        "card_bg": "#ffffff",
+        "card_text_color": "#0a0a0a",
+        "card_label_color": "#0a0a0a",
         "card_caption_color": "#444444",
         "button_label": "Shop Creatine",
         "button_link": "shopify://collections/supplements",
         "button_style": "filled",
         "color_scheme": "scheme-1",
-        "eyebrow_color": "#1FA8A1",
-        "heading_color": "#0A0A0A",
+        "eyebrow_color": "#1fa8a1",
+        "heading_color": "#0a0a0a",
         "section_width": "page-width",
         "content_max_width": 1360,
         "padding-block-start": 100,
-        "padding-block-end": 100,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "padding-block-end": 100
       }
     },
     "ftd_reviews_grid": {
@@ -980,21 +984,20 @@
       "name": "FTD-B - Testimonials",
       "settings": {
         "eyebrow": "The Truth",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "12,400+ five-star reviews.",
         "heading_emphasis_word": "five-star",
         "rating_text": "4.8 / 5 average from 12,400+ verified buyers",
         "desktop_columns": 3,
         "tablet_columns": 2,
         "card_radius": 12,
-        "quote_mark_color": "#1FA8A1",
+        "quote_mark_color": "#1fa8a1",
         "section_width": "page-width",
         "content_max_width": 1360,
         "color_scheme": "scheme-1",
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "custom_css": ""
       }
     },
     "ftd_faq_creatine": {
@@ -1066,44 +1069,23 @@
       "name": "FTD-B - FAQ",
       "settings": {
         "eyebrow": "Questions",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "Creatine, answered.",
         "heading_emphasis_word": "answered.",
         "show_tabs": false,
         "tabs_label_all": "All",
-        "accent_color": "#1FA8A1",
-        "divider_color": "#E5E5E5",
+        "accent_color": "#1fa8a1",
+        "divider_color": "#e5e5e5",
         "color_scheme": "scheme-1",
         "section_width": "page-width",
         "content_max_width": 1360,
         "padding-block-start": 100,
         "padding-block-end": 100,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "custom_css": ""
       }
     },
     "ftd_subscribe_save_cta": {
       "type": "fortified-subscribe-save",
-      "settings": {
-        "eyebrow": "Subscribe & Save",
-        "eyebrow_color": "#1fa8a1",
-        "heading": "Never Skip A Scoop. Save 15%.",
-        "button_label": "Start My Subscription",
-        "button_link": "",
-        "button_style": "outline",
-        "foreground_image": "shopify://shop_images/f48e401acdf1d6fea544e6bae6d412cc614471b1.png",
-        "foreground_image_focal": "center",
-        "image_position": "right",
-        "background_overlay": 50,
-        "text_color": "light",
-        "section_width": "page-width",
-        "content_max_width": 1360,
-        "color_scheme": "scheme-5",
-        "padding-block-start": 100,
-        "padding-block-end": 100,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
-      },
       "blocks": {
         "b1": {
           "type": "benefit",
@@ -1135,7 +1117,26 @@
         "b2",
         "b3",
         "b4"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Subscribe & Save",
+        "eyebrow_color": "#1fa8a1",
+        "heading": "Never Skip A Scoop. Save 15%.",
+        "button_label": "Start My Subscription",
+        "button_link": "",
+        "button_style": "outline",
+        "foreground_image": "shopify://shop_images/f48e401acdf1d6fea544e6bae6d412cc614471b1.png",
+        "foreground_image_focal": "center",
+        "image_position": "right",
+        "background_overlay": 50,
+        "text_color": "light",
+        "section_width": "page-width",
+        "content_max_width": 1360,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 100,
+        "padding-block-end": 100,
+        "custom_css": ""
+      }
     }
   },
   "order": [

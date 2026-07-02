@@ -135,9 +135,23 @@
         "panel_color_scheme": "",
         "button_radius": 60,
         "card_radius": 12,
-        "padding-block-start": 64,
-        "padding-block-end": 64,
-        "custom_css": ""
+        "padding-block-start": 32,
+        "padding-block-end": 32,
+        "custom_css": "",
+        "loop_api_token": "",
+        "loop_api_base": "https://api.loopwork.co",
+        "loop_session_endpoint": "",
+        "loop_bundle_enabled": true,
+        "loop_bundle_id": "f6295ec6c004439da0fed7bdf3508cf2",
+        "loop_bundle_box_size_id": "",
+        "loop_bundle_create_url": "",
+        "loop_bundle_selling_plan_id": "",
+        "loop_bundle_property_key": "_bundleId",
+        "fomo_gift_enabled": false,
+        "fomo_metafield_namespace": "fortified",
+        "fomo_metafield_key": "fomo_claimed",
+        "fomo_cap": 1000,
+        "fomo_gift_text": "Free creatine gift with your first order"
       }
     },
     "main": {
@@ -179,6 +193,7 @@
         "heading",
         "page-content"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "gap": 32,

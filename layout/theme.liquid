@@ -79,6 +79,94 @@
     .h1, .h2, .h3, .h4, .h5, .h6 {
       text-transform: uppercase;
     }
+
+    /* ── Unified homepage CTA buttons ──────────────────────────────
+       One consistent look for every CTA across the Fortified homepage
+       sections: UPPERCASE, 14px, weight 700, 0.14em tracking, 15x34
+       padding, same radius. Scoped to the FTD section wrappers, with
+       !important so it wins over both Horizon's .button and each
+       section's own id-scoped rules. `__cta` / `__btn` = bespoke
+       buttons; `.button` / `.button-secondary` = theme buttons that a
+       few sections emit. */
+    .ftd-truth-section a[class*="__cta"],
+    .ftd-stats-comparison-section .ftd-cta-row .button,
+    .ftd-comparison-section .ftd-cta-row a[class*="__cta"],
+    .ftd-comparison-section .ftd-cta-row .button,
+    .ftd-ingredients-callout-section .ftd-ic__cta-wrap .button,
+    .ftd-two-column-cta-section a[class*="__btn"],
+    .ftd-subscribe-save-section a[class*="__btn"] {
+      font-family: var(--font-heading--family, inherit) !important;
+      text-transform: uppercase !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.14em !important;
+      line-height: 1 !important;
+      padding: 15px 34px !important;
+      border-radius: var(--style-border-radius-buttons-primary, 8px) !important;
+    }
+
+    /* Primary = solid dark (single-tone sections). Two-Column keeps its
+       per-card button colors; only its size/case is normalized above. */
+    .ftd-truth-section a[class*="__cta"],
+    .ftd-stats-comparison-section .ftd-cta-row .button:not(.button-secondary),
+    .ftd-comparison-section .ftd-cta-row a[class*="__cta"],
+    .ftd-ingredients-callout-section .ftd-ic__cta-wrap .button:not(.button-secondary),
+    .ftd-subscribe-save-section a[class*="__btn"] {
+      background: var(--color-foreground) !important;
+      color: var(--color-background) !important;
+      border: 2px solid var(--color-foreground) !important;
+    }
+
+    /* Secondary ("Learn More") = outline. */
+    .ftd-stats-comparison-section .ftd-cta-row .button-secondary,
+    .ftd-comparison-section .ftd-cta-row .button-secondary,
+    .ftd-ingredients-callout-section .ftd-ic__cta-wrap .button-secondary {
+      background: transparent !important;
+      color: var(--color-foreground) !important;
+      border: 2px solid var(--color-foreground) !important;
+    }
+
+    .ftd-truth-section a[class*="__cta"]:hover,
+    .ftd-stats-comparison-section .ftd-cta-row .button:not(.button-secondary):hover,
+    .ftd-comparison-section .ftd-cta-row a[class*="__cta"]:hover,
+    .ftd-ingredients-callout-section .ftd-ic__cta-wrap .button:not(.button-secondary):hover,
+    .ftd-subscribe-save-section a[class*="__btn"]:hover { opacity: 0.9 !important; }
+
+    .ftd-stats-comparison-section .ftd-cta-row .button-secondary:hover,
+    .ftd-comparison-section .ftd-cta-row .button-secondary:hover,
+    .ftd-ingredients-callout-section .ftd-ic__cta-wrap .button-secondary:hover {
+      background: var(--color-foreground) !important;
+      color: var(--color-background) !important;
+    }
+
+    /* "Build Your Bundle" slide-over trigger (FTD - ProductSelector-DS),
+       wherever it's placed — same canonical look. It's a theme .button
+       (filled) or .button.button-secondary (outline). */
+    .ftdc-slideover-wrap > .button {
+      font-family: var(--font-heading--family, inherit) !important;
+      text-transform: uppercase !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.14em !important;
+      line-height: 1 !important;
+      padding: 15px 34px !important;
+      border-radius: var(--style-border-radius-buttons-primary, 8px) !important;
+    }
+    .ftdc-slideover-wrap > .button:not(.button-secondary) {
+      background: var(--color-foreground) !important;
+      color: var(--color-background) !important;
+      border: 2px solid var(--color-foreground) !important;
+    }
+    .ftdc-slideover-wrap > .button-secondary {
+      background: transparent !important;
+      color: var(--color-foreground) !important;
+      border: 2px solid var(--color-foreground) !important;
+    }
+    .ftdc-slideover-wrap > .button:not(.button-secondary):hover { opacity: 0.9 !important; }
+    .ftdc-slideover-wrap > .button-secondary:hover {
+      background: var(--color-foreground) !important;
+      color: var(--color-background) !important;
+    }
   </style>
 
   {{ content_for_header }}

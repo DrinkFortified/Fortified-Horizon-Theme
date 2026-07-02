@@ -1,0 +1,17 @@
+{%- comment -%}
+  FTD rich text. Inline formatting markers for section text fields:
+    **bold**      -> <strong class="ftd-b">
+    ***text***    -> warm "Everyday" gradient
+    ****text****  -> cool "Everyday" gradient
+  Pipeline: stash the 3/4-star gradient markers as sentinels first, run the
+  bold pass on what's left (so ** never collides with ***/****), then expand
+  the sentinels into gradient spans. Bold works inside a gradient too.
+  The .ftd-b / .ftd-grad CSS lives in the host section.
+  Usage: {% render 'ftd-gradient-text', text: some_string %}
+{%- endcomment -%}
+{%- assign t = text | replace: '****', '⟦FTDG4⟧' | replace: '***', '⟦FTDG3⟧' -%}
+{%- assign tb = '' -%}
+{%- assign pb = t | split: '**' -%}
+{%- for s in pb -%}{%- assign mb = forloop.index0 | modulo: 2 -%}{%- if mb == 1 -%}{%- assign tb = tb | append: '<strong class="ftd-b">' | append: s | append: '</strong>' -%}{%- else -%}{%- assign tb = tb | append: s -%}{%- endif -%}{%- endfor -%}
+{%- assign p4 = tb | split: '⟦FTDG4⟧' -%}
+{%- for s4 in p4 -%}{%- assign m4 = forloop.index0 | modulo: 2 -%}{%- if m4 == 1 -%}<span class="ftd-grad ftd-grad--4">{{ s4 }}</span>{%- else -%}{%- assign p3 = s4 | split: '⟦FTDG3⟧' -%}{%- for s3 in p3 -%}{%- assign m3 = forloop.index0 | modulo: 2 -%}{%- if m3 == 1 -%}<span class="ftd-grad ftd-grad--3">{{ s3 }}</span>{%- else -%}{{ s3 }}{%- endif -%}{%- endfor -%}{%- endif -%}{%- endfor -%}

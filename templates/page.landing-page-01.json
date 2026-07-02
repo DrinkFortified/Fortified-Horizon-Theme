@@ -1,4 +1,12 @@
-/* Fortified Landing Page 01 — hydration funnel (Everyday + Energy) */
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "section_NwCygK": {
@@ -287,6 +295,7 @@
                   "settings": {
                     "image": "shopify://shop_images/Fortified_HP_Hero.png",
                     "link": "",
+                    "open_in_popup": false,
                     "image_ratio": "adapt",
                     "width": "fill",
                     "custom_width": 100,
@@ -384,108 +393,13 @@
       "settings": {
         "movement_direction": "normal",
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 28,
-        "padding-block-end": 28,
+        "padding-block-start": 22,
+        "padding-block-end": 22,
         "gap_between_elements": 24
       }
     },
     "ftd_lp_selector": {
       "type": "fortified-product-selector",
-      "name": "FTD - Product Selector",
-      "settings": {
-        "content_max_width": 1240,
-        "section_width": "full-width",
-        "heading": "Lock In Your First Pouch",
-        "subheading": "Pick your function, pick your plan. Real minerals, every milligram on the label — never sugar, never crash.",
-        "coming_soon_text": "Soon",
-        "show_rating": true,
-        "rating_value": "4.8",
-        "rating_count": "12,400+ verified reviews",
-        "star_color": "#f5a623",
-        "plan_step_label": "Choose Your Plan",
-        "plan_step_note": "Subscribe & save 15%",
-        "show_monthly": true,
-        "monthly_label": "1 a Month",
-        "monthly_badge": "Subscribe & Save 15%",
-        "monthly_badge_color": "#1fa8a1",
-        "monthly_title": "1 Pouch\nEvery Month",
-        "monthly_desc": "Your daily ritual, on auto-refill.",
-        "monthly_price": "$33.99",
-        "monthly_period": "/ month",
-        "monthly_was": "$39.99",
-        "monthly_checklist": "Save 15% on every order\nFree shipping always\nSkip, swap, or cancel anytime",
-        "show_quarterly": true,
-        "quarterly_label": "3 Every 3 Months",
-        "quarterly_badge": "Best Value · 20% Off",
-        "quarterly_badge_color": "#e8833a",
-        "quarterly_title": "3 Pouches\nEvery 3 Months",
-        "quarterly_desc": "Mix functions. Save more.",
-        "quarterly_price": "$31.99",
-        "quarterly_period": "/ pouch",
-        "quarterly_was": "$39.99",
-        "quarterly_checklist": "Save 20% on every order\nFree Creatine in your first box\nFree shipping always\nSkip, swap, or cancel anytime",
-        "bundle_count": 3,
-        "show_onetime": true,
-        "onetime_card_label": "One Time",
-        "onetime_badge": "Buy Once",
-        "onetime_badge_color": "#6b7280",
-        "onetime_title": "Single\nPouch",
-        "onetime_desc": "Try it first. Subscribe whenever you're ready.",
-        "onetime_price": "$39.99",
-        "onetime_period": "/ pouch",
-        "onetime_was": "",
-        "onetime_checklist": "30 servings per pouch\nShipping calculated at checkout\nNo subscription required",
-        "onetime_product": "",
-        "onetime_flavor_option": "Flavor",
-        "simplified_for_subs": true,
-        "simple_plan_monthly": "",
-        "simple_plan_quarterly": "",
-        "build_step_label": "Build {count}-Pouch Bundle",
-        "pouches_word": "Pouches",
-        "function_label": "Choose Your Function",
-        "flavor_label": "Choose Flavor:",
-        "unit_label_prefix": "Pouch",
-        "show_addon": true,
-        "addon_product": "creatine",
-        "addon_label": "Add Creatine — 50% off",
-        "addon_desc": "50% off applied automatically at checkout.",
-        "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
-        "addon_desc_quarterly": "1st Creatine is free with your bundle. Add a second at 50% off.",
-        "quarterly_free_text": "Free Creatine included with your first bundle",
-        "addon_price_text": "$12.00",
-        "addon_was_text": "$24.00",
-        "addon_loop_plan_monthly": "2611478587",
-        "addon_loop_plan_quarterly": "2611511355",
-        "addon_loop_plan_quarterly_50off": "2611544123",
-        "summary_label": "Your Order",
-        "total_label": "Total",
-        "overview_note": "Subscriptions ship free. Cancel anytime.",
-        "show_shipping_bar": true,
-        "shipping_threshold_dollars": 50,
-        "shipping_text_subscription": "Subscriptions ship free",
-        "shipping_text_progress": "Add {amount} more for FREE shipping",
-        "shipping_text_unlocked": "FREE shipping unlocked",
-        "shipping_bar_track_color": "#efeae3",
-        "shipping_bar_fill_color": "#1fa8a1",
-        "shipping_bar_unlocked_color": "#16a34a",
-        "qty_label": "Quantity",
-        "qty_max": 20,
-        "atc_label": "Add to Cart",
-        "show_total_on_button": true,
-        "button_style": "filled",
-        "onetime_prefix": "",
-        "onetime_price_text": "",
-        "onetime_link": "",
-        "onetime_clickable": true,
-        "selection_color": "#1fa8a1",
-        "color_scheme": "",
-        "panel_color_scheme": "",
-        "button_radius": 8,
-        "card_radius": 12,
-        "padding-block-start": 64,
-        "padding-block-end": 64,
-        "custom_css": ""
-      },
       "blocks": {
         "lp_ps_gallery": {
           "type": "gallery_image",
@@ -553,7 +467,106 @@
         "lp_ps_benefit_1",
         "lp_ps_benefit_2",
         "lp_ps_benefit_3"
-      ]
+      ],
+      "name": "FTD - Product Selector",
+      "settings": {
+        "layout_direction": "image-left",
+        "content_max_width": 1240,
+        "section_width": "full-width",
+        "show_progress": true,
+        "progress_label_1": "Plan",
+        "progress_label_2": "Build",
+        "progress_label_3": "Review",
+        "panel_width": 460,
+        "show_thumbnails": true,
+        "thumbnail_position": "left",
+        "media_color_scheme": "",
+        "show_doctor_badge": true,
+        "doctor_badge_text": "Doctor Recommended",
+        "doctor_badge_bg": "#0a0a0a",
+        "show_rating": true,
+        "rating_value": "4.8",
+        "rating_count": "12,400+ verified reviews",
+        "star_color": "#f5a623",
+        "gallery_caption": "Electrolytes D3+K3",
+        "heading": "Lock In Your First Pouch",
+        "subheading": "Pick your function, pick your plan. Real minerals, every milligram on the label — never sugar, never crash.",
+        "coming_soon_text": "Soon",
+        "plan_step_label": "Choose Your Plan",
+        "plan_step_note": "Subscribe & save 15%",
+        "show_monthly": true,
+        "monthly_badge": "Subscribe & Save 15%",
+        "monthly_badge_color": "#1fa8a1",
+        "monthly_title": "1 Pouch\nEvery Month",
+        "monthly_desc": "Your daily ritual, on auto-refill.",
+        "monthly_price": "$33.99",
+        "monthly_period": "/ month",
+        "monthly_was": "$39.99",
+        "monthly_checklist": "Save 15% on every order\nFree shipping always\nSkip, swap, or cancel anytime",
+        "show_quarterly": true,
+        "quarterly_badge": "Best Value · 20% Off",
+        "quarterly_badge_color": "#e8833a",
+        "quarterly_title": "3 Pouches\nEvery 3 Months",
+        "quarterly_desc": "Mix functions. Save more.",
+        "quarterly_price": "$31.99",
+        "quarterly_period": "/ pouch",
+        "quarterly_was": "$39.99",
+        "quarterly_checklist": "Save 20% on every order\nFree Creatine in your first box\nFree shipping always\nSkip, swap, or cancel anytime",
+        "bundle_count": 3,
+        "build_step_label": "Build {count}-Pouch Bundle",
+        "pouches_word": "Pouches",
+        "function_label": "Choose Your Function",
+        "flavor_label": "Choose Flavor:",
+        "unit_label_prefix": "Pouch",
+        "show_addon": true,
+        "addon_product": "creatine",
+        "addon_label": "Add Creatine — 50% off",
+        "addon_desc": "50% off applied automatically at checkout.",
+        "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
+        "addon_desc_quarterly": "1st Creatine is free with your bundle. Add a second at 50% off.",
+        "quarterly_free_text": "Free Creatine included with your first bundle",
+        "addon_price_text": "$12.00",
+        "addon_was_text": "$24.00",
+        "addon_loop_plan_monthly": "2611478587",
+        "addon_loop_plan_quarterly": "2611511355",
+        "addon_loop_plan_quarterly_50off": "2611544123",
+        "summary_label": "Your Order",
+        "total_label": "Total",
+        "overview_note": "Subscriptions ship free. Cancel anytime.",
+        "atc_label": "Add to Cart",
+        "show_total_on_button": true,
+        "button_style": "filled",
+        "onetime_prefix": "",
+        "onetime_price_text": "",
+        "onetime_link": "",
+        "onetime_clickable": true,
+        "media_height_mobile": 380,
+        "media_height_desktop": 560,
+        "image_position": "center center",
+        "image_padding": 16,
+        "selection_color": "#1fa8a1",
+        "color_scheme": "",
+        "panel_color_scheme": "",
+        "button_radius": 8,
+        "card_radius": 12,
+        "padding-block-start": 56,
+        "padding-block-end": 72,
+        "custom_css": "",
+        "loop_api_token": "",
+        "loop_api_base": "https://api.loopwork.co",
+        "loop_session_endpoint": "",
+        "loop_bundle_enabled": true,
+        "loop_bundle_id": "f6295ec6c004439da0fed7bdf3508cf2",
+        "loop_bundle_box_size_id": "",
+        "loop_bundle_create_url": "",
+        "loop_bundle_selling_plan_id": "2607644731",
+        "loop_bundle_property_key": "_bundleId",
+        "fomo_gift_enabled": false,
+        "fomo_metafield_namespace": "fortified",
+        "fomo_metafield_key": "fomo_claimed",
+        "fomo_cap": 1000,
+        "fomo_gift_text": "Free creatine gift with your first order"
+      }
     },
     "ftd_lp_ingredients_callout": {
       "type": "fortified-ingredients-callout",
@@ -563,7 +576,6 @@
           "settings": {
             "name": "1,210mg Sodium",
             "description": "From Ancient Ocean® Pink Himalayan Salt — the electrolyte you sweat out most.",
-            "icon": "",
             "icon_color_override": ""
           }
         },
@@ -572,7 +584,6 @@
           "settings": {
             "name": "1,000mg Magnesium",
             "description": "As bioavailable magnesium malate — supports energy and muscle function.",
-            "icon": "",
             "icon_color_override": ""
           }
         },
@@ -581,7 +592,6 @@
           "settings": {
             "name": "Real Potassium",
             "description": "From CocOganic® Plus coconut water powder — the missing electrolyte in most mixes.",
-            "icon": "",
             "icon_color_override": ""
           }
         },
@@ -590,7 +600,6 @@
           "settings": {
             "name": "Vitamin D3 + K2",
             "description": "130% DV D3 paired with K2 as MK-7, the way your body actually uses them.",
-            "icon": "",
             "icon_color_override": ""
           }
         }
@@ -606,13 +615,13 @@
         "heading": "Every milligram on the label.",
         "subheading": "No proprietary blends. No fillers. The exact amounts the research says actually matter — printed right on the pouch.",
         "product_image": "shopify://shop_images/260401-FOR-EDY-30-ORG-2026_1-Front.webp",
-        "product_image_background": "#F2F2F0",
+        "product_image_background": "#f2f2f0",
         "product_image_max_height": 520,
         "image_position_desktop": "left",
         "desktop_ingredients_columns": 2,
         "icon_size": 48,
-        "icon_background_color": "#0A0A0A",
-        "icon_color": "#FFFFFF",
+        "icon_background_color": "#0a0a0a",
+        "icon_color": "#ffffff",
         "button_label": "Shop FORTIFIED Now",
         "button_link": "shopify://collections/all",
         "button_style": "filled",
@@ -620,7 +629,8 @@
         "section_width": "page-width",
         "content_max_width": 1360,
         "padding-block-start": 100,
-        "padding-block-end": 100
+        "padding-block-end": 100,
+        "custom_css": ""
       }
     },
     "ftd_lp_reviews": {
@@ -704,19 +714,20 @@
       "name": "FTD-B - Testimonials",
       "settings": {
         "eyebrow": "The Truth",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "12,400+ five-star reviews.",
         "heading_emphasis_word": "five-star",
         "rating_text": "4.8 / 5 average from 12,400+ verified buyers",
         "desktop_columns": 3,
         "tablet_columns": 2,
         "card_radius": 12,
-        "quote_mark_color": "#1FA8A1",
+        "quote_mark_color": "#1fa8a1",
         "section_width": "page-width",
         "content_max_width": 1360,
         "color_scheme": "scheme-1",
         "padding-block-start": 100,
-        "padding-block-end": 100
+        "padding-block-end": 100,
+        "custom_css": ""
       }
     },
     "ftd_lp_ingredients_grid": {
@@ -728,7 +739,7 @@
             "name": "Sodium",
             "description": "1,210mg from Ancient Ocean® Pink Himalayan Salt — the electrolyte you lose most.",
             "tag_label": "Hydration",
-            "tag_color": "#1FA8A1",
+            "tag_color": "#1fa8a1",
             "link": ""
           }
         },
@@ -738,7 +749,7 @@
             "name": "Magnesium",
             "description": "1,000mg of bioavailable magnesium malate for energy, muscle function, and calm.",
             "tag_label": "Recovery",
-            "tag_color": "#1FA8A1",
+            "tag_color": "#1fa8a1",
             "link": ""
           }
         },
@@ -748,7 +759,7 @@
             "name": "Potassium",
             "description": "Real-food potassium from coconut water powder — the partner sodium needs to do its job.",
             "tag_label": "Hydration",
-            "tag_color": "#1FA8A1",
+            "tag_color": "#1fa8a1",
             "link": ""
           }
         },
@@ -758,7 +769,7 @@
             "name": "Vitamin D3 + K2",
             "description": "130% DV D3 paired with K2 as MK-7 — the way your body actually uses them.",
             "tag_label": "Daily Support",
-            "tag_color": "#1FA8A1",
+            "tag_color": "#1fa8a1",
             "link": ""
           }
         }
@@ -772,7 +783,7 @@
       "name": "FTD - Ingredients",
       "settings": {
         "eyebrow": "What's Inside",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "Why we beat the rest.",
         "subheading": "Every ingredient earned its spot — and you can see exactly how much you're getting.",
         "desktop_columns": 4,
@@ -786,7 +797,8 @@
         "content_max_width": 1360,
         "color_scheme": "scheme-1",
         "padding-block-start": 100,
-        "padding-block-end": 100
+        "padding-block-end": 100,
+        "custom_css": ""
       }
     },
     "ftd_lp_comparison": {
@@ -960,40 +972,23 @@
       "name": "FTD-B - FAQ",
       "settings": {
         "eyebrow": "Common Questions",
-        "eyebrow_color": "#1FA8A1",
+        "eyebrow_color": "#1fa8a1",
         "heading": "Answered honestly.",
         "heading_emphasis_word": "honestly.",
         "show_tabs": false,
         "tabs_label_all": "All",
-        "accent_color": "#1FA8A1",
-        "divider_color": "#E5E5E5",
+        "accent_color": "#1fa8a1",
+        "divider_color": "#e5e5e5",
         "color_scheme": "scheme-1",
         "section_width": "page-width",
         "content_max_width": 1360,
         "padding-block-start": 100,
-        "padding-block-end": 100
+        "padding-block-end": 100,
+        "custom_css": ""
       }
     },
     "ftd_lp_subscribe_cta": {
       "type": "fortified-subscribe-save",
-      "settings": {
-        "eyebrow": "Subscribe & Save",
-        "eyebrow_color": "#1fa8a1",
-        "heading": "Lock In 15% Off. Free Creatine On Us.",
-        "button_label": "Start My Subscription",
-        "button_link": "",
-        "button_style": "outline",
-        "foreground_image": "shopify://shop_images/260401-FOR-ENG-30-ORG-2026_1-Front.webp",
-        "foreground_image_focal": "center",
-        "image_position": "right",
-        "background_overlay": 50,
-        "text_color": "light",
-        "section_width": "page-width",
-        "content_max_width": 1360,
-        "color_scheme": "scheme-5",
-        "padding-block-start": 100,
-        "padding-block-end": 100
-      },
       "blocks": {
         "b1": {
           "type": "benefit",
@@ -1025,7 +1020,26 @@
         "b2",
         "b3",
         "b4"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Subscribe & Save",
+        "eyebrow_color": "#1fa8a1",
+        "heading": "Lock In 15% Off. Free Creatine On Us.",
+        "button_label": "Start My Subscription",
+        "button_link": "",
+        "button_style": "outline",
+        "foreground_image": "shopify://shop_images/260401-FOR-ENG-30-ORG-2026_1-Front.webp",
+        "foreground_image_focal": "center",
+        "image_position": "right",
+        "background_overlay": 50,
+        "text_color": "light",
+        "section_width": "page-width",
+        "content_max_width": 1360,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 100,
+        "padding-block-end": 100,
+        "custom_css": ""
+      }
     }
   },
   "order": [
