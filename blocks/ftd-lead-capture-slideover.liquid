@@ -204,24 +204,20 @@
                 <input class="ftdlc__input" id="ftdlc-phone-{{ sid }}" type="tel" name="customer[note][Phone]" autocomplete="tel" {% if block.settings.phone_required %}required{% endif %} placeholder="{{ block.settings.phone_placeholder | default: '(555) 555-5555' | escape }}">
               </div>
 
+              {%- comment -%}
+                One combined email + SMS consent checkbox (TCPA + Texas
+                SB 140 pattern for standalone marketing signup forms):
+                required to submit, unchecked by default, full dual-channel
+                disclosure at the box. Because submission is impossible
+                without ticking it, the consent-record note below can be a
+                static hidden field — every submitted lead has consented.
+              {%- endcomment -%}
+              <input type="hidden" name="customer[note][Marketing Consent]" value="Customer checked the combined email + SMS marketing consent box on the lead-capture form (express written consent to marketing emails and recurring automated marketing texts; HELP/STOP disclosed; consent not a condition of purchase; box required to submit, unchecked by default).">
               <label class="ftdlc__optin">
                 <input type="hidden" name="customer[accepts_marketing]" value="false">
-                <input type="checkbox" name="customer[accepts_marketing]" value="true" {% if block.settings.optin_prechecked %}checked{% endif %} {% if block.settings.optin_required %}required{% endif %}>
-                <span class="ftdlc__optin-text">{{ block.settings.optin_text | default: '<p>Yes — send me email offers, restock alerts, and hydration tips. Unsubscribe anytime.</p>' }}</span>
+                <input type="checkbox" name="customer[accepts_marketing]" value="true" required>
+                <span class="ftdlc__optin-text">{{ block.settings.optin_text | default: '<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href="/policies/privacy-policy">Privacy Policy</a> and <a href="/policies/terms-of-service">Terms of Service</a>.</p>' }}</span>
               </label>
-
-              {%- if block.settings.show_sms_optin -%}
-                {%- comment -%}
-                  SMS consent (TCPA + Texas SB 140). Must be a separate,
-                  unchecked, optional checkbox with the full disclosure.
-                  When ticked, a consent record line is written into the
-                  customer note alongside the phone number.
-                {%- endcomment -%}
-                <label class="ftdlc__optin">
-                  <input type="checkbox" name="customer[note][SMS Consent]" value="Customer checked the SMS marketing consent box on the lead-capture form (express written consent to recurring automated marketing texts; HELP/STOP disclosed; consent not a condition of purchase).">
-                  <span class="ftdlc__optin-text">{{ block.settings.sms_optin_text | default: '<p>By checking this box, I agree to receive recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel. View our <a href="/policies/privacy-policy">Privacy Policy</a> and <a href="/policies/terms-of-service">Terms of Service</a>.</p>' }}</span>
-                </label>
-              {%- endif -%}
 
               <button class="ftdlc__submit" type="submit" data-ftdlc-submit>{{ block.settings.submit_label | default: 'Sign Me Up' }}</button>
             {%- endform -%}
@@ -381,14 +377,9 @@
     { "type": "text", "id": "phone_label", "label": "Phone label", "default": "Phone" },
     { "type": "text", "id": "phone_placeholder", "label": "Phone placeholder", "default": "(555) 555-5555" },
     { "type": "checkbox", "id": "phone_required", "label": "Phone required", "default": false, "info": "Phone is saved to the customer's note — Shopify's storefront form has no SMS-consent field." },
-    { "type": "richtext", "id": "optin_text", "label": "Email opt-in text", "default": "<p>Yes — send me email offers, restock alerts, and hydration tips. Unsubscribe anytime.</p>" },
-    { "type": "checkbox", "id": "optin_prechecked", "label": "Email opt-in pre-checked", "default": false, "info": "Leaving it unchecked is the safer consent practice." },
-    { "type": "checkbox", "id": "optin_required", "label": "Email opt-in required to submit", "default": true },
-
-    { "type": "header", "content": "SMS consent" },
-    { "type": "paragraph", "content": "Separate, optional, unchecked-by-default checkbox with the full disclosure — the pattern TCPA and Texas SB 140 expect for marketing texts. When ticked, a consent record is saved to the customer's note next to their phone number. Have your counsel review the wording; this template is not legal advice." },
-    { "type": "checkbox", "id": "show_sms_optin", "label": "Show SMS consent checkbox", "default": true },
-    { "type": "richtext", "id": "sms_optin_text", "label": "SMS consent text", "default": "<p>By checking this box, I agree to receive recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel. View our <a href=\"/policies/privacy-policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\">Terms of Service</a>.</p>" },
+    { "type": "header", "content": "Consent checkbox" },
+    { "type": "paragraph", "content": "One combined email + SMS consent box: required to submit and always unchecked by default (TCPA / Texas SB 140 pattern for standalone signup forms). Keep the disclosure covering BOTH channels if you edit it. Not legal advice — have counsel review the final wording." },
+    { "type": "richtext", "id": "optin_text", "label": "Consent text", "default": "<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href=\"/policies/privacy-policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\">Terms of Service</a>.</p>" },
     { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Sign Me Up" },
     { "type": "text", "id": "customer_tags", "label": "Customer tags", "default": "lead-capture", "info": "Comma-separated tags stamped on the customer in Shopify admin." },
 
