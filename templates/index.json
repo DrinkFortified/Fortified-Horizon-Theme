@@ -2012,6 +2012,7 @@
         "icon_color": "#ffffff",
         "button_label": "",
         "button_link": "#open-bundle",
+        "center_cta": false,
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "button_style": "filled",
@@ -2083,6 +2084,7 @@
         "icon_color": "#ffffff",
         "button_label": "Build Your Bundle",
         "button_link": "#open-bundle",
+        "center_cta": false,
         "secondary_button_label": "",
         "secondary_button_link": "",
         "button_style": "filled",
@@ -2376,6 +2378,7 @@
             "total_label": "Total",
             "saved_word": "Saved",
             "action_label_step1": "Next →",
+            "action_label_step2": "Continue",
             "checkout_label": "Checkout",
             "add_more_label": "Add More",
             "accent_color": "#1fa8a1",
@@ -2730,6 +2733,7 @@
     },
     "fortified_fomo_counter_pJBdGa": {
       "type": "fortified-fomo-counter",
+      "disabled": true,
       "name": "FTD - FOMO Counter",
       "settings": {
         "anchor_id": "",
@@ -2934,7 +2938,7 @@
         "card_radius": 12,
         "content_max_width": 1360,
         "color_scheme": "",
-        "padding-block-start": 64,
+        "padding-block-start": 112,
         "padding-block-end": 64
       }
     },
