@@ -394,7 +394,7 @@
       },
       "scheme-9dabec62-ac86-4e8e-8cef-a3b53a770bed": {
         "settings": {
-          "background": "#F8981D",
+          "background": "#f8981d",
           "foreground_heading": "#000000",
           "foreground": "#000000cf",
           "primary": "#000000cf",
@@ -711,5 +711,10 @@
         }
       }
     }
+  },
+  "platform_customizations": {
+    "custom_css": [
+      "[data-testid=\"cart-drawer-trigger\"],cart-drawer-component,a.action__cart {display: none !important;}"
+    ]
   }
 }

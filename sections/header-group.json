@@ -94,6 +94,9 @@
           "blocks": {}
         }
       },
+      "custom_css": [
+        "/* Hide the cart icon in the header bar */header [data-testid=\"cart-drawer-trigger\"],header cart-drawer-component,header a.action__cart {display: none !important;}"
+      ],
       "settings": {
         "logo_position": "center",
         "menu_position": "left",
@@ -120,7 +123,7 @@
         "actions_font": "body",
         "actions_text_case": "none",
         "cta_button_show": true,
-        "cta_button_label": "Build Your Bundle",
+        "cta_button_label": "SIGN UP NOW",
         "cta_button_link": "#leadcapture",
         "cta_button_style": "primary",
         "color_scheme_top": "scheme-1",

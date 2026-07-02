@@ -210,9 +210,26 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {
+                    "button_p7pnbx": {
+                      "type": "button",
+                      "name": "t:names.button",
+                      "settings": {
+                        "label": "SIGN UP NOW",
+                        "link": "#leadcapture",
+                        "open_in_new_tab": false,
+                        "open_in_popup": false,
+                        "style_class": "button",
+                        "width": "fit-content",
+                        "custom_width": 100,
+                        "width_mobile": "fit-content",
+                        "custom_width_mobile": 100
+                      },
+                      "blocks": {}
+                    },
                     "email_signup_nrhcTL": {
                       "type": "email-signup",
                       "name": "t:names.email_signup",
+                      "disabled": true,
                       "settings": {
                         "width": "fill",
                         "custom_width": 100,
@@ -238,6 +255,7 @@
                     }
                   },
                   "block_order": [
+                    "button_p7pnbx",
                     "email_signup_nrhcTL"
                   ]
                 }
@@ -292,6 +310,7 @@
                 "image_9bk44R": {
                   "type": "image",
                   "name": "t:names.image",
+                  "disabled": true,
                   "settings": {
                     "image": "shopify://shop_images/Fortified_HP_Hero.png",
                     "link": "",
@@ -340,11 +359,12 @@
         "vertical_alignment_flex_direction_column": "center",
         "gap": 12,
         "section_width": "page-width",
-        "section_height": "small",
+        "section_height": "full-screen",
         "section_height_custom": 50,
         "color_scheme": "",
-        "background_media": "none",
+        "background_media": "image",
         "video_position": "cover",
+        "background_image": "shopify://shop_images/IMG_1731.jpg",
         "background_image_position": "cover",
         "border": "none",
         "border_width": 1,
@@ -1999,7 +2019,7 @@
       ],
       "name": "FTD - Ingredients Callout",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#everyday",
         "heading": "***Everyday***\nElectrolytes + D3 & K2",
         "subheading": "<p><strong>The Hydration You'd Pour For Your Family</strong><br/><br/>Pink Himalayan sodium, bioavailable magnesium, and the D3 + K2 pairing your body actually uses — because real food alone usually isn't enough. Zero caffeine, zero sugar, zero ingredients you'd have to Google.</p>",
         "product_image": "shopify://shop_images/1.png",
@@ -2082,8 +2102,8 @@
         "icon_size": 72,
         "icon_background_color": "#0a0a0a",
         "icon_color": "#ffffff",
-        "button_label": "Build Your Bundle",
-        "button_link": "#open-bundle",
+        "button_label": "SIGN UP NOW",
+        "button_link": "#leadcapture",
         "center_cta": true,
         "secondary_button_label": "",
         "secondary_button_link": "",
@@ -2161,8 +2181,8 @@
         "subheading": "<p>Every milligram on the front of the pouch. No proprietary blends, no asterisks, no marketing math — just real ingredients in honest amounts, the way the label was supposed to work.</p>",
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
-        "button_label": "BUILD YOUR BUNDLE",
-        "button_link": "#open-bundle",
+        "button_label": "SIGN  UP NOW",
+        "button_link": "#leadcapture",
         "button_style": "filled",
         "columns_desktop": 4,
         "enable_carousel": false,
@@ -2307,7 +2327,8 @@
             "slideover_width": 480,
             "close_label": "Close",
             "color_scheme": "",
-            "accent_color": "#1FA8A1",
+            "accent_color": "#1fa8a1",
+            "fallback_image_filename": "Hero-Products.webp",
             "heading": "Join The Fortified List",
             "description": "<p>Early access to drops, subscriber-only offers, and honest hydration tips. No spam, ever.</p>",
             "name_label": "Name",
@@ -3093,8 +3114,8 @@
         "accent_color": "#1fa8a1",
         "heading_color": "#0a0a0a",
         "color_scheme": "scheme-b6fff204-2611-42ad-97a3-74dfcba91118",
-        "button_label": "Compare The Labels",
-        "button_link": "",
+        "button_label": "Compare The Functions",
+        "button_link": "#everyday",
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "button_bg": "#0a0a0a",
@@ -3764,9 +3785,9 @@
                 "text_KpDhEq": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Because every other \"clean\" hydration on the shelf still hid something — a sweetener nobody asked for, an electrolyte dosed too low to matter, a blend nobody could decode. FORTIFIED® is the answer for the people who actually read labels. The full dose. The real source. The whole story on the front of the pouch.</p>",
+                    "text": "<p>Because every other \"clean\" hydration on the shelf still hid something — a sweetener nobody asked for, an electrolyte dosed too low to matter, a blend nobody could decode. FORTIFIED® is the answer for the people who actually read labels.<br/>The full dose. The real source. The whole story on the front of the pouch.</p>",
                     "width": "100%",
-                    "max_width": "none",
+                    "max_width": "normal",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -4049,7 +4070,13 @@
         "benefit_xE8i3U": {
           "type": "benefit",
           "settings": {
-            "text": "Save 15% on every order, automatically"
+            "text": "Save 20% on every order, automatically when subscribed to the 90-Day Supply Every 3 Months plan"
+          }
+        },
+        "benefit_R7apX4": {
+          "type": "benefit",
+          "settings": {
+            "text": "Free creatine on quarterly plans for the life of your subscription"
           }
         },
         "benefit_BQ4FPY": {
@@ -4063,28 +4090,22 @@
           "settings": {
             "text": "Never run out of your ritual"
           }
-        },
-        "benefit_R7apX4": {
-          "type": "benefit",
-          "settings": {
-            "text": "Free creatine on quarterly plans"
-          }
         }
       },
       "block_order": [
         "benefit_xE8i3U",
+        "benefit_R7apX4",
         "benefit_BQ4FPY",
-        "benefit_RiBeWX",
-        "benefit_R7apX4"
+        "benefit_RiBeWX"
       ],
       "name": "FTD - Subscribe & Save",
       "settings": {
         "anchor_id": "",
         "eyebrow": "Subscribe & Save",
         "eyebrow_color": "#1fa8a1",
-        "heading": "Lock In Your Ritual. Save 15% Forever.",
-        "button_label": "Start My Subscription",
-        "button_link": "#open-bundle",
+        "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
+        "button_label": "Sign up today!",
+        "button_link": "#leadcapture",
         "button_style": "outline",
         "foreground_image_focal": "center",
         "image_position": "right",
