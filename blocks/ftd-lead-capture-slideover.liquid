@@ -54,6 +54,7 @@
   #ftdlc-{{ sid }} .ftdlc__desc p + p { margin-top: 0.6em; }
 
   #ftdlc-{{ sid }} .ftdlc__field { margin: 0 0 16px; }
+  #ftdlc-{{ sid }} .ftdlc__req { color: #D92D20; margin-left: 2px; }
   #ftdlc-{{ sid }} .ftdlc__label {
     display: block;
     margin: 0 0 6px;
@@ -190,17 +191,17 @@
               <input type="hidden" name="customer[tags]" value="{{ block.settings.customer_tags | default: 'lead-capture' | escape }}">
 
               <div class="ftdlc__field">
-                <label class="ftdlc__label" for="ftdlc-name-{{ sid }}">{{ block.settings.name_label | default: 'Name' }}</label>
+                <label class="ftdlc__label" for="ftdlc-name-{{ sid }}">{{ block.settings.name_label | default: 'Name' }}<span class="ftdlc__req" aria-hidden="true">*</span></label>
                 <input class="ftdlc__input" id="ftdlc-name-{{ sid }}" type="text" name="customer[first_name]" autocomplete="name" required placeholder="{{ block.settings.name_placeholder | default: 'Your name' | escape }}">
               </div>
 
               <div class="ftdlc__field">
-                <label class="ftdlc__label" for="ftdlc-email-{{ sid }}">{{ block.settings.email_label | default: 'Email' }}</label>
+                <label class="ftdlc__label" for="ftdlc-email-{{ sid }}">{{ block.settings.email_label | default: 'Email' }}<span class="ftdlc__req" aria-hidden="true">*</span></label>
                 <input class="ftdlc__input" id="ftdlc-email-{{ sid }}" type="email" name="customer[email]" autocomplete="email" required placeholder="{{ block.settings.email_placeholder | default: 'you@example.com' | escape }}">
               </div>
 
               <div class="ftdlc__field">
-                <label class="ftdlc__label" for="ftdlc-phone-{{ sid }}">{{ block.settings.phone_label | default: 'Phone' }}</label>
+                <label class="ftdlc__label" for="ftdlc-phone-{{ sid }}">{{ block.settings.phone_label | default: 'Phone' }}{% if block.settings.phone_required %}<span class="ftdlc__req" aria-hidden="true">*</span>{% endif %}</label>
                 <input class="ftdlc__input" id="ftdlc-phone-{{ sid }}" type="tel" name="customer[note][Phone]" autocomplete="tel" {% if block.settings.phone_required %}required{% endif %} placeholder="{{ block.settings.phone_placeholder | default: '(555) 555-5555' | escape }}">
               </div>
 
@@ -216,7 +217,7 @@
               <label class="ftdlc__optin">
                 <input type="hidden" name="customer[accepts_marketing]" value="false">
                 <input type="checkbox" name="customer[accepts_marketing]" value="true" required>
-                <span class="ftdlc__optin-text">{{ block.settings.optin_text | default: '<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href="/policies/privacy-policy">Privacy Policy</a> and <a href="/policies/terms-of-service">Terms of Service</a>.</p>' }}</span>
+                <span class="ftdlc__optin-text"><span class="ftdlc__req" aria-hidden="true">*&nbsp;</span>{{ block.settings.optin_text | default: '<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href="/policies/privacy-policy">Privacy Policy</a> and <a href="/policies/terms-of-service">Terms of Service</a>.</p>' }}</span>
               </label>
 
               <button class="ftdlc__submit" type="submit" data-ftdlc-submit>{{ block.settings.submit_label | default: 'Sign Me Up' }}</button>
