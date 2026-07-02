@@ -48,7 +48,7 @@
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
   id="{{ root }}"
-  class="ftd-ic section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }} ftd-ic--img-{{ img_pos }}{% if section.settings.center_cta %} ftd-ic--cta-center{% endif %}"
+  class="ftd-ic section section--{{ section.settings.section_width }} spacing-style color-{{ section.settings.color_scheme }} ftd-ic--img-{{ img_pos }}"
   style="
     {% render 'spacing-padding', settings: section.settings %}
     --ftic-max-w: {{ section.settings.content_max_width }}px;
@@ -145,25 +145,37 @@
         </ul>
       {%- endif -%}
 
-      {%- if cta_label_v != blank or section.settings.secondary_button_label != blank -%}
-        <div class="ftd-ic__cta-wrap">
-          {%- if cta_label_v != blank -%}
-            {%- assign _ic_cls = 'button' -%}
-            {%- if btn_style == 'outline' -%}{%- assign _ic_cls = 'button button-secondary' -%}{%- endif -%}
-            <a
-              class="{{ _ic_cls }}"
-              {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
-            >{{ cta_label_v }}</a>
-          {%- endif -%}
-          {%- if section.settings.secondary_button_label != blank -%}
-            {%- assign sec_link = section.settings.secondary_button_link | default: '#shopify-section-ftd_c_supp_facts_4JN74r' -%}
-            <a class="button button-secondary" href="{{ sec_link }}">{{ section.settings.secondary_button_label }}</a>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
+      {%- capture cta_buttons -%}
+        {%- if cta_label_v != blank -%}
+          {%- assign _ic_cls = 'button' -%}
+          {%- if btn_style == 'outline' -%}{%- assign _ic_cls = 'button button-secondary' -%}{%- endif -%}
+          <a
+            class="{{ _ic_cls }}"
+            {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" role="button"{% endif %}
+          >{{ cta_label_v }}</a>
+        {%- endif -%}
+        {%- if section.settings.secondary_button_label != blank -%}
+          {%- assign sec_link = section.settings.secondary_button_link | default: '#shopify-section-ftd_c_supp_facts_4JN74r' -%}
+          <a class="button button-secondary" href="{{ sec_link }}">{{ section.settings.secondary_button_label }}</a>
+        {%- endif -%}
+      {%- endcapture -%}
+
+      {%- assign cta_trimmed = cta_buttons | strip -%}
+      {%- unless section.settings.center_cta -%}
+        {%- if cta_trimmed != blank -%}
+          <div class="ftd-ic__cta-wrap">{{ cta_buttons }}</div>
+        {%- endif -%}
+      {%- endunless -%}
     </div>
 
   </div>
+
+  {%- comment %} Centered mode: the CTA leaves the text column and gets its
+      own full-width row under the image/content grid, so it centers on the
+      SECTION (and screen), not on the 70% text column. {%- endcomment %}
+  {%- if section.settings.center_cta and cta_trimmed != blank -%}
+    <div class="ftd-ic__cta-row">{{ cta_buttons }}</div>
+  {%- endif -%}
 </section>
 
 {% stylesheet %}
@@ -289,7 +301,19 @@
 
 /* CTA */
 .ftd-ic__cta-wrap { display: flex; gap: 14px; flex-wrap: wrap; margin-top: clamp(10px, 1.6vw, 22px); align-items: stretch; }
-.ftd-ic--cta-center .ftd-ic__cta-wrap { justify-content: center; }
+/* Centered mode: full-width row below the grid, aligned to the section. */
+.ftd-ic__cta-row {
+  max-width: var(--ftic-max-w, 1240px);
+  margin: clamp(20px, 3vw, 36px) auto 0;
+  padding-inline: clamp(16px, 5vw, 48px);
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.ftd-ic__cta-row > .button,
+.ftd-ic__cta-row > .button-secondary { flex: 0 1 auto; min-width: 12rem; white-space: nowrap; justify-content: center; text-align: center; }
 .ftd-ic__cta-wrap > .ftd-ic__cta,
 .ftd-ic__cta-wrap > .button,
 .ftd-ic__cta-wrap > .button-secondary { flex: 0 1 auto; min-width: 12rem; white-space: nowrap; justify-content: center; text-align: center; }
@@ -328,7 +352,9 @@
   .ftd-ic__grid { grid-template-columns: 1fr !important; }
   .ftd-ic__cta-wrap > .ftd-ic__cta,
   .ftd-ic__cta-wrap > .button,
-  .ftd-ic__cta-wrap > .button-secondary { flex: 1 1 auto; min-width: 0; }
+  .ftd-ic__cta-wrap > .button-secondary,
+  .ftd-ic__cta-row > .button,
+  .ftd-ic__cta-row > .button-secondary { flex: 1 1 auto; min-width: 0; }
 }
 
 /* Desktop. The image column is always the 30fr (narrower) track and the
@@ -389,7 +415,7 @@
     { "type": "header", "content": "Button" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Fortified Now" },
     { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "checkbox", "id": "center_cta", "label": "Center button", "default": false },
+    { "type": "checkbox", "id": "center_cta", "label": "Center button in section", "default": false, "info": "Moves the button to its own centered row below the image and text." },
     { "type": "header", "content": "Secondary CTA (Learn More)" },
     { "type": "text", "id": "secondary_button_label", "label": "Secondary button label", "default": "Learn More" },
     { "type": "text", "id": "secondary_button_link",  "label": "Secondary button link",  "default": "#shopify-section-ftd_c_supp_facts_4JN74r", "info": "Defaults to the Supplement Facts section on the homepage." },
