@@ -148,3 +148,37 @@ button.shopify-payment-button__button--unbranded:hover {
   --button-background-color: var(--color-secondary-button-background);
   --button-border-color: var(--color-secondary-button-border);
 }
+
+/* ---- Unified button voice ----
+ * One typography for every CTA on the site: heading family, bold, 14px,
+ * wide tracking, uppercase — the voice the FTD section CTAs (Truth,
+ * Comparison, Stats, Lead Capture) already use. This brings Horizon's
+ * global .button / .button-secondary (hero, header, ingredients callout,
+ * secondary "Learn More"s, add-to-cart) and the bundle wizard's buttons
+ * in line. .button-unstyled utility buttons (close ×, icon buttons,
+ * popup links) are deliberately excluded.
+ * The .ftdc-scoped selectors carry an extra class so they outrank
+ * ftdc.css's flat rules regardless of stylesheet load order. */
+.button:not(.button-unstyled),
+.button-secondary,
+.ftdc .ftdc__btn,
+.ftdc .ftdc__bar-action,
+.ftdc .ftdc__add {
+  font-family: var(--font-heading--family, inherit);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* One padding scale for full-size CTAs so mixed rows (a scoped primary
+ * next to a global secondary) render at identical heights. The wizard's
+ * compact controls (bar pill, card ADD) keep their own padding. */
+.button:not(.button-unstyled),
+.button-secondary,
+.ftdc .ftdc__btn {
+  padding-block: 15px;
+  padding-inline: 32px;
+}
