@@ -183,11 +183,9 @@ button.shopify-payment-button__button--unbranded:hover {
   padding-inline: 32px;
 }
 
-/* Header CTA: 3px extra padding on every side over the unified button
- * scale (15/32 -> 18/35). Placed after the unified rule so it wins the
- * equal-specificity tie. */
+/* Header CTA: 3px of breathing room OUTSIDE the button (margin), keeping
+ * the button itself on the unified 15/32 padding scale. */
 .header-actions__cta.button,
 .header-actions__cta.button-secondary {
-  padding-block: 18px;
-  padding-inline: 35px;
+  margin: 3px;
 }
