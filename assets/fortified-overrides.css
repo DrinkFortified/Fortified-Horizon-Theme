@@ -189,3 +189,17 @@ button.shopify-payment-button__button--unbranded:hover {
 .header-actions__cta.button-secondary {
   margin: 3px;
 }
+
+/* ---- Mobile-only alignment overrides ----
+ * Horizon's .mobile-column reads --vertical-alignment-mobile but shares
+ * --horizontal-alignment with desktop. Together with the mobile settings
+ * exposed on flexible sections and groups (layout-panel-style.liquid),
+ * this lets a section place its content differently on phones — e.g.
+ * hero text top-centered on mobile, left-centered on desktop. Falls back
+ * to the desktop values when the settings are untouched. */
+@media screen and (max-width: 749px) {
+  .mobile-column {
+    align-items: var(--horizontal-alignment-mobile, var(--horizontal-alignment));
+    justify-content: var(--vertical-alignment-mobile, var(--vertical-alignment));
+  }
+}

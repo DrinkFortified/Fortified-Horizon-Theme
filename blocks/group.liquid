@@ -149,6 +149,30 @@
       "visible_if": "{{ block.settings.content_direction == 'column' }}"
     },
     {
+      "type": "select",
+      "id": "horizontal_alignment_mobile",
+      "label": "Alignment (mobile)",
+      "options": [
+        { "value": "", "label": "Same as desktop" },
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment_mobile",
+      "label": "Position (mobile)",
+      "options": [
+        { "value": "", "label": "Same as desktop" },
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Bottom" }
+      ],
+      "default": ""
+    },
+    {
       "type": "range",
       "id": "gap",
       "label": "t:settings.gap",

@@ -23,6 +23,19 @@
   if settings.vertical_on_mobile and vertical_alignment == 'last baseline'
     assign vertical_alignment_mobile = 'flex-end'
   endif
+
+  comment
+    Optional mobile-only overrides. Blank (the default on every existing
+    instance) inherits the desktop value, so nothing changes unless a
+    section/group explicitly sets them.
+  endcomment
+  assign horizontal_alignment_mobile = horizontal_alignment
+  if settings.vertical_alignment_mobile != blank
+    assign vertical_alignment_mobile = settings.vertical_alignment_mobile
+  endif
+  if settings.horizontal_alignment_mobile != blank
+    assign horizontal_alignment_mobile = settings.horizontal_alignment_mobile
+  endif
 -%}
 
 --flex-direction: {{ settings.content_direction | default: 'column' }}; --flex-wrap: nowrap; --flex-wrap-mobile: wrap;
@@ -31,3 +44,4 @@
 
 --horizontal-alignment: {{ horizontal_alignment }}; --vertical-alignment: {{ vertical_alignment }};
 --vertical-alignment-mobile: {{ vertical_alignment_mobile }};
+--horizontal-alignment-mobile: {{ horizontal_alignment_mobile }};
