@@ -44,6 +44,22 @@
     }
   }
 
+  /* Reclaim the 60px the shared shell reserves above the content for the
+     close button — the button now floats OVER the content instead (see
+     below), which removes the slight vertical scroll on desktop. */
+  #ftdlc-slideover-{{ sid }} .ftdc-slideover__inner { padding-top: 0; }
+  #ftdlc-slideover-{{ sid }} .ftdc-slideover__close { z-index: 10; }
+  /* Backing circle 3px proud of the button on every side, so the floating
+     button stays legible over the image/content behind it. */
+  #ftdlc-slideover-{{ sid }} .ftdc-slideover__close::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: var(--color-background);
+    z-index: -1;
+  }
+
   #ftdlc-{{ sid }} { --ftdlc-accent: {{ accent }}; padding: 24px clamp(16px, 5vw, 40px) 40px; color: var(--color-foreground); }
   @media (min-width: 600px) {
     #ftdlc-{{ sid }} { padding: 24px 28px 40px; }
