@@ -78,10 +78,16 @@
   }
   #ftdlc-{{ sid }} .ftdlc__input:focus { outline: none; border-color: var(--ftdlc-accent); }
 
-  #ftdlc-{{ sid }} .ftdlc__optin { display: flex; align-items: flex-start; gap: 10px; margin: 4px 0 20px; cursor: pointer; }
-  #ftdlc-{{ sid }} .ftdlc__optin input { width: 18px; height: 18px; margin: 2px 0 0; flex: 0 0 auto; accent-color: var(--ftdlc-accent); cursor: pointer; }
+  #ftdlc-{{ sid }} .ftdlc__optin { display: flex; align-items: flex-start; gap: 10px; margin: 8px 0 20px; cursor: pointer; }
+  #ftdlc-{{ sid }} .ftdlc__optin input { width: 18px; height: 18px; margin: 1px 0 0; flex: 0 0 auto; accent-color: var(--ftdlc-accent); cursor: pointer; }
   #ftdlc-{{ sid }} .ftdlc__optin-text { font-size: 13.5px; line-height: 1.5; opacity: 0.85; }
   #ftdlc-{{ sid }} .ftdlc__optin-text p { margin: 0; }
+  #ftdlc-{{ sid }} .ftdlc__optin-text p + p { margin-top: 0.5em; }
+  #ftdlc-{{ sid }} .ftdlc__optin-text a { color: inherit; text-decoration: underline; }
+  /* Required marker rendered INSIDE the first paragraph so it sits inline
+     with the text (a span before the <p> would land on its own line,
+     because paragraphs are block-level). */
+  #ftdlc-{{ sid }} .ftdlc__optin-text p:first-child::before { content: "*\00a0"; color: #D92D20; font-weight: 700; }
 
   #ftdlc-{{ sid }} .ftdlc__submit {
     display: inline-flex;
@@ -217,7 +223,7 @@
               <label class="ftdlc__optin">
                 <input type="hidden" name="customer[accepts_marketing]" value="false">
                 <input type="checkbox" name="customer[accepts_marketing]" value="true" required>
-                <span class="ftdlc__optin-text"><span class="ftdlc__req" aria-hidden="true">*&nbsp;</span>{{ block.settings.optin_text | default: '<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href="/policies/privacy-policy">Privacy Policy</a> and <a href="/policies/terms-of-service">Terms of Service</a>.</p>' }}</span>
+                <span class="ftdlc__optin-text">{{ block.settings.optin_text | default: '<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href="/policies/privacy-policy">Privacy Policy</a> and <a href="/policies/terms-of-service">Terms of Service</a>.</p>' }}</span>
               </label>
 
               <button class="ftdlc__submit" type="submit" data-ftdlc-submit>{{ block.settings.submit_label | default: 'Sign Me Up' }}</button>
