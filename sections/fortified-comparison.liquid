@@ -110,6 +110,15 @@
   /* Wrap holds the scroll container + the swipe hint */
   #{{ root }} .{{ root }}__wrap { position: relative; }
 
+  /* Horizon renders .section as a CSS grid, and grid items default to
+     min-width: auto — they refuse to shrink below their content's
+     minimum width. On phones the fixed mobile column widths total more
+     than the viewport, so without this the whole PAGE scrolled sideways
+     instead of the table scrolling inside its own container. */
+  #{{ root }} .{{ root }}__inner,
+  #{{ root }} .{{ root }}__wrap,
+  #{{ root }} .{{ root }}__grid { min-width: 0; max-width: 100%; }
+
   /* Desktop / default: CSS grid table */
   #{{ root }} .{{ root }}__grid {
     display: grid;
