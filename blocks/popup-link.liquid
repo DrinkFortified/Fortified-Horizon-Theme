@@ -22,7 +22,7 @@
 
   <dialog
     ref="dialog"
-    class="popup-link__content dialog-modal color-{{ settings.popover_color_scheme }}{% if block_settings.behavior == 'drawer' %} popup-link__content--drawer dialog-drawer{% endif %}"
+    class="popup-link__content dialog-modal color-{{ settings.popover_color_scheme }}{% if block_settings.behavior == 'drawer' %} popup-link__content--drawer dialog-drawer{% elsif block_settings.behavior == 'fullscreen' %} popup-link__content--fullscreen{% endif %}"
     scroll-lock
     aria-labelledby="popup-dialog-heading"
   >
@@ -95,6 +95,64 @@
     opacity: 0.8;
     animation: none;
   }
+
+  /* ── Fullscreen behavior ─────────────────────────────────────────
+     Lightbox covers the whole viewport and the inner content gets the
+     full page width (inner blocks manage their own layout). Double
+     class beats the base rule's nested desktop media query without
+     resorting to !important. */
+  .popup-link__content.popup-link__content--fullscreen {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .popup-link__content.popup-link__content--fullscreen:modal {
+    max-height: 100dvh;
+    max-width: 100vw;
+  }
+  .popup-link__content--fullscreen .popup-link__inner {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Close button matches the FTD slide-over style: 44px round button
+     floating above the content, with a backing circle 3px proud on
+     every side so it stays legible over whatever it overlaps. */
+  .popup-link__content--fullscreen .popup-link__close {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.15);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    z-index: 10;
+  }
+  .popup-link__content--fullscreen .popup-link__close:hover {
+    background: rgb(var(--color-foreground-rgb) / 0.05);
+  }
+  .popup-link__content--fullscreen .popup-link__close::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: var(--color-background);
+    z-index: -1;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -126,6 +184,10 @@
         {
           "value": "drawer",
           "label": "t:options.drawer"
+        },
+        {
+          "value": "fullscreen",
+          "label": "Fullscreen"
         }
       ],
       "default": "default"

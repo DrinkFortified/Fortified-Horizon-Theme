@@ -3796,7 +3796,7 @@
               "type": "popup-link",
               "name": "t:names.popup_link",
               "settings": {
-                "behavior": "default",
+                "behavior": "fullscreen",
                 "heading": "Built For People Who Read The Back.",
                 "type_preset": "",
                 "padding-block-start": 0,
