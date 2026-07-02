@@ -120,11 +120,15 @@
   }
   .popup-link__content--fullscreen .popup-link__inner {
     width: 100%;
-    max-width: none;
+    /* Match the site's own page container (the body's page-width class
+       sets --page-content-width; the store uses "narrow" ≈ 1400px), so
+       content in the lightbox lines up with elements on the actual site. */
+    max-width: var(--page-content-width, 90rem);
+    margin-inline: auto;
     box-sizing: border-box;
-    /* Breathing room around the content: enough on top to clear the
-       floating close button, responsive side/bottom margins. */
-    padding: 64px clamp(20px, 4vw, 48px) clamp(28px, 4vw, 48px);
+    /* Breathing room: top clears the floating close button; sides use the
+       same clamp scale as the FTD sections' inner padding. */
+    padding: 64px clamp(20px, 5vw, 64px) clamp(32px, 4vw, 56px);
   }
 
   /* Close button matches the FTD slide-over style: 44px round button
