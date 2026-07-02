@@ -1,0 +1,381 @@
+{% comment %}
+  Block: FTD - Lead Capture — Slide-over
+  ----------------------------------------------------------------------
+  Two-stage lead-capture flow in a slide-over panel (same shell as the
+  product-selector slide-overs; reuses the .ftdc-slideover chrome from
+  ftdc.css).
+
+    Step 1 (form):   Name, Email, Phone, marketing opt-in.
+    Step 2 (thanks): Thank-you message + optional CTA.
+
+  Opens from any <a href="#leadcapture"> on the page (configurable), or
+  from this block's own optional trigger button.
+
+  Submission uses Shopify's native {% raw %}{% form 'customer' %}{% endraw %}
+  so the lead is created as a Customer with email-marketing consent.
+  Phone is stored on the customer note (the storefront customer form has
+  no SMS-consent field). Submit is intercepted and sent via fetch so the
+  panel can advance to the thank-you step without a page reload; if
+  Shopify responds with a bot challenge, we fall through to the normal
+  redirect flow and reopen the panel on the thank-you step afterwards.
+{% endcomment %}
+
+{%- liquid
+  assign sid = block.id
+  assign accent = block.settings.accent_color | default: '#1FA8A1'
+  assign form_id = 'ftdlc-form-' | append: sid
+-%}
+
+{{ 'ftdc.css' | asset_url | stylesheet_tag }}
+
+<style>
+  #ftdlc-{{ sid }} { --ftdlc-accent: {{ accent }}; padding: 24px clamp(16px, 5vw, 40px) 40px; color: var(--color-foreground); }
+  #ftdlc-{{ sid }} .ftdlc__step { display: none; }
+  #ftdlc-{{ sid }} .ftdlc__step.is-active { display: block; }
+
+  #ftdlc-{{ sid }} .ftdlc__media { margin: 0 -8px 20px; }
+  #ftdlc-{{ sid }} .ftdlc__media img { width: 100%; height: auto; max-height: 240px; object-fit: cover; border-radius: 12px; display: block; }
+
+  #ftdlc-{{ sid }} .ftdlc__heading {
+    margin: 0 0 10px;
+    font-family: var(--font-heading--family, inherit);
+    font-size: var(--ftd-h2-size);
+    font-weight: 800;
+    line-height: var(--ftd-h2-line);
+    text-transform: uppercase;
+  }
+  #ftdlc-{{ sid }} .ftdlc__desc {
+    margin: 0 0 22px;
+    font-size: var(--ftd-sub-size);
+    line-height: var(--ftd-sub-line);
+    opacity: 0.8;
+  }
+  #ftdlc-{{ sid }} .ftdlc__desc p { margin: 0; }
+  #ftdlc-{{ sid }} .ftdlc__desc p + p { margin-top: 0.6em; }
+
+  #ftdlc-{{ sid }} .ftdlc__field { margin: 0 0 16px; }
+  #ftdlc-{{ sid }} .ftdlc__label {
+    display: block;
+    margin: 0 0 6px;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  #ftdlc-{{ sid }} .ftdlc__input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    font: inherit;
+    font-size: 16px;
+    color: var(--color-foreground);
+    background: var(--color-input-background, var(--color-background));
+    border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.18);
+    border-radius: 8px;
+    transition: border-color 0.15s;
+  }
+  #ftdlc-{{ sid }} .ftdlc__input:focus { outline: none; border-color: var(--ftdlc-accent); }
+
+  #ftdlc-{{ sid }} .ftdlc__optin { display: flex; align-items: flex-start; gap: 10px; margin: 4px 0 20px; cursor: pointer; }
+  #ftdlc-{{ sid }} .ftdlc__optin input { width: 18px; height: 18px; margin: 2px 0 0; flex: 0 0 auto; accent-color: var(--ftdlc-accent); cursor: pointer; }
+  #ftdlc-{{ sid }} .ftdlc__optin-text { font-size: 13.5px; line-height: 1.5; opacity: 0.85; }
+  #ftdlc-{{ sid }} .ftdlc__optin-text p { margin: 0; }
+
+  #ftdlc-{{ sid }} .ftdlc__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 32px;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid var(--color-primary-button-background);
+    border-radius: var(--style-border-radius-buttons-primary, 8px);
+    background: var(--color-primary-button-background);
+    color: var(--color-primary-button-text);
+    transition: opacity 0.18s;
+  }
+  #ftdlc-{{ sid }} .ftdlc__submit:hover { opacity: 0.88; }
+  #ftdlc-{{ sid }} .ftdlc__submit:disabled { opacity: 0.5; cursor: wait; }
+
+  #ftdlc-{{ sid }} .ftdlc__errors {
+    margin: 0 0 16px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #FEE2E2;
+    color: #991B1B;
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+  #ftdlc-{{ sid }} .ftdlc__errors[hidden] { display: none; }
+  #ftdlc-{{ sid }} .ftdlc__errors ul { margin: 0; padding-left: 1.1em; }
+
+  /* Step 2 — thank you */
+  #ftdlc-{{ sid }} .ftdlc__thanks { text-align: center; padding: 40px 0 16px; }
+  #ftdlc-{{ sid }} .ftdlc__check {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 22px;
+    border-radius: 50%;
+    background: var(--ftdlc-accent);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #ftdlc-{{ sid }} .ftdlc__thanks-msg {
+    margin: 0 auto 26px;
+    max-width: 30em;
+    font-size: var(--ftd-sub-size);
+    line-height: var(--ftd-sub-line);
+    opacity: 0.8;
+  }
+  #ftdlc-{{ sid }} .ftdlc__thanks-msg p { margin: 0; }
+  #ftdlc-{{ sid }} .ftdlc__thanks-msg p + p { margin-top: 0.6em; }
+</style>
+
+<div class="ftdc-slideover-wrap" {{ block.shopify_attributes }}>
+  {%- if block.settings.show_trigger -%}
+    {%- assign _trig_cls = 'button' -%}
+    {%- if block.settings.button_style == 'outline' -%}{%- assign _trig_cls = 'button button-secondary' -%}{%- endif -%}
+    <button class="{{ _trig_cls }}"
+            type="button"
+            data-ftdlc-open="{{ sid }}"
+            aria-haspopup="dialog"
+            aria-controls="ftdlc-slideover-{{ sid }}">
+      {{ block.settings.button_label | default: 'Get 10% Off' }}
+    </button>
+  {%- endif -%}
+
+  <div class="ftdc-slideover" id="ftdlc-slideover-{{ sid }}" style="--ftdc-slideover-w: {{ block.settings.slideover_width | default: 480 }}px;" role="dialog" aria-modal="true" aria-hidden="true" aria-label="{{ block.settings.heading | default: 'Sign up' | escape }}">
+    <div class="ftdc-slideover__backdrop" data-ftdlc-close="{{ sid }}" aria-hidden="true"></div>
+    <div class="ftdc-slideover__panel" role="document">
+      <button class="ftdc-slideover__close" type="button" data-ftdlc-close="{{ sid }}" aria-label="{{ block.settings.close_label | default: 'Close' | escape }}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <div class="ftdc-slideover__inner">
+        <div id="ftdlc-{{ sid }}" class="color-{{ block.settings.color_scheme }}">
+
+          {%- comment %} ── Step 1: the form ── {%- endcomment %}
+          <div class="ftdlc__step is-active" data-ftdlc-step="form">
+            {%- if block.settings.image != blank -%}
+              <div class="ftdlc__media">
+                {{ block.settings.image | image_url: width: 960 | image_tag: loading: 'lazy', widths: '480,720,960', alt: block.settings.heading | default: '' }}
+              </div>
+            {%- endif -%}
+            {%- if block.settings.heading != blank -%}<h2 class="ftdlc__heading">{{ block.settings.heading }}</h2>{%- endif -%}
+            {%- if block.settings.description != blank -%}<div class="ftdlc__desc">{{ block.settings.description }}</div>{%- endif -%}
+
+            {%- form 'customer', id: form_id, class: 'ftdlc__form', data-ftdlc-form: sid -%}
+              {%- if form.posted_successfully? -%}
+                <span data-ftdlc-posted hidden></span>
+              {%- endif -%}
+              {%- if form.errors -%}
+                <div class="ftdlc__errors" role="alert">{{ form.errors | default_errors }}</div>
+              {%- endif -%}
+              <div class="ftdlc__errors" data-ftdlc-error hidden role="alert"></div>
+
+              <input type="hidden" name="customer[tags]" value="{{ block.settings.customer_tags | default: 'lead-capture' | escape }}">
+
+              <div class="ftdlc__field">
+                <label class="ftdlc__label" for="ftdlc-name-{{ sid }}">{{ block.settings.name_label | default: 'Name' }}</label>
+                <input class="ftdlc__input" id="ftdlc-name-{{ sid }}" type="text" name="customer[first_name]" autocomplete="name" required placeholder="{{ block.settings.name_placeholder | default: 'Your name' | escape }}">
+              </div>
+
+              <div class="ftdlc__field">
+                <label class="ftdlc__label" for="ftdlc-email-{{ sid }}">{{ block.settings.email_label | default: 'Email' }}</label>
+                <input class="ftdlc__input" id="ftdlc-email-{{ sid }}" type="email" name="customer[email]" autocomplete="email" required placeholder="{{ block.settings.email_placeholder | default: 'you@example.com' | escape }}">
+              </div>
+
+              <div class="ftdlc__field">
+                <label class="ftdlc__label" for="ftdlc-phone-{{ sid }}">{{ block.settings.phone_label | default: 'Phone' }}</label>
+                <input class="ftdlc__input" id="ftdlc-phone-{{ sid }}" type="tel" name="customer[note][Phone]" autocomplete="tel" {% if block.settings.phone_required %}required{% endif %} placeholder="{{ block.settings.phone_placeholder | default: '(555) 555-5555' | escape }}">
+              </div>
+
+              <label class="ftdlc__optin">
+                <input type="hidden" name="customer[accepts_marketing]" value="false">
+                <input type="checkbox" name="customer[accepts_marketing]" value="true" {% if block.settings.optin_prechecked %}checked{% endif %} {% if block.settings.optin_required %}required{% endif %}>
+                <span class="ftdlc__optin-text">{{ block.settings.optin_text | default: '<p>Yes — send me offers, restock alerts, and hydration tips. Unsubscribe anytime.</p>' }}</span>
+              </label>
+
+              <button class="ftdlc__submit" type="submit" data-ftdlc-submit>{{ block.settings.submit_label | default: 'Sign Me Up' }}</button>
+            {%- endform -%}
+          </div>
+
+          {%- comment %} ── Step 2: thank you ── {%- endcomment %}
+          <div class="ftdlc__step" data-ftdlc-step="thanks">
+            <div class="ftdlc__thanks">
+              <span class="ftdlc__check" aria-hidden="true">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <h2 class="ftdlc__heading">{{ block.settings.success_heading | default: "You're In!" }}</h2>
+              <div class="ftdlc__thanks-msg">{{ block.settings.success_message | default: '<p>Thanks for signing up — keep an eye on your inbox.</p>' }}</div>
+              {%- if block.settings.success_button_label != blank -%}
+                <a class="ftdlc__submit" style="width: auto;" href="{{ block.settings.success_button_link | default: '#open-bundle' }}" data-ftdlc-thanks-cta>{{ block.settings.success_button_label }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var SID = {{ sid | json }};
+  var FLAG = 'ftdlcPosted_' + SID;
+  var dialog = document.getElementById('ftdlc-slideover-' + SID);
+  if (!dialog) return;
+  /* Portal to <body> so no ancestor transform/filter traps the fixed panel. */
+  if (dialog.parentNode !== document.body) document.body.appendChild(dialog);
+
+  var lastFocus = null;
+  function openDlg() {
+    lastFocus = document.activeElement;
+    dialog.classList.add('is-open');
+    dialog.setAttribute('aria-hidden', 'false');
+    document.documentElement.style.overflow = 'hidden';
+    var close = dialog.querySelector('.ftdc-slideover__close');
+    if (close) setTimeout(function () { close.focus(); }, 80);
+  }
+  function closeDlg() {
+    dialog.classList.remove('is-open');
+    dialog.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
+    if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+  }
+  function showStep(name) {
+    var steps = dialog.querySelectorAll('[data-ftdlc-step]');
+    Array.prototype.forEach.call(steps, function (s) {
+      s.classList.toggle('is-active', s.getAttribute('data-ftdlc-step') === name);
+    });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-ftdlc-open="' + SID + '"]'), function (t) { t.addEventListener('click', openDlg); });
+  Array.prototype.forEach.call(dialog.querySelectorAll('[data-ftdlc-close="' + SID + '"]'), function (c) { c.addEventListener('click', closeDlg); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && dialog.classList.contains('is-open')) closeDlg();
+  });
+
+  /* Link-based trigger: any <a href="#leadcapture"> (configurable) opens it. */
+  var TRIGGER_HREF = {{ block.settings.trigger_href | default: '#leadcapture' | json }};
+  if (TRIGGER_HREF) {
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href]');
+      if (!a) return;
+      if (a.closest('.ftdc-slideover')) return; /* don't re-trigger from inside a panel */
+      var href = a.getAttribute('href') || '';
+      var hit = href === TRIGGER_HREF
+             || (TRIGGER_HREF.charAt(0) === '#' && href.slice(-TRIGGER_HREF.length) === TRIGGER_HREF);
+      if (!hit) return;
+      e.preventDefault();
+      showStep('form');
+      openDlg();
+    });
+  }
+
+  /* Fetch-submit so Step 2 shows without a reload. Shopify replies to the
+     customer form with a redirect: to the page with ?customer_posted=true on
+     success, or to /challenge when it wants bot verification. On challenge
+     (or any fetch failure) fall back to a real form post — the FLAG in
+     sessionStorage reopens the panel on the thank-you step after reload. */
+  var form = dialog.querySelector('[data-ftdlc-form]');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = form.querySelector('[data-ftdlc-submit]');
+      var errBox = form.querySelector('[data-ftdlc-error]');
+      if (errBox) errBox.hidden = true;
+      if (btn) btn.disabled = true;
+      try { sessionStorage.setItem(FLAG, '1'); } catch (_) {}
+      fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'text/html' }, redirect: 'follow' })
+        .then(function (r) {
+          if (r.url && r.url.indexOf('/challenge') !== -1) { window.location.href = r.url; return; }
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          try { sessionStorage.removeItem(FLAG); } catch (_) {}
+          showStep('thanks');
+          var panel = dialog.querySelector('.ftdc-slideover__panel');
+          if (panel) panel.scrollTo({ top: 0 });
+          if (btn) btn.disabled = false;
+        })
+        .catch(function () {
+          /* Network/HTTP failure — let the browser do a normal post. */
+          if (btn) btn.disabled = false;
+          form.submit();
+        });
+    });
+  }
+
+  /* Returning from a full-page post (no-JS fallback or bot challenge):
+     Shopify reloads the page with ?customer_posted=true. Only reopen if WE
+     initiated the post (FLAG), so footer newsletter signups don't trigger it. */
+  var posted = /[?&]customer_posted=true/.test(window.location.search) || !!dialog.querySelector('[data-ftdlc-posted]');
+  var flagged = false;
+  try { flagged = sessionStorage.getItem(FLAG) === '1'; } catch (_) {}
+  if (posted && flagged) {
+    try { sessionStorage.removeItem(FLAG); } catch (_) {}
+    showStep('thanks');
+    openDlg();
+  }
+
+  /* Thank-you CTA: close this panel first, then let the link act normally
+     (e.g. #open-bundle is caught by the bundle slide-over's own listener). */
+  var cta = dialog.querySelector('[data-ftdlc-thanks-cta]');
+  if (cta) cta.addEventListener('click', function () { closeDlg(); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "FTD - Lead Capture SO",
+  "tag": null,
+  "settings": [
+    { "type": "header", "content": "Trigger" },
+    { "type": "text", "id": "trigger_href", "label": "External trigger link", "default": "#leadcapture", "info": "Any link on the page with this href opens the slide-over. Point any section's button link at this value. Default: #leadcapture" },
+    { "type": "checkbox", "id": "show_trigger", "label": "Show a trigger button here", "default": false },
+    { "type": "text", "id": "button_label", "label": "Trigger button label", "default": "Get 10% Off" },
+    { "type": "select", "id": "button_style", "label": "Trigger button style", "default": "filled", "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" } ] },
+
+    { "type": "header", "content": "Panel" },
+    { "type": "range", "id": "slideover_width", "label": "Panel width (desktop)", "min": 360, "max": 720, "step": 20, "unit": "px", "default": 480 },
+    { "type": "text", "id": "close_label", "label": "Close label", "default": "Close" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#1FA8A1" },
+
+    { "type": "header", "content": "Step 1 — Form" },
+    { "type": "image_picker", "id": "image", "label": "Top image", "info": "Optional." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Join The Fortified List" },
+    { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Early access to drops, subscriber-only offers, and honest hydration tips. No spam, ever.</p>" },
+    { "type": "text", "id": "name_label", "label": "Name label", "default": "Name" },
+    { "type": "text", "id": "name_placeholder", "label": "Name placeholder", "default": "Your name" },
+    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email" },
+    { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "you@example.com" },
+    { "type": "text", "id": "phone_label", "label": "Phone label", "default": "Phone" },
+    { "type": "text", "id": "phone_placeholder", "label": "Phone placeholder", "default": "(555) 555-5555" },
+    { "type": "checkbox", "id": "phone_required", "label": "Phone required", "default": false, "info": "Phone is saved to the customer's note — Shopify's storefront form has no SMS-consent field." },
+    { "type": "richtext", "id": "optin_text", "label": "Opt-in text", "default": "<p>Yes — send me offers, restock alerts, and hydration tips. Unsubscribe anytime.</p>" },
+    { "type": "checkbox", "id": "optin_prechecked", "label": "Opt-in pre-checked", "default": false, "info": "Leaving it unchecked is the safer consent practice." },
+    { "type": "checkbox", "id": "optin_required", "label": "Opt-in required to submit", "default": true },
+    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Sign Me Up" },
+    { "type": "text", "id": "customer_tags", "label": "Customer tags", "default": "lead-capture", "info": "Comma-separated tags stamped on the customer in Shopify admin." },
+
+    { "type": "header", "content": "Step 2 — Thank you" },
+    { "type": "text", "id": "success_heading", "label": "Heading", "default": "You're In!" },
+    { "type": "richtext", "id": "success_message", "label": "Message", "default": "<p>Thanks for signing up — keep an eye on your inbox.</p>" },
+    { "type": "text", "id": "success_button_label", "label": "CTA label", "default": "Build Your Bundle", "info": "Leave blank to hide." },
+    { "type": "text", "id": "success_button_link", "label": "CTA link", "default": "#open-bundle" }
+  ],
+  "presets": [
+    { "name": "FTD - Lead Capture SO", "category": "Fortified Sections" }
+  ]
+}
+{% endschema %}
