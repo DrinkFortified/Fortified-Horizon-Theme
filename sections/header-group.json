@@ -121,7 +121,7 @@
         "actions_text_case": "none",
         "cta_button_show": true,
         "cta_button_label": "Build Your Bundle",
-        "cta_button_link": "#open-bundle",
+        "cta_button_link": "#leadcapture",
         "cta_button_style": "primary",
         "color_scheme_top": "scheme-1",
         "color_scheme_bottom": "",

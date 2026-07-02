@@ -2296,9 +2296,43 @@
     "section_jcLNtw": {
       "type": "section",
       "blocks": {
+        "ftd_lead_capture_slideover_i8Y83p": {
+          "type": "ftd-lead-capture-slideover",
+          "name": "FTD - Lead Capture SO",
+          "settings": {
+            "trigger_href": "#leadcapture",
+            "show_trigger": false,
+            "button_label": "Get 10% Off",
+            "button_style": "filled",
+            "slideover_width": 480,
+            "close_label": "Close",
+            "color_scheme": "",
+            "accent_color": "#1FA8A1",
+            "heading": "Join The Fortified List",
+            "description": "<p>Early access to drops, subscriber-only offers, and honest hydration tips. No spam, ever.</p>",
+            "name_label": "Name",
+            "name_placeholder": "Your name",
+            "email_label": "Email",
+            "email_placeholder": "you@example.com",
+            "phone_label": "Phone",
+            "phone_placeholder": "(555) 555-5555",
+            "phone_required": false,
+            "optin_text": "<p>Yes — send me offers, restock alerts, and hydration tips. Unsubscribe anytime.</p>",
+            "optin_prechecked": false,
+            "optin_required": true,
+            "submit_label": "Sign Me Up",
+            "customer_tags": "lead-capture",
+            "success_heading": "You're In!",
+            "success_message": "<p>Thanks for signing up — keep an eye on your inbox.</p>",
+            "success_button_label": "Build Your Bundle",
+            "success_button_link": "#open-bundle"
+          },
+          "blocks": {}
+        },
         "ftd_product_selector_d_slideover_Jzffnr": {
           "type": "ftd-product-selector-d-slideover",
           "name": "FTD - ProductSelector-DS",
+          "disabled": true,
           "settings": {
             "button_label": "Build Your Bundle",
             "button_style": "filled",
@@ -2644,6 +2678,7 @@
         }
       },
       "block_order": [
+        "ftd_lead_capture_slideover_i8Y83p",
         "ftd_product_selector_d_slideover_Jzffnr",
         "ftd_product_selector_c_slideover_CWGHiE"
       ],
