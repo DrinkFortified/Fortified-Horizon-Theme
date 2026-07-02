@@ -29,7 +29,26 @@
 {{ 'ftdc.css' | asset_url | stylesheet_tag }}
 
 <style>
+  /* The shared .ftdc-slideover__panel is full-screen (inset: 0) — right for
+     the bundle builder, but it stretched this form across the whole
+     viewport. On tablet/desktop, dock this dialog's panel to the right at
+     its configured width, floating with a margin and rounded corners;
+     mobile stays edge-to-edge full-screen. */
+  @media (min-width: 600px) {
+    #ftdlc-slideover-{{ sid }} .ftdc-slideover__panel {
+      inset-block: 16px;
+      left: auto;
+      right: 16px;
+      width: min(var(--ftdc-slideover-w, 480px), calc(100vw - 32px));
+      border-radius: 16px;
+      box-shadow: 0 24px 64px rgb(0 0 0 / 0.28);
+    }
+  }
+
   #ftdlc-{{ sid }} { --ftdlc-accent: {{ accent }}; padding: 24px clamp(16px, 5vw, 40px) 40px; color: var(--color-foreground); }
+  @media (min-width: 600px) {
+    #ftdlc-{{ sid }} { padding: 24px 28px 40px; }
+  }
   #ftdlc-{{ sid }} .ftdlc__step { display: none; }
   #ftdlc-{{ sid }} .ftdlc__step.is-active { display: block; }
 
