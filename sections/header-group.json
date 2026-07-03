@@ -21,7 +21,7 @@
             "text": "<strong>20% discount + Free Creatine for life when you subscribe for 90-Day Supply every 3 months</strong>",
             "link": "",
             "font": "var(--font-subheading--family)",
-            "font_size": "1.125rem",
+            "font_size": "0.75rem",
             "weight": "400",
             "letter_spacing": "loose",
             "case": "uppercase"
@@ -51,7 +51,7 @@
       "settings": {
         "speed": 5,
         "section_width": "page-width",
-        "color_scheme": "scheme-9dabec62-ac86-4e8e-8cef-a3b53a770bed",
+        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
         "divider_width": 1,
         "padding-block-start": 15,
         "padding-block-end": 15
@@ -94,9 +94,7 @@
           "blocks": {}
         }
       },
-      "custom_css": [
-        "/* Hide the cart icon in the header bar */header [data-testid=\"cart-drawer-trigger\"],header cart-drawer-component,header a.action__cart {display: none !important;}"
-      ],
+      "custom_css": [],
       "settings": {
         "logo_position": "center",
         "menu_position": "left",
@@ -123,7 +121,7 @@
         "actions_font": "body",
         "actions_text_case": "none",
         "cta_button_show": true,
-        "cta_button_label": "SIGN UP NOW",
+        "cta_button_label": "PREORDER SIGN UP",
         "cta_button_link": "#leadcapture",
         "cta_button_style": "primary",
         "color_scheme_top": "scheme-1",

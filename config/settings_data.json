@@ -13,6 +13,7 @@
     "logo_inverse": "shopify://shop_images/Logo-WordMarkWhite.svg",
     "logo_height": 31,
     "logo_height_mobile": 30,
+    "favicon": "shopify://shop_images/Logo_Shield_White.svg",
     "type_body_font": "inter_n4",
     "type_subheading_font": "inter_n5",
     "type_heading_font": "inter_n7",
