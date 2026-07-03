@@ -142,9 +142,20 @@
   .popup-link__content--fullscreen .popup-link__inner {
     overflow-wrap: break-word;
   }
-  .popup-link__content--fullscreen .popup-link__inner :is(img, video, iframe, table) {
+  .popup-link__content--fullscreen .popup-link__inner :is(img, video, table) {
     max-width: 100% !important;
     height: auto;
+  }
+  /* Iframes have no intrinsic aspect ratio, so height: auto collapses them
+     to the 150px browser default (squished video bar). Cap the width and
+     give video embeds a real 16:9 box instead. */
+  .popup-link__content--fullscreen .popup-link__inner iframe {
+    max-width: 100% !important;
+  }
+  .popup-link__content--fullscreen .popup-link__inner :is(iframe[src*="youtube"], iframe[src*="youtu.be"], iframe[src*="vimeo"]) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
   @media screen and (max-width: 749px) {
     .popup-link__content--fullscreen .popup-link__inner {
