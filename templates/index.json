@@ -3361,7 +3361,7 @@
         "fortified_column_color": "#1fa8a1",
         "fortified_text_color": "#ffffff",
         "check_color": "#ffffff",
-        "cross_color": "#ffffff",
+        "cross_color": "#9ca3af",
         "cta_label": "PREORDER SIGN UP",
         "cta_link": "#leadcapture",
         "cta_style": "filled",
