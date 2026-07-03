@@ -1,0 +1,1215 @@
+[
+  {
+    "id": "gid://shopify/MetaobjectDefinition/8057225275",
+    "type": "shopify--flavor",
+    "name": "Flavor",
+    "description": "Specifies the taste or flavor of a product, e.g. vanilla, mint",
+    "displayNameKey": "label",
+    "metaobjectsCount": 6,
+    "fieldDefinitions": [
+      {
+        "key": "label",
+        "name": "Label",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": [
+          {
+            "name": "max",
+            "value": "255"
+          }
+        ]
+      },
+      {
+        "key": "taxonomy_reference",
+        "name": "Base flavor",
+        "description": "Base values map to standards for better search and organization",
+        "required": true,
+        "type": {
+          "name": "product_taxonomy_value_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "product_taxonomy_attribute_handle",
+            "value": "flavor"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/8163524667",
+    "type": "shopify--package-type",
+    "name": "Package type",
+    "description": "Defines the type of packaging for a product, e.g. jar, pump",
+    "displayNameKey": "label",
+    "metaobjectsCount": 3,
+    "fieldDefinitions": [
+      {
+        "key": "label",
+        "name": "Label",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": [
+          {
+            "name": "max",
+            "value": "255"
+          }
+        ]
+      },
+      {
+        "key": "taxonomy_reference",
+        "name": "Base package type",
+        "description": "Base values map to standards for better search and organization",
+        "required": true,
+        "type": {
+          "name": "product_taxonomy_value_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "product_taxonomy_attribute_handle",
+            "value": "package-type"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/8163557435",
+    "type": "shopify--dietary-supplements",
+    "name": "Dietary supplements",
+    "description": "Identifies the added nutrients in a product, like calcium or probiotics",
+    "displayNameKey": "label",
+    "metaobjectsCount": 8,
+    "fieldDefinitions": [
+      {
+        "key": "label",
+        "name": "Label",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": [
+          {
+            "name": "max",
+            "value": "255"
+          }
+        ]
+      },
+      {
+        "key": "taxonomy_reference",
+        "name": "Base dietary supplements",
+        "description": "Base values map to standards for better search and organization",
+        "required": true,
+        "type": {
+          "name": "product_taxonomy_value_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "product_taxonomy_attribute_handle",
+            "value": "dietary-supplements"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/8174895163",
+    "type": "shopify--dietary-preferences",
+    "name": "Dietary preferences",
+    "description": "Helps identify products suitable for specific diets, e.g. vegan, nut free",
+    "displayNameKey": "label",
+    "metaobjectsCount": 5,
+    "fieldDefinitions": [
+      {
+        "key": "label",
+        "name": "Label",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": [
+          {
+            "name": "max",
+            "value": "255"
+          }
+        ]
+      },
+      {
+        "key": "taxonomy_reference",
+        "name": "Base dietary preferences",
+        "description": "Base values map to standards for better search and organization",
+        "required": true,
+        "type": {
+          "name": "product_taxonomy_value_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "product_taxonomy_attribute_handle",
+            "value": "dietary-preferences"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/13083541563",
+    "type": "shopify--age-group",
+    "name": "Age group",
+    "description": "Defines the target age range for a product, such as adults or kids",
+    "displayNameKey": "label",
+    "metaobjectsCount": 1,
+    "fieldDefinitions": [
+      {
+        "key": "label",
+        "name": "Label",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": [
+          {
+            "name": "max",
+            "value": "255"
+          }
+        ]
+      },
+      {
+        "key": "taxonomy_reference",
+        "name": "Base age group",
+        "description": "Base values map to standards for better search and organization",
+        "required": true,
+        "type": {
+          "name": "product_taxonomy_value_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "product_taxonomy_attribute_handle",
+            "value": "age-group"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/13083574331",
+    "type": "shopify--creatine-type",
+    "name": "Creatine type",
+    "description": "Specifies the chemical form or specialized formulation of creatine used in the supplement",
+    "displayNameKey": "label",
+    "metaobjectsCount": 1,
+    "fieldDefinitions": [
+      {
+        "key": "label",
+        "name": "Label",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": [
+          {
+            "name": "max",
+            "value": "255"
+          }
+        ]
+      },
+      {
+        "key": "taxonomy_reference",
+        "name": "Base creatine type",
+        "description": "Base values map to standards for better search and organization",
+        "required": true,
+        "type": {
+          "name": "product_taxonomy_value_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "product_taxonomy_attribute_handle",
+            "value": "creatine-type"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/13083607099",
+    "type": "shopify--detailed-ingredients",
+    "name": "Detailed ingredients",
+    "description": "Lists specific components used in health and beauty, e.g. Vitamin C, probiotics",
+    "displayNameKey": "label",
+    "metaobjectsCount": 1,
+    "fieldDefinitions": [
+      {
+        "key": "label",
+        "name": "Label",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": [
+          {
+            "name": "max",
+            "value": "255"
+          }
+        ]
+      },
+      {
+        "key": "taxonomy_reference",
+        "name": "Base detailed ingredients",
+        "description": "Base values map to standards for better search and organization",
+        "required": true,
+        "type": {
+          "name": "product_taxonomy_value_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "product_taxonomy_attribute_handle",
+            "value": "detailed-ingredients"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/13806960699",
+    "type": "ingredient",
+    "name": "Ingredient",
+    "description": "Reusable ingredient with amount + clean-label description.",
+    "displayNameKey": "name",
+    "metaobjectsCount": 1,
+    "fieldDefinitions": [
+      {
+        "key": "name",
+        "name": "Name",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "amount",
+        "name": "Amount",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "description",
+        "name": "Description",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "icon",
+        "name": "Icon",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "file_reference",
+          "category": "REFERENCE"
+        },
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/13806993467",
+    "type": "pdp_content",
+    "name": "PDP Content",
+    "description": "Per-product PDP storytelling content — hero, ingredients, stats, testimonial, truth points, supplement-fact callouts. Linked from a product via product.fortified.pdp_content.",
+    "displayNameKey": "hero_heading",
+    "metaobjectsCount": 3,
+    "fieldDefinitions": [
+      {
+        "key": "eyebrow",
+        "name": "Eyebrow",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "hero_heading",
+        "name": "Hero heading",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "hero_body",
+        "name": "Hero body",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "hero_image",
+        "name": "Hero image",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "file_reference",
+          "category": "REFERENCE"
+        },
+        "validations": []
+      },
+      {
+        "key": "cta_label",
+        "name": "CTA label",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "ingredients_heading",
+        "name": "Ingredients heading",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "ingredients_subheading",
+        "name": "Ingredients subheading",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "ingredients",
+        "name": "Ingredients",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "list.metaobject_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "metaobject_definition_id",
+            "value": "gid://shopify/MetaobjectDefinition/13806960699"
+          }
+        ]
+      },
+      {
+        "key": "stat_1_number",
+        "name": "Stat 1 — number",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "stat_1_label",
+        "name": "Stat 1 — label",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "stat_1_description",
+        "name": "Stat 1 — description",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "stat_2_number",
+        "name": "Stat 2 — number",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "stat_2_label",
+        "name": "Stat 2 — label",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "stat_2_description",
+        "name": "Stat 2 — description",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "stat_3_number",
+        "name": "Stat 3 — number",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "stat_3_label",
+        "name": "Stat 3 — label",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "stat_3_description",
+        "name": "Stat 3 — description",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "testimonial_quote",
+        "name": "Testimonial — quote",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "testimonial_name",
+        "name": "Testimonial — name",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "truth_heading",
+        "name": "Truth heading",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "truth_subheading",
+        "name": "Truth subheading",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "truth_cards",
+        "name": "Truth cards",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "list.single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "callout_1_title",
+        "name": "Supplement callout 1 — title",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "callout_1_body",
+        "name": "Supplement callout 1 — body",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "callout_2_title",
+        "name": "Supplement callout 2 — title",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "callout_2_body",
+        "name": "Supplement callout 2 — body",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "callout_3_title",
+        "name": "Supplement callout 3 — title",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "callout_3_body",
+        "name": "Supplement callout 3 — body",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "nutrients",
+        "name": "Nutrients",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "list.metaobject_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "metaobject_definition_id",
+            "value": "gid://shopify/MetaobjectDefinition/13807124539"
+          }
+        ]
+      },
+      {
+        "key": "faqs",
+        "name": "FAQ items",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "list.metaobject_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "metaobject_definition_id",
+            "value": "gid://shopify/MetaobjectDefinition/13807157307"
+          }
+        ]
+      },
+      {
+        "key": "supplement_facts_eyebrow",
+        "name": "Supplement-facts eyebrow",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "supplement_facts_heading",
+        "name": "Supplement-facts heading",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "servings_per",
+        "name": "Servings per container",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "serving_size",
+        "name": "Serving size",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "calories",
+        "name": "Calories",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "faq_eyebrow",
+        "name": "FAQ eyebrow",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "faq_heading",
+        "name": "FAQ heading",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "faq_emphasis",
+        "name": "FAQ emphasis word",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/13807124539",
+    "type": "nutrient_fact",
+    "name": "Nutrient Fact",
+    "description": "One row on the Nutrition Facts panel.",
+    "displayNameKey": "label",
+    "metaobjectsCount": 20,
+    "fieldDefinitions": [
+      {
+        "key": "label",
+        "name": "Label",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "amount",
+        "name": "Amount",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "daily_value",
+        "name": "Daily value",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "indent_level",
+        "name": "Indent level",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "number_integer",
+          "category": "NUMBER"
+        },
+        "validations": []
+      },
+      {
+        "key": "bold_label",
+        "name": "Bold label",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "boolean",
+          "category": "TRUE_FALSE"
+        },
+        "validations": []
+      },
+      {
+        "key": "divider_after",
+        "name": "Divider after",
+        "description": "thin | med | none",
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/13807157307",
+    "type": "faq_item",
+    "name": "FAQ Item",
+    "description": "One question/answer for the PDP FAQ.",
+    "displayNameKey": "question",
+    "metaobjectsCount": 1,
+    "fieldDefinitions": [
+      {
+        "key": "question",
+        "name": "Question",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "answer",
+        "name": "Answer",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "open_by_default",
+        "name": "Open by default",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "boolean",
+          "category": "TRUE_FALSE"
+        },
+        "validations": []
+      },
+      {
+        "key": "tags",
+        "name": "Tags",
+        "description": "Comma-separated, optional",
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/13807714363",
+    "type": "comparison_row",
+    "name": "Comparison Row",
+    "description": "One feature row on the comparison table (label + Fortified value + icon).",
+    "displayNameKey": "label",
+    "metaobjectsCount": 1,
+    "fieldDefinitions": [
+      {
+        "key": "label",
+        "name": "Label",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "fortified_value",
+        "name": "Fortified value",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "icon",
+        "name": "Icon",
+        "description": "text | check | cross",
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/13807747131",
+    "type": "comparison_competitor",
+    "name": "Comparison Competitor",
+    "description": "One competitor column on the comparison table (name + newline-separated values).",
+    "displayNameKey": "name",
+    "metaobjectsCount": 1,
+    "fieldDefinitions": [
+      {
+        "key": "name",
+        "name": "Name",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "values",
+        "name": "Values",
+        "description": "One value per row, same order as the comparison rows",
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/13807779899",
+    "type": "pdp_extra",
+    "name": "PDP Extras",
+    "description": "Per-product overrides for the otherwise brand-wide PDP sections: hero showcase, comparison, subscribe & save.",
+    "displayNameKey": "showcase_heading",
+    "metaobjectsCount": 1,
+    "fieldDefinitions": [
+      {
+        "key": "showcase_eyebrow",
+        "name": "Showcase eyebrow",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "showcase_heading",
+        "name": "Showcase heading",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "showcase_body",
+        "name": "Showcase body",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "showcase_cta_label",
+        "name": "Showcase CTA label",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "comparison_eyebrow",
+        "name": "Comparison eyebrow",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "comparison_heading",
+        "name": "Comparison heading",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "comparison_subheading",
+        "name": "Comparison subheading",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "comparison_cta_label",
+        "name": "Comparison CTA label",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "comparison_rows",
+        "name": "Comparison rows",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "list.metaobject_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "metaobject_definition_id",
+            "value": "gid://shopify/MetaobjectDefinition/13807714363"
+          }
+        ]
+      },
+      {
+        "key": "comparison_competitors",
+        "name": "Comparison competitors",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "list.metaobject_reference",
+          "category": "REFERENCE"
+        },
+        "validations": [
+          {
+            "name": "metaobject_definition_id",
+            "value": "gid://shopify/MetaobjectDefinition/13807747131"
+          }
+        ]
+      },
+      {
+        "key": "subscribe_eyebrow",
+        "name": "Subscribe & Save eyebrow",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "subscribe_heading",
+        "name": "Subscribe & Save heading",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "subscribe_cta_label",
+        "name": "Subscribe & Save CTA label",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "subscribe_benefits",
+        "name": "Subscribe & Save benefits",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "list.single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/MetaobjectDefinition/13923287099",
+    "type": "shopify--qa-pair",
+    "name": "Question and Answer Pairs",
+    "description": "Question and answer pairs that describe a merchant's shop.",
+    "displayNameKey": "question",
+    "metaobjectsCount": 36,
+    "fieldDefinitions": [
+      {
+        "key": "question",
+        "name": "Question",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "single_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "answer",
+        "name": "Answer",
+        "description": null,
+        "required": true,
+        "type": {
+          "name": "multi_line_text_field",
+          "category": "TEXT"
+        },
+        "validations": []
+      },
+      {
+        "key": "sources",
+        "name": "Sources",
+        "description": null,
+        "required": false,
+        "type": {
+          "name": "list.link",
+          "category": "LINK"
+        },
+        "validations": []
+      }
+    ]
+  }
+]

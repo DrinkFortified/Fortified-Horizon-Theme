@@ -1,0 +1,637 @@
+[
+  {
+    "id": "gid://shopify/Product/7560071807035",
+    "handle": "energy",
+    "title": "Energy Electrolyte Powder with Natural Caffeine by FORTIFIED®",
+    "status": "ACTIVE",
+    "vendor": "Fortified",
+    "productType": "Hydration",
+    "tags": [
+      "clean-label",
+      "electrolytes",
+      "hydration",
+      "magnesium-malate",
+      "natural-caffeine",
+      "no-sugar",
+      "pink-himalayan-salt",
+      "subscription",
+      "sugar-free"
+    ],
+    "descriptionHtml": "<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">Most energy products ask you to accept synthetic caffeine, artificial sweeteners, and proprietary blends just to get through your afternoon. They're counting on you not reading the label.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">FORTIFIED® doesn't work that way.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">This is clean energy hydration. 152mg of natural caffeine sourced directly from real coffee beans. Not caffeine anhydrous. Not a lab-made stimulant with a clean-sounding name. The same source humans have relied on for centuries, delivered at a dose that's meaningful without being reckless.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">The electrolyte matrix behind it is just as serious. 1,210mg of sodium from Ancient Ocean® Pink Himalayan Salt. 1,000mg of magnesium malate, one of the most bioavailable forms available. Potassium chloride. Coconut water powder from CocOganic® Plus. Real food sources, real amounts, nothing hidden behind a blend number.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">Sweetened with monk fruit and fermented Reb M. Zero sugar. Zero artificial sweeteners. Zero ingredients you'd have to Google at 11pm wondering if you made the right call.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">Every ingredient is on the label because every ingredient belongs there.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\"><strong>152mg natural caffeine (from coffee bean) · 1,000mg magnesium malate · 1,210mg sodium</strong> Zero artificial sweeteners · Zero proprietary blends · Every milligram disclosed</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">Available in Salty Orange and Salty Watermelon. 30 servings. Nothing to second-guess.<br><br><meta charset=\"utf-8\"><em>*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</em><br></p>",
+    "options": [
+      {
+        "name": "Flavor",
+        "position": 1,
+        "optionValues": [
+          {
+            "name": "Salty Orange"
+          },
+          {
+            "name": "Salty Watermelon"
+          }
+        ]
+      }
+    ],
+    "variants": {
+      "nodes": [
+        {
+          "id": "gid://shopify/ProductVariant/43410921750587",
+          "title": "Salty Orange",
+          "sku": "FOR-ENG-ORG-PCH-30",
+          "barcode": "850085791160",
+          "price": "59.00",
+          "compareAtPrice": null,
+          "position": 1,
+          "taxable": true,
+          "inventoryPolicy": "DENY",
+          "inventoryQuantity": 0,
+          "selectedOptions": [
+            {
+              "name": "Flavor",
+              "value": "Salty Orange"
+            }
+          ],
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Energy-SaltyOrange_1.webp?v=1782225480"
+          }
+        },
+        {
+          "id": "gid://shopify/ProductVariant/43410930925627",
+          "title": "Salty Watermelon",
+          "sku": "FOR-ENG-WTM-PCH-30",
+          "barcode": "850085791153",
+          "price": "59.00",
+          "compareAtPrice": null,
+          "position": 1,
+          "taxable": true,
+          "inventoryPolicy": "DENY",
+          "inventoryQuantity": 0,
+          "selectedOptions": [
+            {
+              "name": "Flavor",
+              "value": "Salty Watermelon"
+            }
+          ],
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Energy-SaltyWatermelon_1.webp?v=1782225511"
+          }
+        }
+      ]
+    },
+    "media": {
+      "nodes": [
+        {
+          "id": "gid://shopify/MediaImage/26664334098491",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/260401-FOR-ENG-30-ORG-2026_1-Front.webp?v=1776607610",
+            "altText": ""
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26664334065723",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/260401-FOR-ENG-30-ORG-2026_1-Back.webp?v=1776607610",
+            "altText": ""
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26635555700795",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Energy_Orange_PDP_01.webp?v=1775939698",
+            "altText": "Fortified energy drink stick pack with salty and orange flavor on a purple background"
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26664334164027",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/260401-FOR-ENG-30-WTM-2026_1-Front.webp?v=1776607610",
+            "altText": ""
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26664334131259",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/260401-FOR-ENG-30-WTM-2026_1-Back.webp?v=1776607610",
+            "altText": ""
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26500834558011",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Energy_Watermelon_PDP_01.webp?v=1775939733",
+            "altText": "Fortified energy drink package with salty watermelon flavor on a white background"
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26976996917307",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Energy-SaltyOrange_1.webp?v=1782225480",
+            "altText": ""
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26976998260795",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Energy-SaltyWatermelon_1.webp?v=1782225511",
+            "altText": ""
+          }
+        }
+      ]
+    },
+    "metafields": {
+      "nodes": [
+        {
+          "namespace": "mm-google-shopping",
+          "key": "google_product_category",
+          "type": "string",
+          "value": "5723"
+        },
+        {
+          "namespace": "mc-facebook",
+          "key": "google_product_category",
+          "type": "string",
+          "value": "5723"
+        },
+        {
+          "namespace": "global",
+          "key": "description_tag",
+          "type": "string",
+          "value": "152mg natural caffeine from real coffee beans. 1,210mg sodium from Pink Himalayan Salt. Zero sugar, zero artificial sweeteners. Every milligram disclosed. 30 servings by FORTIFIED®."
+        },
+        {
+          "namespace": "shopify",
+          "key": "dietary-preferences",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/87254138939\",\"gid://shopify/Metaobject/123294744635\"]"
+        },
+        {
+          "namespace": "shopify",
+          "key": "dietary-supplements",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/87189782587\",\"gid://shopify/Metaobject/87189815355\",\"gid://shopify/Metaobject/87254892603\",\"gid://shopify/Metaobject/114411929659\"]"
+        },
+        {
+          "namespace": "shopify",
+          "key": "package-type",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/114411864123\"]"
+        },
+        {
+          "namespace": "shopify",
+          "key": "flavor",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/114411569211\",\"gid://shopify/Metaobject/86243147835\"]"
+        },
+        {
+          "namespace": "fortified",
+          "key": "pdp_content",
+          "type": "metaobject_reference",
+          "value": "gid://shopify/Metaobject/120861130811"
+        },
+        {
+          "namespace": "global",
+          "key": "title_tag",
+          "type": "string",
+          "value": "Clean Energy Electrolytes With Natural Caffeine | FORTIFIED®"
+        },
+        {
+          "namespace": "fortified",
+          "key": "pdp_extra",
+          "type": "metaobject_reference",
+          "value": "gid://shopify/Metaobject/120863621179"
+        }
+      ]
+    },
+    "sellingPlanGroups": {
+      "nodes": [
+        {
+          "id": "gid://shopify/SellingPlanGroup/1401815099",
+          "name": "Hydration - Monthly 10% OFF",
+          "merchantCode": "Hydration - Monthly 10% OFF",
+          "appId": "5284869",
+          "options": [
+            "Frequency"
+          ],
+          "summary": "1 delivery frequency, 10% discount"
+        },
+        {
+          "id": "gid://shopify/SellingPlanGroup/1401880635",
+          "name": "Hydration - Quarterly 20% OFF",
+          "merchantCode": "Hydration - Quarterly 20% OFF",
+          "appId": "5284869",
+          "options": [
+            "Frequency"
+          ],
+          "summary": "1 delivery frequency, 20% discount"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gid://shopify/Product/7580773122107",
+    "handle": "everyday",
+    "title": "Everyday Hydration Powder with D3 + K2 by FORTIFIED®",
+    "status": "ACTIVE",
+    "vendor": "Fortified",
+    "productType": "Hydration",
+    "tags": [
+      "clean-label",
+      "daily-hydration",
+      "electrolytes",
+      "hydration",
+      "magnesium-malate",
+      "mk-7",
+      "no-caffeine",
+      "no-sugar",
+      "pink-himalayan-salt",
+      "subscription",
+      "vitamin-d3",
+      "vitamin-k2"
+    ],
+    "descriptionHtml": "<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">Most hydration powders give you electrolytes and call it done. They're solving for the workout. Nobody built one for the other 23 hours of your day.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">FORTIFIED® doesn't work that way.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">This is daily hydration with something to say. The same clean electrolyte foundation as FORTIFIED® Energy, without the caffeine, and fortified with two nutrients most people are quietly running low on every single day. Vitamin D3 at 130% of your daily value. Vitamin K2 as MK-7, the form your body can actually use. Together, not separately, because that's how they work best.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">Vitamin D3 without K2 is a conversation half finished. Research increasingly points to their relationship in supporting where calcium actually ends up in the body.* Most supplements ignore that. <strong>FORTIFIED® Everyday doesn't.</strong></p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">No caffeine, so you can take it any time of day. No artificial sweeteners, no proprietary blends, no ingredients that require a biochemistry degree to evaluate. Just clean, foundational daily nutrition. Fully disclosed. Every milligram on the label because every milligram belongs there.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">This one is for the long game. The daily ritual. The version of you that's thinking six months ahead, not just six minutes.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\"><strong>25mcg Vitamin D3 (130% DV) · Vitamin K2 MK-7 · 1,000mg magnesium malate · 1,210mg sodium</strong> Zero caffeine · Zero artificial sweeteners · Every milligram disclosed</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">Available in Salty Orange and Salty Watermelon. 30 servings. Make it a ritual.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\"><em>*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</em></p>",
+    "options": [
+      {
+        "name": "Flavor",
+        "position": 1,
+        "optionValues": [
+          {
+            "name": "Salty Orange"
+          },
+          {
+            "name": "Salty Watermelon"
+          }
+        ]
+      }
+    ],
+    "variants": {
+      "nodes": [
+        {
+          "id": "gid://shopify/ProductVariant/43410931023931",
+          "title": "Salty Orange",
+          "sku": "FOR-EDY-ORG-PCH-30",
+          "barcode": "850085791108",
+          "price": "59.00",
+          "compareAtPrice": null,
+          "position": 1,
+          "taxable": true,
+          "inventoryPolicy": "DENY",
+          "inventoryQuantity": 0,
+          "selectedOptions": [
+            {
+              "name": "Flavor",
+              "value": "Salty Orange"
+            }
+          ],
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Everyday-SaltyOrange_1.webp?v=1782225390"
+          }
+        },
+        {
+          "id": "gid://shopify/ProductVariant/43410931056699",
+          "title": "Salty Watermelon",
+          "sku": "FOR-EDY-WTM-PCH-30",
+          "barcode": "850085791092",
+          "price": "59.00",
+          "compareAtPrice": null,
+          "position": 1,
+          "taxable": true,
+          "inventoryPolicy": "DENY",
+          "inventoryQuantity": 0,
+          "selectedOptions": [
+            {
+              "name": "Flavor",
+              "value": "Salty Watermelon"
+            }
+          ],
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Everyday-SaltyWatermelon_1.webp?v=1782225426"
+          }
+        }
+      ]
+    },
+    "media": {
+      "nodes": [
+        {
+          "id": "gid://shopify/MediaImage/26664333836347",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/260401-FOR-EDY-30-ORG-2026_1-Front.webp?v=1776607594",
+            "altText": ""
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26664333869115",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/260401-FOR-EDY-30-ORG-2026_1-Back.webp?v=1776607594",
+            "altText": ""
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26635563237435",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Everyday_Orange_PDP_01.webp?v=1775939708",
+            "altText": "Orange packet of 'Everyday' fortified drink mix with text on a white background"
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26664333901883",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/260401-FOR-EDY-30-WTM-2026_1-Front.webp?v=1776607594",
+            "altText": ""
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26664333934651",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/260401-FOR-EDY-30-WTM-2026_1-Back.webp?v=1776607594",
+            "altText": ""
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26635568414779",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Everyday_Watermelon_PDP_01.webp?v=1776607594",
+            "altText": "Fortified watermelon drink package with 'Everyday' branding on a white background"
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26976993378363",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Everyday-SaltyOrange_1.webp?v=1782225390",
+            "altText": ""
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/26976994656315",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Everyday-SaltyWatermelon_1.webp?v=1782225426",
+            "altText": ""
+          }
+        }
+      ]
+    },
+    "metafields": {
+      "nodes": [
+        {
+          "namespace": "mm-google-shopping",
+          "key": "google_product_category",
+          "type": "string",
+          "value": "5723"
+        },
+        {
+          "namespace": "mc-facebook",
+          "key": "google_product_category",
+          "type": "string",
+          "value": "5723"
+        },
+        {
+          "namespace": "global",
+          "key": "title_tag",
+          "type": "string",
+          "value": "Everyday Hydration Powder with Vitamin D3 & K2 by FORTIFIED®"
+        },
+        {
+          "namespace": "global",
+          "key": "description_tag",
+          "type": "string",
+          "value": "FORTIFIED® Everyday: 130% Vitamin D3, Vitamin K2 (MK-7), 1,000mg magnesium malate. Zero caffeine. Zero artificial sweeteners. Every ingredient disclosed. 30 servings."
+        },
+        {
+          "namespace": "shopify",
+          "key": "dietary-preferences",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/87254138939\"]"
+        },
+        {
+          "namespace": "shopify",
+          "key": "dietary-supplements",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/87189815355\",\"gid://shopify/Metaobject/87189717051\",\"gid://shopify/Metaobject/87189749819\"]"
+        },
+        {
+          "namespace": "shopify",
+          "key": "package-type",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/114411864123\"]"
+        },
+        {
+          "namespace": "shopify",
+          "key": "flavor",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/86243147835\",\"gid://shopify/Metaobject/114411569211\"]"
+        },
+        {
+          "namespace": "fortified",
+          "key": "pdp_content",
+          "type": "metaobject_reference",
+          "value": "gid://shopify/Metaobject/120861163579"
+        },
+        {
+          "namespace": "fortified",
+          "key": "pdp_extra",
+          "type": "metaobject_reference",
+          "value": "gid://shopify/Metaobject/120863653947"
+        }
+      ]
+    },
+    "sellingPlanGroups": {
+      "nodes": [
+        {
+          "id": "gid://shopify/SellingPlanGroup/1401815099",
+          "name": "Hydration - Monthly 10% OFF",
+          "merchantCode": "Hydration - Monthly 10% OFF",
+          "appId": "5284869",
+          "options": [
+            "Frequency"
+          ],
+          "summary": "1 delivery frequency, 10% discount"
+        },
+        {
+          "id": "gid://shopify/SellingPlanGroup/1401880635",
+          "name": "Hydration - Quarterly 20% OFF",
+          "merchantCode": "Hydration - Quarterly 20% OFF",
+          "appId": "5284869",
+          "options": [
+            "Frequency"
+          ],
+          "summary": "1 delivery frequency, 20% discount"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gid://shopify/Product/7580773384251",
+    "handle": "creatine",
+    "title": "Creatine Monohydrate Pure Unflavored by FORTIFIED®",
+    "status": "ACTIVE",
+    "vendor": "Fortified",
+    "productType": "Supplements",
+    "tags": [
+      "clean-label",
+      "creatine",
+      "creatine-monohydrate",
+      "one-ingredient",
+      "recovery",
+      "strength",
+      "subscription",
+      "supplements",
+      "unflavored",
+      "womens-supplements"
+    ],
+    "descriptionHtml": "<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">Most creatine products ask you to accept artificial flavors, sweeteners, and fillers just to get the one thing you came for.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">FORTIFIED® doesn't work that way.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">This is pure creatine monohydrate. 5 grams per serving. One ingredient. Nothing else in the pouch. One of the most studied compounds in nutritional science, delivered at the dose the research actually used, with nothing added to compromise it.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">Your body already produces creatine naturally. FORTIFIED® just gives it more to work with. More strength, more power output, better recovery from the work you're already putting in.* And if you're a woman who's been told creatine isn't for you, the research disagrees. It's not a gym supplement. It's a foundational nutrient. One most of us aren't getting enough of from food alone.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">No flavors. No sweeteners. No fillers. One ingredient on the label because one ingredient is all that's in it.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\"><strong>5g creatine monohydrate per serving · 45 servings · Pure unflavored</strong> One ingredient · Zero additives · Zero sweeteners · Fully disclosed</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">45 servings. One ingredient. Nothing to second-guess.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\"><em>*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</em></p>",
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "optionValues": [
+          {
+            "name": "Default Title"
+          }
+        ]
+      }
+    ],
+    "variants": {
+      "nodes": [
+        {
+          "id": "gid://shopify/ProductVariant/43410932269115",
+          "title": "Default Title",
+          "sku": "FOR-CRT-UNF-PCH-45",
+          "barcode": "850085791184",
+          "price": "24.00",
+          "compareAtPrice": null,
+          "position": 1,
+          "taxable": true,
+          "inventoryPolicy": "DENY",
+          "inventoryQuantity": -2,
+          "selectedOptions": [
+            {
+              "name": "Title",
+              "value": "Default Title"
+            }
+          ],
+          "image": null
+        }
+      ]
+    },
+    "media": {
+      "nodes": [
+        {
+          "id": "gid://shopify/MediaImage/26635570610235",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0612/2425/5547/files/Creatine_PDP_01.webp?v=1775939616",
+            "altText": "Fortified creatine monohydrate powder package on a white background"
+          }
+        }
+      ]
+    },
+    "metafields": {
+      "nodes": [
+        {
+          "namespace": "mm-google-shopping",
+          "key": "google_product_category",
+          "type": "string",
+          "value": "525"
+        },
+        {
+          "namespace": "mc-facebook",
+          "key": "google_product_category",
+          "type": "string",
+          "value": "525"
+        },
+        {
+          "namespace": "global",
+          "key": "description_tag",
+          "type": "string",
+          "value": "5g of pure creatine monohydrate per serving. One ingredient. Zero flavors, sweeteners, or fillers. The clinically-studied dose, unflavored. 45 servings by FORTIFIED®."
+        },
+        {
+          "namespace": "shopify",
+          "key": "dietary-preferences",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/87254204475\",\"gid://shopify/Metaobject/87254827067\",\"gid://shopify/Metaobject/87254171707\"]"
+        },
+        {
+          "namespace": "shopify",
+          "key": "dietary-supplements",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/87195779131\"]"
+        },
+        {
+          "namespace": "shopify",
+          "key": "flavor",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/114412879931\"]"
+        },
+        {
+          "namespace": "shopify",
+          "key": "age-group",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/114412912699\"]"
+        },
+        {
+          "namespace": "shopify",
+          "key": "detailed-ingredients",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/114412978235\"]"
+        },
+        {
+          "namespace": "shopify",
+          "key": "creatine-type",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/114412945467\"]"
+        },
+        {
+          "namespace": "mm-google-shopping",
+          "key": "age_group",
+          "type": "string",
+          "value": "adult"
+        },
+        {
+          "namespace": "global",
+          "key": "title_tag",
+          "type": "string",
+          "value": "Pure Creatine Monohydrate, Unflavored | 5g · 45 Servings | FORTIFIED®"
+        },
+        {
+          "namespace": "fortified",
+          "key": "pdp_content",
+          "type": "metaobject_reference",
+          "value": "gid://shopify/Metaobject/123813822523"
+        }
+      ]
+    },
+    "sellingPlanGroups": {
+      "nodes": [
+        {
+          "id": "gid://shopify/SellingPlanGroup/1404993595",
+          "name": "Creatine - Monthly 50% OFF",
+          "merchantCode": "Creatine - Monthly 50% OFF",
+          "appId": "5284869",
+          "options": [
+            "Frequency"
+          ],
+          "summary": "1 delivery frequency, 50% discount"
+        },
+        {
+          "id": "gid://shopify/SellingPlanGroup/1405026363",
+          "name": "Creatine - Quarterly 100% OFF",
+          "merchantCode": "Creatine - Quarterly 100% OFF",
+          "appId": "5284869",
+          "options": [
+            "Frequency"
+          ],
+          "summary": "1 delivery frequency, 100% discount"
+        },
+        {
+          "id": "gid://shopify/SellingPlanGroup/1405059131",
+          "name": "Creatine - Quarterly 50% OFF",
+          "merchantCode": "Creatine - Quarterly 50% OFF",
+          "appId": "5284869",
+          "options": [
+            "Frequency"
+          ],
+          "summary": "1 delivery frequency, 50% discount"
+        }
+      ]
+    }
+  }
+]

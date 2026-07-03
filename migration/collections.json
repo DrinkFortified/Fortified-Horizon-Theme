@@ -1,0 +1,81 @@
+[
+  {
+    "id": "gid://shopify/Collection/296051310651",
+    "handle": "frontpage",
+    "title": "You Read Labels. We Write Ones Worth Reading.",
+    "descriptionHtml": "<p><strong>You read labels. We write ones worth reading.</strong></p>\n<p>FORTIFIED® is functional hydration and supplements built on radical transparency. Every milligram disclosed. No proprietary blends. No fillers you can't pronounce. No fear-mongering. Just real ingredients in honest amounts — that is the whole promise.</p>\n<ul>\n  <li>\n<strong>Everyday Hydration with D3 + K2</strong> — caffeine-free daily electrolytes built on Pink Himalayan Salt, magnesium malate, and real coconut water, plus Vitamin D3 (130% DV) and K2 as MK-7.</li>\n  <li>\n<strong>Energy with Natural Caffeine</strong> — the same clean electrolyte base with 152mg of caffeine from real coffee bean. No caffeine anhydrous, no crash.</li>\n  <li>\n<strong>Creatine Monohydrate</strong> — single-ingredient, the way it should be. No additives, no proprietary blend, no anti-caking junk.</li>\n</ul>\n<p>Sweetened with monk fruit and fermented Reb M. Made in the USA in a cGMP-compliant facility, third-party tested. <strong>No Mumbo Jumbo.</strong></p>\n<p><em>* These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</em></p>",
+    "sortOrder": "BEST_SELLING",
+    "templateSuffix": null,
+    "ruleSet": null,
+    "products": {
+      "nodes": [
+        {
+          "handle": "energy"
+        },
+        {
+          "handle": "creatine"
+        },
+        {
+          "handle": "everyday"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gid://shopify/Collection/303310503995",
+    "handle": "new-arrivals",
+    "title": "New Arrivals by FORTIFIED®",
+    "descriptionHtml": "<p><strong>The whole FORTIFIED® lineup. Every milligram disclosed.</strong></p>\n<p>Three clean, single-purpose products built for people who actually read the label — daily hydration, a clean caffeine lift, and single-ingredient creatine. No proprietary blends. No fillers. No mumbo jumbo.</p>\n<ul>\n  <li>\n<strong>Everyday Hydration</strong> — caffeine-free electrolytes with Vitamin D3 (130% DV) + K2 as MK-7. Your daily foundation.</li>\n  <li>\n<strong>Energy</strong> — the same clean electrolyte base plus 152mg natural caffeine from real coffee bean. No crash, no caffeine anhydrous.</li>\n  <li>\n<strong>Creatine Monohydrate</strong> — single ingredient, dosed honestly. The way creatine should be.</li>\n</ul>\n<p>Made in the USA in a cGMP-compliant facility, third-party tested. Salty Orange and Salty Watermelon, 30 stick packs per pouch.</p>\n<p><em>* These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</em></p>",
+    "sortOrder": "BEST_SELLING",
+    "templateSuffix": "",
+    "ruleSet": null,
+    "products": {
+      "nodes": [
+        {
+          "handle": "energy"
+        },
+        {
+          "handle": "creatine"
+        },
+        {
+          "handle": "everyday"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gid://shopify/Collection/310435840059",
+    "handle": "hydration",
+    "title": "Hydration Powders by FORTIFIED®",
+    "descriptionHtml": "<p><strong>Real minerals. Honest amounts. Hydration worth reading the label for.</strong></p>\n<p>Two clean electrolyte mixes built on the same transparent base — <strong>1,210mg sodium</strong> from Pink Himalayan Salt, <strong>150mg magnesium malate</strong>, <strong>220mg potassium</strong> from real coconut water, and <strong>1,940mg chloride</strong> in every stick pack. Sweetened with monk fruit and fermented Reb M — never sugar, never sucralose, never aspartame.</p>\n<p>Pick <strong>Everyday</strong> for caffeine-free daily hydration with added Vitamin D3 (130% DV) and Vitamin K2 as MK-7. Pick <strong>Energy</strong> for 152mg of natural caffeine from real coffee bean — the same clean base, with a clean lift. Both come in Salty Orange and Salty Watermelon. 30 stick packs per pouch. Made in the USA in a cGMP-compliant facility, third-party tested.</p>\n<p><em>* These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</em></p>",
+    "sortOrder": "BEST_SELLING",
+    "templateSuffix": "",
+    "ruleSet": null,
+    "products": {
+      "nodes": [
+        {
+          "handle": "energy"
+        },
+        {
+          "handle": "everyday"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gid://shopify/Collection/310435872827",
+    "handle": "supplements",
+    "title": "Supplements by FORTIFIED®",
+    "descriptionHtml": "<p><strong>Single ingredient. Nothing else.</strong></p>\n<p>Honest supplements for people who actually read the label. Right now that means <strong>FORTIFIED® Creatine Monohydrate</strong> — just creatine, dosed honestly, with nothing else in the pouch. No fillers, no proprietary blends, no anti-caking junk, nothing you have to Google at 11pm.</p>\n<p>Creatine monohydrate is one of the most studied supplements on the planet. We did not reinvent it. We just gave it a label you can actually trust. Made in the USA in a cGMP-compliant facility, third-party tested.</p>\n<p><em>* These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</em></p>",
+    "sortOrder": "BEST_SELLING",
+    "templateSuffix": "",
+    "ruleSet": null,
+    "products": {
+      "nodes": [
+        {
+          "handle": "creatine"
+        }
+      ]
+    }
+  }
+]

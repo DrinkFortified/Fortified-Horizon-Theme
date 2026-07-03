@@ -1,0 +1,1921 @@
+{
+  "ingredient": [
+    {
+      "id": "gid://shopify/Metaobject/120860966971",
+      "handle": "sodium",
+      "displayName": "Sodium",
+      "fields": [
+        {
+          "key": "name",
+          "value": "Sodium"
+        },
+        {
+          "key": "amount",
+          "value": "1,210mg"
+        },
+        {
+          "key": "description",
+          "value": "From Ancient Ocean® Pink Himalayan Salt. The electrolyte you lose most — dosed to actually replace it."
+        },
+        {
+          "key": "icon",
+          "value": null
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120860999739",
+      "handle": "magnesium",
+      "displayName": "Magnesium Malate",
+      "fields": [
+        {
+          "key": "name",
+          "value": "Magnesium Malate"
+        },
+        {
+          "key": "amount",
+          "value": "1,000mg"
+        },
+        {
+          "key": "description",
+          "value": "One of the most bioavailable forms of magnesium — supports energy, muscle function, and recovery."
+        },
+        {
+          "key": "icon",
+          "value": null
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861032507",
+      "handle": "potassium",
+      "displayName": "Potassium",
+      "fields": [
+        {
+          "key": "name",
+          "value": "Potassium"
+        },
+        {
+          "key": "amount",
+          "value": "200mg"
+        },
+        {
+          "key": "description",
+          "value": "From real coconut water powder (CocOganic® Plus). Works with sodium to keep fluids in balance."
+        },
+        {
+          "key": "icon",
+          "value": null
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861065275",
+      "handle": "vitamin-d3-k2",
+      "displayName": "Vitamin D3 + K2",
+      "fields": [
+        {
+          "key": "name",
+          "value": "Vitamin D3 + K2"
+        },
+        {
+          "key": "amount",
+          "value": "25mcg D3 / K2 as MK-7"
+        },
+        {
+          "key": "description",
+          "value": "130% DV Vitamin D3 paired with K2 (MK-7) — together, the way your body actually uses them."
+        },
+        {
+          "key": "icon",
+          "value": null
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861098043",
+      "handle": "natural-caffeine",
+      "displayName": "Natural Caffeine",
+      "fields": [
+        {
+          "key": "name",
+          "value": "Natural Caffeine"
+        },
+        {
+          "key": "amount",
+          "value": "152mg"
+        },
+        {
+          "key": "description",
+          "value": "From real coffee beans — not caffeine anhydrous. A meaningful lift without the jitters or crash."
+        },
+        {
+          "key": "icon",
+          "value": null
+        }
+      ]
+    }
+  ],
+  "pdp_content": [
+    {
+      "id": "gid://shopify/Metaobject/120861130811",
+      "handle": "energy-pdp",
+      "displayName": "Real Caffeine. No Crash. No Junk.",
+      "fields": [
+        {
+          "key": "eyebrow",
+          "value": "Clean Energy Hydration"
+        },
+        {
+          "key": "hero_heading",
+          "value": "Real Caffeine. No Crash. No Junk."
+        },
+        {
+          "key": "hero_body",
+          "value": "152mg of natural caffeine from real coffee beans, paired with the same clean electrolyte foundation your body needs to actually use it. Zero artificial sweeteners. Zero proprietary blends. Every milligram on the label."
+        },
+        {
+          "key": "hero_image",
+          "value": null
+        },
+        {
+          "key": "cta_label",
+          "value": "Subscribe & Save 15%"
+        },
+        {
+          "key": "ingredients_heading",
+          "value": "What's Actually In Energy"
+        },
+        {
+          "key": "ingredients_subheading",
+          "value": "Every ingredient earned its place. No proprietary blends, no hidden amounts."
+        },
+        {
+          "key": "ingredients",
+          "value": "[\"gid://shopify/Metaobject/120861098043\",\"gid://shopify/Metaobject/120860966971\",\"gid://shopify/Metaobject/120860999739\",\"gid://shopify/Metaobject/120861032507\"]"
+        },
+        {
+          "key": "stat_1_number",
+          "value": "152mg"
+        },
+        {
+          "key": "stat_1_label",
+          "value": "Natural Caffeine"
+        },
+        {
+          "key": "stat_1_description",
+          "value": "From real coffee beans, not synthetic caffeine anhydrous."
+        },
+        {
+          "key": "stat_2_number",
+          "value": "1,210mg"
+        },
+        {
+          "key": "stat_2_label",
+          "value": "Pink Himalayan Sodium"
+        },
+        {
+          "key": "stat_2_description",
+          "value": "Per serving — replaces what you actually lose in sweat."
+        },
+        {
+          "key": "stat_3_number",
+          "value": "0g"
+        },
+        {
+          "key": "stat_3_label",
+          "value": "Added Sugar"
+        },
+        {
+          "key": "stat_3_description",
+          "value": "Sweetened with monk fruit and fermented Reb M."
+        },
+        {
+          "key": "testimonial_quote",
+          "value": "I switched off pre-workout entirely. Real caffeine, no crash, and I can actually read the label."
+        },
+        {
+          "key": "testimonial_name",
+          "value": "Chris D., verified buyer"
+        },
+        {
+          "key": "truth_heading",
+          "value": "What Energy Leaves Out"
+        },
+        {
+          "key": "truth_subheading",
+          "value": "No caffeine anhydrous, no synthetic dyes, no sweetener shortcuts. Performance without the post-workout junk drawer."
+        },
+        {
+          "key": "truth_cards",
+          "value": "[\"No caffeine anhydrous\",\"No artificial sweeteners\",\"No synthetic dyes\",\"No proprietary blends\",\"No maltodextrin\",\"Nothing you can't pronounce\"]"
+        },
+        {
+          "key": "callout_1_title",
+          "value": "Why 152mg natural caffeine?"
+        },
+        {
+          "key": "callout_1_body",
+          "value": "A meaningful lift — about a strong cup of coffee — from the same source humans have used for centuries, delivered without the synthetic-stimulant baggage."
+        },
+        {
+          "key": "callout_2_title",
+          "value": "Why 1,210mg sodium?"
+        },
+        {
+          "key": "callout_2_body",
+          "value": "Sodium is the primary electrolyte lost in sweat and the one that actually drives fluid absorption. Most hydration brands underdose it; we don't."
+        },
+        {
+          "key": "callout_3_title",
+          "value": "Why no D3 on Energy?"
+        },
+        {
+          "key": "callout_3_body",
+          "value": "Energy is your performance moment. Vitamin D3 belongs in your daily foundation — that's what Everyday is for."
+        },
+        {
+          "key": "nutrients",
+          "value": "[\"gid://shopify/Metaobject/120861392955\",\"gid://shopify/Metaobject/120861425723\",\"gid://shopify/Metaobject/120861458491\",\"gid://shopify/Metaobject/120861491259\",\"gid://shopify/Metaobject/120861524027\",\"gid://shopify/Metaobject/120861556795\",\"gid://shopify/Metaobject/120861589563\",\"gid://shopify/Metaobject/120861622331\",\"gid://shopify/Metaobject/120861655099\"]"
+        },
+        {
+          "key": "faqs",
+          "value": "[\"gid://shopify/Metaobject/120862015547\",\"gid://shopify/Metaobject/120862048315\",\"gid://shopify/Metaobject/120862081083\",\"gid://shopify/Metaobject/120862113851\",\"gid://shopify/Metaobject/120862146619\"]"
+        },
+        {
+          "key": "supplement_facts_eyebrow",
+          "value": "Why These Numbers Matter"
+        },
+        {
+          "key": "supplement_facts_heading",
+          "value": "The Energy label that made\nother pre-workouts nervous."
+        },
+        {
+          "key": "servings_per",
+          "value": "30 servings per container"
+        },
+        {
+          "key": "serving_size",
+          "value": "1 Stick Pack (6.4g)"
+        },
+        {
+          "key": "calories",
+          "value": "10"
+        },
+        {
+          "key": "faq_eyebrow",
+          "value": "Common Questions"
+        },
+        {
+          "key": "faq_heading",
+          "value": "Energy, answered honestly."
+        },
+        {
+          "key": "faq_emphasis",
+          "value": "honestly."
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861163579",
+      "handle": "everyday-pdp",
+      "displayName": "Hydration You'd Give Your Family",
+      "fields": [
+        {
+          "key": "eyebrow",
+          "value": "Your Daily Foundation"
+        },
+        {
+          "key": "hero_heading",
+          "value": "Hydration You'd Give Your Family"
+        },
+        {
+          "key": "hero_body",
+          "value": "Clean electrolytes plus Vitamin D3 (130% DV) and K2 as MK-7, together the way your body actually uses them. No caffeine — drink it any time of day. Zero sugar, zero artificial sweeteners, every milligram on the label."
+        },
+        {
+          "key": "hero_image",
+          "value": null
+        },
+        {
+          "key": "cta_label",
+          "value": "Subscribe & Save 15%"
+        },
+        {
+          "key": "ingredients_heading",
+          "value": "What's Actually In Everyday"
+        },
+        {
+          "key": "ingredients_subheading",
+          "value": "Foundational daily nutrition. Every ingredient is on the label because every ingredient belongs there."
+        },
+        {
+          "key": "ingredients",
+          "value": "[\"gid://shopify/Metaobject/120860966971\",\"gid://shopify/Metaobject/120860999739\",\"gid://shopify/Metaobject/120861032507\",\"gid://shopify/Metaobject/120861065275\"]"
+        },
+        {
+          "key": "stat_1_number",
+          "value": "130%"
+        },
+        {
+          "key": "stat_1_label",
+          "value": "Vitamin D3 DV"
+        },
+        {
+          "key": "stat_1_description",
+          "value": "Paired with K2 (MK-7) — the form your body can actually use."
+        },
+        {
+          "key": "stat_2_number",
+          "value": "1,210mg"
+        },
+        {
+          "key": "stat_2_label",
+          "value": "Pink Himalayan Sodium"
+        },
+        {
+          "key": "stat_2_description",
+          "value": "From Ancient Ocean® — the electrolyte you lose most."
+        },
+        {
+          "key": "stat_3_number",
+          "value": "0g"
+        },
+        {
+          "key": "stat_3_label",
+          "value": "Added Sugar"
+        },
+        {
+          "key": "stat_3_description",
+          "value": "Monk fruit and fermented Reb M. No sucralose, no aspartame."
+        },
+        {
+          "key": "testimonial_quote",
+          "value": "Finally a hydration mix I don't have to hide from my kids. I can read every ingredient — no fake sweeteners, no dyes — and it actually works."
+        },
+        {
+          "key": "testimonial_name",
+          "value": "Marisa K., mom of three"
+        },
+        {
+          "key": "truth_heading",
+          "value": "What Everyday Leaves Out"
+        },
+        {
+          "key": "truth_subheading",
+          "value": "No caffeine, no synthetic dyes, no sweetener shortcuts. Just clean, foundational daily nutrition."
+        },
+        {
+          "key": "truth_cards",
+          "value": "[\"No caffeine\",\"No artificial sweeteners\",\"No synthetic dyes\",\"No proprietary blends\",\"No fillers or anti-caking junk\",\"Nothing you'd have to Google\"]"
+        },
+        {
+          "key": "callout_1_title",
+          "value": "Why D3 + K2 together?"
+        },
+        {
+          "key": "callout_1_body",
+          "value": "Research increasingly points to their relationship in supporting where calcium actually ends up in the body. Vitamin D3 without K2 is a conversation half finished."
+        },
+        {
+          "key": "callout_2_title",
+          "value": "Why 1,210mg sodium daily?"
+        },
+        {
+          "key": "callout_2_body",
+          "value": "Sodium drives fluid absorption — without enough of it, water passes through instead of reaching your cells. Daily replacement is foundational."
+        },
+        {
+          "key": "callout_3_title",
+          "value": "Why no caffeine?"
+        },
+        {
+          "key": "callout_3_body",
+          "value": "Everyday is for the long game — your daily ritual, any time of day. If you want a clean lift, Energy is built for those moments."
+        },
+        {
+          "key": "nutrients",
+          "value": "[\"gid://shopify/Metaobject/120861687867\",\"gid://shopify/Metaobject/120861720635\",\"gid://shopify/Metaobject/120861753403\",\"gid://shopify/Metaobject/120861786171\",\"gid://shopify/Metaobject/120861818939\",\"gid://shopify/Metaobject/120861851707\",\"gid://shopify/Metaobject/120861884475\",\"gid://shopify/Metaobject/120861917243\",\"gid://shopify/Metaobject/120861950011\",\"gid://shopify/Metaobject/120861982779\"]"
+        },
+        {
+          "key": "faqs",
+          "value": "[\"gid://shopify/Metaobject/120862179387\",\"gid://shopify/Metaobject/120862212155\",\"gid://shopify/Metaobject/120862244923\",\"gid://shopify/Metaobject/120862277691\",\"gid://shopify/Metaobject/120862310459\"]"
+        },
+        {
+          "key": "supplement_facts_eyebrow",
+          "value": "Why These Numbers Matter"
+        },
+        {
+          "key": "supplement_facts_heading",
+          "value": "The Everyday label other\ndaily hydrators won't print."
+        },
+        {
+          "key": "servings_per",
+          "value": "30 servings per container"
+        },
+        {
+          "key": "serving_size",
+          "value": "1 Stick Pack (6.4g)"
+        },
+        {
+          "key": "calories",
+          "value": "10"
+        },
+        {
+          "key": "faq_eyebrow",
+          "value": "Common Questions"
+        },
+        {
+          "key": "faq_heading",
+          "value": "Everyday, answered honestly."
+        },
+        {
+          "key": "faq_emphasis",
+          "value": "honestly."
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/123813822523",
+      "handle": "pdp-content-l3izazky",
+      "displayName": "Pdp Content #L3IZAZKY",
+      "fields": [
+        {
+          "key": "eyebrow",
+          "value": null
+        },
+        {
+          "key": "hero_heading",
+          "value": null
+        },
+        {
+          "key": "hero_body",
+          "value": null
+        },
+        {
+          "key": "hero_image",
+          "value": null
+        },
+        {
+          "key": "cta_label",
+          "value": null
+        },
+        {
+          "key": "ingredients_heading",
+          "value": null
+        },
+        {
+          "key": "ingredients_subheading",
+          "value": null
+        },
+        {
+          "key": "ingredients",
+          "value": null
+        },
+        {
+          "key": "stat_1_number",
+          "value": null
+        },
+        {
+          "key": "stat_1_label",
+          "value": null
+        },
+        {
+          "key": "stat_1_description",
+          "value": null
+        },
+        {
+          "key": "stat_2_number",
+          "value": null
+        },
+        {
+          "key": "stat_2_label",
+          "value": null
+        },
+        {
+          "key": "stat_2_description",
+          "value": null
+        },
+        {
+          "key": "stat_3_number",
+          "value": null
+        },
+        {
+          "key": "stat_3_label",
+          "value": null
+        },
+        {
+          "key": "stat_3_description",
+          "value": null
+        },
+        {
+          "key": "testimonial_quote",
+          "value": null
+        },
+        {
+          "key": "testimonial_name",
+          "value": null
+        },
+        {
+          "key": "truth_heading",
+          "value": null
+        },
+        {
+          "key": "truth_subheading",
+          "value": null
+        },
+        {
+          "key": "truth_cards",
+          "value": null
+        },
+        {
+          "key": "callout_1_title",
+          "value": null
+        },
+        {
+          "key": "callout_1_body",
+          "value": null
+        },
+        {
+          "key": "callout_2_title",
+          "value": null
+        },
+        {
+          "key": "callout_2_body",
+          "value": null
+        },
+        {
+          "key": "callout_3_title",
+          "value": null
+        },
+        {
+          "key": "callout_3_body",
+          "value": null
+        },
+        {
+          "key": "nutrients",
+          "value": "[\"gid://shopify/Metaobject/123813789755\"]"
+        },
+        {
+          "key": "faqs",
+          "value": null
+        },
+        {
+          "key": "supplement_facts_eyebrow",
+          "value": "Why These Numbers Matter"
+        },
+        {
+          "key": "supplement_facts_heading",
+          "value": "The Creatine label that\nfits in a single line."
+        },
+        {
+          "key": "servings_per",
+          "value": "45 servings per container"
+        },
+        {
+          "key": "serving_size",
+          "value": "5g"
+        },
+        {
+          "key": "calories",
+          "value": "0"
+        },
+        {
+          "key": "faq_eyebrow",
+          "value": null
+        },
+        {
+          "key": "faq_heading",
+          "value": null
+        },
+        {
+          "key": "faq_emphasis",
+          "value": null
+        }
+      ]
+    }
+  ],
+  "nutrient_fact": [
+    {
+      "id": "gid://shopify/Metaobject/120861392955",
+      "handle": "energy-fat",
+      "displayName": "Total Fat",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Total Fat"
+        },
+        {
+          "key": "amount",
+          "value": "0g"
+        },
+        {
+          "key": "daily_value",
+          "value": "0%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861425723",
+      "handle": "energy-sat-fat",
+      "displayName": "Saturated Fat",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Saturated Fat"
+        },
+        {
+          "key": "amount",
+          "value": "0g"
+        },
+        {
+          "key": "daily_value",
+          "value": "0%"
+        },
+        {
+          "key": "indent_level",
+          "value": "1"
+        },
+        {
+          "key": "bold_label",
+          "value": "false"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861458491",
+      "handle": "energy-sodium",
+      "displayName": "Sodium",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Sodium"
+        },
+        {
+          "key": "amount",
+          "value": "1,210mg"
+        },
+        {
+          "key": "daily_value",
+          "value": "53%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861491259",
+      "handle": "energy-carb",
+      "displayName": "Total Carbohydrate",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Total Carbohydrate"
+        },
+        {
+          "key": "amount",
+          "value": "3g"
+        },
+        {
+          "key": "daily_value",
+          "value": "1%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861524027",
+      "handle": "energy-sugars",
+      "displayName": "Total Sugars",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Total Sugars"
+        },
+        {
+          "key": "amount",
+          "value": "0g"
+        },
+        {
+          "key": "daily_value",
+          "value": null
+        },
+        {
+          "key": "indent_level",
+          "value": "1"
+        },
+        {
+          "key": "bold_label",
+          "value": "false"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861556795",
+      "handle": "energy-protein",
+      "displayName": "Protein",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Protein"
+        },
+        {
+          "key": "amount",
+          "value": "0g"
+        },
+        {
+          "key": "daily_value",
+          "value": null
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "med"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861589563",
+      "handle": "energy-caffeine",
+      "displayName": "Caffeine (from coffee bean)",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Caffeine (from coffee bean)"
+        },
+        {
+          "key": "amount",
+          "value": "152mg"
+        },
+        {
+          "key": "daily_value",
+          "value": null
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861622331",
+      "handle": "energy-magnesium",
+      "displayName": "Magnesium (malate)",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Magnesium (malate)"
+        },
+        {
+          "key": "amount",
+          "value": "1,000mg"
+        },
+        {
+          "key": "daily_value",
+          "value": "238%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861655099",
+      "handle": "energy-potassium",
+      "displayName": "Potassium",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Potassium"
+        },
+        {
+          "key": "amount",
+          "value": "200mg"
+        },
+        {
+          "key": "daily_value",
+          "value": "4%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861687867",
+      "handle": "everyday-fat",
+      "displayName": "Total Fat",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Total Fat"
+        },
+        {
+          "key": "amount",
+          "value": "0g"
+        },
+        {
+          "key": "daily_value",
+          "value": "0%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861720635",
+      "handle": "everyday-sat-fat",
+      "displayName": "Saturated Fat",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Saturated Fat"
+        },
+        {
+          "key": "amount",
+          "value": "0g"
+        },
+        {
+          "key": "daily_value",
+          "value": "0%"
+        },
+        {
+          "key": "indent_level",
+          "value": "1"
+        },
+        {
+          "key": "bold_label",
+          "value": "false"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861753403",
+      "handle": "everyday-sodium",
+      "displayName": "Sodium",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Sodium"
+        },
+        {
+          "key": "amount",
+          "value": "1,210mg"
+        },
+        {
+          "key": "daily_value",
+          "value": "53%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861786171",
+      "handle": "everyday-carb",
+      "displayName": "Total Carbohydrate",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Total Carbohydrate"
+        },
+        {
+          "key": "amount",
+          "value": "3g"
+        },
+        {
+          "key": "daily_value",
+          "value": "1%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861818939",
+      "handle": "everyday-sugars",
+      "displayName": "Total Sugars",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Total Sugars"
+        },
+        {
+          "key": "amount",
+          "value": "0g"
+        },
+        {
+          "key": "daily_value",
+          "value": null
+        },
+        {
+          "key": "indent_level",
+          "value": "1"
+        },
+        {
+          "key": "bold_label",
+          "value": "false"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861851707",
+      "handle": "everyday-protein",
+      "displayName": "Protein",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Protein"
+        },
+        {
+          "key": "amount",
+          "value": "0g"
+        },
+        {
+          "key": "daily_value",
+          "value": null
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "med"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861884475",
+      "handle": "everyday-d3",
+      "displayName": "Vitamin D3",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Vitamin D3"
+        },
+        {
+          "key": "amount",
+          "value": "25mcg"
+        },
+        {
+          "key": "daily_value",
+          "value": "130%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861917243",
+      "handle": "everyday-k2",
+      "displayName": "Vitamin K2 (MK-7)",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Vitamin K2 (MK-7)"
+        },
+        {
+          "key": "amount",
+          "value": "75mcg"
+        },
+        {
+          "key": "daily_value",
+          "value": "63%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861950011",
+      "handle": "everyday-magnesium",
+      "displayName": "Magnesium (malate)",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Magnesium (malate)"
+        },
+        {
+          "key": "amount",
+          "value": "1,000mg"
+        },
+        {
+          "key": "daily_value",
+          "value": "238%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "thin"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120861982779",
+      "handle": "everyday-potassium",
+      "displayName": "Potassium",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Potassium"
+        },
+        {
+          "key": "amount",
+          "value": "200mg"
+        },
+        {
+          "key": "daily_value",
+          "value": "4%"
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/123813789755",
+      "handle": "creatine-monohydrate",
+      "displayName": "Creatine Monohydrate",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Creatine Monohydrate"
+        },
+        {
+          "key": "amount",
+          "value": "5g"
+        },
+        {
+          "key": "daily_value",
+          "value": null
+        },
+        {
+          "key": "indent_level",
+          "value": "0"
+        },
+        {
+          "key": "bold_label",
+          "value": "true"
+        },
+        {
+          "key": "divider_after",
+          "value": "none"
+        }
+      ]
+    }
+  ],
+  "faq_item": [
+    {
+      "id": "gid://shopify/Metaobject/120862015547",
+      "handle": "energy-faq-caffeine",
+      "displayName": "Is the caffeine in Energy actually from coffee?",
+      "fields": [
+        {
+          "key": "question",
+          "value": "Is the caffeine in Energy actually from coffee?"
+        },
+        {
+          "key": "answer",
+          "value": "Yes — 152mg from real coffee beans, not caffeine anhydrous (the synthetic stimulant most pre-workouts and energy drinks use). Same source humans have relied on for centuries, at a meaningful dose without the jitter spike or afternoon crash."
+        },
+        {
+          "key": "open_by_default",
+          "value": "true"
+        },
+        {
+          "key": "tags",
+          "value": "caffeine,ingredients"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120862048315",
+      "handle": "energy-faq-stack",
+      "displayName": "Can I stack Energy with my coffee or workout drink?",
+      "fields": [
+        {
+          "key": "question",
+          "value": "Can I stack Energy with my coffee or workout drink?"
+        },
+        {
+          "key": "answer",
+          "value": "You can — 152mg is about a strong cup of coffee, so factor that into your daily total. Most people use Energy instead of a second coffee or as their pre-workout, not on top of both."
+        },
+        {
+          "key": "open_by_default",
+          "value": "false"
+        },
+        {
+          "key": "tags",
+          "value": "caffeine,usage"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120862081083",
+      "handle": "energy-faq-vs-everyday",
+      "displayName": "What's the difference between Energy and Everyday?",
+      "fields": [
+        {
+          "key": "question",
+          "value": "What's the difference between Energy and Everyday?"
+        },
+        {
+          "key": "answer",
+          "value": "Same clean electrolyte base. Energy adds 152mg natural caffeine for performance moments. Everyday skips the caffeine and adds Vitamin D3 + K2 for your daily foundation. Many customers use both — Everyday in the morning, Energy before workouts."
+        },
+        {
+          "key": "open_by_default",
+          "value": "false"
+        },
+        {
+          "key": "tags",
+          "value": "lineup"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120862113851",
+      "handle": "energy-faq-sweetener",
+      "displayName": "What's the sweetener?",
+      "fields": [
+        {
+          "key": "question",
+          "value": "What's the sweetener?"
+        },
+        {
+          "key": "answer",
+          "value": "Monk fruit and fermented Reb M (a clean stevia derivative). Never sucralose, never aspartame, never added sugar. Zero glycemic impact, full flavor."
+        },
+        {
+          "key": "open_by_default",
+          "value": "false"
+        },
+        {
+          "key": "tags",
+          "value": "ingredients,sweetener"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120862146619",
+      "handle": "energy-faq-shipping",
+      "displayName": "Subscription, shipping, returns?",
+      "fields": [
+        {
+          "key": "question",
+          "value": "Subscription, shipping, returns?"
+        },
+        {
+          "key": "answer",
+          "value": "Subscribe & save 15%, free shipping on all subscriptions, skip or cancel anytime in your portal — no friction. We ship quickly and email tracking the moment your order leaves."
+        },
+        {
+          "key": "open_by_default",
+          "value": "false"
+        },
+        {
+          "key": "tags",
+          "value": "shipping,subscription"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120862179387",
+      "handle": "everyday-faq-d3k2",
+      "displayName": "Why D3 and K2 together?",
+      "fields": [
+        {
+          "key": "question",
+          "value": "Why D3 and K2 together?"
+        },
+        {
+          "key": "answer",
+          "value": "Research increasingly points to their relationship — Vitamin K2 (as MK-7, the active form) helps direct calcium to where your body wants it. Vitamin D3 without K2 is a conversation half finished, so we put them in together at meaningful amounts (130% DV D3, plus K2 MK-7)."
+        },
+        {
+          "key": "open_by_default",
+          "value": "true"
+        },
+        {
+          "key": "tags",
+          "value": "ingredients"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120862212155",
+      "handle": "everyday-faq-family",
+      "displayName": "Is Everyday safe for my whole family?",
+      "fields": [
+        {
+          "key": "question",
+          "value": "Is Everyday safe for my whole family?"
+        },
+        {
+          "key": "answer",
+          "value": "Everyday is built on clean, real-food ingredients with nothing artificial, no caffeine, and every milligram disclosed. As always, check with your doctor for children, or if pregnant or nursing. *These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.*"
+        },
+        {
+          "key": "open_by_default",
+          "value": "false"
+        },
+        {
+          "key": "tags",
+          "value": "family,safety"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120862244923",
+      "handle": "everyday-faq-vs-energy",
+      "displayName": "What's the difference between Everyday and Energy?",
+      "fields": [
+        {
+          "key": "question",
+          "value": "What's the difference between Everyday and Energy?"
+        },
+        {
+          "key": "answer",
+          "value": "Same clean electrolyte base. Everyday skips the caffeine and adds Vitamin D3 + K2 for your daily foundation. Energy adds 152mg natural caffeine for performance moments. Many customers use both — Everyday in the morning, Energy before workouts."
+        },
+        {
+          "key": "open_by_default",
+          "value": "false"
+        },
+        {
+          "key": "tags",
+          "value": "lineup"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120862277691",
+      "handle": "everyday-faq-sweetener",
+      "displayName": "What's the sweetener?",
+      "fields": [
+        {
+          "key": "question",
+          "value": "What's the sweetener?"
+        },
+        {
+          "key": "answer",
+          "value": "Monk fruit and fermented Reb M (a clean stevia derivative). Never sucralose, never aspartame, never added sugar. Zero glycemic impact, full flavor."
+        },
+        {
+          "key": "open_by_default",
+          "value": "false"
+        },
+        {
+          "key": "tags",
+          "value": "ingredients,sweetener"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120862310459",
+      "handle": "everyday-faq-shipping",
+      "displayName": "Subscription, shipping, returns?",
+      "fields": [
+        {
+          "key": "question",
+          "value": "Subscription, shipping, returns?"
+        },
+        {
+          "key": "answer",
+          "value": "Subscribe & save 15%, free shipping on all subscriptions, skip or cancel anytime in your portal — no friction. We ship quickly and email tracking the moment your order leaves."
+        },
+        {
+          "key": "open_by_default",
+          "value": "false"
+        },
+        {
+          "key": "tags",
+          "value": "shipping,subscription"
+        }
+      ]
+    }
+  ],
+  "comparison_row": [
+    {
+      "id": "gid://shopify/Metaobject/120862998587",
+      "handle": "energy-row-caffeine",
+      "displayName": "Natural caffeine source",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Natural caffeine source"
+        },
+        {
+          "key": "fortified_value",
+          "value": "152mg from coffee bean"
+        },
+        {
+          "key": "icon",
+          "value": "check"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863031355",
+      "handle": "energy-row-anhydrous",
+      "displayName": "No caffeine anhydrous",
+      "fields": [
+        {
+          "key": "label",
+          "value": "No caffeine anhydrous"
+        },
+        {
+          "key": "fortified_value",
+          "value": "Yes"
+        },
+        {
+          "key": "icon",
+          "value": "check"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863064123",
+      "handle": "energy-row-sweetener",
+      "displayName": "Zero artificial sweeteners",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Zero artificial sweeteners"
+        },
+        {
+          "key": "fortified_value",
+          "value": "Yes"
+        },
+        {
+          "key": "icon",
+          "value": "check"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863096891",
+      "handle": "energy-row-sodium",
+      "displayName": "Sodium per serving",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Sodium per serving"
+        },
+        {
+          "key": "fortified_value",
+          "value": "1,210mg"
+        },
+        {
+          "key": "icon",
+          "value": "text"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863129659",
+      "handle": "energy-row-mg",
+      "displayName": "Magnesium malate per serving",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Magnesium malate per serving"
+        },
+        {
+          "key": "fortified_value",
+          "value": "1,000mg"
+        },
+        {
+          "key": "icon",
+          "value": "text"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863162427",
+      "handle": "energy-row-disclosed",
+      "displayName": "Every milligram disclosed",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Every milligram disclosed"
+        },
+        {
+          "key": "fortified_value",
+          "value": "Yes"
+        },
+        {
+          "key": "icon",
+          "value": "check"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863195195",
+      "handle": "everyday-row-d3",
+      "displayName": "Vitamin D3 per serving",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Vitamin D3 per serving"
+        },
+        {
+          "key": "fortified_value",
+          "value": "25mcg (130% DV)"
+        },
+        {
+          "key": "icon",
+          "value": "text"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863227963",
+      "handle": "everyday-row-k2",
+      "displayName": "Vitamin K2 (MK-7)",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Vitamin K2 (MK-7)"
+        },
+        {
+          "key": "fortified_value",
+          "value": "Yes"
+        },
+        {
+          "key": "icon",
+          "value": "check"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863260731",
+      "handle": "everyday-row-sodium",
+      "displayName": "Sodium per serving",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Sodium per serving"
+        },
+        {
+          "key": "fortified_value",
+          "value": "1,210mg"
+        },
+        {
+          "key": "icon",
+          "value": "text"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863293499",
+      "handle": "everyday-row-mg",
+      "displayName": "Magnesium malate per serving",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Magnesium malate per serving"
+        },
+        {
+          "key": "fortified_value",
+          "value": "1,000mg"
+        },
+        {
+          "key": "icon",
+          "value": "text"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863326267",
+      "handle": "everyday-row-sweetener",
+      "displayName": "Zero artificial sweeteners",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Zero artificial sweeteners"
+        },
+        {
+          "key": "fortified_value",
+          "value": "Yes"
+        },
+        {
+          "key": "icon",
+          "value": "check"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863359035",
+      "handle": "everyday-row-caffeine",
+      "displayName": "No caffeine",
+      "fields": [
+        {
+          "key": "label",
+          "value": "No caffeine"
+        },
+        {
+          "key": "fortified_value",
+          "value": "Yes"
+        },
+        {
+          "key": "icon",
+          "value": "check"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863391803",
+      "handle": "everyday-row-disclosed",
+      "displayName": "Every milligram disclosed",
+      "fields": [
+        {
+          "key": "label",
+          "value": "Every milligram disclosed"
+        },
+        {
+          "key": "fortified_value",
+          "value": "Yes"
+        },
+        {
+          "key": "icon",
+          "value": "check"
+        }
+      ]
+    }
+  ],
+  "comparison_competitor": [
+    {
+      "id": "gid://shopify/Metaobject/120863424571",
+      "handle": "energy-vs-celsius",
+      "displayName": "Celsius",
+      "fields": [
+        {
+          "key": "name",
+          "value": "Celsius"
+        },
+        {
+          "key": "values",
+          "value": "Synthetic anhydrous\nNo\nSucralose\n0mg\n0mg\nNo"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863457339",
+      "handle": "energy-vs-c4",
+      "displayName": "C4",
+      "fields": [
+        {
+          "key": "name",
+          "value": "C4"
+        },
+        {
+          "key": "values",
+          "value": "Synthetic anhydrous\nNo\nProprietary blend\n0mg\n0mg\nNo"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863490107",
+      "handle": "energy-vs-liquidiv-energy",
+      "displayName": "Liquid IV Energy",
+      "fields": [
+        {
+          "key": "name",
+          "value": "Liquid IV Energy"
+        },
+        {
+          "key": "values",
+          "value": "Coffee bean (100mg)\nYes\nStevia + sugar\n380mg\n0mg\nNo"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863522875",
+      "handle": "everyday-vs-liquidiv",
+      "displayName": "Liquid IV",
+      "fields": [
+        {
+          "key": "name",
+          "value": "Liquid IV"
+        },
+        {
+          "key": "values",
+          "value": "0mg\nNo\n500mg\n0mg\nStevia + sugar\nNo\nNo"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863555643",
+      "handle": "everyday-vs-lmnt",
+      "displayName": "LMNT",
+      "fields": [
+        {
+          "key": "name",
+          "value": "LMNT"
+        },
+        {
+          "key": "values",
+          "value": "0mcg\nNo\n1,000mg\n60mg (citrate)\nStevia\nYes\nNo"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863588411",
+      "handle": "everyday-vs-nuun",
+      "displayName": "Nuun Daily",
+      "fields": [
+        {
+          "key": "name",
+          "value": "Nuun Daily"
+        },
+        {
+          "key": "values",
+          "value": "0mcg\nNo\n300mg\n25mg\nStevia + sugar\nYes\nNo"
+        }
+      ]
+    }
+  ],
+  "pdp_extra": [
+    {
+      "id": "gid://shopify/Metaobject/120863621179",
+      "handle": "energy-extras",
+      "displayName": "Pair Energy With Your Daily Foundation",
+      "fields": [
+        {
+          "key": "showcase_eyebrow",
+          "value": "The Lineup"
+        },
+        {
+          "key": "showcase_heading",
+          "value": "Pair Energy With Your Daily Foundation"
+        },
+        {
+          "key": "showcase_body",
+          "value": "Energy gives you performance moments. Everyday gives you the daily ritual most label-readers stack underneath. Same clean electrolyte base, no caffeine, with Vitamin D3 + K2."
+        },
+        {
+          "key": "showcase_cta_label",
+          "value": "Explore The Lineup"
+        },
+        {
+          "key": "comparison_eyebrow",
+          "value": "Energy Vs. The Synthetic Stuff"
+        },
+        {
+          "key": "comparison_heading",
+          "value": "Real Coffee-Bean Caffeine, Honestly Compared"
+        },
+        {
+          "key": "comparison_subheading",
+          "value": "We measured Energy against the energy drinks people quietly drink despite the labels. The differences are not subtle."
+        },
+        {
+          "key": "comparison_cta_label",
+          "value": "Subscribe & Save On Energy"
+        },
+        {
+          "key": "comparison_rows",
+          "value": "[\"gid://shopify/Metaobject/120862998587\",\"gid://shopify/Metaobject/120863031355\",\"gid://shopify/Metaobject/120863064123\",\"gid://shopify/Metaobject/120863096891\",\"gid://shopify/Metaobject/120863129659\",\"gid://shopify/Metaobject/120863162427\"]"
+        },
+        {
+          "key": "comparison_competitors",
+          "value": "[\"gid://shopify/Metaobject/120863424571\",\"gid://shopify/Metaobject/120863457339\",\"gid://shopify/Metaobject/120863490107\"]"
+        },
+        {
+          "key": "subscribe_eyebrow",
+          "value": "Subscribe & Save"
+        },
+        {
+          "key": "subscribe_heading",
+          "value": "Subscribe & Save 15% On Energy"
+        },
+        {
+          "key": "subscribe_cta_label",
+          "value": "Start My Energy Subscription"
+        },
+        {
+          "key": "subscribe_benefits",
+          "value": "[\"Save 15% on every Energy order\",\"Free shipping on every shipment\",\"Skip, swap, or cancel anytime\",\"Free creatine with quarterly plans\"]"
+        }
+      ]
+    },
+    {
+      "id": "gid://shopify/Metaobject/120863653947",
+      "handle": "everyday-extras",
+      "displayName": "Add Energy For Your Performance Moments",
+      "fields": [
+        {
+          "key": "showcase_eyebrow",
+          "value": "The Lineup"
+        },
+        {
+          "key": "showcase_heading",
+          "value": "Add Energy For Your Performance Moments"
+        },
+        {
+          "key": "showcase_body",
+          "value": "Everyday is your daily foundation. Energy is what most label-readers add for workouts and afternoon lifts. Real coffee-bean caffeine, same clean electrolyte base, zero synthetic stimulants."
+        },
+        {
+          "key": "showcase_cta_label",
+          "value": "Explore The Lineup"
+        },
+        {
+          "key": "comparison_eyebrow",
+          "value": "Everyday Vs. Daily Hydration"
+        },
+        {
+          "key": "comparison_heading",
+          "value": "Daily Hydration, Honestly Compared"
+        },
+        {
+          "key": "comparison_subheading",
+          "value": "We measured Everyday against the daily hydration packets people grab without reading the label. Most are missing the nutrients that actually matter for the long game."
+        },
+        {
+          "key": "comparison_cta_label",
+          "value": "Subscribe & Save On Everyday"
+        },
+        {
+          "key": "comparison_rows",
+          "value": "[\"gid://shopify/Metaobject/120863195195\",\"gid://shopify/Metaobject/120863227963\",\"gid://shopify/Metaobject/120863260731\",\"gid://shopify/Metaobject/120863293499\",\"gid://shopify/Metaobject/120863326267\",\"gid://shopify/Metaobject/120863359035\",\"gid://shopify/Metaobject/120863391803\"]"
+        },
+        {
+          "key": "comparison_competitors",
+          "value": "[\"gid://shopify/Metaobject/120863522875\",\"gid://shopify/Metaobject/120863555643\",\"gid://shopify/Metaobject/120863588411\"]"
+        },
+        {
+          "key": "subscribe_eyebrow",
+          "value": "Subscribe & Save"
+        },
+        {
+          "key": "subscribe_heading",
+          "value": "Subscribe & Save 15% On Everyday"
+        },
+        {
+          "key": "subscribe_cta_label",
+          "value": "Start My Everyday Subscription"
+        },
+        {
+          "key": "subscribe_benefits",
+          "value": "[\"Save 15% on every Everyday order\",\"Free shipping on every shipment\",\"Skip, swap, or cancel anytime\",\"Free creatine with quarterly plans\"]"
+        }
+      ]
+    }
+  ]
+}

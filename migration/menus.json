@@ -1,0 +1,95 @@
+[
+  {
+    "id": "gid://shopify/Menu/199458652219",
+    "handle": "main-menu",
+    "title": "Main menu",
+    "items": [
+      {
+        "title": "SHOP",
+        "type": "FRONTPAGE",
+        "url": "/",
+        "items": []
+      },
+      {
+        "title": "ABOUT US",
+        "type": "PAGE",
+        "url": "/pages/about-us",
+        "items": []
+      },
+      {
+        "title": "WHY FORTIFIED",
+        "type": "PAGE",
+        "url": "/pages/why-fortified",
+        "items": []
+      },
+      {
+        "title": "CONTACT",
+        "type": "PAGE",
+        "url": "/pages/contact",
+        "items": []
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/Menu/199458684987",
+    "handle": "footer",
+    "title": "Footer menu",
+    "items": [
+      {
+        "title": "Your Privacy Choices",
+        "type": "PAGE",
+        "url": "/pages/data-sharing-opt-out",
+        "items": []
+      }
+    ]
+  },
+  {
+    "id": "gid://shopify/Menu/216214405179",
+    "handle": "conceptthememenu",
+    "title": "ConceptThemeMenu",
+    "items": [
+      {
+        "title": "Shop",
+        "type": "CATALOG",
+        "url": "/collections/all",
+        "items": [
+          {
+            "title": "Hydration",
+            "type": "COLLECTION",
+            "url": "/collections/hydration",
+            "items": [
+              {
+                "title": "Energy",
+                "type": "PRODUCT",
+                "url": "/products/energy"
+              },
+              {
+                "title": "Everyday",
+                "type": "PRODUCT",
+                "url": "/products/everyday"
+              }
+            ]
+          },
+          {
+            "title": "Supplements",
+            "type": "COLLECTION",
+            "url": "/collections/supplements",
+            "items": [
+              {
+                "title": "Creatine Monohydrate",
+                "type": "PRODUCT",
+                "url": "/products/creatine"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Learn",
+        "type": "PAGE",
+        "url": "/pages/about-us",
+        "items": []
+      }
+    ]
+  }
+]
