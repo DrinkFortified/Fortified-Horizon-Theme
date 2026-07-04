@@ -229,6 +229,10 @@
               <div class="ftdlc__errors" data-ftdlc-error hidden role="alert"></div>
 
               <input type="hidden" name="customer[tags]" value="{{ block.settings.customer_tags | default: 'lead-capture' | escape }}">
+              {%- comment -%} After a full-page post (no-JS or bot challenge),
+                  Shopify redirects here — the marker reopens the panel on
+                  the thank-you step deterministically. {%- endcomment -%}
+              <input type="hidden" name="return_to" value="{{ request.path }}?ftdlc_posted={{ sid }}">
 
               <div class="ftdlc__field">
                 <label class="ftdlc__label" for="ftdlc-name-{{ sid }}">{{ block.settings.name_label | default: 'Name' }}<span class="ftdlc__req" aria-hidden="true">*</span></label>
@@ -343,7 +347,9 @@
      success, or to /challenge when it wants bot verification. On challenge
      (or any fetch failure) fall back to a real form post — the FLAG in
      sessionStorage reopens the panel on the thank-you step after reload. */
-  var form = dialog.querySelector('[data-ftdlc-form]');
+  /* Prefer the class selector — 'class' is a core form-tag param, while
+     custom data attributes depend on Liquid attribute passthrough. */
+  var form = dialog.querySelector('form.ftdlc__form') || dialog.querySelector('[data-ftdlc-form]');
   if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -356,11 +362,19 @@
         .then(function (r) {
           if (r.url && r.url.indexOf('/challenge') !== -1) { window.location.href = r.url; return; }
           if (!r.ok) throw new Error('HTTP ' + r.status);
-          try { sessionStorage.removeItem(FLAG); } catch (_) {}
-          showStep('thanks');
-          var panel = dialog.querySelector('.ftdc-slideover__panel');
-          if (panel) panel.scrollTo({ top: 0 });
-          if (btn) btn.disabled = false;
+          return r.text().then(function (t) {
+            if (t && t.indexOf('shopify-challenge') !== -1) {
+              /* Bot check served inline — re-post natively so the captcha
+                 page can actually render; return_to brings us back. */
+              form.submit();
+              return;
+            }
+            try { sessionStorage.removeItem(FLAG); } catch (_) {}
+            showStep('thanks');
+            var panel = dialog.querySelector('.ftdc-slideover__panel');
+            if (panel) panel.scrollTo({ top: 0 });
+            if (btn) btn.disabled = false;
+          });
         })
         .catch(function () {
           /* Network/HTTP failure — let the browser do a normal post. */
@@ -376,7 +390,10 @@
   var posted = /[?&]customer_posted=true/.test(window.location.search) || !!dialog.querySelector('[data-ftdlc-posted]');
   var flagged = false;
   try { flagged = sessionStorage.getItem(FLAG) === '1'; } catch (_) {}
-  if (posted && flagged) {
+  /* Our return_to marker is unambiguous (per-block id), so it reopens the
+     panel even if sessionStorage was unavailable. */
+  var marked = window.location.search.indexOf('ftdlc_posted=' + SID) !== -1;
+  if (marked || (posted && flagged)) {
     try { sessionStorage.removeItem(FLAG); } catch (_) {}
     showStep('thanks');
     openDlg();
