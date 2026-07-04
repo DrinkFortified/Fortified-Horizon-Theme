@@ -228,7 +228,12 @@
               {%- endif -%}
               <div class="ftdlc__errors" data-ftdlc-error hidden role="alert"></div>
 
-              <input type="hidden" name="customer[tags]" value="{{ block.settings.customer_tags | default: 'lead-capture' | escape }}">
+              {%- assign base_tags = block.settings.customer_tags | default: 'lead-capture' -%}
+              {%- comment -%} form_type=customer accepts contact[tags] with
+                  custom tags. JS repacks this before submit to append the
+                  phone (digits) and the consent marker, since this form
+                  type has no phone or note fields. {%- endcomment -%}
+              <input type="hidden" name="contact[tags]" value="{{ base_tags | escape }}" data-ftdlc-tags data-base="{{ base_tags | escape }}">
               {%- comment -%} After a full-page post (no-JS or bot challenge),
                   Shopify redirects here — the marker reopens the panel on
                   the thank-you step deterministically. {%- endcomment -%}
@@ -236,17 +241,17 @@
 
               <div class="ftdlc__field">
                 <label class="ftdlc__label" for="ftdlc-name-{{ sid }}">{{ block.settings.name_label | default: 'Name' }}<span class="ftdlc__req" aria-hidden="true">*</span></label>
-                <input class="ftdlc__input" id="ftdlc-name-{{ sid }}" type="text" name="customer[first_name]" autocomplete="name" required placeholder="{{ block.settings.name_placeholder | default: 'Your name' | escape }}">
+                <input class="ftdlc__input" id="ftdlc-name-{{ sid }}" type="text" name="contact[first_name]" autocomplete="name" required placeholder="{{ block.settings.name_placeholder | default: 'Your name' | escape }}">
               </div>
 
               <div class="ftdlc__field">
                 <label class="ftdlc__label" for="ftdlc-email-{{ sid }}">{{ block.settings.email_label | default: 'Email' }}<span class="ftdlc__req" aria-hidden="true">*</span></label>
-                <input class="ftdlc__input" id="ftdlc-email-{{ sid }}" type="email" name="customer[email]" autocomplete="email" required placeholder="{{ block.settings.email_placeholder | default: 'you@example.com' | escape }}">
+                <input class="ftdlc__input" id="ftdlc-email-{{ sid }}" type="email" name="contact[email]" autocomplete="email" required placeholder="{{ block.settings.email_placeholder | default: 'you@example.com' | escape }}">
               </div>
 
               <div class="ftdlc__field">
                 <label class="ftdlc__label" for="ftdlc-phone-{{ sid }}">{{ block.settings.phone_label | default: 'Phone' }}{% if block.settings.phone_required %}<span class="ftdlc__req" aria-hidden="true">*</span>{% endif %}</label>
-                <input class="ftdlc__input" id="ftdlc-phone-{{ sid }}" type="tel" name="customer[note][Phone]" autocomplete="tel" {% if block.settings.phone_required %}required{% endif %} placeholder="{{ block.settings.phone_placeholder | default: '(555) 555-5555' | escape }}">
+                <input class="ftdlc__input" id="ftdlc-phone-{{ sid }}" type="tel" name="contact[phone]" autocomplete="tel" data-ftdlc-phone {% if block.settings.phone_required %}required{% endif %} placeholder="{{ block.settings.phone_placeholder | default: '(555) 555-5555' | escape }}">
               </div>
 
               {%- comment -%}
@@ -257,10 +262,12 @@
                 without ticking it, the consent-record note below can be a
                 static hidden field — every submitted lead has consented.
               {%- endcomment -%}
-              <input type="hidden" name="customer[note][Marketing Consent]" value="Customer checked the combined email + SMS marketing consent box on the lead-capture form (express written consent to marketing emails and recurring automated marketing texts; HELP/STOP disclosed; consent not a condition of purchase; box required to submit, unchecked by default).">
+              {%- comment -%} form_type=customer subscribes the email
+                  automatically on submit; the checkbox is the required
+                  consent gate (its proof: the email-sms-consent tag JS adds,
+                  plus the customer's created_at timestamp). {%- endcomment -%}
               <label class="ftdlc__optin">
-                <input type="hidden" name="customer[accepts_marketing]" value="false">
-                <input type="checkbox" name="customer[accepts_marketing]" value="true" required>
+                <input type="checkbox" required>
                 <span class="ftdlc__optin-text">{{ block.settings.optin_text | default: '<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href="/policies/privacy-policy">Privacy Policy</a> and <a href="/policies/terms-of-service">Terms of Service</a>.</p>' }}</span>
               </label>
 
@@ -350,9 +357,25 @@
   /* Prefer the class selector — 'class' is a core form-tag param, while
      custom data attributes depend on Liquid attribute passthrough. */
   var form = dialog.querySelector('form.ftdlc__form') || dialog.querySelector('[data-ftdlc-form]');
+  /* form_type=customer has no phone field — fold the phone (digits only)
+     and the consent marker into the tags, which admin can search/filter. */
+  function packTags() {
+    if (!form) return;
+    var tagsInput = form.querySelector('[data-ftdlc-tags]');
+    if (!tagsInput) return;
+    var tags = [tagsInput.getAttribute('data-base') || 'lead-capture'];
+    var phone = form.querySelector('[data-ftdlc-phone]');
+    if (phone && phone.value) {
+      var digits = phone.value.replace(/\D+/g, '');
+      if (digits) tags.push('phone-' + digits);
+    }
+    tags.push('email-sms-consent');
+    tagsInput.value = tags.join(',');
+  }
   if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      packTags();
       var btn = form.querySelector('[data-ftdlc-submit]');
       var errBox = form.querySelector('[data-ftdlc-error]');
       if (errBox) errBox.hidden = true;
@@ -434,7 +457,7 @@
     { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "you@example.com" },
     { "type": "text", "id": "phone_label", "label": "Phone label", "default": "Phone" },
     { "type": "text", "id": "phone_placeholder", "label": "Phone placeholder", "default": "(555) 555-5555" },
-    { "type": "checkbox", "id": "phone_required", "label": "Phone required", "default": false, "info": "Phone is saved to the customer's note — Shopify's storefront form has no SMS-consent field." },
+    { "type": "checkbox", "id": "phone_required", "label": "Phone required", "default": false, "info": "The phone is saved on the customer as a phone-<digits> tag (Shopify's newsletter form has no phone field). Filter customers by tag to see it." },
     { "type": "header", "content": "Consent checkbox" },
     { "type": "paragraph", "content": "One combined email + SMS consent box: required to submit and always unchecked by default (TCPA / Texas SB 140 pattern for standalone signup forms). Keep the disclosure covering BOTH channels if you edit it. Not legal advice — have counsel review the final wording." },
     { "type": "richtext", "id": "optin_text", "label": "Consent text", "default": "<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href=\"/policies/privacy-policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\">Terms of Service</a>.</p>" },
