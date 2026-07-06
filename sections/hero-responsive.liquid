@@ -2,13 +2,20 @@
   assign sid = section.id
   assign root = 'fhr-' | append: sid
 
+  comment
+    Each breakpoint shows an image OR a video: the image wins when both
+    are set. "swap" only kicks in when both breakpoints have media.
+  endcomment
+  assign d_img = section.settings.desktop_image
+  assign m_img = section.settings.mobile_image
+
   assign has_desktop = false
-  if section.settings.desktop_video != blank
+  if d_img != blank or section.settings.desktop_video != blank
     assign has_desktop = true
   endif
 
   assign has_mobile = false
-  if section.settings.mobile_video != blank
+  if m_img != blank or section.settings.mobile_video != blank
     assign has_mobile = true
   endif
 
@@ -36,29 +43,53 @@
 >
   <div class="hero-responsive__media" aria-hidden="true">
     {%- if has_desktop -%}
-      {{
-        section.settings.desktop_video
-        | video_tag:
-          class: 'hero-responsive__video hero-responsive__video--desktop',
-          autoplay: true,
-          loop: true,
-          muted: true,
-          controls: false,
-          image_size: '1920x'
-      }}
+      {%- if d_img != blank -%}
+        {{
+          d_img
+          | image_url: width: 3840
+          | image_tag:
+            class: 'hero-responsive__image hero-responsive__media-el--desktop',
+            widths: '750,1100,1500,1920,2560,3840',
+            sizes: '100vw',
+            alt: ''
+        }}
+      {%- else -%}
+        {{
+          section.settings.desktop_video
+          | video_tag:
+            class: 'hero-responsive__video hero-responsive__video--desktop hero-responsive__media-el--desktop',
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            image_size: '1920x'
+        }}
+      {%- endif -%}
     {%- endif -%}
 
     {%- if has_mobile -%}
-      {{
-        section.settings.mobile_video
-        | video_tag:
-          class: 'hero-responsive__video hero-responsive__video--mobile',
-          autoplay: true,
-          loop: true,
-          muted: true,
-          controls: false,
-          image_size: '1280x'
-      }}
+      {%- if m_img != blank -%}
+        {{
+          m_img
+          | image_url: width: 1500
+          | image_tag:
+            class: 'hero-responsive__image hero-responsive__media-el--mobile',
+            widths: '480,750,1100,1500',
+            sizes: '100vw',
+            alt: ''
+        }}
+      {%- else -%}
+        {{
+          section.settings.mobile_video
+          | video_tag:
+            class: 'hero-responsive__video hero-responsive__video--mobile hero-responsive__media-el--mobile',
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            image_size: '1280x'
+        }}
+      {%- endif -%}
     {%- endif -%}
 
     {%- unless has_desktop or has_mobile -%}
@@ -114,6 +145,7 @@
   }
   .hero-responsive[data-height='auto'] .hero-responsive__media,
   .hero-responsive[data-height='auto'] .hero-responsive__video,
+  .hero-responsive[data-height='auto'] .hero-responsive__image,
   .hero-responsive[data-height='auto'] .hero-responsive__placeholder {
     height: auto;
   }
@@ -133,6 +165,7 @@
   }
 
   .hero-responsive__video,
+  .hero-responsive__image,
   .hero-responsive__placeholder {
     display: block;
     width: 100%;
@@ -165,17 +198,17 @@
     box-sizing: border-box;
   }
 
-  /* Swap videos only when both are provided; otherwise the single video
-     is shown at every breakpoint. */
-  .hero-responsive--swap .hero-responsive__video--mobile {
+  /* Swap media (image or video) only when both breakpoints are provided;
+     otherwise the single media is shown at every breakpoint. */
+  .hero-responsive--swap .hero-responsive__media-el--mobile {
     display: none;
   }
 
   @media screen and (max-width: 749px) {
-    .hero-responsive--swap .hero-responsive__video--desktop {
+    .hero-responsive--swap .hero-responsive__media-el--desktop {
       display: none;
     }
-    .hero-responsive--swap .hero-responsive__video--mobile {
+    .hero-responsive--swap .hero-responsive__media-el--mobile {
       display: block;
     }
     .hero-responsive__content {
@@ -196,7 +229,17 @@
   "settings": [
     {
       "type": "header",
-      "content": "Videos"
+      "content": "Media"
+    },
+    {
+      "type": "paragraph",
+      "content": "Each screen size can use an image OR a video. If both are set, the image is used."
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop image",
+      "info": "Optional — replaces the desktop video when set."
     },
     {
       "type": "video",
@@ -204,21 +247,27 @@
       "label": "Desktop video"
     },
     {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image",
+      "info": "Shown on mobile (≤749px). Replaces the mobile video when set."
+    },
+    {
       "type": "video",
       "id": "mobile_video",
       "label": "Mobile video",
-      "info": "Shown on mobile (≤749px). If empty, the desktop video is used on all screens."
+      "info": "Shown on mobile (≤749px). If no mobile media is set, the desktop media is used on all screens."
     },
     {
       "type": "select",
       "id": "video_fit",
-      "label": "Video display",
+      "label": "Media display",
       "options": [
-        { "value": "contain", "label": "Show full video (no cropping)" },
+        { "value": "contain", "label": "Show full media (no cropping)" },
         { "value": "cover", "label": "Fill area (may crop edges)" }
       ],
       "default": "contain",
-      "info": "Contain shows the whole video; uncovered space uses the section background color."
+      "info": "Contain shows the whole image/video; uncovered space uses the section background color."
     },
     {
       "type": "header",
