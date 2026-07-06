@@ -9,1322 +9,6 @@
  */
 {
   "sections": {
-    "section_6Nnkzx": {
-      "type": "section",
-      "blocks": {
-        "group_g9Lmwa": {
-          "type": "group",
-          "name": "Organizer",
-          "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_mobile": "",
-            "vertical_alignment_mobile": "",
-            "gap": 12,
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "group_tgAD6Y": {
-              "type": "group",
-              "name": "Text",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "horizontal_alignment_mobile": "",
-                "vertical_alignment_mobile": "",
-                "gap": 12,
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "text_D4V3ft": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h4>*Formulated for*</h4>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_iJiHP3": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h2>Hydration that hits</h2>",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 20,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "group_taBbqQ": {
-                  "type": "group",
-                  "name": "t:names.group",
-                  "settings": {
-                    "content_direction": "column",
-                    "vertical_on_mobile": true,
-                    "horizontal_alignment": "flex-start",
-                    "vertical_alignment": "center",
-                    "align_baseline": false,
-                    "horizontal_alignment_flex_direction_column": "flex-start",
-                    "vertical_alignment_flex_direction_column": "center",
-                    "horizontal_alignment_mobile": "",
-                    "vertical_alignment_mobile": "",
-                    "gap": 12,
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "custom",
-                    "custom_width_mobile": 60,
-                    "height": "fit",
-                    "custom_height": 100,
-                    "inherit_color_scheme": true,
-                    "color_scheme": "",
-                    "background_media": "none",
-                    "video_position": "cover",
-                    "background_image_position": "cover",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "toggle_overlay": false,
-                    "overlay_color": "#00000026",
-                    "overlay_style": "solid",
-                    "gradient_direction": "to top",
-                    "link": "",
-                    "open_in_new_tab": false,
-                    "placeholder": "",
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {
-                    "text_9PAHWb": {
-                      "type": "text",
-                      "name": "t:names.text",
-                      "settings": {
-                        "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
-                        "width": "fit-content",
-                        "max_width": "normal",
-                        "alignment": "left",
-                        "type_preset": "rte",
-                        "font": "var(--font-body--family)",
-                        "font_size": "1rem",
-                        "line_height": "normal",
-                        "letter_spacing": "normal",
-                        "case": "none",
-                        "wrap": "pretty",
-                        "color": "var(--color-foreground)",
-                        "background": false,
-                        "background_color": "#00000026",
-                        "corner_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "text_9PAHWb"
-                  ]
-                },
-                "group_Rg3QUn": {
-                  "type": "group",
-                  "name": "Butons",
-                  "settings": {
-                    "content_direction": "column",
-                    "vertical_on_mobile": true,
-                    "horizontal_alignment": "flex-start",
-                    "vertical_alignment": "center",
-                    "align_baseline": false,
-                    "horizontal_alignment_flex_direction_column": "flex-start",
-                    "vertical_alignment_flex_direction_column": "center",
-                    "horizontal_alignment_mobile": "",
-                    "vertical_alignment_mobile": "",
-                    "gap": 12,
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fit",
-                    "custom_height": 100,
-                    "inherit_color_scheme": true,
-                    "color_scheme": "",
-                    "background_media": "none",
-                    "video_position": "cover",
-                    "background_image_position": "cover",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "toggle_overlay": false,
-                    "overlay_color": "#00000026",
-                    "overlay_style": "solid",
-                    "gradient_direction": "to top",
-                    "link": "",
-                    "open_in_new_tab": false,
-                    "placeholder": "",
-                    "padding-block-start": 15,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {
-                    "button_RznUde": {
-                      "type": "button",
-                      "name": "t:names.button",
-                      "settings": {
-                        "label": "PREORDER SIGN UP",
-                        "link": "#leadcapture",
-                        "open_in_new_tab": false,
-                        "open_in_popup": false,
-                        "style_class": "button",
-                        "width": "fit-content",
-                        "custom_width": 100,
-                        "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
-                      },
-                      "blocks": {}
-                    },
-                    "text_dWVJLC": {
-                      "type": "text",
-                      "name": "t:names.text",
-                      "settings": {
-                        "text": "<p>Grab your FREE Creatine For Life</p>",
-                        "width": "fit-content",
-                        "max_width": "normal",
-                        "alignment": "left",
-                        "type_preset": "custom",
-                        "font": "var(--font-body--family)",
-                        "font_size": "0.625rem",
-                        "line_height": "normal",
-                        "letter_spacing": "normal",
-                        "case": "none",
-                        "wrap": "pretty",
-                        "color": "var(--color-foreground)",
-                        "background": false,
-                        "background_color": "#00000026",
-                        "corner_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    },
-                    "email_signup_Ui4VTL": {
-                      "type": "email-signup",
-                      "name": "t:names.email_signup",
-                      "disabled": true,
-                      "settings": {
-                        "width": "fill",
-                        "custom_width": 100,
-                        "inherit_color_scheme": true,
-                        "color_scheme": "",
-                        "heading": "",
-                        "heading_preset": "h3",
-                        "border_style": "underline",
-                        "border_width": 1,
-                        "border_radius": 100,
-                        "input_type_preset": "paragraph",
-                        "style_class": "button-unstyled",
-                        "display_type": "arrow",
-                        "label": "Sign up",
-                        "integrated_button": false,
-                        "button_type_preset": "paragraph",
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "button_RznUde",
-                    "text_dWVJLC",
-                    "email_signup_Ui4VTL"
-                  ]
-                }
-              },
-              "block_order": [
-                "text_D4V3ft",
-                "text_iJiHP3",
-                "group_taBbqQ",
-                "group_Rg3QUn"
-              ]
-            },
-            "group_AnnP9f": {
-              "type": "group",
-              "name": "Image",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "horizontal_alignment_mobile": "",
-                "vertical_alignment_mobile": "",
-                "gap": 12,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "image_9bk44R": {
-                  "type": "image",
-                  "name": "t:names.image",
-                  "disabled": true,
-                  "settings": {
-                    "image": "shopify://shop_images/Fortified_HP_Hero.png",
-                    "link": "",
-                    "open_in_popup": false,
-                    "image_ratio": "adapt",
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fit",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "image_9bk44R"
-              ]
-            }
-          },
-          "block_order": [
-            "group_tgAD6Y",
-            "group_AnnP9f"
-          ]
-        }
-      },
-      "block_order": [
-        "group_g9Lmwa"
-      ],
-      "name": "Hero Sign Up",
-      "settings": {
-        "anchor_id": "",
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "horizontal_alignment_mobile": "center",
-        "vertical_alignment_mobile": "flex-start",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "full-screen",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "image",
-        "video_position": "cover",
-        "background_image": "shopify://shop_images/HomeHero2.webp",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#ffffff3d",
-        "overlay_style": "gradient",
-        "gradient_direction": "to bottom",
-        "padding-block-start": 35,
-        "padding-block-end": 0
-      }
-    },
-    "section_KBQgnk": {
-      "type": "section",
-      "blocks": {
-        "group_ihb7kc": {
-          "type": "group",
-          "name": "Organizer",
-          "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_mobile": "",
-            "vertical_alignment_mobile": "",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "group_acNEdn": {
-              "type": "group",
-              "name": "Text",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "horizontal_alignment_mobile": "",
-                "vertical_alignment_mobile": "",
-                "gap": 12,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "text_MYmpUF": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h4>The daily ritual</h4>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_XbCG9z": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h2>Hydration You Wouldn't Hide From Your Family.</h2>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 15,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_JPmJL8": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<h6>Real-fruit organic flavors, zero sugars, nothing hidden, the vitamins and minerals your body actually uses — fully disclosed on the front of the pouch. <br/><br/>No Mumbo Jumbo.</h6>",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "group_zW44Re": {
-                  "type": "group",
-                  "name": "Buttons",
-                  "settings": {
-                    "content_direction": "row",
-                    "vertical_on_mobile": false,
-                    "horizontal_alignment": "flex-start",
-                    "vertical_alignment": "center",
-                    "align_baseline": false,
-                    "horizontal_alignment_flex_direction_column": "flex-start",
-                    "vertical_alignment_flex_direction_column": "center",
-                    "horizontal_alignment_mobile": "",
-                    "vertical_alignment_mobile": "",
-                    "gap": 12,
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fit",
-                    "custom_height": 100,
-                    "inherit_color_scheme": true,
-                    "color_scheme": "",
-                    "background_media": "none",
-                    "video_position": "cover",
-                    "background_image_position": "cover",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "toggle_overlay": false,
-                    "overlay_color": "#00000026",
-                    "overlay_style": "solid",
-                    "gradient_direction": "to top",
-                    "link": "",
-                    "open_in_new_tab": false,
-                    "placeholder": "",
-                    "padding-block-start": 25,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {
-                    "button_MiwHiY": {
-                      "type": "button",
-                      "name": "t:names.button",
-                      "settings": {
-                        "label": "Build Your Bundle",
-                        "link": "#open-bundle",
-                        "open_in_new_tab": false,
-                        "open_in_popup": false,
-                        "style_class": "button",
-                        "width": "fit-content",
-                        "custom_width": 100,
-                        "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
-                      },
-                      "blocks": {}
-                    },
-                    "button_xKUFjj": {
-                      "type": "button",
-                      "name": "t:names.button",
-                      "settings": {
-                        "label": "Learn More",
-                        "link": "#open-bundle",
-                        "open_in_new_tab": false,
-                        "open_in_popup": false,
-                        "style_class": "button-secondary",
-                        "width": "fit-content",
-                        "custom_width": 100,
-                        "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "button_MiwHiY",
-                    "button_xKUFjj"
-                  ]
-                }
-              },
-              "block_order": [
-                "text_MYmpUF",
-                "text_XbCG9z",
-                "text_JPmJL8",
-                "group_zW44Re"
-              ]
-            },
-            "group_Kap4AL": {
-              "type": "group",
-              "name": "Image",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "horizontal_alignment_mobile": "",
-                "vertical_alignment_mobile": "",
-                "gap": 12,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "video_responsive_NeYYjH": {
-                  "type": "video-responsive",
-                  "name": "Video Responsive",
-                  "disabled": true,
-                  "settings": {
-                    "desktop_video": "shopify://files/videos/Video-Home-Fortified.mp4",
-                    "mobile_video": "shopify://files/videos/Vide-Home-FortifiedV.mp4",
-                    "video_autoplay": true,
-                    "video_loop": true,
-                    "show_controls": false,
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "image_HnRPtR": {
-                  "type": "image",
-                  "name": "t:names.image",
-                  "settings": {
-                    "image": "shopify://shop_images/Fortified_HP_Hero.png",
-                    "link": "",
-                    "open_in_popup": false,
-                    "image_ratio": "adapt",
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fit",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "video_responsive_NeYYjH",
-                "image_HnRPtR"
-              ]
-            }
-          },
-          "block_order": [
-            "group_acNEdn",
-            "group_Kap4AL"
-          ]
-        }
-      },
-      "block_order": [
-        "group_ihb7kc"
-      ],
-      "disabled": true,
-      "name": "Hero",
-      "settings": {
-        "anchor_id": "",
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "horizontal_alignment_mobile": "",
-        "vertical_alignment_mobile": "",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-1",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
-    "section_bJKR9j": {
-      "type": "section",
-      "blocks": {
-        "group_c7XBhr": {
-          "type": "group",
-          "name": "Organizer",
-          "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "horizontal_alignment_mobile": "",
-            "vertical_alignment_mobile": "",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "group_yDzHDD": {
-              "type": "group",
-              "name": "Text",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "horizontal_alignment_mobile": "",
-                "vertical_alignment_mobile": "",
-                "gap": 12,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "text_iNarNX": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h4>The daily ritual</h4>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_LgWpXC": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h2>Hydration You Wouldn't Hide From Your Family.</h2>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 15,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_JQdnUq": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<h6>Real organic fruit flavors, zero sugar, fully disclosed ingredients with and the vitamins and minerals your body actually needs. No mumbo jumbo.</h6>",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "group_6Uw6Dz": {
-                  "type": "group",
-                  "name": "t:names.group",
-                  "settings": {
-                    "content_direction": "column",
-                    "vertical_on_mobile": true,
-                    "horizontal_alignment": "flex-start",
-                    "vertical_alignment": "center",
-                    "align_baseline": false,
-                    "horizontal_alignment_flex_direction_column": "center",
-                    "vertical_alignment_flex_direction_column": "center",
-                    "horizontal_alignment_mobile": "",
-                    "vertical_alignment_mobile": "",
-                    "gap": 12,
-                    "width": "fit-content",
-                    "custom_width": 100,
-                    "width_mobile": "fit-content",
-                    "custom_width_mobile": 100,
-                    "height": "fit",
-                    "custom_height": 100,
-                    "inherit_color_scheme": true,
-                    "color_scheme": "",
-                    "background_media": "none",
-                    "video_position": "cover",
-                    "background_image_position": "cover",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "toggle_overlay": false,
-                    "overlay_color": "#00000026",
-                    "overlay_style": "solid",
-                    "gradient_direction": "to top",
-                    "link": "",
-                    "open_in_new_tab": false,
-                    "placeholder": "",
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {
-                    "group_dEPc9B": {
-                      "type": "group",
-                      "name": "Buttons",
-                      "settings": {
-                        "content_direction": "row",
-                        "vertical_on_mobile": false,
-                        "horizontal_alignment": "flex-start",
-                        "vertical_alignment": "center",
-                        "align_baseline": false,
-                        "horizontal_alignment_flex_direction_column": "flex-start",
-                        "vertical_alignment_flex_direction_column": "center",
-                        "horizontal_alignment_mobile": "",
-                        "vertical_alignment_mobile": "",
-                        "gap": 12,
-                        "width": "fill",
-                        "custom_width": 100,
-                        "width_mobile": "fill",
-                        "custom_width_mobile": 100,
-                        "height": "fit",
-                        "custom_height": 100,
-                        "inherit_color_scheme": true,
-                        "color_scheme": "",
-                        "background_media": "none",
-                        "video_position": "cover",
-                        "background_image_position": "cover",
-                        "border": "none",
-                        "border_width": 1,
-                        "border_opacity": 100,
-                        "border_radius": 0,
-                        "toggle_overlay": false,
-                        "overlay_color": "#00000026",
-                        "overlay_style": "solid",
-                        "gradient_direction": "to top",
-                        "link": "",
-                        "open_in_new_tab": false,
-                        "placeholder": "",
-                        "padding-block-start": 25,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {
-                        "button_j6yi3m": {
-                          "type": "button",
-                          "name": "t:names.button",
-                          "settings": {
-                            "label": "Build Your Bundle",
-                            "link": "#open-bundle",
-                            "open_in_new_tab": false,
-                            "open_in_popup": false,
-                            "style_class": "button",
-                            "width": "fit-content",
-                            "custom_width": 100,
-                            "width_mobile": "fit-content",
-                            "custom_width_mobile": 100
-                          },
-                          "blocks": {}
-                        },
-                        "button_Nre9zK": {
-                          "type": "button",
-                          "name": "t:names.button",
-                          "disabled": true,
-                          "settings": {
-                            "label": "Learn More",
-                            "link": "#open-bundle",
-                            "open_in_new_tab": false,
-                            "open_in_popup": false,
-                            "style_class": "button-secondary",
-                            "width": "fit-content",
-                            "custom_width": 100,
-                            "width_mobile": "fit-content",
-                            "custom_width_mobile": 100
-                          },
-                          "blocks": {}
-                        }
-                      },
-                      "block_order": [
-                        "button_j6yi3m",
-                        "button_Nre9zK"
-                      ]
-                    },
-                    "text_eQJMfH": {
-                      "type": "text",
-                      "name": "t:names.text",
-                      "settings": {
-                        "text": "<p>45-Day Money Back Guarantee</p>",
-                        "width": "fit-content",
-                        "max_width": "normal",
-                        "alignment": "left",
-                        "type_preset": "custom",
-                        "font": "var(--font-body--family)",
-                        "font_size": "0.625rem",
-                        "line_height": "normal",
-                        "letter_spacing": "normal",
-                        "case": "none",
-                        "wrap": "pretty",
-                        "color": "var(--color-foreground)",
-                        "background": false,
-                        "background_color": "#00000026",
-                        "corner_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "group_dEPc9B",
-                    "text_eQJMfH"
-                  ]
-                }
-              },
-              "block_order": [
-                "text_iNarNX",
-                "text_LgWpXC",
-                "text_JQdnUq",
-                "group_6Uw6Dz"
-              ]
-            },
-            "group_HnKrct": {
-              "type": "group",
-              "name": "Image",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "horizontal_alignment_mobile": "",
-                "vertical_alignment_mobile": "",
-                "gap": 12,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "video_responsive_E6MDfU": {
-                  "type": "video-responsive",
-                  "name": "Video Responsive",
-                  "disabled": true,
-                  "settings": {
-                    "desktop_video": "shopify://files/videos/Video-Home-Fortified.mp4",
-                    "mobile_video": "shopify://files/videos/Vide-Home-FortifiedV.mp4",
-                    "video_autoplay": true,
-                    "video_loop": true,
-                    "show_controls": false,
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "image_hAGjKQ": {
-                  "type": "image",
-                  "name": "t:names.image",
-                  "disabled": true,
-                  "settings": {
-                    "image": "shopify://shop_images/Fortified_HP_Hero.png",
-                    "link": "",
-                    "open_in_popup": false,
-                    "image_ratio": "adapt",
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fit",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "video_responsive_E6MDfU",
-                "image_hAGjKQ"
-              ]
-            }
-          },
-          "block_order": [
-            "group_yDzHDD",
-            "group_HnKrct"
-          ]
-        }
-      },
-      "block_order": [
-        "group_c7XBhr"
-      ],
-      "disabled": true,
-      "name": "Hero",
-      "settings": {
-        "anchor_id": "",
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "horizontal_alignment_mobile": "",
-        "vertical_alignment_mobile": "",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "large",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-6",
-        "background_media": "video",
-        "video": "shopify://files/videos/Video-Home-Fortified.mp4",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": true,
-        "overlay_color": "#0000004f",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "padding-block-start": 64,
-        "padding-block-end": 64
-      }
-    },
     "marquee_UHmEiy": {
       "type": "marquee",
       "blocks": {
@@ -1608,6 +292,524 @@
         "padding-block-start": 24,
         "padding-block-end": 24,
         "gap_between_elements": 24
+      }
+    },
+    "section_6Nnkzx": {
+      "type": "section",
+      "blocks": {
+        "group_g9Lmwa": {
+          "type": "group",
+          "name": "Organizer",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "horizontal_alignment_mobile": "",
+            "vertical_alignment_mobile": "",
+            "gap": 12,
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "group_tgAD6Y": {
+              "type": "group",
+              "name": "Text",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "horizontal_alignment_mobile": "",
+                "vertical_alignment_mobile": "",
+                "gap": 12,
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_D4V3ft": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<h4>*Nothing hidden*</h4>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_iJiHP3": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<p>Hydration for people who<br/> read the label</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-subheading--family)",
+                    "font_size": "2.5rem",
+                    "line_height": "tight",
+                    "letter_spacing": "tight",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground-heading)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 20,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "group_taBbqQ": {
+                  "type": "group",
+                  "name": "t:names.group",
+                  "settings": {
+                    "content_direction": "column",
+                    "vertical_on_mobile": true,
+                    "horizontal_alignment": "flex-start",
+                    "vertical_alignment": "center",
+                    "align_baseline": false,
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "horizontal_alignment_mobile": "",
+                    "vertical_alignment_mobile": "",
+                    "gap": 12,
+                    "width": "fill",
+                    "custom_width": 100,
+                    "width_mobile": "custom",
+                    "custom_width_mobile": 60,
+                    "height": "fit",
+                    "custom_height": 100,
+                    "inherit_color_scheme": true,
+                    "color_scheme": "",
+                    "background_media": "none",
+                    "video_position": "cover",
+                    "background_image_position": "cover",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_radius": 0,
+                    "toggle_overlay": false,
+                    "overlay_color": "#00000026",
+                    "overlay_style": "solid",
+                    "gradient_direction": "to top",
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "placeholder": "",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "text_9PAHWb": {
+                      "type": "text",
+                      "name": "t:names.text",
+                      "settings": {
+                        "text": "<p>Organic flavors. Real minerals. Zero artificial sweeteners</p>",
+                        "width": "fit-content",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_9PAHWb"
+                  ]
+                },
+                "group_Rg3QUn": {
+                  "type": "group",
+                  "name": "Butons",
+                  "settings": {
+                    "content_direction": "column",
+                    "vertical_on_mobile": true,
+                    "horizontal_alignment": "flex-start",
+                    "vertical_alignment": "center",
+                    "align_baseline": false,
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "horizontal_alignment_mobile": "",
+                    "vertical_alignment_mobile": "",
+                    "gap": 12,
+                    "width": "fill",
+                    "custom_width": 100,
+                    "width_mobile": "fill",
+                    "custom_width_mobile": 100,
+                    "height": "fit",
+                    "custom_height": 100,
+                    "inherit_color_scheme": true,
+                    "color_scheme": "",
+                    "background_media": "none",
+                    "video_position": "cover",
+                    "background_image_position": "cover",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_radius": 0,
+                    "toggle_overlay": false,
+                    "overlay_color": "#00000026",
+                    "overlay_style": "solid",
+                    "gradient_direction": "to top",
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "placeholder": "",
+                    "padding-block-start": 15,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "button_RznUde": {
+                      "type": "button",
+                      "name": "t:names.button",
+                      "settings": {
+                        "label": "Get the offer",
+                        "link": "#leadcapture",
+                        "open_in_new_tab": false,
+                        "open_in_popup": false,
+                        "style_class": "button",
+                        "width": "fit-content",
+                        "custom_width": 100,
+                        "width_mobile": "fit-content",
+                        "custom_width_mobile": 100
+                      },
+                      "blocks": {}
+                    },
+                    "text_dWVJLC": {
+                      "type": "text",
+                      "name": "t:names.text",
+                      "settings": {
+                        "text": "<p><em>Founding members get <br/>first access & FREE CREATINE for LIFE!</em></p>",
+                        "width": "fit-content",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "font_size": "0.625rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    },
+                    "email_signup_Ui4VTL": {
+                      "type": "email-signup",
+                      "name": "t:names.email_signup",
+                      "disabled": true,
+                      "settings": {
+                        "width": "fill",
+                        "custom_width": 100,
+                        "inherit_color_scheme": true,
+                        "color_scheme": "",
+                        "heading": "",
+                        "heading_preset": "h3",
+                        "border_style": "underline",
+                        "border_width": 1,
+                        "border_radius": 100,
+                        "input_type_preset": "paragraph",
+                        "style_class": "button-unstyled",
+                        "display_type": "arrow",
+                        "label": "Sign up",
+                        "integrated_button": false,
+                        "button_type_preset": "paragraph",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "button_RznUde",
+                    "text_dWVJLC",
+                    "email_signup_Ui4VTL"
+                  ]
+                }
+              },
+              "block_order": [
+                "text_D4V3ft",
+                "text_iJiHP3",
+                "group_taBbqQ",
+                "group_Rg3QUn"
+              ]
+            },
+            "group_AnnP9f": {
+              "type": "group",
+              "name": "Image",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "horizontal_alignment_mobile": "",
+                "vertical_alignment_mobile": "",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "image_9bk44R": {
+                  "type": "image",
+                  "name": "t:names.image",
+                  "disabled": true,
+                  "settings": {
+                    "image": "shopify://shop_images/Fortified_HP_Hero.png",
+                    "link": "",
+                    "open_in_popup": false,
+                    "image_ratio": "adapt",
+                    "width": "fill",
+                    "custom_width": 100,
+                    "width_mobile": "fill",
+                    "custom_width_mobile": 100,
+                    "height": "fit",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "image_9bk44R"
+              ]
+            }
+          },
+          "block_order": [
+            "group_tgAD6Y",
+            "group_AnnP9f"
+          ]
+        }
+      },
+      "block_order": [
+        "group_g9Lmwa"
+      ],
+      "name": "Hero Sign Up",
+      "settings": {
+        "anchor_id": "",
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "horizontal_alignment_mobile": "center",
+        "vertical_alignment_mobile": "flex-start",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "full-screen",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "image",
+        "video_position": "cover",
+        "background_image": "shopify://shop_images/HomeHero2.webp",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#ffffff3d",
+        "overlay_style": "gradient",
+        "gradient_direction": "to bottom",
+        "padding-block-start": 35,
+        "padding-block-end": 0
+      }
+    },
+    "section_e7nAtg": {
+      "type": "section",
+      "blocks": {
+        "text_V73x8F": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>20% DISCOUNT + FREE 45-DAY SUPPLY OF CREATINE FOR THE LIFE OF YOUR SUBSCRIPTION WHEN YOU SIGN-UP TO OUR 90-DAY SUPPLY EVERY 3 MONTHS</p>",
+            "width": "fit-content",
+            "max_width": "none",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_V73x8F"
+      ],
+      "name": "t:names.custom_section",
+      "settings": {
+        "anchor_id": "",
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "horizontal_alignment_mobile": "",
+        "vertical_alignment_mobile": "",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 10,
+        "padding-block-end": 10
       }
     },
     "section_QKzV4d": {
@@ -2139,7 +1341,7 @@
       "settings": {
         "anchor_id": "#everyday",
         "heading": "***Everyday***\nElectrolytes + D3 & K2",
-        "subheading": "<p><strong>The Hydration You'd Pour For Your Family</strong><br/><br/>Pink Himalayan sodium, bioavailable magnesium, and the D3 + K2 pairing your body actually uses — because real food alone usually isn't enough. Zero caffeine, zero sugar, zero ingredients you'd have to Google.</p>",
+        "subheading": "<p><strong>The Hydration You'd Pour For Your Family</strong><br/><br/>Pink Himalayan sodium, bioavailable magnesium, and the D3 + K2 pairing your body actually uses, because real food alone usually isn't enough. Zero caffeine, zero sugar, zero ingredients you'd have to Google.</p>",
         "product_image": "shopify://shop_images/1.png",
         "product_image_background": "#ffffff",
         "product_image_max_height": 700,
@@ -2196,7 +1398,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Natural Caffeine",
-            "description": "152mg from real coffee beans. The source humans have used for centuries.",
+            "description": "150mg from real coffee beans. The source humans have used for centuries.",
             "icon_color_override": ""
           }
         }
@@ -2211,7 +1413,7 @@
       "settings": {
         "anchor_id": "",
         "heading": "****Energy****\nElectrolytes + Caffeine",
-        "subheading": "<p><strong>Natural Caffeine. No Crash. No Junk.</strong><br/><br/>152mg from actual coffee beans — not the synthetic \"anhydrous\" stuff hiding in your pre-workout. Same clean electrolyte base as Everyday, with a meaningful lift for the moments that need it.</p>",
+        "subheading": "<p><strong>Natural Caffeine. No Crash. No Junk.</strong><br/><br/>150mg from actual coffee beans, not the synthetic \"anhydrous\" stuff hiding in your pre-workout. Same clean electrolyte base as Everyday, with a meaningful lift for the moments that need it.</p>",
         "product_image": "shopify://shop_images/2.png",
         "product_image_background": "#ffffff",
         "product_image_max_height": 700,
@@ -2220,7 +1422,7 @@
         "icon_size": 72,
         "icon_background_color": "#0a0a0a",
         "icon_color": "#ffffff",
-        "button_label": "PREORDER SIGN UP",
+        "button_label": "Get The VIP Founders offer",
         "button_link": "#leadcapture",
         "center_cta": true,
         "secondary_button_label": "",
@@ -2295,11 +1497,11 @@
       "settings": {
         "anchor_id": "",
         "eyebrow": "Read The Label",
-        "heading": "The Hydration Brand That Doesn't Make You Squint",
-        "subheading": "<p>Every milligram on the front of the pouch. No proprietary blends, no asterisks, no marketing math — just real ingredients in honest amounts, the way the label was supposed to work.</p>",
+        "heading": "Our No Worries Promise says it all",
+        "subheading": "<p>Real ingredients, balanced amounts, nothing hidden. Just turn the package over to see exactly what you're putting in your body.</p>",
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
-        "button_label": "PREORDER SIGN UP",
+        "button_label": "Get The VIP Founders offer",
         "button_link": "#leadcapture",
         "button_style": "filled",
         "columns_desktop": 4,
@@ -2372,7 +1574,7 @@
             "calories": "",
             "nutrients_text": "",
             "panel_footnote": "* Percent Daily Values are based on a 2,000 calorie diet.",
-            "callout_1_title": "Why 152mg natural caffeine?",
+            "callout_1_title": "Why 150mg natural caffeine?",
             "callout_1_body": "A meaningful lift — about a strong cup of coffee — from the same source humans have used for centuries, delivered without the synthetic-stimulant baggage.",
             "callout_1_accent": "#e8833a",
             "callout_2_title": "Why 1,200mg sodium?",
@@ -2400,13 +1602,13 @@
             "nutrients_text": "",
             "panel_footnote": "* Percent Daily Values are based on a 2,000 calorie diet.",
             "callout_1_title": "Why a full 5 grams?",
-            "callout_1_body": "5g is the dose the research actually used. Not a sprinkle behind a proprietary blend — the full, micronized amount your muscles need to saturate.",
+            "callout_1_body": "5g of creatine monohydrate, the dose used in the research. One ingredient. Nothing else.",
             "callout_1_accent": "#1fa8a1",
             "callout_2_title": "Why one ingredient?",
-            "callout_2_body": "No flavors, no sweeteners, no anti-caking junk. Pure micronized creatine monohydrate, so it dissolves clean into water, coffee, or your shake.",
+            "callout_2_body": "No flavors, no sweeteners, no anti-caking junk. Pure creatine monohydrate, so it dissolves clean into water, coffee, or your shake.",
             "callout_2_accent": "#e8833a",
             "callout_3_title": "Is creatine just for guys?",
-            "callout_3_body": "The research is just as strong for women — strength, lean muscle, recovery, and cognitive benefits, without any androgenic or 'bulky' side effects.",
+            "callout_3_body": "The research is just as strong for women, strength, lean muscle, recovery, and cognitive benefits, without any androgenic or 'bulky' side effects.",
             "callout_3_accent": "#8e8e93"
           }
         }
@@ -2418,7 +1620,7 @@
       ],
       "name": "FTD-C - Supp Facts",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#labels",
         "section_width": "page-width",
         "content_max_width": 1360,
         "panel_position": "left",
@@ -2429,427 +1631,6 @@
         "heading": "Compare Every Milligram, Side By Side.",
         "tablist_label": "Compare Fortified products",
         "padding-block-start": 64,
-        "padding-block-end": 64
-      }
-    },
-    "section_jcLNtw": {
-      "type": "section",
-      "blocks": {
-        "ftd_lead_capture_slideover_i8Y83p": {
-          "type": "ftd-lead-capture-slideover",
-          "name": "FTD - Lead Capture SO",
-          "settings": {
-            "trigger_href": "#leadcapture",
-            "show_trigger": false,
-            "button_label": "Get 10% Off",
-            "button_style": "filled",
-            "slideover_width": 480,
-            "close_label": "Close",
-            "color_scheme": "",
-            "accent_color": "#1fa8a1",
-            "image": "shopify://shop_images/CTA-Hero-Desktop2.webp",
-            "fallback_image_filename": "Hero-Products.webp",
-            "heading": "Join The Fortified List",
-            "description": "<p>Early access to drops, subscriber-only offers, and honest hydration tips. No spam, ever.</p>",
-            "name_label": "Name",
-            "name_placeholder": "Your name",
-            "email_label": "Email",
-            "email_placeholder": "you@example.com",
-            "phone_label": "Phone",
-            "phone_placeholder": "(555) 555-5555",
-            "phone_required": false,
-            "optin_text": "<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg & data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href=\"/policies/privacy-policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\">Terms of Service</a>.</p>",
-            "submit_label": "Sign Me Up",
-            "customer_tags": "lead-capture",
-            "success_heading": "You're In!",
-            "success_message": "<p>Thanks for signing up — keep an eye on your inbox.</p>",
-            "success_button_label": "Build Your Bundle",
-            "success_button_link": "#open-bundle"
-          },
-          "blocks": {}
-        },
-        "ftd_product_selector_d_slideover_Jzffnr": {
-          "type": "ftd-product-selector-d-slideover",
-          "name": "FTD - ProductSelector-DS",
-          "disabled": true,
-          "settings": {
-            "button_label": "Build Your Bundle",
-            "button_style": "filled",
-            "slideover_width": 560,
-            "close_label": "Close",
-            "trigger_href": "#open-bundle",
-            "open_on_cart_click": true,
-            "cart_trigger_selector": "[data-testid=\"cart-drawer-trigger\"], [data-testid=\"cart-icon\"], a.action__cart",
-            "plan_image": "shopify://shop_images/CTA-Hero-Desktop2.webp",
-            "heading": "Build Your Clean Hydration Ritual",
-            "description": "<p>Mix any function, with any organic flavor.</p>",
-            "step_label_1": "Plan",
-            "step_label_2": "Bundle",
-            "step_label_3": "Boost",
-            "step_label_4": "Review",
-            "back_label": "Back",
-            "review_eyebrow": "Review your order",
-            "review_label": "Review Order",
-            "edit_order_label": "Edit Order",
-            "plan_order": "quarterly,monthly,onetime",
-            "show_quarterly": true,
-            "quarterly_badge": "Most Popular - 20% OFF",
-            "quarterly_title": "3 Month Supply Every 3 Months",
-            "quarterly_desc": "Free 45-day supply of Creatine",
-            "quarterly_price": "$47.20",
-            "quarterly_period": "/ month",
-            "quarterly_was": "Save $42.79 per month",
-            "quarterly_accent_color": "#e8833a",
-            "bundle_count": 3,
-            "quarterly_estimate_pct": 90,
-            "show_monthly": true,
-            "monthly_badge": "Monthly - 10% OFF",
-            "monthly_title": "1 Month Supply Every Month",
-            "monthly_desc": "Your daily ritual, delivered.",
-            "monthly_price": "$53.10",
-            "monthly_period": "/ month",
-            "monthly_was": "$59.00",
-            "monthly_accent_color": "#1fa8a1",
-            "monthly_estimate_pct": 90,
-            "show_onetime": true,
-            "onetime_badge": "Buy Once - NO FREE SHIPPING",
-            "onetime_title": "30-Day Supply",
-            "onetime_desc": "Try it out",
-            "onetime_price": "$59.00",
-            "onetime_period": "/ pouch",
-            "onetime_was": "-",
-            "onetime_accent_color": "#8e8e93",
-            "bundle_label": "Your Bundle",
-            "of_word": "of",
-            "selected_word": "selected",
-            "add_label": "ADD",
-            "addon_product": "creatine",
-            "addon_label_monthly": "Add Creatine — 50% off",
-            "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
-            "addon_label_onetime": "Add Creatine — 25% off",
-            "addon_desc_monthly": "-",
-            "addon_desc_quarterly": "1st Creatine is free with your bundle.",
-            "addon_desc_onetime": "One-time. Discount auto-applied.",
-            "addon_price_monthly": "$12.00",
-            "addon_price_quarterly": "$12.00",
-            "addon_price_onetime": "$18.00",
-            "addon_was_monthly": "$24.00",
-            "addon_was_quarterly": "$24.00",
-            "addon_was_onetime": "$24.00",
-            "addon_loop_plan_monthly": "2611478587",
-            "addon_loop_plan_quarterly_free": "2611511355",
-            "addon_loop_plan_quarterly_50off": "2611478587",
-            "addon_discount_code_onetime": "-",
-            "loop_bundle_enabled": true,
-            "loop_bundle_id": "7439",
-            "loop_bundle_variant_id": "14634",
-            "loop_bundle_discount_id": "49078",
-            "loop_bundle_api_selling_plan_id": "122825",
-            "loop_bundle_selling_plan_id": "2607644731",
-            "loop_bundle_name": "90-Day Bundle — Every 3 Months",
-            "loop_bundle_property_key": "_bundleId",
-            "total_label": "Total",
-            "saved_word": "Saved",
-            "action_label_step1": "Next →",
-            "action_label_step2": "Continue",
-            "checkout_label": "Checkout",
-            "add_more_label": "Add More",
-            "accent_color": "#1fa8a1",
-            "card_radius": 12,
-            "content_max_width": 1360,
-            "color_scheme": "",
-            "padding-block-start": 64,
-            "padding-block-end": 64
-          },
-          "blocks": {
-            "ftdc_announce_fomo_qbrAkd": {
-              "type": "_ftdc-announce-fomo",
-              "disabled": true,
-              "settings": {
-                "total_spots": 1000,
-                "claimed_count_thousands": 0,
-                "claimed_count_units": 0,
-                "metafield_namespace": "",
-                "metafield_key": "",
-                "active_template": "Only **{remaining}** of **{total}** subscription spots left",
-                "exhausted_template": "All **{total}** subscription spots claimed.",
-                "bg": "#0a0a0a",
-                "fg": "#ffffff",
-                "show_progress_bar": true,
-                "bar_active_color": "#e8833a",
-                "bar_exhausted_color": "#9ca3af",
-                "bar_track_color": "#ffffff2e",
-                "bar_height": 6
-              },
-              "blocks": {}
-            },
-            "ftd_c_bullet_QFcGkU": {
-              "type": "_ftd-c-bullet",
-              "settings": {
-                "text": "Real-Fruit Organic Flavors"
-              },
-              "blocks": {}
-            },
-            "ftd_c_bullet_zf3mQn": {
-              "type": "_ftd-c-bullet",
-              "settings": {
-                "text": "Zero Artificial Sweeteners"
-              },
-              "blocks": {}
-            },
-            "ftd_c_bullet_fWgjN4": {
-              "type": "_ftd-c-bullet",
-              "settings": {
-                "text": "Cancel Anytime"
-              },
-              "blocks": {}
-            },
-            "ftd_c_bullet_DRhqrk": {
-              "type": "_ftd-c-bullet",
-              "settings": {
-                "text": "45 Day Money Back Guarantee"
-              },
-              "blocks": {}
-            },
-            "ftd_c_function_xVVe9f": {
-              "type": "_ftd-c-function",
-              "settings": {
-                "function_label": "Everyday",
-                "product": "everyday",
-                "coming_soon": false,
-                "spec_top": "150mg CAFFEINE",
-                "spec_1": "1,210MG SODIUM",
-                "spec_2": "1,000MG MAGNESIUM",
-                "spec_3": "-",
-                "flavor_option": "-",
-                "loop_plan_monthly": "2607349819",
-                "loop_plan_quarterly": "2607644731"
-              },
-              "blocks": {}
-            },
-            "ftd_c_function_XPzyJN": {
-              "type": "_ftd-c-function",
-              "settings": {
-                "function_label": "Energy",
-                "product": "energy",
-                "coming_soon": false,
-                "spec_top": "150mg CAFFEINE",
-                "spec_1": "1,210MG SODIUM",
-                "spec_2": "1,000MG MAGNESIUM",
-                "spec_3": "-",
-                "flavor_option": "-",
-                "loop_plan_monthly": "2607349819",
-                "loop_plan_quarterly": "2607644731"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "ftdc_announce_fomo_qbrAkd",
-            "ftd_c_bullet_QFcGkU",
-            "ftd_c_bullet_zf3mQn",
-            "ftd_c_bullet_fWgjN4",
-            "ftd_c_bullet_DRhqrk",
-            "ftd_c_function_xVVe9f",
-            "ftd_c_function_XPzyJN"
-          ]
-        },
-        "ftd_product_selector_c_slideover_CWGHiE": {
-          "type": "ftd-product-selector-c-slideover",
-          "name": "FTD - ProductSelector-CS",
-          "disabled": true,
-          "settings": {
-            "button_label": "Build Your Bundle",
-            "button_style": "filled",
-            "slideover_width": 560,
-            "close_label": "Close",
-            "trigger_href": "#open-bundle",
-            "plan_image": "shopify://shop_images/Hero-Products.webp",
-            "heading": "Build Your Ritual",
-            "description": "<p>Mix any function with any flavor. Subscribe for free creatine and free shipping. Skip or cancel anytime.</p>",
-            "step_label_1": "Plan",
-            "step_label_2": "Bundle",
-            "step_label_3": "Boost",
-            "step_label_4": "Review",
-            "back_label": "Back",
-            "review_eyebrow": "Review your order",
-            "review_label": "Review Order",
-            "edit_order_label": "Edit Order",
-            "plan_order": "quarterly,monthly,onetime",
-            "show_quarterly": true,
-            "quarterly_badge": "Best Value",
-            "quarterly_title": "90-Day SupplyEvery 3 Months",
-            "quarterly_desc": "Mix any functions, any flavors. Free creatine included.",
-            "quarterly_price": "$53.10",
-            "quarterly_period": "/ month",
-            "quarterly_was": "$59.00",
-            "quarterly_accent_color": "#e8833a",
-            "bundle_count": 3,
-            "quarterly_estimate_pct": 90,
-            "show_monthly": true,
-            "monthly_badge": "Monthly",
-            "monthly_title": "30-Day SupplyEvery Month",
-            "monthly_desc": "Your daily ritual, on autopilot.",
-            "monthly_price": "$53.10",
-            "monthly_period": "/ month",
-            "monthly_was": "$59.00",
-            "monthly_accent_color": "#1fa8a1",
-            "monthly_estimate_pct": 90,
-            "show_onetime": true,
-            "onetime_badge": "Buy Once",
-            "onetime_title": "30-Day SupplyOne Time",
-            "onetime_desc": "Try it before you commit.",
-            "onetime_price": "$59.00",
-            "onetime_period": "/ pouch",
-            "onetime_was": "-",
-            "onetime_accent_color": "#8e8e93",
-            "bundle_label": "Your Bundle",
-            "of_word": "of",
-            "selected_word": "selected",
-            "add_label": "ADD",
-            "addon_product": "creatine",
-            "addon_label_monthly": "Add Creatine — 50% off",
-            "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
-            "addon_label_onetime": "Add Creatine — 25% off",
-            "addon_desc_monthly": "-",
-            "addon_desc_quarterly": "1st Creatine is free with your bundle. Add a second at 50% off.",
-            "addon_desc_onetime": "One-time purchase. Discount applied automatically at checkout.",
-            "addon_price_monthly": "$12.00",
-            "addon_price_quarterly": "$12.00",
-            "addon_price_onetime": "$18.00",
-            "addon_was_monthly": "$24.00",
-            "addon_was_quarterly": "$24.00",
-            "addon_was_onetime": "$24.00",
-            "addon_loop_plan_monthly": "-",
-            "addon_loop_plan_quarterly_free": "-",
-            "addon_loop_plan_quarterly_50off": "-",
-            "addon_discount_code_onetime": "-",
-            "loop_bundle_enabled": true,
-            "loop_bundle_id": "7439",
-            "loop_bundle_variant_id": "14634",
-            "loop_bundle_discount_id": "49078",
-            "loop_bundle_api_selling_plan_id": "122825",
-            "loop_bundle_selling_plan_id": "2607644731",
-            "loop_bundle_name": "90-Day Bundle — Every 3 Months",
-            "loop_bundle_property_key": "_bundleId",
-            "total_label": "Total",
-            "saved_word": "Saved",
-            "action_label_step1": "Continue",
-            "checkout_label": "Checkout",
-            "add_more_label": "Add More",
-            "accent_color": "#1fa8a1",
-            "card_radius": 8,
-            "content_max_width": 1240,
-            "color_scheme": "",
-            "padding-block-start": 24,
-            "padding-block-end": 24
-          },
-          "blocks": {
-            "ftd_c_bullet_mhGaVy": {
-              "type": "_ftd-c-bullet",
-              "settings": {
-                "text": "Real Fruit Organic Flavors"
-              },
-              "blocks": {}
-            },
-            "ftd_c_bullet_HBBadm": {
-              "type": "_ftd-c-bullet",
-              "settings": {
-                "text": "Zero Artificial Sweeteners"
-              },
-              "blocks": {}
-            },
-            "ftd_c_bullet_mxcBGU": {
-              "type": "_ftd-c-bullet",
-              "settings": {
-                "text": "Cancel Anytime"
-              },
-              "blocks": {}
-            },
-            "ftd_c_bullet_keKKcN": {
-              "type": "_ftd-c-bullet",
-              "settings": {
-                "text": "45 Day Money Back Guarantee"
-              },
-              "blocks": {}
-            },
-            "ftd_c_function_Xe4TgK": {
-              "type": "_ftd-c-function",
-              "settings": {
-                "function_label": "Energy",
-                "product": "energy",
-                "coming_soon": false,
-                "spec_top": "150mg CAFFEINE",
-                "spec_1": "1,2000MG SODIUM",
-                "spec_2": "150MG MAGNESIUM",
-                "spec_3": "-",
-                "flavor_option": "-",
-                "loop_plan_monthly": "-",
-                "loop_plan_quarterly": "2607644731"
-              },
-              "blocks": {}
-            },
-            "ftd_c_function_V3rLT9": {
-              "type": "_ftd-c-function",
-              "settings": {
-                "function_label": "Energy",
-                "product": "everyday",
-                "coming_soon": false,
-                "spec_top": "150mg CAFFEINE",
-                "spec_1": "1,210MG SODIUM",
-                "spec_2": "1,000MG MAGNESIUM",
-                "spec_3": "-",
-                "flavor_option": "-",
-                "loop_plan_monthly": "-",
-                "loop_plan_quarterly": "2607644731"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "ftd_c_bullet_mhGaVy",
-            "ftd_c_bullet_HBBadm",
-            "ftd_c_bullet_mxcBGU",
-            "ftd_c_bullet_keKKcN",
-            "ftd_c_function_Xe4TgK",
-            "ftd_c_function_V3rLT9"
-          ]
-        }
-      },
-      "block_order": [
-        "ftd_lead_capture_slideover_i8Y83p",
-        "ftd_product_selector_d_slideover_Jzffnr",
-        "ftd_product_selector_c_slideover_CWGHiE"
-      ],
-      "name": "Bundle Builder",
-      "settings": {
-        "anchor_id": "",
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "horizontal_alignment_mobile": "",
-        "vertical_alignment_mobile": "",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-1",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
         "padding-block-end": 64
       }
     },
@@ -2940,35 +1721,66 @@
         "padding-block-end": 0
       }
     },
-    "fortified_fomo_counter_pJBdGa": {
-      "type": "fortified-fomo-counter",
-      "disabled": true,
-      "name": "FTD - FOMO Counter",
+    "fortified_subscribe_save_gPX8Rx": {
+      "type": "fortified-subscribe-save",
+      "blocks": {
+        "benefit_xE8i3U": {
+          "type": "benefit",
+          "settings": {
+            "text": "Save 20% on every order, automatically when subscribed to the 90-Day Supply Every 3 Months plan"
+          }
+        },
+        "benefit_R7apX4": {
+          "type": "benefit",
+          "settings": {
+            "text": "Free creatine on quarterly plans for the life of your subscription"
+          }
+        },
+        "benefit_BQ4FPY": {
+          "type": "benefit",
+          "settings": {
+            "text": "Skip, swap, or cancel anytime"
+          }
+        },
+        "benefit_RiBeWX": {
+          "type": "benefit",
+          "settings": {
+            "text": "Never run out of your ritual"
+          }
+        },
+        "benefit_7NB9mb": {
+          "type": "benefit",
+          "settings": {
+            "text": "45-Day Money Back Guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_xE8i3U",
+        "benefit_R7apX4",
+        "benefit_BQ4FPY",
+        "benefit_RiBeWX",
+        "benefit_7NB9mb"
+      ],
+      "name": "FTD - Subscribe & Save",
       "settings": {
         "anchor_id": "",
-        "total_spots": 1000,
-        "claimed_count_thousands": 0,
-        "claimed_count_units": 0,
-        "metafield_namespace": "",
-        "metafield_key": "",
-        "eyebrow": "Founder's Offer",
-        "description": "First 1,000 quarterly subscribers get a FREE 45 Day Supply of Creatine with every shipment — for the lifetime of YOUR subscription.",
+        "eyebrow": "Subscribe & Save",
         "eyebrow_color": "#1fa8a1",
-        "active_template": "Only **{remaining}** of **{total}** Founder spots left",
-        "active_sub": "Lock in your FREE 45 Day Supply of Creatine for Life while supplies last.",
-        "exhausted_template": "All **{total}** founding spots claimed.",
-        "exhausted_sub": "New subscribers still get 15% off + free shipping for life.",
-        "show_progress_bar": true,
-        "bar_active_color": "#e8833a",
-        "bar_exhausted_color": "#9ca3af",
-        "bar_track_color": "#efeae3",
-        "bar_height": 10,
-        "text_align": "center",
-        "color_scheme": "scheme-5",
+        "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
+        "button_label": "Get The VIP Founders offer",
+        "button_link": "#leadcapture",
+        "button_style": "outline",
+        "foreground_image_focal": "center",
+        "image_position": "right",
+        "background_image": "shopify://shop_images/88588dc4ec1159c1c0561ae6b16ace7fb988b0f6.png",
+        "background_overlay": 0,
+        "text_color": "light",
         "section_width": "full-width",
-        "content_max_width": 720,
-        "padding-block-start": 44,
-        "padding-block-end": 44,
+        "content_max_width": 1800,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 88,
+        "padding-block-end": 88,
         "custom_css": ""
       }
     },
@@ -3155,53 +1967,47 @@
     "fortified_stats_comparison_CLiX76": {
       "type": "fortified-stats-comparison",
       "blocks": {
-        "bars_zTtwDi": {
-          "type": "bars",
-          "settings": {
-            "number": "2.3x",
-            "headline": "More Electrolytes",
-            "subtitle": "1,210mg sodium per serving — replaces what real life takes out.",
-            "footnote": "* Study: Journal of Strength & Conditioning Research",
-            "bar1_label": "Leading brand",
-            "bar1_value": 38,
-            "bar1_color": "#7b8794",
-            "bar2_label": "FORTIFIED®",
-            "bar2_image": "shopify://shop_images/Fortified_-_Shield.svg",
-            "bar2_value": 93,
-            "bar2_color": "#1fa8a1"
-          }
-        },
-        "bars_wCPjbY": {
-          "type": "bars",
-          "settings": {
-            "number": "2.3x",
-            "headline": "More Magnesium",
-            "subtitle": "1,000mg bioavailable malate — the form your body actually uses.",
-            "footnote": "* Study: Journal of Strength & Conditioning Research",
-            "bar1_label": "Leading brand",
-            "bar1_value": 38,
-            "bar1_color": "#7b8794",
-            "bar2_label": "FORTIFIED®",
-            "bar2_image": "shopify://shop_images/Fortified_-_Shield.svg",
-            "bar2_value": 93,
-            "bar2_color": "#1fa8a1"
-          }
-        },
         "checklist_EWcYBC": {
           "type": "checklist",
           "settings": {
             "number": "0%",
             "headline": "Zero Sugar. Zero Sweetener Guilt.",
-            "subtitle": "What you'll NEVER find in a FORTIFIED® pouch:",
-            "footnote": "* Based on internal product testing",
-            "items": "No added sugar\nNo sucralose or aspartame\nNo synthetic dyes\nNo proprietary blends"
+            "subtitle": "What you'll NEVER find in FORTIFIED®",
+            "footnote": "",
+            "items": "No sugar\nNo sucralose or aspartame\nNo dyes\nNo proprietary blends"
+          }
+        },
+        "checklist_9jwTnU": {
+          "type": "checklist",
+          "settings": {
+            "number": "100%",
+            "headline": "Transparency",
+            "subtitle": "Every ingredient and every dose is clearly listed on the label, exactly as it should be.",
+            "footnote": "No Mumbo Jumbo",
+            "items": "No Worries\nNo marketing math\nNo hidden blends"
+          }
+        },
+        "bars_wCPjbY": {
+          "type": "bars",
+          "settings": {
+            "number": "1,550mg",
+            "headline": "Real Electrolytes",
+            "subtitle": "Hydration starts with replacing what real life takes out.",
+            "footnote": "",
+            "bar1_label": "Spring Water",
+            "bar1_value": 38,
+            "bar1_color": "#7b8794",
+            "bar2_label": "FORTIFIED®",
+            "bar2_image": "shopify://shop_images/Fortified_-_Shield.svg",
+            "bar2_value": 93,
+            "bar2_color": "#1fa8a1"
           }
         }
       },
       "block_order": [
-        "bars_zTtwDi",
-        "bars_wCPjbY",
-        "checklist_EWcYBC"
+        "checklist_EWcYBC",
+        "checklist_9jwTnU",
+        "bars_wCPjbY"
       ],
       "name": "FTD - Stats Comparison",
       "settings": {
@@ -3237,7 +2043,7 @@
         "heading_color": "#0a0a0a",
         "color_scheme": "scheme-b6fff204-2611-42ad-97a3-74dfcba91118",
         "button_label": "Compare The Functions",
-        "button_link": "#everyday",
+        "button_link": "#labels",
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "button_bg": "#0a0a0a",
@@ -3275,11 +2081,27 @@
     "fortified_comparison_pPqHMj": {
       "type": "fortified-comparison",
       "blocks": {
+        "feature_row_pynREr": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Organic Flavors",
+            "fortified_value": "REAL FRUIT",
+            "icon": "text"
+          }
+        },
+        "feature_row_qeQD7W": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Citric Acid",
+            "fortified_value": "NEVER",
+            "icon": "text"
+          }
+        },
         "feature_row_eBDkEe": {
           "type": "feature_row",
           "settings": {
             "label": "Sodium per serving",
-            "fortified_value": "1000mg",
+            "fortified_value": "1200mg",
             "icon": "text"
           }
         },
@@ -3299,27 +2121,19 @@
             "icon": "check"
           }
         },
-        "feature_row_jEYh8q": {
-          "type": "feature_row",
-          "settings": {
-            "label": "Real fruit flavor",
-            "fortified_value": "1000mg",
-            "icon": "check"
-          }
-        },
         "feature_row_cMjt4E": {
           "type": "feature_row",
           "settings": {
-            "label": "Magnesium glycinate",
+            "label": "Magnesium Malate",
             "fortified_value": "1000mg",
             "icon": "check"
           }
         },
-        "feature_row_qeQD7W": {
+        "feature_row_jEYh8q": {
           "type": "feature_row",
           "settings": {
-            "label": "Trial price (3 sticks)",
-            "fortified_value": "$1.99",
+            "label": "Silicon Dioxide",
+            "fortified_value": "NONE",
             "icon": "text"
           }
         },
@@ -3327,7 +2141,7 @@
           "type": "competitor",
           "settings": {
             "name": "Liquid IV",
-            "values": "500mg\nno\nno\nno\nno\n$8.97",
+            "values": "NATURAL FLAVORS\nyes\n500mg\nno\nno\nMAGNESIUM CITRATE\nyes",
             "highlight_color": ""
           }
         },
@@ -3335,18 +2149,19 @@
           "type": "competitor",
           "settings": {
             "name": "LMNT",
-            "values": "1000mg\nyes\nno\nno\nno\n$7.00",
+            "values": "GMO FLAVORS\nyes\n1000mg\nyes\nNo\nyes\nyes",
             "highlight_color": ""
           }
         }
       },
       "block_order": [
+        "feature_row_pynREr",
+        "feature_row_qeQD7W",
         "feature_row_eBDkEe",
         "feature_row_tR9xWa",
         "feature_row_Rt4bff",
-        "feature_row_jEYh8q",
         "feature_row_cMjt4E",
-        "feature_row_qeQD7W",
+        "feature_row_jEYh8q",
         "competitor_RqHTT4",
         "competitor_9MQbVA"
       ],
@@ -3361,8 +2176,10 @@
         "fortified_column_color": "#1fa8a1",
         "fortified_text_color": "#ffffff",
         "check_color": "#ffffff",
+        "fortified_cross_color": "",
+        "comp_check_color": "",
         "cross_color": "#9ca3af",
-        "cta_label": "PREORDER SIGN UP",
+        "cta_label": "Get The VIP Founders offer",
         "cta_link": "#leadcapture",
         "cta_style": "filled",
         "secondary_button_label": "",
@@ -4128,6 +2945,427 @@
         "custom_css": ""
       }
     },
+    "section_jcLNtw": {
+      "type": "section",
+      "blocks": {
+        "ftd_lead_capture_slideover_i8Y83p": {
+          "type": "ftd-lead-capture-slideover",
+          "name": "FTD - Lead Capture SO",
+          "settings": {
+            "trigger_href": "#leadcapture",
+            "show_trigger": false,
+            "button_label": "Get 10% Off",
+            "button_style": "filled",
+            "slideover_width": 480,
+            "close_label": "Close",
+            "color_scheme": "",
+            "accent_color": "#1fa8a1",
+            "image": "shopify://shop_images/CTA-Hero-Desktop2.webp",
+            "fallback_image_filename": "Hero-Products.webp",
+            "heading": "GET THE VIP FOUNDERS CLUB OFFER",
+            "description": "<p>Get <strong>20% OFF</strong>, <strong>FREE Shipping</strong>, and a <strong>FREE 45-Day Supply of Creatine</strong> with every 90-day subscription, for as long as you stay subscribed.</p>",
+            "name_label": "Name",
+            "name_placeholder": "Your name",
+            "email_label": "Email",
+            "email_placeholder": "you@example.com",
+            "phone_label": "Phone",
+            "phone_placeholder": "(555) 555-5555",
+            "phone_required": true,
+            "optin_text": "<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg & data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href=\"/policies/privacy-policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\">Terms of Service</a>.</p>",
+            "submit_label": "Sign Me Up",
+            "customer_tags": "lead-capture",
+            "success_heading": "You're In!",
+            "success_message": "<p>Thanks for signing up — keep an eye on your inbox.</p>",
+            "success_button_label": "Build Your Bundle",
+            "success_button_link": "#open-bundle"
+          },
+          "blocks": {}
+        },
+        "ftd_product_selector_d_slideover_Jzffnr": {
+          "type": "ftd-product-selector-d-slideover",
+          "name": "FTD - ProductSelector-DS",
+          "disabled": true,
+          "settings": {
+            "button_label": "Build Your Bundle",
+            "button_style": "filled",
+            "slideover_width": 560,
+            "close_label": "Close",
+            "trigger_href": "#open-bundle",
+            "open_on_cart_click": true,
+            "cart_trigger_selector": "[data-testid=\"cart-drawer-trigger\"], [data-testid=\"cart-icon\"], a.action__cart",
+            "plan_image": "shopify://shop_images/CTA-Hero-Desktop2.webp",
+            "heading": "Build Your Clean Hydration Ritual",
+            "description": "<p>Mix any function, with any organic flavor.</p>",
+            "step_label_1": "Plan",
+            "step_label_2": "Bundle",
+            "step_label_3": "Boost",
+            "step_label_4": "Review",
+            "back_label": "Back",
+            "review_eyebrow": "Review your order",
+            "review_label": "Review Order",
+            "edit_order_label": "Edit Order",
+            "plan_order": "quarterly,monthly,onetime",
+            "show_quarterly": true,
+            "quarterly_badge": "Most Popular - 20% OFF",
+            "quarterly_title": "3 Month Supply Every 3 Months",
+            "quarterly_desc": "Free 45-day supply of Creatine",
+            "quarterly_price": "$47.20",
+            "quarterly_period": "/ month",
+            "quarterly_was": "Save $42.79 per month",
+            "quarterly_accent_color": "#e8833a",
+            "bundle_count": 3,
+            "quarterly_estimate_pct": 90,
+            "show_monthly": true,
+            "monthly_badge": "Monthly - 10% OFF",
+            "monthly_title": "1 Month Supply Every Month",
+            "monthly_desc": "Your daily ritual, delivered.",
+            "monthly_price": "$53.10",
+            "monthly_period": "/ month",
+            "monthly_was": "$59.00",
+            "monthly_accent_color": "#1fa8a1",
+            "monthly_estimate_pct": 90,
+            "show_onetime": true,
+            "onetime_badge": "Buy Once - NO FREE SHIPPING",
+            "onetime_title": "30-Day Supply",
+            "onetime_desc": "Try it out",
+            "onetime_price": "$59.00",
+            "onetime_period": "/ pouch",
+            "onetime_was": "-",
+            "onetime_accent_color": "#8e8e93",
+            "bundle_label": "Your Bundle",
+            "of_word": "of",
+            "selected_word": "selected",
+            "add_label": "ADD",
+            "addon_product": "creatine",
+            "addon_label_monthly": "Add Creatine — 50% off",
+            "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
+            "addon_label_onetime": "Add Creatine — 25% off",
+            "addon_desc_monthly": "-",
+            "addon_desc_quarterly": "1st Creatine is free with your bundle.",
+            "addon_desc_onetime": "One-time. Discount auto-applied.",
+            "addon_price_monthly": "$12.00",
+            "addon_price_quarterly": "$12.00",
+            "addon_price_onetime": "$18.00",
+            "addon_was_monthly": "$24.00",
+            "addon_was_quarterly": "$24.00",
+            "addon_was_onetime": "$24.00",
+            "addon_loop_plan_monthly": "2611478587",
+            "addon_loop_plan_quarterly_free": "2611511355",
+            "addon_loop_plan_quarterly_50off": "2611478587",
+            "addon_discount_code_onetime": "-",
+            "loop_bundle_enabled": true,
+            "loop_bundle_id": "7439",
+            "loop_bundle_variant_id": "14634",
+            "loop_bundle_discount_id": "49078",
+            "loop_bundle_api_selling_plan_id": "122825",
+            "loop_bundle_selling_plan_id": "2607644731",
+            "loop_bundle_name": "90-Day Bundle — Every 3 Months",
+            "loop_bundle_property_key": "_bundleId",
+            "total_label": "Total",
+            "saved_word": "Saved",
+            "action_label_step1": "Next →",
+            "action_label_step2": "Continue",
+            "checkout_label": "Checkout",
+            "add_more_label": "Add More",
+            "accent_color": "#1fa8a1",
+            "card_radius": 12,
+            "content_max_width": 1360,
+            "color_scheme": "",
+            "padding-block-start": 64,
+            "padding-block-end": 64
+          },
+          "blocks": {
+            "ftdc_announce_fomo_qbrAkd": {
+              "type": "_ftdc-announce-fomo",
+              "disabled": true,
+              "settings": {
+                "total_spots": 1000,
+                "claimed_count_thousands": 0,
+                "claimed_count_units": 0,
+                "metafield_namespace": "",
+                "metafield_key": "",
+                "active_template": "Only **{remaining}** of **{total}** subscription spots left",
+                "exhausted_template": "All **{total}** subscription spots claimed.",
+                "bg": "#0a0a0a",
+                "fg": "#ffffff",
+                "show_progress_bar": true,
+                "bar_active_color": "#e8833a",
+                "bar_exhausted_color": "#9ca3af",
+                "bar_track_color": "#ffffff2e",
+                "bar_height": 6
+              },
+              "blocks": {}
+            },
+            "ftd_c_bullet_QFcGkU": {
+              "type": "_ftd-c-bullet",
+              "settings": {
+                "text": "Real-Fruit Organic Flavors"
+              },
+              "blocks": {}
+            },
+            "ftd_c_bullet_zf3mQn": {
+              "type": "_ftd-c-bullet",
+              "settings": {
+                "text": "Zero Artificial Sweeteners"
+              },
+              "blocks": {}
+            },
+            "ftd_c_bullet_fWgjN4": {
+              "type": "_ftd-c-bullet",
+              "settings": {
+                "text": "Cancel Anytime"
+              },
+              "blocks": {}
+            },
+            "ftd_c_bullet_DRhqrk": {
+              "type": "_ftd-c-bullet",
+              "settings": {
+                "text": "45 Day Money Back Guarantee"
+              },
+              "blocks": {}
+            },
+            "ftd_c_function_xVVe9f": {
+              "type": "_ftd-c-function",
+              "settings": {
+                "function_label": "Everyday",
+                "product": "everyday",
+                "coming_soon": false,
+                "spec_top": "150mg CAFFEINE",
+                "spec_1": "1,210MG SODIUM",
+                "spec_2": "1,000MG MAGNESIUM",
+                "spec_3": "-",
+                "flavor_option": "-",
+                "loop_plan_monthly": "2607349819",
+                "loop_plan_quarterly": "2607644731"
+              },
+              "blocks": {}
+            },
+            "ftd_c_function_XPzyJN": {
+              "type": "_ftd-c-function",
+              "settings": {
+                "function_label": "Energy",
+                "product": "energy",
+                "coming_soon": false,
+                "spec_top": "150mg CAFFEINE",
+                "spec_1": "1,210MG SODIUM",
+                "spec_2": "1,000MG MAGNESIUM",
+                "spec_3": "-",
+                "flavor_option": "-",
+                "loop_plan_monthly": "2607349819",
+                "loop_plan_quarterly": "2607644731"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ftdc_announce_fomo_qbrAkd",
+            "ftd_c_bullet_QFcGkU",
+            "ftd_c_bullet_zf3mQn",
+            "ftd_c_bullet_fWgjN4",
+            "ftd_c_bullet_DRhqrk",
+            "ftd_c_function_xVVe9f",
+            "ftd_c_function_XPzyJN"
+          ]
+        },
+        "ftd_product_selector_c_slideover_CWGHiE": {
+          "type": "ftd-product-selector-c-slideover",
+          "name": "FTD - ProductSelector-CS",
+          "disabled": true,
+          "settings": {
+            "button_label": "Build Your Bundle",
+            "button_style": "filled",
+            "slideover_width": 560,
+            "close_label": "Close",
+            "trigger_href": "#open-bundle",
+            "plan_image": "shopify://shop_images/Hero-Products.webp",
+            "heading": "Build Your Ritual",
+            "description": "<p>Mix any function with any flavor. Subscribe for free creatine and free shipping. Skip or cancel anytime.</p>",
+            "step_label_1": "Plan",
+            "step_label_2": "Bundle",
+            "step_label_3": "Boost",
+            "step_label_4": "Review",
+            "back_label": "Back",
+            "review_eyebrow": "Review your order",
+            "review_label": "Review Order",
+            "edit_order_label": "Edit Order",
+            "plan_order": "quarterly,monthly,onetime",
+            "show_quarterly": true,
+            "quarterly_badge": "Best Value",
+            "quarterly_title": "90-Day SupplyEvery 3 Months",
+            "quarterly_desc": "Mix any functions, any flavors. Free creatine included.",
+            "quarterly_price": "$53.10",
+            "quarterly_period": "/ month",
+            "quarterly_was": "$59.00",
+            "quarterly_accent_color": "#e8833a",
+            "bundle_count": 3,
+            "quarterly_estimate_pct": 90,
+            "show_monthly": true,
+            "monthly_badge": "Monthly",
+            "monthly_title": "30-Day SupplyEvery Month",
+            "monthly_desc": "Your daily ritual, on autopilot.",
+            "monthly_price": "$53.10",
+            "monthly_period": "/ month",
+            "monthly_was": "$59.00",
+            "monthly_accent_color": "#1fa8a1",
+            "monthly_estimate_pct": 90,
+            "show_onetime": true,
+            "onetime_badge": "Buy Once",
+            "onetime_title": "30-Day SupplyOne Time",
+            "onetime_desc": "Try it before you commit.",
+            "onetime_price": "$59.00",
+            "onetime_period": "/ pouch",
+            "onetime_was": "-",
+            "onetime_accent_color": "#8e8e93",
+            "bundle_label": "Your Bundle",
+            "of_word": "of",
+            "selected_word": "selected",
+            "add_label": "ADD",
+            "addon_product": "creatine",
+            "addon_label_monthly": "Add Creatine — 50% off",
+            "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
+            "addon_label_onetime": "Add Creatine — 25% off",
+            "addon_desc_monthly": "-",
+            "addon_desc_quarterly": "1st Creatine is free with your bundle. Add a second at 50% off.",
+            "addon_desc_onetime": "One-time purchase. Discount applied automatically at checkout.",
+            "addon_price_monthly": "$12.00",
+            "addon_price_quarterly": "$12.00",
+            "addon_price_onetime": "$18.00",
+            "addon_was_monthly": "$24.00",
+            "addon_was_quarterly": "$24.00",
+            "addon_was_onetime": "$24.00",
+            "addon_loop_plan_monthly": "-",
+            "addon_loop_plan_quarterly_free": "-",
+            "addon_loop_plan_quarterly_50off": "-",
+            "addon_discount_code_onetime": "-",
+            "loop_bundle_enabled": true,
+            "loop_bundle_id": "7439",
+            "loop_bundle_variant_id": "14634",
+            "loop_bundle_discount_id": "49078",
+            "loop_bundle_api_selling_plan_id": "122825",
+            "loop_bundle_selling_plan_id": "2607644731",
+            "loop_bundle_name": "90-Day Bundle — Every 3 Months",
+            "loop_bundle_property_key": "_bundleId",
+            "total_label": "Total",
+            "saved_word": "Saved",
+            "action_label_step1": "Continue",
+            "checkout_label": "Checkout",
+            "add_more_label": "Add More",
+            "accent_color": "#1fa8a1",
+            "card_radius": 8,
+            "content_max_width": 1240,
+            "color_scheme": "",
+            "padding-block-start": 24,
+            "padding-block-end": 24
+          },
+          "blocks": {
+            "ftd_c_bullet_mhGaVy": {
+              "type": "_ftd-c-bullet",
+              "settings": {
+                "text": "Real Fruit Organic Flavors"
+              },
+              "blocks": {}
+            },
+            "ftd_c_bullet_HBBadm": {
+              "type": "_ftd-c-bullet",
+              "settings": {
+                "text": "Zero Artificial Sweeteners"
+              },
+              "blocks": {}
+            },
+            "ftd_c_bullet_mxcBGU": {
+              "type": "_ftd-c-bullet",
+              "settings": {
+                "text": "Cancel Anytime"
+              },
+              "blocks": {}
+            },
+            "ftd_c_bullet_keKKcN": {
+              "type": "_ftd-c-bullet",
+              "settings": {
+                "text": "45 Day Money Back Guarantee"
+              },
+              "blocks": {}
+            },
+            "ftd_c_function_Xe4TgK": {
+              "type": "_ftd-c-function",
+              "settings": {
+                "function_label": "Energy",
+                "product": "energy",
+                "coming_soon": false,
+                "spec_top": "150mg CAFFEINE",
+                "spec_1": "1,2000MG SODIUM",
+                "spec_2": "150MG MAGNESIUM",
+                "spec_3": "-",
+                "flavor_option": "-",
+                "loop_plan_monthly": "-",
+                "loop_plan_quarterly": "2607644731"
+              },
+              "blocks": {}
+            },
+            "ftd_c_function_V3rLT9": {
+              "type": "_ftd-c-function",
+              "settings": {
+                "function_label": "Energy",
+                "product": "everyday",
+                "coming_soon": false,
+                "spec_top": "150mg CAFFEINE",
+                "spec_1": "1,210MG SODIUM",
+                "spec_2": "1,000MG MAGNESIUM",
+                "spec_3": "-",
+                "flavor_option": "-",
+                "loop_plan_monthly": "-",
+                "loop_plan_quarterly": "2607644731"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ftd_c_bullet_mhGaVy",
+            "ftd_c_bullet_HBBadm",
+            "ftd_c_bullet_mxcBGU",
+            "ftd_c_bullet_keKKcN",
+            "ftd_c_function_Xe4TgK",
+            "ftd_c_function_V3rLT9"
+          ]
+        }
+      },
+      "block_order": [
+        "ftd_lead_capture_slideover_i8Y83p",
+        "ftd_product_selector_d_slideover_Jzffnr",
+        "ftd_product_selector_c_slideover_CWGHiE"
+      ],
+      "name": "Bundle Builder",
+      "settings": {
+        "anchor_id": "",
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "horizontal_alignment_mobile": "",
+        "vertical_alignment_mobile": "",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 64
+      }
+    },
     "fortified_two_column_cta_r4Cf7t": {
       "type": "fortified-two-column-cta",
       "blocks": {
@@ -4190,39 +3428,46 @@
         "custom_css": ""
       }
     },
-    "fortified_subscribe_save_gPX8Rx": {
+    "fortified_subscribe_save_j9wGpe": {
       "type": "fortified-subscribe-save",
       "blocks": {
-        "benefit_xE8i3U": {
+        "benefit_UiRF4L": {
           "type": "benefit",
           "settings": {
             "text": "Save 20% on every order, automatically when subscribed to the 90-Day Supply Every 3 Months plan"
           }
         },
-        "benefit_R7apX4": {
+        "benefit_dHpzG7": {
           "type": "benefit",
           "settings": {
             "text": "Free creatine on quarterly plans for the life of your subscription"
           }
         },
-        "benefit_BQ4FPY": {
+        "benefit_RPYWhB": {
           "type": "benefit",
           "settings": {
             "text": "Skip, swap, or cancel anytime"
           }
         },
-        "benefit_RiBeWX": {
+        "benefit_acE4Nr": {
           "type": "benefit",
           "settings": {
             "text": "Never run out of your ritual"
           }
+        },
+        "benefit_6H6hWk": {
+          "type": "benefit",
+          "settings": {
+            "text": "45-Day Money Back Guarantee"
+          }
         }
       },
       "block_order": [
-        "benefit_xE8i3U",
-        "benefit_R7apX4",
-        "benefit_BQ4FPY",
-        "benefit_RiBeWX"
+        "benefit_UiRF4L",
+        "benefit_dHpzG7",
+        "benefit_RPYWhB",
+        "benefit_acE4Nr",
+        "benefit_6H6hWk"
       ],
       "name": "FTD - Subscribe & Save",
       "settings": {
@@ -4230,7 +3475,7 @@
         "eyebrow": "Subscribe & Save",
         "eyebrow_color": "#1fa8a1",
         "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
-        "button_label": "PREORDER SIGN UP",
+        "button_label": "Get The VIP Founders offer",
         "button_link": "#leadcapture",
         "button_style": "outline",
         "foreground_image_focal": "center",
@@ -4533,18 +3778,16 @@
     }
   },
   "order": [
-    "section_6Nnkzx",
-    "section_KBQgnk",
-    "section_bJKR9j",
     "marquee_UHmEiy",
+    "section_6Nnkzx",
+    "section_e7nAtg",
     "section_QKzV4d",
     "fortified_ingredients_callout_dWY4Et",
     "fortified_ingredients_callout_TBXrBt",
     "fortified_truth_kr6XwC",
     "ftd_c_supp_facts_4JN74r",
-    "section_jcLNtw",
     "media_with_content_PXwBjE",
-    "fortified_fomo_counter_pJBdGa",
+    "fortified_subscribe_save_gPX8Rx",
     "ftd_product_selector_d_VQUQM3",
     "fortified_stats_comparison_CLiX76",
     "fortified_testimonial_m9BkFR",
@@ -4555,8 +3798,9 @@
     "17821471407fe1169a",
     "media_with_content_gRD9pV",
     "fortified_truth_Q6ArF9",
+    "section_jcLNtw",
     "fortified_two_column_cta_r4Cf7t",
-    "fortified_subscribe_save_gPX8Rx",
+    "fortified_subscribe_save_j9wGpe",
     "marquee_zQytDV"
   ]
 }
