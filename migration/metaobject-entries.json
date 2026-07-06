@@ -669,7 +669,7 @@
         },
         {
           "key": "amount",
-          "value": "1,210mg"
+          "value": "1,200mg"
         },
         {
           "key": "daily_value",
@@ -700,7 +700,7 @@
         },
         {
           "key": "amount",
-          "value": "3g"
+          "value": "2g"
         },
         {
           "key": "daily_value",
@@ -793,7 +793,7 @@
         },
         {
           "key": "amount",
-          "value": "152mg"
+          "value": "150mg"
         },
         {
           "key": "daily_value",
@@ -824,11 +824,11 @@
         },
         {
           "key": "amount",
-          "value": "1,000mg"
+          "value": "150mg"
         },
         {
           "key": "daily_value",
-          "value": "238%"
+          "value": "35%"
         },
         {
           "key": "indent_level",
@@ -948,7 +948,7 @@
         },
         {
           "key": "amount",
-          "value": "1,210mg"
+          "value": "1,200mg"
         },
         {
           "key": "daily_value",
@@ -979,7 +979,7 @@
         },
         {
           "key": "amount",
-          "value": "3g"
+          "value": "2g"
         },
         {
           "key": "daily_value",
@@ -1134,11 +1134,11 @@
         },
         {
           "key": "amount",
-          "value": "1,000mg"
+          "value": "150mg"
         },
         {
           "key": "daily_value",
-          "value": "238%"
+          "value": "35%"
         },
         {
           "key": "indent_level",
