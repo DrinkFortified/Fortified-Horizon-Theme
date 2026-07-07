@@ -389,61 +389,237 @@
   "tag": "section",
   "class": "ftd-ingredients-callout-section",
   "settings": [
-    { "type": "header", "content": "Anchor" },
-    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
-    { "type": "header", "content": "Content" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Clinically Backed Ingredients" },
-    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Electrolytes don't provide full recovery. Regenerate hydration.</p>" },
-
-    { "type": "header", "content": "Product image" },
-    { "type": "image_picker", "id": "product_image", "label": "Product image" },
-    { "type": "color", "id": "product_image_background", "label": "Image background", "default": "#F2F2F0" },
-    { "type": "range", "id": "product_image_max_height", "label": "Image max height", "min": 280, "max": 700, "step": 20, "unit": "px", "default": 500 },
-    { "type": "select", "id": "image_position_desktop", "label": "Image position (desktop)", "default": "left",
+    {
+      "type": "header",
+      "content": "Anchor"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only."
+    },
+    {
+      "type": "header",
+      "content": "t:content.content"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Clinically Backed Ingredients"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Electrolytes don't provide full recovery. Regenerate hydration.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product image"
+    },
+    {
+      "type": "color",
+      "id": "product_image_background",
+      "label": "Image background",
+      "default": "#F2F2F0"
+    },
+    {
+      "type": "range",
+      "id": "product_image_max_height",
+      "label": "Image max height",
+      "min": 280,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "default": 500
+    },
+    {
+      "type": "select",
+      "id": "image_position_desktop",
+      "label": "Image position (desktop)",
+      "default": "left",
       "options": [
-        { "value": "left",  "label": "Left" },
-        { "value": "right", "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ]
     },
-
-    { "type": "header", "content": "Ingredients grid" },
-    { "type": "range", "id": "desktop_ingredients_columns", "label": "Ingredient columns (desktop)", "min": 1, "max": 3, "step": 1, "default": 2 },
-    { "type": "range", "id": "icon_size", "label": "Icon size", "min": 32, "max": 72, "step": 4, "unit": "px", "default": 48 },
-    { "type": "color", "id": "icon_background_color", "label": "Icon background", "default": "#0A0A0A" },
-    { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#FFFFFF" },
-
-    { "type": "header", "content": "Button" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Fortified Now" },
-    { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "checkbox", "id": "center_cta", "label": "Center button in section", "default": false, "info": "Moves the button to its own centered row below the image and text." },
-    { "type": "header", "content": "Secondary CTA (Learn More)" },
-    { "type": "text", "id": "secondary_button_label", "label": "Secondary button label", "default": "Learn More" },
-    { "type": "text", "id": "secondary_button_link",  "label": "Secondary button link",  "default": "#shopify-section-ftd_c_supp_facts_4JN74r", "info": "Defaults to the Supplement Facts section on the homepage." },
-    { "type": "select", "id": "button_style", "label": "Button style", "default": "outline",
+    {
+      "type": "header",
+      "content": "Ingredients grid"
+    },
+    {
+      "type": "range",
+      "id": "desktop_ingredients_columns",
+      "label": "Ingredient columns (desktop)",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 32,
+      "max": 72,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "icon_background_color",
+      "label": "Icon background",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "t:content.button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop Fortified Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "center_cta",
+      "label": "Center button in section",
+      "default": false,
+      "info": "Moves the button to its own centered row below the image and text."
+    },
+    {
+      "type": "header",
+      "content": "Secondary CTA (Learn More)"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "Learn More"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_link",
+      "label": "Secondary button link",
+      "default": "#shopify-section-ftd_c_supp_facts_4JN74r",
+      "info": "Defaults to the Supplement Facts section on the homepage."
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "outline",
       "options": [
-        { "value": "outline", "label": "Outline" },
-        { "value": "filled",  "label": "Filled" }
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "filled",
+          "label": "Filled"
+        }
       ]
     },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width",
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
       "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
       ]
     },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
@@ -451,22 +627,66 @@
       "name": "Ingredient",
       "limit": 8,
       "settings": [
-        { "type": "text", "id": "name", "label": "Ingredient name", "default": "Sodium" },
-        { "type": "textarea", "id": "description", "label": "Description", "default": "Supports body hydration" },
-        { "type": "image_picker", "id": "icon", "label": "Icon image", "info": "Optional. Leave blank for the built-in SVG fallback." },
-        { "type": "color", "id": "icon_color_override", "label": "Icon color override", "info": "Optional. Falls back to the section icon color." }
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Ingredient name",
+          "default": "Sodium"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Supports body hydration"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon image",
+          "info": "Optional. Leave blank for the built-in SVG fallback."
+        },
+        {
+          "type": "color",
+          "id": "icon_color_override",
+          "label": "Icon color override",
+          "info": "Optional. Falls back to the section icon color."
+        }
       ]
     }
   ],
   "presets": [
     {
       "name": "FTD - Ingredients Callout",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "ingredient", "settings": { "name": "Sodium",    "description": "Supports body hydration" } },
-        { "type": "ingredient", "settings": { "name": "Potassium", "description": "Helps muscle and nerve function" } },
-        { "type": "ingredient", "settings": { "name": "Magnesium", "description": "Aids energy and recovery" } },
-        { "type": "ingredient", "settings": { "name": "Collagen",  "description": "Supports skin and joint health" } }
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Sodium",
+            "description": "Supports body hydration"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Potassium",
+            "description": "Helps muscle and nerve function"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium",
+            "description": "Aids energy and recovery"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Collagen",
+            "description": "Supports skin and joint health"
+          }
+        }
       ]
     }
   ]

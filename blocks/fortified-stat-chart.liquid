@@ -428,301 +428,1077 @@
 {
   "name": "FTD - Stat Chart",
   "settings": [
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "text_alignment", "label": "Text alignment", "default": "left",
+    {
+      "type": "header",
+      "content": "Card container"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding (legacy / fallback)",
+      "min": 12,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 40,
+      "info": "Used as the card padding on all sides unless you set per-side values in the Padding group at the bottom."
+    },
+    {
+      "type": "header",
+      "content": "Headline number"
+    },
+    {
+      "type": "text",
+      "id": "headline_number",
+      "label": "Number",
+      "default": "2.3x"
+    },
+    {
+      "type": "select",
+      "id": "num_font",
+      "label": "Font",
+      "default": "var(--font-heading--family)",
       "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading"
+        },
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading"
+        },
+        {
+          "value": "var(--font-accent--family)",
+          "label": "Accent"
+        },
+        {
+          "value": "\"Brother 1816\", sans-serif",
+          "label": "Brother 1816"
+        }
       ]
     },
-    { "type": "range", "id": "section_gap",        "label": "Gap between blocks",    "min": 8,  "max": 64,  "step": 2, "unit": "px", "default": 24 },
-    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width",      "min": 30, "max": 100, "step": 5, "unit": "%", "default": 100 },
-
-    { "type": "header", "content": "Card container" },
-    { "type": "color", "id": "background_color", "label": "Background",         "default": "#FFFFFF" },
-    { "type": "color", "id": "border_color",     "label": "Border color",       "default": "#0A0A0A" },
-    { "type": "range", "id": "border_width",     "label": "Border width",       "min": 0, "max": 4, "step": 1, "unit": "px", "default": 1 },
-    { "type": "range", "id": "border_radius",    "label": "Corner radius",      "min": 0, "max": 40, "step": 1, "unit": "px", "default": 24 },
-    { "type": "range", "id": "padding",          "label": "Padding (legacy / fallback)", "min": 12, "max": 80, "step": 2, "unit": "px", "default": 40, "info": "Used as the card padding on all sides unless you set per-side values in the Padding group at the bottom." },
-
-    { "type": "header", "content": "Headline number" },
-    { "type": "text",  "id": "headline_number", "label": "Number", "default": "2.3x" },
-    { "type": "select", "id": "num_font", "label": "Font", "default": "var(--font-heading--family)",
+    {
+      "type": "range",
+      "id": "num_size",
+      "label": "Size",
+      "min": 24,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "select",
+      "id": "num_weight",
+      "label": "Weight",
+      "default": "700",
       "options": [
-        { "value": "var(--font-heading--family)",    "label": "Heading" },
-        { "value": "var(--font-body--family)",       "label": "Body" },
-        { "value": "var(--font-subheading--family)", "label": "Subheading" },
-        { "value": "var(--font-accent--family)",     "label": "Accent" },
-        { "value": "\"Brother 1816\", sans-serif",   "label": "Brother 1816" }
+        {
+          "value": "300",
+          "label": "Light 300"
+        },
+        {
+          "value": "400",
+          "label": "Regular 400"
+        },
+        {
+          "value": "500",
+          "label": "Medium 500"
+        },
+        {
+          "value": "600",
+          "label": "Semibold 600"
+        },
+        {
+          "value": "700",
+          "label": "Bold 700"
+        },
+        {
+          "value": "800",
+          "label": "Extrabold 800"
+        },
+        {
+          "value": "900",
+          "label": "Black 900"
+        }
       ]
     },
-    { "type": "range", "id": "num_size",       "label": "Size",          "min": 24, "max": 140, "step": 2, "unit": "px", "default": 64 },
-    { "type": "select", "id": "num_weight",    "label": "Weight", "default": "700",
+    {
+      "type": "select",
+      "id": "num_line_height",
+      "label": "Line height",
+      "default": "1",
       "options": [
-        { "value": "300", "label": "Light 300" },
-        { "value": "400", "label": "Regular 400" },
-        { "value": "500", "label": "Medium 500" },
-        { "value": "600", "label": "Semibold 600" },
-        { "value": "700", "label": "Bold 700" },
-        { "value": "800", "label": "Extrabold 800" },
-        { "value": "900", "label": "Black 900" }
+        {
+          "value": "1",
+          "label": "1.0"
+        },
+        {
+          "value": "1.1",
+          "label": "1.1"
+        },
+        {
+          "value": "1.2",
+          "label": "1.2"
+        },
+        {
+          "value": "1.4",
+          "label": "1.4"
+        },
+        {
+          "value": "1.6",
+          "label": "1.6"
+        }
       ]
     },
-    { "type": "select", "id": "num_line_height", "label": "Line height", "default": "1",
+    {
+      "type": "select",
+      "id": "num_letter_spacing",
+      "label": "Letter spacing",
+      "default": "-0.02em",
       "options": [
-        { "value": "1",   "label": "1.0" },
-        { "value": "1.1", "label": "1.1" },
-        { "value": "1.2", "label": "1.2" },
-        { "value": "1.4", "label": "1.4" },
-        { "value": "1.6", "label": "1.6" }
+        {
+          "value": "-0.03em",
+          "label": "Tighter"
+        },
+        {
+          "value": "-0.02em",
+          "label": "Tight"
+        },
+        {
+          "value": "0",
+          "label": "Normal"
+        },
+        {
+          "value": "0.05em",
+          "label": "Wide"
+        },
+        {
+          "value": "0.1em",
+          "label": "Wider"
+        }
       ]
     },
-    { "type": "select", "id": "num_letter_spacing", "label": "Letter spacing", "default": "-0.02em",
+    {
+      "type": "select",
+      "id": "num_case",
+      "label": "Letter case",
+      "default": "none",
       "options": [
-        { "value": "-0.03em", "label": "Tighter" },
-        { "value": "-0.02em", "label": "Tight" },
-        { "value": "0",       "label": "Normal" },
-        { "value": "0.05em",  "label": "Wide" },
-        { "value": "0.1em",   "label": "Wider" }
+        {
+          "value": "none",
+          "label": "As written"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
       ]
     },
-    { "type": "select", "id": "num_case", "label": "Letter case", "default": "none",
+    {
+      "type": "color",
+      "id": "num_color",
+      "label": "Color",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "header",
+      "content": "Headline text"
+    },
+    {
+      "type": "text",
+      "id": "headline_text",
+      "label": "Headline",
+      "default": "Better Hydration"
+    },
+    {
+      "type": "select",
+      "id": "headline_font",
+      "label": "Font",
+      "default": "var(--font-heading--family)",
       "options": [
-        { "value": "none",       "label": "As written" },
-        { "value": "uppercase",  "label": "Uppercase" },
-        { "value": "lowercase",  "label": "Lowercase" },
-        { "value": "capitalize", "label": "Capitalize" }
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading"
+        },
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading"
+        },
+        {
+          "value": "var(--font-accent--family)",
+          "label": "Accent"
+        },
+        {
+          "value": "\"Brother 1816\", sans-serif",
+          "label": "Brother 1816"
+        }
       ]
     },
-    { "type": "color",  "id": "num_color", "label": "Color", "default": "#0A0A0A" },
-
-    { "type": "header", "content": "Headline text" },
-    { "type": "text",  "id": "headline_text", "label": "Headline", "default": "Better Hydration" },
-    { "type": "select", "id": "headline_font", "label": "Font", "default": "var(--font-heading--family)",
+    {
+      "type": "range",
+      "id": "headline_size",
+      "label": "Size",
+      "min": 12,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "headline_weight",
+      "label": "Weight",
+      "default": "500",
       "options": [
-        { "value": "var(--font-heading--family)",    "label": "Heading" },
-        { "value": "var(--font-body--family)",       "label": "Body" },
-        { "value": "var(--font-subheading--family)", "label": "Subheading" },
-        { "value": "var(--font-accent--family)",     "label": "Accent" },
-        { "value": "\"Brother 1816\", sans-serif",   "label": "Brother 1816" }
+        {
+          "value": "300",
+          "label": "Light 300"
+        },
+        {
+          "value": "400",
+          "label": "Regular 400"
+        },
+        {
+          "value": "500",
+          "label": "Medium 500"
+        },
+        {
+          "value": "600",
+          "label": "Semibold 600"
+        },
+        {
+          "value": "700",
+          "label": "Bold 700"
+        },
+        {
+          "value": "800",
+          "label": "Extrabold 800"
+        },
+        {
+          "value": "900",
+          "label": "Black 900"
+        }
       ]
     },
-    { "type": "range", "id": "headline_size", "label": "Size", "min": 12, "max": 56, "step": 1, "unit": "px", "default": 24 },
-    { "type": "select", "id": "headline_weight", "label": "Weight", "default": "500",
+    {
+      "type": "select",
+      "id": "headline_line_height",
+      "label": "Line height",
+      "default": "1.2",
       "options": [
-        { "value": "300", "label": "Light 300" },
-        { "value": "400", "label": "Regular 400" },
-        { "value": "500", "label": "Medium 500" },
-        { "value": "600", "label": "Semibold 600" },
-        { "value": "700", "label": "Bold 700" },
-        { "value": "800", "label": "Extrabold 800" },
-        { "value": "900", "label": "Black 900" }
+        {
+          "value": "1",
+          "label": "1.0"
+        },
+        {
+          "value": "1.1",
+          "label": "1.1"
+        },
+        {
+          "value": "1.2",
+          "label": "1.2"
+        },
+        {
+          "value": "1.4",
+          "label": "1.4"
+        },
+        {
+          "value": "1.6",
+          "label": "1.6"
+        }
       ]
     },
-    { "type": "select", "id": "headline_line_height", "label": "Line height", "default": "1.2",
+    {
+      "type": "select",
+      "id": "headline_letter_spacing",
+      "label": "Letter spacing",
+      "default": "0",
       "options": [
-        { "value": "1",   "label": "1.0" },
-        { "value": "1.1", "label": "1.1" },
-        { "value": "1.2", "label": "1.2" },
-        { "value": "1.4", "label": "1.4" },
-        { "value": "1.6", "label": "1.6" }
+        {
+          "value": "-0.03em",
+          "label": "Tighter"
+        },
+        {
+          "value": "-0.02em",
+          "label": "Tight"
+        },
+        {
+          "value": "0",
+          "label": "Normal"
+        },
+        {
+          "value": "0.05em",
+          "label": "Wide"
+        },
+        {
+          "value": "0.1em",
+          "label": "Wider"
+        }
       ]
     },
-    { "type": "select", "id": "headline_letter_spacing", "label": "Letter spacing", "default": "0",
+    {
+      "type": "select",
+      "id": "headline_case",
+      "label": "Letter case",
+      "default": "none",
       "options": [
-        { "value": "-0.03em", "label": "Tighter" },
-        { "value": "-0.02em", "label": "Tight" },
-        { "value": "0",       "label": "Normal" },
-        { "value": "0.05em",  "label": "Wide" },
-        { "value": "0.1em",   "label": "Wider" }
+        {
+          "value": "none",
+          "label": "As written"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
       ]
     },
-    { "type": "select", "id": "headline_case", "label": "Letter case", "default": "none",
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Color",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "header",
+      "content": "Subtitle"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_text",
+      "label": "Subtitle",
+      "default": "vs. water alone *"
+    },
+    {
+      "type": "select",
+      "id": "sub_font",
+      "label": "Font",
+      "default": "var(--font-body--family)",
       "options": [
-        { "value": "none",       "label": "As written" },
-        { "value": "uppercase",  "label": "Uppercase" },
-        { "value": "lowercase",  "label": "Lowercase" },
-        { "value": "capitalize", "label": "Capitalize" }
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading"
+        },
+        {
+          "value": "var(--font-accent--family)",
+          "label": "Accent"
+        },
+        {
+          "value": "\"Brother 1816\", sans-serif",
+          "label": "Brother 1816"
+        }
       ]
     },
-    { "type": "color", "id": "headline_color", "label": "Color", "default": "#0A0A0A" },
-
-    { "type": "header", "content": "Subtitle" },
-    { "type": "text", "id": "subtitle_text", "label": "Subtitle", "default": "vs. water alone *" },
-    { "type": "select", "id": "sub_font", "label": "Font", "default": "var(--font-body--family)",
+    {
+      "type": "range",
+      "id": "sub_size",
+      "label": "Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "sub_weight",
+      "label": "Weight",
+      "default": "400",
       "options": [
-        { "value": "var(--font-body--family)",       "label": "Body" },
-        { "value": "var(--font-heading--family)",    "label": "Heading" },
-        { "value": "var(--font-subheading--family)", "label": "Subheading" },
-        { "value": "var(--font-accent--family)",     "label": "Accent" },
-        { "value": "\"Brother 1816\", sans-serif",   "label": "Brother 1816" }
+        {
+          "value": "300",
+          "label": "Light 300"
+        },
+        {
+          "value": "400",
+          "label": "Regular 400"
+        },
+        {
+          "value": "500",
+          "label": "Medium 500"
+        },
+        {
+          "value": "600",
+          "label": "Semibold 600"
+        },
+        {
+          "value": "700",
+          "label": "Bold 700"
+        }
       ]
     },
-    { "type": "range", "id": "sub_size", "label": "Size", "min": 10, "max": 24, "step": 1, "unit": "px", "default": 14 },
-    { "type": "select", "id": "sub_weight", "label": "Weight", "default": "400",
+    {
+      "type": "select",
+      "id": "sub_line_height",
+      "label": "Line height",
+      "default": "1.4",
       "options": [
-        { "value": "300", "label": "Light 300" },
-        { "value": "400", "label": "Regular 400" },
-        { "value": "500", "label": "Medium 500" },
-        { "value": "600", "label": "Semibold 600" },
-        { "value": "700", "label": "Bold 700" }
+        {
+          "value": "1",
+          "label": "1.0"
+        },
+        {
+          "value": "1.2",
+          "label": "1.2"
+        },
+        {
+          "value": "1.4",
+          "label": "1.4"
+        },
+        {
+          "value": "1.6",
+          "label": "1.6"
+        }
       ]
     },
-    { "type": "select", "id": "sub_line_height", "label": "Line height", "default": "1.4",
+    {
+      "type": "select",
+      "id": "sub_letter_spacing",
+      "label": "Letter spacing",
+      "default": "0",
       "options": [
-        { "value": "1",   "label": "1.0" },
-        { "value": "1.2", "label": "1.2" },
-        { "value": "1.4", "label": "1.4" },
-        { "value": "1.6", "label": "1.6" }
+        {
+          "value": "-0.02em",
+          "label": "Tight"
+        },
+        {
+          "value": "0",
+          "label": "Normal"
+        },
+        {
+          "value": "0.05em",
+          "label": "Wide"
+        }
       ]
     },
-    { "type": "select", "id": "sub_letter_spacing", "label": "Letter spacing", "default": "0",
+    {
+      "type": "select",
+      "id": "sub_case",
+      "label": "Letter case",
+      "default": "none",
       "options": [
-        { "value": "-0.02em", "label": "Tight" },
-        { "value": "0",       "label": "Normal" },
-        { "value": "0.05em",  "label": "Wide" }
+        {
+          "value": "none",
+          "label": "As written"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
       ]
     },
-    { "type": "select", "id": "sub_case", "label": "Letter case", "default": "none",
+    {
+      "type": "color",
+      "id": "sub_color",
+      "label": "Color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Bar 1"
+    },
+    {
+      "type": "text",
+      "id": "bar1_label",
+      "label": "Label",
+      "default": "water"
+    },
+    {
+      "type": "range",
+      "id": "bar1_value",
+      "label": "Value",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 38
+    },
+    {
+      "type": "color",
+      "id": "bar1_color",
+      "label": "Color",
+      "default": "#7B8794"
+    },
+    {
+      "type": "header",
+      "content": "Bar 2"
+    },
+    {
+      "type": "text",
+      "id": "bar2_label",
+      "label": "Label",
+      "default": "FORTIFIED"
+    },
+    {
+      "type": "range",
+      "id": "bar2_value",
+      "label": "Value",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 93
+    },
+    {
+      "type": "color",
+      "id": "bar2_color",
+      "label": "Color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "header",
+      "content": "Bar label typography"
+    },
+    {
+      "type": "select",
+      "id": "lbl_font",
+      "label": "Font",
+      "default": "var(--font-body--family)",
       "options": [
-        { "value": "none",       "label": "As written" },
-        { "value": "uppercase",  "label": "Uppercase" },
-        { "value": "lowercase",  "label": "Lowercase" },
-        { "value": "capitalize", "label": "Capitalize" }
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading"
+        },
+        {
+          "value": "var(--font-accent--family)",
+          "label": "Accent"
+        },
+        {
+          "value": "\"Brother 1816\", sans-serif",
+          "label": "Brother 1816"
+        }
       ]
     },
-    { "type": "color", "id": "sub_color", "label": "Color", "default": "#666666" },
-
-    { "type": "header", "content": "Bar 1" },
-    { "type": "text",  "id": "bar1_label", "label": "Label", "default": "water" },
-    { "type": "range", "id": "bar1_value", "label": "Value", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 38 },
-    { "type": "color", "id": "bar1_color", "label": "Color", "default": "#7B8794" },
-
-    { "type": "header", "content": "Bar 2" },
-    { "type": "text",  "id": "bar2_label", "label": "Label", "default": "FORTIFIED" },
-    { "type": "range", "id": "bar2_value", "label": "Value", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 93 },
-    { "type": "color", "id": "bar2_color", "label": "Color", "default": "#1FA8A1" },
-
-    { "type": "header", "content": "Bar label typography" },
-    { "type": "select", "id": "lbl_font", "label": "Font", "default": "var(--font-body--family)",
+    {
+      "type": "range",
+      "id": "lbl_size",
+      "label": "Size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "lbl_weight",
+      "label": "Weight",
+      "default": "500",
       "options": [
-        { "value": "var(--font-body--family)",       "label": "Body" },
-        { "value": "var(--font-heading--family)",    "label": "Heading" },
-        { "value": "var(--font-subheading--family)", "label": "Subheading" },
-        { "value": "var(--font-accent--family)",     "label": "Accent" },
-        { "value": "\"Brother 1816\", sans-serif",   "label": "Brother 1816" }
+        {
+          "value": "400",
+          "label": "Regular 400"
+        },
+        {
+          "value": "500",
+          "label": "Medium 500"
+        },
+        {
+          "value": "600",
+          "label": "Semibold 600"
+        },
+        {
+          "value": "700",
+          "label": "Bold 700"
+        }
       ]
     },
-    { "type": "range", "id": "lbl_size", "label": "Size", "min": 10, "max": 22, "step": 1, "unit": "px", "default": 14 },
-    { "type": "select", "id": "lbl_weight", "label": "Weight", "default": "500",
+    {
+      "type": "select",
+      "id": "lbl_line_height",
+      "label": "Line height",
+      "default": "1.2",
       "options": [
-        { "value": "400", "label": "Regular 400" },
-        { "value": "500", "label": "Medium 500" },
-        { "value": "600", "label": "Semibold 600" },
-        { "value": "700", "label": "Bold 700" }
+        {
+          "value": "1",
+          "label": "1.0"
+        },
+        {
+          "value": "1.2",
+          "label": "1.2"
+        },
+        {
+          "value": "1.4",
+          "label": "1.4"
+        }
       ]
     },
-    { "type": "select", "id": "lbl_line_height", "label": "Line height", "default": "1.2",
+    {
+      "type": "select",
+      "id": "lbl_letter_spacing",
+      "label": "Letter spacing",
+      "default": "0.03em",
       "options": [
-        { "value": "1",   "label": "1.0" },
-        { "value": "1.2", "label": "1.2" },
-        { "value": "1.4", "label": "1.4" }
+        {
+          "value": "0",
+          "label": "Normal"
+        },
+        {
+          "value": "0.03em",
+          "label": "Wide"
+        },
+        {
+          "value": "0.06em",
+          "label": "Wider"
+        }
       ]
     },
-    { "type": "select", "id": "lbl_letter_spacing", "label": "Letter spacing", "default": "0.03em",
+    {
+      "type": "select",
+      "id": "lbl_case",
+      "label": "Letter case",
+      "default": "uppercase",
       "options": [
-        { "value": "0",      "label": "Normal" },
-        { "value": "0.03em", "label": "Wide" },
-        { "value": "0.06em", "label": "Wider" }
+        {
+          "value": "none",
+          "label": "As written"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
       ]
     },
-    { "type": "select", "id": "lbl_case", "label": "Letter case", "default": "uppercase",
+    {
+      "type": "color",
+      "id": "lbl_color",
+      "label": "Color",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "header",
+      "content": "Footnote"
+    },
+    {
+      "type": "text",
+      "id": "footnote_text",
+      "label": "Text",
+      "default": "* Study: Journal of Strength & Conditioning Research"
+    },
+    {
+      "type": "select",
+      "id": "foot_font",
+      "label": "Font",
+      "default": "var(--font-body--family)",
       "options": [
-        { "value": "none",       "label": "As written" },
-        { "value": "uppercase",  "label": "Uppercase" },
-        { "value": "lowercase",  "label": "Lowercase" },
-        { "value": "capitalize", "label": "Capitalize" }
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading"
+        },
+        {
+          "value": "\"Brother 1816\", sans-serif",
+          "label": "Brother 1816"
+        }
       ]
     },
-    { "type": "color", "id": "lbl_color", "label": "Color", "default": "#0A0A0A" },
-
-    { "type": "header", "content": "Footnote" },
-    { "type": "text",  "id": "footnote_text", "label": "Text", "default": "* Study: Journal of Strength & Conditioning Research" },
-    { "type": "select", "id": "foot_font", "label": "Font", "default": "var(--font-body--family)",
+    {
+      "type": "range",
+      "id": "foot_size",
+      "label": "Size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "foot_weight",
+      "label": "Weight",
+      "default": "400",
       "options": [
-        { "value": "var(--font-body--family)",       "label": "Body" },
-        { "value": "var(--font-heading--family)",    "label": "Heading" },
-        { "value": "var(--font-subheading--family)", "label": "Subheading" },
-        { "value": "\"Brother 1816\", sans-serif",   "label": "Brother 1816" }
+        {
+          "value": "300",
+          "label": "Light 300"
+        },
+        {
+          "value": "400",
+          "label": "Regular 400"
+        },
+        {
+          "value": "500",
+          "label": "Medium 500"
+        }
       ]
     },
-    { "type": "range", "id": "foot_size", "label": "Size", "min": 10, "max": 18, "step": 1, "unit": "px", "default": 12 },
-    { "type": "select", "id": "foot_weight", "label": "Weight", "default": "400",
+    {
+      "type": "select",
+      "id": "foot_style",
+      "label": "Style",
+      "default": "italic",
       "options": [
-        { "value": "300", "label": "Light 300" },
-        { "value": "400", "label": "Regular 400" },
-        { "value": "500", "label": "Medium 500" }
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "italic",
+          "label": "Italic"
+        }
       ]
     },
-    { "type": "select", "id": "foot_style", "label": "Style", "default": "italic",
+    {
+      "type": "select",
+      "id": "foot_line_height",
+      "label": "Line height",
+      "default": "1.4",
       "options": [
-        { "value": "normal", "label": "Normal" },
-        { "value": "italic", "label": "Italic" }
+        {
+          "value": "1.2",
+          "label": "1.2"
+        },
+        {
+          "value": "1.4",
+          "label": "1.4"
+        },
+        {
+          "value": "1.6",
+          "label": "1.6"
+        }
       ]
     },
-    { "type": "select", "id": "foot_line_height", "label": "Line height", "default": "1.4",
+    {
+      "type": "select",
+      "id": "foot_letter_spacing",
+      "label": "Letter spacing",
+      "default": "0",
       "options": [
-        { "value": "1.2", "label": "1.2" },
-        { "value": "1.4", "label": "1.4" },
-        { "value": "1.6", "label": "1.6" }
+        {
+          "value": "-0.02em",
+          "label": "Tight"
+        },
+        {
+          "value": "0",
+          "label": "Normal"
+        },
+        {
+          "value": "0.05em",
+          "label": "Wide"
+        }
       ]
     },
-    { "type": "select", "id": "foot_letter_spacing", "label": "Letter spacing", "default": "0",
+    {
+      "type": "select",
+      "id": "foot_case",
+      "label": "Letter case",
+      "default": "none",
       "options": [
-        { "value": "-0.02em", "label": "Tight" },
-        { "value": "0",       "label": "Normal" },
-        { "value": "0.05em",  "label": "Wide" }
+        {
+          "value": "none",
+          "label": "As written"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
       ]
     },
-    { "type": "select", "id": "foot_case", "label": "Letter case", "default": "none",
+    {
+      "type": "color",
+      "id": "foot_color",
+      "label": "Color",
+      "default": "#888888"
+    },
+    {
+      "type": "header",
+      "content": "Chart style"
+    },
+    {
+      "type": "checkbox",
+      "id": "yaxis_show",
+      "label": "Show Y-axis labels (0 / 50 / 100)",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "chart_height",
+      "label": "Chart height",
+      "min": 120,
+      "max": 360,
+      "step": 10,
+      "unit": "px",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "bar_width",
+      "label": "Bar width",
+      "min": 32,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "bar_gap",
+      "label": "Bar spacing",
+      "min": 8,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "bar_border_radius",
+      "label": "Bar corner radius",
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "grid_line_color",
+      "label": "Grid line color",
+      "default": "#D9DEE3"
+    },
+    {
+      "type": "color",
+      "id": "scale_label_color",
+      "label": "Scale label color",
+      "default": "#888888"
+    },
+    {
+      "type": "select",
+      "id": "scale_font",
+      "label": "Scale label font",
+      "default": "var(--font-body--family)",
       "options": [
-        { "value": "none",       "label": "As written" },
-        { "value": "uppercase",  "label": "Uppercase" },
-        { "value": "lowercase",  "label": "Lowercase" },
-        { "value": "capitalize", "label": "Capitalize" }
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading"
+        },
+        {
+          "value": "\"Brother 1816\", sans-serif",
+          "label": "Brother 1816"
+        }
       ]
     },
-    { "type": "color", "id": "foot_color", "label": "Color", "default": "#888888" },
-
-    { "type": "header", "content": "Chart style" },
-    { "type": "checkbox", "id": "yaxis_show", "label": "Show Y-axis labels (0 / 50 / 100)", "default": true },
-    { "type": "range", "id": "chart_height",      "label": "Chart height",       "min": 120, "max": 360, "step": 10, "unit": "px", "default": 200 },
-    { "type": "range", "id": "bar_width",         "label": "Bar width",          "min": 32,  "max": 200, "step": 4,  "unit": "px", "default": 80 },
-    { "type": "range", "id": "bar_gap",           "label": "Bar spacing",        "min": 8,   "max": 80,  "step": 2,  "unit": "px", "default": 24 },
-    { "type": "range", "id": "bar_border_radius", "label": "Bar corner radius",  "min": 0,   "max": 16,  "step": 1,  "unit": "px", "default": 4 },
-    { "type": "color", "id": "grid_line_color",   "label": "Grid line color",    "default": "#D9DEE3" },
-    { "type": "color", "id": "scale_label_color", "label": "Scale label color",  "default": "#888888" },
-    { "type": "select", "id": "scale_font", "label": "Scale label font", "default": "var(--font-body--family)",
+    {
+      "type": "range",
+      "id": "scale_size",
+      "label": "Scale label size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "left",
       "options": [
-        { "value": "var(--font-body--family)",       "label": "Body" },
-        { "value": "var(--font-heading--family)",    "label": "Heading" },
-        { "value": "\"Brother 1816\", sans-serif",   "label": "Brother 1816" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ]
     },
-    { "type": "range", "id": "scale_size", "label": "Scale label size", "min": 10, "max": 18, "step": 1, "unit": "px", "default": 12 },
-
-    { "type": "header", "content": "Appearance" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start",  "label": "Top",    "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
-    { "type": "range", "id": "padding-block-end",    "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
-    { "type": "range", "id": "padding-inline-start", "label": "Left",   "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
-    { "type": "range", "id": "padding-inline-end",   "label": "Right",  "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 }
+    {
+      "type": "range",
+      "id": "section_gap",
+      "label": "Gap between blocks",
+      "min": 8,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
   ],
   "presets": [
-    { "name": "FTD - Stat Chart", "category": "Fortified Blocks" }
+    {
+      "name": "FTD - Stat Chart",
+      "category": "Fortified"
+    }
   ]
 }
 {% endschema %}

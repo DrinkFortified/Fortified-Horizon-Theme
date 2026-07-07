@@ -409,28 +409,86 @@
   "tag": "section",
   "class": "ftd-b-supp-facts-section",
   "settings": [
-    { "type": "header", "content": "Nutrition Facts panel" },
-    { "type": "text", "id": "panel_title", "label": "Panel title", "default": "Nutrition Facts" },
-    { "type": "text", "id": "panel_servings_per", "label": "Servings per container", "default": "30 servings per container" },
-    { "type": "text", "id": "panel_serving_size", "label": "Serving size", "default": "1 Stick Pack (6.4g)" },
-    { "type": "text", "id": "panel_calories", "label": "Calories", "default": "10" },
-    { "type": "textarea", "id": "panel_footnote", "label": "Panel footnote", "default": "* 2,000 calories/day used for general nutrition advice." },
-
-    { "type": "header", "content": "Right column header" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why These Numbers Matter" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "The label that made\nother brands nervous." },
-    { "type": "text", "id": "heading_emphasis_word", "label": "Heading emphasis word", "default": "nervous." },
-
-    { "type": "header", "content": "Layout" },
+    {
+      "type": "header",
+      "content": "Nutrition Facts panel"
+    },
+    {
+      "type": "text",
+      "id": "panel_title",
+      "label": "Panel title",
+      "default": "Nutrition Facts"
+    },
+    {
+      "type": "text",
+      "id": "panel_servings_per",
+      "label": "Servings per container",
+      "default": "30 servings per container"
+    },
+    {
+      "type": "text",
+      "id": "panel_serving_size",
+      "label": "Serving size",
+      "default": "1 Stick Pack (6.4g)"
+    },
+    {
+      "type": "text",
+      "id": "panel_calories",
+      "label": "Calories",
+      "default": "10"
+    },
+    {
+      "type": "textarea",
+      "id": "panel_footnote",
+      "label": "Panel footnote",
+      "default": "* 2,000 calories/day used for general nutrition advice."
+    },
+    {
+      "type": "header",
+      "content": "Right column header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Why These Numbers Matter"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The label that made\nother brands nervous."
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis_word",
+      "label": "Heading emphasis word",
+      "default": "nervous."
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
     {
       "type": "select",
       "id": "panel_position",
       "label": "Panel position (desktop)",
       "default": "left",
       "options": [
-        { "value": "left",  "label": "Left" },
-        { "value": "right", "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ]
     },
     {
@@ -439,42 +497,131 @@
       "label": "Section width",
       "default": "page-width",
       "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
       ]
     },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
       "type": "nutrient",
       "name": "Nutrient row",
       "settings": [
-        { "type": "text", "id": "label", "label": "Label", "default": "Sodium" },
-        { "type": "text", "id": "amount", "label": "Amount", "default": "1210mg" },
-        { "type": "text", "id": "daily_value", "label": "Daily value", "default": "53%" },
-        { "type": "range", "id": "indent_level", "label": "Indent level", "min": 0, "max": 2, "step": 1, "default": 0 },
-        { "type": "checkbox", "id": "bold_label", "label": "Bold label", "default": true },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Sodium"
+        },
+        {
+          "type": "text",
+          "id": "amount",
+          "label": "Amount",
+          "default": "1210mg"
+        },
+        {
+          "type": "text",
+          "id": "daily_value",
+          "label": "Daily value",
+          "default": "53%"
+        },
+        {
+          "type": "range",
+          "id": "indent_level",
+          "label": "Indent level",
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "checkbox",
+          "id": "bold_label",
+          "label": "Bold label",
+          "default": true
+        },
         {
           "type": "select",
           "id": "divider_after",
           "label": "Divider after",
           "default": "thin",
           "options": [
-            { "value": "thin",  "label": "Thin" },
-            { "value": "med",   "label": "Medium" },
-            { "value": "thick", "label": "Thick" },
-            { "value": "none",  "label": "None" }
+            {
+              "value": "thin",
+              "label": "Thin"
+            },
+            {
+              "value": "med",
+              "label": "Medium"
+            },
+            {
+              "value": "thick",
+              "label": "Thick"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
           ]
         }
       ]
@@ -483,30 +630,155 @@
       "type": "callout",
       "name": "Callout",
       "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "Why 1,210mg sodium?" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "Sodium is the primary electrolyte lost in sweat and drives fluid absorption via sodium-glucose cotransport in the small intestine." },
-        { "type": "color", "id": "accent_color", "label": "Accent (left border)", "default": "#1FA8A1" }
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Why 1,210mg sodium?"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Sodium is the primary electrolyte lost in sweat and drives fluid absorption via sodium-glucose cotransport in the small intestine."
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Accent (left border)",
+          "default": "#1FA8A1"
+        }
       ]
     }
   ],
   "presets": [
     {
       "name": "FTD-B - Supp Facts",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "nutrient", "settings": { "label": "Total Fat",       "amount": "0g",     "daily_value": "0%",  "indent_level": 0, "bold_label": true,  "divider_after": "thin" } },
-        { "type": "nutrient", "settings": { "label": "Saturated Fat",   "amount": "0g",     "daily_value": "0%",  "indent_level": 1, "bold_label": false, "divider_after": "thin" } },
-        { "type": "nutrient", "settings": { "label": "Sodium",          "amount": "1210mg", "daily_value": "53%", "indent_level": 0, "bold_label": true,  "divider_after": "thin" } },
-        { "type": "nutrient", "settings": { "label": "Total Carbohydrate", "amount": "3g",  "daily_value": "1%",  "indent_level": 0, "bold_label": true,  "divider_after": "thin" } },
-        { "type": "nutrient", "settings": { "label": "Total Sugars",    "amount": "0g",     "daily_value": "",    "indent_level": 1, "bold_label": false, "divider_after": "thin" } },
-        { "type": "nutrient", "settings": { "label": "Protein",         "amount": "0g",     "daily_value": "",    "indent_level": 0, "bold_label": true,  "divider_after": "med"  } },
-        { "type": "nutrient", "settings": { "label": "Magnesium",       "amount": "150mg",  "daily_value": "35%", "indent_level": 0, "bold_label": true,  "divider_after": "thin" } },
-        { "type": "nutrient", "settings": { "label": "Potassium",       "amount": "200mg",  "daily_value": "4%",  "indent_level": 0, "bold_label": true,  "divider_after": "thin" } },
-        { "type": "nutrient", "settings": { "label": "Chloride",        "amount": "1940mg", "daily_value": "80%", "indent_level": 0, "bold_label": true,  "divider_after": "none" } },
-
-        { "type": "callout", "settings": { "title": "Why 1,210mg sodium?", "body": "Sodium is the primary electrolyte lost in sweat and drives fluid absorption via sodium-glucose cotransport in the small intestine.", "accent_color": "#1FA8A1" } },
-        { "type": "callout", "settings": { "title": "Why 0g sugar with 10 calories?", "body": "Trace carbs come from organic whole-food ingredients. We sweeten with monk fruit and stevia, not sucralose.", "accent_color": "#E8833A" } },
-        { "type": "callout", "settings": { "title": "Why no D3 on Energy?", "body": "Energy is for performance moments. D3 belongs in your daily foundation - look for it on the Everyday label.", "accent_color": "#9DBE5B" } }
+        {
+          "type": "nutrient",
+          "settings": {
+            "label": "Total Fat",
+            "amount": "0g",
+            "daily_value": "0%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "thin"
+          }
+        },
+        {
+          "type": "nutrient",
+          "settings": {
+            "label": "Saturated Fat",
+            "amount": "0g",
+            "daily_value": "0%",
+            "indent_level": 1,
+            "bold_label": false,
+            "divider_after": "thin"
+          }
+        },
+        {
+          "type": "nutrient",
+          "settings": {
+            "label": "Sodium",
+            "amount": "1210mg",
+            "daily_value": "53%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "thin"
+          }
+        },
+        {
+          "type": "nutrient",
+          "settings": {
+            "label": "Total Carbohydrate",
+            "amount": "3g",
+            "daily_value": "1%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "thin"
+          }
+        },
+        {
+          "type": "nutrient",
+          "settings": {
+            "label": "Total Sugars",
+            "amount": "0g",
+            "daily_value": "",
+            "indent_level": 1,
+            "bold_label": false,
+            "divider_after": "thin"
+          }
+        },
+        {
+          "type": "nutrient",
+          "settings": {
+            "label": "Protein",
+            "amount": "0g",
+            "daily_value": "",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "med"
+          }
+        },
+        {
+          "type": "nutrient",
+          "settings": {
+            "label": "Magnesium",
+            "amount": "150mg",
+            "daily_value": "35%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "thin"
+          }
+        },
+        {
+          "type": "nutrient",
+          "settings": {
+            "label": "Potassium",
+            "amount": "200mg",
+            "daily_value": "4%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "thin"
+          }
+        },
+        {
+          "type": "nutrient",
+          "settings": {
+            "label": "Chloride",
+            "amount": "1940mg",
+            "daily_value": "80%",
+            "indent_level": 0,
+            "bold_label": true,
+            "divider_after": "none"
+          }
+        },
+        {
+          "type": "callout",
+          "settings": {
+            "title": "Why 1,210mg sodium?",
+            "body": "Sodium is the primary electrolyte lost in sweat and drives fluid absorption via sodium-glucose cotransport in the small intestine.",
+            "accent_color": "#1FA8A1"
+          }
+        },
+        {
+          "type": "callout",
+          "settings": {
+            "title": "Why 0g sugar with 10 calories?",
+            "body": "Trace carbs come from organic whole-food ingredients. We sweeten with monk fruit and stevia, not sucralose.",
+            "accent_color": "#E8833A"
+          }
+        },
+        {
+          "type": "callout",
+          "settings": {
+            "title": "Why no D3 on Energy?",
+            "body": "Energy is for performance moments. D3 belongs in your daily foundation - look for it on the Everyday label.",
+            "accent_color": "#9DBE5B"
+          }
+        }
       ]
     }
   ]

@@ -257,109 +257,505 @@
   "tag": "section",
   "class": "ftd-two-column-cta-section",
   "settings": [
-    { "type": "header", "content": "Anchor" },
-    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
-    { "type": "header", "content": "Layout" },
-    { "type": "range", "id": "column_gap", "label": "Column gap", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 0 },
-    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 0 },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 0 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 0 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section. Apply via the .ftcta scope." }
+    {
+      "type": "header",
+      "content": "Anchor"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only."
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "full-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section. Apply via the .ftcta scope."
+    }
   ],
   "blocks": [
     {
       "type": "cta_card",
       "name": "Full image card",
       "settings": [
-        { "type": "paragraph", "content": "Full background image with text overlaid in the bottom-left." },
-        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
-        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Built For The Work" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "152mg of natural caffeine from real coffee beans. Not anhydrous. Not synthetic." },
-        { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Energy" },
-        { "type": "url", "id": "button_link", "label": "Button link" },
-        { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline" }, { "value": "filled", "label": "Filled" } ] },
-
-        { "type": "header", "content": "Background" },
-        { "type": "image_picker", "id": "background_image", "label": "Background image" },
-        { "type": "select", "id": "background_image_focal", "label": "Image focal point", "default": "center", "options": [
-          { "value": "top-left", "label": "Top left" },
-          { "value": "top", "label": "Top" },
-          { "value": "top-right", "label": "Top right" },
-          { "value": "left", "label": "Left" },
-          { "value": "center", "label": "Center" },
-          { "value": "right", "label": "Right" },
-          { "value": "bottom-left", "label": "Bottom left" },
-          { "value": "bottom", "label": "Bottom" },
-          { "value": "bottom-right", "label": "Bottom right" }
-        ] },
-        { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
-        { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 0 },
-        { "type": "color_scheme", "id": "card_color_scheme", "label": "Card color scheme (fallback)", "info": "Paints the card background when no image is set, or shows behind a semi-transparent overlay." },
-
-        { "type": "header", "content": "Text" },
-        { "type": "select", "id": "text_color", "label": "Text color", "default": "light", "options": [ { "value": "light", "label": "Light" }, { "value": "dark", "label": "Dark" } ] },
-
-        { "type": "header", "content": "Sizing" },
-        { "type": "range", "id": "min_height_desktop", "label": "Min height (desktop)", "min": 280, "max": 700, "step": 10, "unit": "px", "default": 420 },
-        { "type": "range", "id": "min_height_mobile", "label": "Min height (mobile)", "min": 240, "max": 520, "step": 10, "unit": "px", "default": 340 }
+        {
+          "type": "paragraph",
+          "content": "Full background image with text overlaid in the bottom-left."
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "default": "THE TRUTH"
+        },
+        {
+          "type": "color",
+          "id": "eyebrow_color",
+          "label": "Eyebrow color",
+          "default": "#1FA8A1"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Built For The Work"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "152mg of natural caffeine from real coffee beans. Not anhydrous. Not synthetic."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop Energy"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "default": "outline",
+          "options": [
+            {
+              "value": "outline",
+              "label": "Outline"
+            },
+            {
+              "value": "filled",
+              "label": "Filled"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Background"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background image"
+        },
+        {
+          "type": "select",
+          "id": "background_image_focal",
+          "label": "Image focal point",
+          "default": "center",
+          "options": [
+            {
+              "value": "top-left",
+              "label": "Top left"
+            },
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "top-right",
+              "label": "Top right"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "bottom-left",
+              "label": "Bottom left"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            },
+            {
+              "value": "bottom-right",
+              "label": "Bottom right"
+            }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay opacity",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 0
+        },
+        {
+          "type": "color_scheme",
+          "id": "card_color_scheme",
+          "label": "Card color scheme (fallback)",
+          "info": "Paints the card background when no image is set, or shows behind a semi-transparent overlay."
+        },
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "light",
+          "options": [
+            {
+              "value": "light",
+              "label": "Light"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Sizing"
+        },
+        {
+          "type": "range",
+          "id": "min_height_desktop",
+          "label": "Min height (desktop)",
+          "min": 280,
+          "max": 700,
+          "step": 10,
+          "unit": "px",
+          "default": 420
+        },
+        {
+          "type": "range",
+          "id": "min_height_mobile",
+          "label": "Min height (mobile)",
+          "min": 240,
+          "max": 520,
+          "step": 10,
+          "unit": "px",
+          "default": 340
+        }
       ]
     },
     {
       "type": "cta_card_split",
       "name": "Side image card",
       "settings": [
-        { "type": "paragraph", "content": "Text panel + image side-by-side on desktop. Image stacks below text on mobile." },
-        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
-        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Built For The Other 23 Hours" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "Clean electrolytes, plus D3 and K2 most people are quietly running low on." },
-        { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Everyday" },
-        { "type": "url", "id": "button_link", "label": "Button link" },
-        { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline" }, { "value": "filled", "label": "Filled" } ] },
-
-        { "type": "header", "content": "Image" },
-        { "type": "image_picker", "id": "side_image", "label": "Side image" },
-        { "type": "select", "id": "image_position", "label": "Image position (desktop)", "default": "right", "options": [ { "value": "left", "label": "Left of text" }, { "value": "right", "label": "Right of text" } ] },
-        { "type": "select", "id": "image_focal", "label": "Image focal point", "default": "center", "options": [
-          { "value": "top-left", "label": "Top left" },
-          { "value": "top", "label": "Top" },
-          { "value": "top-right", "label": "Top right" },
-          { "value": "left", "label": "Left" },
-          { "value": "center", "label": "Center" },
-          { "value": "right", "label": "Right" },
-          { "value": "bottom-left", "label": "Bottom left" },
-          { "value": "bottom", "label": "Bottom" },
-          { "value": "bottom-right", "label": "Bottom right" }
-        ] },
-
-        { "type": "header", "content": "Background & text" },
-        { "type": "color_scheme", "id": "card_color_scheme", "label": "Card color scheme", "info": "When set, the card background AND text colors come from this scheme. Overrides the manual card background / text color below." },
-        { "type": "color", "id": "background_color", "label": "Card background (manual)", "default": "#F5F5F2", "info": "Used only when no card color scheme is selected above." },
-        { "type": "select", "id": "text_color", "label": "Text color (manual)", "default": "dark", "options": [ { "value": "light", "label": "Light" }, { "value": "dark", "label": "Dark" } ] },
-
-        { "type": "header", "content": "Sizing" },
-        { "type": "range", "id": "min_height_desktop", "label": "Min height (desktop)", "min": 280, "max": 700, "step": 10, "unit": "px", "default": 420 },
-        { "type": "range", "id": "min_height_mobile", "label": "Min height (mobile)", "min": 240, "max": 520, "step": 10, "unit": "px", "default": 480 }
+        {
+          "type": "paragraph",
+          "content": "Text panel + image side-by-side on desktop. Image stacks below text on mobile."
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "default": "THE TRUTH"
+        },
+        {
+          "type": "color",
+          "id": "eyebrow_color",
+          "label": "Eyebrow color",
+          "default": "#1FA8A1"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Built For The Other 23 Hours"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Clean electrolytes, plus D3 and K2 most people are quietly running low on."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop Everyday"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "default": "outline",
+          "options": [
+            {
+              "value": "outline",
+              "label": "Outline"
+            },
+            {
+              "value": "filled",
+              "label": "Filled"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "side_image",
+          "label": "Side image"
+        },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image position (desktop)",
+          "default": "right",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left of text"
+            },
+            {
+              "value": "right",
+              "label": "Right of text"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "image_focal",
+          "label": "Image focal point",
+          "default": "center",
+          "options": [
+            {
+              "value": "top-left",
+              "label": "Top left"
+            },
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "top-right",
+              "label": "Top right"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "bottom-left",
+              "label": "Bottom left"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            },
+            {
+              "value": "bottom-right",
+              "label": "Bottom right"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Background & text"
+        },
+        {
+          "type": "color_scheme",
+          "id": "card_color_scheme",
+          "label": "Card color scheme",
+          "info": "When set, the card background AND text colors come from this scheme. Overrides the manual card background / text color below."
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Card background (manual)",
+          "default": "#F5F5F2",
+          "info": "Used only when no card color scheme is selected above."
+        },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "Text color (manual)",
+          "default": "dark",
+          "options": [
+            {
+              "value": "light",
+              "label": "Light"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Sizing"
+        },
+        {
+          "type": "range",
+          "id": "min_height_desktop",
+          "label": "Min height (desktop)",
+          "min": 280,
+          "max": 700,
+          "step": 10,
+          "unit": "px",
+          "default": 420
+        },
+        {
+          "type": "range",
+          "id": "min_height_mobile",
+          "label": "Min height (mobile)",
+          "min": 240,
+          "max": 520,
+          "step": 10,
+          "unit": "px",
+          "default": 480
+        }
       ]
     }
   ],
   "presets": [
     {
       "name": "FTD - Two-Column CTA",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "cta_card", "settings": { "heading": "Built For The Work", "body": "152mg natural caffeine from real coffee beans. Clean electrolytes.", "button_label": "Shop Energy", "text_color": "light", "overlay_opacity": 35 } },
-        { "type": "cta_card_split", "settings": { "heading": "Built For The Other 23 Hours", "body": "Clean electrolytes, plus D3 and K2 most people are running low on.", "button_label": "Shop Everyday", "text_color": "dark", "image_position": "right" } }
+        {
+          "type": "cta_card",
+          "settings": {
+            "heading": "Built For The Work",
+            "body": "152mg natural caffeine from real coffee beans. Clean electrolytes.",
+            "button_label": "Shop Energy",
+            "text_color": "light",
+            "overlay_opacity": 35
+          }
+        },
+        {
+          "type": "cta_card_split",
+          "settings": {
+            "heading": "Built For The Other 23 Hours",
+            "body": "Clean electrolytes, plus D3 and K2 most people are running low on.",
+            "button_label": "Shop Everyday",
+            "text_color": "dark",
+            "image_position": "right"
+          }
+        }
       ]
     }
   ]

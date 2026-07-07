@@ -262,60 +262,242 @@
   "tag": "section",
   "class": "ftd-fomo-counter-section",
   "settings": [
-    { "type": "header", "content": "Anchor" },
-    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
-    { "type": "header", "content": "Counter source" },
-    { "type": "paragraph", "content": "The editable claimed count is split into a thousands slider (0-5) and a units slider (0-990, step 10) — added together to form the count. This works around Shopify's range step ceiling." },
-    { "type": "range", "id": "total_spots", "label": "Total spots", "min": 100, "max": 5000, "step": 50, "default": 1000 },
-    { "type": "range", "id": "claimed_count_thousands", "label": "Claimed (thousands)", "min": 0, "max": 5, "step": 1, "default": 0 },
-    { "type": "range", "id": "claimed_count_units", "label": "Claimed (units, step 10)", "min": 0, "max": 990, "step": 10, "default": 750 },
-    { "type": "text", "id": "metafield_namespace", "label": "Metafield namespace (optional)" },
-    { "type": "text", "id": "metafield_key", "label": "Metafield key (optional)" },
-    { "type": "paragraph", "content": "If both namespace and key are filled, the counter reads `shop.metafields[namespace][key]` as the claimed count. Otherwise it uses the manual setting above. Use Shopify Flow to bump the metafield on each qualifying order." },
-
-    { "type": "header", "content": "Copy" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
-    { "type": "textarea", "id": "description", "label": "Description", "info": "Optional. Sits between the eyebrow and the spots-left line.", "default": "First 1,000 Quarterly Plan Subscribers get a free creatine for the lifetime of their subscription." },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "active_template", "label": "Active line", "default": "Only **{remaining}** of **{total}** subscription spots left", "info": "Use {remaining} and {total} tokens. Wrap **text** in double asterisks to bold." },
-    { "type": "text", "id": "active_sub", "label": "Active subline", "default": "Lock in your free creatine while spots last." },
-    { "type": "textarea", "id": "exhausted_template", "label": "Exhausted line", "default": "All **{total}** subscription spots claimed." },
-    { "type": "text", "id": "exhausted_sub", "label": "Exhausted subline", "default": "Yours still ships as a one-time gift." },
-
-    { "type": "header", "content": "Appearance" },
-    { "type": "checkbox", "id": "show_progress_bar", "label": "Show progress bar", "default": true },
-    { "type": "color", "id": "bar_active_color", "label": "Bar (active)", "default": "#E8833A" },
-    { "type": "color", "id": "bar_exhausted_color", "label": "Bar (exhausted)", "default": "#9CA3AF" },
-    { "type": "color", "id": "bar_track_color", "label": "Bar track", "default": "#EFEAE3" },
-    { "type": "range", "id": "bar_height", "label": "Bar height", "min": 4, "max": 24, "step": 2, "unit": "px", "default": 10 },
-    { "type": "select", "id": "text_align", "label": "Text alignment", "default": "center",
+    {
+      "type": "header",
+      "content": "Anchor"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only."
+    },
+    {
+      "type": "header",
+      "content": "Counter source"
+    },
+    {
+      "type": "paragraph",
+      "content": "The editable claimed count is split into a thousands slider (0-5) and a units slider (0-990, step 10) — added together to form the count. This works around Shopify's range step ceiling."
+    },
+    {
+      "type": "range",
+      "id": "total_spots",
+      "label": "Total spots",
+      "min": 100,
+      "max": 5000,
+      "step": 50,
+      "default": 1000
+    },
+    {
+      "type": "range",
+      "id": "claimed_count_thousands",
+      "label": "Claimed (thousands)",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "claimed_count_units",
+      "label": "Claimed (units, step 10)",
+      "min": 0,
+      "max": 990,
+      "step": 10,
+      "default": 750
+    },
+    {
+      "type": "text",
+      "id": "metafield_namespace",
+      "label": "Metafield namespace (optional)"
+    },
+    {
+      "type": "text",
+      "id": "metafield_key",
+      "label": "Metafield key (optional)"
+    },
+    {
+      "type": "paragraph",
+      "content": "If both namespace and key are filled, the counter reads `shop.metafields[namespace][key]` as the claimed count. Otherwise it uses the manual setting above. Use Shopify Flow to bump the metafield on each qualifying order."
+    },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE TRUTH"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "info": "Optional. Sits between the eyebrow and the spots-left line.",
+      "default": "First 1,000 Quarterly Plan Subscribers get a free creatine for the lifetime of their subscription."
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "active_template",
+      "label": "Active line",
+      "default": "Only **{remaining}** of **{total}** subscription spots left",
+      "info": "Use {remaining} and {total} tokens. Wrap **text** in double asterisks to bold."
+    },
+    {
+      "type": "text",
+      "id": "active_sub",
+      "label": "Active subline",
+      "default": "Lock in your free creatine while spots last."
+    },
+    {
+      "type": "textarea",
+      "id": "exhausted_template",
+      "label": "Exhausted line",
+      "default": "All **{total}** subscription spots claimed."
+    },
+    {
+      "type": "text",
+      "id": "exhausted_sub",
+      "label": "Exhausted subline",
+      "default": "Yours still ships as a one-time gift."
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "full-width",
       "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" }
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
       ]
     },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "full-width",
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content width",
+      "min": 400,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "default": 720
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_bar",
+      "label": "Show progress bar",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bar_active_color",
+      "label": "Bar (active)",
+      "default": "#E8833A"
+    },
+    {
+      "type": "color",
+      "id": "bar_exhausted_color",
+      "label": "Bar (exhausted)",
+      "default": "#9CA3AF"
+    },
+    {
+      "type": "color",
+      "id": "bar_track_color",
+      "label": "Bar track",
+      "default": "#EFEAE3"
+    },
+    {
+      "type": "range",
+      "id": "bar_height",
+      "label": "Bar height",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "default": "center",
       "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
       ]
     },
-    { "type": "range", "id": "content_max_width", "label": "Content width", "min": 400, "max": 1400, "step": 20, "unit": "px", "default": 720 },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 40 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 40 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "presets": [
     {
       "name": "FTD - FOMO Counter",
-      "category": "Fortified Sections"
+      "category": "Fortified"
     }
   ]
 }

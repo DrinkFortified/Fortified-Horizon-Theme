@@ -96,36 +96,124 @@
 {
   "name": "FTD - Tab Panel",
   "settings": [
-    { "type": "text", "id": "tab_label", "label": "Tab label", "default": "Hydration" },
-    { "type": "checkbox", "id": "start_active", "label": "Show this tab by default", "default": false, "info": "If multiple panels have this enabled, the first one wins." },
-
-    { "type": "header", "content": "Layout" },
-    { "type": "range", "id": "row_gap", "label": "Gap between child blocks (px)", "min": 0, "max": 80, "step": 4, "default": 24 },
     {
-      "type": "select", "id": "content_alignment", "label": "Content alignment", "default": "stretch",
+      "type": "text",
+      "id": "tab_label",
+      "label": "Tab label",
+      "default": "Hydration"
+    },
+    {
+      "type": "checkbox",
+      "id": "start_active",
+      "label": "Show this tab by default",
+      "default": false,
+      "info": "If multiple panels have this enabled, the first one wins."
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "label": "Gap between child blocks (px)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "default": "stretch",
       "options": [
-        { "value": "stretch", "label": "Fill width" },
-        { "value": "left",    "label": "Left" },
-        { "value": "center",  "label": "Center" },
-        { "value": "right",   "label": "Right" }
+        {
+          "value": "stretch",
+          "label": "Fill width"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ]
     },
-
-    { "type": "header", "content": "Appearance" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start",  "label": "Top",    "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
-    { "type": "range", "id": "padding-block-end",    "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
-    { "type": "range", "id": "padding-inline-start", "label": "Left",   "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
-    { "type": "range", "id": "padding-inline-end",   "label": "Right",  "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 }
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
   ],
   "blocks": [
-    { "type": "@theme" },
-    { "type": "@app" }
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    }
   ],
   "presets": [
-    { "name": "FTD - Tab Panel", "category": "Fortified Blocks" }
+    {
+      "name": "FTD - Tab Panel",
+      "category": "Fortified"
+    }
   ]
 }
 {% endschema %}

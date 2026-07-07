@@ -297,49 +297,228 @@
   "tag": "section",
   "class": "ftd-b-truth-section",
   "settings": [
-    { "type": "header", "content": "Heading" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Truth" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "More Than Hydration. Daily Support." },
-    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Real ingredients in honest amounts. Every milligram printed on the label." },
-
-    { "type": "header", "content": "Cards" },
-    { "type": "range", "id": "columns_desktop", "label": "Columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 4 },
-    { "type": "range", "id": "gap", "label": "Gap between cards", "min": 0, "max": 48, "step": 2, "unit": "px", "default": 20 },
-    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 28, "step": 2, "unit": "px", "default": 16 },
-    { "type": "range", "id": "card_media_height", "label": "Card image height", "min": 120, "max": 360, "step": 10, "unit": "px", "default": 200 },
-
-    { "type": "header", "content": "Card colors" },
-    { "type": "color", "id": "card_bg", "label": "Card background", "default": "#FFFFFF" },
-    { "type": "color", "id": "card_text_color", "label": "Card text", "default": "#0A0A0A" },
-    { "type": "color", "id": "card_label_color", "label": "Card label", "default": "#0A0A0A" },
-    { "type": "color", "id": "card_caption_color", "label": "Card caption", "default": "#444444" },
-
-    { "type": "header", "content": "CTA" },
-    { "type": "text", "id": "button_label", "label": "Button label" },
-    { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "select", "id": "button_style", "label": "Button style", "default": "filled", "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" } ] },
-
-    { "type": "header", "content": "Section colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow", "default": "#1FA8A1" },
-    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#0A0A0A" },
-
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 800, "max": 1800, "step": 20, "unit": "px", "default": 1360 },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 100 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 100 }
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Truth"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "More Than Hydration. Daily Support."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Real ingredients in honest amounts. Every milligram printed on the label."
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between cards",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_media_height",
+      "label": "Card image height",
+      "min": 120,
+      "max": 360,
+      "step": 10,
+      "unit": "px",
+      "default": 200
+    },
+    {
+      "type": "header",
+      "content": "Card colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card text",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "card_label_color",
+      "label": "Card label",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "card_caption_color",
+      "label": "Card caption",
+      "default": "#444444"
+    },
+    {
+      "type": "header",
+      "content": "t:content.button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "filled",
+      "options": [
+        {
+          "value": "filled",
+          "label": "Filled"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 800,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1360
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 100
+    }
   ],
   "blocks": [
     {
       "type": "card",
       "name": "Card",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Image (optional)" },
-        { "type": "text", "id": "label", "label": "Label", "default": "Real Minerals" },
-        { "type": "textarea", "id": "caption", "label": "Caption", "default": "Honest ingredients, transparent amounts." }
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (optional)"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Real Minerals"
+        },
+        {
+          "type": "textarea",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Honest ingredients, transparent amounts."
+        }
       ]
     }
   ],
@@ -347,12 +526,36 @@
   "presets": [
     {
       "name": "FTD-B - Truth",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "card", "settings": { "label": "Real minerals",        "caption": "1,210mg sodium, 1,000mg magnesium malate, 220mg potassium from coconut water." } },
-        { "type": "card", "settings": { "label": "Zero sugar",           "caption": "Sweetened with monk fruit and fermented Reb M. Never sucralose, never aspartame." } },
-        { "type": "card", "settings": { "label": "Every milligram",      "caption": "No proprietary blends. The label tells you exactly what is in every stick pack." } },
-        { "type": "card", "settings": { "label": "Made in the USA",      "caption": "Manufactured in a cGMP-compliant facility, third-party tested raw ingredients." } }
+        {
+          "type": "card",
+          "settings": {
+            "label": "Real minerals",
+            "caption": "1,210mg sodium, 1,000mg magnesium malate, 220mg potassium from coconut water."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "label": "Zero sugar",
+            "caption": "Sweetened with monk fruit and fermented Reb M. Never sucralose, never aspartame."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "label": "Every milligram",
+            "caption": "No proprietary blends. The label tells you exactly what is in every stick pack."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "label": "Made in the USA",
+            "caption": "Manufactured in a cGMP-compliant facility, third-party tested raw ingredients."
+          }
+        }
       ]
     }
   ]

@@ -421,79 +421,284 @@
   "tag": "section",
   "class": "ftd-b-faq-section",
   "settings": [
-    { "type": "header", "content": "Anchor" },
-    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
-    { "type": "header", "content": "Header" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Common Questions" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Answered honestly." },
-    { "type": "text", "id": "heading_emphasis_word", "label": "Heading emphasis word", "default": "honestly." },
-
-    { "type": "header", "content": "Tabs" },
-    { "type": "checkbox", "id": "show_tabs", "label": "Show filter tabs", "default": true },
-    { "type": "text", "id": "tabs_label_all", "label": "All tab label", "default": "All" },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "accent_color", "label": "Accent (chevron, em)", "default": "#1FA8A1" },
-    { "type": "color", "id": "divider_color", "label": "Divider color", "default": "#E5E5E5" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Layout" },
+    {
+      "type": "header",
+      "content": "Anchor"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only."
+    },
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Common Questions"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Answered honestly."
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis_word",
+      "label": "Heading emphasis word",
+      "default": "honestly."
+    },
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tabs",
+      "label": "Show filter tabs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tabs_label_all",
+      "label": "All tab label",
+      "default": "All"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
     {
       "type": "select",
       "id": "section_width",
       "label": "Section width",
       "default": "page-width",
       "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
       ]
     },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent (chevron, em)",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#E5E5E5"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
       "type": "filter_tab",
       "name": "Filter tab",
       "settings": [
-        { "type": "text", "id": "label", "label": "Tab label", "default": "Energy" },
-        { "type": "text", "id": "tag", "label": "Filter tag", "default": "energy", "info": "Match against tags on FAQ items." },
-        { "type": "color", "id": "accent_color", "label": "Active accent" }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tab label",
+          "default": "Energy"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Filter tag",
+          "default": "energy",
+          "info": "Match against tags on FAQ items."
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Active accent"
+        }
       ]
     },
     {
       "type": "faq_item",
       "name": "FAQ item",
       "settings": [
-        { "type": "text", "id": "question", "label": "Question", "default": "Why Natural Caffeine in Energy but not Everyday?" },
-        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Energy is for performance moments. Everyday is your daily foundation, caffeine-free by design." },
-        { "type": "text", "id": "tags", "label": "Tags", "default": "energy,everyday", "info": "Comma-separated. Used by filter tabs." },
-        { "type": "checkbox", "id": "open_by_default", "label": "Open by default", "default": false }
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Why Natural Caffeine in Energy but not Everyday?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "Energy is for performance moments. Everyday is your daily foundation, caffeine-free by design."
+        },
+        {
+          "type": "text",
+          "id": "tags",
+          "label": "Tags",
+          "default": "energy,everyday",
+          "info": "Comma-separated. Used by filter tabs."
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
       ]
     }
   ],
   "presets": [
     {
       "name": "FTD-B - FAQ",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "filter_tab", "settings": { "label": "Energy",   "tag": "energy" } },
-        { "type": "filter_tab", "settings": { "label": "Everyday", "tag": "everyday" } },
-        { "type": "filter_tab", "settings": { "label": "Creatine", "tag": "creatine" } },
-
-        { "type": "faq_item", "settings": { "question": "Why Natural Caffeine in Energy but not Everyday?", "answer": "Energy is for performance moments. Everyday is your daily foundation, caffeine-free by design.", "tags": "energy,everyday", "open_by_default": true } },
-        { "type": "faq_item", "settings": { "question": "Is there any sugar in Fortified Energy?", "answer": "Zero added sugar. We sweeten with monk fruit and a touch of stevia. The 3g of carbs are trace from whole-food ingredients.", "tags": "energy", "open_by_default": false } },
-        { "type": "faq_item", "settings": { "question": "Why such high sodium?", "answer": "Sodium drives fluid absorption and is the primary electrolyte lost in sweat. Our 1,210mg dose matches what active adults actually lose during exertion.", "tags": "energy,everyday", "open_by_default": false } },
-        { "type": "faq_item", "settings": { "question": "Is creatine safe long-term?", "answer": "Creatine monohydrate has more peer-reviewed safety data than nearly any sports supplement. 500+ studies and decades of use.", "tags": "creatine", "open_by_default": false } },
-        { "type": "faq_item", "settings": { "question": "Do I need to cycle creatine?", "answer": "No. The data is clear: continuous daily dosing is both safe and more effective than cycling.", "tags": "creatine", "open_by_default": false } },
-        { "type": "faq_item", "settings": { "question": "Why no proprietary blends?", "answer": "Because you deserve to know exactly what you are putting in your body. Every milligram, every ingredient, fully disclosed.", "tags": "energy,everyday,creatine", "open_by_default": false } }
+        {
+          "type": "filter_tab",
+          "settings": {
+            "label": "Energy",
+            "tag": "energy"
+          }
+        },
+        {
+          "type": "filter_tab",
+          "settings": {
+            "label": "Everyday",
+            "tag": "everyday"
+          }
+        },
+        {
+          "type": "filter_tab",
+          "settings": {
+            "label": "Creatine",
+            "tag": "creatine"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why Natural Caffeine in Energy but not Everyday?",
+            "answer": "Energy is for performance moments. Everyday is your daily foundation, caffeine-free by design.",
+            "tags": "energy,everyday",
+            "open_by_default": true
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is there any sugar in Fortified Energy?",
+            "answer": "Zero added sugar. We sweeten with monk fruit and a touch of stevia. The 3g of carbs are trace from whole-food ingredients.",
+            "tags": "energy",
+            "open_by_default": false
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why such high sodium?",
+            "answer": "Sodium drives fluid absorption and is the primary electrolyte lost in sweat. Our 1,210mg dose matches what active adults actually lose during exertion.",
+            "tags": "energy,everyday",
+            "open_by_default": false
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is creatine safe long-term?",
+            "answer": "Creatine monohydrate has more peer-reviewed safety data than nearly any sports supplement. 500+ studies and decades of use.",
+            "tags": "creatine",
+            "open_by_default": false
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need to cycle creatine?",
+            "answer": "No. The data is clear: continuous daily dosing is both safe and more effective than cycling.",
+            "tags": "creatine",
+            "open_by_default": false
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why no proprietary blends?",
+            "answer": "Because you deserve to know exactly what you are putting in your body. Every milligram, every ingredient, fully disclosed.",
+            "tags": "energy,everyday,creatine",
+            "open_by_default": false
+          }
+        }
       ]
     }
   ]

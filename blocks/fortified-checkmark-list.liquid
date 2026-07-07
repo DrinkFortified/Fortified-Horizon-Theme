@@ -212,75 +212,325 @@
 {
   "name": "FTD - Checkmark List",
   "settings": [
-    { "type": "header", "content": "Layout" },
     {
-      "type": "select", "id": "block_width", "label": "Width", "default": "fill",
+      "type": "header",
+      "content": "Headline (optional)"
+    },
+    {
+      "type": "text",
+      "id": "headline_number",
+      "label": "Number",
+      "default": "0%"
+    },
+    {
+      "type": "range",
+      "id": "headline_number_size",
+      "label": "Number size",
+      "min": 32,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "color",
+      "id": "headline_number_color",
+      "label": "Number color",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "text",
+      "id": "headline_text",
+      "label": "Headline",
+      "default": "No Sugar. No Crash."
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "label": "Headline size",
+      "min": 12,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Headline color",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "in high intensity workouts *"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "gap_after_heading",
+      "label": "Gap below heading (px)",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Items"
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "label": "Gap between items (px)",
+      "min": 4,
+      "max": 28,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "match_sibling_height",
+      "label": "Match height of sibling cards",
+      "default": true,
+      "info": "When this card sits beside taller cards in a row layout, push the checkmarks to the bottom so the card fills the row height."
+    },
+    {
+      "type": "header",
+      "content": "Footnote"
+    },
+    {
+      "type": "text",
+      "id": "footnote_text",
+      "label": "Text",
+      "default": "* Based on internal product testing",
+      "info": "Small grey italic line at the bottom of the card, matching the stat cards."
+    },
+    {
+      "type": "range",
+      "id": "footnote_size",
+      "label": "Size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "footnote_gap",
+      "label": "Gap above footnote (px)",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "footnote_color",
+      "label": "Color",
+      "default": "#888888"
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#E5E7EB"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding (legacy / fallback)",
+      "min": 8,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 32,
+      "info": "Used as the card padding on all sides unless you set per-side values in the Padding group below."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Default text color",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "left",
       "options": [
-        { "value": "fill", "label": "Fill column" },
-        { "value": "fit",  "label": "Fit content" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "block_width",
+      "label": "Width",
+      "default": "fill",
+      "options": [
+        {
+          "value": "fill",
+          "label": "Fill column"
+        },
+        {
+          "value": "fit",
+          "label": "Fit content"
+        }
       ],
       "info": "Fill makes the card share row width equally with sibling cards. Fit shrinks it to its content."
     },
-    { "type": "checkbox", "id": "mobile_scroll", "label": "Scroll cards sideways on mobile", "default": true, "info": "On phones, the cards in this row scroll horizontally (swipe) instead of stacking." },
-
-    { "type": "header", "content": "Headline (optional)" },
-    { "type": "text",  "id": "headline_number",       "label": "Number",       "default": "0%" },
-    { "type": "range", "id": "headline_number_size",  "label": "Number size",  "min": 32, "max": 120, "step": 2, "unit": "px", "default": 72 },
-    { "type": "color", "id": "headline_number_color", "label": "Number color", "default": "#0A0A0A" },
-    { "type": "text",  "id": "headline_text",         "label": "Headline",     "default": "No Sugar. No Crash." },
-    { "type": "range", "id": "headline_size",         "label": "Headline size","min": 12, "max": 48, "step": 1, "unit": "px", "default": 24 },
-    { "type": "color", "id": "headline_color",        "label": "Headline color","default": "#0A0A0A" },
-    { "type": "text",  "id": "subtitle",              "label": "Subtitle",     "default": "in high intensity workouts *" },
-    { "type": "range", "id": "subtitle_size",         "label": "Subtitle size","min": 10, "max": 24, "step": 1, "unit": "px", "default": 14 },
-    { "type": "color", "id": "subtitle_color",        "label": "Subtitle color","default": "#666666" },
-    { "type": "range", "id": "gap_after_heading",     "label": "Gap below heading (px)", "min": 8, "max": 40, "step": 2, "default": 20 },
-
-    { "type": "header", "content": "Items" },
-    { "type": "range", "id": "item_gap", "label": "Gap between items (px)", "min": 4, "max": 28, "step": 2, "default": 12 },
-    { "type": "checkbox", "id": "match_sibling_height", "label": "Match height of sibling cards", "default": true, "info": "When this card sits beside taller cards in a row layout, push the checkmarks to the bottom so the card fills the row height." },
-
-    { "type": "header", "content": "Footnote" },
-    { "type": "text",  "id": "footnote_text",  "label": "Text", "default": "* Based on internal product testing", "info": "Small grey italic line at the bottom of the card, matching the stat cards." },
-    { "type": "range", "id": "footnote_size",  "label": "Size",  "min": 10, "max": 18, "step": 1, "unit": "px", "default": 12 },
-    { "type": "range", "id": "footnote_gap",   "label": "Gap above footnote (px)", "min": 8, "max": 40, "step": 2, "default": 16 },
-    { "type": "color", "id": "footnote_color", "label": "Color", "default": "#888888" },
-
-    { "type": "header", "content": "Card style" },
-    { "type": "color", "id": "background_color", "label": "Background",      "default": "#FFFFFF" },
-    { "type": "color", "id": "border_color",     "label": "Border color",    "default": "#E5E7EB" },
-    { "type": "range", "id": "border_width",     "label": "Border width",    "min": 0, "max": 4, "step": 1, "unit": "px", "default": 1 },
-    { "type": "range", "id": "border_radius",    "label": "Corner radius",   "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
-    { "type": "range", "id": "padding",          "label": "Padding (legacy / fallback)", "min": 8, "max": 64, "step": 2, "unit": "px", "default": 32, "info": "Used as the card padding on all sides unless you set per-side values in the Padding group below." },
-    { "type": "color", "id": "text_color",       "label": "Default text color","default": "#0A0A0A" },
     {
-      "type": "select", "id": "text_alignment", "label": "Text alignment", "default": "left",
-      "options": [
-        { "value": "left",   "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right",  "label": "Right" }
-      ]
+      "type": "checkbox",
+      "id": "mobile_scroll",
+      "label": "Scroll cards sideways on mobile",
+      "default": true,
+      "info": "On phones, the cards in this row scroll horizontally (swipe) instead of stacking."
     },
-
-    { "type": "header", "content": "Appearance" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start",  "label": "Top",    "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
-    { "type": "range", "id": "padding-block-end",    "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
-    { "type": "range", "id": "padding-inline-start", "label": "Left",   "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
-    { "type": "range", "id": "padding-inline-end",   "label": "Right",  "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 }
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
   ],
   "blocks": [
-    { "type": "fortified-checkmark-item" }
+    {
+      "type": "fortified-checkmark-item"
+    }
   ],
   "presets": [
     {
       "name": "FTD - Checkmark List",
-      "category": "Fortified Blocks",
+      "category": "Fortified",
       "blocks": [
-        { "type": "fortified-checkmark-item", "settings": { "text": "Improve Hydration" } },
-        { "type": "fortified-checkmark-item", "settings": { "text": "Boost Energy Naturally" } },
-        { "type": "fortified-checkmark-item", "settings": { "text": "Support Muscle Function" } }
+        {
+          "type": "fortified-checkmark-item",
+          "settings": {
+            "text": "Improve Hydration"
+          }
+        },
+        {
+          "type": "fortified-checkmark-item",
+          "settings": {
+            "text": "Boost Energy Naturally"
+          }
+        },
+        {
+          "type": "fortified-checkmark-item",
+          "settings": {
+            "text": "Support Muscle Function"
+          }
+        }
       ]
     }
   ]

@@ -80,40 +80,208 @@
   "tag": "section",
   "class": "ftd-b-promise-section",
   "settings": [
-    { "type": "header", "content": "Header" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our Clean Label Promise" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Every ingredient.\nNamed. Disclosed. Yours to verify." },
-    { "type": "text", "id": "heading_emphasis_word", "label": "Emphasized word", "info": "First match in the heading is wrapped in an accent italic.", "default": "Disclosed." },
-    { "type": "textarea", "id": "body", "label": "Body" },
-    { "type": "header", "content": "Quote" },
-    { "type": "textarea", "id": "quote", "label": "Quote", "default": "Real health is not a trend. It is a decision you make before you need to." },
-    { "type": "color", "id": "quote_accent_color", "label": "Quote accent color", "default": "#1FA8A1" },
-    { "type": "header", "content": "Promise box" },
-    { "type": "text", "id": "promise_title", "label": "Promise title", "default": "No Mumbo Jumbo." },
-    { "type": "text", "id": "promise_subtitle", "label": "Promise subtitle", "default": "Every milligram disclosed. Every ingredient named." },
-    { "type": "color", "id": "promise_box_bg", "label": "Box background", "default": "#E6EFE9" },
-    { "type": "color", "id": "promise_box_border", "label": "Box border", "default": "#B9CFC0" },
-    { "type": "color", "id": "promise_text_color", "label": "Box text color", "default": "#1B3F2A" },
-    { "type": "select", "id": "image_position_desktop", "label": "Promise box position (desktop)", "default": "right", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ] },
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Our Clean Label Promise"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Every ingredient.\nNamed. Disclosed. Yours to verify."
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis_word",
+      "label": "Emphasized word",
+      "info": "First match in the heading is wrapped in an accent italic.",
+      "default": "Disclosed."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body"
+    },
+    {
+      "type": "header",
+      "content": "Quote"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote",
+      "default": "Real health is not a trend. It is a decision you make before you need to."
+    },
+    {
+      "type": "color",
+      "id": "quote_accent_color",
+      "label": "Quote accent color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "header",
+      "content": "Promise box"
+    },
+    {
+      "type": "text",
+      "id": "promise_title",
+      "label": "Promise title",
+      "default": "No Mumbo Jumbo."
+    },
+    {
+      "type": "text",
+      "id": "promise_subtitle",
+      "label": "Promise subtitle",
+      "default": "Every milligram disclosed. Every ingredient named."
+    },
+    {
+      "type": "color",
+      "id": "promise_box_bg",
+      "label": "Box background",
+      "default": "#E6EFE9"
+    },
+    {
+      "type": "color",
+      "id": "promise_box_border",
+      "label": "Box border",
+      "default": "#B9CFC0"
+    },
+    {
+      "type": "color",
+      "id": "promise_text_color",
+      "label": "Box text color",
+      "default": "#1B3F2A"
+    },
+    {
+      "type": "select",
+      "id": "image_position_desktop",
+      "label": "Promise box position (desktop)",
+      "default": "right",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
       "type": "pill",
       "name": "Pill",
       "settings": [
-        { "type": "text", "id": "label", "label": "Label", "default": "Monk Fruit Sweetened" },
-        { "type": "select", "id": "kind", "label": "Kind", "default": "included", "options": [ { "value": "included", "label": "Included" }, { "value": "excluded", "label": "Excluded (strikethrough)" } ] }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Monk Fruit Sweetened"
+        },
+        {
+          "type": "select",
+          "id": "kind",
+          "label": "Kind",
+          "default": "included",
+          "options": [
+            {
+              "value": "included",
+              "label": "Included"
+            },
+            {
+              "value": "excluded",
+              "label": "Excluded (strikethrough)"
+            }
+          ]
+        }
       ]
     }
   ],
@@ -121,16 +289,64 @@
   "presets": [
     {
       "name": "FTD-B - Promise",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "pill", "settings": { "label": "Monk Fruit Sweetened", "kind": "included" } },
-        { "type": "pill", "settings": { "label": "No Artificial Dyes", "kind": "included" } },
-        { "type": "pill", "settings": { "label": "Non-GMO", "kind": "included" } },
-        { "type": "pill", "settings": { "label": "3rd-Party Lab Tested", "kind": "included" } },
-        { "type": "pill", "settings": { "label": "Sucralose", "kind": "excluded" } },
-        { "type": "pill", "settings": { "label": "Proprietary Blends", "kind": "excluded" } },
-        { "type": "pill", "settings": { "label": "Natural Flavors", "kind": "excluded" } },
-        { "type": "pill", "settings": { "label": "Silicon Dioxide", "kind": "excluded" } }
+        {
+          "type": "pill",
+          "settings": {
+            "label": "Monk Fruit Sweetened",
+            "kind": "included"
+          }
+        },
+        {
+          "type": "pill",
+          "settings": {
+            "label": "No Artificial Dyes",
+            "kind": "included"
+          }
+        },
+        {
+          "type": "pill",
+          "settings": {
+            "label": "Non-GMO",
+            "kind": "included"
+          }
+        },
+        {
+          "type": "pill",
+          "settings": {
+            "label": "3rd-Party Lab Tested",
+            "kind": "included"
+          }
+        },
+        {
+          "type": "pill",
+          "settings": {
+            "label": "Sucralose",
+            "kind": "excluded"
+          }
+        },
+        {
+          "type": "pill",
+          "settings": {
+            "label": "Proprietary Blends",
+            "kind": "excluded"
+          }
+        },
+        {
+          "type": "pill",
+          "settings": {
+            "label": "Natural Flavors",
+            "kind": "excluded"
+          }
+        },
+        {
+          "type": "pill",
+          "settings": {
+            "label": "Silicon Dioxide",
+            "kind": "excluded"
+          }
+        }
       ]
     }
   ]

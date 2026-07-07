@@ -434,44 +434,211 @@
   "name": "FTD - Lead Capture SO",
   "tag": null,
   "settings": [
-    { "type": "header", "content": "Trigger" },
-    { "type": "text", "id": "trigger_href", "label": "External trigger link", "default": "#leadcapture", "info": "Any link on the page with this href opens the slide-over. Point any section's button link at this value. Default: #leadcapture" },
-    { "type": "checkbox", "id": "show_trigger", "label": "Show a trigger button here", "default": false },
-    { "type": "text", "id": "button_label", "label": "Trigger button label", "default": "Get 10% Off" },
-    { "type": "select", "id": "button_style", "label": "Trigger button style", "default": "filled", "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" } ] },
-
-    { "type": "header", "content": "Panel" },
-    { "type": "range", "id": "slideover_width", "label": "Panel width (desktop)", "min": 360, "max": 720, "step": 20, "unit": "px", "default": 480 },
-    { "type": "text", "id": "close_label", "label": "Close label", "default": "Close" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#1FA8A1" },
-
-    { "type": "header", "content": "Step 1 — Form" },
-    { "type": "image_picker", "id": "image", "label": "Top image", "info": "Optional." },
-    { "type": "text", "id": "fallback_image_filename", "label": "Fallback image filename", "default": "Hero-Products.webp", "info": "Used when no Top image is picked. Must match a filename in Content > Files. Clear to show no image." },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Join The Fortified List" },
-    { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Early access to drops, subscriber-only offers, and honest hydration tips. No spam, ever.</p>" },
-    { "type": "text", "id": "name_label", "label": "Name label", "default": "Name" },
-    { "type": "text", "id": "name_placeholder", "label": "Name placeholder", "default": "Your name" },
-    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email" },
-    { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "you@example.com" },
-    { "type": "text", "id": "phone_label", "label": "Phone label", "default": "Phone" },
-    { "type": "text", "id": "phone_placeholder", "label": "Phone placeholder", "default": "(555) 555-5555" },
-    { "type": "checkbox", "id": "phone_required", "label": "Phone required", "default": false, "info": "The phone is saved on the customer as a phone-<digits> tag (Shopify's newsletter form has no phone field). Filter customers by tag to see it." },
-    { "type": "header", "content": "Consent checkbox" },
-    { "type": "paragraph", "content": "One combined email + SMS consent box: required to submit and always unchecked by default (TCPA / Texas SB 140 pattern for standalone signup forms). Keep the disclosure covering BOTH channels if you edit it. Not legal advice — have counsel review the final wording." },
-    { "type": "richtext", "id": "optin_text", "label": "Consent text", "default": "<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href=\"/policies/privacy-policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\">Terms of Service</a>.</p>" },
-    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Sign Me Up" },
-    { "type": "text", "id": "customer_tags", "label": "Customer tags", "default": "lead-capture", "info": "Comma-separated tags stamped on the customer in Shopify admin." },
-
-    { "type": "header", "content": "Step 2 — Thank you" },
-    { "type": "text", "id": "success_heading", "label": "Heading", "default": "You're In!" },
-    { "type": "richtext", "id": "success_message", "label": "Message", "default": "<p>Thanks for signing up — keep an eye on your inbox.</p>" },
-    { "type": "text", "id": "success_button_label", "label": "CTA label", "default": "Build Your Bundle", "info": "Leave blank to hide." },
-    { "type": "text", "id": "success_button_link", "label": "CTA link", "default": "#open-bundle" }
+    {
+      "type": "header",
+      "content": "Trigger"
+    },
+    {
+      "type": "text",
+      "id": "trigger_href",
+      "label": "External trigger link",
+      "default": "#leadcapture",
+      "info": "Any link on the page with this href opens the slide-over. Point any section's button link at this value. Default: #leadcapture"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trigger",
+      "label": "Show a trigger button here",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Trigger button label",
+      "default": "Get 10% Off"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Trigger button style",
+      "default": "filled",
+      "options": [
+        {
+          "value": "filled",
+          "label": "Filled"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Panel"
+    },
+    {
+      "type": "range",
+      "id": "slideover_width",
+      "label": "Panel width (desktop)",
+      "min": 360,
+      "max": 720,
+      "step": 20,
+      "unit": "px",
+      "default": 480
+    },
+    {
+      "type": "text",
+      "id": "close_label",
+      "label": "Close label",
+      "default": "Close"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "header",
+      "content": "Step 1 — Form"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Top image",
+      "info": "Optional."
+    },
+    {
+      "type": "text",
+      "id": "fallback_image_filename",
+      "label": "Fallback image filename",
+      "default": "Hero-Products.webp",
+      "info": "Used when no Top image is picked. Must match a filename in Content > Files. Clear to show no image."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Join The Fortified List"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Early access to drops, subscriber-only offers, and honest hydration tips. No spam, ever.</p>"
+    },
+    {
+      "type": "text",
+      "id": "name_label",
+      "label": "Name label",
+      "default": "Name"
+    },
+    {
+      "type": "text",
+      "id": "name_placeholder",
+      "label": "Name placeholder",
+      "default": "Your name"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email label",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "you@example.com"
+    },
+    {
+      "type": "text",
+      "id": "phone_label",
+      "label": "Phone label",
+      "default": "Phone"
+    },
+    {
+      "type": "text",
+      "id": "phone_placeholder",
+      "label": "Phone placeholder",
+      "default": "(555) 555-5555"
+    },
+    {
+      "type": "checkbox",
+      "id": "phone_required",
+      "label": "Phone required",
+      "default": false,
+      "info": "The phone is saved on the customer as a phone-<digits> tag (Shopify's newsletter form has no phone field). Filter customers by tag to see it."
+    },
+    {
+      "type": "header",
+      "content": "Consent checkbox"
+    },
+    {
+      "type": "paragraph",
+      "content": "One combined email + SMS consent box: required to submit and always unchecked by default (TCPA / Texas SB 140 pattern for standalone signup forms). Keep the disclosure covering BOTH channels if you edit it. Not legal advice — have counsel review the final wording."
+    },
+    {
+      "type": "richtext",
+      "id": "optin_text",
+      "label": "Consent text",
+      "default": "<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href=\"/policies/privacy-policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\">Terms of Service</a>.</p>"
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button label",
+      "default": "Sign Me Up"
+    },
+    {
+      "type": "text",
+      "id": "customer_tags",
+      "label": "Customer tags",
+      "default": "lead-capture",
+      "info": "Comma-separated tags stamped on the customer in Shopify admin."
+    },
+    {
+      "type": "header",
+      "content": "Step 2 — Thank you"
+    },
+    {
+      "type": "text",
+      "id": "success_heading",
+      "label": "Heading",
+      "default": "You're In!"
+    },
+    {
+      "type": "richtext",
+      "id": "success_message",
+      "label": "Message",
+      "default": "<p>Thanks for signing up — keep an eye on your inbox.</p>"
+    },
+    {
+      "type": "text",
+      "id": "success_button_label",
+      "label": "CTA label",
+      "default": "Build Your Bundle",
+      "info": "Leave blank to hide."
+    },
+    {
+      "type": "text",
+      "id": "success_button_link",
+      "label": "CTA link",
+      "default": "#open-bundle"
+    }
   ],
   "presets": [
-    { "name": "FTD - Lead Capture SO", "category": "Fortified Sections" }
+    {
+      "name": "FTD - Lead Capture SO",
+      "category": "Fortified"
+    }
   ]
 }
 {% endschema %}

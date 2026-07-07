@@ -226,43 +226,189 @@
   "tag": "section",
   "class": "ftd-b-benefits-section",
   "settings": [
-    { "type": "header", "content": "Header" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why Fortified Energy" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Energy that doesn't apologize for its ingredients." },
-    { "type": "text", "id": "heading_emphasis_word", "label": "Emphasized word", "info": "First match in the heading is wrapped in an accent italic.", "default": "apologize" },
-    { "type": "textarea", "id": "body", "label": "Body" },
-
-    { "type": "header", "content": "Cards" },
-    { "type": "range", "id": "desktop_columns", "label": "Columns (desktop)", "min": 2, "max": 4, "step": 1, "default": 3 },
-    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 12 },
-    { "type": "range", "id": "card_accent_top_thickness", "label": "Card top accent thickness", "min": 0, "max": 6, "step": 1, "unit": "px", "default": 3 },
-    { "type": "color", "id": "card_accent_color", "label": "Card accent color", "default": "#1FA8A1" },
-
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Why Fortified Energy"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Energy that doesn't apologize for its ingredients."
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis_word",
+      "label": "Emphasized word",
+      "info": "First match in the heading is wrapped in an accent italic.",
+      "default": "apologize"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body"
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_accent_top_thickness",
+      "label": "Card top accent thickness",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    },
+    {
+      "type": "color",
+      "id": "card_accent_color",
+      "label": "Card accent color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
       "type": "benefit",
       "name": "Benefit",
       "settings": [
-        { "type": "image_picker", "id": "icon_image", "label": "Icon image", "info": "Optional. Falls back to the emoji." },
-        { "type": "text", "id": "icon_emoji", "label": "Icon emoji", "default": "*" },
-        { "type": "text", "id": "title", "label": "Title", "default": "Real Caffeine, Real Source" },
-        { "type": "textarea", "id": "description", "label": "Description", "default": "152mg Natural Caffeine from coffee beans, not synthetic caffeine anhydrous." },
-        { "type": "text", "id": "citation", "label": "Citation", "default": "Goldstein et al., JISSN, 2010" }
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "Optional. Falls back to the emoji."
+        },
+        {
+          "type": "text",
+          "id": "icon_emoji",
+          "label": "Icon emoji",
+          "default": "*"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Real Caffeine, Real Source"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "152mg Natural Caffeine from coffee beans, not synthetic caffeine anhydrous."
+        },
+        {
+          "type": "text",
+          "id": "citation",
+          "label": "Citation",
+          "default": "Goldstein et al., JISSN, 2010"
+        }
       ]
     }
   ],
@@ -270,11 +416,35 @@
   "presets": [
     {
       "name": "FTD-B - Benefits",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "benefit", "settings": { "icon_emoji": "*", "title": "Real Caffeine, Real Source", "description": "152mg Natural Caffeine from whole coffee beans, not synthetic caffeine anhydrous.", "citation": "Goldstein et al., JISSN, 2010" } },
-        { "type": "benefit", "settings": { "icon_emoji": "+", "title": "Magnesium Malate - Energy's Co-Factor", "description": "Magnesium Malate pairs magnesium with malic acid, a direct Krebs cycle intermediate.", "citation": "Razzaque, Nutrients, 2018" } },
-        { "type": "benefit", "settings": { "icon_emoji": "~", "title": "Complete Electrolyte Replacement", "description": "Sodium drives fluid absorption paired with potassium and chloride for a complete matrix.", "citation": "Shirreffs & Sawka, J. Sports Sciences, 2011" } }
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_emoji": "*",
+            "title": "Real Caffeine, Real Source",
+            "description": "152mg Natural Caffeine from whole coffee beans, not synthetic caffeine anhydrous.",
+            "citation": "Goldstein et al., JISSN, 2010"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_emoji": "+",
+            "title": "Magnesium Malate - Energy's Co-Factor",
+            "description": "Magnesium Malate pairs magnesium with malic acid, a direct Krebs cycle intermediate.",
+            "citation": "Razzaque, Nutrients, 2018"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_emoji": "~",
+            "title": "Complete Electrolyte Replacement",
+            "description": "Sodium drives fluid absorption paired with potassium and chloride for a complete matrix.",
+            "citation": "Shirreffs & Sawka, J. Sports Sciences, 2011"
+          }
+        }
       ]
     }
   ]

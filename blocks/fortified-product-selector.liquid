@@ -1610,37 +1610,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "Layout"
-    },
-    {
-      "type": "range",
-      "id": "content_max_width",
-      "label": "Section max width",
-      "min": 600,
-      "max": 1600,
-      "step": 40,
-      "unit": "px",
-      "default": 1240
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Block width",
-      "default": "full-width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "Page width"
-        },
-        {
-          "value": "full-width",
-          "label": "Full width"
-        }
-      ]
-    },
-    {
-      "type": "header",
-      "content": "Content"
+      "content": "t:content.content"
     },
     {
       "type": "text",
@@ -1686,7 +1656,7 @@
     },
     {
       "type": "header",
-      "content": "Step 1 \u2014 Plans"
+      "content": "Step 1 — Plans"
     },
     {
       "type": "text",
@@ -1941,7 +1911,7 @@
     },
     {
       "type": "header",
-      "content": "Step 2 \u2014 Build Bundle"
+      "content": "Step 2 — Build Bundle"
     },
     {
       "type": "text",
@@ -2033,25 +2003,25 @@
     {
       "type": "text",
       "id": "addon_label",
-      "label": "Title \u2014 monthly",
-      "default": "Add Creatine \u2014 50% off"
+      "label": "Title — monthly",
+      "default": "Add Creatine — 50% off"
     },
     {
       "type": "text",
       "id": "addon_desc",
-      "label": "Description \u2014 monthly",
+      "label": "Description — monthly",
       "default": "50% off applied automatically at checkout."
     },
     {
       "type": "text",
       "id": "addon_label_quarterly",
-      "label": "Title \u2014 quarterly (2nd unit)",
-      "default": "Add a 2nd Creatine \u2014 50% off"
+      "label": "Title — quarterly (2nd unit)",
+      "default": "Add a 2nd Creatine — 50% off"
     },
     {
       "type": "text",
       "id": "addon_desc_quarterly",
-      "label": "Description \u2014 quarterly",
+      "label": "Description — quarterly",
       "default": "1st Creatine is free with your bundle. Add a second at 50% off."
     },
     {
@@ -2075,19 +2045,19 @@
     {
       "type": "text",
       "id": "addon_loop_plan_monthly",
-      "label": "Creatine plan ID \u2014 Monthly (50% off)",
+      "label": "Creatine plan ID — Monthly (50% off)",
       "info": "Loop selling plan for the creatine add-on when the monthly bundle is selected. Leave blank for one-time."
     },
     {
       "type": "text",
       "id": "addon_loop_plan_quarterly",
-      "label": "Creatine plan ID \u2014 Every 3 months (free 1st, included with bundle)",
+      "label": "Creatine plan ID — Every 3 months (free 1st, included with bundle)",
       "info": "Loop selling plan for the free 1st creatine that ships with the quarterly bundle. Leave blank for one-time."
     },
     {
       "type": "text",
       "id": "addon_loop_plan_quarterly_50off",
-      "label": "Creatine plan ID \u2014 Every 3 months (optional 2nd, 50% off)",
+      "label": "Creatine plan ID — Every 3 months (optional 2nd, 50% off)",
       "info": "Loop selling plan used when the customer toggles ON an extra creatine while on the quarterly bundle. Leave blank for one-time."
     },
     {
@@ -2252,28 +2222,6 @@
     },
     {
       "type": "header",
-      "content": "Colors"
-    },
-    {
-      "type": "color",
-      "id": "selection_color",
-      "label": "Selection highlight color",
-      "default": "#1FA8A1"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Block color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "color_scheme",
-      "id": "panel_color_scheme",
-      "label": "Panel color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
       "content": "Shape"
     },
     {
@@ -2298,45 +2246,11 @@
     },
     {
       "type": "header",
-      "content": "Padding"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "Top",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 32
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "Bottom",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 32
-    },
-    {
-      "type": "header",
-      "content": "Advanced"
-    },
-    {
-      "type": "textarea",
-      "id": "custom_css",
-      "label": "Custom CSS",
-      "info": "Targets this block only. Use the .fe- class names on its elements."
-    },
-    {
-      "type": "header",
       "content": "Loop Integration"
     },
     {
       "type": "paragraph",
-      "content": "Loop API credentials. Use a STOREFRONT (public) token only \u2014 never an Admin API key. Tokens entered here are visible in the page source. For customer-authenticated calls, set up a Shopify App Proxy or worker to mint short-lived Loop session tokens."
+      "content": "Loop API credentials. Use a STOREFRONT (public) token only — never an Admin API key. Tokens entered here are visible in the page source. For customer-authenticated calls, set up a Shopify App Proxy or worker to mint short-lived Loop session tokens."
     },
     {
       "type": "text",
@@ -2419,7 +2333,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Switches the free quarterly creatine from a lifetime-free subscription to a one-time gift once the shared spots metafield reaches the cap. After the cap the creatine is added as a one-time line \u2014 create a native Shopify 'Buy X get Y' automatic discount (buy the bundle, get 1 creatine free) so the gift line is $0 at checkout."
+      "content": "Switches the free quarterly creatine from a lifetime-free subscription to a one-time gift once the shared spots metafield reaches the cap. After the cap the creatine is added as a one-time line — create a native Shopify 'Buy X get Y' automatic discount (buy the bundle, get 1 creatine free) so the gift line is $0 at checkout."
     },
     {
       "type": "checkbox",
@@ -2453,6 +2367,92 @@
       "id": "fomo_gift_text",
       "label": "Gift line text (after cap)",
       "default": "Free creatine gift with your first order"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Section max width",
+      "min": 600,
+      "max": 1600,
+      "step": 40,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Block width",
+      "default": "full-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "selection_color",
+      "label": "Selection highlight color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "panel_color_scheme",
+      "label": "Panel color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this block only. Use the .fe- class names on its elements."
     }
   ],
   "blocks": [
@@ -2466,7 +2466,7 @@
   "presets": [
     {
       "name": "Block - Product Selector",
-      "category": "Fortified Blocks",
+      "category": "Fortified",
       "blocks": [
         {
           "type": "_ftd-ps-benefit",

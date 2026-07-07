@@ -153,54 +153,261 @@
   "tag": "section",
   "class": "ftd-b-comparison-section",
   "settings": [
-    { "type": "header", "content": "Header" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How We Stack Up" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "The clean label difference." },
-    { "type": "text", "id": "heading_emphasis_word", "label": "Emphasized word", "info": "First match in the heading is wrapped in an accent italic.", "default": "difference." },
-    { "type": "textarea", "id": "body", "label": "Body" },
-    { "type": "header", "content": "Panel" },
-    { "type": "color", "id": "panel_background", "label": "Panel background", "default": "#0A0A0A" },
-    { "type": "color", "id": "panel_text_color", "label": "Panel text color", "default": "#FFFFFF" },
-    { "type": "range", "id": "panel_text_muted_opacity", "label": "Panel muted text opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 40 },
-    { "type": "header", "content": "Fortified column" },
-    { "type": "text", "id": "fortified_label", "label": "Column label", "default": "Fortified" },
-    { "type": "image_picker", "id": "fortified_logo", "label": "Column logo", "info": "Optional. Replaces the label text." },
-    { "type": "color", "id": "fortified_column_color", "label": "Column background", "default": "#1FA8A1" },
-    { "type": "color", "id": "fortified_column_text", "label": "Column text color", "default": "#FFFFFF" },
-    { "type": "header", "content": "Icon colors" },
-    { "type": "color", "id": "yes_color", "label": "Yes color", "default": "#16A34A" },
-    { "type": "color", "id": "no_color", "label": "No color", "default": "#E07070" },
-    { "type": "color", "id": "partial_color", "label": "Partial color", "default": "#D4A844" },
-    { "type": "header", "content": "Mobile" },
-    { "type": "text", "id": "mobile_swipe_hint", "label": "Swipe hint", "default": "Swipe to compare" },
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "How We Stack Up"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The clean label difference."
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis_word",
+      "label": "Emphasized word",
+      "info": "First match in the heading is wrapped in an accent italic.",
+      "default": "difference."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body"
+    },
+    {
+      "type": "header",
+      "content": "Panel"
+    },
+    {
+      "type": "color",
+      "id": "panel_background",
+      "label": "Panel background",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "panel_text_color",
+      "label": "Panel text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "panel_text_muted_opacity",
+      "label": "Panel muted text opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Fortified column"
+    },
+    {
+      "type": "text",
+      "id": "fortified_label",
+      "label": "Column label",
+      "default": "Fortified"
+    },
+    {
+      "type": "image_picker",
+      "id": "fortified_logo",
+      "label": "Column logo",
+      "info": "Optional. Replaces the label text."
+    },
+    {
+      "type": "color",
+      "id": "fortified_column_color",
+      "label": "Column background",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "color",
+      "id": "fortified_column_text",
+      "label": "Column text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Icon colors"
+    },
+    {
+      "type": "color",
+      "id": "yes_color",
+      "label": "Yes color",
+      "default": "#16A34A"
+    },
+    {
+      "type": "color",
+      "id": "no_color",
+      "label": "No color",
+      "default": "#E07070"
+    },
+    {
+      "type": "color",
+      "id": "partial_color",
+      "label": "Partial color",
+      "default": "#D4A844"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "mobile_swipe_hint",
+      "label": "Swipe hint",
+      "default": "Swipe to compare"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
       "type": "feature_row",
       "name": "Feature row",
       "settings": [
-        { "type": "text", "id": "label", "label": "Feature label", "default": "Proprietary Blends" },
-        { "type": "text", "id": "fortified_value", "label": "Fortified value", "default": "None" },
-        { "type": "select", "id": "fortified_icon", "label": "Fortified cell as", "default": "text", "options": [ { "value": "text", "label": "Text value" }, { "value": "yes", "label": "Yes icon" }, { "value": "no", "label": "No icon" }, { "value": "partial", "label": "Partial icon" } ] }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Feature label",
+          "default": "Proprietary Blends"
+        },
+        {
+          "type": "text",
+          "id": "fortified_value",
+          "label": "Fortified value",
+          "default": "None"
+        },
+        {
+          "type": "select",
+          "id": "fortified_icon",
+          "label": "Fortified cell as",
+          "default": "text",
+          "options": [
+            {
+              "value": "text",
+              "label": "Text value"
+            },
+            {
+              "value": "yes",
+              "label": "Yes icon"
+            },
+            {
+              "value": "no",
+              "label": "No icon"
+            },
+            {
+              "value": "partial",
+              "label": "Partial icon"
+            }
+          ]
+        }
       ]
     },
     {
       "type": "competitor",
       "name": "Competitor",
       "settings": [
-        { "type": "text", "id": "name", "label": "Name", "default": "Competitor A" },
-        { "type": "textarea", "id": "values", "label": "Values", "info": "One line per feature row, in order. Use yes / no / partial for icons, anything else renders as text.", "default": "no\nno\nno\nno\nno" }
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Competitor A"
+        },
+        {
+          "type": "textarea",
+          "id": "values",
+          "label": "Values",
+          "info": "One line per feature row, in order. Use yes / no / partial for icons, anything else renders as text.",
+          "default": "no\nno\nno\nno\nno"
+        }
       ]
     }
   ],
@@ -208,15 +415,59 @@
   "presets": [
     {
       "name": "FTD-B - Comparison",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "feature_row", "settings": { "label": "Proprietary Blends", "fortified_value": "None", "fortified_icon": "text" } },
-        { "type": "feature_row", "settings": { "label": "Artificial Sweeteners", "fortified_value": "None", "fortified_icon": "text" } },
-        { "type": "feature_row", "settings": { "label": "Artificial Dyes", "fortified_icon": "no" } },
-        { "type": "feature_row", "settings": { "label": "Natural Caffeine", "fortified_icon": "yes" } },
-        { "type": "feature_row", "settings": { "label": "Full Disclosure Label", "fortified_icon": "yes" } },
-        { "type": "competitor", "settings": { "name": "Competitor A", "values": "yes\nSucralose\nyes\nno\nno" } },
-        { "type": "competitor", "settings": { "name": "Competitor B", "values": "yes\npartial\nyes\nno\npartial" } }
+        {
+          "type": "feature_row",
+          "settings": {
+            "label": "Proprietary Blends",
+            "fortified_value": "None",
+            "fortified_icon": "text"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "label": "Artificial Sweeteners",
+            "fortified_value": "None",
+            "fortified_icon": "text"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "label": "Artificial Dyes",
+            "fortified_icon": "no"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "label": "Natural Caffeine",
+            "fortified_icon": "yes"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "label": "Full Disclosure Label",
+            "fortified_icon": "yes"
+          }
+        },
+        {
+          "type": "competitor",
+          "settings": {
+            "name": "Competitor A",
+            "values": "yes\nSucralose\nyes\nno\nno"
+          }
+        },
+        {
+          "type": "competitor",
+          "settings": {
+            "name": "Competitor B",
+            "values": "yes\npartial\nyes\nno\npartial"
+          }
+        }
       ]
     }
   ]

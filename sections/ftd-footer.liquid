@@ -217,46 +217,176 @@
   "tag": "section",
   "class": "ftd-footer-section",
   "settings": [
-    { "type": "header", "content": "Brand" },
-    { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Optional. Falls back to the theme logo, then the brand name as text." },
-    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 360, "step": 5, "unit": "px", "default": 180 },
-    { "type": "text", "id": "brand_name", "label": "Brand name", "info": "Used for the wordmark fallback and copyright. Defaults to the store name.", "default": "FORTIFIED" },
-
-    { "type": "header", "content": "Contact" },
-    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email us at:" },
-    { "type": "text", "id": "email", "label": "Email address", "default": "support@livefortified.com" },
-
-    { "type": "header", "content": "Utility links" },
-    { "type": "link_list", "id": "menu", "label": "Menu", "info": "Links render inline, separated by | . Manage them under Navigation." },
-    { "type": "checkbox", "id": "show_privacy_choices_icon", "label": "Show CCPA icon next to \"Your Privacy Choices\" link", "info": "Auto-detects a link titled \"Your Privacy Choices\" in the menu above.", "default": true },
-
-    { "type": "header", "content": "Disclaimer" },
-    { "type": "checkbox", "id": "disclaimer_border", "label": "Box the disclaimer", "default": true },
-    { "type": "richtext", "id": "disclaimer", "label": "FDA disclaimer", "default": "<p>*These statements have not been approved by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Testimonials found at livefortified.com are unverified results, and may not reflect the typical purchaser's experience, may not apply to the average person and are not intended to represent or guarantee that anyone will achieve the same or similar results.</p>" },
-
-    { "type": "header", "content": "Medical information" },
-    { "type": "richtext", "id": "medical_info", "label": "Medical information", "default": "<p>Information on the Fortified site is provided for informational purposes only. It is not meant to substitute for medical advice from your physician or other medical professional. You should not use the information contained herein for diagnosing or treating a health problem or disease, or prescribing any medication. Carefully read all product documentation. If you have or suspect that you have a medical problem, promptly contact your regular health care provider.</p>" },
-
-    { "type": "header", "content": "Social" },
-    { "type": "text", "id": "facebook_url", "label": "Facebook URL" },
-    { "type": "text", "id": "instagram_url", "label": "Instagram URL" },
-    { "type": "text", "id": "tiktok_url", "label": "TikTok URL" },
-    { "type": "text", "id": "youtube_url", "label": "YouTube URL" },
-    { "type": "text", "id": "x_url", "label": "X (Twitter) URL" },
-
-    { "type": "header", "content": "Copyright" },
-    { "type": "text", "id": "copyright_text", "label": "Copyright text", "info": "Leave blank to auto-generate: Copyright © {year} {brand} - All Rights Reserved." },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-5" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 56 }
+    {
+      "type": "header",
+      "content": "Brand"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Optional. Falls back to the theme logo, then the brand name as text."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width",
+      "min": 80,
+      "max": 360,
+      "step": 5,
+      "unit": "px",
+      "default": 180
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand name",
+      "info": "Used for the wordmark fallback and copyright. Defaults to the store name.",
+      "default": "FORTIFIED"
+    },
+    {
+      "type": "header",
+      "content": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email label",
+      "default": "Email us at:"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email address",
+      "default": "support@livefortified.com"
+    },
+    {
+      "type": "header",
+      "content": "Utility links"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "info": "Links render inline, separated by | . Manage them under Navigation."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_privacy_choices_icon",
+      "label": "Show CCPA icon next to \"Your Privacy Choices\" link",
+      "info": "Auto-detects a link titled \"Your Privacy Choices\" in the menu above.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Disclaimer"
+    },
+    {
+      "type": "checkbox",
+      "id": "disclaimer_border",
+      "label": "Box the disclaimer",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "disclaimer",
+      "label": "FDA disclaimer",
+      "default": "<p>*These statements have not been approved by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Testimonials found at livefortified.com are unverified results, and may not reflect the typical purchaser's experience, may not apply to the average person and are not intended to represent or guarantee that anyone will achieve the same or similar results.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Medical information"
+    },
+    {
+      "type": "richtext",
+      "id": "medical_info",
+      "label": "Medical information",
+      "default": "<p>Information on the Fortified site is provided for informational purposes only. It is not meant to substitute for medical advice from your physician or other medical professional. You should not use the information contained herein for diagnosing or treating a health problem or disease, or prescribing any medication. Carefully read all product documentation. If you have or suspect that you have a medical problem, promptly contact your regular health care provider.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Social"
+    },
+    {
+      "type": "text",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "text",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "text",
+      "id": "tiktok_url",
+      "label": "TikTok URL"
+    },
+    {
+      "type": "text",
+      "id": "youtube_url",
+      "label": "YouTube URL"
+    },
+    {
+      "type": "text",
+      "id": "x_url",
+      "label": "X (Twitter) URL"
+    },
+    {
+      "type": "header",
+      "content": "Copyright"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "info": "Leave blank to auto-generate: Copyright © {year} {brand} - All Rights Reserved."
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-5"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 56
+    }
   ],
   "presets": [
-    { "name": "FTD - Footer", "category": "Fortified Sections" }
+    {
+      "name": "FTD - Footer",
+      "category": "Fortified"
+    }
   ],
-  "enabled_on": { "groups": ["footer"] }
+  "enabled_on": {
+    "groups": [
+      "footer"
+    ]
+  }
 }
 {% endschema %}

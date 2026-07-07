@@ -220,43 +220,187 @@
   "tag": "section",
   "class": "ftd-b-stats-strip-section",
   "settings": [
-    { "type": "header", "content": "Header" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
-    { "type": "text", "id": "heading", "label": "Heading" },
-
-    { "type": "header", "content": "Panel" },
-    { "type": "color", "id": "panel_background", "label": "Panel background", "default": "#0A0A0A" },
-    { "type": "color", "id": "panel_text_color", "label": "Panel text color", "default": "#FFFFFF" },
-    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#1FA8A1" },
-    { "type": "range", "id": "accent_top_border_thickness", "label": "Accent top border", "min": 0, "max": 6, "step": 1, "unit": "px", "default": 3 },
-    { "type": "range", "id": "desktop_columns", "label": "Columns (desktop)", "min": 2, "max": 6, "step": 1, "default": 5 },
-    { "type": "color", "id": "divider_color", "label": "Divider color", "default": "#FFFFFF" },
-    { "type": "range", "id": "divider_opacity", "label": "Divider opacity", "min": 0, "max": 30, "step": 2, "unit": "%", "default": 8 },
-
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "header",
+      "content": "Panel"
+    },
+    {
+      "type": "color",
+      "id": "panel_background",
+      "label": "Panel background",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "panel_text_color",
+      "label": "Panel text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "range",
+      "id": "accent_top_border_thickness",
+      "label": "Accent top border",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "divider_opacity",
+      "label": "Divider opacity",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "%",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
       "type": "stat",
       "name": "Stat",
       "settings": [
-        { "type": "text", "id": "number", "label": "Number", "default": "1,200" },
-        { "type": "text", "id": "unit", "label": "Unit", "default": "mg" },
-        { "type": "text", "id": "label", "label": "Label", "default": "Sodium" },
-        { "type": "text", "id": "note", "label": "Note", "default": "53% Daily Value" },
-        { "type": "color", "id": "note_color_override", "label": "Note color override", "info": "Optional. Falls back to the accent color." }
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "1,200"
+        },
+        {
+          "type": "text",
+          "id": "unit",
+          "label": "Unit",
+          "default": "mg"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Sodium"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note",
+          "default": "53% Daily Value"
+        },
+        {
+          "type": "color",
+          "id": "note_color_override",
+          "label": "Note color override",
+          "info": "Optional. Falls back to the accent color."
+        }
       ]
     }
   ],
@@ -264,13 +408,53 @@
   "presets": [
     {
       "name": "FTD-B - Stats Strip",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "stat", "settings": { "number": "1,200", "unit": "mg", "label": "Sodium", "note": "53% Daily Value" } },
-        { "type": "stat", "settings": { "number": "150", "unit": "mg", "label": "Magnesium Malate", "note": "35% Daily Value" } },
-        { "type": "stat", "settings": { "number": "200", "unit": "mg", "label": "Potassium", "note": "4% Daily Value" } },
-        { "type": "stat", "settings": { "number": "1,940", "unit": "mg", "label": "Chloride", "note": "80% Daily Value" } },
-        { "type": "stat", "settings": { "number": "152", "unit": "mg", "label": "Natural Caffeine", "note": "From Coffee Bean" } }
+        {
+          "type": "stat",
+          "settings": {
+            "number": "1,200",
+            "unit": "mg",
+            "label": "Sodium",
+            "note": "53% Daily Value"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "150",
+            "unit": "mg",
+            "label": "Magnesium Malate",
+            "note": "35% Daily Value"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "200",
+            "unit": "mg",
+            "label": "Potassium",
+            "note": "4% Daily Value"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "1,940",
+            "unit": "mg",
+            "label": "Chloride",
+            "note": "80% Daily Value"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "152",
+            "unit": "mg",
+            "label": "Natural Caffeine",
+            "note": "From Coffee Bean"
+          }
+        }
       ]
     }
   ]

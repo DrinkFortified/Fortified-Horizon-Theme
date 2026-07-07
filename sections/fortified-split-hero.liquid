@@ -129,42 +129,322 @@
   "tag": "section",
   "class": "ftd-split-hero-section",
   "settings": [
-    { "type": "header", "content": "Content" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Formulated For" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Your Best Day" },
-    { "type": "textarea", "id": "body", "label": "Body", "default": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration with collagen, supporting skin." },
-    { "type": "header", "content": "Button" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore All Flavors" },
-    { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline" }, { "value": "filled", "label": "Filled" } ] },
-    { "type": "header", "content": "Image" },
-    { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "select", "id": "image_focal", "label": "Image focal point", "default": "center", "options": [ { "value": "left_top", "label": "Top left" }, { "value": "center_top", "label": "Top" }, { "value": "right_top", "label": "Top right" }, { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }, { "value": "left_bottom", "label": "Bottom left" }, { "value": "center_bottom", "label": "Bottom" }, { "value": "right_bottom", "label": "Bottom right" } ] },
-    { "type": "select", "id": "image_position_desktop", "label": "Image position (desktop)", "default": "right", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ] },
-    { "type": "select", "id": "image_position_mobile", "label": "Image position (mobile)", "default": "below", "options": [ { "value": "above", "label": "Above text" }, { "value": "below", "label": "Below text" } ] },
-    { "type": "header", "content": "Panel & layout" },
-    { "type": "color", "id": "panel_background", "label": "Text panel background", "default": "#0A1B2A" },
-    { "type": "select", "id": "text_color", "label": "Text color", "default": "light", "options": [ { "value": "light", "label": "Light" }, { "value": "dark", "label": "Dark" } ] },
-    { "type": "range", "id": "text_width_desktop", "label": "Text panel width (desktop)", "min": 30, "max": 60, "step": 2, "unit": "%", "default": 44 },
-    { "type": "range", "id": "min_height_desktop", "label": "Min height (desktop)", "min": 300, "max": 800, "step": 10, "unit": "px", "default": 480 },
-    { "type": "range", "id": "min_height_mobile", "label": "Min height (mobile)", "min": 240, "max": 600, "step": 10, "unit": "px", "default": 360 },
-    { "type": "header", "content": "Alignment" },
-    { "type": "select", "id": "align_desktop", "label": "Text alignment (desktop)", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ] },
-    { "type": "select", "id": "align_mobile", "label": "Text alignment (mobile)", "default": "center", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ] },
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "header",
+      "content": "t:content.content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Formulated For"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your Best Day"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Electrolytes don't provide full recovery. UNDO Regenerate combines hydration with collagen, supporting skin."
+    },
+    {
+      "type": "header",
+      "content": "t:content.button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Explore All Flavors"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "outline",
+      "options": [
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "filled",
+          "label": "Filled"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_focal",
+      "label": "Image focal point",
+      "default": "center",
+      "options": [
+        {
+          "value": "left_top",
+          "label": "Top left"
+        },
+        {
+          "value": "center_top",
+          "label": "Top"
+        },
+        {
+          "value": "right_top",
+          "label": "Top right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Bottom left"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "right_bottom",
+          "label": "Bottom right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_position_desktop",
+      "label": "Image position (desktop)",
+      "default": "right",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_position_mobile",
+      "label": "Image position (mobile)",
+      "default": "below",
+      "options": [
+        {
+          "value": "above",
+          "label": "Above text"
+        },
+        {
+          "value": "below",
+          "label": "Below text"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Panel & layout"
+    },
+    {
+      "type": "color",
+      "id": "panel_background",
+      "label": "Text panel background",
+      "default": "#0A1B2A"
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "light",
+      "options": [
+        {
+          "value": "light",
+          "label": "Light"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "text_width_desktop",
+      "label": "Text panel width (desktop)",
+      "min": 30,
+      "max": 60,
+      "step": 2,
+      "unit": "%",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "min_height_desktop",
+      "label": "Min height (desktop)",
+      "min": 300,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "default": 480
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "label": "Min height (mobile)",
+      "min": 240,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "default": 360
+    },
+    {
+      "type": "header",
+      "content": "Alignment"
+    },
+    {
+      "type": "select",
+      "id": "align_desktop",
+      "label": "Text alignment (desktop)",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "align_mobile",
+      "label": "Text alignment (mobile)",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "presets": [
-    { "name": "FTD - Split Hero", "category": "Fortified Sections" }
+    {
+      "name": "FTD - Split Hero",
+      "category": "Fortified"
+    }
   ]
 }
 {% endschema %}

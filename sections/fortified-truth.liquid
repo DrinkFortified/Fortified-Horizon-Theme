@@ -380,86 +380,414 @@
   "tag": "section",
   "class": "ftd-truth-section",
   "settings": [
-    { "type": "header", "content": "Anchor" },
-    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
-    { "type": "header", "content": "Heading" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Truth" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "More Than Hydration Its Daily Support" },
-    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Electrolytes don't provide full recovery. UNDO Regenerate combines hydration.</p>" },
-
-    { "type": "header", "content": "Secondary CTA (Learn More)" },
-    { "type": "text", "id": "secondary_button_label", "label": "Secondary button label", "default": "Learn More" },
-    { "type": "text", "id": "secondary_button_link",  "label": "Secondary button link",  "default": "#shopify-section-ftd_c_supp_facts_4JN74r", "info": "Defaults to the Supplement Facts section on the homepage. Replace with any anchor (#shopify-section-...) or URL." },
-
-    { "type": "header", "content": "Button" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore All Flavors" },
-    { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "select", "id": "button_style", "label": "Button style", "default": "outline", "options": [ { "value": "outline", "label": "Outline (ghost)" }, { "value": "filled", "label": "Filled" } ] },
-
-    { "type": "header", "content": "Cards" },
-    { "type": "range", "id": "columns_desktop", "label": "Columns (desktop)", "min": 2, "max": 6, "step": 1, "default": 4 },
-    { "type": "checkbox", "id": "enable_carousel", "label": "Scroll cards in one row", "default": false, "info": "Keeps all cards on a single horizontal line and lets visitors swipe/scroll through them. Use when you have more cards than columns." },
-    { "type": "range", "id": "card_height", "label": "Card height", "min": 240, "max": 640, "step": 10, "unit": "px", "default": 420 },
-    { "type": "range", "id": "card_height_mobile", "label": "Card height (mobile)", "min": 220, "max": 560, "step": 10, "unit": "px", "default": 360 },
-    { "type": "range", "id": "gap", "label": "Gap between cards", "min": 0, "max": 48, "step": 2, "unit": "px", "default": 20 },
-    { "type": "range", "id": "corner_radius", "label": "Card corner radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 14 },
-    { "type": "color", "id": "card_bg", "label": "Card background (no image)", "default": "#1A1A1A" },
-
-    { "type": "header", "content": "Content area" },
-    { "type": "paragraph", "content": "The section paints edge-to-edge with the color scheme below; this slider controls the max width of the CONTENT (heading + cards) inside it." },
-    { "type": "range", "id": "content_max_width", "label": "Content width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1360 },
-    { "type": "range", "id": "content_padding", "label": "Inner padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
-    { "type": "color_scheme", "id": "content_color_scheme", "label": "Section color scheme", "default": "scheme-2", "info": "Drives the full-width section background and text colors." },
-    { "type": "image_picker", "id": "background_image", "label": "Background texture", "info": "Optional. Layered across the full section at low opacity." },
-    { "type": "range", "id": "content_radius", "label": "Box corner radius (legacy)", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 0, "info": "Deprecated — the section is now edge-to-edge so no card edge is visible." },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "paragraph", "content": "Leave a color blank to inherit it from the section color scheme." },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Outer color scheme (legacy, unused)", "default": "scheme-1", "info": "Deprecated. The 'Section color scheme' above now controls the whole section." },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow", "default": "#9DBE5B" },
-    { "type": "color", "id": "heading_color", "label": "Heading" },
-    { "type": "color", "id": "text_color", "label": "Body text" },
-    { "type": "color", "id": "card_label_color", "label": "Card label", "default": "#FFFFFF" },
-    { "type": "color", "id": "card_caption_color", "label": "Card caption", "default": "#E6E6E6" },
-    { "type": "color", "id": "button_color", "label": "Button" },
-
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 72 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "header",
+      "content": "Anchor"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only."
+    },
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Truth"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "More Than Hydration Its Daily Support"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Electrolytes don't provide full recovery. UNDO Regenerate combines hydration.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Secondary CTA (Learn More)"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "Learn More"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_link",
+      "label": "Secondary button link",
+      "default": "#shopify-section-ftd_c_supp_facts_4JN74r",
+      "info": "Defaults to the Supplement Facts section on the homepage. Replace with any anchor (#shopify-section-...) or URL."
+    },
+    {
+      "type": "header",
+      "content": "t:content.button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Explore All Flavors"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "outline",
+      "options": [
+        {
+          "value": "outline",
+          "label": "Outline (ghost)"
+        },
+        {
+          "value": "filled",
+          "label": "Filled"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_carousel",
+      "label": "Scroll cards in one row",
+      "default": false,
+      "info": "Keeps all cards on a single horizontal line and lets visitors swipe/scroll through them. Use when you have more cards than columns."
+    },
+    {
+      "type": "range",
+      "id": "card_height",
+      "label": "Card height",
+      "min": 240,
+      "max": 640,
+      "step": 10,
+      "unit": "px",
+      "default": 420
+    },
+    {
+      "type": "range",
+      "id": "card_height_mobile",
+      "label": "Card height (mobile)",
+      "min": 220,
+      "max": 560,
+      "step": 10,
+      "unit": "px",
+      "default": 360
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between cards",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background (no image)",
+      "default": "#1A1A1A"
+    },
+    {
+      "type": "header",
+      "content": "Content area"
+    },
+    {
+      "type": "paragraph",
+      "content": "The section paints edge-to-edge with the color scheme below; this slider controls the max width of the CONTENT (heading + cards) inside it."
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1360
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Inner padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "color_scheme",
+      "id": "content_color_scheme",
+      "label": "Section color scheme",
+      "default": "scheme-2",
+      "info": "Drives the full-width section background and text colors."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background texture",
+      "info": "Optional. Layered across the full section at low opacity."
+    },
+    {
+      "type": "range",
+      "id": "content_radius",
+      "label": "Box corner radius (legacy)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 0,
+      "info": "Deprecated — the section is now edge-to-edge so no card edge is visible."
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "full-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave a color blank to inherit it from the section color scheme."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1",
+      "info": "Deprecated. The 'Section color scheme' above now controls the whole section."
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow",
+      "default": "#9DBE5B"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body text"
+    },
+    {
+      "type": "color",
+      "id": "card_label_color",
+      "label": "Card label",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_caption_color",
+      "label": "Card caption",
+      "default": "#E6E6E6"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
       "type": "card",
       "name": "Card",
       "settings": [
-        { "type": "select", "id": "media_type", "label": "Media type", "default": "image", "options": [ { "value": "image", "label": "Image" }, { "value": "video", "label": "Video" } ] },
-        { "type": "image_picker", "id": "image", "label": "Card image", "info": "Tall portrait image. Fills the card (cover)." },
-        { "type": "video", "id": "video", "label": "Card video", "info": "Used when Media type is Video. Autoplays muted and loops, filling the card." },
-        { "type": "text", "id": "category", "label": "Category label", "default": "+ ENERGY" },
-        { "type": "text", "id": "caption", "label": "Caption", "default": "Electrolytes don't provide full recovery." },
-        { "type": "header", "content": "Icon" },
-        { "type": "checkbox", "id": "show_icon", "label": "Show icon", "default": true },
-        { "type": "image_picker", "id": "icon", "label": "Icon override", "info": "Optional. Defaults to a shield + bolt icon." },
-        { "type": "header", "content": "Link" },
-        { "type": "url", "id": "link", "label": "Card link", "info": "Links the whole card. Pick a product, collection, page, or paste a URL." }
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media type",
+          "default": "image",
+          "options": [
+            {
+              "value": "image",
+              "label": "Image"
+            },
+            {
+              "value": "video",
+              "label": "Video"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card image",
+          "info": "Tall portrait image. Fills the card (cover)."
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Card video",
+          "info": "Used when Media type is Video. Autoplays muted and loops, filling the card."
+        },
+        {
+          "type": "text",
+          "id": "category",
+          "label": "Category label",
+          "default": "+ ENERGY"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Electrolytes don't provide full recovery."
+        },
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Show icon",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon override",
+          "info": "Optional. Defaults to a shield + bolt icon."
+        },
+        {
+          "type": "header",
+          "content": "Link"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card link",
+          "info": "Links the whole card. Pick a product, collection, page, or paste a URL."
+        }
       ]
     }
   ],
   "presets": [
     {
       "name": "FTD - Truth",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "card", "settings": { "category": "+ ENERGY", "caption": "Electrolytes don't provide full recovery." } },
-        { "type": "card", "settings": { "category": "+ PERFORMANCE", "caption": "Electrolytes don't provide full recovery." } },
-        { "type": "card", "settings": { "category": "+ HYDRATION", "caption": "Electrolytes don't provide full recovery." } },
-        { "type": "card", "settings": { "category": "+ FOCUS", "caption": "Electrolytes don't provide full recovery." } }
+        {
+          "type": "card",
+          "settings": {
+            "category": "+ ENERGY",
+            "caption": "Electrolytes don't provide full recovery."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "category": "+ PERFORMANCE",
+            "caption": "Electrolytes don't provide full recovery."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "category": "+ HYDRATION",
+            "caption": "Electrolytes don't provide full recovery."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "category": "+ FOCUS",
+            "caption": "Electrolytes don't provide full recovery."
+          }
+        }
       ]
     }
   ]

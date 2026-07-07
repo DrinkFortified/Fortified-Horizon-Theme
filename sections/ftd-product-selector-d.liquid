@@ -383,122 +383,635 @@
   "name": "FTD - Product Selector D",
   "tag": "section",
   "settings": [
-    { "type": "header", "content": "Anchor" },
-    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
-    { "type": "header", "content": "Header" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Build Your Clean Hydration Ritual" },
-    { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Mix any function, with any organic flavor.</p>" },
-    { "type": "text", "id": "step_label_1", "label": "Step 1", "default": "Plan" },
-    { "type": "text", "id": "step_label_2", "label": "Step 2", "default": "Bundle" },
-    { "type": "text", "id": "step_label_3", "label": "Step 3", "default": "Boost" },
-    { "type": "text", "id": "step_label_4", "label": "Step 4", "default": "Review" },
-    { "type": "text", "id": "back_label", "label": "Back label", "default": "Back" },
-    { "type": "text", "id": "review_eyebrow", "label": "Review eyebrow", "default": "Review your order" },
-    { "type": "text", "id": "review_label", "label": "Upsells action label", "default": "Review Order", "info": "Label of the button that moves from Step 3 to Step 4." },
-    { "type": "text", "id": "edit_order_label", "label": "Edit-order label", "default": "Edit Order" },
-    { "type": "header", "content": "Plan order" },
-    { "type": "text", "id": "plan_order", "label": "Order of plans (comma-separated)", "default": "quarterly,monthly,onetime", "info": "Any order using: quarterly, monthly, onetime. First in the list is preselected." },
-    { "type": "header", "content": "Quarterly" },
-    { "type": "checkbox", "id": "show_quarterly", "label": "Show quarterly", "default": true },
-    { "type": "text", "id": "quarterly_badge", "label": "Badge", "default": "Best Value" },
-    { "type": "text", "id": "quarterly_title", "label": "Title", "default": "3 Pouches Every 3 Months" },
-    { "type": "text", "id": "quarterly_desc", "label": "Desc", "default": "Mix any functions freely." },
-    { "type": "text", "id": "quarterly_price", "label": "Price", "default": "$53.10" },
-    { "type": "text", "id": "quarterly_period", "label": "Period", "default": "/ month" },
-    { "type": "text", "id": "quarterly_was", "label": "Was", "default": "$59.00" },
-    { "type": "color", "id": "quarterly_accent_color", "label": "Accent color", "default": "#E8833A" },
-    { "type": "range", "id": "bundle_count", "label": "Bundle size", "min": 2, "max": 6, "step": 1, "default": 3 },
-    { "type": "range", "id": "quarterly_estimate_pct", "label": "Quarterly est %", "min": 50, "max": 100, "step": 1, "default": 90 },
-    { "type": "header", "content": "Monthly" },
-    { "type": "checkbox", "id": "show_monthly", "label": "Show monthly", "default": true },
-    { "type": "text", "id": "monthly_badge", "label": "Badge", "default": "Monthly" },
-    { "type": "text", "id": "monthly_title", "label": "Title", "default": "1 Pouch Every Month" },
-    { "type": "text", "id": "monthly_desc", "label": "Desc", "default": "Your daily ritual, delivered." },
-    { "type": "text", "id": "monthly_price", "label": "Price", "default": "$53.10" },
-    { "type": "text", "id": "monthly_period", "label": "Period", "default": "/ month" },
-    { "type": "text", "id": "monthly_was", "label": "Was", "default": "$59.00" },
-    { "type": "color", "id": "monthly_accent_color", "label": "Accent color", "default": "#1FA8A1" },
-    { "type": "range", "id": "monthly_estimate_pct", "label": "Monthly est %", "min": 50, "max": 100, "step": 1, "default": 90 },
-    { "type": "header", "content": "One-time" },
-    { "type": "checkbox", "id": "show_onetime", "label": "Show one-time", "default": true },
-    { "type": "text", "id": "onetime_badge", "label": "Badge", "default": "Buy Once" },
-    { "type": "text", "id": "onetime_title", "label": "Title", "default": "Single Pouch" },
-    { "type": "text", "id": "onetime_desc", "label": "Desc", "default": "Try it first." },
-    { "type": "text", "id": "onetime_price", "label": "Price", "default": "$59.00" },
-    { "type": "text", "id": "onetime_period", "label": "Period", "default": "/ pouch" },
-    { "type": "text", "id": "onetime_was", "label": "Was", "default": "-" },
-    { "type": "color", "id": "onetime_accent_color", "label": "Accent color", "default": "#8E8E93" },
-    { "type": "header", "content": "Bundle step" },
-    { "type": "text", "id": "bundle_label", "label": "Eyebrow", "default": "Your Bundle" },
-    { "type": "text", "id": "of_word", "label": "Word 'of'", "default": "of" },
-    { "type": "text", "id": "selected_word", "label": "Word 'selected'", "default": "selected" },
-    { "type": "text", "id": "add_label", "label": "ADD label", "default": "ADD" },
-    { "type": "header", "content": "Creatine upsell" },
-    { "type": "product", "id": "addon_product", "label": "Creatine product" },
-    { "type": "image_picker", "id": "addon_image", "label": "Image override" },
-    { "type": "text", "id": "addon_label_monthly", "label": "Monthly title", "default": "Add Creatine — 50% off" },
-    { "type": "text", "id": "addon_label_quarterly", "label": "Quarterly title", "default": "Add a 2nd Creatine — 50% off" },
-    { "type": "text", "id": "addon_label_onetime", "label": "One-time title", "default": "Add Creatine — 25% off" },
-    { "type": "text", "id": "addon_desc_monthly", "label": "Monthly desc", "default": "-" },
-    { "type": "text", "id": "addon_desc_quarterly", "label": "Quarterly desc", "default": "1st Creatine is free with your bundle." },
-    { "type": "text", "id": "addon_desc_onetime", "label": "One-time desc", "default": "One-time. Discount auto-applied." },
-    { "type": "text", "id": "addon_price_monthly", "label": "Monthly price", "default": "$12.00" },
-    { "type": "text", "id": "addon_price_quarterly", "label": "Quarterly price", "default": "$12.00" },
-    { "type": "text", "id": "addon_price_onetime", "label": "One-time price", "default": "$18.00" },
-    { "type": "text", "id": "addon_was_monthly", "label": "Monthly was", "default": "$24.00" },
-    { "type": "text", "id": "addon_was_quarterly", "label": "Quarterly was", "default": "$24.00" },
-    { "type": "text", "id": "addon_was_onetime", "label": "One-time was", "default": "$24.00" },
-    { "type": "text", "id": "addon_loop_plan_monthly", "label": "Loop plan monthly", "default": "-" },
-    { "type": "text", "id": "addon_loop_plan_quarterly_free", "label": "Loop plan quarterly free", "default": "-" },
-    { "type": "text", "id": "addon_loop_plan_quarterly_50off", "label": "Loop plan quarterly 50off", "default": "-" },
-    { "type": "text", "id": "addon_discount_code_onetime", "label": "Discount code one-time", "default": "-" },
-    { "type": "header", "content": "Loop Bundle (quarterly)" },
-    { "type": "paragraph", "content": "When enabled, the quarterly 3-pouch plan POSTs to bundle.loopwork.co/api/transactions/create with Loop's internal numeric IDs, gets back a loopBundleGuid (ULID), and stamps every pouch line with it as properties[_bundleId] + properties.bundleName so Loop's order webhook groups them into one editable bundle. Anonymous endpoint. Falls back to per-pouch subscriptions on failure." },
-    { "type": "checkbox", "id": "loop_bundle_enabled", "label": "Send quarterly as one Loop bundle", "default": false },
-    { "type": "text", "id": "loop_bundle_id", "label": "Loop bundle ID (internal numeric)", "info": "Loop's internal numeric bundleId — NOT the hex slug from the storefront URL. Find it in the payload Loop's SDK posts to bundle.loopwork.co/api/transactions/create. Example: 7439" },
-    { "type": "text", "id": "loop_bundle_variant_id", "label": "Loop bundle variant ID (internal numeric)", "info": "Loop's internal bundleVariantId. Example: 14634" },
-    { "type": "text", "id": "loop_bundle_discount_id", "label": "Loop bundle discount ID (internal numeric)", "info": "Loop's internal bundleDiscountId. Example: 49078" },
-    { "type": "text", "id": "loop_bundle_api_selling_plan_id", "label": "Loop API selling plan ID (internal numeric)", "info": "Loop's internal sellingPlanId sent to bundle.loopwork.co — different from the Shopify selling plan ID below. Example: 122825" },
-    { "type": "text", "id": "loop_bundle_selling_plan_id", "label": "Shopify selling plan ID (for cart lines)", "info": "Shopify-side selling plan stamped on each pouch line in the cart. Drives the discount + every-3-months recurrence. Example: 2607644731" },
-    { "type": "text", "id": "loop_bundle_name", "label": "Bundle name (visible cart property)", "info": "Human-readable bundle name shown to the customer in cart and on the order. Example: 3-Pouch Bundle — Every 3 Months" },
-    { "type": "text", "id": "loop_bundle_property_key", "label": "Cart property key", "default": "_bundleId", "info": "Line-item property Loop reads the transaction id from. Leave as _bundleId unless Loop support says otherwise." },
-    { "type": "header", "content": "Sticky bar" },
-    { "type": "text", "id": "total_label", "label": "Total", "default": "Total" },
-    { "type": "text", "id": "saved_word", "label": "Saved", "default": "Saved" },
-    { "type": "text", "id": "action_label_step1", "label": "Step 1 action", "default": "Continue" },
-    { "type": "text", "id": "action_label_step2", "label": "Step 2 action", "default": "Continue" },
-    { "type": "text", "id": "checkout_label", "label": "Checkout", "default": "Checkout" },
-    { "type": "text", "id": "add_more_label", "label": "Add More", "default": "Add More" },
-    { "type": "header", "content": "Appearance" },
-    { "type": "image_picker", "id": "plan_image",        "label": "Plan selector image (desktop)", "info": "Optional. Shown above the plan cards on Step 1. Used at all viewport widths if no mobile image is set." },
-    { "type": "image_picker", "id": "plan_image_mobile", "label": "Plan selector image (mobile)",  "info": "Optional. Used at viewports ≤ 749px. Falls back to the desktop image if blank." },
-    { "type": "color", "id": "accent_color", "label": "Accent (global fallback)", "default": "#1FA8A1", "info": "Used for steps 2-3 and any plan without its own accent color set." },
-    { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 12 },
-    { "type": "range", "id": "content_max_width", "label": "Max width", "min": 600, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 64 }
+    {
+      "type": "header",
+      "content": "Anchor"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only."
+    },
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Build Your Clean Hydration Ritual"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Mix any function, with any organic flavor.</p>"
+    },
+    {
+      "type": "text",
+      "id": "step_label_1",
+      "label": "Step 1",
+      "default": "Plan"
+    },
+    {
+      "type": "text",
+      "id": "step_label_2",
+      "label": "Step 2",
+      "default": "Bundle"
+    },
+    {
+      "type": "text",
+      "id": "step_label_3",
+      "label": "Step 3",
+      "default": "Boost"
+    },
+    {
+      "type": "text",
+      "id": "step_label_4",
+      "label": "Step 4",
+      "default": "Review"
+    },
+    {
+      "type": "text",
+      "id": "back_label",
+      "label": "Back label",
+      "default": "Back"
+    },
+    {
+      "type": "text",
+      "id": "review_eyebrow",
+      "label": "Review eyebrow",
+      "default": "Review your order"
+    },
+    {
+      "type": "text",
+      "id": "review_label",
+      "label": "Upsells action label",
+      "default": "Review Order",
+      "info": "Label of the button that moves from Step 3 to Step 4."
+    },
+    {
+      "type": "text",
+      "id": "edit_order_label",
+      "label": "Edit-order label",
+      "default": "Edit Order"
+    },
+    {
+      "type": "header",
+      "content": "Plan order"
+    },
+    {
+      "type": "text",
+      "id": "plan_order",
+      "label": "Order of plans (comma-separated)",
+      "default": "quarterly,monthly,onetime",
+      "info": "Any order using: quarterly, monthly, onetime. First in the list is preselected."
+    },
+    {
+      "type": "header",
+      "content": "Quarterly"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quarterly",
+      "label": "Show quarterly",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "quarterly_badge",
+      "label": "Badge",
+      "default": "Best Value"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_title",
+      "label": "Title",
+      "default": "3 Pouches Every 3 Months"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_desc",
+      "label": "Desc",
+      "default": "Mix any functions freely."
+    },
+    {
+      "type": "text",
+      "id": "quarterly_price",
+      "label": "Price",
+      "default": "$53.10"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_period",
+      "label": "Period",
+      "default": "/ month"
+    },
+    {
+      "type": "text",
+      "id": "quarterly_was",
+      "label": "Was",
+      "default": "$59.00"
+    },
+    {
+      "type": "color",
+      "id": "quarterly_accent_color",
+      "label": "Accent color",
+      "default": "#E8833A"
+    },
+    {
+      "type": "range",
+      "id": "bundle_count",
+      "label": "Bundle size",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "quarterly_estimate_pct",
+      "label": "Quarterly est %",
+      "min": 50,
+      "max": 100,
+      "step": 1,
+      "default": 90
+    },
+    {
+      "type": "header",
+      "content": "Monthly"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_monthly",
+      "label": "Show monthly",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "monthly_badge",
+      "label": "Badge",
+      "default": "Monthly"
+    },
+    {
+      "type": "text",
+      "id": "monthly_title",
+      "label": "Title",
+      "default": "1 Pouch Every Month"
+    },
+    {
+      "type": "text",
+      "id": "monthly_desc",
+      "label": "Desc",
+      "default": "Your daily ritual, delivered."
+    },
+    {
+      "type": "text",
+      "id": "monthly_price",
+      "label": "Price",
+      "default": "$53.10"
+    },
+    {
+      "type": "text",
+      "id": "monthly_period",
+      "label": "Period",
+      "default": "/ month"
+    },
+    {
+      "type": "text",
+      "id": "monthly_was",
+      "label": "Was",
+      "default": "$59.00"
+    },
+    {
+      "type": "color",
+      "id": "monthly_accent_color",
+      "label": "Accent color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "range",
+      "id": "monthly_estimate_pct",
+      "label": "Monthly est %",
+      "min": 50,
+      "max": 100,
+      "step": 1,
+      "default": 90
+    },
+    {
+      "type": "header",
+      "content": "One-time"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_onetime",
+      "label": "Show one-time",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "onetime_badge",
+      "label": "Badge",
+      "default": "Buy Once"
+    },
+    {
+      "type": "text",
+      "id": "onetime_title",
+      "label": "Title",
+      "default": "Single Pouch"
+    },
+    {
+      "type": "text",
+      "id": "onetime_desc",
+      "label": "Desc",
+      "default": "Try it first."
+    },
+    {
+      "type": "text",
+      "id": "onetime_price",
+      "label": "Price",
+      "default": "$59.00"
+    },
+    {
+      "type": "text",
+      "id": "onetime_period",
+      "label": "Period",
+      "default": "/ pouch"
+    },
+    {
+      "type": "text",
+      "id": "onetime_was",
+      "label": "Was",
+      "default": "-"
+    },
+    {
+      "type": "color",
+      "id": "onetime_accent_color",
+      "label": "Accent color",
+      "default": "#8E8E93"
+    },
+    {
+      "type": "header",
+      "content": "Bundle step"
+    },
+    {
+      "type": "text",
+      "id": "bundle_label",
+      "label": "Eyebrow",
+      "default": "Your Bundle"
+    },
+    {
+      "type": "text",
+      "id": "of_word",
+      "label": "Word 'of'",
+      "default": "of"
+    },
+    {
+      "type": "text",
+      "id": "selected_word",
+      "label": "Word 'selected'",
+      "default": "selected"
+    },
+    {
+      "type": "text",
+      "id": "add_label",
+      "label": "ADD label",
+      "default": "ADD"
+    },
+    {
+      "type": "header",
+      "content": "Creatine upsell"
+    },
+    {
+      "type": "product",
+      "id": "addon_product",
+      "label": "Creatine product"
+    },
+    {
+      "type": "image_picker",
+      "id": "addon_image",
+      "label": "Image override"
+    },
+    {
+      "type": "text",
+      "id": "addon_label_monthly",
+      "label": "Monthly title",
+      "default": "Add Creatine — 50% off"
+    },
+    {
+      "type": "text",
+      "id": "addon_label_quarterly",
+      "label": "Quarterly title",
+      "default": "Add a 2nd Creatine — 50% off"
+    },
+    {
+      "type": "text",
+      "id": "addon_label_onetime",
+      "label": "One-time title",
+      "default": "Add Creatine — 25% off"
+    },
+    {
+      "type": "text",
+      "id": "addon_desc_monthly",
+      "label": "Monthly desc",
+      "default": "-"
+    },
+    {
+      "type": "text",
+      "id": "addon_desc_quarterly",
+      "label": "Quarterly desc",
+      "default": "1st Creatine is free with your bundle."
+    },
+    {
+      "type": "text",
+      "id": "addon_desc_onetime",
+      "label": "One-time desc",
+      "default": "One-time. Discount auto-applied."
+    },
+    {
+      "type": "text",
+      "id": "addon_price_monthly",
+      "label": "Monthly price",
+      "default": "$12.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_price_quarterly",
+      "label": "Quarterly price",
+      "default": "$12.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_price_onetime",
+      "label": "One-time price",
+      "default": "$18.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_was_monthly",
+      "label": "Monthly was",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_was_quarterly",
+      "label": "Quarterly was",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_was_onetime",
+      "label": "One-time was",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_monthly",
+      "label": "Loop plan monthly",
+      "default": "-"
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_quarterly_free",
+      "label": "Loop plan quarterly free",
+      "default": "-"
+    },
+    {
+      "type": "text",
+      "id": "addon_loop_plan_quarterly_50off",
+      "label": "Loop plan quarterly 50off",
+      "default": "-"
+    },
+    {
+      "type": "text",
+      "id": "addon_discount_code_onetime",
+      "label": "Discount code one-time",
+      "default": "-"
+    },
+    {
+      "type": "header",
+      "content": "Loop Bundle (quarterly)"
+    },
+    {
+      "type": "paragraph",
+      "content": "When enabled, the quarterly 3-pouch plan POSTs to bundle.loopwork.co/api/transactions/create with Loop's internal numeric IDs, gets back a loopBundleGuid (ULID), and stamps every pouch line with it as properties[_bundleId] + properties.bundleName so Loop's order webhook groups them into one editable bundle. Anonymous endpoint. Falls back to per-pouch subscriptions on failure."
+    },
+    {
+      "type": "checkbox",
+      "id": "loop_bundle_enabled",
+      "label": "Send quarterly as one Loop bundle",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_id",
+      "label": "Loop bundle ID (internal numeric)",
+      "info": "Loop's internal numeric bundleId — NOT the hex slug from the storefront URL. Find it in the payload Loop's SDK posts to bundle.loopwork.co/api/transactions/create. Example: 7439"
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_variant_id",
+      "label": "Loop bundle variant ID (internal numeric)",
+      "info": "Loop's internal bundleVariantId. Example: 14634"
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_discount_id",
+      "label": "Loop bundle discount ID (internal numeric)",
+      "info": "Loop's internal bundleDiscountId. Example: 49078"
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_api_selling_plan_id",
+      "label": "Loop API selling plan ID (internal numeric)",
+      "info": "Loop's internal sellingPlanId sent to bundle.loopwork.co — different from the Shopify selling plan ID below. Example: 122825"
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_selling_plan_id",
+      "label": "Shopify selling plan ID (for cart lines)",
+      "info": "Shopify-side selling plan stamped on each pouch line in the cart. Drives the discount + every-3-months recurrence. Example: 2607644731"
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_name",
+      "label": "Bundle name (visible cart property)",
+      "info": "Human-readable bundle name shown to the customer in cart and on the order. Example: 3-Pouch Bundle — Every 3 Months"
+    },
+    {
+      "type": "text",
+      "id": "loop_bundle_property_key",
+      "label": "Cart property key",
+      "default": "_bundleId",
+      "info": "Line-item property Loop reads the transaction id from. Leave as _bundleId unless Loop support says otherwise."
+    },
+    {
+      "type": "header",
+      "content": "Sticky bar"
+    },
+    {
+      "type": "text",
+      "id": "total_label",
+      "label": "Total",
+      "default": "Total"
+    },
+    {
+      "type": "text",
+      "id": "saved_word",
+      "label": "Saved",
+      "default": "Saved"
+    },
+    {
+      "type": "text",
+      "id": "action_label_step1",
+      "label": "Step 1 action",
+      "default": "Continue"
+    },
+    {
+      "type": "text",
+      "id": "action_label_step2",
+      "label": "Step 2 action",
+      "default": "Continue"
+    },
+    {
+      "type": "text",
+      "id": "checkout_label",
+      "label": "Checkout",
+      "default": "Checkout"
+    },
+    {
+      "type": "text",
+      "id": "add_more_label",
+      "label": "Add More",
+      "default": "Add More"
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "image_picker",
+      "id": "plan_image",
+      "label": "Plan selector image (desktop)",
+      "info": "Optional. Shown above the plan cards on Step 1. Used at all viewport widths if no mobile image is set."
+    },
+    {
+      "type": "image_picker",
+      "id": "plan_image_mobile",
+      "label": "Plan selector image (mobile)",
+      "info": "Optional. Used at viewports ≤ 749px. Falls back to the desktop image if blank."
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent (global fallback)",
+      "default": "#1FA8A1",
+      "info": "Used for steps 2-3 and any plan without its own accent color set."
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Max width",
+      "min": 600,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
   ],
   "blocks": [
-    { "type": "_ftd-c-function" },
-    { "type": "_ftd-c-upsell" },
-    { "type": "_ftd-c-bullet" },
-    { "type": "_ftdc-announce-fomo" },
-    { "type": "_ftdc-announce-text" }
+    {
+      "type": "_ftd-c-function"
+    },
+    {
+      "type": "_ftd-c-upsell"
+    },
+    {
+      "type": "_ftd-c-bullet"
+    },
+    {
+      "type": "_ftdc-announce-fomo"
+    },
+    {
+      "type": "_ftdc-announce-text"
+    }
   ],
   "presets": [
     {
       "name": "FTD - Product Selector D",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": {
-        "a1": { "type": "_ftdc-announce-fomo" },
-        "b1": { "type": "_ftd-c-bullet", "settings": { "text": "Real Fruit Organic Flavors" } },
-        "b2": { "type": "_ftd-c-bullet", "settings": { "text": "Zero Artificial Sweeteners" } },
-        "f1": { "type": "_ftd-c-function" },
-        "f2": { "type": "_ftd-c-function" }
+        "a1": {
+          "type": "_ftdc-announce-fomo"
+        },
+        "b1": {
+          "type": "_ftd-c-bullet",
+          "settings": {
+            "text": "Real Fruit Organic Flavors"
+          }
+        },
+        "b2": {
+          "type": "_ftd-c-bullet",
+          "settings": {
+            "text": "Zero Artificial Sweeteners"
+          }
+        },
+        "f1": {
+          "type": "_ftd-c-function"
+        },
+        "f2": {
+          "type": "_ftd-c-function"
+        }
       },
-      "block_order": ["a1", "b1", "b2", "f1", "f2"]
+      "block_order": [
+        "a1",
+        "b1",
+        "b2",
+        "f1",
+        "f2"
+      ]
     }
   ]
 }

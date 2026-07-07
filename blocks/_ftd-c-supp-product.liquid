@@ -186,39 +186,137 @@
   "name": "Supp Facts Product Tab",
   "tag": null,
   "settings": [
-    { "type": "header", "content": "Tab" },
-    { "type": "product", "id": "product", "label": "Product" },
-    { "type": "text", "id": "tab_label", "label": "Tab label", "info": "Falls back to the product title." },
-    { "type": "image_picker", "id": "tab_image", "label": "Tab thumbnail (optional)", "info": "Shown in the tab button. Falls back to the product's featured image." },
-    { "type": "color", "id": "accent_color", "label": "Tab accent color", "default": "#1FA8A1" },
-
-    { "type": "header", "content": "Right column overrides" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow (override)", "info": "Falls back to metafield, then section setting." },
-    { "type": "text", "id": "heading", "label": "Heading (override)" },
-
-    { "type": "header", "content": "Nutrition panel (override)" },
-    { "type": "text", "id": "panel_title", "label": "Panel title", "default": "Supplement Facts" },
-    { "type": "text", "id": "servings_per", "label": "Servings per container (override)" },
-    { "type": "text", "id": "serving_size", "label": "Serving size (override)" },
-    { "type": "text", "id": "calories", "label": "Calories (override)" },
+    {
+      "type": "header",
+      "content": "Tab"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "tab_label",
+      "label": "Tab label",
+      "info": "Falls back to the product title."
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_image",
+      "label": "Tab thumbnail (optional)",
+      "info": "Shown in the tab button. Falls back to the product's featured image."
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Tab accent color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "header",
+      "content": "Right column overrides"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow (override)",
+      "info": "Falls back to metafield, then section setting."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (override)"
+    },
+    {
+      "type": "header",
+      "content": "Nutrition panel (override)"
+    },
+    {
+      "type": "text",
+      "id": "panel_title",
+      "label": "Panel title",
+      "default": "Supplement Facts"
+    },
+    {
+      "type": "text",
+      "id": "servings_per",
+      "label": "Servings per container (override)"
+    },
+    {
+      "type": "text",
+      "id": "serving_size",
+      "label": "Serving size (override)"
+    },
+    {
+      "type": "text",
+      "id": "calories",
+      "label": "Calories (override)"
+    },
     {
       "type": "textarea",
       "id": "nutrients_text",
       "label": "Nutrients (inline fallback)",
       "info": "Used ONLY when the product has no fortified.pdp_content metafield. One nutrient per line: Label | Amount | DV% | indent(0-3) | bold(1/0) | divider(thin|med|thick|none). Example: Sodium | 200mg | 9% | 0 | 1 | thin"
     },
-    { "type": "text", "id": "panel_footnote", "label": "Panel footnote", "default": "* Percent Daily Values are based on a 2,000 calorie diet." },
-
-    { "type": "header", "content": "Callouts (right column)" },
-    { "type": "text",     "id": "callout_1_title",  "label": "Callout 1 title" },
-    { "type": "textarea", "id": "callout_1_body",   "label": "Callout 1 body" },
-    { "type": "color",    "id": "callout_1_accent", "label": "Callout 1 accent", "default": "#1FA8A1" },
-    { "type": "text",     "id": "callout_2_title",  "label": "Callout 2 title" },
-    { "type": "textarea", "id": "callout_2_body",   "label": "Callout 2 body" },
-    { "type": "color",    "id": "callout_2_accent", "label": "Callout 2 accent", "default": "#E8833A" },
-    { "type": "text",     "id": "callout_3_title",  "label": "Callout 3 title" },
-    { "type": "textarea", "id": "callout_3_body",   "label": "Callout 3 body" },
-    { "type": "color",    "id": "callout_3_accent", "label": "Callout 3 accent", "default": "#8E8E93" }
+    {
+      "type": "text",
+      "id": "panel_footnote",
+      "label": "Panel footnote",
+      "default": "* Percent Daily Values are based on a 2,000 calorie diet."
+    },
+    {
+      "type": "header",
+      "content": "Callouts (right column)"
+    },
+    {
+      "type": "text",
+      "id": "callout_1_title",
+      "label": "Callout 1 title"
+    },
+    {
+      "type": "textarea",
+      "id": "callout_1_body",
+      "label": "Callout 1 body"
+    },
+    {
+      "type": "color",
+      "id": "callout_1_accent",
+      "label": "Callout 1 accent",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "text",
+      "id": "callout_2_title",
+      "label": "Callout 2 title"
+    },
+    {
+      "type": "textarea",
+      "id": "callout_2_body",
+      "label": "Callout 2 body"
+    },
+    {
+      "type": "color",
+      "id": "callout_2_accent",
+      "label": "Callout 2 accent",
+      "default": "#E8833A"
+    },
+    {
+      "type": "text",
+      "id": "callout_3_title",
+      "label": "Callout 3 title"
+    },
+    {
+      "type": "textarea",
+      "id": "callout_3_body",
+      "label": "Callout 3 body"
+    },
+    {
+      "type": "color",
+      "id": "callout_3_accent",
+      "label": "Callout 3 accent",
+      "default": "#8E8E93"
+    }
   ]
 }
 {% endschema %}

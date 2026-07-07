@@ -263,83 +263,259 @@
   "tag": "section",
   "class": "ftd-testimonial-section",
   "settings": [
-    { "type": "header", "content": "Anchor" },
-    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
-    { "type": "header", "content": "Content" },
-    { "type": "text", "id": "name", "label": "Athlete name", "default": "Alex Friedman" },
-    { "type": "text", "id": "role", "label": "Role / title", "default": "HBO Max Champion" },
-    { "type": "richtext", "id": "quote", "label": "Quote", "default": "<p>I feel the difference in my workouts and recovery. No more cramps.</p>" },
-    { "type": "checkbox", "id": "quote_marks", "label": "Wrap quote in smart quotes", "default": true },
-
-    { "type": "header", "content": "Button" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Fortified Now" },
-    { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "select", "id": "button_style", "label": "Button style", "default": "filled",
+    {
+      "type": "header",
+      "content": "Anchor"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only."
+    },
+    {
+      "type": "header",
+      "content": "t:content.content"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Athlete name",
+      "default": "Alex Friedman"
+    },
+    {
+      "type": "text",
+      "id": "role",
+      "label": "Role / title",
+      "default": "HBO Max Champion"
+    },
+    {
+      "type": "richtext",
+      "id": "quote",
+      "label": "Quote",
+      "default": "<p>I feel the difference in my workouts and recovery. No more cramps.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "quote_marks",
+      "label": "Wrap quote in smart quotes",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:content.button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop Fortified Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "filled",
       "options": [
-        { "value": "filled", "label": "Filled" },
-        { "value": "outline", "label": "Outline" }
+        {
+          "value": "filled",
+          "label": "Filled"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        }
       ]
     },
-
-    { "type": "header", "content": "Image" },
-    { "type": "image_picker", "id": "image", "label": "Portrait image" },
-    { "type": "select", "id": "image_focal", "label": "Image focal point", "default": "center",
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Portrait image"
+    },
+    {
+      "type": "select",
+      "id": "image_focal",
+      "label": "Image focal point",
+      "default": "center",
       "options": [
-        { "value": "left_top",     "label": "Top left" },
-        { "value": "center_top",   "label": "Top" },
-        { "value": "right_top",    "label": "Top right" },
-        { "value": "left",         "label": "Left" },
-        { "value": "center",       "label": "Center" },
-        { "value": "right",        "label": "Right" },
-        { "value": "left_bottom",  "label": "Bottom left" },
-        { "value": "center_bottom","label": "Bottom" },
-        { "value": "right_bottom", "label": "Bottom right" }
+        {
+          "value": "left_top",
+          "label": "Top left"
+        },
+        {
+          "value": "center_top",
+          "label": "Top"
+        },
+        {
+          "value": "right_top",
+          "label": "Top right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Bottom left"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "right_bottom",
+          "label": "Bottom right"
+        }
       ]
     },
-    { "type": "select", "id": "image_position_desktop", "label": "Image position (desktop)", "default": "right",
+    {
+      "type": "select",
+      "id": "image_position_desktop",
+      "label": "Image position (desktop)",
+      "default": "right",
       "options": [
-        { "value": "left",  "label": "Left" },
-        { "value": "right", "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ]
     },
-
-    { "type": "header", "content": "Alignment" },
-    { "type": "select", "id": "align_desktop", "label": "Text alignment (desktop)", "default": "left",
+    {
+      "type": "header",
+      "content": "Alignment"
+    },
+    {
+      "type": "select",
+      "id": "align_desktop",
+      "label": "Text alignment (desktop)",
+      "default": "left",
       "options": [
-        { "value": "left",   "label": "Left" },
-        { "value": "center", "label": "Center" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
       ]
     },
-    { "type": "select", "id": "align_mobile", "label": "Text alignment (mobile)", "default": "left",
+    {
+      "type": "select",
+      "id": "align_mobile",
+      "label": "Text alignment (mobile)",
+      "default": "left",
       "options": [
-        { "value": "left",   "label": "Left" },
-        { "value": "center", "label": "Center" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
       ]
     },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width",
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
       "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
       ]
     },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 64 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "presets": [
     {
       "name": "FTD - Testimonial",
-      "category": "Fortified Sections"
+      "category": "Fortified"
     }
   ]
 }

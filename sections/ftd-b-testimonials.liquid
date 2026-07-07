@@ -101,38 +101,190 @@
   "tag": "section",
   "class": "ftd-b-testimonials-section",
   "settings": [
-    { "type": "header", "content": "Header" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Verified Reviews" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Real families. Real labels." },
-    { "type": "text", "id": "heading_emphasis_word", "label": "Heading emphasis word", "default": "Real labels." },
-    { "type": "text", "id": "rating_text", "label": "Rating summary", "default": "4.9 - 560+ reviews" },
-    { "type": "header", "content": "Layout" },
-    { "type": "range", "id": "desktop_columns", "label": "Columns (desktop)", "min": 2, "max": 4, "step": 1, "default": 4 },
-    { "type": "range", "id": "tablet_columns", "label": "Columns (tablet)", "min": 1, "max": 3, "step": 1, "default": 2 },
-    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 12 },
-    { "type": "color", "id": "quote_mark_color", "label": "Quote mark color", "default": "#E8E6E4" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Verified Reviews"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real families. Real labels."
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis_word",
+      "label": "Heading emphasis word",
+      "default": "Real labels."
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating summary",
+      "default": "4.9 - 560+ reviews"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "tablet_columns",
+      "label": "Columns (tablet)",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "quote_mark_color",
+      "label": "Quote mark color",
+      "default": "#E8E6E4"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
       "type": "testimonial",
       "name": "Testimonial",
       "settings": [
-        { "type": "textarea", "id": "quote", "label": "Quote", "default": "I've been reading labels for 10 years and I've never seen a supplement this transparent." },
-        { "type": "text", "id": "author", "label": "Author", "default": "Sarah B." },
-        { "type": "text", "id": "author_sub", "label": "Author sub", "default": "Mom of 3 - Phoenix, AZ" },
-        { "type": "text", "id": "tag_label", "label": "Tag label", "default": "Energy - Quarterly" },
-        { "type": "color", "id": "tag_color", "label": "Tag background", "default": "#E8F1F8" },
-        { "type": "color", "id": "tag_text_color", "label": "Tag text", "default": "#135289" }
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "I've been reading labels for 10 years and I've never seen a supplement this transparent."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Sarah B."
+        },
+        {
+          "type": "text",
+          "id": "author_sub",
+          "label": "Author sub",
+          "default": "Mom of 3 - Phoenix, AZ"
+        },
+        {
+          "type": "text",
+          "id": "tag_label",
+          "label": "Tag label",
+          "default": "Energy - Quarterly"
+        },
+        {
+          "type": "color",
+          "id": "tag_color",
+          "label": "Tag background",
+          "default": "#E8F1F8"
+        },
+        {
+          "type": "color",
+          "id": "tag_text_color",
+          "label": "Tag text",
+          "default": "#135289"
+        }
       ]
     }
   ],
@@ -140,12 +292,52 @@
   "presets": [
     {
       "name": "FTD-B - Testimonials",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "testimonial", "settings": { "quote": "I've been reading labels for 10 years and I've never seen a supplement this transparent.", "author": "Sarah B.", "author_sub": "Mom of 3 - Phoenix, AZ", "tag_label": "Energy - Quarterly", "tag_color": "#E8F1F8", "tag_text_color": "#135289" } },
-        { "type": "testimonial", "settings": { "quote": "Finally a brand that lists every milligram. My pharmacist gave it a thumbs up.", "author": "David K.", "author_sub": "RPh - Boston, MA", "tag_label": "Everyday - Monthly", "tag_color": "#E8F4EC", "tag_text_color": "#1F6B3A" } },
-        { "type": "testimonial", "settings": { "quote": "The salt content actually works. I no longer cramp on long rides.", "author": "Maya R.", "author_sub": "Cyclist - Boulder, CO", "tag_label": "Energy - Quarterly", "tag_color": "#FDEFE2", "tag_text_color": "#A0541C" } },
-        { "type": "testimonial", "settings": { "quote": "Switched the whole family. The fact that they show every source is everything.", "author": "Jordan P.", "author_sub": "Dad of 2 - Austin, TX", "tag_label": "Bundle - Monthly", "tag_color": "#EFE8F8", "tag_text_color": "#5A2E89" } }
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I've been reading labels for 10 years and I've never seen a supplement this transparent.",
+            "author": "Sarah B.",
+            "author_sub": "Mom of 3 - Phoenix, AZ",
+            "tag_label": "Energy - Quarterly",
+            "tag_color": "#E8F1F8",
+            "tag_text_color": "#135289"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Finally a brand that lists every milligram. My pharmacist gave it a thumbs up.",
+            "author": "David K.",
+            "author_sub": "RPh - Boston, MA",
+            "tag_label": "Everyday - Monthly",
+            "tag_color": "#E8F4EC",
+            "tag_text_color": "#1F6B3A"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The salt content actually works. I no longer cramp on long rides.",
+            "author": "Maya R.",
+            "author_sub": "Cyclist - Boulder, CO",
+            "tag_label": "Energy - Quarterly",
+            "tag_color": "#FDEFE2",
+            "tag_text_color": "#A0541C"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Switched the whole family. The fact that they show every source is everything.",
+            "author": "Jordan P.",
+            "author_sub": "Dad of 2 - Austin, TX",
+            "tag_label": "Bundle - Monthly",
+            "tag_color": "#EFE8F8",
+            "tag_text_color": "#5A2E89"
+          }
+        }
       ]
     }
   ]

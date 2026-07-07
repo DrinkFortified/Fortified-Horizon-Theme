@@ -197,25 +197,69 @@
   "name": "FTD-C - Supp Facts",
   "tag": null,
   "settings": [
-    { "type": "header", "content": "Layout" },
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "tablist_label",
+      "label": "Tablist aria-label",
+      "default": "Compare products"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
     {
       "type": "select",
       "id": "section_width",
       "label": "Section width",
       "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
       ],
       "default": "page-width"
     },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 800, "max": 1600, "step": 20, "default": 1200, "unit": "px" },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 800,
+      "max": 1600,
+      "step": 20,
+      "default": 1200,
+      "unit": "px"
+    },
     {
       "type": "select",
       "id": "panel_position",
       "label": "Nutrition panel position",
       "options": [
-        { "value": "left",  "label": "Left" },
-        { "value": "right", "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ],
       "default": "left"
     },
@@ -224,30 +268,63 @@
       "id": "tab_style",
       "label": "Tab style",
       "options": [
-        { "value": "pill",      "label": "Pill" },
-        { "value": "underline", "label": "Underline" }
+        {
+          "value": "pill",
+          "label": "Pill"
+        },
+        {
+          "value": "underline",
+          "label": "Underline"
+        }
       ],
       "default": "pill"
     },
-    { "type": "color", "id": "default_accent_color", "label": "Default accent color", "default": "#1FA8A1" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Section header" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
-    { "type": "text", "id": "heading", "label": "Heading" },
-    { "type": "text", "id": "tablist_label", "label": "Tablist aria-label", "default": "Compare products" },
-
-    { "type": "header", "content": "Spacing" },
-    { "type": "range", "id": "padding_top",    "label": "Top padding",    "min": 0, "max": 200, "step": 4, "default": 64, "unit": "px" },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 200, "step": 4, "default": 64, "unit": "px" }
+    {
+      "type": "color",
+      "id": "default_accent_color",
+      "label": "Default accent color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    }
   ],
   "blocks": [
-    { "type": "_ftd-c-supp-product" }
+    {
+      "type": "_ftd-c-supp-product"
+    }
   ],
   "presets": [
     {
       "name": "FTD-C - Supp Facts",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "settings": {
         "eyebrow": "Compare",
         "heading": "How each formula breaks down",
@@ -255,8 +332,12 @@
         "tab_style": "pill"
       },
       "blocks": {
-        "p1": { "type": "_ftd-c-supp-product" },
-        "p2": { "type": "_ftd-c-supp-product" }
+        "p1": {
+          "type": "_ftd-c-supp-product"
+        },
+        "p2": {
+          "type": "_ftd-c-supp-product"
+        }
       }
     }
   ]

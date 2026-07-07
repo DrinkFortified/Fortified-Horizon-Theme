@@ -114,40 +114,194 @@
   "tag": "section",
   "class": "ftd-b-ingredients-section",
   "settings": [
-    { "type": "header", "content": "Header" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Full Transparency" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Every ingredient. Every milligram. Every reason." },
-    { "type": "text", "id": "heading_emphasis_word", "label": "Emphasized word", "info": "First match in the heading is wrapped in an accent italic.", "default": "Every reason." },
-    { "type": "textarea", "id": "body", "label": "Body" },
-    { "type": "header", "content": "Table" },
-    { "type": "text", "id": "column_labels_ingredient", "label": "Column label - Ingredient", "default": "Ingredient" },
-    { "type": "text", "id": "column_labels_amount", "label": "Column label - Amount", "default": "Per Serving" },
-    { "type": "text", "id": "column_labels_why", "label": "Column label - Why", "default": "Why It's Here" },
-    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#1FA8A1" },
-    { "type": "range", "id": "row_hover_tint_opacity", "label": "Row hover tint opacity", "min": 0, "max": 30, "step": 2, "unit": "%", "default": 8 },
-    { "type": "text", "id": "footer_note", "label": "Footer note", "default": "No Mumbo Jumbo. That's the whole list." },
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Full Transparency"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Every ingredient. Every milligram. Every reason."
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis_word",
+      "label": "Emphasized word",
+      "info": "First match in the heading is wrapped in an accent italic.",
+      "default": "Every reason."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body"
+    },
+    {
+      "type": "header",
+      "content": "Table"
+    },
+    {
+      "type": "text",
+      "id": "column_labels_ingredient",
+      "label": "Column label - Ingredient",
+      "default": "Ingredient"
+    },
+    {
+      "type": "text",
+      "id": "column_labels_amount",
+      "label": "Column label - Amount",
+      "default": "Per Serving"
+    },
+    {
+      "type": "text",
+      "id": "column_labels_why",
+      "label": "Column label - Why",
+      "default": "Why It's Here"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "range",
+      "id": "row_hover_tint_opacity",
+      "label": "Row hover tint opacity",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "%",
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "footer_note",
+      "label": "Footer note",
+      "default": "No Mumbo Jumbo. That's the whole list."
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
       "type": "ingredient",
       "name": "Ingredient",
       "settings": [
-        { "type": "text", "id": "name", "label": "Name", "default": "Pink Himalayan Salt" },
-        { "type": "text", "id": "alias", "label": "Alias", "default": "as Ancient Ocean" },
-        { "type": "text", "id": "source_badge", "label": "Source badge", "info": "Optional. Renders as a small uppercase pill." },
-        { "type": "text", "id": "amount", "label": "Amount", "default": "3,077mg" },
-        { "type": "textarea", "id": "why", "label": "Why it's here", "default": "Primary electrolyte. Sodium drives fluid absorption via sodium-glucose cotransport." }
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Pink Himalayan Salt"
+        },
+        {
+          "type": "text",
+          "id": "alias",
+          "label": "Alias",
+          "default": "as Ancient Ocean"
+        },
+        {
+          "type": "text",
+          "id": "source_badge",
+          "label": "Source badge",
+          "info": "Optional. Renders as a small uppercase pill."
+        },
+        {
+          "type": "text",
+          "id": "amount",
+          "label": "Amount",
+          "default": "3,077mg"
+        },
+        {
+          "type": "textarea",
+          "id": "why",
+          "label": "Why it's here",
+          "default": "Primary electrolyte. Sodium drives fluid absorption via sodium-glucose cotransport."
+        }
       ]
     }
   ],
@@ -155,13 +309,55 @@
   "presets": [
     {
       "name": "FTD-B - Ingredients",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "ingredient", "settings": { "name": "Pink Himalayan Salt", "alias": "as Ancient Ocean", "source_badge": "Traceable", "amount": "3,077mg", "why": "Primary electrolyte. Sodium drives fluid absorption via sodium-glucose cotransport." } },
-        { "type": "ingredient", "settings": { "name": "Magnesium Malate", "alias": "Magnesium + Malic Acid", "amount": "1,000mg", "why": "Malic acid is a Krebs cycle intermediate. Magnesium cofactors 300+ enzymatic reactions." } },
-        { "type": "ingredient", "settings": { "name": "Potassium Citrate", "alias": "Potassium + Citric Acid", "amount": "200mg", "why": "Pairs with sodium to support nerve signaling and muscle contraction." } },
-        { "type": "ingredient", "settings": { "name": "Coconut Water Powder", "alias": "Certified Organic", "source_badge": "Organic", "amount": "500mg", "why": "Whole-food source of trace minerals and natural electrolytes." } },
-        { "type": "ingredient", "settings": { "name": "Natural Caffeine", "alias": "from Whole Coffee Beans", "amount": "152mg", "why": "Improves alertness, reaction time, and endurance at this dose." } }
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Pink Himalayan Salt",
+            "alias": "as Ancient Ocean",
+            "source_badge": "Traceable",
+            "amount": "3,077mg",
+            "why": "Primary electrolyte. Sodium drives fluid absorption via sodium-glucose cotransport."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium Malate",
+            "alias": "Magnesium + Malic Acid",
+            "amount": "1,000mg",
+            "why": "Malic acid is a Krebs cycle intermediate. Magnesium cofactors 300+ enzymatic reactions."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Potassium Citrate",
+            "alias": "Potassium + Citric Acid",
+            "amount": "200mg",
+            "why": "Pairs with sodium to support nerve signaling and muscle contraction."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coconut Water Powder",
+            "alias": "Certified Organic",
+            "source_badge": "Organic",
+            "amount": "500mg",
+            "why": "Whole-food source of trace minerals and natural electrolytes."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Natural Caffeine",
+            "alias": "from Whole Coffee Beans",
+            "amount": "152mg",
+            "why": "Improves alertness, reaction time, and endurance at this dose."
+          }
+        }
       ]
     }
   ]

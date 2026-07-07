@@ -502,70 +502,270 @@
   "tag": "section",
   "class": "ftd-b-creatine-section",
   "settings": [
-    { "type": "header", "content": "Header" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Complete the Stack" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "One ingredient means exactly that." },
-    { "type": "text", "id": "heading_emphasis_word", "label": "Heading emphasis word", "default": "exactly that." },
-    { "type": "textarea", "id": "body", "label": "Body copy", "default": "One ingredient. Every milligram on the label. 500+ peer-reviewed studies. Creatine monohydrate is the most studied sports-nutrition ingredient on earth, and we put nothing else in the jar." },
-    { "type": "textarea", "id": "quote", "label": "Quote (optional)", "default": "What you see on this label is everything in this container." },
-    { "type": "color", "id": "quote_accent_color", "label": "Quote accent", "default": "#1FA8A1" },
-
-    { "type": "header", "content": "Visual" },
-    { "type": "image_picker", "id": "feature_image", "label": "Feature image (overrides canister)" },
-    { "type": "color", "id": "canister_background", "label": "Canister background", "default": "#0A0A0A" },
-    { "type": "color", "id": "canister_accent", "label": "Canister accent", "default": "#1FA8A1" },
-    { "type": "text", "id": "canister_brand", "label": "Canister brand", "default": "Fortified" },
-    { "type": "text", "id": "canister_product_name", "label": "Canister product name", "default": "Creatine Monohydrate" },
-    { "type": "text", "id": "canister_amount", "label": "Canister amount", "default": "5g" },
-    { "type": "text", "id": "canister_serving_note", "label": "Canister serving note", "default": "per serving - 45 servings" },
-
-    { "type": "header", "content": "Stat tiles" },
-    { "type": "color", "id": "stat_accent_color", "label": "Stat number color", "default": "#1FA8A1" },
-    { "type": "text", "id": "stat_1_number", "label": "Stat 1 number", "default": "5g" },
-    { "type": "text", "id": "stat_1_label",  "label": "Stat 1 label",  "default": "Per Serving" },
-    { "type": "text", "id": "stat_2_number", "label": "Stat 2 number", "default": "45" },
-    { "type": "text", "id": "stat_2_label",  "label": "Stat 2 label",  "default": "Servings" },
-    { "type": "text", "id": "stat_3_number", "label": "Stat 3 number", "default": "500+" },
-    { "type": "text", "id": "stat_3_label",  "label": "Stat 3 label",  "default": "Studies" },
-    { "type": "text", "id": "stat_4_number", "label": "Stat 4 number", "default": "1" },
-    { "type": "text", "id": "stat_4_label",  "label": "Stat 4 label",  "default": "Ingredient" },
-
-    { "type": "header", "content": "Pricing cards" },
-    { "type": "checkbox", "id": "show_plans", "label": "Show one-time / subscribe plans", "default": true, "info": "Turn off to hide the plan picker and show a single price + CTA instead." },
-    { "type": "text", "id": "simple_price", "label": "Simple price (when plans are off)", "default": "$24.00" },
-    { "type": "text", "id": "simple_price_note", "label": "Simple price note (when plans are off)", "default": "45 servings - Unflavored" },
-    { "type": "text", "id": "pricing_label_onetime", "label": "One-time label", "default": "One-Time" },
-    { "type": "text", "id": "pricing_price_onetime", "label": "One-time price", "default": "$24.00" },
-    { "type": "text", "id": "pricing_note_onetime", "label": "One-time note", "default": "45 servings - Unflavored" },
-    { "type": "text", "id": "pricing_label_sub", "label": "Subscribe label", "default": "Subscribe & Save 50%" },
-    { "type": "text", "id": "pricing_price_sub", "label": "Subscribe price", "default": "$12.00" },
-    { "type": "text", "id": "pricing_note_sub", "label": "Subscribe note", "default": "Monthly - Free shipping" },
-    { "type": "color", "id": "pricing_accent", "label": "Selected card border", "default": "#1FA8A1" },
-
-    { "type": "header", "content": "CTA" },
-    { "type": "text", "id": "cta_label_template", "label": "CTA label template", "default": "Add Creatine to Cart - {price}", "info": "Use {price} token; replaced with selected pricing card price." },
-    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Complete the Stack"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "One ingredient means exactly that."
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis_word",
+      "label": "Heading emphasis word",
+      "default": "exactly that."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body copy",
+      "default": "One ingredient. Every milligram on the label. 500+ peer-reviewed studies. Creatine monohydrate is the most studied sports-nutrition ingredient on earth, and we put nothing else in the jar."
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote (optional)",
+      "default": "What you see on this label is everything in this container."
+    },
+    {
+      "type": "color",
+      "id": "quote_accent_color",
+      "label": "Quote accent",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "header",
+      "content": "Visual"
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_image",
+      "label": "Feature image (overrides canister)"
+    },
+    {
+      "type": "color",
+      "id": "canister_background",
+      "label": "Canister background",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "canister_accent",
+      "label": "Canister accent",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "text",
+      "id": "canister_brand",
+      "label": "Canister brand",
+      "default": "Fortified"
+    },
+    {
+      "type": "text",
+      "id": "canister_product_name",
+      "label": "Canister product name",
+      "default": "Creatine Monohydrate"
+    },
+    {
+      "type": "text",
+      "id": "canister_amount",
+      "label": "Canister amount",
+      "default": "5g"
+    },
+    {
+      "type": "text",
+      "id": "canister_serving_note",
+      "label": "Canister serving note",
+      "default": "per serving - 45 servings"
+    },
+    {
+      "type": "header",
+      "content": "Stat tiles"
+    },
+    {
+      "type": "color",
+      "id": "stat_accent_color",
+      "label": "Stat number color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_number",
+      "label": "Stat 1 number",
+      "default": "5g"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Stat 1 label",
+      "default": "Per Serving"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_number",
+      "label": "Stat 2 number",
+      "default": "45"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Stat 2 label",
+      "default": "Servings"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_number",
+      "label": "Stat 3 number",
+      "default": "500+"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Stat 3 label",
+      "default": "Studies"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_number",
+      "label": "Stat 4 number",
+      "default": "1"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_label",
+      "label": "Stat 4 label",
+      "default": "Ingredient"
+    },
+    {
+      "type": "header",
+      "content": "Pricing cards"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_plans",
+      "label": "Show one-time / subscribe plans",
+      "default": true,
+      "info": "Turn off to hide the plan picker and show a single price + CTA instead."
+    },
+    {
+      "type": "text",
+      "id": "simple_price",
+      "label": "Simple price (when plans are off)",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "simple_price_note",
+      "label": "Simple price note (when plans are off)",
+      "default": "45 servings - Unflavored"
+    },
+    {
+      "type": "text",
+      "id": "pricing_label_onetime",
+      "label": "One-time label",
+      "default": "One-Time"
+    },
+    {
+      "type": "text",
+      "id": "pricing_price_onetime",
+      "label": "One-time price",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "pricing_note_onetime",
+      "label": "One-time note",
+      "default": "45 servings - Unflavored"
+    },
+    {
+      "type": "text",
+      "id": "pricing_label_sub",
+      "label": "Subscribe label",
+      "default": "Subscribe & Save 50%"
+    },
+    {
+      "type": "text",
+      "id": "pricing_price_sub",
+      "label": "Subscribe price",
+      "default": "$12.00"
+    },
+    {
+      "type": "text",
+      "id": "pricing_note_sub",
+      "label": "Subscribe note",
+      "default": "Monthly - Free shipping"
+    },
+    {
+      "type": "color",
+      "id": "pricing_accent",
+      "label": "Selected card border",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.button"
+    },
+    {
+      "type": "text",
+      "id": "cta_label_template",
+      "label": "CTA label template",
+      "default": "Add Creatine to Cart - {price}",
+      "info": "Use {price} token; replaced with selected pricing card price."
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    },
     {
       "type": "select",
       "id": "cta_style",
       "label": "CTA style",
       "default": "filled",
       "options": [
-        { "value": "filled",  "label": "Filled" },
-        { "value": "outline", "label": "Outline" }
+        {
+          "value": "filled",
+          "label": "Filled"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        }
       ]
     },
-
-    { "type": "header", "content": "Layout" },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
     {
       "type": "select",
       "id": "image_position_desktop",
       "label": "Image position (desktop)",
       "default": "left",
       "options": [
-        { "value": "left",  "label": "Left" },
-        { "value": "right", "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ]
     },
     {
@@ -574,26 +774,75 @@
       "label": "Section width",
       "default": "page-width",
       "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
       ]
     },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "presets": [
     {
       "name": "FTD-B - Creatine",
-      "category": "Fortified Sections"
+      "category": "Fortified"
     }
   ]
 }

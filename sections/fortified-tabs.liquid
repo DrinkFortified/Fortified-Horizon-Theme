@@ -231,84 +231,345 @@
   "tag": "section",
   "class": "ftd-tabs-section",
   "settings": [
-    { "type": "header", "content": "Anchor" },
-    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
-    { "type": "header", "content": "Heading" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow (H4)", "default": "The Truth" },
-    { "type": "text", "id": "heading", "label": "Heading (H2)", "default": "Why We Beat The Rest" },
-    { "type": "richtext", "id": "subheading", "label": "Description", "default": "<p>Electrolytes don't provide full recovery.</p>" },
-
-    { "type": "header", "content": "Button" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Fortified Now" },
-    { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "header", "content": "Secondary CTA (Learn More)" },
-    { "type": "text", "id": "secondary_button_label", "label": "Secondary button label", "default": "Learn More" },
-    { "type": "text", "id": "secondary_button_link",  "label": "Secondary button link",  "default": "#shopify-section-ftd_c_supp_facts_4JN74r", "info": "Defaults to the Supplement Facts section." },
-    { "type": "select", "id": "button_style", "label": "Button style", "default": "filled",
-      "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" }, { "value": "ghost", "label": "Ghost" } ] },
-    { "type": "color", "id": "button_bg", "label": "Button background", "default": "#0A0A0A" },
-    { "type": "color", "id": "button_text", "label": "Button text", "default": "#FFFFFF" },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "accent_color", "label": "Accent (eyebrow + active tab)", "default": "#1FA8A1" },
-    { "type": "color", "id": "heading_color", "label": "Heading / text", "default": "#0A0A0A" },
-    { "type": "color", "id": "subtitle_color", "label": "Body / muted text", "default": "#666666" },
-    { "type": "color", "id": "tab_inactive_color", "label": "Inactive tab", "default": "#888888" },
-    { "type": "color", "id": "tab_line_color", "label": "Lines & dividers", "default": "#E5E7EB" },
-    { "type": "color", "id": "divider_color", "label": "Row column dividers", "default": "#C9CDD2" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1360 },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 64 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section. Use the selector prefix shown on its elements (e.g. .fttabs-… )." }
+    {
+      "type": "header",
+      "content": "Anchor"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only."
+    },
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow (H4)",
+      "default": "The Truth"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (H2)",
+      "default": "Why We Beat The Rest"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Description",
+      "default": "<p>Electrolytes don't provide full recovery.</p>"
+    },
+    {
+      "type": "header",
+      "content": "t:content.button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop Fortified Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Secondary CTA (Learn More)"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "Learn More"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_link",
+      "label": "Secondary button link",
+      "default": "#shopify-section-ftd_c_supp_facts_4JN74r",
+      "info": "Defaults to the Supplement Facts section."
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "filled",
+      "options": [
+        {
+          "value": "filled",
+          "label": "Filled"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "ghost",
+          "label": "Ghost"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button background",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1360
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent (eyebrow + active tab)",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading / text",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Body / muted text",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "tab_inactive_color",
+      "label": "Inactive tab",
+      "default": "#888888"
+    },
+    {
+      "type": "color",
+      "id": "tab_line_color",
+      "label": "Lines & dividers",
+      "default": "#E5E7EB"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Row column dividers",
+      "default": "#C9CDD2"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section. Use the selector prefix shown on its elements (e.g. .fttabs-… )."
+    }
   ],
   "blocks": [
     {
       "type": "tab",
       "name": "Tab",
       "settings": [
-        { "type": "paragraph", "content": "Add a Tab, then add Row blocks under it. Rows belong to the Tab above them." },
-        { "type": "text", "id": "tab_label", "label": "Tab label", "default": "Hydration" },
-        { "type": "checkbox", "id": "start_active", "label": "Show this tab first", "default": false },
-        { "type": "richtext", "id": "intro", "label": "Intro text (optional)" }
+        {
+          "type": "paragraph",
+          "content": "Add a Tab, then add Row blocks under it. Rows belong to the Tab above them."
+        },
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tab label",
+          "default": "Hydration"
+        },
+        {
+          "type": "checkbox",
+          "id": "start_active",
+          "label": "Show this tab first",
+          "default": false
+        },
+        {
+          "type": "richtext",
+          "id": "intro",
+          "label": "Intro text (optional)"
+        }
       ]
     },
     {
       "type": "row",
       "name": "Row",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Image" },
-        { "type": "text", "id": "title", "label": "Title", "default": "Sodium Citrate" },
-        { "type": "textarea", "id": "description", "label": "Description", "default": "Essential electrolyte to support fluid balance, hydration, and muscle function" },
-        { "type": "text", "id": "button_label", "label": "Button label", "default": "Hydration" },
-        { "type": "url", "id": "button_link", "label": "Button link" },
-        { "type": "header", "content": "Stat column" },
-        { "type": "text", "id": "stat_number", "label": "Stat number", "default": "1200MG" },
-        { "type": "text", "id": "stat_label", "label": "Stat label", "default": "Per Serving" },
-        { "type": "header", "content": "Facts column" },
-        { "type": "image_picker", "id": "icon", "label": "Icon" },
-        { "type": "text", "id": "fact_title", "label": "Fact title", "default": "Hydration Facts" },
-        { "type": "textarea", "id": "fact_text", "label": "Fact text", "default": "Supports muscle function and reduces cramps" }
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Sodium Citrate"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Essential electrolyte to support fluid balance, hydration, and muscle function"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Hydration"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "header",
+          "content": "Stat column"
+        },
+        {
+          "type": "text",
+          "id": "stat_number",
+          "label": "Stat number",
+          "default": "1200MG"
+        },
+        {
+          "type": "text",
+          "id": "stat_label",
+          "label": "Stat label",
+          "default": "Per Serving"
+        },
+        {
+          "type": "header",
+          "content": "Facts column"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "fact_title",
+          "label": "Fact title",
+          "default": "Hydration Facts"
+        },
+        {
+          "type": "textarea",
+          "id": "fact_text",
+          "label": "Fact text",
+          "default": "Supports muscle function and reduces cramps"
+        }
       ]
     }
   ],
   "presets": [
     {
       "name": "FTD - Tabbed Content",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "tab", "settings": { "tab_label": "Hydration", "start_active": true } },
-        { "type": "row" },
-        { "type": "row" },
-        { "type": "tab", "settings": { "tab_label": "Performance" } },
-        { "type": "row", "settings": { "title": "Magnesium Malate", "description": "Supports energy production and reduces cramps in high-intensity workouts", "fact_title": "Performance Facts" } }
+        {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Hydration",
+            "start_active": true
+          }
+        },
+        {
+          "type": "row"
+        },
+        {
+          "type": "row"
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Performance"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "title": "Magnesium Malate",
+            "description": "Supports energy production and reduces cramps in high-intensity workouts",
+            "fact_title": "Performance Facts"
+          }
+        }
       ]
     }
   ]

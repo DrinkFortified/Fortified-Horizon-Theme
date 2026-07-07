@@ -239,74 +239,367 @@
   "tag": "section",
   "class": "ftd-b-quick-buy-bar-section",
   "settings": [
-    { "type": "header", "content": "Visibility" },
-    { "type": "checkbox", "id": "enabled", "label": "Enabled", "default": true },
-    { "type": "checkbox", "id": "hide_on_mobile", "label": "Hide on mobile", "default": false },
-    { "type": "checkbox", "id": "hide_on_desktop", "label": "Hide on desktop", "default": false },
-    { "type": "header", "content": "Scroll trigger" },
-    { "type": "text", "id": "trigger_selector", "label": "Trigger CSS selector", "default": "#purchase", "info": "Bar appears once visitor scrolls past this element." },
-    { "type": "range", "id": "show_threshold_px", "label": "Extra threshold", "min": 0, "max": 800, "step": 20, "unit": "px", "default": 0 },
-    { "type": "header", "content": "Bar content" },
-    { "type": "color", "id": "product_dot_color", "label": "Product dot color", "default": "#1FA8A1" },
-    { "type": "text", "id": "product_name", "label": "Product name", "default": "Fortified Energy" },
-    { "type": "text", "id": "product_sub", "label": "Product subtext", "default": "Monthly - 10% off - Tap to customise" },
-    { "type": "text", "id": "bar_price", "label": "Bar price", "default": "$53.10" },
-    { "type": "text", "id": "change_label", "label": "Change label", "default": "Change" },
-    { "type": "text", "id": "buy_label", "label": "Buy button label", "default": "Subscribe" },
-    { "type": "url", "id": "buy_link", "label": "Buy link (optional)", "info": "If set, the Buy button is a link; otherwise it triggers add-to-cart." },
-    { "type": "header", "content": "Drawer content" },
-    { "type": "text", "id": "drawer_heading", "label": "Drawer heading", "default": "Customise your order" },
-    { "type": "text", "id": "drawer_cta_label_template", "label": "Drawer CTA template", "default": "Subscribe & Save (price)", "info": "Use (price) token; replaced with bar price." },
-    { "type": "header", "content": "Style" },
-    { "type": "color", "id": "bar_background", "label": "Bar background", "default": "#FFFFFF" },
-    { "type": "color", "id": "bar_text_color", "label": "Bar text", "default": "#0A0A0A" },
-    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#1FA8A1" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "page-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enabled",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Scroll trigger"
+    },
+    {
+      "type": "text",
+      "id": "trigger_selector",
+      "label": "Trigger CSS selector",
+      "default": "#purchase",
+      "info": "Bar appears once visitor scrolls past this element."
+    },
+    {
+      "type": "range",
+      "id": "show_threshold_px",
+      "label": "Extra threshold",
+      "min": 0,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Bar content"
+    },
+    {
+      "type": "color",
+      "id": "product_dot_color",
+      "label": "Product dot color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "text",
+      "id": "product_name",
+      "label": "Product name",
+      "default": "Fortified Energy"
+    },
+    {
+      "type": "text",
+      "id": "product_sub",
+      "label": "Product subtext",
+      "default": "Monthly - 10% off - Tap to customise"
+    },
+    {
+      "type": "text",
+      "id": "bar_price",
+      "label": "Bar price",
+      "default": "$53.10"
+    },
+    {
+      "type": "text",
+      "id": "change_label",
+      "label": "Change label",
+      "default": "Change"
+    },
+    {
+      "type": "text",
+      "id": "buy_label",
+      "label": "Buy button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "url",
+      "id": "buy_link",
+      "label": "Buy link (optional)",
+      "info": "If set, the Buy button is a link; otherwise it triggers add-to-cart."
+    },
+    {
+      "type": "header",
+      "content": "Drawer content"
+    },
+    {
+      "type": "text",
+      "id": "drawer_heading",
+      "label": "Drawer heading",
+      "default": "Customise your order"
+    },
+    {
+      "type": "text",
+      "id": "drawer_cta_label_template",
+      "label": "Drawer CTA template",
+      "default": "Subscribe & Save (price)",
+      "info": "Use (price) token; replaced with bar price."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "bar_background",
+      "label": "Bar background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "bar_text_color",
+      "label": "Bar text",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
       "type": "option_group",
       "name": "Option group",
       "settings": [
-        { "type": "text", "id": "label", "label": "Group label", "default": "Product" },
-        { "type": "select", "id": "type", "label": "Picker type", "default": "radio", "options": [ { "value": "radio", "label": "Radio" }, { "value": "toggle", "label": "Toggle" }, { "value": "chip", "label": "Chip" } ] }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Group label",
+          "default": "Product"
+        },
+        {
+          "type": "select",
+          "id": "type",
+          "label": "Picker type",
+          "default": "radio",
+          "options": [
+            {
+              "value": "radio",
+              "label": "Radio"
+            },
+            {
+              "value": "toggle",
+              "label": "Toggle"
+            },
+            {
+              "value": "chip",
+              "label": "Chip"
+            }
+          ]
+        }
       ]
     },
     {
       "type": "option_choice",
       "name": "Option choice",
       "settings": [
-        { "type": "range", "id": "parent_group_index", "label": "Parent group (1-indexed)", "min": 1, "max": 4, "step": 1, "default": 1 },
-        { "type": "text", "id": "label", "label": "Choice label", "default": "Fortified Energy" },
-        { "type": "text", "id": "value", "label": "Choice value", "default": "energy", "info": "Use a Shopify variant id (digits) here to enable add-to-cart." },
-        { "type": "color", "id": "accent_color", "label": "Accent color" },
-        { "type": "checkbox", "id": "is_default", "label": "Default selection", "default": false }
+        {
+          "type": "range",
+          "id": "parent_group_index",
+          "label": "Parent group (1-indexed)",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "default": 1
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Choice label",
+          "default": "Fortified Energy"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Choice value",
+          "default": "energy",
+          "info": "Use a Shopify variant id (digits) here to enable add-to-cart."
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Accent color"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_default",
+          "label": "Default selection",
+          "default": false
+        }
       ]
     }
   ],
   "presets": [
     {
       "name": "FTD-B - Quick Buy Bar",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "option_group", "settings": { "label": "Product", "type": "radio" } },
-        { "type": "option_group", "settings": { "label": "Plan", "type": "toggle" } },
-        { "type": "option_group", "settings": { "label": "Flavor", "type": "chip" } },
-        { "type": "option_choice", "settings": { "parent_group_index": 1, "label": "Fortified Energy", "value": "energy", "is_default": true } },
-        { "type": "option_choice", "settings": { "parent_group_index": 1, "label": "Fortified Everyday", "value": "everyday", "is_default": false } },
-        { "type": "option_choice", "settings": { "parent_group_index": 2, "label": "Monthly", "value": "monthly", "is_default": true } },
-        { "type": "option_choice", "settings": { "parent_group_index": 2, "label": "Quarterly", "value": "quarterly", "is_default": false } },
-        { "type": "option_choice", "settings": { "parent_group_index": 3, "label": "Citrus", "value": "citrus", "is_default": true } },
-        { "type": "option_choice", "settings": { "parent_group_index": 3, "label": "Berry", "value": "berry", "is_default": false } },
-        { "type": "option_choice", "settings": { "parent_group_index": 3, "label": "Unflavored", "value": "unflavored", "is_default": false } }
+        {
+          "type": "option_group",
+          "settings": {
+            "label": "Product",
+            "type": "radio"
+          }
+        },
+        {
+          "type": "option_group",
+          "settings": {
+            "label": "Plan",
+            "type": "toggle"
+          }
+        },
+        {
+          "type": "option_group",
+          "settings": {
+            "label": "Flavor",
+            "type": "chip"
+          }
+        },
+        {
+          "type": "option_choice",
+          "settings": {
+            "parent_group_index": 1,
+            "label": "Fortified Energy",
+            "value": "energy",
+            "is_default": true
+          }
+        },
+        {
+          "type": "option_choice",
+          "settings": {
+            "parent_group_index": 1,
+            "label": "Fortified Everyday",
+            "value": "everyday",
+            "is_default": false
+          }
+        },
+        {
+          "type": "option_choice",
+          "settings": {
+            "parent_group_index": 2,
+            "label": "Monthly",
+            "value": "monthly",
+            "is_default": true
+          }
+        },
+        {
+          "type": "option_choice",
+          "settings": {
+            "parent_group_index": 2,
+            "label": "Quarterly",
+            "value": "quarterly",
+            "is_default": false
+          }
+        },
+        {
+          "type": "option_choice",
+          "settings": {
+            "parent_group_index": 3,
+            "label": "Citrus",
+            "value": "citrus",
+            "is_default": true
+          }
+        },
+        {
+          "type": "option_choice",
+          "settings": {
+            "parent_group_index": 3,
+            "label": "Berry",
+            "value": "berry",
+            "is_default": false
+          }
+        },
+        {
+          "type": "option_choice",
+          "settings": {
+            "parent_group_index": 3,
+            "label": "Unflavored",
+            "value": "unflavored",
+            "is_default": false
+          }
+        }
       ]
     }
   ]

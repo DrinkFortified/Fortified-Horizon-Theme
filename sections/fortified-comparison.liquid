@@ -453,85 +453,377 @@
   "tag": "section",
   "class": "ftd-comparison-section",
   "settings": [
-    { "type": "header", "content": "Anchor" },
-    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only." },
-    { "type": "header", "content": "Heading" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE TRUTH" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#1FA8A1" },
-    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Why We Beat The Rest Electrolytes" },
-    { "type": "richtext", "id": "subheading", "label": "Subheading" },
-
-    { "type": "header", "content": "Fortified column" },
-    { "type": "text", "id": "fortified_label", "label": "Column label", "default": "Fortified" },
-    { "type": "image_picker", "id": "fortified_logo", "label": "Column logo", "info": "Optional. Replaces the label text." },
-    { "type": "color", "id": "fortified_column_color", "label": "Column background", "default": "#0A0A0A" },
-    { "type": "color", "id": "fortified_text_color", "label": "Column text", "default": "#FFFFFF" },
-    { "type": "header", "content": "Icon colors" },
-    { "type": "color", "id": "check_color", "label": "Fortified column — check circle", "default": "#FFFFFF", "info": "The checkmark inside takes the Fortified column background color." },
-    { "type": "color", "id": "fortified_cross_color", "label": "Fortified column — cross", "info": "Optional. Falls back to the competitor cross color." },
-    { "type": "color", "id": "comp_check_color", "label": "Competitor columns — check circle", "info": "Optional. Falls back to the competitor cross color." },
-    { "type": "color", "id": "cross_color", "label": "Competitor columns — cross", "default": "#9CA3AF" },
-
-    { "type": "header", "content": "CTA" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop Fortified Now" },
-    { "type": "url", "id": "cta_link", "label": "CTA link" },
-    { "type": "select", "id": "cta_style", "label": "CTA style", "default": "outline", "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" } ] },
-    { "type": "header", "content": "Secondary CTA (Learn More)" },
-    { "type": "text", "id": "secondary_button_label", "label": "Secondary button label", "default": "Learn More" },
-    { "type": "text", "id": "secondary_button_link",  "label": "Secondary button link",  "default": "#shopify-section-ftd_c_supp_facts_4JN74r", "info": "Defaults to the Supplement Facts section." },
-
-    { "type": "header", "content": "Mobile" },
-    { "type": "text", "id": "mobile_swipe_hint", "label": "Swipe hint text", "default": "Swipe to compare →" },
-
-    { "type": "header", "content": "Layout" },
-    { "type": "range", "id": "table_radius", "label": "Table corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
-    { "type": "select", "id": "section_width", "label": "Section width", "default": "full-width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ] },
-    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 600, "max": 1800, "step": 20, "unit": "px", "default": 1240 },
-
-    { "type": "header", "content": "Colors" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-
-    { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
-
-    { "type": "header", "content": "Advanced" },
-    { "type": "textarea", "id": "custom_css", "label": "Custom CSS", "info": "Targets this section." }
+    {
+      "type": "header",
+      "content": "Anchor"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets you link to this section, e.g. #ingredients. Letters, numbers, and hyphens only."
+    },
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE TRUTH"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA8A1"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why We Beat The Rest Electrolytes"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Fortified column"
+    },
+    {
+      "type": "text",
+      "id": "fortified_label",
+      "label": "Column label",
+      "default": "Fortified"
+    },
+    {
+      "type": "image_picker",
+      "id": "fortified_logo",
+      "label": "Column logo",
+      "info": "Optional. Replaces the label text."
+    },
+    {
+      "type": "color",
+      "id": "fortified_column_color",
+      "label": "Column background",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "fortified_text_color",
+      "label": "Column text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Icon colors"
+    },
+    {
+      "type": "color",
+      "id": "check_color",
+      "label": "Fortified column — check circle",
+      "default": "#FFFFFF",
+      "info": "The checkmark inside takes the Fortified column background color."
+    },
+    {
+      "type": "color",
+      "id": "fortified_cross_color",
+      "label": "Fortified column — cross",
+      "info": "Optional. Falls back to the competitor cross color."
+    },
+    {
+      "type": "color",
+      "id": "comp_check_color",
+      "label": "Competitor columns — check circle",
+      "info": "Optional. Falls back to the competitor cross color."
+    },
+    {
+      "type": "color",
+      "id": "cross_color",
+      "label": "Competitor columns — cross",
+      "default": "#9CA3AF"
+    },
+    {
+      "type": "header",
+      "content": "t:content.button"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Shop Fortified Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    },
+    {
+      "type": "select",
+      "id": "cta_style",
+      "label": "CTA style",
+      "default": "outline",
+      "options": [
+        {
+          "value": "filled",
+          "label": "Filled"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Secondary CTA (Learn More)"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "Learn More"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_link",
+      "label": "Secondary button link",
+      "default": "#shopify-section-ftd_c_supp_facts_4JN74r",
+      "info": "Defaults to the Supplement Facts section."
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "mobile_swipe_hint",
+      "label": "Swipe hint text",
+      "default": "Swipe to compare →"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "range",
+      "id": "table_radius",
+      "label": "Table corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "full-width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1240
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "t:content.advanced"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "Targets this section."
+    }
   ],
   "blocks": [
     {
       "type": "feature_row",
       "name": "Feature row",
       "settings": [
-        { "type": "text", "id": "label", "label": "Feature label", "default": "Sodium per serving" },
-        { "type": "text", "id": "fortified_value", "label": "Fortified value", "default": "1000mg" },
-        { "type": "select", "id": "icon", "label": "Fortified cell as", "default": "text", "options": [ { "value": "text", "label": "Text value" }, { "value": "check", "label": "Check icon" }, { "value": "cross", "label": "Cross icon" } ] }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Feature label",
+          "default": "Sodium per serving"
+        },
+        {
+          "type": "text",
+          "id": "fortified_value",
+          "label": "Fortified value",
+          "default": "1000mg"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Fortified cell as",
+          "default": "text",
+          "options": [
+            {
+              "value": "text",
+              "label": "Text value"
+            },
+            {
+              "value": "check",
+              "label": "Check icon"
+            },
+            {
+              "value": "cross",
+              "label": "Cross icon"
+            }
+          ]
+        }
       ]
     },
     {
       "type": "competitor",
       "name": "Competitor",
       "settings": [
-        { "type": "text", "id": "name", "label": "Name", "default": "Liquid IV" },
-        { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Optional. Replaces the name." },
-        { "type": "textarea", "id": "values", "label": "Values", "info": "One value per line, in the same order as feature rows. Use ✓ / yes for a check, ✗ / no for a cross.", "default": "500mg\nno\nno\nno\nno\n$8.97" },
-        { "type": "color", "id": "highlight_color", "label": "Highlight color", "info": "Optional. Tints the header." }
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Liquid IV"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo",
+          "info": "Optional. Replaces the name."
+        },
+        {
+          "type": "textarea",
+          "id": "values",
+          "label": "Values",
+          "info": "One value per line, in the same order as feature rows. Use ✓ / yes for a check, ✗ / no for a cross.",
+          "default": "500mg\nno\nno\nno\nno\n$8.97"
+        },
+        {
+          "type": "color",
+          "id": "highlight_color",
+          "label": "Highlight color",
+          "info": "Optional. Tints the header."
+        }
       ]
     }
   ],
   "presets": [
     {
       "name": "FTD - Comparison Table",
-      "category": "Fortified Sections",
+      "category": "Fortified",
       "blocks": [
-        { "type": "feature_row", "settings": { "label": "Sodium per serving", "fortified_value": "1000mg", "icon": "text" } },
-        { "type": "feature_row", "settings": { "label": "Sugar-free", "icon": "check" } },
-        { "type": "feature_row", "settings": { "label": "Energy version (caffeine)", "icon": "check" } },
-        { "type": "feature_row", "settings": { "label": "Real fruit flavor", "icon": "check" } },
-        { "type": "feature_row", "settings": { "label": "Magnesium glycinate", "icon": "check" } },
-        { "type": "feature_row", "settings": { "label": "Trial price (3 sticks)", "fortified_value": "$1.99", "icon": "text" } },
-        { "type": "competitor", "settings": { "name": "Liquid IV", "values": "500mg\nno\nno\nno\nno\n$8.97" } },
-        { "type": "competitor", "settings": { "name": "LMNT", "values": "1000mg\nyes\nno\nno\nno\n$7.00" } }
+        {
+          "type": "feature_row",
+          "settings": {
+            "label": "Sodium per serving",
+            "fortified_value": "1000mg",
+            "icon": "text"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "label": "Sugar-free",
+            "icon": "check"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "label": "Energy version (caffeine)",
+            "icon": "check"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "label": "Real fruit flavor",
+            "icon": "check"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "label": "Magnesium glycinate",
+            "icon": "check"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "label": "Trial price (3 sticks)",
+            "fortified_value": "$1.99",
+            "icon": "text"
+          }
+        },
+        {
+          "type": "competitor",
+          "settings": {
+            "name": "Liquid IV",
+            "values": "500mg\nno\nno\nno\nno\n$8.97"
+          }
+        },
+        {
+          "type": "competitor",
+          "settings": {
+            "name": "LMNT",
+            "values": "1000mg\nyes\nno\nno\nno\n$7.00"
+          }
+        }
       ]
     }
   ]

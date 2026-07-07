@@ -107,24 +107,119 @@
   "name": "Announce — FOMO Counter",
   "tag": null,
   "settings": [
-    { "type": "header", "content": "Counter source" },
-    { "type": "paragraph", "content": "Shopify range steps cap around 101 ticks, so the claimed count is split into a thousands slider and a units slider that are added together." },
-    { "type": "range", "id": "total_spots", "label": "Total spots", "min": 100, "max": 5000, "step": 50, "default": 1000 },
-    { "type": "range", "id": "claimed_count_thousands", "label": "Claimed (thousands)", "min": 0, "max": 5, "step": 1, "default": 0 },
-    { "type": "range", "id": "claimed_count_units", "label": "Claimed (units, step 10)", "min": 0, "max": 990, "step": 10, "default": 0 },
-    { "type": "text", "id": "metafield_namespace", "label": "Metafield namespace (optional)" },
-    { "type": "text", "id": "metafield_key", "label": "Metafield key (optional)", "info": "If both are filled, shop.metafields[namespace][key] wins over the sliders." },
-    { "type": "header", "content": "Copy" },
-    { "type": "textarea", "id": "active_template", "label": "Active line", "default": "Only **{remaining}** of **{total}** subscription spots left", "info": "Tokens: {remaining} {total}. Wrap **text** to bold." },
-    { "type": "textarea", "id": "exhausted_template", "label": "Exhausted line", "default": "All **{total}** subscription spots claimed." },
-    { "type": "header", "content": "Appearance" },
-    { "type": "color", "id": "bg", "label": "Background", "default": "#0A0A0A" },
-    { "type": "color", "id": "fg", "label": "Text color", "default": "#FFFFFF" },
-    { "type": "checkbox", "id": "show_progress_bar", "label": "Show progress bar", "default": true },
-    { "type": "color", "id": "bar_active_color", "label": "Bar (active)", "default": "#E8833A" },
-    { "type": "color", "id": "bar_exhausted_color", "label": "Bar (exhausted)", "default": "#9CA3AF" },
-    { "type": "color", "id": "bar_track_color", "label": "Bar track", "default": "rgba(255,255,255,0.18)" },
-    { "type": "range",  "id": "bar_height", "label": "Bar height", "min": 4, "max": 16, "step": 1, "unit": "px", "default": 6 }
+    {
+      "type": "header",
+      "content": "Counter source"
+    },
+    {
+      "type": "paragraph",
+      "content": "Shopify range steps cap around 101 ticks, so the claimed count is split into a thousands slider and a units slider that are added together."
+    },
+    {
+      "type": "range",
+      "id": "total_spots",
+      "label": "Total spots",
+      "min": 100,
+      "max": 5000,
+      "step": 50,
+      "default": 1000
+    },
+    {
+      "type": "range",
+      "id": "claimed_count_thousands",
+      "label": "Claimed (thousands)",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "claimed_count_units",
+      "label": "Claimed (units, step 10)",
+      "min": 0,
+      "max": 990,
+      "step": 10,
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "metafield_namespace",
+      "label": "Metafield namespace (optional)"
+    },
+    {
+      "type": "text",
+      "id": "metafield_key",
+      "label": "Metafield key (optional)",
+      "info": "If both are filled, shop.metafields[namespace][key] wins over the sliders."
+    },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "textarea",
+      "id": "active_template",
+      "label": "Active line",
+      "default": "Only **{remaining}** of **{total}** subscription spots left",
+      "info": "Tokens: {remaining} {total}. Wrap **text** to bold."
+    },
+    {
+      "type": "textarea",
+      "id": "exhausted_template",
+      "label": "Exhausted line",
+      "default": "All **{total}** subscription spots claimed."
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "fg",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_bar",
+      "label": "Show progress bar",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bar_active_color",
+      "label": "Bar (active)",
+      "default": "#E8833A"
+    },
+    {
+      "type": "color",
+      "id": "bar_exhausted_color",
+      "label": "Bar (exhausted)",
+      "default": "#9CA3AF"
+    },
+    {
+      "type": "color",
+      "id": "bar_track_color",
+      "label": "Bar track",
+      "default": "rgba(255,255,255,0.18)"
+    },
+    {
+      "type": "range",
+      "id": "bar_height",
+      "label": "Bar height",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    }
   ]
 }
 {% endschema %}
