@@ -1,0 +1,40 @@
+name: Cleanup old branches
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  delete-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Delete all branches except main/test/backup
+        run: |
+          set -x
+          for b in \
+            claude/add-green-highlight \
+            claude/add-product-builder-section \
+            claude/bars-bulletproof \
+            claude/checkmark-equal-width \
+            claude/clean-ai-blocks \
+            claude/extract-fortified-tokens-WDAl0 \
+            claude/fix-broken-comment \
+            claude/fix-brother-1816-filenames \
+            claude/fix-range-bar-width \
+            claude/fix-stats-width-and-tabs \
+            claude/fix-tab-panel-css \
+            claude/fix-tabs-and-preset \
+            claude/fix-tabs-card-v2 \
+            claude/flavor-showcase-grouped-sections-kri84g \
+            claude/fortified-custom-sections-v1 \
+            claude/landing-hero \
+            claude/stat-chart-bars-and-typography \
+            claude/tabs-and-checklist \
+            claude/theme-push-tmp \
+            claude/uppercase-headings \
+            main-backup-before-fresh-import \
+          ; do
+            git push origin --delete "$b" || echo "skip: $b"
+          done
