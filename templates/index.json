@@ -9,291 +9,6 @@
  */
 {
   "sections": {
-    "marquee_UHmEiy": {
-      "type": "marquee",
-      "blocks": {
-        "icon_JDrq7U": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "price_tag",
-            "image_upload": "shopify://shop_images/OrganicFlavors-wo.svg",
-            "width": 36,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_Xx8WRT": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>Real-Fruit Organic Flavors</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "divider_EV7LkM": {
-          "type": "_divider",
-          "name": "t:names.divider",
-          "disabled": true,
-          "settings": {
-            "thickness": 1,
-            "corner_radius": "square",
-            "width_percent": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_Ph69gp": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "price_tag",
-            "image_upload": "shopify://shop_images/CleanFormula-wo.svg",
-            "width": 36,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_qjdy6f": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>Clean Electrolytes</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "divider_ipAHXY": {
-          "type": "_divider",
-          "name": "t:names.divider",
-          "disabled": true,
-          "settings": {
-            "thickness": 1,
-            "corner_radius": "square",
-            "width_percent": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_ajAVbj": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "price_tag",
-            "image_upload": "shopify://shop_images/D3White.svg",
-            "width": 36,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_C7ErEU": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>D3 + K2 You Can Actually Read</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "divider_RDitNK": {
-          "type": "_divider",
-          "name": "t:names.divider",
-          "disabled": true,
-          "settings": {
-            "thickness": 1,
-            "corner_radius": "square",
-            "width_percent": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_b79pWt": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "price_tag",
-            "image_upload": "shopify://shop_images/NoSugar-wo.svg",
-            "width": 36,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_WJcRzG": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>Zero Sugar, Zero Junk</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "divider_MbNfAp": {
-          "type": "_divider",
-          "name": "t:names.divider",
-          "disabled": true,
-          "settings": {
-            "thickness": 1,
-            "corner_radius": "square",
-            "width_percent": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_dbchFx": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "price_tag",
-            "image_upload": "shopify://shop_images/Transparency-wo.svg",
-            "width": 36,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_6dKdCL": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Every Milligram On The Label</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "custom",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "tight",
-            "letter_spacing": "tight",
-            "case": "none",
-            "wrap": "nowrap",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "divider_tUMdEq": {
-          "type": "_divider",
-          "name": "t:names.divider",
-          "disabled": true,
-          "settings": {
-            "thickness": 1,
-            "corner_radius": "square",
-            "width_percent": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "icon_JDrq7U",
-        "text_Xx8WRT",
-        "divider_EV7LkM",
-        "icon_Ph69gp",
-        "text_qjdy6f",
-        "divider_ipAHXY",
-        "icon_ajAVbj",
-        "text_C7ErEU",
-        "divider_RDitNK",
-        "icon_b79pWt",
-        "text_WJcRzG",
-        "divider_MbNfAp",
-        "icon_dbchFx",
-        "text_6dKdCL",
-        "divider_tUMdEq"
-      ],
-      "name": "t:names.marquee_section",
-      "settings": {
-        "anchor_id": "",
-        "movement_direction": "normal",
-        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 24,
-        "padding-block-end": 24,
-        "gap_between_elements": 24
-      }
-    },
     "section_6Nnkzx": {
       "type": "section",
       "blocks": {
@@ -745,6 +460,291 @@
         "gradient_direction": "to bottom",
         "padding-block-start": 35,
         "padding-block-end": 0
+      }
+    },
+    "marquee_UHmEiy": {
+      "type": "marquee",
+      "blocks": {
+        "icon_JDrq7U": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "price_tag",
+            "image_upload": "shopify://shop_images/OrganicFlavors-wo.svg",
+            "width": 36,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_Xx8WRT": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>Real-Fruit Organic Flavors</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "divider_EV7LkM": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "disabled": true,
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
+        "icon_Ph69gp": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "price_tag",
+            "image_upload": "shopify://shop_images/CleanFormula-wo.svg",
+            "width": 36,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_qjdy6f": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>Clean Electrolytes</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "divider_ipAHXY": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "disabled": true,
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
+        "icon_ajAVbj": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "price_tag",
+            "image_upload": "shopify://shop_images/D3White.svg",
+            "width": 36,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_C7ErEU": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>D3 + K2 You Can Actually Read</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "divider_RDitNK": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "disabled": true,
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
+        "icon_b79pWt": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "price_tag",
+            "image_upload": "shopify://shop_images/NoSugar-wo.svg",
+            "width": 36,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_WJcRzG": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>Zero Sugar, Zero Junk</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "divider_MbNfAp": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "disabled": true,
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
+        "icon_dbchFx": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "price_tag",
+            "image_upload": "shopify://shop_images/Transparency-wo.svg",
+            "width": 36,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_6dKdCL": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Every Milligram On The Label</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "divider_tUMdEq": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "disabled": true,
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "icon_JDrq7U",
+        "text_Xx8WRT",
+        "divider_EV7LkM",
+        "icon_Ph69gp",
+        "text_qjdy6f",
+        "divider_ipAHXY",
+        "icon_ajAVbj",
+        "text_C7ErEU",
+        "divider_RDitNK",
+        "icon_b79pWt",
+        "text_WJcRzG",
+        "divider_MbNfAp",
+        "icon_dbchFx",
+        "text_6dKdCL",
+        "divider_tUMdEq"
+      ],
+      "name": "t:names.marquee_section",
+      "settings": {
+        "anchor_id": "",
+        "movement_direction": "normal",
+        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
+        "padding-block-start": 24,
+        "padding-block-end": 24,
+        "gap_between_elements": 24
       }
     },
     "section_e7nAtg": {
@@ -3777,9 +3777,9 @@
     }
   },
   "order": [
-    "marquee_UHmEiy",
-    "section_6Nnkzx",
     "section_e7nAtg",
+    "section_6Nnkzx",
+    "marquee_UHmEiy",
     "section_QKzV4d",
     "fortified_ingredients_callout_dWY4Et",
     "fortified_ingredients_callout_TBXrBt",
