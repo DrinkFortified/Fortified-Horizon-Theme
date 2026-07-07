@@ -1,0 +1,30 @@
+name: Theme check
+on:
+  push:
+    branches: [test]
+  workflow_dispatch:
+
+jobs:
+  theme-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate JSON templates and config
+        run: |
+          python3 - <<'EOF'
+          import json, glob, sys
+          failed = False
+          for f in glob.glob("templates/*.json") + glob.glob("sections/*.json") + glob.glob("config/*.json") + glob.glob("locales/*.json"):
+              raw = open(f).read()
+              body = raw.split("*/", 1)[1] if raw.lstrip().startswith("/*") else raw
+              try:
+                  json.loads(body)
+              except Exception as e:
+                  print(f"INVALID JSON: {f}: {e}")
+                  failed = True
+          sys.exit(1 if failed else 0)
+          EOF
+      - name: Theme Check (Liquid lint)
+        uses: shopify/theme-check-action@v2
+        with:
+          theme_root: '.'

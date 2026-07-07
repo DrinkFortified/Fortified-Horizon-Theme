@@ -27,31 +27,34 @@
     {%- render 'theme-editor' -%}
   {% endif %}
 
+  <link rel="preload" href="{{ 'Brother-1816-Regular.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ 'Brother-1816-Black.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+
   {%- comment -%} Fortified overrides — must come AFTER Horizon's font/variable renders so :root wins the cascade {%- endcomment -%}
   <style>
     @font-face {
       font-family: "Brother 1816";
-      src: url("{{ 'Brother-1816-Regular.otf' | asset_url }}") format("opentype");
+      src: url("{{ 'Brother-1816-Regular.woff2' | asset_url }}") format("woff2");
       font-weight: 400; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "Brother 1816";
-      src: url("{{ 'Brother-1816-Regular-Italic.otf' | asset_url }}") format("opentype");
+      src: url("{{ 'Brother-1816-Regular-Italic.woff2' | asset_url }}") format("woff2");
       font-weight: 400; font-style: italic; font-display: swap;
     }
     @font-face {
       font-family: "Brother 1816";
-      src: url("{{ 'Brother-1816-Medium.otf' | asset_url }}") format("opentype");
+      src: url("{{ 'Brother-1816-Medium.woff2' | asset_url }}") format("woff2");
       font-weight: 500; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "Brother 1816";
-      src: url("{{ 'Brother-1816-Bold.otf' | asset_url }}") format("opentype");
+      src: url("{{ 'Brother-1816-Bold.woff2' | asset_url }}") format("woff2");
       font-weight: 700; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "Brother 1816";
-      src: url("{{ 'Brother-1816-Black.otf' | asset_url }}") format("opentype");
+      src: url("{{ 'Brother-1816-Black.woff2' | asset_url }}") format("woff2");
       font-weight: 900; font-style: normal; font-display: swap;
     }
 
