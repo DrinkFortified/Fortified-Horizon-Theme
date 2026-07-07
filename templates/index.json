@@ -1878,7 +1878,6 @@
         "ftd_c_function_pkzaNH",
         "ftd_c_function_gbkDqk"
       ],
-      "disabled": true,
       "name": "FTD - Product Selector D",
       "settings": {
         "anchor_id": "#flow",
@@ -2806,7 +2805,7 @@
         "media_height": "60svh",
         "section_width": "full-width",
         "extend_media": true,
-        "color_scheme": "scheme-046c53b2-a5dd-44d1-a564-9ea612efad61",
+        "color_scheme": "scheme-5",
         "padding-block-start": 0,
         "padding-block-end": 0
       }
