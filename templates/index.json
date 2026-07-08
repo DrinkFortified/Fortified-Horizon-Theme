@@ -741,8 +741,8 @@
         "anchor_id": "",
         "movement_direction": "normal",
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 24,
-        "padding-block-end": 24,
+        "padding-block-start": 32,
+        "padding-block-end": 32,
         "gap_between_elements": 24
       }
     },
@@ -1358,8 +1358,8 @@
         "color_scheme": "",
         "section_width": "page-width",
         "content_max_width": 1360,
-        "padding-block-start": 64,
-        "padding-block-end": 64,
+        "padding-block-start": 96,
+        "padding-block-end": 96,
         "custom_css": ""
       }
     },
@@ -1430,8 +1430,8 @@
         "color_scheme": "",
         "section_width": "page-width",
         "content_max_width": 1360,
-        "padding-block-start": 64,
-        "padding-block-end": 64,
+        "padding-block-start": 96,
+        "padding-block-end": 96,
         "custom_css": ""
       }
     },
@@ -1507,7 +1507,7 @@
         "enable_carousel": false,
         "card_height": 420,
         "card_height_mobile": 360,
-        "gap": 20,
+        "gap": 28,
         "corner_radius": 0,
         "card_bg": "#1a1a1a",
         "content_max_width": 1360,
@@ -1522,8 +1522,8 @@
         "card_caption_color": "#c9c9c9",
         "button_color": "",
         "section_width": "page-width",
-        "padding-block-start": 88,
-        "padding-block-end": 88,
+        "padding-block-start": 112,
+        "padding-block-end": 112,
         "custom_css": ""
       }
     },
@@ -1629,8 +1629,8 @@
         "eyebrow": "The Whole Truth",
         "heading": "Compare Every Milligram, Side By Side.",
         "tablist_label": "Compare Fortified products",
-        "padding-block-start": 64,
-        "padding-block-end": 64
+        "padding-block-start": 96,
+        "padding-block-end": 96
       }
     },
     "media_with_content_PXwBjE": {
@@ -1716,8 +1716,8 @@
         "section_width": "full-width",
         "extend_media": true,
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-start": 48,
+        "padding-block-end": 48
       }
     },
     "fortified_subscribe_save_gPX8Rx": {
@@ -1778,8 +1778,8 @@
         "section_width": "full-width",
         "content_max_width": 1800,
         "color_scheme": "scheme-5",
-        "padding-block-start": 88,
-        "padding-block-end": 88,
+        "padding-block-start": 112,
+        "padding-block-end": 112,
         "custom_css": ""
       }
     },
@@ -1959,7 +1959,7 @@
         "content_max_width": 1360,
         "color_scheme": "",
         "padding-block-start": 112,
-        "padding-block-end": 64
+        "padding-block-end": 96
       }
     },
     "fortified_stats_comparison_CLiX76": {
@@ -2015,7 +2015,7 @@
         "subheading": "<p>More of what your body actually needs. None of what it doesn't. Side-by-side with the hydration brands you were told to settle for.</p>",
         "section_width": "page-width",
         "columns": 3,
-        "card_gap": 20,
+        "card_gap": 24,
         "content_max_width": 1360,
         "mobile_scroll": true,
         "text_alignment": "left",
@@ -2046,8 +2046,8 @@
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "button_bg": "#0a0a0a",
         "button_text": "#ffffff",
-        "padding-block-start": 64,
-        "padding-block-end": 64,
+        "padding-block-start": 96,
+        "padding-block-end": 96,
         "custom_css": ""
       }
     },
@@ -2187,8 +2187,8 @@
         "section_width": "full-width",
         "content_max_width": 1360,
         "color_scheme": "scheme-1",
-        "padding-block-start": 64,
-        "padding-block-end": 64,
+        "padding-block-start": 96,
+        "padding-block-end": 96,
         "custom_css": ""
       }
     },
@@ -2526,8 +2526,8 @@
         "color_scheme": "",
         "section_width": "page-width",
         "content_max_width": 1360,
-        "padding-block-start": 64,
-        "padding-block-end": 64,
+        "padding-block-start": 96,
+        "padding-block-end": 96,
         "custom_css": ""
       }
     },
@@ -2600,8 +2600,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-start": 48,
+        "padding-block-end": 48
       }
     },
     "media_with_content_gRD9pV": {
@@ -2805,8 +2805,8 @@
         "section_width": "full-width",
         "extend_media": true,
         "color_scheme": "scheme-5",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-start": 48,
+        "padding-block-end": 48
       }
     },
     "fortified_truth_Q6ArF9": {
@@ -3198,8 +3198,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 64
+        "padding-block-start": 48,
+        "padding-block-end": 96
       }
     },
     "fortified_two_column_cta_r4Cf7t": {
@@ -3322,8 +3322,8 @@
         "section_width": "full-width",
         "content_max_width": 1800,
         "color_scheme": "scheme-5",
-        "padding-block-start": 88,
-        "padding-block-end": 88,
+        "padding-block-start": 112,
+        "padding-block-end": 112,
         "custom_css": ""
       }
     },
@@ -3607,8 +3607,8 @@
         "anchor_id": "",
         "movement_direction": "normal",
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 24,
-        "padding-block-end": 24,
+        "padding-block-start": 32,
+        "padding-block-end": 32,
         "gap_between_elements": 24
       }
     }

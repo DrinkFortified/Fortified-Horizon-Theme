@@ -131,7 +131,7 @@
       grid-template-columns: none;
       grid-auto-flow: column;
       grid-auto-columns: 78%;
-      gap: 14px;
+      gap: 16px;
       overflow-x: auto;
       overflow-y: visible;
       scroll-snap-type: x mandatory;
@@ -145,12 +145,12 @@
     #{{ root }} .{{ root }}__grid::-webkit-scrollbar { height: 0; display: none; }
     #{{ root }} .{{ root }}__grid { scrollbar-width: none; }
     {% else %}
-    #{{ root }} .{{ root }}__grid { grid-template-columns: 1fr; gap: 14px; }
+    #{{ root }} .{{ root }}__grid { grid-template-columns: 1fr; gap: 20px; }
     {% endif %}
   }
 
   /* Primary + secondary CTA row: equal width, side-by-side on all viewports. */
-  #{{ root }} .ftd-cta-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; align-items: stretch; }
+  #{{ root }} .ftd-cta-row { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; align-items: stretch; }
   #{{ root }} .ftd-cta-row > .button,
   #{{ root }} .ftd-cta-row > .button-secondary { flex: 0 1 auto; min-width: 12rem; white-space: nowrap; justify-content: center; text-align: center; }
 
