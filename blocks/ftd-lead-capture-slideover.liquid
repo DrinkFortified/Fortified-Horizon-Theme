@@ -24,6 +24,16 @@
   assign sid = block.id
   assign accent = block.settings.accent_color | default: '#1FA8A1'
   assign form_id = 'ftdlc-form-' | append: sid
+  comment
+    Form modes:
+      builtin — the native customer form below (email consent only; phone
+                and SMS consent are folded into customer tags).
+      app     — renders child app blocks instead: add the Shopify Forms
+                app block inside this block in the editor. Forms writes
+                the real phone field + native SMS marketing consent and
+                shows its own success message (Step 2 is skipped).
+  endcomment
+  assign form_mode = block.settings.form_mode | default: 'builtin'
 -%}
 
 {{ 'ftdc.css' | asset_url | stylesheet_tag }}
@@ -86,6 +96,9 @@
   }
   #ftdlc-{{ sid }} .ftdlc__desc p { margin: 0; }
   #ftdlc-{{ sid }} .ftdlc__desc p + p { margin-top: 0.6em; }
+
+  #ftdlc-{{ sid }} .ftdlc__app-form { margin-top: 4px; }
+  #ftdlc-{{ sid }} .ftdlc__app-form .shopify-app-block { margin: 0; }
 
   #ftdlc-{{ sid }} .ftdlc__field { margin: 0 0 16px; }
   #ftdlc-{{ sid }} .ftdlc__req { color: #D92D20; margin-left: 2px; }
@@ -219,6 +232,11 @@
             {%- if block.settings.heading != blank -%}<h2 class="ftdlc__heading">{{ block.settings.heading }}</h2>{%- endif -%}
             {%- if block.settings.description != blank -%}<div class="ftdlc__desc">{{ block.settings.description }}</div>{%- endif -%}
 
+            {%- if form_mode == 'app' -%}
+            <div class="ftdlc__app-form">
+              {% content_for 'blocks' %}
+            </div>
+            {%- else -%}
             {%- form 'customer', id: form_id, class: 'ftdlc__form', data-ftdlc-form: sid -%}
               {%- if form.posted_successfully? -%}
                 <span data-ftdlc-posted hidden></span>
@@ -273,9 +291,12 @@
 
               <button class="ftdlc__submit" type="submit" data-ftdlc-submit>{{ block.settings.submit_label | default: 'Sign Me Up' }}</button>
             {%- endform -%}
+            {%- endif -%}
           </div>
 
-          {%- comment %} ── Step 2: thank you ── {%- endcomment %}
+          {%- comment %} ── Step 2: thank you (built-in form only — Shopify
+              Forms shows its own success message) ── {%- endcomment %}
+          {%- if form_mode != 'app' -%}
           <div class="ftdlc__step" data-ftdlc-step="thanks">
             <div class="ftdlc__thanks">
               <span class="ftdlc__check" aria-hidden="true">
@@ -288,6 +309,7 @@
               {%- endif -%}
             </div>
           </div>
+          {%- endif -%}
 
         </div>
       </div>
@@ -510,6 +532,23 @@
       "content": "Step 1 — Form"
     },
     {
+      "type": "select",
+      "id": "form_mode",
+      "label": "Form",
+      "default": "builtin",
+      "options": [
+        {
+          "value": "builtin",
+          "label": "Built-in form"
+        },
+        {
+          "value": "app",
+          "label": "Shopify Forms app block"
+        }
+      ],
+      "info": "Shopify Forms mode writes the REAL phone field + native SMS marketing consent (needs the free Shopify Forms app). After switching, add the 'Forms' app block INSIDE this block in the editor. The fields, consent text and success message are then managed in the Forms app; Step 1 fields and Step 2 below only apply to the built-in form."
+    },
+    {
       "type": "image_picker",
       "id": "image",
       "label": "Top image",
@@ -638,6 +677,11 @@
     {
       "name": "FTD - Lead Capture SO",
       "category": "Fortified"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
     }
   ]
 }
