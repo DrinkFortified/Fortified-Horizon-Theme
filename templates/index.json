@@ -42,6 +42,7 @@
       "block_order": [
         "text_V73x8F"
       ],
+      "disabled": true,
       "name": "t:names.custom_section",
       "settings": {
         "anchor_id": "",
