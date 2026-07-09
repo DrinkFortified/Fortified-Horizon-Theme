@@ -99,6 +99,11 @@
 
   #ftdlc-{{ sid }} .ftdlc__app-form { margin-top: 4px; }
   #ftdlc-{{ sid }} .ftdlc__app-form .shopify-app-block { margin: 0; }
+  {%- if form_mode == 'app' and block.settings.app_form_selector != blank -%}
+  /* Pre-hide the Forms app block in its original spot in the parent
+     section; adoption JS restores display once it's inside the drawer. */
+  {{ block.settings.app_form_selector }} { display: none; }
+  {%- endif -%}
 
   #ftdlc-{{ sid }} .ftdlc__field { margin: 0 0 16px; }
   #ftdlc-{{ sid }} .ftdlc__req { color: #D92D20; margin-left: 2px; }
@@ -352,11 +357,26 @@
         }
       }
     }
-    if (el && !dialog.contains(el)) slot.appendChild(el);
+    if (el && !dialog.contains(el)) {
+      slot.appendChild(el);
+      el.style.display = 'block'; /* undo the pre-hide CSS once adopted */
+    }
   }
   adoptAppForm();
   document.addEventListener('DOMContentLoaded', adoptAppForm);
   document.addEventListener('shopify:section:load', function () { setTimeout(adoptAppForm, 60); });
+  /* The Forms app renders its form ASYNC after page load — watch for it
+     and adopt the moment it appears, so it never sits visible in the
+     parent section waiting for the first open. */
+  if (APP_MODE && 'MutationObserver' in window) {
+    var ftdlcMo = new MutationObserver(function () {
+      adoptAppForm();
+      var slot = dialog.querySelector('[data-ftdlc-form-slot]');
+      if (slot && slot.querySelector('.shopify-app-block, form')) ftdlcMo.disconnect();
+    });
+    ftdlcMo.observe(document.body, { childList: true, subtree: true });
+    setTimeout(function () { ftdlcMo.disconnect(); }, 15000);
+  }
 
   var lastFocus = null;
   function openDlg() {
