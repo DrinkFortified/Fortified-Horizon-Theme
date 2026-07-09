@@ -1,5 +1,9 @@
 {% comment %}
-  Block: FTD - Lead Capture — Slide-over
+  Section: FTD - Lead Capture — Slide-over (section variant)
+  Same shell as the block version, but as a SECTION it can host app
+  blocks (Shopify Forms) — app blocks cannot nest inside theme blocks.
+  Physical position on the page is irrelevant: the drawer is a fixed
+  overlay portaled to <body>.
   ----------------------------------------------------------------------
   Two-stage lead-capture flow in a slide-over panel (same shell as the
   product-selector slide-overs; reuses the .ftdc-slideover chrome from
@@ -21,8 +25,8 @@
 {% endcomment %}
 
 {%- liquid
-  assign sid = block.id
-  assign accent = block.settings.accent_color | default: '#1FA8A1'
+  assign sid = section.id
+  assign accent = section.settings.accent_color | default: '#1FA8A1'
   assign form_id = 'ftdlc-form-' | append: sid
   comment
     Form modes:
@@ -33,7 +37,7 @@
                 the real phone field + native SMS marketing consent and
                 shows its own success message (Step 2 is skipped).
   endcomment
-  assign form_mode = block.settings.form_mode | default: 'builtin'
+  assign form_mode = section.settings.form_mode | default: 'builtin'
 -%}
 
 {{ 'ftdc.css' | asset_url | stylesheet_tag }}
@@ -194,43 +198,43 @@
   #ftdlc-{{ sid }} .ftdlc__thanks-msg p + p { margin-top: 0.6em; }
 </style>
 
-<div class="ftdc-slideover-wrap" {{ block.shopify_attributes }}>
-  {%- if block.settings.show_trigger -%}
+<div class="ftdc-slideover-wrap" >
+  {%- if section.settings.show_trigger -%}
     {%- assign _trig_cls = 'button' -%}
-    {%- if block.settings.button_style == 'outline' -%}{%- assign _trig_cls = 'button button-secondary' -%}{%- endif -%}
+    {%- if section.settings.button_style == 'outline' -%}{%- assign _trig_cls = 'button button-secondary' -%}{%- endif -%}
     <button class="{{ _trig_cls }}"
             type="button"
             data-ftdlc-open="{{ sid }}"
             aria-haspopup="dialog"
             aria-controls="ftdlc-slideover-{{ sid }}">
-      {{ block.settings.button_label | default: 'Get 10% Off' }}
+      {{ section.settings.button_label | default: 'Get 10% Off' }}
     </button>
   {%- endif -%}
 
-  <div class="ftdc-slideover" id="ftdlc-slideover-{{ sid }}" style="--ftdc-slideover-w: {{ block.settings.slideover_width | default: 480 }}px;" role="dialog" aria-modal="true" aria-hidden="true" aria-label="{{ block.settings.heading | default: 'Sign up' | escape }}">
+  <div class="ftdc-slideover" id="ftdlc-slideover-{{ sid }}" style="--ftdc-slideover-w: {{ section.settings.slideover_width | default: 480 }}px;" role="dialog" aria-modal="true" aria-hidden="true" aria-label="{{ section.settings.heading | default: 'Sign up' | escape }}">
     <div class="ftdc-slideover__backdrop" data-ftdlc-close="{{ sid }}" aria-hidden="true"></div>
     <div class="ftdc-slideover__panel" role="document">
-      <button class="ftdc-slideover__close" type="button" data-ftdlc-close="{{ sid }}" aria-label="{{ block.settings.close_label | default: 'Close' | escape }}">
+      <button class="ftdc-slideover__close" type="button" data-ftdlc-close="{{ sid }}" aria-label="{{ section.settings.close_label | default: 'Close' | escape }}">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
 
       <div class="ftdc-slideover__inner">
-        <div id="ftdlc-{{ sid }}" class="color-{{ block.settings.color_scheme }}">
+        <div id="ftdlc-{{ sid }}" class="color-{{ section.settings.color_scheme }}">
 
           {%- comment %} ── Step 1: the form ── {%- endcomment %}
           <div class="ftdlc__step is-active" data-ftdlc-step="form">
-            {%- if block.settings.image != blank -%}
+            {%- if section.settings.image != blank -%}
               <div class="ftdlc__media">
-                {{ block.settings.image | image_url: width: 960 | image_tag: loading: 'lazy', widths: '480,720,960', alt: block.settings.heading | default: '' }}
+                {{ section.settings.image | image_url: width: 960 | image_tag: loading: 'lazy', widths: '480,720,960', alt: section.settings.heading | default: '' }}
               </div>
-            {%- elsif block.settings.fallback_image_filename != blank -%}
+            {%- elsif section.settings.fallback_image_filename != blank -%}
               {%- comment -%} No image picked: fall back to a named file from Content > Files. {%- endcomment -%}
               <div class="ftdlc__media">
-                <img src="{{ block.settings.fallback_image_filename | file_img_url: '960x' }}" alt="" loading="lazy">
+                <img src="{{ section.settings.fallback_image_filename | file_img_url: '960x' }}" alt="" loading="lazy">
               </div>
             {%- endif -%}
-            {%- if block.settings.heading != blank -%}<h2 class="ftdlc__heading">{{ block.settings.heading }}</h2>{%- endif -%}
-            {%- if block.settings.description != blank -%}<div class="ftdlc__desc">{{ block.settings.description }}</div>{%- endif -%}
+            {%- if section.settings.heading != blank -%}<h2 class="ftdlc__heading">{{ section.settings.heading }}</h2>{%- endif -%}
+            {%- if section.settings.description != blank -%}<div class="ftdlc__desc">{{ section.settings.description }}</div>{%- endif -%}
 
             {%- if form_mode == 'app' -%}
             <div class="ftdlc__app-form">
@@ -246,7 +250,7 @@
               {%- endif -%}
               <div class="ftdlc__errors" data-ftdlc-error hidden role="alert"></div>
 
-              {%- assign base_tags = block.settings.customer_tags | default: 'lead-capture' -%}
+              {%- assign base_tags = section.settings.customer_tags | default: 'lead-capture' -%}
               {%- comment -%} form_type=customer accepts contact[tags] with
                   custom tags. JS repacks this before submit to append the
                   phone (digits) and the consent marker, since this form
@@ -258,18 +262,18 @@
               <input type="hidden" name="return_to" value="{{ request.path }}?ftdlc_posted={{ sid }}">
 
               <div class="ftdlc__field">
-                <label class="ftdlc__label" for="ftdlc-name-{{ sid }}">{{ block.settings.name_label | default: 'Name' }}<span class="ftdlc__req" aria-hidden="true">*</span></label>
-                <input class="ftdlc__input" id="ftdlc-name-{{ sid }}" type="text" name="contact[first_name]" autocomplete="name" required placeholder="{{ block.settings.name_placeholder | default: 'Your name' | escape }}">
+                <label class="ftdlc__label" for="ftdlc-name-{{ sid }}">{{ section.settings.name_label | default: 'Name' }}<span class="ftdlc__req" aria-hidden="true">*</span></label>
+                <input class="ftdlc__input" id="ftdlc-name-{{ sid }}" type="text" name="contact[first_name]" autocomplete="name" required placeholder="{{ section.settings.name_placeholder | default: 'Your name' | escape }}">
               </div>
 
               <div class="ftdlc__field">
-                <label class="ftdlc__label" for="ftdlc-email-{{ sid }}">{{ block.settings.email_label | default: 'Email' }}<span class="ftdlc__req" aria-hidden="true">*</span></label>
-                <input class="ftdlc__input" id="ftdlc-email-{{ sid }}" type="email" name="contact[email]" autocomplete="email" required placeholder="{{ block.settings.email_placeholder | default: 'you@example.com' | escape }}">
+                <label class="ftdlc__label" for="ftdlc-email-{{ sid }}">{{ section.settings.email_label | default: 'Email' }}<span class="ftdlc__req" aria-hidden="true">*</span></label>
+                <input class="ftdlc__input" id="ftdlc-email-{{ sid }}" type="email" name="contact[email]" autocomplete="email" required placeholder="{{ section.settings.email_placeholder | default: 'you@example.com' | escape }}">
               </div>
 
               <div class="ftdlc__field">
-                <label class="ftdlc__label" for="ftdlc-phone-{{ sid }}">{{ block.settings.phone_label | default: 'Phone' }}{% if block.settings.phone_required %}<span class="ftdlc__req" aria-hidden="true">*</span>{% endif %}</label>
-                <input class="ftdlc__input" id="ftdlc-phone-{{ sid }}" type="tel" name="contact[phone]" autocomplete="tel" data-ftdlc-phone {% if block.settings.phone_required %}required{% endif %} placeholder="{{ block.settings.phone_placeholder | default: '(555) 555-5555' | escape }}">
+                <label class="ftdlc__label" for="ftdlc-phone-{{ sid }}">{{ section.settings.phone_label | default: 'Phone' }}{% if section.settings.phone_required %}<span class="ftdlc__req" aria-hidden="true">*</span>{% endif %}</label>
+                <input class="ftdlc__input" id="ftdlc-phone-{{ sid }}" type="tel" name="contact[phone]" autocomplete="tel" data-ftdlc-phone {% if section.settings.phone_required %}required{% endif %} placeholder="{{ section.settings.phone_placeholder | default: '(555) 555-5555' | escape }}">
               </div>
 
               {%- comment -%}
@@ -286,10 +290,10 @@
                   plus the customer's created_at timestamp). {%- endcomment -%}
               <label class="ftdlc__optin">
                 <input type="checkbox" required>
-                <span class="ftdlc__optin-text">{{ block.settings.optin_text | default: '<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href="/policies/privacy-policy">Privacy Policy</a> and <a href="/policies/terms-of-service">Terms of Service</a>.</p>' }}</span>
+                <span class="ftdlc__optin-text">{{ section.settings.optin_text | default: '<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href="/policies/privacy-policy">Privacy Policy</a> and <a href="/policies/terms-of-service">Terms of Service</a>.</p>' }}</span>
               </label>
 
-              <button class="ftdlc__submit" type="submit" data-ftdlc-submit>{{ block.settings.submit_label | default: 'Sign Me Up' }}</button>
+              <button class="ftdlc__submit" type="submit" data-ftdlc-submit>{{ section.settings.submit_label | default: 'Sign Me Up' }}</button>
             {%- endform -%}
             {%- endif -%}
           </div>
@@ -302,10 +306,10 @@
               <span class="ftdlc__check" aria-hidden="true">
                 <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              <h2 class="ftdlc__heading">{{ block.settings.success_heading | default: "You're In!" }}</h2>
-              <div class="ftdlc__thanks-msg">{{ block.settings.success_message | default: '<p>Thanks for signing up — keep an eye on your inbox.</p>' }}</div>
-              {%- if block.settings.success_button_label != blank -%}
-                <a class="ftdlc__submit" style="width: auto;" href="{{ block.settings.success_button_link | default: '#open-bundle' }}" data-ftdlc-thanks-cta>{{ block.settings.success_button_label }}</a>
+              <h2 class="ftdlc__heading">{{ section.settings.success_heading | default: "You're In!" }}</h2>
+              <div class="ftdlc__thanks-msg">{{ section.settings.success_message | default: '<p>Thanks for signing up — keep an eye on your inbox.</p>' }}</div>
+              {%- if section.settings.success_button_label != blank -%}
+                <a class="ftdlc__submit" style="width: auto;" href="{{ section.settings.success_button_link | default: '#open-bundle' }}" data-ftdlc-thanks-cta>{{ section.settings.success_button_label }}</a>
               {%- endif -%}
             </div>
           </div>
@@ -355,7 +359,7 @@
   });
 
   /* Link-based trigger: any <a href="#leadcapture"> (configurable) opens it. */
-  var TRIGGER_HREF = {{ block.settings.trigger_href | default: '#leadcapture' | json }};
+  var TRIGGER_HREF = {{ section.settings.trigger_href | default: '#leadcapture' | json }};
   if (TRIGGER_HREF) {
     document.addEventListener('click', function (e) {
       var a = e.target.closest && e.target.closest('a[href]');
@@ -453,8 +457,7 @@
 
 {% schema %}
 {
-  "name": "FTD - Lead Capture SO",
-  "tag": null,
+  "name": "FTD - Lead Capture (Forms)",
   "settings": [
     {
       "type": "header",
@@ -535,7 +538,7 @@
       "type": "select",
       "id": "form_mode",
       "label": "Form",
-      "default": "builtin",
+      "default": "app",
       "options": [
         {
           "value": "builtin",
@@ -546,7 +549,7 @@
           "label": "Shopify Forms app block"
         }
       ],
-      "info": "Shopify app blocks can only live in SECTIONS, so for Shopify Forms use the 'FTD - Lead Capture (Forms)' section instead of this block (Add section > Fortified). This block's Forms mode only renders app blocks when Shopify allows them here."
+      "info": "Shopify Forms mode writes the REAL phone field + native SMS marketing consent (needs the free Shopify Forms app). Click 'Add block' on this SECTION and pick the Forms app block. Fields, consent text and success message are managed in the Forms app; the settings below only apply to the built-in form."
     },
     {
       "type": "image_picker",
@@ -675,7 +678,7 @@
   ],
   "presets": [
     {
-      "name": "FTD - Lead Capture SO",
+      "name": "FTD - Lead Capture (Forms)",
       "category": "Fortified"
     }
   ],
@@ -683,6 +686,7 @@
     {
       "type": "@app"
     }
-  ]
+  ],
+  "tag": "div"
 }
 {% endschema %}
