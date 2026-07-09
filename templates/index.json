@@ -2947,7 +2947,7 @@
     "section_jcLNtw": {
       "type": "section",
       "blocks": {
-        "ftd_lead_capture_slideover_i8Y83p": {
+        "ftd_lead_capture_slideover_cVemk3": {
           "type": "ftd-lead-capture-slideover",
           "name": "FTD - Lead Capture SO",
           "settings": {
@@ -2958,8 +2958,44 @@
             "slideover_width": 480,
             "close_label": "Close",
             "color_scheme": "",
+            "accent_color": "#1FA8A1",
+            "form_mode": "app",
+            "app_form_selector": "",
+            "fallback_image_filename": "Hero-Products.webp",
+            "heading": "Join The Fortified List",
+            "description": "<p>Early access to drops, subscriber-only offers, and honest hydration tips. No spam, ever.</p>",
+            "name_label": "Name",
+            "name_placeholder": "Your name",
+            "email_label": "Email",
+            "email_placeholder": "you@example.com",
+            "phone_label": "Phone",
+            "phone_placeholder": "(555) 555-5555",
+            "phone_required": false,
+            "optin_text": "<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg & data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href=\"/policies/privacy-policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\">Terms of Service</a>.</p>",
+            "submit_label": "Sign Me Up",
+            "customer_tags": "lead-capture",
+            "success_heading": "You're In!",
+            "success_message": "<p>Thanks for signing up — keep an eye on your inbox.</p>",
+            "success_button_label": "Build Your Bundle",
+            "success_button_link": "#open-bundle"
+          },
+          "blocks": {}
+        },
+        "ftd_lead_capture_slideover_i8Y83p": {
+          "type": "ftd-lead-capture-slideover",
+          "name": "FTD - Lead Capture SO",
+          "disabled": true,
+          "settings": {
+            "trigger_href": "#leadcapture",
+            "show_trigger": false,
+            "button_label": "Get 10% Off",
+            "button_style": "filled",
+            "slideover_width": 480,
+            "close_label": "Close",
+            "color_scheme": "",
             "accent_color": "#1fa8a1",
             "form_mode": "app",
+            "app_form_selector": "",
             "image": "shopify://shop_images/CTA-Hero-Desktop2.webp",
             "fallback_image_filename": "Hero-Products.webp",
             "heading": "GET THE VIP FOUNDERS CLUB OFFER",
@@ -3169,6 +3205,7 @@
         }
       },
       "block_order": [
+        "ftd_lead_capture_slideover_cVemk3",
         "ftd_lead_capture_slideover_i8Y83p",
         "ftd_product_selector_d_slideover_Jzffnr"
       ],
