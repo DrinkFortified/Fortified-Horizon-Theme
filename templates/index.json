@@ -6,8 +6,74 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
+    "section_e7nAtg": {
+      "type": "section",
+      "blocks": {
+        "text_V73x8F": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>20% DISCOUNT + FREE 45-DAY SUPPLY OF CREATINE FOR THE LIFE OF YOUR SUBSCRIPTION WHEN YOU SIGN-UP TO OUR 90-DAY SUPPLY EVERY 3 MONTHS</p>",
+            "width": "fit-content",
+            "max_width": "none",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_V73x8F"
+      ],
+      "name": "t:names.custom_section",
+      "settings": {
+        "anchor_id": "",
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "horizontal_alignment_mobile": "",
+        "vertical_alignment_mobile": "",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 10,
+        "padding-block-end": 10
+      }
+    },
     "section_6Nnkzx": {
       "type": "section",
       "blocks": {
@@ -741,74 +807,9 @@
         "anchor_id": "",
         "movement_direction": "normal",
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 32,
-        "padding-block-end": 32,
+        "padding-block-start": 24,
+        "padding-block-end": 24,
         "gap_between_elements": 24
-      }
-    },
-    "section_e7nAtg": {
-      "type": "section",
-      "blocks": {
-        "text_V73x8F": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>20% DISCOUNT + FREE 45-DAY SUPPLY OF CREATINE FOR THE LIFE OF YOUR SUBSCRIPTION WHEN YOU SIGN-UP TO OUR 90-DAY SUPPLY EVERY 3 MONTHS</p>",
-            "width": "fit-content",
-            "max_width": "none",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_V73x8F"
-      ],
-      "name": "t:names.custom_section",
-      "settings": {
-        "anchor_id": "",
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "horizontal_alignment_mobile": "",
-        "vertical_alignment_mobile": "",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 10,
-        "padding-block-end": 10
       }
     },
     "section_QKzV4d": {
@@ -1297,7 +1298,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Sodium",
-            "description": "From Ancient Ocean\u00ae Pink Himalayan Salt. Replaces what real life takes out.",
+            "description": "From Ancient Ocean® Pink Himalayan Salt. Replaces what real life takes out.",
             "icon": "shopify://shop_images/Sodium-b.svg",
             "icon_color_override": ""
           }
@@ -1355,11 +1356,11 @@
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "button_style": "filled",
-        "color_scheme": "",
         "section_width": "page-width",
         "content_max_width": 1360,
-        "padding-block-start": 96,
-        "padding-block-end": 96,
+        "color_scheme": "",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
         "custom_css": ""
       }
     },
@@ -1370,7 +1371,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Sodium",
-            "description": "From Ancient Ocean\u00ae Pink Himalayan Salt. Replaces what your workout takes out.",
+            "description": "From Ancient Ocean® Pink Himalayan Salt. Replaces what your workout takes out.",
             "icon": "shopify://shop_images/Sodium-b.svg",
             "icon_color_override": ""
           }
@@ -1427,11 +1428,11 @@
         "secondary_button_label": "",
         "secondary_button_link": "",
         "button_style": "filled",
-        "color_scheme": "",
         "section_width": "page-width",
         "content_max_width": 1360,
-        "padding-block-start": 96,
-        "padding-block-end": 96,
+        "color_scheme": "",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
         "custom_css": ""
       }
     },
@@ -1507,13 +1508,14 @@
         "enable_carousel": false,
         "card_height": 420,
         "card_height_mobile": 360,
-        "gap": 28,
+        "gap": 20,
         "corner_radius": 0,
         "card_bg": "#1a1a1a",
         "content_max_width": 1360,
         "content_padding": 56,
         "content_color_scheme": "scheme-5",
         "content_radius": 0,
+        "section_width": "page-width",
         "color_scheme": "scheme-5",
         "eyebrow_color": "#9dbe5b",
         "heading_color": "#ffffff",
@@ -1521,9 +1523,8 @@
         "card_label_color": "#ffffff",
         "card_caption_color": "#c9c9c9",
         "button_color": "",
-        "section_width": "page-width",
-        "padding-block-start": 112,
-        "padding-block-end": 112,
+        "padding-block-start": 88,
+        "padding-block-end": 88,
         "custom_css": ""
       }
     },
@@ -1550,10 +1551,10 @@
             "callout_1_body": "Research increasingly points to their relationship in supporting where calcium actually ends up in the body. Vitamin D3 without K2 is a conversation half finished.",
             "callout_1_accent": "#1fa8a1",
             "callout_2_title": "Why 1,200mg sodium daily?",
-            "callout_2_body": "Sodium drives fluid absorption \u2014 without enough of it, water passes through instead of reaching your cells. Daily replacement is foundational.",
+            "callout_2_body": "Sodium drives fluid absorption — without enough of it, water passes through instead of reaching your cells. Daily replacement is foundational.",
             "callout_2_accent": "#e8833a",
             "callout_3_title": "Why no caffeine?",
-            "callout_3_body": "Everyday is for the long game \u2014 your daily ritual, any time of day. If you want a clean lift, Energy is built for those moments.",
+            "callout_3_body": "Everyday is for the long game — your daily ritual, any time of day. If you want a clean lift, Energy is built for those moments.",
             "callout_3_accent": "#8e8e93"
           }
         },
@@ -1574,13 +1575,13 @@
             "nutrients_text": "",
             "panel_footnote": "* Percent Daily Values are based on a 2,000 calorie diet.",
             "callout_1_title": "Why 150mg natural caffeine?",
-            "callout_1_body": "A meaningful lift \u2014 about a strong cup of coffee \u2014 from the same source humans have used for centuries, delivered without the synthetic-stimulant baggage.",
+            "callout_1_body": "A meaningful lift — about a strong cup of coffee — from the same source humans have used for centuries, delivered without the synthetic-stimulant baggage.",
             "callout_1_accent": "#e8833a",
             "callout_2_title": "Why 1,200mg sodium?",
             "callout_2_body": "Sodium is the primary electrolyte lost in sweat and the one that actually drives fluid absorption. Most hydration brands underdose it; we don't.",
             "callout_2_accent": "#1fa8a1",
             "callout_3_title": "Why no D3 on Energy?",
-            "callout_3_body": "Energy is your performance moment. Vitamin D3 belongs in your daily foundation \u2014 that's what Everyday is for.",
+            "callout_3_body": "Energy is your performance moment. Vitamin D3 belongs in your daily foundation — that's what Everyday is for.",
             "callout_3_accent": "#8e8e93"
           }
         },
@@ -1620,17 +1621,17 @@
       "name": "FTD-C - Supp Facts",
       "settings": {
         "anchor_id": "#labels",
+        "eyebrow": "The Whole Truth",
+        "heading": "Compare Every Milligram, Side By Side.",
+        "tablist_label": "Compare Fortified products",
         "section_width": "page-width",
         "content_max_width": 1360,
         "panel_position": "left",
         "tab_style": "pill",
         "default_accent_color": "#1fa8a1",
         "color_scheme": "scheme-1",
-        "eyebrow": "The Whole Truth",
-        "heading": "Compare Every Milligram, Side By Side.",
-        "tablist_label": "Compare Fortified products",
-        "padding-block-start": 96,
-        "padding-block-end": 96
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "media_with_content_PXwBjE": {
@@ -1716,8 +1717,8 @@
         "section_width": "full-width",
         "extend_media": true,
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "fortified_subscribe_save_gPX8Rx": {
@@ -1778,8 +1779,8 @@
         "section_width": "full-width",
         "content_max_width": 1800,
         "color_scheme": "scheme-5",
-        "padding-block-start": 112,
-        "padding-block-end": 112,
+        "padding-block-start": 88,
+        "padding-block-end": 88,
         "custom_css": ""
       }
     },
@@ -1923,9 +1924,9 @@
         "selected_word": "selected",
         "add_label": "ADD",
         "addon_product": "creatine",
-        "addon_label_monthly": "Add Creatine \u2014 50% off",
-        "addon_label_quarterly": "Add a 2nd Creatine \u2014 50% off",
-        "addon_label_onetime": "Add Creatine \u2014 25% off",
+        "addon_label_monthly": "Add Creatine — 50% off",
+        "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
+        "addon_label_onetime": "Add Creatine — 25% off",
         "addon_desc_monthly": "-",
         "addon_desc_quarterly": "1st Creatine is free with your bundle.",
         "addon_desc_onetime": "One-time. Discount auto-applied.",
@@ -1945,11 +1946,11 @@
         "loop_bundle_discount_id": "49078",
         "loop_bundle_api_selling_plan_id": "122825",
         "loop_bundle_selling_plan_id": "2607644731",
-        "loop_bundle_name": "90-Day Bundle \u2014 Every 3 Months",
+        "loop_bundle_name": "90-Day Bundle — Every 3 Months",
         "loop_bundle_property_key": "_bundleId",
         "total_label": "Total",
         "saved_word": "Saved",
-        "action_label_step1": "Next \u2192",
+        "action_label_step1": "Next →",
         "action_label_step2": "Continue",
         "checkout_label": "Checkout",
         "add_more_label": "Add More",
@@ -1959,7 +1960,7 @@
         "content_max_width": 1360,
         "color_scheme": "",
         "padding-block-start": 112,
-        "padding-block-end": 96
+        "padding-block-end": 64
       }
     },
     "fortified_stats_comparison_CLiX76": {
@@ -1970,7 +1971,7 @@
           "settings": {
             "number": "0%",
             "headline": "Zero Sugar. Zero Sweetener Guilt.",
-            "subtitle": "What you'll NEVER find in FORTIFIED\u00ae",
+            "subtitle": "What you'll NEVER find in FORTIFIED®",
             "footnote": "",
             "items": "No sugar\nNo sucralose or aspartame\nNo dyes\nNo proprietary blends"
           }
@@ -1995,7 +1996,7 @@
             "bar1_label": "Spring Water",
             "bar1_value": 38,
             "bar1_color": "#7b8794",
-            "bar2_label": "FORTIFIED\u00ae",
+            "bar2_label": "FORTIFIED®",
             "bar2_image": "shopify://shop_images/Fortified_-_Shield.svg",
             "bar2_value": 93,
             "bar2_color": "#1fa8a1"
@@ -2013,12 +2014,6 @@
         "eyebrow": "The Clean Difference",
         "heading": "Why Label-Readers Won't Drink Anything Else",
         "subheading": "<p>More of what your body actually needs. None of what it doesn't. Side-by-side with the hydration brands you were told to settle for.</p>",
-        "section_width": "page-width",
-        "columns": 3,
-        "card_gap": 24,
-        "content_max_width": 1360,
-        "mobile_scroll": true,
-        "text_alignment": "left",
         "number_size": 62,
         "headline_size": 36,
         "subtitle_size": 20,
@@ -2037,17 +2032,23 @@
         "bar_radius": 4,
         "grid_color": "#d9dee3",
         "scale_color": "#888888",
-        "accent_color": "#1fa8a1",
-        "heading_color": "#0a0a0a",
-        "color_scheme": "scheme-b6fff204-2611-42ad-97a3-74dfcba91118",
         "button_label": "Compare The Functions",
         "button_link": "#labels",
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "button_bg": "#0a0a0a",
         "button_text": "#ffffff",
-        "padding-block-start": 96,
-        "padding-block-end": 96,
+        "section_width": "page-width",
+        "columns": 3,
+        "card_gap": 20,
+        "content_max_width": 1360,
+        "mobile_scroll": true,
+        "text_alignment": "left",
+        "accent_color": "#1fa8a1",
+        "heading_color": "#0a0a0a",
+        "color_scheme": "scheme-b6fff204-2611-42ad-97a3-74dfcba91118",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
         "custom_css": ""
       }
     },
@@ -2058,8 +2059,8 @@
       "settings": {
         "anchor_id": "",
         "name": "Marisa K.",
-        "role": "Mom of three \u00b7 Verified subscriber",
-        "quote": "<p>I finally stopped reading the back of every electrolyte pouch. The front of FORTIFIED\u00ae IS the whole story \u2014 and I can hand it to my kids without a second thought.</p>",
+        "role": "Mom of three · Verified subscriber",
+        "quote": "<p>I finally stopped reading the back of every electrolyte pouch. The front of FORTIFIED® IS the whole story — and I can hand it to my kids without a second thought.</p>",
         "quote_marks": true,
         "button_label": "Shop Everyday",
         "button_link": "#open-bundle",
@@ -2068,9 +2069,9 @@
         "image_position_desktop": "right",
         "align_desktop": "left",
         "align_mobile": "left",
-        "color_scheme": "",
         "section_width": "page-width",
         "content_max_width": 1360,
+        "color_scheme": "",
         "padding-block-start": 64,
         "padding-block-end": 64,
         "custom_css": ""
@@ -2169,7 +2170,7 @@
         "eyebrow": "The Receipt",
         "eyebrow_color": "#ffffff",
         "heading": "Side By Side With What's On The Shelf",
-        "subheading": "<p>Same category. Very different scoop. Here's how FORTIFIED\u00ae stacks up against the hydration brands you've been settling for.</p>",
+        "subheading": "<p>Same category. Very different scoop. Here's how FORTIFIED® stacks up against the hydration brands you've been settling for.</p>",
         "fortified_label": "Fortified",
         "fortified_column_color": "#1fa8a1",
         "fortified_text_color": "#ffffff",
@@ -2182,13 +2183,13 @@
         "cta_style": "filled",
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
-        "mobile_swipe_hint": "Swipe to compare \u2192",
+        "mobile_swipe_hint": "Swipe to compare →",
         "table_radius": 16,
         "section_width": "full-width",
         "content_max_width": 1360,
         "color_scheme": "scheme-1",
-        "padding-block-start": 96,
-        "padding-block-end": 96,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
         "custom_css": ""
       }
     },
@@ -2208,7 +2209,7 @@
           "settings": {
             "image": "shopify://shop_images/Fortified_-_Shield.svg",
             "title": "Pink Himalayan Sodium",
-            "description": "1,210mg from Ancient Ocean\u00ae Pink Himalayan Salt \u2014 the electrolyte you lose most, dosed to actually replace it.",
+            "description": "1,210mg from Ancient Ocean® Pink Himalayan Salt — the electrolyte you lose most, dosed to actually replace it.",
             "button_label": "Learn More",
             "button_link": "",
             "stat_number": "1200MG",
@@ -2221,7 +2222,7 @@
           "type": "row",
           "settings": {
             "title": "Magnesium Malate",
-            "description": "1,000mg of one of the most bioavailable magnesium forms \u2014 supports energy, muscle function, and calm.",
+            "description": "1,000mg of one of the most bioavailable magnesium forms — supports energy, muscle function, and calm.",
             "button_label": "Learn More",
             "button_link": "",
             "stat_number": "1200MG",
@@ -2234,7 +2235,7 @@
           "type": "row",
           "settings": {
             "title": "Vitamin D3 + K2",
-            "description": "130% DV Vitamin D3 paired with K2 as MK-7 \u2014 together, the way your body actually uses them.",
+            "description": "130% DV Vitamin D3 paired with K2 as MK-7 — together, the way your body actually uses them.",
             "button_label": "Learn More",
             "button_link": "",
             "stat_number": "1200MG",
@@ -2255,7 +2256,7 @@
           "type": "row",
           "settings": {
             "title": "Natural Caffeine",
-            "description": "152mg from real coffee beans \u2014 not caffeine anhydrous, not a lab-made stimulant with a clean-sounding name.",
+            "description": "152mg from real coffee beans — not caffeine anhydrous, not a lab-made stimulant with a clean-sounding name.",
             "button_label": "Learn More",
             "button_link": "",
             "stat_number": "1200MG",
@@ -2281,7 +2282,7 @@
           "type": "row",
           "settings": {
             "title": "Coconut Water Powder",
-            "description": "From CocOganic\u00ae Plus \u2014 real-food potassium that rounds out the complete electrolyte matrix.",
+            "description": "From CocOganic® Plus — real-food potassium that rounds out the complete electrolyte matrix.",
             "button_label": "Learn More",
             "button_link": "",
             "stat_number": "1200MG",
@@ -2307,7 +2308,7 @@
         "anchor_id": "",
         "eyebrow": "What's In Your Pouch",
         "heading": "Why Each Ingredient Earned Its Spot",
-        "subheading": "<p>No proprietary blends. Nothing hidden behind a \"performance complex\" on the back. The exact reason each ingredient is in your scoop \u2014 and what it does for you.</p>",
+        "subheading": "<p>No proprietary blends. Nothing hidden behind a \"performance complex\" on the back. The exact reason each ingredient is in your scoop — and what it does for you.</p>",
         "button_label": "Shop The Lineup",
         "button_link": "",
         "secondary_button_label": "Learn More",
@@ -2315,6 +2316,8 @@
         "button_style": "filled",
         "button_bg": "#0a0a0a",
         "button_text": "#ffffff",
+        "section_width": "page-width",
+        "content_max_width": 1360,
         "accent_color": "#1fa8a1",
         "heading_color": "#0a0a0a",
         "subtitle_color": "#444444",
@@ -2322,8 +2325,6 @@
         "tab_line_color": "#e5e7eb",
         "divider_color": "#c9cdd2",
         "color_scheme": "",
-        "section_width": "page-width",
-        "content_max_width": 1360,
         "padding-block-start": 64,
         "padding-block-end": 64,
         "custom_css": ""
@@ -2389,7 +2390,7 @@
         "anchor_id": "",
         "eyebrow": "Mix & Match",
         "heading": "Two Functions. Real Flavors.\nOne Honest Label.",
-        "subheading": "<p>Salty Watermelon or Salty Orange. Daily foundation or clean lift. Pick your function, pick your flavor \u2014 your ritual, your way.</p>",
+        "subheading": "<p>Salty Watermelon or Salty Orange. Daily foundation or clean lift. Pick your function, pick your flavor — your ritual, your way.</p>",
         "secondary_button_label": "Learn More",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "button_label": "",
@@ -2406,6 +2407,7 @@
         "content_padding": 56,
         "content_color_scheme": "scheme-1",
         "content_radius": 0,
+        "section_width": "page-width",
         "color_scheme": "scheme-1",
         "eyebrow_color": "#1fa8a1",
         "heading_color": "",
@@ -2413,7 +2415,6 @@
         "card_label_color": "#ffffff",
         "card_caption_color": "#ffffff",
         "button_color": "",
-        "section_width": "page-width",
         "padding-block-start": 88,
         "padding-block-end": 88,
         "custom_css": ""
@@ -2521,13 +2522,13 @@
         "heading_emphasis_word": "honestly.",
         "show_tabs": true,
         "tabs_label_all": "All",
+        "section_width": "page-width",
+        "content_max_width": 1360,
         "accent_color": "#1fa8a1",
         "divider_color": "#e5e5e5",
         "color_scheme": "",
-        "section_width": "page-width",
-        "content_max_width": 1360,
-        "padding-block-start": 96,
-        "padding-block-end": 96,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
         "custom_css": ""
       }
     },
@@ -2600,8 +2601,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "media_with_content_gRD9pV": {
@@ -2634,7 +2635,7 @@
               "type": "text",
               "name": "t:names.caption",
               "settings": {
-                "text": "<p>Why FORTIFIED\u00ae</p>",
+                "text": "<p>Why FORTIFIED®</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -2726,7 +2727,7 @@
                 "text_KpDhEq": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Because every other \"clean\" hydration on the shelf still hid something \u2014 a sweetener nobody asked for, an electrolyte dosed too low to matter, a blend nobody could decode. FORTIFIED\u00ae is the answer for the people who actually read labels.<br/>The full dose. The real source. The whole story on the front of the pouch.</p>",
+                    "text": "<p>Because every other \"clean\" hydration on the shelf still hid something — a sweetener nobody asked for, an electrolyte dosed too low to matter, a blend nobody could decode. FORTIFIED® is the answer for the people who actually read labels.<br/>The full dose. The real source. The whole story on the front of the pouch.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
@@ -2805,8 +2806,8 @@
         "section_width": "full-width",
         "extend_media": true,
         "color_scheme": "scheme-5",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "fortified_truth_Q6ArF9": {
@@ -2930,6 +2931,7 @@
         "content_padding": 56,
         "content_color_scheme": "scheme-58084d4c-a86e-4d0a-855e-a0966e5043f7",
         "content_radius": 0,
+        "section_width": "page-width",
         "color_scheme": "scheme-1",
         "eyebrow_color": "#1498b5",
         "heading_color": "#000000",
@@ -2937,7 +2939,6 @@
         "card_label_color": "#ffffff",
         "card_caption_color": "#c9c9c9",
         "button_color": "",
-        "section_width": "page-width",
         "padding-block-start": 88,
         "padding-block-end": 88,
         "custom_css": ""
@@ -2958,6 +2959,7 @@
             "close_label": "Close",
             "color_scheme": "",
             "accent_color": "#1fa8a1",
+            "form_mode": "app",
             "image": "shopify://shop_images/CTA-Hero-Desktop2.webp",
             "fallback_image_filename": "Hero-Products.webp",
             "heading": "GET THE VIP FOUNDERS CLUB OFFER",
@@ -2968,12 +2970,12 @@
             "email_placeholder": "you@example.com",
             "phone_label": "Phone",
             "phone_placeholder": "(555) 555-5555",
-            "phone_required": true,
+            "phone_required": false,
             "optin_text": "<p>By checking this box, I agree to receive marketing emails and recurring automated promotional and personalized marketing text messages (e.g. offers, restock alerts) from FORTIFIED at the email address and phone number provided. Consent is not a condition of any purchase. Message frequency varies. Msg & data rates may apply. Reply HELP for help or STOP to cancel texts; unsubscribe anytime from emails. View our <a href=\"/policies/privacy-policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\">Terms of Service</a>.</p>",
             "submit_label": "Sign Me Up",
             "customer_tags": "lead-capture",
             "success_heading": "You're In!",
-            "success_message": "<p>Thanks for signing up \u2014 keep an eye on your inbox.</p>",
+            "success_message": "<p>Thanks for signing up — keep an eye on your inbox.</p>",
             "success_button_label": "Build Your Bundle",
             "success_button_link": "#open-bundle"
           },
@@ -3035,9 +3037,9 @@
             "selected_word": "selected",
             "add_label": "ADD",
             "addon_product": "creatine",
-            "addon_label_monthly": "Add Creatine \u2014 50% off",
-            "addon_label_quarterly": "Add a 2nd Creatine \u2014 50% off",
-            "addon_label_onetime": "Add Creatine \u2014 25% off",
+            "addon_label_monthly": "Add Creatine — 50% off",
+            "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
+            "addon_label_onetime": "Add Creatine — 25% off",
             "addon_desc_monthly": "-",
             "addon_desc_quarterly": "1st Creatine is free with your bundle.",
             "addon_desc_onetime": "One-time. Discount auto-applied.",
@@ -3057,11 +3059,11 @@
             "loop_bundle_discount_id": "49078",
             "loop_bundle_api_selling_plan_id": "122825",
             "loop_bundle_selling_plan_id": "2607644731",
-            "loop_bundle_name": "90-Day Bundle \u2014 Every 3 Months",
+            "loop_bundle_name": "90-Day Bundle — Every 3 Months",
             "loop_bundle_property_key": "_bundleId",
             "total_label": "Total",
             "saved_word": "Saved",
-            "action_label_step1": "Next \u2192",
+            "action_label_step1": "Next →",
             "action_label_step2": "Continue",
             "checkout_label": "Checkout",
             "add_more_label": "Add More",
@@ -3198,8 +3200,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 96
+        "padding-block-start": 0,
+        "padding-block-end": 64
       }
     },
     "fortified_two_column_cta_r4Cf7t": {
@@ -3211,7 +3213,7 @@
             "eyebrow": "Wholesale",
             "eyebrow_color": "#1fa8a1",
             "heading": "Stock The Hydration People Actually Trust",
-            "body": "Bring a clean-label, fully-disclosed electrolyte line to your shelves. Zero artificial sweeteners, real minerals from real sources, and a label your customers can read at a glance \u2014 no education required.",
+            "body": "Bring a clean-label, fully-disclosed electrolyte line to your shelves. Zero artificial sweeteners, real minerals from real sources, and a label your customers can read at a glance — no education required.",
             "button_label": "Apply For Wholesale",
             "button_link": "",
             "button_style": "outline",
@@ -3230,8 +3232,8 @@
           "settings": {
             "eyebrow": "Partners",
             "eyebrow_color": "#1fa8a1",
-            "heading": "Partner With FORTIFIED\u00ae",
-            "body": "For gyms, practitioners, and creators who only put their name on the real thing. Clean hydration, honest amounts, nothing to hide \u2014 built for the people you trust your audience with.",
+            "heading": "Partner With FORTIFIED®",
+            "body": "For gyms, practitioners, and creators who only put their name on the real thing. Clean hydration, honest amounts, nothing to hide — built for the people you trust your audience with.",
             "button_label": "Become A Partner",
             "button_link": "",
             "button_style": "outline",
@@ -3322,8 +3324,8 @@
         "section_width": "full-width",
         "content_max_width": 1800,
         "color_scheme": "scheme-5",
-        "padding-block-start": 112,
-        "padding-block-end": 112,
+        "padding-block-start": 88,
+        "padding-block-end": 88,
         "custom_css": ""
       }
     },
@@ -3607,8 +3609,8 @@
         "anchor_id": "",
         "movement_direction": "normal",
         "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 32,
-        "padding-block-end": 32,
+        "padding-block-start": 24,
+        "padding-block-end": 24,
         "gap_between_elements": 24
       }
     }
