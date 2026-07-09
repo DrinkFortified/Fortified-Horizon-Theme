@@ -233,7 +233,7 @@
             {%- if block.settings.description != blank -%}<div class="ftdlc__desc">{{ block.settings.description }}</div>{%- endif -%}
 
             {%- if form_mode == 'app' -%}
-            <div class="ftdlc__app-form">
+            <div class="ftdlc__app-form" data-ftdlc-form-slot>
               {% content_for 'blocks' %}
             </div>
             {%- else -%}
@@ -326,8 +326,41 @@
   /* Portal to <body> so no ancestor transform/filter traps the fixed panel. */
   if (dialog.parentNode !== document.body) document.body.appendChild(dialog);
 
+  /* App-form adoption: Shopify only lets the Forms app block be added to
+     SECTIONS, so in 'app' mode the merchant drops it into this block's
+     parent section and we relocate its DOM into the drawer. The app's
+     script binds submit handlers on the element itself, so moving it is
+     safe. Selector override available for pages with several app blocks. */
+  var APP_MODE = {{ form_mode | json }} === 'app';
+  var APP_SEL = {{ block.settings.app_form_selector | default: '' | json }};
+  function adoptAppForm() {
+    if (!APP_MODE) return;
+    var slot = dialog.querySelector('[data-ftdlc-form-slot]');
+    if (!slot || slot.querySelector('.shopify-app-block, form')) return;
+    var el = null;
+    if (APP_SEL) {
+      try { el = document.querySelector(APP_SEL); } catch (_) {}
+    }
+    if (!el) {
+      var candidates = document.querySelectorAll('.shopify-app-block');
+      for (var i = 0; i < candidates.length; i++) {
+        if (dialog.contains(candidates[i])) continue;
+        var html = candidates[i].innerHTML || '';
+        if (candidates[i].querySelector('form') || html.indexOf('shopify-forms') !== -1 || html.indexOf('data-shopify-form') !== -1) {
+          el = candidates[i];
+          break;
+        }
+      }
+    }
+    if (el && !dialog.contains(el)) slot.appendChild(el);
+  }
+  adoptAppForm();
+  document.addEventListener('DOMContentLoaded', adoptAppForm);
+  document.addEventListener('shopify:section:load', function () { setTimeout(adoptAppForm, 60); });
+
   var lastFocus = null;
   function openDlg() {
+    adoptAppForm();
     lastFocus = document.activeElement;
     dialog.classList.add('is-open');
     dialog.setAttribute('aria-hidden', 'false');
@@ -546,7 +579,13 @@
           "label": "Shopify Forms app block"
         }
       ],
-      "info": "Shopify app blocks can only live in SECTIONS, so for Shopify Forms use the 'FTD - Lead Capture (Forms)' section instead of this block (Add section > Fortified). This block's Forms mode only renders app blocks when Shopify allows them here."
+      "info": "Shopify Forms mode captures the REAL phone field + native SMS marketing consent (needs the free Shopify Forms app). Setup: add the Forms app block to this block's PARENT section (Shopify only allows app blocks in sections) and pick your form in it - this drawer automatically pulls it inside. Step 1 fields and Step 2 below only apply to the built-in form."
+    },
+    {
+      "type": "text",
+      "id": "app_form_selector",
+      "label": "App form selector (optional)",
+      "info": "Only needed if the page has several app blocks and the wrong one gets pulled in. CSS selector of the Forms block, e.g. #shopify-block-XXXX."
     },
     {
       "type": "image_picker",
