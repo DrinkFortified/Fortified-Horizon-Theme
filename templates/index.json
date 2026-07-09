@@ -2947,6 +2947,23 @@
     "section_jcLNtw": {
       "type": "section",
       "blocks": {
+        "forms_inline_ww4dbz": {
+          "type": "shopify://apps/forms/blocks/inline/8744a304-fcb1-4347-b211-bb6b4759a76a",
+          "settings": {
+            "form_id": "1063686",
+            "text_color": "#202020",
+            "button_background_color": "#202020",
+            "button_label_color": "#FFFFFF",
+            "links_color": "#1878B9",
+            "errors_color": "#E02229",
+            "text_alignment": "center",
+            "form_alignment": "center",
+            "padding_top": 0,
+            "padding_bottom": 24,
+            "padding_right": 0,
+            "padding_left": 0
+          }
+        },
         "ftd_lead_capture_slideover_cVemk3": {
           "type": "ftd-lead-capture-slideover",
           "name": "FTD - Lead Capture SO",
@@ -2958,9 +2975,9 @@
             "slideover_width": 480,
             "close_label": "Close",
             "color_scheme": "",
-            "accent_color": "#1FA8A1",
+            "accent_color": "#1fa8a1",
             "form_mode": "app",
-            "app_form_selector": "",
+            "app_form_selector": "1063686",
             "fallback_image_filename": "Hero-Products.webp",
             "heading": "Join The Fortified List",
             "description": "<p>Early access to drops, subscriber-only offers, and honest hydration tips. No spam, ever.</p>",
@@ -3205,6 +3222,7 @@
         }
       },
       "block_order": [
+        "forms_inline_ww4dbz",
         "ftd_lead_capture_slideover_cVemk3",
         "ftd_lead_capture_slideover_i8Y83p",
         "ftd_product_selector_d_slideover_Jzffnr"
