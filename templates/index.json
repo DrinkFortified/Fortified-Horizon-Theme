@@ -2978,6 +2978,7 @@
             "accent_color": "#1fa8a1",
             "form_mode": "app",
             "app_form_selector": "1063686",
+            "image": "shopify://shop_images/CTA-Hero-Desktop2.webp",
             "fallback_image_filename": "Hero-Products.webp",
             "heading": "Join The Fortified List",
             "description": "<p>Early access to drops, subscriber-only offers, and honest hydration tips. No spam, ever.</p>",
