@@ -81,11 +81,6 @@
     "variant_button_width": "equal-width-buttons",
     "content_for_index": [],
     "blocks": {
-      "1646258119762861607": {
-        "type": "shopify://apps/fonty-fonts-manager/blocks/fonty/cffed695-31eb-47cf-a491-8ff97f400571",
-        "disabled": true,
-        "settings": {}
-      },
       "2567389343055140935": {
         "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
         "disabled": false,
@@ -96,27 +91,29 @@
         "disabled": false,
         "settings": {}
       },
-      "9880403401104739693": {
-        "type": "shopify://apps/sparklayer-b2b-wholesale/blocks/sparklayer_core_script/019bbd73-3010-74e2-b9bd-86c9cb3ee550",
-        "disabled": false,
-        "settings": {
-          "css-variables": "",
-          "css-display-none": ""
-        }
-      },
       "15683396631634586217": {
         "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
-        "disabled": true,
+        "disabled": false,
         "settings": {
           "greeting_message": "",
+          "background_color": "#FFFFFF",
+          "font_color": "#000000",
           "button_color": "#000000",
           "secondary_color": "#ffffff",
           "ternary_color": "#6a6a6a",
           "button_icon": "chat_bubble",
           "button_text": "chat_with_us",
           "button_horizontal_position": "bottom_right",
-          "button_vertical_position": "lowest"
+          "button_vertical_position": "lowest",
+          "agent_inherit_fonts": true,
+          "agent_font": "system_ui_n4",
+          "agent_border_radius": 16
         }
+      },
+      "13768625480086291342": {
+        "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
@@ -356,7 +353,7 @@
       },
       "scheme-046c53b2-a5dd-44d1-a564-9ea612efad61": {
         "settings": {
-          "background": "#5A5A5A",
+          "background": "#5a5a5a",
           "foreground_heading": "#ffffff",
           "foreground": "#ffffffcf",
           "primary": "#ffffffcf",
