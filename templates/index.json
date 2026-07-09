@@ -192,7 +192,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<p>Hydration for people who<br/> read the label</p>",
+                    "text": "<h2>HYDRATION FOR<br/>LABEL READERS</h2>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -260,7 +260,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>Organic flavors. Real minerals. Zero artificial sweeteners</p>",
+                        "text": "<ul><li>Organic Fruit Flavors</li><li>Essential Minerals</li><li>No Artificial Sweeteners</li><li>No Mumbo Jumbo!</li></ul>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
