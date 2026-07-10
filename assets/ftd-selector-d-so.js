@@ -69,6 +69,15 @@
         items.push(ci);
       }
     }
+    var crx = $('[data-creatine2-input]');
+    if (state.plan === 'quarterly' && crx && crx.checked && cr && Object.keys(state.selections).length > 0) {
+      var cv2 = parseInt(cr.dataset.variant, 10);
+      var p50 = parseInt(cr.getAttribute('data-plan-quarterly-50off'), 10);
+      if (cv2 && p50) {
+        var cp2 = {}; cp2[CART_SEL] = CART_OWNER; cp2._role = 'creatine2';
+        items.push({ id: cv2, quantity: 1, selling_plan: p50, properties: cp2 });
+      }
+    }
     return items;
   }
 
@@ -152,6 +161,9 @@
       var cr = $('[data-creatine-input]');
       var hadCreatine = ours.some(function (l) { return (l.properties || {})._role === 'creatine'; });
       if (cr) cr.checked = hadCreatine;
+      var cr2h = $('[data-creatine2-input]');
+      var hadCreatine2 = ours.some(function (l) { return (l.properties || {})._role === 'creatine2'; });
+      if (cr2h) cr2h.checked = hadCreatine2;
       hydrating = false;
       updateProgress(); updateCreatineIncluded(); paintTotalsFromCart(cart);
       /* Existing quarterly cart from before free creatine was auto-included
@@ -259,6 +271,9 @@
     if (el) el.hidden = !isQuarterly;
     var crRow = $('[data-upsell-creatine]');
     if (crRow) crRow.hidden = isQuarterly;
+    /* Quarterly-only: optional 2nd creatine at 50% (first one is free). */
+    var cr2Row = $('[data-upsell-creatine2]');
+    if (cr2Row) cr2Row.hidden = !isQuarterly;
     /* Only ever FORCE the checkbox on for quarterly. Never force it off here
        — this runs after hydrateFromCart too, and a monthly/one-time
        customer who genuinely paid for the add-on would otherwise get it
@@ -282,6 +297,8 @@
          plan is quarterly; other plans start unchecked until manually set. */
       var cr0 = $('[data-creatine-input]');
       if (cr0) cr0.checked = false;
+      var cr20 = $('[data-creatine2-input]');
+      if (cr20) cr20.checked = false;
       updateBar(); updateProgress(); updateCreatineIncluded(); scheduleSync();
       /* Mobile: auto-advance to the Bundle step so the customer doesn't
          have to scroll back up and tap Continue. Brief delay so they see
@@ -424,13 +441,25 @@
         extras.push({ name: 'Creatine', note: 'Included free with your bundle', price: 'FREE', free: true, imgSrc: creatineUpsellImg });
       }
       var cr = $('[data-creatine-input]');
-      if (cr && cr.checked && hasSelections) {
+      if (state.plan !== 'quarterly' && cr && cr.checked && hasSelections) {
         var priceText = '';
         var priceNode = $('[data-creatine-price]');
         if (priceNode) priceText = priceNode.textContent.trim();
         var titleNode = $('[data-creatine-title]');
         var titleText = (titleNode ? titleNode.textContent.trim() : 'Creatine add-on');
         extras.push({ name: titleText, note: '', price: priceText, free: false, imgSrc: creatineUpsellImg });
+      }
+      var crSecond = $('[data-creatine2-input]');
+      if (state.plan === 'quarterly' && crSecond && crSecond.checked && hasSelections) {
+        var priceNode2 = $('[data-creatine2-price]');
+        var titleNode2 = $('[data-creatine2-title]');
+        extras.push({
+          name:  titleNode2 ? titleNode2.textContent.trim() : '2nd Creatine',
+          note:  '',
+          price: priceNode2 ? priceNode2.textContent.trim() : '',
+          free:  false,
+          imgSrc: creatineUpsellImg
+        });
       }
       if (extras.length) {
         extra.hidden = false;
@@ -484,7 +513,8 @@
   function persistState() {
     try {
       var cr = $('[data-creatine-input]');
-      var data = { plan: state.plan, selections: state.selections, creatineChecked: !!(cr && cr.checked), ts: new Date().getTime() };
+      var crB = $('[data-creatine2-input]');
+      var data = { plan: state.plan, selections: state.selections, creatineChecked: !!(cr && cr.checked), creatine2Checked: !!(crB && crB.checked), ts: new Date().getTime() };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch (_) {}
   }
@@ -520,6 +550,10 @@
         var cr2 = $('[data-creatine-input]');
         if (cr2) cr2.checked = true;
       }
+      if (data.creatine2Checked && data.plan === 'quarterly') {
+        var crb = $('[data-creatine2-input]');
+        if (crb) crb.checked = true;
+      }
       return true;
     } catch (_) { return false; }
   }
@@ -547,6 +581,12 @@
         else { ci.properties = { _upsell: 'creatine-onetime' }; }
         items.push(ci);
       }
+    }
+    var crx2 = $('[data-creatine2-input]');
+    if (state.plan === 'quarterly' && crx2 && crx2.checked && cr && Object.keys(state.selections).length > 0) {
+      var cv3 = parseInt(cr.dataset.variant, 10);
+      var p502 = parseInt(cr.getAttribute('data-plan-quarterly-50off'), 10);
+      if (cv3 && p502) items.push({ id: cv3, quantity: 1, selling_plan: p502 });
     }
     return items;
   }
@@ -621,6 +661,8 @@
   /* Add-on toggle reconciles the cart. */
   var crToggle = $('[data-creatine-input]');
   if (crToggle) crToggle.addEventListener('change', function () { updateBar(); scheduleSync(); });
+  var cr2Toggle = $('[data-creatine2-input]');
+  if (cr2Toggle) cr2Toggle.addEventListener('change', function () { updateBar(); scheduleSync(); });
 
   showStep('plans', {scroll: false}); updateProgress(); updateBar();
 
