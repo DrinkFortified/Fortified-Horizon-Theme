@@ -103,6 +103,14 @@ and recreate:
 | Creatine - Quarterly 100% OFF | 100% (free w/ bundle) | creatine |
 | Creatine - Quarterly 50% OFF | 50% (2nd unit) | creatine |
 
+**NEW-STORE IDs (mapped 2026-07-09, drinkfortified.myshopify.com):**
+Shopify selling plans — Hydration Monthly 10%: `2852487324` · Hydration
+Quarterly 20%: `2852520092` · Creatine Monthly 25%: `2852585628` ·
+Creatine Quarterly 50%: `2852552860` · Free Creatine: `2852618396`.
+Loop-internal bundle IDs (bundleId/variantId/discountId/apiSellingPlanId)
+still pending — cleared in theme settings until the new Loop bundle is
+created; the wizard safely falls back to plain selling-plan checkout.
+
 **Then re-map the new IDs into the theme.** These OLD-store IDs are baked
 into theme settings and will all be different on the new store:
 
