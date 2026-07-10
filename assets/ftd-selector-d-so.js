@@ -713,6 +713,17 @@
       });
     }, true);
   }
+
+  /* /cart redirect landing: theme.liquid bounces the cart page to the
+     homepage with ?ftd-cart=1 (e.g. browser back from checkout) - open
+     straight to the cart summary, then clean the URL. */
+  if (/[?&]ftd-cart=1/.test(window.location.search)) {
+    try { history.replaceState({}, '', window.location.pathname + window.location.hash); } catch (_) {}
+    hydrateFromCart().then(function () {
+      showStep(totalQty() > 0 ? 'review' : 'plans', { scroll: false });
+      openDlg();
+    });
+  }
   }
   window.__ftdDSOMain = function () {
     var q = window.__ftdDSOQueue || [];

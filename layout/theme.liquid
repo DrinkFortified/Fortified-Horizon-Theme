@@ -6,6 +6,19 @@
   lang="{{ request.locale.iso_code }}"
 >
 <head>
+  {%- if request.page_type == 'cart' -%}
+    {%- comment -%} No cart-page UX on this theme: bounce to the homepage
+        and open the bundle slide-over's cart summary (?ftd-cart=1).
+        Covers the browser back-button landing on /cart from checkout;
+        the pageshow handler covers back/forward-cache restores. {%- endcomment -%}
+    <script>
+      (function () {
+        var dest = '{{ routes.root_url }}?ftd-cart=1';
+        location.replace(dest);
+        window.addEventListener('pageshow', function (e) { if (e.persisted) location.replace(dest); });
+      })();
+    </script>
+  {%- endif -%}
   <link rel="stylesheet" href="https://use.typekit.net/utb5zek.css">
 
   {%- if settings.favicon != blank -%}
