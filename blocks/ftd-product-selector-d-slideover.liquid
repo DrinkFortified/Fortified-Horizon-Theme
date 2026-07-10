@@ -306,6 +306,26 @@
                       <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
                     </div>
                   </div>
+
+                  {%- comment %} Quarterly only: optional 2nd creatine at 50% off
+                      (the first is included free above). {%- endcomment %}
+                  <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine2 hidden>
+                    <div class="ftdc__upsell-media">
+                      {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
+                    </div>
+                    <div class="ftdc__upsell-body">
+                      <p class="ftdc__upsell-title" data-creatine2-title>{{ block.settings.addon_label_quarterly | default: 'Add a 2nd Creatine — 50% off' }}</p>
+                      <p class="ftdc__upsell-desc">{{ block.settings.addon_desc_quarterly | default: '' }}</p>
+                      <div class="ftdc__upsell-pricing">
+                        <span class="ftdc__upsell-price" data-creatine2-price>{{ block.settings.addon_price_quarterly | default: '$12.00' }}</span>
+                        {%- if block.settings.addon_was_quarterly != blank -%}<s class="ftdc__upsell-was">{{ block.settings.addon_was_quarterly }}</s>{%- endif -%}
+                      </div>
+                    </div>
+                    <div class="ftdc__upsell-toggle">
+                      <input type="checkbox" id="ftdc-cr2-{{ sid }}" class="visually-hidden" data-creatine2-input>
+                      <label for="ftdc-cr2-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
+                    </div>
+                  </div>
                 {%- endif -%}
 
                 <div class="ftdc__upsells" data-upsells></div>
