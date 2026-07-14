@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "section_e7nAtg": {
       "type": "section",
@@ -1766,7 +1767,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Sodium",
-            "description": "From Ancient Ocean\u00ae Pink Himalayan Salt. Replaces what real life takes out.",
+            "description": "From Ancient Ocean® Pink Himalayan Salt. Replaces what real life takes out.",
             "icon": "shopify://shop_images/Sodium-b.svg",
             "icon_color_override": ""
           }
@@ -1839,7 +1840,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Sodium",
-            "description": "From Ancient Ocean\u00ae Pink Himalayan Salt. Replaces what your workout takes out.",
+            "description": "From Ancient Ocean® Pink Himalayan Salt. Replaces what your workout takes out.",
             "icon": "shopify://shop_images/Sodium-b.svg",
             "icon_color_override": ""
           }
@@ -2019,10 +2020,10 @@
             "callout_1_body": "Research increasingly points to their relationship in supporting where calcium actually ends up in the body. Vitamin D3 without K2 is a conversation half finished.",
             "callout_1_accent": "#1fa8a1",
             "callout_2_title": "Why 1,200mg sodium daily?",
-            "callout_2_body": "Sodium drives fluid absorption \u2014 without enough of it, water passes through instead of reaching your cells. Daily replacement is foundational.",
+            "callout_2_body": "Sodium drives fluid absorption — without enough of it, water passes through instead of reaching your cells. Daily replacement is foundational.",
             "callout_2_accent": "#e8833a",
             "callout_3_title": "Why no caffeine?",
-            "callout_3_body": "Everyday is for the long game \u2014 your daily ritual, any time of day. If you want a clean lift, Energy is built for those moments.",
+            "callout_3_body": "Everyday is for the long game — your daily ritual, any time of day. If you want a clean lift, Energy is built for those moments.",
             "callout_3_accent": "#8e8e93"
           }
         },
@@ -2043,13 +2044,13 @@
             "nutrients_text": "",
             "panel_footnote": "* Percent Daily Values are based on a 2,000 calorie diet.",
             "callout_1_title": "Why 150mg natural caffeine?",
-            "callout_1_body": "A meaningful lift \u2014 about a strong cup of coffee \u2014 from the same source humans have used for centuries, delivered without the synthetic-stimulant baggage.",
+            "callout_1_body": "A meaningful lift — about a strong cup of coffee — from the same source humans have used for centuries, delivered without the synthetic-stimulant baggage.",
             "callout_1_accent": "#e8833a",
             "callout_2_title": "Why 1,200mg sodium?",
             "callout_2_body": "Sodium is the primary electrolyte lost in sweat and the one that actually drives fluid absorption. Most hydration brands underdose it; we don't.",
             "callout_2_accent": "#1fa8a1",
             "callout_3_title": "Why no D3 on Energy?",
-            "callout_3_body": "Energy is your performance moment. Vitamin D3 belongs in your daily foundation \u2014 that's what Everyday is for.",
+            "callout_3_body": "Energy is your performance moment. Vitamin D3 belongs in your daily foundation — that's what Everyday is for.",
             "callout_3_accent": "#8e8e93"
           }
         },
@@ -2392,9 +2393,9 @@
         "selected_word": "selected",
         "add_label": "ADD",
         "addon_product": "creatine",
-        "addon_label_monthly": "Add Creatine \u2014 25% off",
-        "addon_label_quarterly": "Add a 2nd Creatine \u2014 50% off",
-        "addon_label_onetime": "Add Creatine \u2014 25% off",
+        "addon_label_monthly": "Add Creatine — 25% off",
+        "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
+        "addon_label_onetime": "Add Creatine — 25% off",
         "addon_desc_monthly": "-",
         "addon_desc_quarterly": "1st Creatine is free with your bundle.",
         "addon_desc_onetime": "One-time. Discount auto-applied.",
@@ -2414,11 +2415,11 @@
         "loop_bundle_discount_id": "50941",
         "loop_bundle_api_selling_plan_id": "130527",
         "loop_bundle_selling_plan_id": "2852520092",
-        "loop_bundle_name": "90-Day Bundle \u2014 Every 3 Months",
+        "loop_bundle_name": "90-Day Bundle — Every 3 Months",
         "loop_bundle_property_key": "_bundleId",
         "total_label": "Total",
         "saved_word": "Saved",
-        "action_label_step1": "Next \u2192",
+        "action_label_step1": "Next →",
         "action_label_step2": "Continue",
         "checkout_label": "Checkout",
         "add_more_label": "Add More",
@@ -2439,7 +2440,7 @@
           "settings": {
             "number": "0%",
             "headline": "Zero Sugar. Zero Sweetener Guilt.",
-            "subtitle": "What you'll NEVER find in FORTIFIED\u00ae",
+            "subtitle": "What you'll NEVER find in FORTIFIED®",
             "footnote": "",
             "items": "No sugar\nNo sucralose or aspartame\nNo dyes\nNo proprietary blends"
           }
@@ -2462,9 +2463,9 @@
             "subtitle": "Hydration starts with replacing what real life takes out.",
             "footnote": "",
             "bar1_label": "Spring Water",
-            "bar1_value": 38,
+            "bar1_value": 10,
             "bar1_color": "#7b8794",
-            "bar2_label": "FORTIFIED\u00ae",
+            "bar2_label": "FORTIFIED®",
             "bar2_image": "shopify://shop_images/Fortified_-_Shield.svg",
             "bar2_value": 93,
             "bar2_color": "#1fa8a1"
@@ -2527,8 +2528,8 @@
       "settings": {
         "anchor_id": "",
         "name": "Marisa K.",
-        "role": "Mom of three \u00b7 Verified subscriber",
-        "quote": "<p>I finally stopped reading the back of every electrolyte pouch. The front of FORTIFIED\u00ae IS the whole story \u2014 and I can hand it to my kids without a second thought.</p>",
+        "role": "Mom of three · Verified subscriber",
+        "quote": "<p>I finally stopped reading the back of every electrolyte pouch. The front of FORTIFIED® IS the whole story — and I can hand it to my kids without a second thought.</p>",
         "quote_marks": true,
         "button_label": "Shop Everyday",
         "button_link": "#open-bundle",
@@ -2638,7 +2639,7 @@
         "eyebrow": "The Receipt",
         "eyebrow_color": "#ffffff",
         "heading": "Side By Side With What's On The Shelf",
-        "subheading": "<p>Same category. Very different scoop. Here's how FORTIFIED\u00ae stacks up against the hydration brands you've been settling for.</p>",
+        "subheading": "<p>Same category. Very different scoop. Here's how FORTIFIED® stacks up against the hydration brands you've been settling for.</p>",
         "fortified_label": "Fortified",
         "fortified_column_color": "#1fa8a1",
         "fortified_text_color": "#ffffff",
@@ -2651,7 +2652,7 @@
         "cta_style": "filled",
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
-        "mobile_swipe_hint": "Swipe to compare \u2192",
+        "mobile_swipe_hint": "Swipe to compare →",
         "table_radius": 16,
         "section_width": "full-width",
         "content_max_width": 1360,
@@ -2677,7 +2678,7 @@
           "settings": {
             "image": "shopify://shop_images/Fortified_-_Shield.svg",
             "title": "Pink Himalayan Sodium",
-            "description": "1,210mg from Ancient Ocean\u00ae Pink Himalayan Salt \u2014 the electrolyte you lose most, dosed to actually replace it.",
+            "description": "1,210mg from Ancient Ocean® Pink Himalayan Salt — the electrolyte you lose most, dosed to actually replace it.",
             "button_label": "Learn More",
             "button_link": "",
             "stat_number": "1200MG",
@@ -2690,7 +2691,7 @@
           "type": "row",
           "settings": {
             "title": "Magnesium Malate",
-            "description": "1,000mg of one of the most bioavailable magnesium forms \u2014 supports energy, muscle function, and calm.",
+            "description": "1,000mg of one of the most bioavailable magnesium forms — supports energy, muscle function, and calm.",
             "button_label": "Learn More",
             "button_link": "",
             "stat_number": "1200MG",
@@ -2703,7 +2704,7 @@
           "type": "row",
           "settings": {
             "title": "Vitamin D3 + K2",
-            "description": "130% DV Vitamin D3 paired with K2 as MK-7 \u2014 together, the way your body actually uses them.",
+            "description": "130% DV Vitamin D3 paired with K2 as MK-7 — together, the way your body actually uses them.",
             "button_label": "Learn More",
             "button_link": "",
             "stat_number": "1200MG",
@@ -2724,7 +2725,7 @@
           "type": "row",
           "settings": {
             "title": "Natural Caffeine",
-            "description": "152mg from real coffee beans \u2014 not caffeine anhydrous, not a lab-made stimulant with a clean-sounding name.",
+            "description": "152mg from real coffee beans — not caffeine anhydrous, not a lab-made stimulant with a clean-sounding name.",
             "button_label": "Learn More",
             "button_link": "",
             "stat_number": "1200MG",
@@ -2750,7 +2751,7 @@
           "type": "row",
           "settings": {
             "title": "Coconut Water Powder",
-            "description": "From CocOganic\u00ae Plus \u2014 real-food potassium that rounds out the complete electrolyte matrix.",
+            "description": "From CocOganic® Plus — real-food potassium that rounds out the complete electrolyte matrix.",
             "button_label": "Learn More",
             "button_link": "",
             "stat_number": "1200MG",
@@ -2776,7 +2777,7 @@
         "anchor_id": "",
         "eyebrow": "What's In Your Pouch",
         "heading": "Why Each Ingredient Earned Its Spot",
-        "subheading": "<p>No proprietary blends. Nothing hidden behind a \"performance complex\" on the back. The exact reason each ingredient is in your scoop \u2014 and what it does for you.</p>",
+        "subheading": "<p>No proprietary blends. Nothing hidden behind a \"performance complex\" on the back. The exact reason each ingredient is in your scoop — and what it does for you.</p>",
         "button_label": "Shop The Lineup",
         "button_link": "",
         "secondary_button_label": "Learn More",
@@ -2858,7 +2859,7 @@
         "anchor_id": "",
         "eyebrow": "Mix & Match",
         "heading": "Two Functions. Real Flavors.\nOne Honest Label.",
-        "subheading": "<p>Salty Watermelon or Salty Orange. Daily foundation or clean lift. Pick your function, pick your flavor \u2014 your ritual, your way.</p>",
+        "subheading": "<p>Salty Watermelon or Salty Orange. Daily foundation or clean lift. Pick your function, pick your flavor — your ritual, your way.</p>",
         "secondary_button_label": "Learn More",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "button_label": "",
@@ -3103,7 +3104,7 @@
               "type": "text",
               "name": "t:names.caption",
               "settings": {
-                "text": "<p>Why FORTIFIED\u00ae</p>",
+                "text": "<p>Why FORTIFIED®</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -3195,7 +3196,7 @@
                 "text_KpDhEq": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Because every other \"clean\" hydration on the shelf still hid something \u2014 a sweetener nobody asked for, an electrolyte dosed too low to matter, a blend nobody could decode. FORTIFIED\u00ae is the answer for the people who actually read labels.<br/>The full dose. The real source. The whole story on the front of the pouch.</p>",
+                    "text": "<p>Because every other \"clean\" hydration on the shelf still hid something — a sweetener nobody asked for, an electrolyte dosed too low to matter, a blend nobody could decode. FORTIFIED® is the answer for the people who actually read labels.<br/>The full dose. The real source. The whole story on the front of the pouch.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
@@ -3461,7 +3462,7 @@
             "submit_label": "Sign Me Up",
             "customer_tags": "lead-capture",
             "success_heading": "You're In!",
-            "success_message": "<p>Thanks for signing up \u2014 keep an eye on your inbox.</p>",
+            "success_message": "<p>Thanks for signing up — keep an eye on your inbox.</p>",
             "success_button_label": "Build Your Bundle",
             "success_button_link": "#open-bundle"
           },
@@ -3497,7 +3498,7 @@
             "submit_label": "Sign Me Up",
             "customer_tags": "lead-capture",
             "success_heading": "You're In!",
-            "success_message": "<p>Thanks for signing up \u2014 keep an eye on your inbox.</p>",
+            "success_message": "<p>Thanks for signing up — keep an eye on your inbox.</p>",
             "success_button_label": "Build Your Bundle",
             "success_button_link": "#open-bundle"
           },
@@ -3559,9 +3560,9 @@
             "selected_word": "selected",
             "add_label": "ADD",
             "addon_product": "creatine",
-            "addon_label_monthly": "Add Creatine \u2014 25% off",
-            "addon_label_quarterly": "Add a 2nd Creatine \u2014 50% off",
-            "addon_label_onetime": "Add Creatine \u2014 25% off",
+            "addon_label_monthly": "Add Creatine — 25% off",
+            "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
+            "addon_label_onetime": "Add Creatine — 25% off",
             "addon_desc_monthly": "-",
             "addon_desc_quarterly": "1st Creatine is free with your bundle.",
             "addon_desc_onetime": "One-time. Discount auto-applied.",
@@ -3581,11 +3582,11 @@
             "loop_bundle_discount_id": "50941",
             "loop_bundle_api_selling_plan_id": "130527",
             "loop_bundle_selling_plan_id": "2852520092",
-            "loop_bundle_name": "90-Day Bundle \u2014 Every 3 Months",
+            "loop_bundle_name": "90-Day Bundle — Every 3 Months",
             "loop_bundle_property_key": "_bundleId",
             "total_label": "Total",
             "saved_word": "Saved",
-            "action_label_step1": "Next \u2192",
+            "action_label_step1": "Next →",
             "action_label_step2": "Continue",
             "checkout_label": "Checkout",
             "add_more_label": "Add More",
@@ -3737,7 +3738,7 @@
             "eyebrow": "Wholesale",
             "eyebrow_color": "#1fa8a1",
             "heading": "Stock The Hydration People Actually Trust",
-            "body": "Bring a clean-label, fully-disclosed electrolyte line to your shelves. Zero artificial sweeteners, real minerals from real sources, and a label your customers can read at a glance \u2014 no education required.",
+            "body": "Bring a clean-label, fully-disclosed electrolyte line to your shelves. Zero artificial sweeteners, real minerals from real sources, and a label your customers can read at a glance — no education required.",
             "button_label": "Apply For Wholesale",
             "button_link": "",
             "button_style": "outline",
@@ -3756,8 +3757,8 @@
           "settings": {
             "eyebrow": "Partners",
             "eyebrow_color": "#1fa8a1",
-            "heading": "Partner With FORTIFIED\u00ae",
-            "body": "For gyms, practitioners, and creators who only put their name on the real thing. Clean hydration, honest amounts, nothing to hide \u2014 built for the people you trust your audience with.",
+            "heading": "Partner With FORTIFIED®",
+            "body": "For gyms, practitioners, and creators who only put their name on the real thing. Clean hydration, honest amounts, nothing to hide — built for the people you trust your audience with.",
             "button_label": "Become A Partner",
             "button_link": "",
             "button_style": "outline",
