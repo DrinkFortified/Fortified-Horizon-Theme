@@ -2553,7 +2553,7 @@
           "type": "feature_row",
           "settings": {
             "label": "Organic Flavors",
-            "fortified_value": "REAL FRUIT",
+            "fortified_value": "100%",
             "icon": "text"
           }
         },
