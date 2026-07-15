@@ -99,7 +99,7 @@
   /* Announcement bar (slot above wizard header). One or more bars stacked. */
   #ftdc-{{ sid }} .ftdc__announce { display: flex; flex-direction: column; margin: -1rem -1rem 1rem; }
   #ftdc-{{ sid }} .ftdc__announce[hidden] { display: none; }
-  #ftdc-{{ sid }} .ftdc__announce-bar { padding: 0.55rem 1rem; font-size: 0.82rem; line-height: 1.3; text-align: center; }
+  #ftdc-{{ sid }} .ftdc__announce-bar { padding: 0.55rem 1rem; font-size: var(--ftd-small-size); line-height: 1.3; text-align: center; }
   #ftdc-{{ sid }} .ftdc__announce-bar--fomo { padding: 0.55rem 1rem 0.65rem; }
   #ftdc-{{ sid }} .ftdc__announce-fomo-row { display: block; }
   #ftdc-{{ sid }} .ftdc__announce-fomo-line strong { font-weight: 800; }
@@ -114,7 +114,7 @@
   #ftdc-{{ sid }} .ftdc__bundle-warning {
     margin: 0.5rem auto 0;
     max-width: 32em;
-    font-size: 0.82rem;
+    font-size: var(--ftd-small-size);
     font-weight: 700;
     text-align: center;
     color: #92400E;
@@ -135,7 +135,7 @@
   #ftdc-{{ sid }} .ftdc__review-line:first-child { border-top: 0; padding-top: 0; }
   #ftdc-{{ sid }} .ftdc__review-line-thumb { width: 56px; height: 56px; border-radius: 8px; background: rgb(var(--color-foreground-rgb) / 0.06); overflow: hidden; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
   #ftdc-{{ sid }} .ftdc__review-line-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  #ftdc-{{ sid }} .ftdc__review-line-name { font-weight: 600; line-height: 1.25; }
+  #ftdc-{{ sid }} .ftdc__review-line-name { font-weight: 700; line-height: 1.25; }
   #ftdc-{{ sid }} .ftdc__review-line-qty { color: rgb(var(--color-foreground-rgb) / 0.6); font-variant-numeric: tabular-nums; }
   #ftdc-{{ sid }} .ftdc__review-line-price { font-weight: 700; font-variant-numeric: tabular-nums; }
   #ftdc-{{ sid }} .ftdc__review-line-price--free { color: var(--ftdc-accent, #1FA8A1); }
@@ -144,7 +144,7 @@
   /* Review step: savings sits inline, to the left of the total. */
   #ftdc-{{ sid }} .ftdc__review-totals { margin: 1rem 0 1.25rem; padding-top: 0.75rem; border-top: 2px solid rgb(var(--color-foreground-rgb) / 0.2); display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: baseline; gap: 0.35rem 1.25rem; }
   #ftdc-{{ sid }} .ftdc__review-row { display: flex; align-items: baseline; justify-content: flex-start; gap: 0.4rem; margin: 0; }
-  #ftdc-{{ sid }} .ftdc__review-row dt { margin: 0; font-weight: 600; }
+  #ftdc-{{ sid }} .ftdc__review-row dt { margin: 0; font-weight: 700; }
   #ftdc-{{ sid }} .ftdc__review-row dd { margin: 0; font-variant-numeric: tabular-nums; }
   #ftdc-{{ sid }} .ftdc__review-row--total dt, #ftdc-{{ sid }} .ftdc__review-row--total dd { font-size: 1.15rem; font-weight: 800; }
   #ftdc-{{ sid }} .ftdc__review-row--saved dd { color: var(--ftdc-accent, #1FA8A1); }
