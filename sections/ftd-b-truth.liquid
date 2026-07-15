@@ -153,25 +153,25 @@
 .ftbtr__eyebrow {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: 13px;
+  font-size: var(--ftd-eyebrow-size);
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: var(--ftd-eyebrow-spacing);
   text-transform: uppercase;
   color: var(--ftbtr-eyebrow, var(--color-primary, var(--color-foreground)));
 }
 .ftbtr__heading {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: clamp(28px, 4.4vw, 52px);
-  font-weight: 800;
-  line-height: 1.04;
+  font-size: var(--ftd-h2-size);
+  font-weight: var(--ftd-heading-weight, 800);
+  line-height: var(--ftd-h2-line, 1.1);
   letter-spacing: -0.01em;
   color: var(--ftbtr-heading, var(--color-foreground-heading));
 }
 .ftbtr__sub {
   margin: 0;
-  font-size: clamp(15px, 1.4vw, 17px);
-  line-height: 1.55;
+  font-size: var(--ftd-sub-size);
+  line-height: var(--ftd-sub-line, 1.6);
   color: var(--color-foreground);
   opacity: 0.85;
 }
@@ -233,7 +233,7 @@
 .ftbtr-card__label {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: 13px;
+  font-size: var(--ftd-small-size);
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -241,7 +241,7 @@
 }
 .ftbtr-card__caption {
   margin: 0;
-  font-size: 15px;
+  font-size: var(--ftd-body-size);
   line-height: 1.5;
   color: var(--ftbtr-card-caption, var(--color-foreground));
   opacity: 0.92;
@@ -257,7 +257,7 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-heading--family, inherit);
-  font-size: 14px;
+  font-size: var(--ftd-btn-size, 14px);
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;

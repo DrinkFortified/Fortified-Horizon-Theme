@@ -84,8 +84,8 @@
     margin: 0 0 10px;
     font-family: var(--font-heading--family, inherit);
     font-size: var(--ftd-h2-size);
-    font-weight: 800;
-    line-height: var(--ftd-h2-line);
+    font-weight: var(--ftd-heading-weight, 800);
+    line-height: var(--ftd-h2-line, 1.1);
     text-transform: uppercase;
   }
   #ftdlc-{{ sid }} .ftdlc__desc {
@@ -111,9 +111,9 @@
     display: block;
     margin: 0 0 6px;
     font-family: var(--font-heading--family, inherit);
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
+    font-size: var(--ftd-eyebrow-size);
+    font-weight: 700;
+    letter-spacing: var(--ftd-eyebrow-spacing);
     text-transform: uppercase;
   }
   #ftdlc-{{ sid }} .ftdlc__input {
@@ -132,7 +132,7 @@
 
   #ftdlc-{{ sid }} .ftdlc__optin { display: flex; align-items: flex-start; gap: 10px; margin: 8px 0 20px; cursor: pointer; }
   #ftdlc-{{ sid }} .ftdlc__optin input { width: 18px; height: 18px; margin: 1px 0 0; flex: 0 0 auto; accent-color: var(--ftdlc-accent); cursor: pointer; }
-  #ftdlc-{{ sid }} .ftdlc__optin-text { font-size: 13.5px; line-height: 1.5; opacity: 0.85; }
+  #ftdlc-{{ sid }} .ftdlc__optin-text { font-size: var(--ftd-small-size); line-height: 1.5; opacity: 0.85; }
   #ftdlc-{{ sid }} .ftdlc__optin-text p { margin: 0; }
   #ftdlc-{{ sid }} .ftdlc__optin-text p + p { margin-top: 0.5em; }
   #ftdlc-{{ sid }} .ftdlc__optin-text a { color: inherit; text-decoration: underline; }
@@ -148,7 +148,7 @@
     width: 100%;
     padding: 15px 32px;
     font-family: var(--font-heading--family, inherit);
-    font-size: 14px;
+    font-size: var(--ftd-btn-size, 14px);
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -169,7 +169,7 @@
     border-radius: 8px;
     background: #FEE2E2;
     color: #991B1B;
-    font-size: 13.5px;
+    font-size: var(--ftd-small-size);
     line-height: 1.45;
   }
   #ftdlc-{{ sid }} .ftdlc__errors[hidden] { display: none; }

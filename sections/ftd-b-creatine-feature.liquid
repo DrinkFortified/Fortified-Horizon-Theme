@@ -285,9 +285,9 @@
 .ftbcr__eyebrow {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: 13px;
+  font-size: var(--ftd-eyebrow-size);
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: var(--ftd-eyebrow-spacing);
   text-transform: uppercase;
   color: var(--ftbcr-eyebrow, #1FA8A1);
 }
@@ -295,9 +295,9 @@
 .ftbcr__heading {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: clamp(28px, 4.4vw, 52px);
-  font-weight: 800;
-  line-height: 1.05;
+  font-size: var(--ftd-h2-size);
+  font-weight: var(--ftd-heading-weight, 800);
+  line-height: var(--ftd-h2-line, 1.1);
   text-transform: uppercase;
   letter-spacing: -0.01em;
   color: var(--color-foreground);
@@ -310,8 +310,8 @@
 
 .ftbcr__body-text {
   margin: 0;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: var(--ftd-sub-size);
+  line-height: var(--ftd-sub-line, 1.6);
   color: var(--color-foreground);
   opacity: 0.88;
 }
@@ -359,7 +359,7 @@
 
 .ftbcr__stat-lbl {
   margin-top: 6px;
-  font-size: 11px;
+  font-size: var(--ftd-small-size);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -399,7 +399,7 @@
 }
 
 .ftbcr__price-label {
-  font-size: 12px;
+  font-size: var(--ftd-small-size);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -414,7 +414,7 @@
 }
 
 .ftbcr__price-note {
-  font-size: 12px;
+  font-size: var(--ftd-small-size);
   opacity: 0.7;
 }
 
@@ -434,8 +434,8 @@
   color: var(--color-foreground);
 }
 .ftbcr__simple-price-note {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--ftd-small-size);
+  font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-foreground);
@@ -451,7 +451,7 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-heading--family, inherit);
-  font-size: 14px;
+  font-size: var(--ftd-btn-size, 14px);
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;

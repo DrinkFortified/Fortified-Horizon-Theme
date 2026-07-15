@@ -275,9 +275,9 @@
 .ftbfq__eyebrow {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: 13px;
+  font-size: var(--ftd-eyebrow-size);
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: var(--ftd-eyebrow-spacing);
   text-transform: uppercase;
   color: var(--ftbfq-eyebrow, #1FA8A1);
 }
@@ -289,8 +289,8 @@
      tabs) so all section headers render identically. */
   font-family: var(--font-heading--family, inherit);
   font-size: var(--ftd-h2-size);
-  font-weight: 800;
-  line-height: var(--ftd-h2-line);
+  font-weight: var(--ftd-heading-weight, 800);
+  line-height: var(--ftd-h2-line, 1.1);
   letter-spacing: normal;
   text-transform: uppercase;
   color: var(--color-foreground);
@@ -319,7 +319,7 @@
   border: 1px solid rgb(var(--color-foreground-rgb) / 0.18);
   background: transparent;
   color: var(--color-foreground);
-  font-size: 13px;
+  font-size: var(--ftd-small-size);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -367,9 +367,9 @@
 .ftbfq__q:hover { color: var(--ftbfq-accent, #1FA8A1); }
 
 .ftbfq__q-text {
-  font-family: var(--font-h4--family, var(--font-heading--family, inherit));
-  font-size: var(--font-h4--size, clamp(18px, 2vw, 22px));
-  font-weight: var(--font-h4--weight, 700);
+  font-family: var(--font-heading--family, inherit);
+  font-size: var(--ftd-h4-size);
+  font-weight: 700;
   line-height: 1.3;
 }
 
@@ -401,7 +401,7 @@
 .ftbfq__a-inner {
   padding: 0 8px 22px;
   font-family: var(--font-body--family, inherit);
-  font-size: var(--font-body--size, 16px);
+  font-size: var(--ftd-body-size);
   line-height: var(--font-body--line-height, 1.55);
   color: var(--color-foreground);
   opacity: 0.9;

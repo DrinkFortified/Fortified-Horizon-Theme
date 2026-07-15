@@ -98,9 +98,9 @@
 .ftbbn__eyebrow {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: 13px;
+  font-size: var(--ftd-eyebrow-size);
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: var(--ftd-eyebrow-spacing);
   text-transform: uppercase;
   color: var(--ftbbn-eyebrow, var(--color-foreground));
 }
@@ -108,9 +108,9 @@
 .ftbbn__heading {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: clamp(28px, 4.4vw, 52px);
-  font-weight: 800;
-  line-height: 1.05;
+  font-size: var(--ftd-h2-size);
+  font-weight: var(--ftd-heading-weight, 800);
+  line-height: var(--ftd-h2-line, 1.1);
   letter-spacing: -0.01em;
   text-transform: uppercase;
   color: var(--color-foreground);
@@ -123,8 +123,8 @@
 
 .ftbbn__body {
   margin: 0;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: var(--ftd-sub-size);
+  line-height: var(--ftd-sub-line, 1.6);
   color: var(--color-foreground);
   opacity: 0.78;
   max-width: 70ch;
@@ -180,8 +180,8 @@
 .ftbbn-card__title {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: 18px;
-  font-weight: 800;
+  font-size: var(--ftd-h4-size);
+  font-weight: 700;
   line-height: 1.2;
   letter-spacing: 0.01em;
   text-transform: uppercase;
@@ -190,7 +190,7 @@
 
 .ftbbn-card__desc {
   margin: 0;
-  font-size: 14.5px;
+  font-size: var(--ftd-body-size);
   line-height: 1.55;
   color: var(--color-foreground);
   opacity: 0.82;
@@ -198,7 +198,7 @@
 
 .ftbbn-card__cite {
   margin: 6px 0 0;
-  font-size: 12px;
+  font-size: var(--ftd-small-size);
   line-height: 1.4;
   color: var(--color-foreground);
   opacity: 0.6;
