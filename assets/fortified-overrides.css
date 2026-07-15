@@ -11,10 +11,18 @@
 :root {
   --ftd-eyebrow-size: 0.8125rem;            /* 13px */
   --ftd-eyebrow-spacing: 0.18em;
-  --ftd-h2-size: clamp(2rem, 1.1rem + 3vw, 3rem);     /* 32 -> 48px */
+  --ftd-h1-size: clamp(2.25rem, 1.1rem + 4.6vw, 4.25rem); /* 36 -> 68px, hero headlines only */
+  --ftd-h1-line: 1.05;
+  --ftd-h2-size: clamp(2rem, 1.1rem + 3vw, 3rem);     /* 32 -> 48px, every section title */
   --ftd-h2-line: 1.1;
-  --ftd-sub-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem); /* 16 -> 18px */
+  --ftd-h3-size: clamp(1.375rem, 1.2rem + 0.9vw, 1.75rem); /* 22 -> 28px, sub-section headings */
+  --ftd-h4-size: clamp(1.125rem, 1rem + 0.55vw, 1.375rem); /* 18 -> 22px, card titles */
+  --ftd-heading-weight: 800;                /* renders Brother 1816 Black */
+  --ftd-sub-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem); /* 16 -> 18px, lead text under titles */
   --ftd-sub-line: 1.6;
+  --ftd-body-size: 0.9375rem;               /* 15px body copy */
+  --ftd-small-size: 0.8125rem;              /* 13px captions / footnotes / labels / table text */
+  --ftd-btn-size: 0.875rem;                 /* 14px unified CTA */
 
   /* ---- 8pt spacing scale ---- one language for every gap on the page.
    * Outer section padding lives in each section's editor settings; these
@@ -167,7 +175,7 @@ button.shopify-payment-button__button--unbranded:hover {
   font-family: var(--font-heading--family, inherit);
   font-style: normal;
   font-weight: 700;
-  font-size: 14px;
+  font-size: var(--ftd-btn-size, 14px);
   line-height: 1.2;
   letter-spacing: 0.14em;
   text-transform: uppercase;
