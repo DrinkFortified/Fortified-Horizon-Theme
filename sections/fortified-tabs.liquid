@@ -59,7 +59,7 @@
   #{{ root }} .{{ root }}__btn { display: inline-block; padding: 12px 4px; margin-bottom: -1px; cursor: pointer; user-select: none; font-family: var(--font-heading--family, inherit); font-size: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: {{ tab_inactive_c }}; border-bottom: 2px solid transparent; transition: color 0.18s, border-color 0.18s; }
   #{{ root }} .{{ root }}__btn:hover { color: {{ heading_c }}; }
   #{{ root }} .{{ root }}__panel { display: none; padding: 8px 0 0; }
-  #{{ root }} .{{ root }}__intro { font-size: 15px; line-height: 1.6; color: {{ subtitle_c }}; margin: 8px 0 16px; }
+  #{{ root }} .{{ root }}__intro { font-size: var(--ftd-body-size); line-height: 1.6; color: {{ subtitle_c }}; margin: 8px 0 16px; }
 
   /* ── Ingredient / fact row ── */
   #{{ root }} .{{ root }}__row { display: grid; grid-template-columns: 150px minmax(0,1fr) 150px minmax(0,1.1fr); gap: 28px; align-items: center; padding: 22px 0; }
@@ -67,18 +67,18 @@
   #{{ root }} .{{ root }}__row + .{{ root }}__row { border-top: 1px solid {{ tab_line_c }}; }
   #{{ root }} .{{ root }}__row-media { width: 150px; height: 100px; border-radius: 8px; overflow: hidden; background: rgb(var(--color-foreground-rgb) / 0.06); }
   #{{ root }} .{{ root }}__row-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  #{{ root }} .{{ root }}__row-title { margin: 0 0 4px; font-family: var(--font-heading--family, inherit); font-size: 19px; font-weight: 800; color: {{ heading_c }}; }
-  #{{ root }} .{{ root }}__row-desc { margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: {{ subtitle_c }}; }
+  #{{ root }} .{{ root }}__row-title { margin: 0 0 4px; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-h4-size); font-weight: 700; color: {{ heading_c }}; }
+  #{{ root }} .{{ root }}__row-desc { margin: 0 0 10px; font-size: var(--ftd-body-size); line-height: 1.5; color: {{ subtitle_c }}; }
   #{{ root }} .{{ root }}__row-btn { display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 16px; border: 1px solid {{ heading_c }}; border-radius: 4px; color: {{ heading_c }}; transition: background 0.18s, color 0.18s; }
   #{{ root }} .{{ root }}__row-btn:hover { background: {{ heading_c }}; color: var(--color-background); }
   #{{ root }} .{{ root }}__row-stat { border-left: 1px dashed {{ divider_c }}; padding-left: 28px; }
   #{{ root }} .{{ root }}__row-num { font-family: var(--font-heading--family, inherit); font-size: 26px; font-weight: 800; line-height: 1; color: {{ heading_c }}; }
-  #{{ root }} .{{ root }}__row-num-label { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: {{ subtitle_c }}; margin-top: 4px; }
+  #{{ root }} .{{ root }}__row-num-label { font-size: var(--ftd-small-size); letter-spacing: 0.06em; text-transform: uppercase; color: {{ subtitle_c }}; margin-top: 4px; }
   #{{ root }} .{{ root }}__row-fact { display: flex; align-items: center; gap: 16px; border-left: 1px dashed {{ divider_c }}; padding-left: 28px; }
   #{{ root }} .{{ root }}__row-fact-icon { flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%; background: {{ heading_c }}; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; }
   #{{ root }} .{{ root }}__row-fact-icon img { width: 60%; height: 60%; object-fit: contain; }
   #{{ root }} .{{ root }}__row-fact-title { font-family: var(--font-heading--family, inherit); font-size: 17px; font-weight: 800; color: {{ heading_c }}; margin-bottom: 2px; }
-  #{{ root }} .{{ root }}__row-fact-desc { margin: 0; font-size: 12.5px; line-height: 1.45; color: {{ subtitle_c }}; }
+  #{{ root }} .{{ root }}__row-fact-desc { margin: 0; font-size: var(--ftd-small-size); line-height: 1.45; color: {{ subtitle_c }}; }
 
   {%- assign ci = 0 -%}
   {%- for b in section.blocks -%}{%- if b.type == 'tab' -%}{%- assign ci = ci | plus: 1 -%}
@@ -88,7 +88,7 @@
   {%- endif -%}{%- endfor -%}
 
   #{{ root }} .{{ root }}__footer { display: flex; justify-content: center; margin-top: 36px; }
-  #{{ root }} .{{ root }}__cta { display: inline-flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 16px 40px; border-radius: var(--style-border-radius-buttons-primary, 8px); border: 2px solid {{ button_bg_c }};
+  #{{ root }} .{{ root }}__cta { display: inline-flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-btn-size, 14px); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 16px 40px; border-radius: var(--style-border-radius-buttons-primary, 8px); border: 2px solid {{ button_bg_c }};
     {% if btn_style == 'outline' %}background: transparent; color: {{ button_bg_c }};
     {% elsif btn_style == 'ghost' %}background: transparent; color: {{ button_bg_c }}; border-color: transparent; text-decoration: underline;
     {% else %}background: {{ button_bg_c }}; color: {{ button_tx_c }};{% endif %}
@@ -108,7 +108,7 @@
     #{{ root }} .{{ root }}__sub { max-width: 100%; overflow-wrap: break-word; }
 
     #{{ root }} .{{ root }}__footer { padding-inline: 16px; }
-    #{{ root }} .{{ root }}__cta { width: 100%; max-width: 100%; min-height: 44px; white-space: normal; text-align: center; padding: 14px 24px; font-size: 14px; }
+    #{{ root }} .{{ root }}__cta { width: 100%; max-width: 100%; min-height: 44px; white-space: normal; text-align: center; padding: 14px 24px; }
 
     #{{ root }} .{{ root }}__tablist { gap: 22px; }
     #{{ root }} .{{ root }}__btn { font-size: 15px; }
