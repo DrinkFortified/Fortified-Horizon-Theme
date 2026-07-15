@@ -102,7 +102,7 @@
     margin: 0;
     font-family: var(--font-heading--family, inherit);
     font-size: var(--ftd-h2-size);
-    font-weight: 800;
+    font-weight: var(--ftd-heading-weight, 800);
     line-height: var(--ftd-h2-line);
     text-transform: uppercase;
     letter-spacing: -0.01em;
@@ -143,14 +143,14 @@
     justify-content: center;
     text-align: center;
     border-bottom: 1px solid rgba(0,0,0,0.08);
-    font-size: 15px;
-    font-weight: 600;
+    font-size: var(--ftd-small-size);
+    font-weight: 700;
   }
   #{{ root }} .{{ root }}__cell--label {
     justify-content: flex-start;
     text-align: left;
     font-family: var(--font-heading--family, inherit);
-    font-size: 14px;
+    font-size: var(--ftd-small-size);
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -221,11 +221,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-heading--family, inherit);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     text-decoration: none;
     padding: 15px 32px;
     border-radius: var(--style-border-radius-buttons-primary, 8px);
@@ -244,7 +239,7 @@
     margin-top: 18px;
     text-align: right;
     padding-right: 16px;
-    font-size: 12px;
+    font-size: var(--ftd-small-size);
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -271,7 +266,6 @@
     #{{ root }} .{{ root }}__grid::-webkit-scrollbar { display: none; }
     #{{ root }} .{{ root }}__cell {
       padding: 13px 10px;
-      font-size: 13px;
       min-height: 54px;
     }
     #{{ root }} .{{ root }}__cell--label {

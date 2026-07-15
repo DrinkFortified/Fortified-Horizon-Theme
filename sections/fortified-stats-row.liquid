@@ -146,9 +146,9 @@
 .frs__eyebrow {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: 13px;
+  font-size: var(--ftd-eyebrow-size);
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: var(--ftd-eyebrow-spacing);
   text-transform: uppercase;
   color: var(--color-foreground);
   opacity: 0.85;
@@ -157,16 +157,16 @@
 .frs__heading {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: clamp(24px, 3.4vw, 40px);
-  font-weight: 800;
-  line-height: 1.1;
+  font-size: var(--ftd-h2-size);
+  font-weight: var(--ftd-heading-weight, 800);
+  line-height: var(--ftd-h2-line, 1.1);
   color: var(--color-foreground);
 }
 
 .frs__sub {
   margin: 0;
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: var(--ftd-sub-size);
+  line-height: var(--ftd-sub-line, 1.6);
   color: var(--color-foreground);
   opacity: 0.78;
   max-width: 48rem;
@@ -221,7 +221,7 @@
 .frs__stat-label {
   margin: 0;
   font-family: var(--font-heading--family, inherit);
-  font-size: 14px;
+  font-size: var(--ftd-small-size);
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -230,7 +230,7 @@
 
 .frs__stat-desc {
   margin: 0;
-  font-size: 14px;
+  font-size: var(--ftd-body-size);
   line-height: 1.55;
   color: var(--color-foreground);
   opacity: 0.75;

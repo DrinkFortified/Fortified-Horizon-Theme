@@ -166,13 +166,13 @@
   #{{ root }} .ftfomo__eyebrow {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: 13px;
+    font-size: var(--ftd-eyebrow-size);
     font-weight: 700;
-    letter-spacing: 0.22em;
+    letter-spacing: var(--ftd-eyebrow-spacing);
     text-transform: uppercase;
     color: var(--ftfomo-eyebrow);
   }
-  #{{ root }} .ftfomo__desc { margin: 0 0 18px; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.5; opacity: 0.85; }
+  #{{ root }} .ftfomo__desc { margin: 0 0 18px; font-size: var(--ftd-sub-size); line-height: var(--ftd-sub-line, 1.6); opacity: 0.85; }
   #{{ root }} .ftfomo__line {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
@@ -208,7 +208,7 @@
   }
   #{{ root }} .ftfomo__sub {
     margin: 0;
-    font-size: 15px;
+    font-size: var(--ftd-small-size);
     line-height: 1.5;
     color: var(--color-foreground);
     opacity: 0.9;

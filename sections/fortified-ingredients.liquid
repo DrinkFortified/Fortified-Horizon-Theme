@@ -39,26 +39,26 @@
   #{{ root }} .{{ root }}__eyebrow {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: 13px;
+    font-size: var(--ftd-eyebrow-size);
     font-weight: 700;
-    letter-spacing: 0.22em;
+    letter-spacing: var(--ftd-eyebrow-spacing);
     text-transform: uppercase;
     color: var(--{{ root }}-accent);
   }
   #{{ root }} .{{ root }}__heading {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: clamp(28px, 4.4vw, 52px);
-    font-weight: 800;
-    line-height: 1.04;
+    font-size: var(--ftd-h2-size);
+    font-weight: var(--ftd-heading-weight, 800);
+    line-height: var(--ftd-h2-line, 1.1);
     text-transform: uppercase;
     letter-spacing: -0.01em;
     color: var(--color-foreground, inherit);
   }
   #{{ root }} .{{ root }}__sub {
     margin: 0;
-    font-size: 16px;
-    line-height: 1.55;
+    font-size: var(--ftd-sub-size);
+    line-height: var(--ftd-sub-line, 1.6);
     opacity: 0.78;
   }
 
@@ -104,15 +104,15 @@
   #{{ root }} .{{ root }}-card__name {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: 20px;
-    font-weight: 800;
+    font-size: var(--ftd-h4-size);
+    font-weight: 700;
     line-height: 1.15;
     text-transform: uppercase;
     letter-spacing: 0.01em;
   }
   #{{ root }} .{{ root }}-card__desc {
     margin: 0;
-    font-size: 14.5px;
+    font-size: var(--ftd-body-size);
     line-height: 1.5;
     opacity: 0.72;
     max-width: 30ch;
@@ -143,7 +143,7 @@
     align-items: center;
     justify-content: center;
     font-family: var(--font-heading--family, inherit);
-    font-size: 14px;
+    font-size: var(--ftd-btn-size, 14px);
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
