@@ -71,26 +71,26 @@
   #{{ root }} .{{ root }}__eyebrow {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: clamp(16px, 1.6vw, 24px);
+    font-size: var(--ftd-eyebrow-size);
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: var(--ftd-eyebrow-spacing);
     text-transform: uppercase;
     color: var(--{{ root }}-eyebrow);
   }
   #{{ root }} .{{ root }}__heading {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: clamp(40px, 5.2vw, 72px);
-    font-weight: 800;
-    line-height: 1.05;
+    font-size: var(--ftd-h1-size);
+    font-weight: var(--ftd-heading-weight, 800);
+    line-height: var(--ftd-h1-line, 1.05);
     letter-spacing: -0.02em;
     color: var(--{{ root }}-heading);
   }
   #{{ root }} .{{ root }}__body {
     margin: 0;
     max-width: 540px;
-    font-size: clamp(16px, 1.4vw, 22px);
-    line-height: 1.35;
+    font-size: var(--ftd-sub-size);
+    line-height: var(--ftd-sub-line, 1.6);
     color: var(--{{ root }}-body);
   }
   #{{ root }} .{{ root }}__cta-row {
@@ -104,7 +104,7 @@
     align-items: center;
     justify-content: center;
     font-family: var(--font-heading--family, inherit);
-    font-size: clamp(15px, 1.2vw, 18px);
+    font-size: var(--ftd-btn-size, 14px);
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;

@@ -156,20 +156,20 @@
 .fths__hero-bg { position: absolute; inset: 0; background-size: cover; background-position: var(--fths-focal, center center); background-repeat: no-repeat; z-index: 0; }
 .fths__hero-overlay { position: absolute; inset: 0; background-color: var(--fths-overlay-color, #000); opacity: var(--fths-overlay-alpha, 0.25); z-index: 1; pointer-events: none; }
 .fths__hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; gap: clamp(12px, 1.6vw, 18px); color: var(--fths-text-color, #fff); max-width: 32rem; }
-.fths__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: inherit; }
-.fths__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(32px, 5vw, 64px); font-weight: 800; line-height: 1.02; text-transform: uppercase; color: inherit; }
-.fths__body { margin: 0; font-size: 16px; line-height: 1.55; color: inherit; opacity: 0.92; max-width: 28rem; }
+.fths__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-eyebrow-size); font-weight: 700; letter-spacing: var(--ftd-eyebrow-spacing); text-transform: uppercase; color: inherit; }
+.fths__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-h1-size); font-weight: var(--ftd-heading-weight, 800); line-height: var(--ftd-h1-line, 1.05); text-transform: uppercase; color: inherit; }
+.fths__body { margin: 0; font-size: var(--ftd-sub-size); line-height: var(--ftd-sub-line, 1.6); color: inherit; opacity: 0.92; max-width: 28rem; }
 .fths__cards { grid-area: cards; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--fths-card-gap, 16px); align-content: stretch; }
 .fths-card { display: flex; flex-direction: column; background: var(--color-background, #fff); color: var(--color-foreground, #111); border-radius: var(--fths-card-radius, 12px); overflow: hidden; box-shadow: 0 6px 20px rgb(var(--color-foreground-rgb) / 0.08); border: 1px solid rgb(var(--color-foreground-rgb) / 0.06); }
 .fths-card__media { position: relative; width: 100%; aspect-ratio: 1 / 1; background: rgb(var(--color-foreground-rgb) / 0.04); overflow: hidden; }
 .fths-card__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 .fths-card__img--placeholder { background: linear-gradient(135deg, rgb(var(--color-foreground-rgb) / 0.06), rgb(var(--color-foreground-rgb) / 0.12)); }
 .fths-card__body { display: flex; flex-direction: column; gap: 10px; padding: clamp(14px, 1.6vw, 20px); align-items: flex-start; }
-.fths-card__name { margin: 0; font-family: var(--font-heading--family, inherit); font-size: clamp(15px, 1.4vw, 18px); font-weight: 700; line-height: 1.2; color: var(--color-foreground, #111); }
+.fths-card__name { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-h4-size); font-weight: 700; line-height: 1.2; color: var(--color-foreground, #111); }
 .fths-card__prices { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .fths-card__price { font-size: clamp(15px, 1.4vw, 18px); font-weight: 700; color: var(--color-primary-button-background, var(--color-foreground)); }
-.fths-card__compare { font-size: 13px; color: rgb(var(--color-foreground-rgb) / 0.55); text-decoration: line-through; }
-.fths-card__btn { display: inline-flex; align-items: center; justify-content: center; margin-top: 4px; padding: 10px 18px; font-family: var(--font-heading--family, inherit); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; border-radius: var(--style-border-radius-buttons-primary, 8px); border: 2px solid var(--color-primary-button-background, var(--color-foreground)); cursor: pointer; transition: opacity 0.18s ease, background 0.18s ease, color 0.18s ease; }
+.fths-card__compare { font-size: var(--ftd-small-size); color: rgb(var(--color-foreground-rgb) / 0.55); text-decoration: line-through; }
+.fths-card__btn { display: inline-flex; align-items: center; justify-content: center; margin-top: 4px; padding: 10px 18px; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-btn-size, 14px); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; border-radius: var(--style-border-radius-buttons-primary, 8px); border: 2px solid var(--color-primary-button-background, var(--color-foreground)); cursor: pointer; transition: opacity 0.18s ease, background 0.18s ease, color 0.18s ease; }
 .fths-card__btn--filled { background: var(--color-primary-button-background, var(--color-foreground)); color: var(--color-primary-button-text, var(--color-background)); }
 .fths-card__btn--filled:hover { opacity: 0.88; }
 .fths-card__btn--outline { background: transparent; color: var(--color-primary-button-background, var(--color-foreground)); }
