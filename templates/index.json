@@ -3104,7 +3104,7 @@
               "type": "text",
               "name": "t:names.caption",
               "settings": {
-                "text": "<p>Why FORTIFIED®</p>",
+                "text": "<p>WHY FORTIFIED™</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
