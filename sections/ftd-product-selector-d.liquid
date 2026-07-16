@@ -82,6 +82,8 @@
   /* Bottom action bar: no longer pinned — sits in normal flow at the end of
      the step content, so visitors scroll down to reach it. */
   #ftdc-{{ sid }} .ftdc__bar { position: static; bottom: auto; }
+  /* Review step has its own Checkout button — the bar would duplicate it. */
+  #ftdc-{{ sid }}[data-active-step="review"] .ftdc__bar { display: none; }
 
   /* "Add N more selections to continue" now lives under the progress bar
      instead of inside the bottom pill (where it broke the pill's rounded

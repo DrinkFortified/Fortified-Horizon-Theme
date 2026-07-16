@@ -291,6 +291,9 @@
     var shouldScroll = opts.scroll !== false;
     state.step = name;
     root.dataset.activeStep = name;
+    /* Hard-hide the sticky bar on Review (it duplicates the step's own
+       Checkout button); inline style so no stylesheet can override it. */
+    var bar0 = $('[data-bar]'); if (bar0) bar0.style.display = (name === 'review') ? 'none' : '';
     var idx = STEPS_ORDER.indexOf(name);
     $$('.ftdc__step').forEach(function (s) { var m = s.dataset.step === name; s.hidden = !m; s.classList.toggle('is-active', m); });
     $$('.ftdc__step-pill').forEach(function (p) { var pi = STEPS_ORDER.indexOf(p.dataset.stepPill); p.classList.toggle('is-active', pi === idx); p.classList.toggle('is-done', pi < idx); });

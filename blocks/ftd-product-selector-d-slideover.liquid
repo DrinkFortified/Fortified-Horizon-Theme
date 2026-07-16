@@ -65,6 +65,8 @@
   /* Bottom action bar: no longer pinned — sits in normal flow at the end of
      the step content, so visitors scroll down to reach it. */
   #ftdc-{{ sid }} .ftdc__bar { position: static; bottom: auto; }
+  /* Review step has its own Checkout button — the bar would duplicate it. */
+  #ftdc-{{ sid }}[data-active-step="review"] .ftdc__bar { display: none; }
 
   /* Bundle progress header stays pinned while scrolling the product grid. */
   #ftdc-{{ sid }} .ftdc__step[data-step="products"] .ftdc__bundle-head {
