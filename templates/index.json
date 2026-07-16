@@ -3229,8 +3229,8 @@
               "name": "t:names.popup_link",
               "settings": {
                 "behavior": "fullscreen",
-                "heading": "Built For People Who Read The Back.",
-                "type_preset": "",
+                "heading": "Welcome to FORTIFIED - Built for Real Life.",
+                "type_preset": "h5",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
