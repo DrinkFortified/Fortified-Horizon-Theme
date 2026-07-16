@@ -128,9 +128,6 @@
   #ftdc-{{ sid }}[data-active-step="products"] .ftdc__header,
   #ftdc-{{ sid }}[data-active-step="review"] .ftdc__header { display: none; }
 
-  /* Review step: savings sits inline, to the left of the total. */
-  #ftdc-{{ sid }} .ftdc__review-totals { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: baseline; gap: 0.35rem 1.25rem; }
-  #ftdc-{{ sid }} .ftdc__review-row { justify-content: flex-start; gap: 0.4rem; }
 
   @media (max-width: 749px) {
     #ftdc-{{ sid }} .ftdc__bullets { grid-template-columns: 1fr; }
@@ -155,8 +152,9 @@
   #ftdc-{{ sid }} .ftdc__review-line-price--free { color: var(--ftdc-accent, #1FA8A1); }
   #ftdc-{{ sid }} .ftdc__review-extra { margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed rgb(var(--color-foreground-rgb) / 0.2); }
   #ftdc-{{ sid }} .ftdc__review-extra .ftdc__review-line--extra { grid-template-columns: 56px 1fr auto; border-top: 0; padding-top: 0.5rem; padding-bottom: 0.5rem; }
-  #ftdc-{{ sid }} .ftdc__review-totals { margin: 1rem 0 1.25rem; padding-top: 0.75rem; border-top: 2px solid rgb(var(--color-foreground-rgb) / 0.2); display: flex; flex-direction: column; gap: 0.4rem; }
-  #ftdc-{{ sid }} .ftdc__review-row { display: flex; align-items: baseline; justify-content: space-between; margin: 0; }
+  /* Review totals: Saved + Total inline, right-aligned above the buttons. */
+  #ftdc-{{ sid }} .ftdc__review-totals { margin: 1rem 0 1.25rem; padding-top: 0.75rem; border-top: 2px solid rgb(var(--color-foreground-rgb) / 0.2); display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: baseline; gap: 0.35rem 1.25rem; }
+  #ftdc-{{ sid }} .ftdc__review-row { display: flex; align-items: baseline; justify-content: flex-start; gap: 0.4rem; margin: 0; }
   #ftdc-{{ sid }} .ftdc__review-row dt { margin: 0; font-weight: 700; }
   #ftdc-{{ sid }} .ftdc__review-row dd { margin: 0; font-variant-numeric: tabular-nums; }
   #ftdc-{{ sid }} .ftdc__review-row--total dt, #ftdc-{{ sid }} .ftdc__review-row--total dd { font-size: 1.15rem; font-weight: 800; }
