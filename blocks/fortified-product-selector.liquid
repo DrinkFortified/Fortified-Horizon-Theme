@@ -61,7 +61,11 @@
   assign quarterly_list = block.settings.quarterly_checklist | newline_to_br | split: '<br />'
   assign onetime_list   = block.settings.onetime_checklist   | newline_to_br | split: '<br />'
 
-  assign onetime_product = block.settings.onetime_product | default: product
+  # PDP transform: with no explicit pick, the one-time / simplified-monthly
+  # product is the product of the page the block sits on (closest.product),
+  # so one block instance adapts per PDP. Quarterly always builds from the
+  # function child blocks (the hydration bundle), even on the creatine PDP.
+  assign onetime_product = block.settings.onetime_product | default: closest.product | default: product
   assign onetime_handle = ''
   if onetime_product != blank
     assign onetime_handle = onetime_product.handle
@@ -517,7 +521,9 @@
 
 /* ── Plan cards ── */
 #fe-{{ sid }} .fe-plans { display: flex; flex-direction: column; gap: 0.85rem; }
-#fe-{{ sid }} .fe-plans-subs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+/* auto-fit: with one subscription plan disabled, the remaining card fills
+   the full row instead of leaving an empty column. */
+#fe-{{ sid }} .fe-plans-subs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; }
 @media (max-width: 480px) { #fe-{{ sid }} .fe-plans-subs { grid-template-columns: 1fr; } }
 #fe-{{ sid }} .fe-plans-divider { border: 0; border-top: 2px dotted rgb(var(--color-foreground-rgb) / 0.28); margin: 0.25rem 0; height: 0; }
 #fe-{{ sid }} .fe-plan {
@@ -1103,6 +1109,26 @@
     }
   }
 
+  /* Auto-resolve a selling plan from the product's own groups when the
+     configured raw id is missing or belongs to a different product. This is
+     what lets one block instance adapt per PDP: creatine and the pouches
+     carry different selling plan ids, so a fixed id can't serve both. */
+  function autoPlanId(p, kind) {
+    var g = (p && p.selling_plan_groups) || [];
+    function scan(re, exclude) {
+      for (var i = 0; i < g.length; i++) {
+        var pl = g[i].selling_plans || [];
+        for (var j = 0; j < pl.length; j++) {
+          var hay = (pl[j].name || '') + ' ' + (pl[j].options || []).map(function (o) { return o.value; }).join(' ');
+          if (exclude && exclude.test(hay)) continue;
+          if (re.test(hay)) return pl[j].id;
+        }
+      }
+      return null;
+    }
+    if (kind === 'quarterly') return scan(/3\s*month/i);
+    return scan(/(^|[^0-9])1\s*month/i) || scan(/month/i, /3\s*month/i);
+  }
   function loadSlotProduct(id) {
     var s = slots[id];
     if (!s.handle) return;
@@ -1110,6 +1136,8 @@
       if (!p) { setMsg('Product not found. Check the product handle in theme settings.', true); return; }
       s.product = p;
       s.variant = findVariant(p, s.flavorName);
+      if (!findSellingPlanId(p, s.planMonthly)) s.planMonthly = autoPlanId(p, 'monthly');
+      if (!findSellingPlanId(p, s.planQuarterly)) s.planQuarterly = autoPlanId(p, 'quarterly');
       recompute();
     });
   }
