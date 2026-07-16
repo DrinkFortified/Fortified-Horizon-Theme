@@ -3355,30 +3355,12 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {}
-                },
-                "page_Qemidr": {
-                  "type": "page",
-                  "name": "t:names.page",
-                  "disabled": true,
-                  "settings": {
-                    "page": "about-us",
-                    "inherit_color_scheme": true,
-                    "color_scheme": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
                 }
               },
               "block_order": [
                 "text_cYDBhq",
                 "video_qn7cMh",
-                "text_Vk8TPG",
-                "page_Qemidr"
+                "text_Vk8TPG"
               ]
             }
           },
