@@ -380,7 +380,7 @@
                         "open_in_popup": false,
                         "image_ratio": "adapt",
                         "width": "custom",
-                        "custom_width": 30,
+                        "custom_width": 35,
                         "width_mobile": "custom",
                         "custom_width_mobile": 16,
                         "height": "fit",
