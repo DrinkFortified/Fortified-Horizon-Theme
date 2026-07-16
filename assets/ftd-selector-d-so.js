@@ -733,7 +733,19 @@
       }
     } catch (_) {}
   });
-  window.addEventListener('pageshow', function (e) { if (e.persisted) hydrateFromCart(); });
+  window.addEventListener('pageshow', function (e) {
+    if (!e.persisted) return;
+    /* bfcache restore. If the document was restored with the /cart URL
+       (doCheckout pushState + back from checkout, mostly mobile), the
+       cart-page redirect never runs — reopen the summary here instead. */
+    hydrateFromCart().then(function () {
+      if (/\/cart\/?$/.test(window.location.pathname)) {
+        try { history.replaceState({}, '', '/'); } catch (_) {}
+        showStep(totalQty() > 0 ? 'review' : 'plans', { scroll: false });
+        try { openDlg(); } catch (_) {}
+      }
+    });
+  });
   /* Slide-over open/close. Portal to <body> so no ancestor's
      transform/filter/will-change traps the dialog inside its
      stacking context. */

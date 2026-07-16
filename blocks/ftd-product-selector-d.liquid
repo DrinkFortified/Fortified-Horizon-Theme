@@ -392,6 +392,11 @@
   .ftdc__plan-badge { display: inline-flex; align-self: flex-start; padding: 0.15rem 0.55rem; border-radius: 4px; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; background: var(--ftdc-accent, var(--color-primary-button-background)); color: #fff; }
   .ftdc__plan-title { font-size: 17px; font-weight: 800; line-height: 1.2; color: var(--color-foreground); padding-right: 36px; overflow-wrap: break-word; }
   .ftdc__plan-desc { font-size: var(--ftd-body-size); line-height: 1.4; opacity: 0.7; color: var(--color-foreground); overflow-wrap: break-word; }
+  /* Desc is a richtext field: keep its <p>/<ul> flush inside the card. */
+  .ftdc__plan-desc > :first-child { margin-top: 0; }
+  .ftdc__plan-desc > :last-child { margin-bottom: 0; }
+  .ftdc__plan-desc p { margin-block: 0 0.35em; }
+  .ftdc__plan-desc :is(ul, ol) { margin-block: 0 0.35em; padding-inline-start: 1.1em; }
   .ftdc__plan-price { font-size: 22px; font-weight: 800; color: var(--color-foreground); }
   .ftdc__plan-period { font-size: var(--ftd-small-size); opacity: 0.7; color: var(--color-foreground); }
   .ftdc__plan-was { display: block; font-size: 12px; color: rgb(var(--color-foreground-rgb) / 0.5); text-decoration: line-through; overflow-wrap: break-word; }
@@ -1064,10 +1069,10 @@
       "default": "3 Pouches Every 3 Months"
     },
     {
-      "type": "text",
+      "type": "richtext",
       "id": "quarterly_desc",
       "label": "Description",
-      "default": "Mix any functions freely."
+      "default": "<p>Mix any functions freely.</p>"
     },
     {
       "type": "text",
@@ -1129,10 +1134,10 @@
       "default": "1 Pouch Every Month"
     },
     {
-      "type": "text",
+      "type": "richtext",
       "id": "monthly_desc",
       "label": "Description",
-      "default": "Your daily ritual, delivered."
+      "default": "<p>Your daily ritual, delivered.</p>"
     },
     {
       "type": "text",
@@ -1184,10 +1189,10 @@
       "default": "Single Pouch"
     },
     {
-      "type": "text",
+      "type": "richtext",
       "id": "onetime_desc",
       "label": "Description",
-      "default": "Try it first. Subscribe whenever you're ready."
+      "default": "<p>Try it first. Subscribe whenever you're ready.</p>"
     },
     {
       "type": "text",
