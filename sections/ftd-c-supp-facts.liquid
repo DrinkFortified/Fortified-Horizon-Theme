@@ -313,6 +313,21 @@
                 {%- endif -%}
 
                 <div class="{{ root }}__callouts">
+                  {%- comment %} Lead callouts render before callouts 1-3 and stay hidden while empty. {%- endcomment %}
+                  {%- for n in (1..2) -%}
+                    {%- assign t_id = 'lead_callout_' | append: n | append: '_title' -%}
+                    {%- assign b_id = 'lead_callout_' | append: n | append: '_body' -%}
+                    {%- assign c_id = 'lead_callout_' | append: n | append: '_accent' -%}
+                    {%- assign ct = b.settings[t_id] -%}
+                    {%- assign cb = b.settings[b_id] -%}
+                    {%- assign cc = b.settings[c_id] | default: accent_c -%}
+                    {%- if ct != blank or cb != blank -%}
+                      <article class="{{ root }}__callout" style="--ftcsf-callout-accent: {{ cc }};">
+                        {%- if ct != blank -%}<h3 class="{{ root }}__callout-title">{{ ct }}</h3>{%- endif -%}
+                        {%- if cb != blank -%}<p class="{{ root }}__callout-body">{{ cb }}</p>{%- endif -%}
+                      </article>
+                    {%- endif -%}
+                  {%- endfor -%}
                   {%- for n in (1..3) -%}
                     {%- assign t_id = 'callout_' | append: n | append: '_title' -%}
                     {%- assign b_id = 'callout_' | append: n | append: '_body' -%}
@@ -583,6 +598,42 @@
         {
           "type": "header",
           "content": "Callouts (right column)"
+        },
+        {
+          "type": "paragraph",
+          "content": "Lead callouts appear before callouts 1-3 and stay hidden until they have content."
+        },
+        {
+          "type": "text",
+          "id": "lead_callout_1_title",
+          "label": "Lead callout 1 title"
+        },
+        {
+          "type": "textarea",
+          "id": "lead_callout_1_body",
+          "label": "Lead callout 1 body"
+        },
+        {
+          "type": "color",
+          "id": "lead_callout_1_accent",
+          "label": "Lead callout 1 accent",
+          "default": "#1FA8A1"
+        },
+        {
+          "type": "text",
+          "id": "lead_callout_2_title",
+          "label": "Lead callout 2 title"
+        },
+        {
+          "type": "textarea",
+          "id": "lead_callout_2_body",
+          "label": "Lead callout 2 body"
+        },
+        {
+          "type": "color",
+          "id": "lead_callout_2_accent",
+          "label": "Lead callout 2 accent",
+          "default": "#1FA8A1"
         },
         {
           "type": "text",

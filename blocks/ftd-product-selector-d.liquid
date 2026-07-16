@@ -335,7 +335,9 @@
   .ftdc__heading { margin: 0 0 0.5em; font-size: var(--ftd-h1-size); font-weight: var(--ftd-heading-weight, 800); line-height: var(--ftd-h1-line, 1.05); text-transform: uppercase; color: var(--color-foreground); }
   .ftdc__desc { margin: 0 auto 1em; font-size: var(--ftd-sub-size); line-height: var(--ftd-sub-line, 1.6); opacity: 0.75; max-width: 36em; color: var(--color-foreground); }
   .ftdc__bullets { display: flex; flex-direction: column; gap: 0.65rem; align-items: flex-start; max-width: 22em; margin: 1.25rem auto 0; padding: 0; list-style: none; }
-  .ftdc__bullet { display: flex; align-items: center; gap: 0.75rem; }
+  /* Top-align the dot with the first text line and keep wrapped text
+     left-ragged so it always hangs off the bullet. */
+  .ftdc__bullet { display: flex; align-items: flex-start; gap: 0.75rem; text-align: left; }
   .ftdc__bullet-dot { width: 22px; height: 22px; border-radius: 50%; background: color-mix(in srgb, var(--ftdc-accent, var(--color-primary-button-background)) 18%, transparent); position: relative; flex-shrink: 0; }
   .ftdc__bullet-dot::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: var(--ftdc-accent, var(--color-primary-button-background)); }
   .ftdc__bullet-text { font-size: var(--ftd-body-size); font-weight: 700; color: var(--color-foreground); }
