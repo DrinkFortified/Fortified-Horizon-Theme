@@ -3269,7 +3269,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<h2><strong>The hydration brand for people who actually read the label.</strong></h2><p>FORTIFIED® was built on a simple promise — <strong>No Mumbo Jumbo</strong>. No proprietary blends. No fillers you can't pronounce. No fear-mongering marketing. Just real ingredients in honest amounts, every milligram printed on the label.</p>",
+                    "text": "<h2><strong>The hydration brand for people who actually read the label.</strong></h2><p>FORTIFIED™ was built on a simple promise — <strong>No Mumbo Jumbo</strong>. No proprietary blends. No fillers you can't pronounce. No fear-mongering marketing. Just real ingredients in honest amounts, every milligram printed on the label.</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
