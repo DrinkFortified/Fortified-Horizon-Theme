@@ -3551,6 +3551,416 @@
         "custom_css": ""
       }
     },
+    "marquee_zQytDV": {
+      "type": "marquee",
+      "blocks": {
+        "icon_jMbcbX": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "price_tag",
+            "image_upload": "shopify://shop_images/OrganicFlavors-wo.svg",
+            "width": 36,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_Y89nk6": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>Real Fruit Organic Flavors</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "divider_rgYW8L": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "disabled": true,
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
+        "icon_e94W7T": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "price_tag",
+            "image_upload": "shopify://shop_images/CleanFormula-wo.svg",
+            "width": 36,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_akcpNW": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>Clean Electrolytes</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "divider_PjfbqC": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "disabled": true,
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
+        "icon_rEMjrw": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "price_tag",
+            "image_upload": "shopify://shop_images/D3White.svg",
+            "width": 36,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_wNRwkX": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>D3 + K2 You Can Actually Read</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "divider_zUy6RQ": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "disabled": true,
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
+        "icon_Mi9wMc": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "price_tag",
+            "image_upload": "shopify://shop_images/NoSugar-wo.svg",
+            "width": 36,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_rbCFrk": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>Zero Sugar, Zero Junk</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "divider_YakRHn": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "disabled": true,
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
+        "icon_6Ejyje": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "price_tag",
+            "image_upload": "shopify://shop_images/Transparency-wo.svg",
+            "width": 36,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_BkByEb": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Every Milligram On The Label</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "divider_yYDwbF": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "disabled": true,
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "icon_jMbcbX",
+        "text_Y89nk6",
+        "divider_rgYW8L",
+        "icon_e94W7T",
+        "text_akcpNW",
+        "divider_PjfbqC",
+        "icon_rEMjrw",
+        "text_wNRwkX",
+        "divider_zUy6RQ",
+        "icon_Mi9wMc",
+        "text_rbCFrk",
+        "divider_YakRHn",
+        "icon_6Ejyje",
+        "text_BkByEb",
+        "divider_yYDwbF"
+      ],
+      "name": "t:names.marquee_section",
+      "settings": {
+        "anchor_id": "",
+        "movement_direction": "normal",
+        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
+        "padding-block-start": 24,
+        "padding-block-end": 24,
+        "gap_between_elements": 24
+      }
+    },
+    "fortified_two_column_cta_r4Cf7t": {
+      "type": "fortified-two-column-cta",
+      "blocks": {
+        "cta_card_r6XPCX": {
+          "type": "cta_card",
+          "settings": {
+            "eyebrow": "Wholesale",
+            "eyebrow_color": "#1fa8a1",
+            "heading": "Stock The Hydration People Actually Trust",
+            "body": "Bring a clean-label, fully-disclosed electrolyte line to your shelves. Zero artificial sweeteners, real minerals from real sources, and a label your customers can read at a glance — no education required.",
+            "button_label": "Apply For Wholesale",
+            "button_link": "",
+            "button_style": "outline",
+            "background_image": "shopify://shop_images/2cb6a9adb0a6ec7ca88cbc4c05082130429fc1ca.png",
+            "background_image_focal": "center",
+            "overlay_color": "#000000",
+            "overlay_opacity": 35,
+            "card_color_scheme": "",
+            "text_color": "light",
+            "min_height_desktop": 420,
+            "min_height_mobile": 340
+          }
+        },
+        "cta_card_split_w7WFxB": {
+          "type": "cta_card_split",
+          "settings": {
+            "eyebrow": "Partners",
+            "eyebrow_color": "#1fa8a1",
+            "heading": "Partner With FORTIFIED®",
+            "body": "For gyms, practitioners, and creators who only put their name on the real thing. Clean hydration, honest amounts, nothing to hide — built for the people you trust your audience with.",
+            "button_label": "Become A Partner",
+            "button_link": "",
+            "button_style": "outline",
+            "side_image": "shopify://shop_images/Element02.webp",
+            "image_position": "right",
+            "image_focal": "center",
+            "card_color_scheme": "",
+            "background_color": "#f5f5f2",
+            "text_color": "dark",
+            "min_height_desktop": 420,
+            "min_height_mobile": 480
+          }
+        }
+      },
+      "block_order": [
+        "cta_card_r6XPCX",
+        "cta_card_split_w7WFxB"
+      ],
+      "disabled": true,
+      "name": "FTD - Two-Column CTA",
+      "settings": {
+        "anchor_id": "",
+        "column_gap": 0,
+        "card_radius": 0,
+        "section_width": "full-width",
+        "content_max_width": 1360,
+        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
+        "padding-block-start": 88,
+        "padding-block-end": 88,
+        "custom_css": ""
+      }
+    },
+    "fortified_subscribe_save_j9wGpe": {
+      "type": "fortified-subscribe-save",
+      "blocks": {
+        "benefit_UiRF4L": {
+          "type": "benefit",
+          "settings": {
+            "text": "Save 20% on every order, automatically when subscribed to the 90-Day Supply Every 3 Months plan"
+          }
+        },
+        "benefit_dHpzG7": {
+          "type": "benefit",
+          "settings": {
+            "text": "Free creatine on quarterly plans for the life of your subscription"
+          }
+        },
+        "benefit_RPYWhB": {
+          "type": "benefit",
+          "settings": {
+            "text": "Skip, swap, or cancel anytime"
+          }
+        },
+        "benefit_acE4Nr": {
+          "type": "benefit",
+          "settings": {
+            "text": "Never run out of your ritual"
+          }
+        },
+        "benefit_6H6hWk": {
+          "type": "benefit",
+          "settings": {
+            "text": "45-Day Money Back Guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_UiRF4L",
+        "benefit_dHpzG7",
+        "benefit_RPYWhB",
+        "benefit_acE4Nr",
+        "benefit_6H6hWk"
+      ],
+      "name": "FTD - Subscribe & Save",
+      "settings": {
+        "anchor_id": "",
+        "eyebrow": "Subscribe & Save",
+        "eyebrow_color": "#1fa8a1",
+        "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
+        "button_label": "Get The VIP Founders offer",
+        "button_link": "#leadcapture",
+        "button_style": "outline",
+        "foreground_image_focal": "center",
+        "image_position": "right",
+        "background_image": "shopify://shop_images/88588dc4ec1159c1c0561ae6b16ace7fb988b0f6.png",
+        "background_overlay": 0,
+        "text_color": "light",
+        "section_width": "full-width",
+        "content_max_width": 1800,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 88,
+        "padding-block-end": 88,
+        "custom_css": ""
+      }
+    },
     "section_jcLNtw": {
       "type": "section",
       "blocks": {
@@ -3852,7 +4262,7 @@
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
+        "color_scheme": "scheme-5",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
@@ -3865,417 +4275,7 @@
         "overlay_style": "solid",
         "gradient_direction": "to top",
         "padding-block-start": 0,
-        "padding-block-end": 64
-      }
-    },
-    "fortified_two_column_cta_r4Cf7t": {
-      "type": "fortified-two-column-cta",
-      "blocks": {
-        "cta_card_r6XPCX": {
-          "type": "cta_card",
-          "settings": {
-            "eyebrow": "Wholesale",
-            "eyebrow_color": "#1fa8a1",
-            "heading": "Stock The Hydration People Actually Trust",
-            "body": "Bring a clean-label, fully-disclosed electrolyte line to your shelves. Zero artificial sweeteners, real minerals from real sources, and a label your customers can read at a glance — no education required.",
-            "button_label": "Apply For Wholesale",
-            "button_link": "",
-            "button_style": "outline",
-            "background_image": "shopify://shop_images/2cb6a9adb0a6ec7ca88cbc4c05082130429fc1ca.png",
-            "background_image_focal": "center",
-            "overlay_color": "#000000",
-            "overlay_opacity": 35,
-            "card_color_scheme": "",
-            "text_color": "light",
-            "min_height_desktop": 420,
-            "min_height_mobile": 340
-          }
-        },
-        "cta_card_split_w7WFxB": {
-          "type": "cta_card_split",
-          "settings": {
-            "eyebrow": "Partners",
-            "eyebrow_color": "#1fa8a1",
-            "heading": "Partner With FORTIFIED®",
-            "body": "For gyms, practitioners, and creators who only put their name on the real thing. Clean hydration, honest amounts, nothing to hide — built for the people you trust your audience with.",
-            "button_label": "Become A Partner",
-            "button_link": "",
-            "button_style": "outline",
-            "side_image": "shopify://shop_images/Element02.webp",
-            "image_position": "right",
-            "image_focal": "center",
-            "card_color_scheme": "",
-            "background_color": "#f5f5f2",
-            "text_color": "dark",
-            "min_height_desktop": 420,
-            "min_height_mobile": 480
-          }
-        }
-      },
-      "block_order": [
-        "cta_card_r6XPCX",
-        "cta_card_split_w7WFxB"
-      ],
-      "disabled": true,
-      "name": "FTD - Two-Column CTA",
-      "settings": {
-        "anchor_id": "",
-        "column_gap": 0,
-        "card_radius": 0,
-        "section_width": "full-width",
-        "content_max_width": 1360,
-        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 88,
-        "padding-block-end": 88,
-        "custom_css": ""
-      }
-    },
-    "fortified_subscribe_save_j9wGpe": {
-      "type": "fortified-subscribe-save",
-      "blocks": {
-        "benefit_UiRF4L": {
-          "type": "benefit",
-          "settings": {
-            "text": "Save 20% on every order, automatically when subscribed to the 90-Day Supply Every 3 Months plan"
-          }
-        },
-        "benefit_dHpzG7": {
-          "type": "benefit",
-          "settings": {
-            "text": "Free creatine on quarterly plans for the life of your subscription"
-          }
-        },
-        "benefit_RPYWhB": {
-          "type": "benefit",
-          "settings": {
-            "text": "Skip, swap, or cancel anytime"
-          }
-        },
-        "benefit_acE4Nr": {
-          "type": "benefit",
-          "settings": {
-            "text": "Never run out of your ritual"
-          }
-        },
-        "benefit_6H6hWk": {
-          "type": "benefit",
-          "settings": {
-            "text": "45-Day Money Back Guarantee"
-          }
-        }
-      },
-      "block_order": [
-        "benefit_UiRF4L",
-        "benefit_dHpzG7",
-        "benefit_RPYWhB",
-        "benefit_acE4Nr",
-        "benefit_6H6hWk"
-      ],
-      "name": "FTD - Subscribe & Save",
-      "settings": {
-        "anchor_id": "",
-        "eyebrow": "Subscribe & Save",
-        "eyebrow_color": "#1fa8a1",
-        "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
-        "button_label": "Get The VIP Founders offer",
-        "button_link": "#leadcapture",
-        "button_style": "outline",
-        "foreground_image_focal": "center",
-        "image_position": "right",
-        "background_image": "shopify://shop_images/88588dc4ec1159c1c0561ae6b16ace7fb988b0f6.png",
-        "background_overlay": 0,
-        "text_color": "light",
-        "section_width": "full-width",
-        "content_max_width": 1800,
-        "color_scheme": "scheme-5",
-        "padding-block-start": 88,
-        "padding-block-end": 88,
-        "custom_css": ""
-      }
-    },
-    "marquee_zQytDV": {
-      "type": "marquee",
-      "blocks": {
-        "icon_jMbcbX": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "price_tag",
-            "image_upload": "shopify://shop_images/OrganicFlavors-wo.svg",
-            "width": 36,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_Y89nk6": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>Real Fruit Organic Flavors</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "divider_rgYW8L": {
-          "type": "_divider",
-          "name": "t:names.divider",
-          "disabled": true,
-          "settings": {
-            "thickness": 1,
-            "corner_radius": "square",
-            "width_percent": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_e94W7T": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "price_tag",
-            "image_upload": "shopify://shop_images/CleanFormula-wo.svg",
-            "width": 36,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_akcpNW": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>Clean Electrolytes</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "divider_PjfbqC": {
-          "type": "_divider",
-          "name": "t:names.divider",
-          "disabled": true,
-          "settings": {
-            "thickness": 1,
-            "corner_radius": "square",
-            "width_percent": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_rEMjrw": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "price_tag",
-            "image_upload": "shopify://shop_images/D3White.svg",
-            "width": 36,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_wNRwkX": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>D3 + K2 You Can Actually Read</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "divider_zUy6RQ": {
-          "type": "_divider",
-          "name": "t:names.divider",
-          "disabled": true,
-          "settings": {
-            "thickness": 1,
-            "corner_radius": "square",
-            "width_percent": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_Mi9wMc": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "price_tag",
-            "image_upload": "shopify://shop_images/NoSugar-wo.svg",
-            "width": 36,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_rbCFrk": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>Zero Sugar, Zero Junk</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "divider_YakRHn": {
-          "type": "_divider",
-          "name": "t:names.divider",
-          "disabled": true,
-          "settings": {
-            "thickness": 1,
-            "corner_radius": "square",
-            "width_percent": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_6Ejyje": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "price_tag",
-            "image_upload": "shopify://shop_images/Transparency-wo.svg",
-            "width": 36,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_BkByEb": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Every Milligram On The Label</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "custom",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "tight",
-            "letter_spacing": "tight",
-            "case": "none",
-            "wrap": "nowrap",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "divider_yYDwbF": {
-          "type": "_divider",
-          "name": "t:names.divider",
-          "disabled": true,
-          "settings": {
-            "thickness": 1,
-            "corner_radius": "square",
-            "width_percent": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "icon_jMbcbX",
-        "text_Y89nk6",
-        "divider_rgYW8L",
-        "icon_e94W7T",
-        "text_akcpNW",
-        "divider_PjfbqC",
-        "icon_rEMjrw",
-        "text_wNRwkX",
-        "divider_zUy6RQ",
-        "icon_Mi9wMc",
-        "text_rbCFrk",
-        "divider_YakRHn",
-        "icon_6Ejyje",
-        "text_BkByEb",
-        "divider_yYDwbF"
-      ],
-      "name": "t:names.marquee_section",
-      "settings": {
-        "anchor_id": "",
-        "movement_direction": "normal",
-        "color_scheme": "scheme-dd97c2ec-3db2-4ae8-95d8-8a78c595ec34",
-        "padding-block-start": 24,
-        "padding-block-end": 24,
-        "gap_between_elements": 24
+        "padding-block-end": 0
       }
     }
   },
@@ -4301,9 +4301,9 @@
     "17821471407fe1169a",
     "media_with_content_gRD9pV",
     "fortified_truth_Q6ArF9",
-    "section_jcLNtw",
+    "marquee_zQytDV",
     "fortified_two_column_cta_r4Cf7t",
     "fortified_subscribe_save_j9wGpe",
-    "marquee_zQytDV"
+    "section_jcLNtw"
   ]
 }
