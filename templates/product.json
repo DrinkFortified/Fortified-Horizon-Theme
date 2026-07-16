@@ -257,7 +257,7 @@
               "type": "text",
               "name": "Product description",
               "settings": {
-                "text": "{{ closest.product.description }}",
+                "text": "<p>{{ closest.product.description }}</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -664,7 +664,7 @@
       "settings": {
         "name": "Alex Friedman",
         "role": "Pro Athlete · FORTIFIED Partner",
-        "quote": "I've tried every creatine on the shelf. This is the only one I trust to be exactly what the label says — a full 5g, every scoop, nothing else. My strength numbers and my recovery do the talking.",
+        "quote": "<p>I've tried every creatine on the shelf. This is the only one I trust to be exactly what the label says — a full 5g, every scoop, nothing else. My strength numbers and my recovery do the talking.</p>",
         "quote_marks": true,
         "button_label": "Shop Creatine",
         "button_link": "",
@@ -821,7 +821,7 @@
         "eyebrow": "Compare The Scoop",
         "eyebrow_color": "#1fa8a1",
         "heading": "Why We Beat The Rest",
-        "subheading": "Same molecule. Very different scoop. Here's how FORTIFIED Creatine stacks up against what's on the shelf.",
+        "subheading": "<p>Same molecule. Very different scoop. Here's how FORTIFIED Creatine stacks up against what's on the shelf.</p>",
         "fortified_label": "Fortified",
         "fortified_column_color": "#0a0a0a",
         "fortified_text_color": "#ffffff",
@@ -1155,5 +1155,3 @@
     "ftd_subscribe_save_cta"
   ]
 }
-
-

@@ -613,7 +613,7 @@
       "name": "FTD - Ingredients Callout",
       "settings": {
         "heading": "Every milligram on the label.",
-        "subheading": "No proprietary blends. No fillers. The exact amounts the research says actually matter — printed right on the pouch.",
+        "subheading": "<p>No proprietary blends. No fillers. The exact amounts the research says actually matter — printed right on the pouch.</p>",
         "product_image": "shopify://shop_images/260401-FOR-EDY-30-ORG-2026_1-Front.webp",
         "product_image_background": "#f2f2f0",
         "product_image_max_height": 520,
@@ -884,7 +884,7 @@
         "eyebrow": "Compare The Labels",
         "eyebrow_color": "#1fa8a1",
         "heading": "Why We Beat The Rest",
-        "subheading": "Same shelf. Very different label. Here's how FORTIFIED stacks up against the names you already know.",
+        "subheading": "<p>Same shelf. Very different label. Here's how FORTIFIED stacks up against the names you already know.</p>",
         "fortified_label": "Fortified",
         "fortified_column_color": "#0a0a0a",
         "fortified_text_color": "#ffffff",
@@ -1054,5 +1054,3 @@
     "ftd_lp_subscribe_cta"
   ]
 }
-
-

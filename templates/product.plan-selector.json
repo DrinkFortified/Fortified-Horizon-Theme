@@ -438,7 +438,7 @@
               "type": "text",
               "name": "Product description",
               "settings": {
-                "text": "{{ closest.product.description }}",
+                "text": "<p>{{ closest.product.description }}</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -558,7 +558,7 @@
       "name": "FTD - Ingredients Callout",
       "settings": {
         "heading": "Real Ingredients, Honest Amounts",
-        "subheading": "No proprietary blends. Every nutrient in FORTIFIED® is printed on the label, in a dose that actually matters.",
+        "subheading": "<p>No proprietary blends. Every nutrient in FORTIFIED® is printed on the label, in a dose that actually matters.</p>",
         "product_image_background": "#f2f2f0",
         "product_image_max_height": 500,
         "image_position_desktop": "left",
@@ -583,7 +583,7 @@
       "settings": {
         "name": "Marisa K., mom of three",
         "role": "HBO Max Champion",
-        "quote": "I finally found a hydration mix I don't have to hide from my kids. I can read every ingredient — no fake sweeteners, no dyes — and it actually works.",
+        "quote": "<p>I finally found a hydration mix I don't have to hide from my kids. I can read every ingredient — no fake sweeteners, no dyes — and it actually works.</p>",
         "quote_marks": true,
         "button_label": "Shop Clean Hydration",
         "button_link": "",
@@ -1084,7 +1084,7 @@
       "settings": {
         "eyebrow": "What We Left Out",
         "heading": "A Label You Can Actually Read",
-        "subheading": "No artificial sweeteners, no dyes, no fillers. Real ingredients in amounts that matter.",
+        "subheading": "<p>No artificial sweeteners, no dyes, no fillers. Real ingredients in amounts that matter.</p>",
         "button_label": "Shop FORTIFIED®",
         "button_link": "",
         "button_style": "outline",
@@ -1266,5 +1266,3 @@
     "17809380431492f2ae"
   ]
 }
-
-
