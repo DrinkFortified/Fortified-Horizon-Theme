@@ -3217,11 +3217,38 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {}
+                },
+                "text_JXJb3R": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<p>Welcome to FORTIFIED - Build for Real Life</p>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "1.125rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
                 "text_x9xGVw",
-                "text_KpDhEq"
+                "text_KpDhEq",
+                "text_JXJb3R"
               ]
             },
             "popup_link_Xng9kd": {
@@ -3229,8 +3256,8 @@
               "name": "t:names.popup_link",
               "settings": {
                 "behavior": "fullscreen",
-                "heading": "Welcome to FORTIFIED - Built for Real Life.",
-                "type_preset": "h5",
+                "heading": "See Founders Video",
+                "type_preset": "h4",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
