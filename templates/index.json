@@ -3222,7 +3222,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Welcome to FORTIFIED - Build for Real Life</p>",
+                    "text": "<p>Welcome to FORTIFIED - Made for Real Life</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
