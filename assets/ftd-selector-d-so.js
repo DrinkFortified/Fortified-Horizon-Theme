@@ -39,6 +39,7 @@
   var syncing = false;
   var syncAgain = false;
   var syncTimer = null;
+  var hydratedOnce = false;
 
   function getCart() { return fetch('/cart.js', { headers: { 'Accept': 'application/json' } }).then(function (r) { return r.json(); }); }
 
@@ -81,23 +82,54 @@
     return items;
   }
 
-  /* Make the cart match the build: drop our lines, add the desired set. */
+  /* Make the cart match the build. Diff-based and constructive-first:
+     add missing lines, fix quantities, and only then remove stale lines.
+     A full clear-then-re-add tears apart when navigation cancels the
+     re-add mid-flight, silently emptying the customer's cart. */
+  function lineSig(l) {
+    var p = l.properties || {};
+    var sp = (l.selling_plan_allocation && l.selling_plan_allocation.selling_plan && l.selling_plan_allocation.selling_plan.id) || '';
+    return [l.variant_id, sp, p._role || ''].join('|');
+  }
+  function itemSig(it) {
+    return [it.id, it.selling_plan || '', (it.properties && it.properties._role) || ''].join('|');
+  }
   function reconcileCart() {
+    /* Never reconcile before the first hydration: state starts empty, and
+       an empty-state reconcile would wipe the customer's saved lines. */
+    if (!hydratedOnce) return hydrateFromCart().then(function () { return reconcileCart(); });
     if (syncing) { syncAgain = true; return Promise.resolve(); }
     syncing = true;
     var desired = desiredItems();
     return getCart().then(function (cart) {
-      var updates = {};
-      (cart.items || []).forEach(function (l) { if ((l.properties || {})[CART_SEL] === CART_OWNER) updates[l.key] = 0; });
-      var clear = Object.keys(updates).length
-        ? fetch('/cart/update.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ updates: updates }) }).then(function (r) { return r.json(); })
-        : Promise.resolve(cart);
-      return clear.then(function () {
-        if (!desired.length) return getCart();
-        return fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items: desired }) })
-          .then(function (r) { if (!r.ok) return r.json().then(function (b) { throw new Error((b && (b.description || b.message)) || 'Cart error'); }); return r.json(); })
-          .then(function () { return getCart(); });
+      var wantBySig = {};
+      desired.forEach(function (it) { wantBySig[itemSig(it)] = it; });
+      var keep = {}, qtyFixes = [], removals = {};
+      (cart.items || []).forEach(function (l) {
+        if ((l.properties || {})[CART_SEL] !== CART_OWNER) return;
+        var sig = lineSig(l), want = wantBySig[sig];
+        if (want && !keep[sig]) {
+          keep[sig] = l;
+          if (l.quantity !== want.quantity) qtyFixes.push({ id: l.key, quantity: want.quantity });
+        } else {
+          removals[l.key] = 0;
+        }
       });
+      var additions = desired.filter(function (it) { return !keep[itemSig(it)]; });
+      var step = additions.length
+        ? fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items: additions }) })
+            .then(function (r) { if (!r.ok) return r.json().then(function (b) { throw new Error((b && (b.description || b.message)) || 'Cart error'); }); return r.json(); })
+        : Promise.resolve();
+      qtyFixes.forEach(function (fix) {
+        step = step.then(function () {
+          return fetch('/cart/change.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(fix) }).then(function (r) { return r.json(); });
+        });
+      });
+      step = step.then(function () {
+        if (!Object.keys(removals).length) return null;
+        return fetch('/cart/update.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ updates: removals }) }).then(function (r) { return r.json(); });
+      });
+      return step.then(getCart);
     }).then(function (cart) {
       paintTotalsFromCart(cart); notifyCartChanged();
       syncing = false; if (syncAgain) { syncAgain = false; return reconcileCart(); }
@@ -158,6 +190,7 @@
   /* Rebuild the builder UI from the real cart (load + external changes). */
   function hydrateFromCart() {
     return getCart().then(function (cart) {
+      hydratedOnce = true;
       var ours = (cart.items || []).filter(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
       if (!ours.length) { cartTotals = null; updateBar(); return; }
       hydrating = true;
@@ -183,7 +216,7 @@
       /* Existing quarterly cart from before free creatine was auto-included
          — reconcile once so the promised free item actually lands in cart. */
       if (state.plan === 'quarterly' && !hadCreatine && cr && cr.checked) scheduleSync();
-    }).catch(function (e) { hydrating = false; try { console.error('[FTDC-D] hydrate', e); } catch (_) {} });
+    }).catch(function (e) { hydrating = false; hydratedOnce = true; try { console.error('[FTDC-D] hydrate', e); } catch (_) {} });
   }
   /* Loop bundle (Option A): mint a transaction, then stamp _bundleId +
      selling plan onto our quarterly pouch lines already in the cart. */
@@ -203,7 +236,9 @@
             return chain.then(function () {
               var props = {}; var lp = l.properties || {}; Object.keys(lp).forEach(function (k) { props[k] = lp[k]; });
               props[key] = String(txn); if (LOOP_BUNDLE.bundleName) props.bundleName = LOOP_BUNDLE.bundleName;
-              var payload = { id: l.key, properties: props }; if (cartPlanId) payload.selling_plan = cartPlanId;
+              /* quantity is mandatory here: change.js assumes 1 when omitted,
+                 which silently collapsed multi-qty lines (2+ of one flavor). */
+              var payload = { id: l.key, quantity: l.quantity, properties: props }; if (cartPlanId) payload.selling_plan = cartPlanId;
               return fetch('/cart/change.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload) }).then(function (r) { return r.json(); });
             });
           }, Promise.resolve());
