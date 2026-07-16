@@ -3171,7 +3171,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>Built For People Who Read The Back.</h2>",
+                    "text": "<h2><strong>I Built the Hydration Company I Couldn't Find.</strong></h2>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -3196,7 +3196,7 @@
                 "text_KpDhEq": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Because every other \"clean\" hydration on the shelf still hid something — a sweetener nobody asked for, an electrolyte dosed too low to matter, a blend nobody could decode. FORTIFIED® is the answer for the people who actually read labels.<br/>The full dose. The real source. The whole story on the front of the pouch.</p>",
+                    "text": "<p>After years in the health and wellness industry, I became frustrated with products that claimed to be healthy while hiding behind proprietary blends, artificial ingredients, and underdosed formulas.<br/><br/>Then cancer changed my perspective. Every ingredient mattered. Every label mattered.<br/><br/>When I couldn't find a hydration product clean enough for myself and my family, I stopped looking and built it.<br/><br/>FORTIFIED exists to end chronic dehydration with honest ingredients, meaningful doses, and complete transparency. Every product is one I'm proud to drink and even more proud to give my kids.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
