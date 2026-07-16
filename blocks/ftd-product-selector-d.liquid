@@ -466,6 +466,25 @@
   .ftdc__bar { position: sticky; bottom: clamp(8px, 2vw, 18px); z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 1.1rem; margin: 1.5rem auto 0; max-width: 38em; background: var(--color-background); border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.12); border-radius: 999px; box-shadow: 0 10px 30px rgb(0 0 0 / 0.08); }
   /* The review step renders its own primary Checkout button — the bar would duplicate it. */
   .ftdc[data-active-step="review"] .ftdc__bar { display: none; }
+
+  /* ---- Compact mode: wizard placed inside the PDP details column ----
+     The product-information details area is a narrow column on desktop,
+     so mirror the slide-over's stacked layout instead of the full-page
+     grid. Scoped to .product-details (the _product-details wrapper). */
+  .product-details .ftdc__step--has-image.is-active { display: block; }
+  .product-details .ftdc__plans-image { position: static; margin-bottom: 1rem; }
+  .product-details .ftdc__plans-image img { width: 100%; max-height: 240px; object-fit: cover; border-radius: var(--ftdc-radius, 12px); }
+  .product-details .ftdc__plans { grid-template-columns: 1fr 1fr; }
+  .product-details .ftdc__plans .ftdc__plan[data-plan="onetime"] { grid-column: 1 / -1; }
+  .product-details .ftdc__grid { justify-content: center; grid-template-columns: repeat(auto-fit, minmax(150px, 200px)); }
+  .product-details .ftdc__bar { position: static; bottom: auto; }
+  .product-details .ftdc__heading { font-size: var(--ftd-h3-size); }
+  .product-details .ftdc__desc { font-size: var(--ftd-body-size); max-width: none; }
+  .product-details .ftdc__bullets { grid-template-columns: 1fr; }
+  @media (max-width: 749px) {
+    .product-details .ftdc__plans { grid-template-columns: 1fr; }
+    .product-details .ftdc__plans .ftdc__plan[data-plan="onetime"] { grid-column: auto; }
+  }
   .ftdc__bar-summary { display: flex; align-items: baseline; gap: 0.5rem; font-size: var(--ftd-small-size); color: var(--color-foreground); min-width: 0; }
   .ftdc__bar-total { font-weight: 700; white-space: nowrap; }
   .ftdc__bar-saved { font-size: 12px; opacity: 0.7; white-space: nowrap; }
