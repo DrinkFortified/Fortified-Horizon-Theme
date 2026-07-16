@@ -92,7 +92,7 @@
             "horizontal_alignment_mobile": "",
             "vertical_alignment_mobile": "",
             "gap": 12,
-            "width": "fit-content",
+            "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
