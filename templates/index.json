@@ -196,7 +196,7 @@
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
-                    "type_preset": "custom",
+                    "type_preset": "h2",
                     "font": "var(--font-subheading--family)",
                     "font_size": "5.5rem",
                     "line_height": "tight",
