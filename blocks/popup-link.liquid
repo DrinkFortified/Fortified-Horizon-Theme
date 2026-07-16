@@ -7,17 +7,32 @@
   type="module"
 ></script>
 
+{%- liquid
+  # Trigger style: plain text link (default) or a real theme button.
+  # Button styles use the .button / .button-secondary chrome (and the
+  # unified FTD CTA voice), so the link-only padding vars and text
+  # preset are skipped for them.
+  assign trigger_style = block_settings.style | default: 'link'
+  if trigger_style == 'button'
+    assign trigger_classes = 'button popup-link__button popup-link__button--button'
+  elsif trigger_style == 'button_secondary'
+    assign trigger_classes = 'button-secondary popup-link__button popup-link__button--button'
+  else
+    assign trigger_classes = 'button button-unstyled popup-link__button text-left spacing-style ' | append: block_settings.type_preset
+  endif
+-%}
+
 <dialog-component
   class="popup-link"
   {{ block.shopify_attributes }}
 >
   <button
     on:click="/showDialog"
-    class="button button-unstyled popup-link__button text-left spacing-style {{ block_settings.type_preset }}"
-    style="{% render 'spacing-style', settings: block_settings %}"
+    class="{{ trigger_classes }}"
+    {% if trigger_style == 'link' %}style="{% render 'spacing-style', settings: block_settings %}"{% endif %}
   >
     {{- block_settings.heading }}
-    {{- 'icon-external.svg' | inline_asset_content -}}
+    {%- if trigger_style == 'link' -%}{{- 'icon-external.svg' | inline_asset_content -}}{%- endif -%}
   </button>
 
   <dialog
@@ -51,6 +66,11 @@
     display: inline-block;
     position: relative;
     top: var(--margin-2xs);
+  }
+
+  /* Button-styled trigger: real CTA chrome, sized to its label. */
+  .popup-link__button--button {
+    width: fit-content;
   }
 
   .popup-link__content {
@@ -248,6 +268,27 @@
       "id": "heading",
       "label": "t:settings.text",
       "default": "t:text_defaults.popup_link"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        {
+          "value": "link",
+          "label": "Link"
+        },
+        {
+          "value": "button",
+          "label": "Primary button"
+        },
+        {
+          "value": "button_secondary",
+          "label": "Secondary button"
+        }
+      ],
+      "default": "link",
+      "info": "Button styles use the theme's button look; the text preset and link padding below apply to the Link style only."
     },
     {
       "type": "select",
