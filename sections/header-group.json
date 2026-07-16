@@ -49,8 +49,8 @@
       },
       "custom_css": [],
       "settings": {
-        "logo_position": "left",
-        "menu_position": "left",
+        "logo_position": "center",
+        "menu_position": "right",
         "menu_row": "top",
         "customer_account_menu": "",
         "show_search": false,
