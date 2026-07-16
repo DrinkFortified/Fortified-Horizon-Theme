@@ -192,7 +192,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h1><strong>HYDRATION FOR<br/>LABEL READERS</strong></h1>",
+                    "text": "<h1><strong>HYDRATION FOR LABEL READERS</strong></h1>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
