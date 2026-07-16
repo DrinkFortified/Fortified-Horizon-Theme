@@ -285,15 +285,17 @@
         {%- endif -%}
       </div>
 
-      <div class="{{ root }}__media">
-        {%- if section.settings.foreground_image != blank -%}
+      {%- if section.settings.foreground_image != blank -%}
+        {%- comment -%} Only render when set — an empty box still takes its
+            aspect-ratio height and leaves a blank band under the content. {%- endcomment -%}
+        <div class="{{ root }}__media">
           {{ section.settings.foreground_image | image_url: width: 1200 | image_tag:
             loading: 'lazy',
             widths: '400,700,1000,1300',
             alt: img_alt
           }}
-        {%- endif -%}
-      </div>
+        </div>
+      {%- endif -%}
 
     </div>
   </div>
