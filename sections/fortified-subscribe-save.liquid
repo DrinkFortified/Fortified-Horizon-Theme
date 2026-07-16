@@ -179,6 +179,20 @@
     #{{ root }} .{{ root }}__grid--image-left .{{ root }}__text  { order: 1; }
     #{{ root }} .{{ root }}__grid--image-left .{{ root }}__media { order: 2; }
     #{{ root }} .{{ root }}__media { aspect-ratio: 4 / 3; }
+
+    /* Stacked layout: center the content column. The checklist stays a
+       left-aligned block (so the checkmarks line up) but centers as a
+       whole; the button centers under it. */
+    #{{ root }} .{{ root }}__text {
+      align-items: center;
+      text-align: center;
+      max-width: none;
+    }
+    #{{ root }} .{{ root }}__list {
+      align-self: center;
+      text-align: left;
+    }
+    #{{ root }} .{{ root }}__btn { align-self: center; }
   }
 
   [hidden]{display:none!important}
