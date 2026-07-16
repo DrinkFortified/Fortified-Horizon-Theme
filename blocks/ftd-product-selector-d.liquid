@@ -459,6 +459,8 @@
 
   /* Sticky cart bar */
   .ftdc__bar { position: sticky; bottom: clamp(8px, 2vw, 18px); z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 1.1rem; margin: 1.5rem auto 0; max-width: 38em; background: var(--color-background); border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.12); border-radius: 999px; box-shadow: 0 10px 30px rgb(0 0 0 / 0.08); }
+  /* The review step renders its own primary Checkout button — the bar would duplicate it. */
+  .ftdc[data-active-step="review"] .ftdc__bar { display: none; }
   .ftdc__bar-summary { display: flex; align-items: baseline; gap: 0.5rem; font-size: var(--ftd-small-size); color: var(--color-foreground); min-width: 0; }
   .ftdc__bar-total { font-weight: 700; white-space: nowrap; }
   .ftdc__bar-saved { font-size: 12px; opacity: 0.7; white-space: nowrap; }
@@ -603,6 +605,21 @@
     if (syncTimer) clearTimeout(syncTimer);
     syncTimer = setTimeout(function () { syncTimer = null; reconcileCart(); }, 450);
   }
+  /* Undiscounted worth of a cart line. Selling-plan discounts and the
+     one-time checkout code never surface as cart line discounts, so pull
+     the compare-at from the plan allocation or the rendered card instead. */
+  function lineOriginal(line) {
+    var qty = line.quantity || 1;
+    var orig = (line.original_line_price != null ? line.original_line_price : line.line_price);
+    var sa = line.selling_plan_allocation;
+    if (sa && sa.compare_at_price != null) orig = Math.max(orig, sa.compare_at_price * qty);
+    var card = root.querySelector('.ftdc__card[data-variant-id="' + line.variant_id + '"]');
+    if (card) {
+      var cmp = parseInt(card.dataset.variantCompare, 10) || 0;
+      if (cmp) orig = Math.max(orig, cmp * qty);
+    }
+    return orig;
+  }
   /* Drive the bar from this builder's real cart lines. */
   function paintTotalsFromCart(cart) {
     if (!cart || !cart.items) return;
@@ -611,8 +628,7 @@
       if ((line.properties || {})[CART_SEL] !== SID) return;
       hasOurs = true;
       total += line.final_line_price;
-      var orig = (line.original_line_price != null ? line.original_line_price : line.line_price);
-      saved += Math.max(0, orig - line.final_line_price);
+      saved += Math.max(0, lineOriginal(line) - line.final_line_price);
     });
     if (!hasOurs) return; /* nothing in cart yet — keep the estimate */
     var bt = $('[data-bar-total]', root), sw = $('[data-bar-saved-wrap]', root), sv = $('[data-bar-saved]', root);

@@ -109,6 +109,21 @@
     syncTimer = setTimeout(function () { syncTimer = null; reconcileCart(); }, 450);
   }
 
+  /* Undiscounted worth of a cart line. Selling-plan discounts and the
+     one-time checkout code never surface as cart line discounts, so pull
+     the compare-at from the plan allocation or the rendered card instead. */
+  function lineOriginal(l) {
+    var qty = l.quantity || 1;
+    var orig = (l.original_line_price != null ? l.original_line_price : l.line_price);
+    var sa = l.selling_plan_allocation;
+    if (sa && sa.compare_at_price != null) orig = Math.max(orig, sa.compare_at_price * qty);
+    var card = root.querySelector('.ftdc__card[data-variant-id="' + l.variant_id + '"]');
+    if (card) {
+      var cmp = parseInt(card.dataset.variantCompare, 10) || 0;
+      if (cmp) orig = Math.max(orig, cmp * qty);
+    }
+    return orig;
+  }
   /* Real totals for our lines -> cartTotals (consumed by updateBar/renderReview). */
   function paintTotalsFromCart(cart) {
     if (!cart || !cart.items) return;
@@ -116,8 +131,7 @@
     cart.items.forEach(function (l) {
       if ((l.properties || {})[CART_SEL] !== CART_OWNER) return;
       has = true; total += l.final_line_price;
-      var orig = (l.original_line_price != null ? l.original_line_price : l.line_price);
-      saved += Math.max(0, orig - l.final_line_price);
+      saved += Math.max(0, lineOriginal(l) - l.final_line_price);
     });
     cartTotals = has ? { total: total, saved: saved } : null;
     updateBar();
