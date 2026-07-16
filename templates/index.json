@@ -3251,6 +3251,22 @@
                 "text_JXJb3R"
               ]
             },
+            "button_z3gqNT": {
+              "type": "button",
+              "name": "t:names.button",
+              "settings": {
+                "label": "See Founder's Video",
+                "link": "shopify://pages/about-us",
+                "open_in_new_tab": false,
+                "open_in_popup": true,
+                "style_class": "button",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            },
             "popup_link_Xng9kd": {
               "type": "popup-link",
               "name": "t:names.popup_link",
@@ -3369,6 +3385,7 @@
           "block_order": [
             "text_kjdT8a",
             "group_9xti9T",
+            "button_z3gqNT",
             "popup_link_Xng9kd"
           ]
         }
