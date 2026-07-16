@@ -547,8 +547,14 @@
     var sw = $('[data-review-saved-wrap]');
     if (rt) rt.textContent = fmtMoney(t.total);
     if (sv && sw) {
-      if (t.saved > 0) { sw.hidden = false; sv.textContent = fmtMoney(t.saved); }
+      if (t.saved > 0) { sw.hidden = false; sv.textContent = '\u2212' + fmtMoney(t.saved); }
       else sw.hidden = true;
+    }
+    /* Original (pre-savings) price row — only shown when there are savings. */
+    var ov = $('[data-review-original]'), ow = $('[data-review-original-wrap]');
+    if (ov && ow) {
+      if (t.saved > 0) { ow.hidden = false; ov.textContent = fmtMoney(t.total + t.saved); }
+      else ow.hidden = true;
     }
   }
 
