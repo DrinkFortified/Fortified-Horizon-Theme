@@ -199,7 +199,7 @@
                 "monthly_period": "/ month",
                 "monthly_was": "was $59.00/mo",
                 "monthly_checklist": "Save 15% on every order\nFree shipping always\nFlexible, cancel / pause any time",
-                "show_quarterly": true,
+                "show_quarterly": false,
                 "quarterly_label": "3 Every 3 Months",
                 "quarterly_badge": "Best Value - Quarterly",
                 "quarterly_badge_color": "#e8833a",
