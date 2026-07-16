@@ -3237,9 +3237,85 @@
                 "padding-inline-end": 0
               },
               "blocks": {
+                "text_cYDBhq": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<h2><strong>The hydration brand for people who actually read the label.</strong></h2><p>FORTIFIED® was built on a simple promise — <strong>No Mumbo Jumbo</strong>. No proprietary blends. No fillers you can't pronounce. No fear-mongering marketing. Just real ingredients in honest amounts, every milligram printed on the label.</p>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "video_qn7cMh": {
+                  "type": "video",
+                  "name": "t:names.video",
+                  "settings": {
+                    "source": "url",
+                    "video_url": "https://youtu.be/B5Jlh_FZgK8",
+                    "video_autoplay": false,
+                    "video_loop": true,
+                    "alt": "",
+                    "custom_width": 100,
+                    "custom_width_mobile": 100,
+                    "aspect_ratio": "auto",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_Vk8TPG": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<h2>Why we exist</h2><p>Most “hydration” drinks are flavored sugar water pretending to be healthy. We built FORTIFIED™ differently, because the label should tell the truth, and the dose should actually do something.</p><p>Every blend starts with a transparent electrolyte base: 1,210mg sodium from Ancient Ocean® Pink Himalayan Salt, 150mg magnesium malate, 200mg potassium. From there we stack in function,  EVERYDAY - Vitamin D3 + K2 for daily structure/function support, ENERGY - with natural caffeine from real coffee bean for clean energy* No proprietary blends. No Mumbo Jumbor - ust real ingredients that pull their weight.</p><h2>The label promise</h2><ul><li>Every milligram disclosed. No proprietary blends, ever.</li><li>Zero sugar, zero artificial sweeteners. Sweetened with monk fruit and fermented Reb M, no Stevia, never sucralose or aspartame.</li><li>Real minerals. Sodium from Ancient Ocean®  Pink Himalayan Salt. Potassium from real coconut water. Magnesium as malate, not oxide.</li><li>Natural caffeine. From real coffee bean, never caffeine anhydrous, never synthetic stimulants.</li><li>Single-ingredient supplements. Our Creatine Monohydrate is one ingredient. That's the whole label.</li></ul><h2>How it's made</h2><p>FORTIFIED™ products are manufactured in the USA in a cGMP-compliant facility, with raw ingredients third-party tested before they go into a stick pack. Our flavor systems use Organic Flavors & Organic Lemon Juice Powder, Salty Orange and Salty Watermelon,  so what's on the front of the pouch matches what's on the back.</p><h2>Our mission</h2><p>To help you hydrate with purpose.</p><p>Our mission is to “Inspire people to live better healthier lives through body, mind and spirit.</p><h2>Built for label-readers, by label-readers.</h2><p>If you've ever flipped a pouch over, googled the seventh ingredient, and put it back on the shelf,  this brand was built for you. <a href=\"https://ecqc3ezgq3h03qbr-75594465436.shopifypreview.com/collections/all\">Shop the lineup</a> or <a href=\"https://ecqc3ezgq3h03qbr-75594465436.shopifypreview.com/pages/why-fortified\">read about why we built it this way</a>.</p><p>* These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease.</p>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
                 "page_Qemidr": {
                   "type": "page",
                   "name": "t:names.page",
+                  "disabled": true,
                   "settings": {
                     "page": "about-us",
                     "inherit_color_scheme": true,
@@ -3255,6 +3331,9 @@
                 }
               },
               "block_order": [
+                "text_cYDBhq",
+                "video_qn7cMh",
+                "text_Vk8TPG",
                 "page_Qemidr"
               ]
             }
