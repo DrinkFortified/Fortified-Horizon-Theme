@@ -2385,7 +2385,7 @@
         "onetime_title": "30-Day Supply",
         "onetime_desc": "<ul><li>45 Day Happiness Guarantee</li></ul>",
         "onetime_price": "$59.00",
-        "onetime_period": "/ pouch",
+        "onetime_period": "-",
         "onetime_was": "-",
         "onetime_accent_color": "#8e8e93",
         "bundle_label": "Your Bundle",
