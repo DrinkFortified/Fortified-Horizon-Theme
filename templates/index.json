@@ -1117,7 +1117,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>D3 + K2 You Can Actually Read</p>",
+            "text": "<p>D3 + K2 Functional Ingredients You Need</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -3673,7 +3673,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>D3 + K2 You Can Actually Read</p>",
+            "text": "<p>D3 + K2 Functional Ingredients You Need</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
