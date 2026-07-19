@@ -189,7 +189,7 @@
                 "star_color": "#f5a623",
                 "plan_step_label": "Choose Your Plan",
                 "plan_step_note": "Monthly 10% Off",
-                "show_monthly": true,
+                "show_monthly": false,
                 "monthly_label": "1 a Month",
                 "monthly_badge": "Monthly",
                 "monthly_badge_color": "#1fa8a1",
