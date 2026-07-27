@@ -2914,16 +2914,16 @@
         "filter_tab_t7tCX7": {
           "type": "filter_tab",
           "settings": {
-            "label": "Energy",
-            "tag": "energy",
+            "label": "Everyday",
+            "tag": "everyday",
             "accent_color": ""
           }
         },
         "filter_tab_zWiU9n": {
           "type": "filter_tab",
           "settings": {
-            "label": "Everyday",
-            "tag": "everyday",
+            "label": "Energy",
+            "tag": "energy",
             "accent_color": ""
           }
         },
@@ -2935,57 +2935,208 @@
             "accent_color": ""
           }
         },
-        "faq_item_VDHqY3": {
+        "filter_tab_ingred": {
+          "type": "filter_tab",
+          "settings": {
+            "label": "Ingredients",
+            "tag": "ingredients",
+            "accent_color": ""
+          }
+        },
+        "filter_tab_brand": {
+          "type": "filter_tab",
+          "settings": {
+            "label": "Fortified",
+            "tag": "fortified",
+            "accent_color": ""
+          }
+        },
+        "faq_item_ever_1": {
           "type": "faq_item",
           "settings": {
-            "question": "Why Natural Caffeine in Energy but not Everyday?",
-            "answer": "Energy is for performance moments. Everyday is your daily foundation, caffeine-free by design.",
-            "tags": "energy,everyday",
+            "question": "Why does EVERYDAY include Vitamin D3 and K2?",
+            "answer": "Vitamin D3 and K2 work together. Vitamin D3 supports immune health, muscle function, and bone health, while K2 helps direct calcium where your body needs it instead of where it doesn't. We included both because they're better together than alone.",
+            "tags": "everyday",
             "open_by_default": true
           }
         },
-        "faq_item_LK8NMF": {
+        "faq_item_ever_2": {
           "type": "faq_item",
           "settings": {
-            "question": "Is there any sugar in Fortified Energy?",
-            "answer": "Zero added sugar. We sweeten with monk fruit and a touch of stevia. The 3g of carbs are trace from whole-food ingredients.",
+            "question": "Why doesn't EVERYDAY contain caffeine?",
+            "answer": "Not everyone wants energy from stimulants. EVERYDAY was designed to improve hydration and support daily wellness without caffeine, making it ideal any time of day.",
+            "tags": "everyday",
+            "open_by_default": false
+          }
+        },
+        "faq_item_ever_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why are there only two flavors?",
+            "answer": "We chose to perfect a few flavors instead of launching dozens. Every function shares the same flavor profile so you can choose your goal without giving up your favorite taste.",
+            "tags": "everyday",
+            "open_by_default": false
+          }
+        },
+        "faq_item_ener_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why does ENERGY use natural caffeine instead of caffeine anhydrous?",
+            "answer": "We source our caffeine from coffee beans rather than synthetic caffeine. It delivers clean energy while staying true to our commitment to real ingredients.",
             "tags": "energy",
             "open_by_default": false
           }
         },
-        "faq_item_7pGjbQ": {
+        "faq_item_ener_2": {
           "type": "faq_item",
           "settings": {
-            "question": "Why such high sodium?",
-            "answer": "Sodium drives fluid absorption and is the primary electrolyte lost in sweat. Our 1,210mg dose matches what active adults actually lose during exertion.",
-            "tags": "energy,everyday",
+            "question": "Is there any sugar in ENERGY?",
+            "answer": "No. ENERGY & EVERYDAY contains zero sugar and is sweetened with monk fruit and fermented Reb M, giving you a clean taste without the crash.",
+            "tags": "energy",
             "open_by_default": false
           }
         },
-        "faq_item_33BHkV": {
+        "faq_item_ener_3": {
           "type": "faq_item",
           "settings": {
-            "question": "Is creatine safe long-term?",
-            "answer": "Creatine monohydrate has more peer-reviewed safety data than nearly any sports supplement. 500+ studies and decades of use.",
+            "question": "Will ENERGY make me crash?",
+            "answer": "We formulated ENERGY with balanced electrolytes and natural caffeine instead of loading it with sugar or excessive stimulants. Everyone responds differently to caffeine, but our goal is clean, steady energy rather than a spike and crash.",
+            "tags": "energy",
+            "open_by_default": false
+          }
+        },
+        "faq_item_crea_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why is your creatine sold separately?",
+            "answer": "Not everyone wants creatine every day. Keeping it separate lets you customize your hydration without paying for an ingredient you may not need.",
             "tags": "creatine",
             "open_by_default": false
           }
         },
-        "faq_item_fjt8Mp": {
+        "faq_item_crea_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is creatine safe to take every day?",
+            "answer": "Creatine monohydrate is one of the most researched ingredients in sports nutrition and has been extensively studied for daily use in healthy adults.",
+            "tags": "creatine",
+            "open_by_default": false
+          }
+        },
+        "faq_item_crea_3": {
           "type": "faq_item",
           "settings": {
             "question": "Do I need to cycle creatine?",
-            "answer": "No. The data is clear: continuous daily dosing is both safe and more effective than cycling.",
+            "answer": "Current research does not show a need to cycle creatine. Consistent daily use is generally how it provides the greatest benefit.",
             "tags": "creatine",
             "open_by_default": false
           }
         },
-        "faq_item_nNC7VQ": {
+        "faq_item_ingr_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why so much sodium?",
+            "answer": "Sodium is the primary electrolyte lost through sweat. Most hydration products don't include enough to meaningfully replace what your body loses during work, exercise, travel, or heat.",
+            "tags": "ingredients",
+            "open_by_default": false
+          }
+        },
+        "faq_item_ingr_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why use Ancient Ocean® Pink Himalayan Salt?",
+            "answer": "We wanted a natural source of sodium rather than highly processed table salt. Ancient Ocean® Pink Himalayan Salt aligns with our philosophy of using recognizable, quality ingredients.",
+            "tags": "ingredients",
+            "open_by_default": false
+          }
+        },
+        "faq_item_ingr_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why use organic coconut water powder?",
+            "answer": "Organic coconut water powder provides a natural source of potassium while supporting our commitment to real food ingredients whenever possible.",
+            "tags": "ingredients",
+            "open_by_default": false
+          }
+        },
+        "faq_item_ingr_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why magnesium malate instead of magnesium oxide?",
+            "answer": "Magnesium malate is generally better absorbed and easier on the stomach than magnesium oxide, making it a better fit for everyday hydration.",
+            "tags": "ingredients",
+            "open_by_default": false
+          }
+        },
+        "faq_item_ingr_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why no citric acid?",
+            "answer": "Many hydration products rely on citric acid primarily for flavor. We chose organic fruit ingredients and malic acid to create a cleaner flavor profile that aligns with our ingredient philosophy.",
+            "tags": "ingredients",
+            "open_by_default": false
+          }
+        },
+        "faq_item_ingr_6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is malic acid?",
+            "answer": "Malic acid is a naturally occurring acid found in fruits like apples. It provides a smooth, crisp tartness that helps bring out fruit flavor without relying on citric acid.",
+            "tags": "ingredients",
+            "open_by_default": false
+          }
+        },
+        "faq_item_ingr_7": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why no silicon dioxide?",
+            "answer": "Many companies use silicon dioxide as an anti-caking agent. We designed our formula without it because we believe unnecessary additives don't belong in a hydration product. Instead we use plant-based bamboo.",
+            "tags": "ingredients",
+            "open_by_default": false
+          }
+        },
+        "faq_item_ingr_8": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why organic flavors?",
+            "answer": "We believe flavor should come from real ingredients whenever possible. That's why we use organic fruit flavors to create a cleaner, more authentic taste. And really, nobody really knows what’s in a “natural flavor” anyways.",
+            "tags": "ingredients",
+            "open_by_default": false
+          }
+        },
+        "faq_item_ingr_9": {
           "type": "faq_item",
           "settings": {
             "question": "Why no proprietary blends?",
-            "answer": "Because you deserve to know exactly what you are putting in your body. Every milligram, every ingredient, fully disclosed.",
-            "tags": "energy,everyday,creatine",
+            "answer": "Because you deserve to know exactly what you're putting into your body. Every active ingredient and every meaningful dose is fully disclosed on our label.",
+            "tags": "ingredients",
+            "open_by_default": false
+          }
+        },
+        "faq_item_fort_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why did you start FORTIFIED?",
+            "answer": "After years in the health and wellness industry and a personal cancer diagnosis, I became more intentional about every ingredient I consumed. I couldn't find a hydration product that was clean enough for my family while still delivering meaningful doses, so I built the one I wanted to buy.",
+            "tags": "fortified",
+            "open_by_default": false
+          }
+        },
+        "faq_item_fort_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is the No Worries Promise?",
+            "answer": "It means no proprietary blends, no hidden fillers, no artificial colors or sweeteners, and no unnecessary ingredients. If it's in the pouch, you'll find it on the label.",
+            "tags": "fortified",
+            "open_by_default": false
+          }
+        },
+        "faq_item_fort_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why is FORTIFIED different?",
+            "answer": "We believe hydration should do more than replace water. Every formula combines meaningful electrolytes with targeted functional ingredients, clean labels, and organic fruit flavors so you never have to choose between performance, taste, and ingredient quality.",
+            "tags": "fortified",
             "open_by_default": false
           }
         }
@@ -2994,12 +3145,29 @@
         "filter_tab_t7tCX7",
         "filter_tab_zWiU9n",
         "filter_tab_tyYMqY",
-        "faq_item_VDHqY3",
-        "faq_item_LK8NMF",
-        "faq_item_7pGjbQ",
-        "faq_item_33BHkV",
-        "faq_item_fjt8Mp",
-        "faq_item_nNC7VQ"
+        "filter_tab_ingred",
+        "filter_tab_brand",
+        "faq_item_ever_1",
+        "faq_item_ever_2",
+        "faq_item_ever_3",
+        "faq_item_ener_1",
+        "faq_item_ener_2",
+        "faq_item_ener_3",
+        "faq_item_crea_1",
+        "faq_item_crea_2",
+        "faq_item_crea_3",
+        "faq_item_ingr_1",
+        "faq_item_ingr_2",
+        "faq_item_ingr_3",
+        "faq_item_ingr_4",
+        "faq_item_ingr_5",
+        "faq_item_ingr_6",
+        "faq_item_ingr_7",
+        "faq_item_ingr_8",
+        "faq_item_ingr_9",
+        "faq_item_fort_1",
+        "faq_item_fort_2",
+        "faq_item_fort_3"
       ],
       "name": "FTD-B - FAQ",
       "settings": {
