@@ -769,110 +769,119 @@
         "gap_between_elements": 24
       }
     },
-    "fortified_comparison_CLVb4q": {
+    "fortified_comparison_itbbWw": {
       "type": "fortified-comparison",
       "blocks": {
-        "feature_row_mbkb7x": {
+        "feature_row_xEBde7": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Organic Flavors",
+            "fortified_value": "100%",
+            "icon": "text"
+          }
+        },
+        "feature_row_8fgDKX": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Citric Acid",
+            "fortified_value": "NEVER",
+            "icon": "text"
+          }
+        },
+        "feature_row_HwnBTC": {
           "type": "feature_row",
           "settings": {
             "label": "Sodium per serving",
-            "fortified_value": "1,210mg",
+            "fortified_value": "1200mg",
             "icon": "text"
           }
         },
-        "feature_row_KpxfJU": {
+        "feature_row_pqpaAR": {
           "type": "feature_row",
           "settings": {
-            "label": "Zero added sugar",
-            "fortified_value": "Yes",
+            "label": "Sugar-free",
+            "fortified_value": "1000mg",
             "icon": "check"
           }
         },
-        "feature_row_mNapc3": {
+        "feature_row_UwpPHE": {
           "type": "feature_row",
           "settings": {
-            "label": "Zero artificial sweeteners",
-            "fortified_value": "Yes",
+            "label": "Energy version (caffeine)",
+            "fortified_value": "1000mg",
             "icon": "check"
           }
         },
-        "feature_row_miKcMw": {
+        "feature_row_cV7EVi": {
           "type": "feature_row",
           "settings": {
-            "label": "Magnesium malate per serving",
-            "fortified_value": "1,000mg",
+            "label": "Magnesium Malate",
+            "fortified_value": "1000mg",
             "icon": "check"
           }
         },
-        "feature_row_9VgzXB": {
+        "feature_row_hNjAMy": {
           "type": "feature_row",
           "settings": {
-            "label": "Natural caffeine option",
-            "fortified_value": "152mg",
-            "icon": "check"
-          }
-        },
-        "feature_row_hDD6rG": {
-          "type": "feature_row",
-          "settings": {
-            "label": "Every ingredient disclosed",
-            "fortified_value": "Yes",
+            "label": "Silicon Dioxide",
+            "fortified_value": "NONE",
             "icon": "text"
           }
         },
-        "competitor_jAnpLX": {
+        "competitor_WeJdm6": {
           "type": "competitor",
           "settings": {
             "name": "Liquid IV",
-            "values": "500mg\nno\nno\nno\nno\n$8.97",
+            "values": "NATURAL FLAVORS\nyes\n500mg\nno\nno\nMAGNESIUM CITRATE\nyes",
             "highlight_color": ""
           }
         },
-        "competitor_dXKWxW": {
+        "competitor_PYbVmb": {
           "type": "competitor",
           "settings": {
             "name": "LMNT",
-            "values": "1000mg\nyes\nno\nno\nno\n$7.00",
+            "values": "GMO FLAVORS\nyes\n1000mg\nyes\nNo\nyes\nyes",
             "highlight_color": ""
           }
         }
       },
       "block_order": [
-        "feature_row_mbkb7x",
-        "feature_row_KpxfJU",
-        "feature_row_mNapc3",
-        "feature_row_miKcMw",
-        "feature_row_9VgzXB",
-        "feature_row_hDD6rG",
-        "competitor_jAnpLX",
-        "competitor_dXKWxW"
+        "feature_row_xEBde7",
+        "feature_row_8fgDKX",
+        "feature_row_HwnBTC",
+        "feature_row_pqpaAR",
+        "feature_row_UwpPHE",
+        "feature_row_cV7EVi",
+        "feature_row_hNjAMy",
+        "competitor_WeJdm6",
+        "competitor_PYbVmb"
       ],
       "name": "FTD - Comparison Table",
       "settings": {
         "anchor_id": "",
-        "eyebrow": "Compare The Labels",
-        "eyebrow_color": "#1fa8a1",
-        "heading": "Why We Beat The Rest",
-        "subheading": "",
+        "eyebrow": "The Receipt",
+        "eyebrow_color": "#ffffff",
+        "heading": "Side By Side With What's On The Shelf",
+        "subheading": "<p>Same category. Very different formulas. Here's how FORTIFIED<em>™</em> stacks up against the hydration brands you've been settling for.</p>",
         "fortified_label": "Fortified",
-        "fortified_column_color": "#0a0a0a",
+        "fortified_column_color": "#1fa8a1",
         "fortified_text_color": "#ffffff",
         "check_color": "#ffffff",
         "fortified_cross_color": "",
         "comp_check_color": "",
         "cross_color": "#9ca3af",
-        "cta_label": "Shop FORTIFIED®",
-        "cta_link": "#shopify-section-main",
-        "cta_style": "outline",
-        "secondary_button_label": "Learn More",
-        "secondary_button_link": "#shopify-section-ftd_b_supplement_facts_bmPkCy",
+        "cta_label": "Get The VIP Founders offer",
+        "cta_link": "#leadcapture",
+        "cta_style": "filled",
+        "secondary_button_label": "",
+        "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "mobile_swipe_hint": "Swipe to compare →",
         "table_radius": 16,
         "section_width": "full-width",
-        "content_max_width": 1240,
-        "color_scheme": "",
-        "padding-block-start": 72,
-        "padding-block-end": 72,
+        "content_max_width": 1360,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
         "custom_css": ""
       }
     },
@@ -1284,7 +1293,7 @@
     "fortified_stats_row_Re84QB",
     "fortified_hero_product_showcase_6qE7R9",
     "marquee_HFKgXX",
-    "fortified_comparison_CLVb4q",
+    "fortified_comparison_itbbWw",
     "ftd_b_supplement_facts_bmPkCy",
     "fortified_truth_qBjbt7",
     "ftd_b_faq_pdp",
