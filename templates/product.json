@@ -850,6 +850,7 @@
     },
     "ftd_testimonial_athlete": {
       "type": "fortified-testimonial",
+      "disabled": true,
       "name": "FTD - Testimonial",
       "settings": {
         "anchor_id": "",
@@ -923,7 +924,7 @@
         "align": "left",
         "section_width": "page-width",
         "content_max_width": 1360,
-        "color_scheme": "",
+        "color_scheme": "scheme-5",
         "padding-block-start": 100,
         "padding-block-end": 100,
         "custom_css": ""

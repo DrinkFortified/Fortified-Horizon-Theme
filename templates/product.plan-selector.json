@@ -590,6 +590,7 @@
     },
     "fortified_testimonial_gifpnd": {
       "type": "fortified-testimonial",
+      "disabled": true,
       "name": "FTD - Testimonial",
       "settings": {
         "anchor_id": "",
@@ -664,7 +665,7 @@
         "align": "left",
         "section_width": "page-width",
         "content_max_width": 1240,
-        "color_scheme": "",
+        "color_scheme": "scheme-5",
         "padding-block-start": 64,
         "padding-block-end": 64,
         "custom_css": ""
