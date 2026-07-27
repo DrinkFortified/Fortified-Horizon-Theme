@@ -67,6 +67,9 @@
       <div class="fths__hero-overlay" aria-hidden="true"></div>
       <div class="fths__hero-content">
         {%- liquid
+          # Captured before the card loop below reassigns `product` per block.
+          # Lets the lineup skip the product whose page we are already on.
+          assign current_handle = product.handle
           assign px = product.metafields.fortified.pdp_extra.value
           assign eyebrow_v = section.settings.eyebrow
           assign heading_v = section.settings.heading
@@ -92,6 +95,9 @@
       {%- for block in section.blocks -%}
         {%- if block.type == 'product_card' -%}
           {%- assign product = block.settings.product -%}
+          {%- if current_handle != blank and product != blank and product.handle == current_handle -%}
+            {%- continue -%}
+          {%- endif -%}
           {%- if block.settings.name_override != blank -%}{%- assign card_name = block.settings.name_override -%}{%- elsif product != blank -%}{%- assign card_name = product.title -%}{%- else -%}{%- assign card_name = '' -%}{%- endif -%}
           {%- if block.settings.button_link_override != blank -%}{%- assign card_link = block.settings.button_link_override -%}{%- elsif product != blank -%}{%- assign card_link = product.url -%}{%- else -%}{%- assign card_link = '' -%}{%- endif -%}
           {%- if block.settings.card_image_override != blank -%}{%- assign card_image = block.settings.card_image_override -%}{%- elsif product != blank and product.featured_image != blank -%}{%- assign card_image = product.featured_image -%}{%- else -%}{%- assign card_image = blank -%}{%- endif -%}
