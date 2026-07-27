@@ -158,12 +158,18 @@
 {% stylesheet %}
 .fths { display: block; }
 .fths__inner { max-width: var(--fths-max-w, 1240px); margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); display: grid; grid-template-columns: var(--fths-left-w, 42%) 1fr; grid-template-areas: "hero cards" "hero cards"; gap: clamp(20px, 3vw, 32px); align-items: stretch; }
-.fths__hero { position: relative; grid-area: hero; min-height: clamp(420px, 56vw, 640px); border-radius: var(--fths-card-radius, 12px); overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: clamp(28px, 4vw, 56px); isolation: isolate; background-color: #0a0a0a; }
+/* The CTA is a sibling overlaid on this panel (grid-area: hero) so it can
+   reflow to its own row on mobile. Because the content here is vertically
+   centered, reserve the CTA's footprint in the bottom padding — otherwise a
+   tall heading grows down underneath the button. */
+.fths__hero { position: relative; grid-area: hero; min-height: clamp(420px, 56vw, 640px); border-radius: var(--fths-card-radius, 12px); overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: clamp(28px, 4vw, 56px); padding-bottom: calc(clamp(28px, 4vw, 56px) + 4.75rem); isolation: isolate; background-color: #0a0a0a; }
 .fths__hero-bg { position: absolute; inset: 0; background-size: cover; background-position: var(--fths-focal, center center); background-repeat: no-repeat; z-index: 0; }
 .fths__hero-overlay { position: absolute; inset: 0; background-color: var(--fths-overlay-color, #000); opacity: var(--fths-overlay-alpha, 0.25); z-index: 1; pointer-events: none; }
 .fths__hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; gap: clamp(12px, 1.6vw, 18px); color: var(--fths-text-color, #fff); max-width: 32rem; }
 .fths__eyebrow { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-eyebrow-size); font-weight: 700; letter-spacing: var(--ftd-eyebrow-spacing); text-transform: uppercase; color: inherit; }
-.fths__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-h1-size); font-weight: var(--ftd-heading-weight, 800); line-height: var(--ftd-h1-line, 1.05); text-transform: uppercase; color: inherit; }
+/* h2 scale, not h1: this sits in a ~42% column, where hero-headline sizing
+   breaks long words mid-word ("FOUNDATI / ON"). */
+.fths__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-h2-size); font-weight: var(--ftd-heading-weight, 800); line-height: var(--ftd-h2-line, 1.1); text-transform: uppercase; color: inherit; overflow-wrap: normal; hyphens: none; }
 .fths__body { margin: 0; font-size: var(--ftd-sub-size); line-height: var(--ftd-sub-line, 1.6); color: inherit; opacity: 0.92; max-width: 28rem; }
 .fths__cards { grid-area: cards; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--fths-card-gap, 16px); align-content: stretch; }
 .fths-card { display: flex; flex-direction: column; background: var(--color-background, #fff); color: var(--color-foreground, #111); border-radius: var(--fths-card-radius, 12px); overflow: hidden; box-shadow: 0 6px 20px rgb(var(--color-foreground-rgb) / 0.08); border: 1px solid rgb(var(--color-foreground-rgb) / 0.06); }
