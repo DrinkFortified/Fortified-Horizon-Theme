@@ -1776,7 +1776,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Potassium",
-            "description": "150mg, works with sodium, from real coconut water. Works with sodium so water actually reaches your cells.",
+            "description": "150mg, from real coconut water. Works with sodium so water actually reaches your cells.",
             "icon": "shopify://shop_images/Potassium2-b.svg",
             "icon_color_override": ""
           }
@@ -2051,10 +2051,10 @@
             "panel_footnote": "* Percent Daily Values are based on a 2,000 calorie diet.",
             "lead_callout_1_title": "Added Ingredients",
             "lead_callout_1_body": "Other Ingredients: Pink Himalayan Salt (as Ancient Ocean®), Magnesium Malate, Coconut Water Powder (as CocOganic® Plus), Organic Lemon Juice Powder, Potassium Chloride, Bamboo Fiber, Organic Flavors, Natural Caffeine (from Coffee Bean), Reb M 95% Fermented (as OnoSweet™), Malic Acid, Monk Fruit Extract",
-            "lead_callout_1_accent": "#E323ED",
+            "lead_callout_1_accent": "#e323ed",
             "lead_callout_2_title": "Why Organic Flavors",
             "lead_callout_2_body": "Flavor should come from real ingredients, not artificial chemistry. We use organic fruit flavors to create a clean, authentic taste without relying on artificial flavors or unnecessary additives.",
-            "lead_callout_2_accent": "#EB1414",
+            "lead_callout_2_accent": "#eb1414",
             "callout_1_title": "Why 150mg natural caffeine?",
             "callout_1_body": "A meaningful lift — about a strong cup of coffee — from the same source humans have used for centuries, delivered without the synthetic-stimulant baggage.",
             "callout_1_accent": "#e8833a",
