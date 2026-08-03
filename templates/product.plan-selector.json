@@ -1163,58 +1163,66 @@
         "custom_css": ""
       }
     },
-    "fortified_subscribe_save_J6Ri7m": {
+    "fortified_subscribe_save_968bWi": {
       "type": "fortified-subscribe-save",
       "blocks": {
-        "benefit_3nxceG": {
+        "benefit_HLPKJB": {
           "type": "benefit",
           "settings": {
-            "text": "Save 15% on every order"
+            "text": "Save 20% on every order, automatically when subscribed to the 90-Day Supply Every 3 Months plan"
           }
         },
-        "benefit_NkJanf": {
+        "benefit_xgfCMy": {
+          "type": "benefit",
+          "settings": {
+            "text": "Free creatine on quarterly plans for the life of your subscription"
+          }
+        },
+        "benefit_ChgnXJ": {
           "type": "benefit",
           "settings": {
             "text": "Skip, swap, or cancel anytime"
           }
         },
-        "benefit_RVzUCq": {
+        "benefit_XhWeC9": {
           "type": "benefit",
           "settings": {
             "text": "Never run out of your ritual"
           }
         },
-        "benefit_TtVekY": {
+        "benefit_jDdrhm": {
           "type": "benefit",
           "settings": {
-            "text": "Free creatine with quarterly plans"
+            "text": "45-Day Money Back Guarantee"
           }
         }
       },
       "block_order": [
-        "benefit_3nxceG",
-        "benefit_NkJanf",
-        "benefit_RVzUCq",
-        "benefit_TtVekY"
+        "benefit_HLPKJB",
+        "benefit_xgfCMy",
+        "benefit_ChgnXJ",
+        "benefit_XhWeC9",
+        "benefit_jDdrhm"
       ],
       "name": "FTD - Subscribe & Save",
       "settings": {
         "anchor_id": "",
         "eyebrow": "Subscribe & Save",
         "eyebrow_color": "#1fa8a1",
-        "heading": "Subscribe & Save 15% On Clean Hydration",
-        "button_label": "Start Your Subscription",
-        "button_link": "#shopify-section-main",
+        "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
+        "button_label": "Get The VIP Founders offer",
+        "button_link": "#leadcapture",
         "button_style": "outline",
         "foreground_image_focal": "center",
         "image_position": "right",
-        "background_overlay": 50,
+        "background_image": "shopify://shop_images/88588dc4ec1159c1c0561ae6b16ace7fb988b0f6.png",
+        "background_overlay": 0,
         "text_color": "light",
         "section_width": "full-width",
-        "content_max_width": 1240,
-        "color_scheme": "",
-        "padding-block-start": 72,
-        "padding-block-end": 72,
+        "content_max_width": 1800,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 88,
+        "padding-block-end": 88,
         "custom_css": ""
       }
     },
@@ -1227,6 +1235,9 @@
             "show_sample_reviews": true,
             "review_selection": "all",
             "products": [],
+            "filter_pinned": false,
+            "filter_featured": false,
+            "filter_custom_tags": "",
             "show_media_only": false,
             "display_order": "media_first",
             "card_grouping": "per_media",
@@ -1298,7 +1309,7 @@
     "ftd_b_supplement_facts_bmPkCy",
     "fortified_truth_qBjbt7",
     "ftd_b_faq_pdp",
-    "fortified_subscribe_save_J6Ri7m",
+    "fortified_subscribe_save_968bWi",
     "17809380431492f2ae"
   ]
 }
