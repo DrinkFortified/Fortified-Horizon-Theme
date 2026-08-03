@@ -22,6 +22,7 @@
   assign heading_v = section.settings.heading
   assign subheading_v = section.settings.subheading
   assign cta_label_v = section.settings.button_label
+  assign media_img = section.settings.product_image
   assign use_pdp_ing = false
   if pdp != blank
     if pdp.ingredients_heading != blank
@@ -32,6 +33,13 @@
     endif
     if pdp.cta_label != blank
       assign cta_label_v = pdp.cta_label
+    endif
+    comment
+      Per-product section image. Falls back to the section setting so the
+      homepage (which has no bound product) is unaffected.
+    endcomment
+    if pdp.ingredients_image != blank
+      assign media_img = pdp.ingredients_image
     endif
     if pdp.ingredients.value != blank and pdp.ingredients.value.size > 0
       assign use_pdp_ing = true
@@ -65,12 +73,13 @@
 
     <div class="ftd-ic__media">
       <div class="ftd-ic__media-frame">
-        {%- if section.settings.product_image != blank -%}
-          {{ section.settings.product_image | image_url: width: 1000 | image_tag:
+        {%- if media_img != blank -%}
+          {%- assign media_alt = section.settings.heading | default: product.title -%}
+          {{ media_img | image_url: width: 1000 | image_tag:
             class: 'ftd-ic__img',
             loading: 'lazy',
             widths: '400,600,800,1000',
-            alt: section.settings.heading
+            alt: media_alt
           }}
         {%- else -%}
           <div class="ftd-ic__img ftd-ic__img--placeholder" aria-hidden="true"></div>
@@ -90,15 +99,22 @@
         <ul class="ftd-ic__grid">
           {%- if use_pdp_ing -%}
             {%- for ing in pdp.ingredients.value -%}
-              <li class="ftd-ic__card">
-                {%- if ing.icon != blank -%}
-                  <span class="ftd-ic__icon-wrap" style="background: var(--ftic-icon-bg); color: var(--ftic-icon-color); width: var(--ftic-icon-size); height: var(--ftic-icon-size);">
-                    {{ ing.icon | image_url: width: 96 | image_tag: loading: 'lazy', alt: ing.name }}
-                  </span>
-                {%- else -%}
-                  <span class="ftd-ic__icon-wrap ftd-ic__icon-wrap--default" style="background: var(--ftic-icon-bg); color: var(--ftic-icon-color); width: var(--ftic-icon-size); height: var(--ftic-icon-size);" aria-hidden="true"></span>
-                {%- endif -%}
-                <div class="ftd-ic__card-body">
+              <li class="ftd-ic__item">
+                <span class="ftd-ic__icon" aria-hidden="true">
+                  {%- if ing.icon != blank -%}
+                    {{ ing.icon | image_url: width: 96 | image_tag:
+                      class: 'ftd-ic__icon-img',
+                      loading: 'lazy',
+                      widths: '48,72,96',
+                      alt: ''
+                    }}
+                  {%- else -%}
+                    <svg class="ftd-ic__icon-svg" viewBox="0 0 24 24" width="60%" height="60%" aria-hidden="true" focusable="false">
+                      <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="currentColor"/>
+                    </svg>
+                  {%- endif -%}
+                </span>
+                <div class="ftd-ic__item-text">
                   {%- if ing.name != blank -%}<p class="ftd-ic__name">{{ ing.name }}</p>{%- endif -%}
                   {%- if ing.amount != blank or ing.description != blank -%}
                     <p class="ftd-ic__desc">
