@@ -1,4 +1,13 @@
-<div style="display:none" data-ftd-ps-block="benefit" {{ block.shopify_attributes }}></div>
+{%- comment -%}
+  Self-rendering for the same reason as _ftd-ps-function: the parent block
+  cannot iterate block.blocks, so it stages us and reads these attributes.
+{%- endcomment -%}
+<div
+  data-ftd-ps-benefit
+  data-text="{{ block.settings.text | escape }}"
+  data-icon="{% if block.settings.icon != blank %}{{ block.settings.icon | image_url: width: 64 }}{% endif %}"
+  {{ block.shopify_attributes }}
+></div>
 
 {% schema %}
 {

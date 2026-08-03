@@ -111,12 +111,6 @@
   endif
 -%}
 
-{%- comment -%}
-  Resolution trace. The storefront can't be reached from the dev environment,
-  so this is how we confirm what the block actually resolved to. Safe to
-  delete once the selector is verified in place.
-{%- endcomment -%}
-<!-- ftd-selector functions={{ fn_count }} benefits={{ bn_count }} page={{ page_product.handle | default: 'nil' }} onetime={{ onetime_handle | default: 'nil' }} addon={{ addon_handle | default: 'nil' }} setting={{ block.settings.onetime_product.handle | default: 'nil' }} -->
 <div
   id="fe-{{ sid }}"
   class="fe-section fe-block fe-block--{{ block.settings.section_width }} color-{{ block.settings.color_scheme }}"
@@ -137,6 +131,14 @@
   "
   {{ block.shopify_attributes }}
 >
+  {%- comment %}
+    Child blocks render themselves into this hidden stage. It is the only way
+    to reach them: block.blocks is empty from the parent's Liquid scope, so
+    the function and benefit data has to come back through the DOM. The JS
+    below reads it and builds the real cards.
+  {%- endcomment %}
+  <div style="display:none" data-ftd-ps-stage aria-hidden="true">{% content_for 'blocks' %}</div>
+
   <div class="fe-container">
 
     {%- comment %} ───────── PANEL ───────── {%- endcomment %}
@@ -877,6 +879,8 @@
   var BUNDLE_COUNT = {{ bundle_count | json }};
   var BUILD_LABEL  = {{ block.settings.build_step_label | json }} || 'Build {count}-Pouch Bundle';
   var POUCHES_WORD = {{ block.settings.pouches_word | default: 'Pouches' | json }};
+  var FLAVOR_LABEL = {{ flavor_label | json }};
+  var COMING_SOON_TEXT = {{ coming_soon_txt | json }};
   var SHOW_TOTAL   = {{ block.settings.show_total_on_button | json }};
 
   /* Creatine add-on copy adapts: monthly = add at 50% off; quarterly = 1st free, add a 2nd at 50%. */
@@ -989,6 +993,144 @@
       slots[id].flavorName = {{ onetime_product.variants.first.title | json }};
       {%- endif -%}
     }
+  /* ── Function cards from the staged child blocks ─────────────────────────
+     block.blocks is empty in the parent's Liquid scope, so each Function
+     block renders its own data into the hidden stage and the cards get built
+     here instead. This is what lets the quarterly bundle mix functions: one
+     card set per pouch, each scoped to its own config id.
+
+     If nothing is staged we leave the markup Liquid already produced (one
+     fixed product per pouch), so an unconfigured selector still works. */
+  var stagedFns = [];
+  var stagedBenefits = [];
+  var stage = root.querySelector('[data-ftd-ps-stage]');
+  if (stage) {
+    Array.prototype.forEach.call(stage.querySelectorAll('[data-ftd-ps-fn]'), function (node) {
+      if (node.getAttribute('data-enabled') !== '1') return;
+      if (!node.getAttribute('data-product-handle')) return;
+      var flavors = [];
+      Array.prototype.forEach.call(node.querySelectorAll('[data-ftd-ps-flavor]'), function (f) {
+        var nm = f.getAttribute('data-flavor-name');
+        if (nm) flavors.push({ name: nm, thumb: f.getAttribute('data-thumbnail') || '' });
+      });
+      stagedFns.push({
+        id: node.getAttribute('data-fn-id'),
+        label: node.getAttribute('data-fn-label') || '',
+        handle: node.getAttribute('data-product-handle'),
+        comingSoon: node.getAttribute('data-coming-soon') === '1',
+        specs: [node.getAttribute('data-spec-1'), node.getAttribute('data-spec-2'), node.getAttribute('data-spec-3')].filter(Boolean),
+        description: node.getAttribute('data-description') || '',
+        planMonthly: node.getAttribute('data-plan-monthly') || '',
+        planQuarterly: node.getAttribute('data-plan-quarterly') || '',
+        cardImage: node.getAttribute('data-card-image') || '',
+        thumbnail: node.getAttribute('data-thumbnail') || '',
+        flavors: flavors
+      });
+    });
+    Array.prototype.forEach.call(stage.querySelectorAll('[data-ftd-ps-benefit]'), function (node) {
+      var txt = node.getAttribute('data-text');
+      if (txt) stagedBenefits.push({ text: txt, icon: node.getAttribute('data-icon') || '' });
+    });
+  }
+
+  var TICK_SVG = '<svg width="14" height="14" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  /* Mirrors snippets/fortified-fn-card.liquid so the existing CSS, the
+     delegated click handlers and selectFunction() all apply unchanged. */
+  function buildFnCard(fn) {
+    var el = document.createElement('div');
+    el.className = 'fe-fcard';
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-pressed', 'false');
+    el.setAttribute('data-function-id', fn.id);
+    el.setAttribute('data-product-handle', fn.handle);
+    el.setAttribute('data-function-label', fn.label);
+    el.setAttribute('data-plan-monthly', fn.planMonthly);
+    el.setAttribute('data-plan-quarterly', fn.planQuarterly);
+    el.setAttribute('data-thumbnail', fn.thumbnail);
+    if (fn.comingSoon) { el.setAttribute('data-coming-soon', 'true'); el.setAttribute('aria-disabled', 'true'); }
+
+    var html = '<div class="fe-fcard-media">';
+    html += fn.cardImage
+      ? '<img src="' + fn.cardImage + '" alt="' + esc(fn.label) + '" loading="lazy" width="240" height="240">'
+      : '<div class="fe-fcard-ph"><span>' + esc(fn.label) + '</span></div>';
+    html += '<span class="fe-fcard-tick" aria-hidden="true">' + TICK_SVG + '</span></div>';
+
+    html += '<div class="fe-fcard-body"><p class="fe-fcard-name">' + esc(fn.label);
+    if (fn.comingSoon) html += '<em class="fe-badge">' + esc(COMING_SOON_TEXT) + '</em>';
+    html += '</p>';
+
+    if (fn.specs.length) {
+      html += '<div class="fe-fcard-specs">';
+      fn.specs.forEach(function (s) { html += '<span class="fe-spec">' + esc(s) + '</span>'; });
+      html += '</div>';
+    }
+    if (fn.description) html += '<p class="fe-fcard-desc">' + esc(fn.description) + '</p>';
+
+    if (fn.flavors.length) {
+      html += '<p class="fe-fcard-flavor-label">' + esc(FLAVOR_LABEL) + '</p>';
+      html += '<div class="fe-fcard-flavors" role="group" aria-label="' + esc(FLAVOR_LABEL) + '">';
+      fn.flavors.forEach(function (f) {
+        html += '<button type="button" class="fe-flavor-opt" data-flavor-name="' + esc(f.name) + '" data-thumbnail="' + esc(f.thumb) + '" aria-pressed="false">';
+        if (f.thumb) html += '<span class="fe-flavor-swatch"><img src="' + esc(f.thumb) + '" alt="" width="20" height="20"></span>';
+        html += '<span class="fe-flavor-name">' + esc(f.name) + '</span>';
+        html += '<span class="fe-flavor-radio" aria-hidden="true"></span></button>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+    el.innerHTML = html;
+    return el;
+  }
+
+  function fillGrid(container, cfg) {
+    var grid = container.querySelector('.fe-fcards');
+    if (!grid) {
+      grid = document.createElement('div');
+      grid.className = 'fe-fcards';
+      var placeholder = container.querySelector('.fe-onetime-card');
+      if (placeholder) container.replaceChild(grid, placeholder);
+      else container.appendChild(grid);
+    }
+    grid.setAttribute('data-config', cfg);
+    grid.innerHTML = '';
+    stagedFns.forEach(function (fn) { grid.appendChild(buildFnCard(fn)); });
+  }
+
+  if (stagedFns.length) {
+    if (quarterlyView) {
+      var pouches = quarterlyView.querySelectorAll('.fe-pouch');
+      for (var pi = 0; pi < pouches.length; pi++) fillGrid(pouches[pi], 'q' + (pi + 1));
+      /* Pouches now carry their own function grids, so the single-product
+         path must not seed or re-render them. */
+      if (pouches.length) SIMPLE_SUBS_Q = false;
+    }
+    FUNCTION_BLOCKS_COUNT = stagedFns.length;
+  }
+
+  /* Benefit rows come back the same way — the <ul> is never rendered by
+     Liquid because the block count is always zero there. */
+  if (stagedBenefits.length) {
+    var panelEl = root.querySelector('#fe-panel-' + SID);
+    if (panelEl && !panelEl.querySelector('.fe-benefits')) {
+      var ul = document.createElement('ul');
+      ul.className = 'fe-benefits';
+      var bhtml = '';
+      stagedBenefits.forEach(function (b) {
+        bhtml += '<li class="fe-benefit">';
+        bhtml += b.icon
+          ? '<span class="fe-benefit-icon"><img src="' + esc(b.icon) + '" alt="" width="28" height="28"></span>'
+          : '<span class="fe-benefit-icon fe-benefit-icon--dot" aria-hidden="true"></span>';
+        bhtml += '<span class="fe-benefit-text">' + esc(b.text) + '</span></li>';
+      });
+      ul.innerHTML = bhtml;
+      var firstStep = panelEl.querySelector('.fe-step');
+      if (firstStep) panelEl.insertBefore(ul, firstStep);
+      else panelEl.appendChild(ul);
+    }
+  }
+
   if (SIMPLE_SUBS) seedSimpleSlot('monthly');
   if (SIMPLE_SUBS_Q) { for (var qi = 1; qi <= BUNDLE_COUNT; qi++) seedSimpleSlot('q' + qi); }
 
