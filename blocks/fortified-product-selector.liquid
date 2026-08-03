@@ -15,8 +15,18 @@
 
 {%- liquid
   assign sid             = block.id
+  # Private child blocks are declared with a leading underscore, but don't
+  # assume the drop reports the type that way — fall back to the bare name so
+  # a mismatch can't silently empty the function grid and drop the whole
+  # bundle onto the single-product fallback path.
   assign function_blocks = block.blocks | where: "type", "_ftd-ps-function"
-  assign benefit_blocks  = block.blocks | where: "type", "_ftd-ps-benefit"
+  if function_blocks.size == 0
+    assign function_blocks = block.blocks | where: "type", "ftd-ps-function"
+  endif
+  assign benefit_blocks = block.blocks | where: "type", "_ftd-ps-benefit"
+  if benefit_blocks.size == 0
+    assign benefit_blocks = block.blocks | where: "type", "ftd-ps-benefit"
+  endif
 
   assign show_monthly    = block.settings.show_monthly
   assign show_quarterly  = block.settings.show_quarterly
@@ -47,8 +57,10 @@
 
   assign addon = block.settings.addon_product
   assign addon_variant_id = ''
+  assign addon_handle = ''
   if addon != blank
     assign addon_variant_id = addon.selected_or_first_available_variant.id
+    assign addon_handle = addon.handle
   endif
 
   assign rating_num = block.settings.rating_value | times: 1.0
@@ -65,13 +77,33 @@
   # product is the product of the page the block sits on (closest.product),
   # so one block instance adapts per PDP. Quarterly always builds from the
   # function child blocks (the hydration bundle), even on the creatine PDP.
-  assign onetime_product = block.settings.onetime_product | default: closest.product | default: product
+  #
+  # Never let this land on the add-on product. An unset product setting does
+  # not always come back empty — when it resolves to some other catalog
+  # product, every bundle pouch on a hydration PDP renders the add-on
+  # (creatine) instead of the hydration pouches. The page product wins
+  # unless the page IS the add-on, which keeps the creatine PDP working.
+  assign page_product = closest.product | default: product
+  assign onetime_product = block.settings.onetime_product
+  if onetime_product == blank
+    assign onetime_product = page_product
+  elsif addon_handle != blank and onetime_product.handle == addon_handle
+    if page_product != blank and page_product.handle != addon_handle
+      assign onetime_product = page_product
+    endif
+  endif
   assign onetime_handle = ''
   if onetime_product != blank
     assign onetime_handle = onetime_product.handle
   endif
 -%}
 
+{%- comment -%}
+  Resolution trace. The storefront can't be reached from the dev environment,
+  so this is how we confirm what the block actually resolved to. Safe to
+  delete once the selector is verified in place.
+{%- endcomment -%}
+<!-- ftd-selector functions={{ function_blocks.size }} benefits={{ benefit_blocks.size }} page={{ page_product.handle | default: 'nil' }} onetime={{ onetime_handle | default: 'nil' }} addon={{ addon_handle | default: 'nil' }} setting={{ block.settings.onetime_product.handle | default: 'nil' }} -->
 <div
   id="fe-{{ sid }}"
   class="fe-section fe-block fe-block--{{ block.settings.section_width }} color-{{ block.settings.color_scheme }}"
