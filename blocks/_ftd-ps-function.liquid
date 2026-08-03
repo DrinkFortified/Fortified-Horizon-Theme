@@ -1,9 +1,81 @@
 {%- comment -%}
   Nested theme block: a single "function" inside the FTD Product Selector.
-  The parent block reads block.settings directly and renders the card —
-  this block intentionally has no visible output of its own.
+
+  Self-rendering. Theme blocks cannot be iterated from the parent's Liquid
+  scope — block.blocks comes back empty — so the parent renders us into a
+  hidden staging area with {% content_for 'blocks' %} and its JS reads the
+  data attributes below to build a card per pouch. Same approach the
+  homepage selector (_ftd-c-function) uses.
+
+  Nothing here reads parent settings: this block sits inside a BLOCK inside
+  a section, so block.section.settings would resolve to the enclosing
+  product-information section, not the selector. Labels come from the
+  parent's JS config instead.
 {%- endcomment -%}
-<div style="display:none" data-ftd-ps-block="function" {{ block.shopify_attributes }}></div>
+
+{%- liquid
+  assign prod = block.settings.product
+  assign cardimg = block.settings.card_image | default: block.settings.thumbnail_image
+  if cardimg == blank and prod != blank
+    assign cardimg = prod.featured_image
+  endif
+
+  # Which variant option holds the flavor.
+  assign flavor_opt = null
+  if prod != blank and prod.options_with_values.size > 0
+    assign want = block.settings.flavor_option | downcase | strip
+    if want != blank
+      for opt in prod.options_with_values
+        assign have = opt.name | downcase | strip
+        if have == want
+          assign flavor_opt = opt
+        endif
+      endfor
+    endif
+    if flavor_opt == null
+      assign flavor_opt = prod.options_with_values.first
+    endif
+  endif
+-%}
+
+<div
+  data-ftd-ps-fn
+  data-fn-id="{{ block.id }}"
+  data-fn-label="{{ block.settings.function_label | escape }}"
+  data-enabled="{% if block.settings.enabled %}1{% else %}0{% endif %}"
+  data-product-handle="{{ prod.handle }}"
+  data-coming-soon="{% if block.settings.coming_soon %}1{% else %}0{% endif %}"
+  data-spec-1="{{ block.settings.spec_1 | escape }}"
+  data-spec-2="{{ block.settings.spec_2 | escape }}"
+  data-spec-3="{{ block.settings.spec_3 | escape }}"
+  data-description="{{ block.settings.description | escape }}"
+  data-plan-monthly="{{ block.settings.loop_plan_monthly }}"
+  data-plan-quarterly="{{ block.settings.loop_plan_quarterly }}"
+  data-card-image="{% if cardimg != blank %}{{ cardimg | image_url: width: 480 }}{% endif %}"
+  data-thumbnail="{% if block.settings.thumbnail_image != blank %}{{ block.settings.thumbnail_image | image_url: width: 200 }}{% elsif cardimg != blank %}{{ cardimg | image_url: width: 200 }}{% endif %}"
+  {{ block.shopify_attributes }}
+>
+  {%- if flavor_opt != null and flavor_opt.values.size > 0 -%}
+    {%- for val in flavor_opt.values -%}
+      {%- assign vthumb = '' -%}
+      {%- for v in prod.variants -%}
+        {%- if v.options contains val -%}
+          {%- if v.featured_image != blank -%}{%- assign vthumb = v.featured_image | image_url: width: 80 -%}{%- endif -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+      <span data-ftd-ps-flavor data-flavor-name="{{ val | escape }}" data-thumbnail="{{ vthumb }}"></span>
+    {%- endfor -%}
+  {%- else -%}
+    {%- assign manual_flavors = block.settings.manual_flavors | newline_to_br | split: '<br />' -%}
+    {%- for m in manual_flavors -%}
+      {%- assign mt = m | strip -%}
+      {%- if mt != blank -%}
+        <span data-ftd-ps-flavor data-flavor-name="{{ mt | escape }}" data-thumbnail=""></span>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+</div>
 
 {% schema %}
 {
