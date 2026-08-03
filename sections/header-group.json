@@ -50,6 +50,7 @@
       "custom_css": [],
       "settings": {
         "logo_position": "center",
+        "desktop_menu_style": "drawer",
         "menu_position": "right",
         "menu_row": "top",
         "customer_account_menu": "",
@@ -85,8 +86,7 @@
         "enable_transparent_header_product": false,
         "product_color_scheme": "default",
         "enable_transparent_header_collection": false,
-        "collection_color_scheme": "default",
-        "desktop_menu_style": "drawer"
+        "collection_color_scheme": "default"
       }
     }
   },
