@@ -1880,7 +1880,7 @@
       ],
       "name": "FTD - Ingredients Callout",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#energy",
         "heading": "****Energy****\nElectrolytes + Caffeine",
         "subheading": "<p><strong>Natural Caffeine. No Crash. No Junk.</strong><br/><br/>150mg from actual coffee beans, not the synthetic \"anhydrous\" stuff hiding in your pre-workout. Same clean electrolyte base as Everyday, with a meaningful lift for the moments that need it.</p>",
         "product_image": "shopify://shop_images/2.png",
@@ -1964,7 +1964,7 @@
       ],
       "name": "FTD - Truth",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#promise",
         "eyebrow": "Read The Label",
         "heading": "Our No Worries Promise says it all",
         "subheading": "<p>Real ingredients, balanced amounts, nothing hidden. Just turn the package over to see exactly what you're putting in your body.</p>",
@@ -2251,7 +2251,7 @@
       ],
       "name": "FTD - Subscribe & Save",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#promo",
         "eyebrow": "Subscribe & Save",
         "eyebrow_color": "#1fa8a1",
         "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
@@ -2365,7 +2365,6 @@
         "ftd_c_function_pkzaNH",
         "ftd_c_function_gbkDqk"
       ],
-      "disabled": true,
       "name": "FTD - Product Selector D",
       "settings": {
         "anchor_id": "#flow",
@@ -2499,7 +2498,7 @@
       ],
       "name": "FTD - Stats Comparison",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#stats",
         "eyebrow": "The Clean Difference",
         "heading": "Why Label-Readers Won't Drink Anything Else",
         "subheading": "<p>More of what your body actually needs. None of what it doesn't. Side-by-side with the hydration brands you were told to settle for.</p>",
@@ -2655,7 +2654,7 @@
       ],
       "name": "FTD - Comparison Table",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#compare",
         "eyebrow": "The Receipt",
         "eyebrow_color": "#ffffff",
         "heading": "Side By Side With What's On The Shelf",
@@ -3172,7 +3171,7 @@
       ],
       "name": "FTD-B - FAQ",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#faqs",
         "eyebrow": "Common Questions",
         "eyebrow_color": "#1fa8a1",
         "heading": "Answered honestly.",
@@ -3594,9 +3593,9 @@
           ]
         }
       },
-      "name": "t:names.editorial",
+      "name": "Founder",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#founder",
         "media_position": "right",
         "media_width": "medium",
         "media_height": "60svh",
@@ -4131,7 +4130,7 @@
       ],
       "name": "FTD - Subscribe & Save",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#bottomfooter",
         "eyebrow": "Subscribe & Save",
         "eyebrow_color": "#1fa8a1",
         "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
