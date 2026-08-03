@@ -41,7 +41,30 @@
   var syncTimer = null;
   var hydratedOnce = false;
 
-  function getCart() { return fetch('/cart.js', { headers: { 'Accept': 'application/json' } }).then(function (r) { return r.json(); }); }
+  /* Cart endpoints answer with JSON, but a redirect, a challenge page or a
+     routing miss answers with HTML — and .json() on that throws the opaque
+     "Unexpected token '<'" the customer sees at checkout. Read as text and
+     name the endpoint so failures are diagnosable. */
+  function cartFetch(url, opts) {
+    return fetch(url, opts).then(function (r) {
+      return r.text().then(function (t) {
+        var body = null;
+        if (t) { try { body = JSON.parse(t); } catch (_) { body = null; } }
+        if (body === null && t) {
+          throw new Error('Cart request to ' + url + ' returned ' + r.status + ' (not JSON).');
+        }
+        if (!r.ok) {
+          throw new Error((body && (body.description || body.message)) || ('Cart error ' + r.status + ' at ' + url));
+        }
+        return body;
+      });
+    });
+  }
+  var CART_POST = { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } };
+  function cartPost(url, payload) {
+    return cartFetch(url, { method: CART_POST.method, headers: CART_POST.headers, body: JSON.stringify(payload) });
+  }
+  function getCart() { return cartFetch('/cart.js', { headers: { 'Accept': 'application/json' } }); }
 
   /* Exact line set this builder should own, with identity properties. */
   function desiredItems() {
@@ -117,17 +140,18 @@
       });
       var additions = desired.filter(function (it) { return !keep[itemSig(it)]; });
       var step = additions.length
-        ? fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items: additions }) })
-            .then(function (r) { if (!r.ok) return r.json().then(function (b) { throw new Error((b && (b.description || b.message)) || 'Cart error'); }); return r.json(); })
+        ? cartPost('/cart/add.js', { items: additions })
         : Promise.resolve();
       qtyFixes.forEach(function (fix) {
-        step = step.then(function () {
-          return fetch('/cart/change.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(fix) }).then(function (r) { return r.json(); });
-        });
+        step = step.then(function () { return cartPost('/cart/change.js', fix); });
       });
-      step = step.then(function () {
-        if (!Object.keys(removals).length) return null;
-        return fetch('/cart/update.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ updates: removals }) }).then(function (r) { return r.json(); });
+      /* Remove line by line via change.js rather than update.js. update.js
+         resolves its keys against variant ids, and the free creatine and the
+         discounted second creatine are the SAME variant on two lines — so a
+         removal keyed by line id is ambiguous there and can take out the
+         wrong line or miss entirely. change.js addresses one line by key. */
+      Object.keys(removals).forEach(function (lineKey) {
+        step = step.then(function () { return cartPost('/cart/change.js', { id: lineKey, quantity: 0 }); });
       });
       return step.then(getCart);
     }).then(function (cart) {
@@ -239,7 +263,7 @@
               /* quantity is mandatory here: change.js assumes 1 when omitted,
                  which silently collapsed multi-qty lines (2+ of one flavor). */
               var payload = { id: l.key, quantity: l.quantity, properties: props }; if (cartPlanId) payload.selling_plan = cartPlanId;
-              return fetch('/cart/change.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload) }).then(function (r) { return r.json(); });
+              return cartPost('/cart/change.js', payload);
             });
           }, Promise.resolve());
         });
