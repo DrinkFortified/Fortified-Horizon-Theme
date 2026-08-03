@@ -308,6 +308,15 @@
   {% endif %}
   data-skip-node-update
   data-scroll-direction="none"
+  {% if section.settings.desktop_menu_style == 'drawer' %}
+    {%- comment -%}
+      Hamburger at every width. data-menu-style is normally set by JS on the
+      next frame; emitting it here too means the drawer layout is correct in
+      the first paint instead of flashing the inline menu.
+    {%- endcomment -%}
+    data-desktop-menu-style="drawer"
+    data-menu-style="drawer"
+  {% endif %}
   {% if section.settings.menu_row == 'top' and bottom_row_blocks.size > 0 %}
     data-submenu-overlap-bottom-row
   {% endif %}
@@ -445,6 +454,16 @@
 
   #header-component[data-menu-style='drawer'] .header__column {
     display: contents;
+  }
+
+  /* Forced hamburger on desktop. The drawer grid is the mobile one, which
+     goes edge-to-edge on purpose; above the mobile breakpoint the row's own
+     page-width padding should govern instead, and the columns can breathe. */
+  @media screen and (min-width: 750px) {
+    #header-component[data-desktop-menu-style='drawer'] .header__columns {
+      padding-inline: 0;
+      column-gap: var(--gap-md, 1rem);
+    }
   }
 
   @media screen and (min-width: 750px) {
@@ -1196,6 +1215,23 @@
     },
     {
       "type": "select",
+      "id": "desktop_menu_style",
+      "label": "Menu style",
+      "info": "Hamburger shows the drawer menu at every screen size, with the toggle on the left.",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Inline links (hamburger on small screens)"
+        },
+        {
+          "value": "drawer",
+          "label": "Hamburger at all sizes"
+        }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "select",
       "id": "menu_position",
       "label": "t:settings.position",
       "options": [
@@ -1608,8 +1644,14 @@
       "label": "CTA button style",
       "default": "primary",
       "options": [
-        { "value": "primary", "label": "Filled" },
-        { "value": "secondary", "label": "Outline" }
+        {
+          "value": "primary",
+          "label": "Filled"
+        },
+        {
+          "value": "secondary",
+          "label": "Outline"
+        }
       ],
       "visible_if": "{{ section.settings.cta_button_show }}"
     },
