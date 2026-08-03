@@ -15,18 +15,22 @@
 
 {%- liquid
   assign sid             = block.id
-  # Private child blocks are declared with a leading underscore, but don't
-  # assume the drop reports the type that way — fall back to the bare name so
-  # a mismatch can't silently empty the function grid and drop the whole
-  # bundle onto the single-product fallback path.
-  assign function_blocks = block.blocks | where: "type", "_ftd-ps-function"
-  if function_blocks.size == 0
-    assign function_blocks = block.blocks | where: "type", "ftd-ps-function"
-  endif
-  assign benefit_blocks = block.blocks | where: "type", "_ftd-ps-benefit"
-  if benefit_blocks.size == 0
-    assign benefit_blocks = block.blocks | where: "type", "ftd-ps-benefit"
-  endif
+  # Count the child blocks by reading .type off each drop rather than using
+  # `where`. `where` needs [] lookup on the item, which theme-block drops
+  # don't reliably support — it returns an empty array, the function grid
+  # looks unconfigured, and all three pouches fall back to a single product.
+  # Every render site loops block.blocks and checks the type inline for the
+  # same reason. The bare type is accepted alongside the private (underscore)
+  # form so a drop reporting either spelling still matches.
+  assign fn_count = 0
+  assign bn_count = 0
+  for bl in block.blocks
+    if bl.type == '_ftd-ps-function' or bl.type == 'ftd-ps-function'
+      assign fn_count = fn_count | plus: 1
+    elsif bl.type == '_ftd-ps-benefit' or bl.type == 'ftd-ps-benefit'
+      assign bn_count = bn_count | plus: 1
+    endif
+  endfor
 
   assign show_monthly    = block.settings.show_monthly
   assign show_quarterly  = block.settings.show_quarterly
@@ -78,16 +82,25 @@
   # so one block instance adapts per PDP. Quarterly always builds from the
   # function child blocks (the hydration bundle), even on the creatine PDP.
   #
-  # Never let this land on the add-on product. An unset product setting does
-  # not always come back empty — when it resolves to some other catalog
-  # product, every bundle pouch on a hydration PDP renders the add-on
-  # (creatine) instead of the hydration pouches. The page product wins
-  # unless the page IS the add-on, which keeps the creatine PDP working.
-  assign page_product = closest.product | default: product
+  # Resolve the page product from the template's own `product` first.
+  # closest.product can answer with a product SETTING found on this block, so
+  # the moment the creatine add-on was configured it started returning
+  # creatine on hydration PDPs — which is what put the add-on in every bundle
+  # pouch and made the plan prices read $24.00 / $12.00 / $0.00. Fall back to
+  # closest.product only when the global isn't available.
+  assign page_product = product
+  if page_product == blank
+    assign page_product = closest.product
+  endif
+
   assign onetime_product = block.settings.onetime_product
   if onetime_product == blank
     assign onetime_product = page_product
-  elsif addon_handle != blank and onetime_product.handle == addon_handle
+  endif
+
+  # Final guard, applied to whatever the chain produced: the add-on is never
+  # the bundle product unless the page itself is the add-on (creatine PDP).
+  if addon_handle != blank and onetime_product != blank and onetime_product.handle == addon_handle
     if page_product != blank and page_product.handle != addon_handle
       assign onetime_product = page_product
     endif
@@ -103,7 +116,7 @@
   so this is how we confirm what the block actually resolved to. Safe to
   delete once the selector is verified in place.
 {%- endcomment -%}
-<!-- ftd-selector functions={{ function_blocks.size }} benefits={{ benefit_blocks.size }} page={{ page_product.handle | default: 'nil' }} onetime={{ onetime_handle | default: 'nil' }} addon={{ addon_handle | default: 'nil' }} setting={{ block.settings.onetime_product.handle | default: 'nil' }} -->
+<!-- ftd-selector functions={{ fn_count }} benefits={{ bn_count }} page={{ page_product.handle | default: 'nil' }} onetime={{ onetime_handle | default: 'nil' }} addon={{ addon_handle | default: 'nil' }} setting={{ block.settings.onetime_product.handle | default: 'nil' }} -->
 <div
   id="fe-{{ sid }}"
   class="fe-section fe-block fe-block--{{ block.settings.section_width }} color-{{ block.settings.color_scheme }}"
@@ -141,9 +154,10 @@
       {%- if block.settings.heading != blank -%}<h2 class="fe-heading">{{ block.settings.heading }}</h2>{%- endif -%}
       {%- if block.settings.subheading != blank -%}<p class="fe-subheading">{{ block.settings.subheading }}</p>{%- endif -%}
 
-      {%- if benefit_blocks.size > 0 -%}
+      {%- if bn_count > 0 -%}
         <ul class="fe-benefits">
-          {%- for bb in benefit_blocks -%}
+          {%- for bb in block.blocks -%}
+            {%- unless bb.type == '_ftd-ps-benefit' or bb.type == 'ftd-ps-benefit' -%}{%- continue -%}{%- endunless -%}
             <li class="fe-benefit" {{ bb.shopify_attributes }}>
               {%- if bb.settings.icon != blank -%}
                 <span class="fe-benefit-icon"><img src="{{ bb.settings.icon | image_url: width: 64 }}" alt="" width="28" height="28"></span>
@@ -304,7 +318,8 @@
         {%- else -%}
           <div class="fe-build-view fe-build-view--monthly" data-build-view="monthly">
             <div class="fe-fcards" data-config="monthly">
-              {%- for fb in function_blocks -%}
+              {%- for fb in block.blocks -%}
+                {%- unless fb.type == '_ftd-ps-function' or fb.type == 'ftd-ps-function' -%}{%- continue -%}{%- endunless -%}
                 {%- if fb.settings.enabled -%}
                   {%- render 'fortified-fn-card', card_block: fb, config: 'monthly', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
                 {%- endif -%}
@@ -349,13 +364,14 @@
         {%- endif -%}
 
         {%- comment %} Quarterly: function-card grid if functions are configured, else simplified flavor picker per pouch using the configured / page product {%- endcomment %}
-        {%- if function_blocks.size > 0 -%}
+        {%- if fn_count > 0 -%}
           <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
             {%- for i in (1..bundle_count) -%}
               <div class="fe-pouch">
                 <p class="fe-pouch-title">{{ block.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
                 <div class="fe-fcards" data-config="q{{ i }}">
-                  {%- for fb in function_blocks -%}
+                  {%- for fb in block.blocks -%}
+                    {%- unless fb.type == '_ftd-ps-function' or fb.type == 'ftd-ps-function' -%}{%- continue -%}{%- endunless -%}
                     {%- if fb.settings.enabled -%}
                       {%- render 'fortified-fn-card', card_block: fb, config: 'q', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
                     {%- endif -%}
@@ -881,7 +897,7 @@
   var PLAN_LABEL_Q = {{ block.settings.quarterly_label | default: '3 Every 3 Months' | json }};
   var PLAN_LABEL_OT = {{ block.settings.onetime_card_label | default: 'One Time' | json }};
   var ONETIME_HANDLE = {{ onetime_handle | json }};
-  var FUNCTION_BLOCKS_COUNT = {{ function_blocks.size | json }};
+  var FUNCTION_BLOCKS_COUNT = {{ fn_count | json }};
   var SIMPLE_SUBS = {{ block.settings.simplified_for_subs | json }} && !!ONETIME_HANDLE;
   var SIMPLE_SUBS_Q = !!ONETIME_HANDLE && FUNCTION_BLOCKS_COUNT === 0;
   var SIMPLE_SUBS_PLAN_M = {{ block.settings.simple_plan_monthly | json }};
