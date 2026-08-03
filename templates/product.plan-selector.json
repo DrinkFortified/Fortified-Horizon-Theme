@@ -223,7 +223,7 @@
                 "show_monthly": true,
                 "monthly_label": "1 a Month",
                 "monthly_badge": "Monthly",
-                "monthly_badge_color": "#1fa8a1",
+                "monthly_badge_color": "#F5A623",
                 "monthly_title": "1 Pouch\nEvery Month",
                 "monthly_desc": "Your daily ritual, delivered.",
                 "monthly_price": "$53.10",
@@ -236,7 +236,7 @@
                 "quarterly_badge_color": "#e8833a",
                 "quarterly_title": "3 Pouches\nEvery 3 Months",
                 "quarterly_desc": "Mix any functions freely.",
-                "quarterly_price": "$53.10",
+                "quarterly_price": "$47.20",
                 "quarterly_period": "/ month",
                 "quarterly_was": "was $59.00/mo",
                 "quarterly_checklist": "Free Creatine + Sample Pack\nFree shipping always\nFlexible, cancel / pause any time",
@@ -254,15 +254,15 @@
                 "onetime_product": "",
                 "onetime_flavor_option": "Flavor",
                 "simplified_for_subs": true,
-                "simple_plan_monthly": "",
-                "simple_plan_quarterly": "",
+                "simple_plan_monthly": "2852487324",
+                "simple_plan_quarterly": "2852520092",
                 "build_step_label": "Build {count}-Pouch Bundle",
                 "pouches_word": "Pouches",
                 "function_label": "Choose Your Function",
                 "flavor_label": "Choose Flavor:",
                 "unit_label_prefix": "Pouch",
                 "show_addon": true,
-                "addon_product": "",
+                "addon_product": "creatine",
                 "show_free_promo": false,
                 "free_promo_badge": "Included",
                 "free_promo_title": "1st Creatine FREE with your bundle",
@@ -274,9 +274,9 @@
                 "quarterly_free_text": "Free Creatine + Sample Pack included with your bundle",
                 "addon_price_text": "$12.00",
                 "addon_was_text": "$24.00",
-                "addon_loop_plan_monthly": "",
-                "addon_loop_plan_quarterly": "",
-                "addon_loop_plan_quarterly_50off": "",
+                "addon_loop_plan_monthly": "2852585628",
+                "addon_loop_plan_quarterly": "2852618396",
+                "addon_loop_plan_quarterly_50off": "2852552860",
                 "summary_label": "Your Order",
                 "total_label": "Total",
                 "overview_note": "Subscriptions ship free. Discounts applied at checkout.",
@@ -302,13 +302,13 @@
                 "loop_api_token": "",
                 "loop_api_base": "https://api.loopwork.co",
                 "loop_session_endpoint": "",
-                "loop_bundle_enabled": false,
-                "loop_bundle_id": "",
-                "loop_bundle_variant_id": "",
-                "loop_bundle_discount_id": "",
-                "loop_bundle_api_selling_plan_id": "",
-                "loop_bundle_selling_plan_id": "",
-                "loop_bundle_name": "",
+                "loop_bundle_enabled": true,
+                "loop_bundle_id": "7684",
+                "loop_bundle_variant_id": "15034",
+                "loop_bundle_discount_id": "50941",
+                "loop_bundle_api_selling_plan_id": "130527",
+                "loop_bundle_selling_plan_id": "2852520092",
+                "loop_bundle_name": "90-Day Bundle — Every 3 Months",
                 "loop_bundle_property_key": "_bundleId",
                 "fomo_gift_enabled": false,
                 "fomo_metafield_namespace": "fortified",
@@ -332,14 +332,14 @@
                     "function_label": "Fortified Energy",
                     "product": "energy",
                     "coming_soon": false,
-                    "spec_1": "152mg Caffeine",
-                    "spec_2": "1,200mg NA",
-                    "spec_3": "",
-                    "description": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix.",
-                    "flavor_option": "",
-                    "manual_flavors": "Original\nMango\nBerry",
-                    "loop_plan_monthly": "",
-                    "loop_plan_quarterly": ""
+                    "spec_1": "150mg Caffeine",
+                    "spec_2": "1,200mg Sodium",
+                    "spec_3": "200mg Potassium",
+                    "description": "150mg natural caffeine from real coffee beans. Complete electrolyte matrix.",
+                    "flavor_option": "Flavor",
+                    "manual_flavors": "Salty Orange\nSalty Watermelon",
+                    "loop_plan_monthly": "2852487324",
+                    "loop_plan_quarterly": "2852520092"
                   },
                   "blocks": {}
                 },
@@ -350,14 +350,14 @@
                     "function_label": "Fortified Everyday",
                     "product": "everyday",
                     "coming_soon": false,
-                    "spec_1": "152mg Caffeine",
-                    "spec_2": "1,200mg NA",
-                    "spec_3": "",
-                    "description": "152mg Natural Caffeine from coffee beans. Complete electrolyte matrix.",
-                    "flavor_option": "",
-                    "manual_flavors": "Original\nMango\nBerry",
-                    "loop_plan_monthly": "",
-                    "loop_plan_quarterly": ""
+                    "spec_1": "1,200mg Sodium",
+                    "spec_2": "200mg Potassium",
+                    "spec_3": "D3 + K2",
+                    "description": "Foundational daily hydration with D3 + K2. Zero caffeine.",
+                    "flavor_option": "Flavor",
+                    "manual_flavors": "Salty Orange\nSalty Watermelon",
+                    "loop_plan_monthly": "2852487324",
+                    "loop_plan_quarterly": "2852520092"
                   },
                   "blocks": {}
                 },
@@ -500,7 +500,7 @@
         "heading": "Hydration You'd Give Your Family",
         "body": "Clean electrolytes with Vitamin D3 + K2, zero sugar, and zero artificial sweeteners. Every milligram disclosed — the daily hydration powder you never have to second-guess.",
         "button_label": "Shop Everyday Hydration",
-        "button_link": "",
+        "button_link": "#shopify-section-main",
         "button_style": "outline",
         "image_focal": "center",
         "image_position_desktop": "right",
@@ -575,10 +575,10 @@
         "icon_background_color": "#0a0a0a",
         "icon_color": "#ffffff",
         "button_label": "Shop FORTIFIED®",
-        "button_link": "",
+        "button_link": "#shopify-section-main",
         "center_cta": false,
         "secondary_button_label": "Learn More",
-        "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
+        "secondary_button_link": "#shopify-section-ftd_b_supplement_facts_bmPkCy",
         "button_style": "outline",
         "section_width": "page-width",
         "content_max_width": 1240,
@@ -590,6 +590,7 @@
     },
     "fortified_testimonial_gifpnd": {
       "type": "fortified-testimonial",
+      "disabled": true,
       "name": "FTD - Testimonial",
       "settings": {
         "anchor_id": "",
@@ -598,7 +599,7 @@
         "quote": "<p>I finally found a hydration mix I don't have to hide from my kids. I can read every ingredient — no fake sweeteners, no dyes — and it actually works.</p>",
         "quote_marks": true,
         "button_label": "Shop Clean Hydration",
-        "button_link": "",
+        "button_link": "#shopify-section-main",
         "button_style": "filled",
         "image_focal": "center",
         "image_position_desktop": "right",
@@ -664,7 +665,7 @@
         "align": "left",
         "section_width": "page-width",
         "content_max_width": 1240,
-        "color_scheme": "",
+        "color_scheme": "scheme-5",
         "padding-block-start": 64,
         "padding-block-end": 64,
         "custom_css": ""
@@ -710,7 +711,7 @@
         "heading": "Fuel Every Part Of Your Day",
         "body": "From your morning ritual to your afternoon lift — clean electrolytes, real caffeine, and zero artificial junk. Pick your function.",
         "button_label": "Explore All Flavors",
-        "button_link": "",
+        "button_link": "/collections/all",
         "button_style": "outline",
         "background_image_focal": "center",
         "overlay_color": "#000000",
@@ -769,110 +770,119 @@
         "gap_between_elements": 24
       }
     },
-    "fortified_comparison_CLVb4q": {
+    "fortified_comparison_itbbWw": {
       "type": "fortified-comparison",
       "blocks": {
-        "feature_row_mbkb7x": {
+        "feature_row_xEBde7": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Organic Flavors",
+            "fortified_value": "100%",
+            "icon": "text"
+          }
+        },
+        "feature_row_8fgDKX": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Citric Acid",
+            "fortified_value": "NEVER",
+            "icon": "text"
+          }
+        },
+        "feature_row_HwnBTC": {
           "type": "feature_row",
           "settings": {
             "label": "Sodium per serving",
-            "fortified_value": "1,210mg",
+            "fortified_value": "1200mg",
             "icon": "text"
           }
         },
-        "feature_row_KpxfJU": {
+        "feature_row_pqpaAR": {
           "type": "feature_row",
           "settings": {
-            "label": "Zero added sugar",
-            "fortified_value": "Yes",
+            "label": "Sugar-free",
+            "fortified_value": "1000mg",
             "icon": "check"
           }
         },
-        "feature_row_mNapc3": {
+        "feature_row_UwpPHE": {
           "type": "feature_row",
           "settings": {
-            "label": "Zero artificial sweeteners",
-            "fortified_value": "Yes",
+            "label": "Energy version (caffeine)",
+            "fortified_value": "1000mg",
             "icon": "check"
           }
         },
-        "feature_row_miKcMw": {
+        "feature_row_cV7EVi": {
           "type": "feature_row",
           "settings": {
-            "label": "Magnesium malate per serving",
-            "fortified_value": "1,000mg",
+            "label": "Magnesium Malate",
+            "fortified_value": "1000mg",
             "icon": "check"
           }
         },
-        "feature_row_9VgzXB": {
+        "feature_row_hNjAMy": {
           "type": "feature_row",
           "settings": {
-            "label": "Natural caffeine option",
-            "fortified_value": "152mg",
-            "icon": "check"
-          }
-        },
-        "feature_row_hDD6rG": {
-          "type": "feature_row",
-          "settings": {
-            "label": "Every ingredient disclosed",
-            "fortified_value": "Yes",
+            "label": "Silicon Dioxide",
+            "fortified_value": "NONE",
             "icon": "text"
           }
         },
-        "competitor_jAnpLX": {
+        "competitor_WeJdm6": {
           "type": "competitor",
           "settings": {
             "name": "Liquid IV",
-            "values": "500mg\nno\nno\nno\nno\n$8.97",
+            "values": "NATURAL FLAVORS\nyes\n500mg\nno\nno\nMAGNESIUM CITRATE\nyes",
             "highlight_color": ""
           }
         },
-        "competitor_dXKWxW": {
+        "competitor_PYbVmb": {
           "type": "competitor",
           "settings": {
             "name": "LMNT",
-            "values": "1000mg\nyes\nno\nno\nno\n$7.00",
+            "values": "GMO FLAVORS\nyes\n1000mg\nyes\nNo\nyes\nyes",
             "highlight_color": ""
           }
         }
       },
       "block_order": [
-        "feature_row_mbkb7x",
-        "feature_row_KpxfJU",
-        "feature_row_mNapc3",
-        "feature_row_miKcMw",
-        "feature_row_9VgzXB",
-        "feature_row_hDD6rG",
-        "competitor_jAnpLX",
-        "competitor_dXKWxW"
+        "feature_row_xEBde7",
+        "feature_row_8fgDKX",
+        "feature_row_HwnBTC",
+        "feature_row_pqpaAR",
+        "feature_row_UwpPHE",
+        "feature_row_cV7EVi",
+        "feature_row_hNjAMy",
+        "competitor_WeJdm6",
+        "competitor_PYbVmb"
       ],
       "name": "FTD - Comparison Table",
       "settings": {
         "anchor_id": "",
-        "eyebrow": "Compare The Labels",
-        "eyebrow_color": "#1fa8a1",
-        "heading": "Why We Beat The Rest",
-        "subheading": "",
+        "eyebrow": "The Receipt",
+        "eyebrow_color": "#ffffff",
+        "heading": "Side By Side With What's On The Shelf",
+        "subheading": "<p>Same category. Very different formulas. Here's how FORTIFIED<em>™</em> stacks up against the hydration brands you've been settling for.</p>",
         "fortified_label": "Fortified",
-        "fortified_column_color": "#0a0a0a",
+        "fortified_column_color": "#1fa8a1",
         "fortified_text_color": "#ffffff",
         "check_color": "#ffffff",
         "fortified_cross_color": "",
         "comp_check_color": "",
         "cross_color": "#9ca3af",
-        "cta_label": "Shop FORTIFIED®",
-        "cta_link": "",
-        "cta_style": "outline",
-        "secondary_button_label": "Learn More",
+        "cta_label": "Get The VIP Founders offer",
+        "cta_link": "#leadcapture",
+        "cta_style": "filled",
+        "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "mobile_swipe_hint": "Swipe to compare →",
         "table_radius": 16,
         "section_width": "full-width",
-        "content_max_width": 1240,
-        "color_scheme": "",
-        "padding-block-start": 72,
-        "padding-block-end": 72,
+        "content_max_width": 1360,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
         "custom_css": ""
       }
     },
@@ -1105,9 +1115,9 @@
         "heading": "A Label You Can Actually Read",
         "subheading": "<p>No artificial sweeteners, no dyes, no fillers. Real ingredients in amounts that matter.</p>",
         "secondary_button_label": "Learn More",
-        "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
+        "secondary_button_link": "#shopify-section-ftd_b_supplement_facts_bmPkCy",
         "button_label": "Shop FORTIFIED®",
-        "button_link": "",
+        "button_link": "#shopify-section-main",
         "button_style": "outline",
         "columns_desktop": 4,
         "enable_carousel": true,
@@ -1153,58 +1163,66 @@
         "custom_css": ""
       }
     },
-    "fortified_subscribe_save_J6Ri7m": {
+    "fortified_subscribe_save_968bWi": {
       "type": "fortified-subscribe-save",
       "blocks": {
-        "benefit_3nxceG": {
+        "benefit_HLPKJB": {
           "type": "benefit",
           "settings": {
-            "text": "Save 15% on every order"
+            "text": "Save 20% on every order, automatically when subscribed to the 90-Day Supply Every 3 Months plan"
           }
         },
-        "benefit_NkJanf": {
+        "benefit_xgfCMy": {
+          "type": "benefit",
+          "settings": {
+            "text": "Free creatine on quarterly plans for the life of your subscription"
+          }
+        },
+        "benefit_ChgnXJ": {
           "type": "benefit",
           "settings": {
             "text": "Skip, swap, or cancel anytime"
           }
         },
-        "benefit_RVzUCq": {
+        "benefit_XhWeC9": {
           "type": "benefit",
           "settings": {
             "text": "Never run out of your ritual"
           }
         },
-        "benefit_TtVekY": {
+        "benefit_jDdrhm": {
           "type": "benefit",
           "settings": {
-            "text": "Free creatine with quarterly plans"
+            "text": "45-Day Money Back Guarantee"
           }
         }
       },
       "block_order": [
-        "benefit_3nxceG",
-        "benefit_NkJanf",
-        "benefit_RVzUCq",
-        "benefit_TtVekY"
+        "benefit_HLPKJB",
+        "benefit_xgfCMy",
+        "benefit_ChgnXJ",
+        "benefit_XhWeC9",
+        "benefit_jDdrhm"
       ],
       "name": "FTD - Subscribe & Save",
       "settings": {
         "anchor_id": "",
         "eyebrow": "Subscribe & Save",
         "eyebrow_color": "#1fa8a1",
-        "heading": "Subscribe & Save 15% On Clean Hydration",
-        "button_label": "Start Your Subscription",
-        "button_link": "",
+        "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
+        "button_label": "Get The VIP Founders offer",
+        "button_link": "#leadcapture",
         "button_style": "outline",
         "foreground_image_focal": "center",
         "image_position": "right",
-        "background_overlay": 50,
+        "background_image": "shopify://shop_images/88588dc4ec1159c1c0561ae6b16ace7fb988b0f6.png",
+        "background_overlay": 0,
         "text_color": "light",
         "section_width": "full-width",
-        "content_max_width": 1240,
-        "color_scheme": "",
-        "padding-block-start": 72,
-        "padding-block-end": 72,
+        "content_max_width": 1800,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 88,
+        "padding-block-end": 88,
         "custom_css": ""
       }
     },
@@ -1217,6 +1235,9 @@
             "show_sample_reviews": true,
             "review_selection": "all",
             "products": [],
+            "filter_pinned": false,
+            "filter_featured": false,
+            "filter_custom_tags": "",
             "show_media_only": false,
             "display_order": "media_first",
             "card_grouping": "per_media",
@@ -1284,11 +1305,11 @@
     "fortified_stats_row_Re84QB",
     "fortified_hero_product_showcase_6qE7R9",
     "marquee_HFKgXX",
-    "fortified_comparison_CLVb4q",
+    "fortified_comparison_itbbWw",
     "ftd_b_supplement_facts_bmPkCy",
     "fortified_truth_qBjbt7",
     "ftd_b_faq_pdp",
-    "fortified_subscribe_save_J6Ri7m",
+    "fortified_subscribe_save_968bWi",
     "17809380431492f2ae"
   ]
 }

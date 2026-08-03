@@ -189,7 +189,7 @@
                 "star_color": "#f5a623",
                 "plan_step_label": "Choose Your Plan",
                 "plan_step_note": "Monthly 10% Off",
-                "show_monthly": true,
+                "show_monthly": false,
                 "monthly_label": "1 a Month",
                 "monthly_badge": "Monthly",
                 "monthly_badge_color": "#1fa8a1",
@@ -850,6 +850,7 @@
     },
     "ftd_testimonial_athlete": {
       "type": "fortified-testimonial",
+      "disabled": true,
       "name": "FTD - Testimonial",
       "settings": {
         "anchor_id": "",
@@ -923,116 +924,125 @@
         "align": "left",
         "section_width": "page-width",
         "content_max_width": 1360,
-        "color_scheme": "",
+        "color_scheme": "scheme-5",
         "padding-block-start": 100,
         "padding-block-end": 100,
         "custom_css": ""
       }
     },
-    "ftd_comparison_creatine": {
+    "fortified_comparison_rQQTGk": {
       "type": "fortified-comparison",
       "blocks": {
-        "fr1": {
+        "feature_row_myG6V8": {
           "type": "feature_row",
           "settings": {
-            "label": "Creatine per serving",
-            "fortified_value": "5g",
+            "label": "Organic Flavors",
+            "fortified_value": "100%",
             "icon": "text"
           }
         },
-        "fr2": {
+        "feature_row_tk9fCR": {
           "type": "feature_row",
           "settings": {
-            "label": "Full clinical 5g dose",
-            "fortified_value": "Yes",
-            "icon": "check"
-          }
-        },
-        "fr3": {
-          "type": "feature_row",
-          "settings": {
-            "label": "Micronized — dissolves clean",
-            "fortified_value": "Yes",
-            "icon": "check"
-          }
-        },
-        "fr4": {
-          "type": "feature_row",
-          "settings": {
-            "label": "Zero fillers or additives",
-            "fortified_value": "Yes",
-            "icon": "check"
-          }
-        },
-        "fr5": {
-          "type": "feature_row",
-          "settings": {
-            "label": "Third-party tested",
-            "fortified_value": "Yes",
-            "icon": "check"
-          }
-        },
-        "fr6": {
-          "type": "feature_row",
-          "settings": {
-            "label": "Price per serving",
-            "fortified_value": "$0.76",
+            "label": "Citric Acid",
+            "fortified_value": "NEVER",
             "icon": "text"
           }
         },
-        "comp1": {
+        "feature_row_zhWVpK": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Sodium per serving",
+            "fortified_value": "1200mg",
+            "icon": "text"
+          }
+        },
+        "feature_row_M7LgrG": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Sugar-free",
+            "fortified_value": "1000mg",
+            "icon": "check"
+          }
+        },
+        "feature_row_qacV94": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Energy version (caffeine)",
+            "fortified_value": "1000mg",
+            "icon": "check"
+          }
+        },
+        "feature_row_9tx6EV": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Magnesium Malate",
+            "fortified_value": "1000mg",
+            "icon": "check"
+          }
+        },
+        "feature_row_g3bKVp": {
+          "type": "feature_row",
+          "settings": {
+            "label": "Silicon Dioxide",
+            "fortified_value": "NONE",
+            "icon": "text"
+          }
+        },
+        "competitor_g3R4yP": {
           "type": "competitor",
           "settings": {
-            "name": "Generic Monohydrate",
-            "values": "3–5g\nno\nno\nyes\nno\n$0.45",
+            "name": "Liquid IV",
+            "values": "NATURAL FLAVORS\nyes\n500mg\nno\nno\nMAGNESIUM CITRATE\nyes",
             "highlight_color": ""
           }
         },
-        "comp2": {
+        "competitor_nLbUBA": {
           "type": "competitor",
           "settings": {
-            "name": "Flavored Blend",
-            "values": "5g*\nno\nyes\nno\nno\n$1.33",
+            "name": "LMNT",
+            "values": "GMO FLAVORS\nyes\n1000mg\nyes\nNo\nyes\nyes",
             "highlight_color": ""
           }
         }
       },
       "block_order": [
-        "fr1",
-        "fr2",
-        "fr3",
-        "fr4",
-        "fr5",
-        "fr6",
-        "comp1",
-        "comp2"
+        "feature_row_myG6V8",
+        "feature_row_tk9fCR",
+        "feature_row_zhWVpK",
+        "feature_row_M7LgrG",
+        "feature_row_qacV94",
+        "feature_row_9tx6EV",
+        "feature_row_g3bKVp",
+        "competitor_g3R4yP",
+        "competitor_nLbUBA"
       ],
       "name": "FTD - Comparison Table",
       "settings": {
         "anchor_id": "",
-        "eyebrow": "Compare The Scoop",
-        "eyebrow_color": "#1fa8a1",
-        "heading": "Why We Beat The Rest",
-        "subheading": "<p>Same molecule. Very different scoop. Here's how FORTIFIED Creatine stacks up against what's on the shelf.</p>",
+        "eyebrow": "The Receipt",
+        "eyebrow_color": "#ffffff",
+        "heading": "Side By Side With What's On The Shelf",
+        "subheading": "<p>Same category. Very different formulas. Here's how FORTIFIED<em>™</em> stacks up against the hydration brands you've been settling for.</p>",
         "fortified_label": "Fortified",
-        "fortified_column_color": "#0a0a0a",
+        "fortified_column_color": "#1fa8a1",
         "fortified_text_color": "#ffffff",
         "check_color": "#ffffff",
         "fortified_cross_color": "",
         "comp_check_color": "",
         "cross_color": "#9ca3af",
-        "cta_label": "Shop FORTIFIED® Creatine",
-        "cta_link": "",
-        "cta_style": "outline",
-        "secondary_button_label": "Learn More",
+        "cta_label": "Get The VIP Founders offer",
+        "cta_link": "#leadcapture",
+        "cta_style": "filled",
+        "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "mobile_swipe_hint": "Swipe to compare →",
         "table_radius": 16,
         "section_width": "full-width",
         "content_max_width": 1360,
-        "color_scheme": "",
-        "padding-block-start": 100,
-        "padding-block-end": 100,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
         "custom_css": ""
       }
     },
@@ -1346,7 +1356,7 @@
     "ftd_benefits_creatine",
     "ftd_testimonial_athlete",
     "ftd_stats_research",
-    "ftd_comparison_creatine",
+    "fortified_comparison_rQQTGk",
     "ftd_truth_showcase",
     "ftd_reviews_grid",
     "ftd_faq_creatine",

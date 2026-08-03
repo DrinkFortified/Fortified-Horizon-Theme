@@ -38,6 +38,7 @@
           assign pdp = product.metafields.fortified.pdp_content.value
           assign eyebrow_v = section.settings.eyebrow
           assign heading_v = section.settings.heading
+          assign hero_image_v = section.settings.image
           assign body_v = section.settings.body
           assign cta_label_v = section.settings.button_label
           if pdp != blank
@@ -53,6 +54,9 @@
             if pdp.cta_label != blank
               assign cta_label_v = pdp.cta_label
             endif
+            if pdp.hero_image != blank
+              assign hero_image_v = pdp.hero_image
+            endif
           endif
         -%}
         {%- if eyebrow_v != blank -%}<p class="ftd-sh__eyebrow">{{ eyebrow_v }}</p>{%- endif -%}
@@ -66,8 +70,8 @@
       </div>
     </div>
     <div class="ftd-sh__media">
-      {%- if section.settings.image != blank -%}
-        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'ftd-sh__img', loading: 'lazy', widths: '600,900,1200,1600,2000', alt: section.settings.heading }}
+      {%- if hero_image_v != blank -%}
+        {{ hero_image_v | image_url: width: 1600 | image_tag: class: 'ftd-sh__img', loading: 'lazy', widths: '600,900,1200,1600,2000', alt: heading_v }}
       {%- else -%}
         <div class="ftd-sh__img ftd-sh__img--placeholder" aria-hidden="true"></div>
       {%- endif -%}
@@ -92,7 +96,7 @@
 .ftd-sh__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-h1-size); font-weight: var(--ftd-heading-weight, 800); line-height: var(--ftd-h1-line, 1.05); text-transform: uppercase; letter-spacing: 0.01em; }
 .ftd-sh__body { margin: 0; font-size: var(--ftd-sub-size); line-height: var(--ftd-sub-line, 1.6); max-width: 52ch; }
 .ftd-sh__cta-wrap { display: flex; margin-top: 8px; }
-.ftd-sh__cta { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-heading--family, inherit); font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 16px 32px; border-radius: var(--style-border-radius-buttons-primary, 8px); cursor: pointer; border: 2px solid currentColor; background: transparent; transition: background 0.18s, color 0.18s, opacity 0.18s; }
+.ftd-sh__cta { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-heading--family, inherit); font-size: var(--ftd-btn-size); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 16px 32px; border-radius: var(--style-border-radius-buttons-primary, 8px); cursor: pointer; border: 2px solid currentColor; background: transparent; transition: background 0.18s, color 0.18s, opacity 0.18s; }
 .ftd-sh__cta--filled { background: var(--color-primary-button-background); color: var(--color-primary-button-text); border-color: var(--color-primary-button-background); }
 .ftd-sh__cta--filled:hover { opacity: 0.88; }
 .ftd-sh__media { position: relative; width: 100%; overflow: hidden; min-height: var(--ftsh-min-h-m, 360px); }

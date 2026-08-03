@@ -15,8 +15,22 @@
 
 {%- liquid
   assign sid             = block.id
-  assign function_blocks = block.blocks | where: "type", "_ftd-ps-function"
-  assign benefit_blocks  = block.blocks | where: "type", "_ftd-ps-benefit"
+  # Count the child blocks by reading .type off each drop rather than using
+  # `where`. `where` needs [] lookup on the item, which theme-block drops
+  # don't reliably support — it returns an empty array, the function grid
+  # looks unconfigured, and all three pouches fall back to a single product.
+  # Every render site loops block.blocks and checks the type inline for the
+  # same reason. The bare type is accepted alongside the private (underscore)
+  # form so a drop reporting either spelling still matches.
+  assign fn_count = 0
+  assign bn_count = 0
+  for bl in block.blocks
+    if bl.type == '_ftd-ps-function' or bl.type == 'ftd-ps-function'
+      assign fn_count = fn_count | plus: 1
+    elsif bl.type == '_ftd-ps-benefit' or bl.type == 'ftd-ps-benefit'
+      assign bn_count = bn_count | plus: 1
+    endif
+  endfor
 
   assign show_monthly    = block.settings.show_monthly
   assign show_quarterly  = block.settings.show_quarterly
@@ -47,8 +61,10 @@
 
   assign addon = block.settings.addon_product
   assign addon_variant_id = ''
+  assign addon_handle = ''
   if addon != blank
     assign addon_variant_id = addon.selected_or_first_available_variant.id
+    assign addon_handle = addon.handle
   endif
 
   assign rating_num = block.settings.rating_value | times: 1.0
@@ -65,13 +81,42 @@
   # product is the product of the page the block sits on (closest.product),
   # so one block instance adapts per PDP. Quarterly always builds from the
   # function child blocks (the hydration bundle), even on the creatine PDP.
-  assign onetime_product = block.settings.onetime_product | default: closest.product | default: product
+  #
+  # Resolve the page product from the template's own `product` first.
+  # closest.product can answer with a product SETTING found on this block, so
+  # the moment the creatine add-on was configured it started returning
+  # creatine on hydration PDPs — which is what put the add-on in every bundle
+  # pouch and made the plan prices read $24.00 / $12.00 / $0.00. Fall back to
+  # closest.product only when the global isn't available.
+  assign page_product = product
+  if page_product == blank
+    assign page_product = closest.product
+  endif
+
+  assign onetime_product = block.settings.onetime_product
+  if onetime_product == blank
+    assign onetime_product = page_product
+  endif
+
+  # Final guard, applied to whatever the chain produced: the add-on is never
+  # the bundle product unless the page itself is the add-on (creatine PDP).
+  if addon_handle != blank and onetime_product != blank and onetime_product.handle == addon_handle
+    if page_product != blank and page_product.handle != addon_handle
+      assign onetime_product = page_product
+    endif
+  endif
   assign onetime_handle = ''
   if onetime_product != blank
     assign onetime_handle = onetime_product.handle
   endif
 -%}
 
+{%- comment -%}
+  Resolution trace. The storefront can't be reached from the dev environment,
+  so this is how we confirm what the block actually resolved to. Safe to
+  delete once the selector is verified in place.
+{%- endcomment -%}
+<!-- ftd-selector functions={{ fn_count }} benefits={{ bn_count }} page={{ page_product.handle | default: 'nil' }} onetime={{ onetime_handle | default: 'nil' }} addon={{ addon_handle | default: 'nil' }} setting={{ block.settings.onetime_product.handle | default: 'nil' }} -->
 <div
   id="fe-{{ sid }}"
   class="fe-section fe-block fe-block--{{ block.settings.section_width }} color-{{ block.settings.color_scheme }}"
@@ -109,9 +154,10 @@
       {%- if block.settings.heading != blank -%}<h2 class="fe-heading">{{ block.settings.heading }}</h2>{%- endif -%}
       {%- if block.settings.subheading != blank -%}<p class="fe-subheading">{{ block.settings.subheading }}</p>{%- endif -%}
 
-      {%- if benefit_blocks.size > 0 -%}
+      {%- if bn_count > 0 -%}
         <ul class="fe-benefits">
-          {%- for bb in benefit_blocks -%}
+          {%- for bb in block.blocks -%}
+            {%- unless bb.type == '_ftd-ps-benefit' or bb.type == 'ftd-ps-benefit' -%}{%- continue -%}{%- endunless -%}
             <li class="fe-benefit" {{ bb.shopify_attributes }}>
               {%- if bb.settings.icon != blank -%}
                 <span class="fe-benefit-icon"><img src="{{ bb.settings.icon | image_url: width: 64 }}" alt="" width="28" height="28"></span>
@@ -131,9 +177,42 @@
           {%- if block.settings.plan_step_note != blank -%}<span class="fe-step-note">{{ block.settings.plan_step_note }}</span>{%- endif -%}
         </div>
 
+        {%- comment %}
+          Plan order: the quarterly bundle is the primary offer, so it renders
+          first as the full-width hero card and is pre-selected. Monthly and
+          one-time sit together in the smaller row underneath.
+        {%- endcomment -%}
         <div class="fe-plans">
-          {%- if show_onetime -%}
-            <label class="fe-plan fe-plan--full" data-plan="onetime">
+          {%- if show_quarterly -%}
+            <label class="fe-plan fe-plan--full fe-plan--hero" data-plan="quarterly">
+              <input type="radio" name="fe-plan-{{ sid }}" value="quarterly" checked>
+              <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              {%- if block.settings.quarterly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--quarterly">{{ block.settings.quarterly_badge }}</span>{%- endif -%}
+              <span class="fe-plan-title">
+                {%- for line in quarterly_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="fe-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
+              </span>
+              {%- if block.settings.quarterly_desc != blank -%}<span class="fe-plan-desc">{{ block.settings.quarterly_desc }}</span>{%- endif -%}
+              <span class="fe-plan-price-row">
+                <span class="fe-plan-price" data-plan-price="quarterly">{{ block.settings.quarterly_price }}</span>
+                <span class="fe-plan-period">{{ block.settings.quarterly_period }}</span>
+              </span>
+              <span class="fe-plan-was" data-plan-was="quarterly">{{ block.settings.quarterly_was }}</span>
+              {%- if quarterly_list.size > 0 -%}
+                <span class="fe-plan-list">
+                  {%- for li in quarterly_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
+                </span>
+              {%- endif -%}
+            </label>
+
+            {%- if show_monthly or show_onetime -%}
+              <hr class="fe-plans-divider" aria-hidden="true">
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- if show_monthly or show_onetime -%}
+          <div class="fe-plans-subs">
+            {%- if show_onetime -%}
+            <label class="fe-plan" data-plan="onetime">
               <input type="radio" name="fe-plan-{{ sid }}" value="onetime">
               <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               {%- if block.settings.onetime_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--onetime">{{ block.settings.onetime_badge }}</span>{%- endif -%}
@@ -168,14 +247,8 @@
                 </span>
               {%- endif -%}
             </label>
-
-            {%- if show_monthly or show_quarterly -%}
-              <hr class="fe-plans-divider" aria-hidden="true">
             {%- endif -%}
-          {%- endif -%}
 
-          {%- if show_monthly or show_quarterly -%}
-          <div class="fe-plans-subs">
             {%- if show_monthly -%}
               <label class="fe-plan" data-plan="monthly">
                 <input type="radio" name="fe-plan-{{ sid }}" value="monthly">
@@ -198,27 +271,6 @@
               </label>
             {%- endif -%}
 
-            {%- if show_quarterly -%}
-              <label class="fe-plan" data-plan="quarterly">
-                <input type="radio" name="fe-plan-{{ sid }}" value="quarterly">
-                <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                {%- if block.settings.quarterly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--quarterly">{{ block.settings.quarterly_badge }}</span>{%- endif -%}
-                <span class="fe-plan-title">
-                  {%- for line in quarterly_title_lines -%}{%- assign lt = line | strip -%}{%- if lt != blank -%}<span class="fe-plan-title-line">{{ lt }}</span>{%- endif -%}{%- endfor -%}
-                </span>
-                {%- if block.settings.quarterly_desc != blank -%}<span class="fe-plan-desc">{{ block.settings.quarterly_desc }}</span>{%- endif -%}
-                <span class="fe-plan-price-row">
-                  <span class="fe-plan-price" data-plan-price="quarterly">{{ block.settings.quarterly_price }}</span>
-                  <span class="fe-plan-period">{{ block.settings.quarterly_period }}</span>
-                </span>
-                <span class="fe-plan-was" data-plan-was="quarterly">{{ block.settings.quarterly_was }}</span>
-                {%- if quarterly_list.size > 0 -%}
-                  <span class="fe-plan-list">
-                    {%- for li in quarterly_list -%}{%- assign lt = li | strip -%}{%- if lt != blank -%}<span class="fe-plan-li"><span class="fe-li-check" aria-hidden="true">✓</span>{{ lt }}</span>{%- endif -%}{%- endfor -%}
-                  </span>
-                {%- endif -%}
-              </label>
-            {%- endif -%}
           </div>
           {%- endif -%}
         </div>
@@ -266,7 +318,8 @@
         {%- else -%}
           <div class="fe-build-view fe-build-view--monthly" data-build-view="monthly">
             <div class="fe-fcards" data-config="monthly">
-              {%- for fb in function_blocks -%}
+              {%- for fb in block.blocks -%}
+                {%- unless fb.type == '_ftd-ps-function' or fb.type == 'ftd-ps-function' -%}{%- continue -%}{%- endunless -%}
                 {%- if fb.settings.enabled -%}
                   {%- render 'fortified-fn-card', card_block: fb, config: 'monthly', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
                 {%- endif -%}
@@ -311,13 +364,14 @@
         {%- endif -%}
 
         {%- comment %} Quarterly: function-card grid if functions are configured, else simplified flavor picker per pouch using the configured / page product {%- endcomment %}
-        {%- if function_blocks.size > 0 -%}
+        {%- if fn_count > 0 -%}
           <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
             {%- for i in (1..bundle_count) -%}
               <div class="fe-pouch">
                 <p class="fe-pouch-title">{{ block.settings.unit_label_prefix | default: 'Pouch' }} {{ i }}</p>
                 <div class="fe-fcards" data-config="q{{ i }}">
-                  {%- for fb in function_blocks -%}
+                  {%- for fb in block.blocks -%}
+                    {%- unless fb.type == '_ftd-ps-function' or fb.type == 'ftd-ps-function' -%}{%- continue -%}{%- endunless -%}
                     {%- if fb.settings.enabled -%}
                       {%- render 'fortified-fn-card', card_block: fb, config: 'q', flavor_label: flavor_label, coming_soon_text: coming_soon_txt -%}
                     {%- endif -%}
@@ -493,7 +547,7 @@
 #fe-{{ sid }} .fe-rating { display: inline-flex; align-items: center; gap: 0.4rem; }
 #fe-{{ sid }} .fe-rating--panel { margin-bottom: 0.25rem; }
 #fe-{{ sid }} .fe-stars { display: inline-flex; }
-#fe-{{ sid }} .fe-star { color: rgb(var(--color-foreground-rgb) / 0.2); font-size: 0.85rem; line-height: 1; }
+#fe-{{ sid }} .fe-star { color: rgb(var(--color-foreground-rgb) / 0.2); font-size: var(--ftd-small-size); line-height: 1; }
 #fe-{{ sid }} .fe-star.is-on { color: var(--fe-star-color, #F5A623); }
 #fe-{{ sid }} .fe-rating-text { font-size: var(--ftd-small-size); font-weight: 700; color: var(--color-foreground); }
 #fe-{{ sid }} .fe-rating-count { font-weight: 400; opacity: 0.7; text-decoration: underline; }
@@ -526,6 +580,16 @@
 #fe-{{ sid }} .fe-plans-subs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; }
 @media (max-width: 480px) { #fe-{{ sid }} .fe-plans-subs { grid-template-columns: 1fr; } }
 #fe-{{ sid }} .fe-plans-divider { border: 0; border-top: 2px dotted rgb(var(--color-foreground-rgb) / 0.28); margin: 0.25rem 0; height: 0; }
+/* Hero plan: the primary offer sits above the divider and reads bigger than
+   the secondary row — roomier padding, larger title and price. */
+#fe-{{ sid }} .fe-plan--hero { padding: 1.35rem 1.15rem; border-top-width: 6px; }
+#fe-{{ sid }} .fe-plan--hero .fe-plan-title-line { font-size: calc(var(--ftd-sub-size) * 1.2); }
+#fe-{{ sid }} .fe-plan--hero .fe-plan-price { font-size: 1.7rem; }
+#fe-{{ sid }} .fe-plan--hero .fe-plan-badge { font-size: 0.68rem; }
+@media (max-width: 480px) {
+  #fe-{{ sid }} .fe-plan--hero { padding: 1.15rem 1rem; }
+  #fe-{{ sid }} .fe-plan--hero .fe-plan-price { font-size: 1.5rem; }
+}
 #fe-{{ sid }} .fe-plan {
   position: relative; display: flex; flex-direction: column; gap: 0.35rem;
   padding: 1rem 0.9rem; cursor: pointer;
@@ -556,7 +620,7 @@
 #fe-{{ sid }} .fe-plan-badge--quarterly { color: var(--fe-quarterly-badge, #E8833A); }
 #fe-{{ sid }} .fe-plan-badge--onetime { color: var(--fe-onetime-badge, #6B7280); }
 #fe-{{ sid }} .fe-plan-title { display: flex; flex-direction: column; line-height: 1.15; }
-#fe-{{ sid }} .fe-plan-title-line { font-size: 1.05rem; font-weight: 800; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-plan-title-line { font-size: var(--ftd-sub-size); font-weight: 800; color: var(--color-foreground); }
 #fe-{{ sid }} .fe-plan-desc { font-size: 0.72rem; opacity: 0.6; color: var(--color-foreground); line-height: 1.35; }
 #fe-{{ sid }} .fe-plan-price-row { display: flex; align-items: baseline; gap: 0.3rem; margin-top: 0.35rem; }
 #fe-{{ sid }} .fe-plan-price { font-size: 1.25rem; font-weight: 800; color: var(--color-foreground); }
@@ -574,7 +638,7 @@
 #fe-{{ sid }} .fe-build-view { display: none; }
 #fe-{{ sid }} .fe-build-view.is-active { display: block; }
 #fe-{{ sid }} .fe-pouch + .fe-pouch { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.1); }
-#fe-{{ sid }} .fe-pouch-title { margin: 0 0 0.75rem; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.04em; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-pouch-title { margin: 0 0 0.75rem; font-size: var(--ftd-small-size); font-weight: 800; letter-spacing: 0.04em; color: var(--color-foreground); }
 #fe-{{ sid }} .fe-fcards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 @media (max-width: 480px) { #fe-{{ sid }} .fe-fcards { grid-template-columns: 1fr; } }
 
@@ -592,8 +656,8 @@
 #fe-{{ sid }} .fe-onetime-media { width: 96px; flex-shrink: 0; }
 #fe-{{ sid }} .fe-onetime-media img { width: 100%; height: auto; border-radius: 8px; display: block; object-fit: cover; aspect-ratio: 1 / 1; }
 #fe-{{ sid }} .fe-onetime-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.5rem; }
-#fe-{{ sid }} .fe-onetime-name { margin: 0; font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-foreground); }
-#fe-{{ sid }} .fe-onetime-desc { margin: 0; font-size: 0.78rem; line-height: 1.4; opacity: 0.7; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-onetime-name { margin: 0; font-size: var(--ftd-body-size); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-onetime-desc { margin: 0; font-size: var(--ftd-small-size); line-height: 1.4; opacity: 0.7; color: var(--color-foreground); }
 
 /* ── Function card ── */
 #fe-{{ sid }} .fe-fcard {
@@ -609,7 +673,7 @@
 #fe-{{ sid }} .fe-fcard[data-coming-soon] { opacity: 0.5; cursor: not-allowed; }
 #fe-{{ sid }} .fe-fcard-media { position: relative; aspect-ratio: 4 / 3; background: rgb(var(--color-foreground-rgb) / 0.04); display: flex; align-items: center; justify-content: center; }
 #fe-{{ sid }} .fe-fcard-media img { width: 100%; height: 100%; object-fit: contain; }
-#fe-{{ sid }} .fe-fcard-ph { color: rgb(var(--color-foreground-rgb) / 0.3); font-size: 0.8rem; padding: 0.5rem; text-align: center; }
+#fe-{{ sid }} .fe-fcard-ph { color: rgb(var(--color-foreground-rgb) / 0.3); font-size: var(--ftd-small-size); padding: 0.5rem; text-align: center; }
 #fe-{{ sid }} .fe-fcard-tick {
   position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center; color: #fff;
@@ -618,7 +682,7 @@
 }
 #fe-{{ sid }} .fe-fcard.is-active .fe-fcard-tick { opacity: 1; transform: scale(1); }
 #fe-{{ sid }} .fe-fcard-body { padding: 0.7rem 0.75rem; display: flex; flex-direction: column; gap: 0.45rem; }
-#fe-{{ sid }} .fe-fcard-name { margin: 0; font-size: 0.92rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-foreground); display: flex; align-items: center; gap: 0.4rem; }
+#fe-{{ sid }} .fe-fcard-name { margin: 0; font-size: var(--ftd-body-size); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-foreground); display: flex; align-items: center; gap: 0.4rem; }
 #fe-{{ sid }} .fe-fcard-specs { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 #fe-{{ sid }} .fe-spec { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; padding: 0.2em 0.45em; border-radius: 4px; border: 1px solid var(--fe-selection-color, var(--color-primary-button-background)); color: var(--fe-selection-color, var(--color-primary-button-background)); }
 #fe-{{ sid }} .fe-fcard-desc { margin: 0; font-size: 0.7rem; line-height: 1.4; opacity: 0.6; color: var(--color-foreground); }
@@ -643,7 +707,7 @@
   display: flex; align-items: center; gap: 0.5rem; width: 100%; cursor: pointer; text-align: left;
   padding: 0.45rem 0.6rem; border-radius: 8px; background: transparent;
   border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.18); color: var(--color-foreground);
-  font-size: 0.78rem; font-weight: 700; transition: border-color 0.15s, background 0.15s;
+  font-size: var(--ftd-small-size); font-weight: 700; transition: border-color 0.15s, background 0.15s;
 }
 #fe-{{ sid }} .fe-flavor-opt:hover { border-color: rgb(var(--color-foreground-rgb) / 0.4); }
 #fe-{{ sid }} .fe-flavor-opt.is-active { border-color: var(--fe-selection-color, var(--color-primary-button-background)); background: color-mix(in srgb, var(--fe-selection-color, var(--color-primary-button-background)) 8%, transparent); }
@@ -671,7 +735,7 @@
 #fe-{{ sid }} .fe-cr-promo-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #fe-{{ sid }} .fe-cr-promo-text { display: flex; flex-direction: column; gap: 0.18rem; min-width: 0; }
 #fe-{{ sid }} .fe-cr-promo-badge { display: inline-flex; align-self: flex-start; align-items: center; padding: 0.12rem 0.45rem; border-radius: 4px; font-size: 0.58rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; background: var(--fe-selection-color, var(--color-primary-button-background)); color: #fff; }
-#fe-{{ sid }} .fe-cr-promo-title { font-size: 0.92rem; font-weight: 800; color: var(--color-foreground); line-height: 1.2; }
+#fe-{{ sid }} .fe-cr-promo-title { font-size: var(--ftd-body-size); font-weight: 800; color: var(--color-foreground); line-height: 1.2; }
 #fe-{{ sid }} .fe-cr-promo-desc { font-size: 0.74rem; line-height: 1.4; color: var(--color-foreground); opacity: 0.7; }
 #fe-{{ sid }} .fe-cr-promo-check { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #fff; background: var(--fe-selection-color, var(--color-primary-button-background)); flex-shrink: 0; }
 #fe-{{ sid }} .fe-cr-tick { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; font-size: 0.7rem; font-weight: 800; background: var(--fe-selection-color, var(--color-primary-button-background)); color: var(--color-primary-button-text); }
@@ -692,12 +756,12 @@
 #fe-{{ sid }} .fe-cr-card input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
 #fe-{{ sid }} .fe-cr-media { flex-shrink: 0; width: 48px; height: 48px; border-radius: 8px; overflow: hidden; background: rgb(var(--color-foreground-rgb) / 0.06); display: inline-flex; align-items: center; justify-content: center; }
 #fe-{{ sid }} .fe-cr-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-#fe-{{ sid }} .fe-cr-ph { font-size: 0.85rem; font-weight: 800; color: rgb(var(--color-foreground-rgb) / 0.5); }
+#fe-{{ sid }} .fe-cr-ph { font-size: var(--ftd-small-size); font-weight: 800; color: rgb(var(--color-foreground-rgb) / 0.5); }
 #fe-{{ sid }} .fe-cr-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
-#fe-{{ sid }} .fe-cr-title { font-size: 0.88rem; font-weight: 800; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-cr-title { font-size: var(--ftd-small-size); font-weight: 800; color: var(--color-foreground); }
 #fe-{{ sid }} .fe-cr-desc { font-size: 0.72rem; opacity: 0.6; color: var(--color-foreground); line-height: 1.35; }
 #fe-{{ sid }} .fe-cr-pricing { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
-#fe-{{ sid }} .fe-cr-now { font-size: 0.95rem; font-weight: 800; color: var(--color-foreground); }
+#fe-{{ sid }} .fe-cr-now { font-size: var(--ftd-body-size); font-weight: 800; color: var(--color-foreground); }
 #fe-{{ sid }} .fe-cr-was { font-size: 0.7rem; opacity: 0.5; color: var(--color-foreground); text-decoration: line-through; }
 #fe-{{ sid }} .fe-cr-switch { flex-shrink: 0; width: 48px; height: 27px; border-radius: 9999px; background: rgb(var(--color-foreground-rgb) / 0.45); border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.55); position: relative; transition: background 0.18s, border-color 0.18s; }
 #fe-{{ sid }} .fe-cr-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 19px; height: 19px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.35); transition: transform 0.18s; }
@@ -719,7 +783,7 @@
 #fe-{{ sid }} .fe-ov-line-price { flex-shrink: 0; font-weight: 700; white-space: nowrap; }
 #fe-{{ sid }} .fe-ov-line-price.is-free { color: var(--fe-selection-color, var(--color-primary-button-background)); }
 #fe-{{ sid }} .fe-ov-total { display: flex; align-items: baseline; justify-content: space-between; padding-top: 0.6rem; border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12); font-size: var(--ftd-small-size); font-weight: 700; color: var(--color-foreground); }
-#fe-{{ sid }} .fe-ov-total-val { font-size: 1.05rem; font-weight: 800; }
+#fe-{{ sid }} .fe-ov-total-val { font-size: var(--ftd-sub-size); font-weight: 800; }
 #fe-{{ sid }} .fe-ov-note { margin: 0.5rem 0 0; font-size: 0.68rem; opacity: 0.5; color: var(--color-foreground); }
 
 /* ── Quantity + ATC ── */
@@ -742,7 +806,7 @@
 #fe-{{ sid }} .fe-atc-btn.is-loading .fe-atc-loading { display: block; }
 #fe-{{ sid }} .fe-atc-btn.is-loading .fe-atc-label, #fe-{{ sid }} .fe-atc-btn.is-loading .fe-atc-total { opacity: 0.4; }
 @keyframes fe-spin { to { transform: rotate(360deg); } }
-#fe-{{ sid }} .fe-onetime { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; background: none; border: none; padding: 0.15rem; cursor: pointer; font-size: 0.82rem; color: rgb(var(--color-foreground-rgb) / 0.7); font-family: inherit; }
+#fe-{{ sid }} .fe-onetime { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; background: none; border: none; padding: 0.15rem; cursor: pointer; font-size: var(--ftd-small-size); color: rgb(var(--color-foreground-rgb) / 0.7); font-family: inherit; }
 #fe-{{ sid }} .fe-onetime:not([data-static="true"]) .fe-onetime-price { text-decoration: underline; text-underline-offset: 2px; }
 #fe-{{ sid }} .fe-onetime[data-static="true"] { cursor: default; }
 #fe-{{ sid }} .fe-onetime-price { font-weight: 700; color: var(--color-foreground); }
@@ -752,7 +816,7 @@
 /* ── Quantity selector (visible when one-time is selected) ── */
 #fe-{{ sid }} .fe-qty-group { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 #fe-{{ sid }} .fe-qty-group[hidden] { display: none !important; }
-#fe-{{ sid }} .fe-qty-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.65; }
+#fe-{{ sid }} .fe-qty-label { font-size: var(--ftd-small-size); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.65; }
 #fe-{{ sid }} .fe-qty-stepper { display: inline-flex; align-items: stretch; border: 1.5px solid rgb(var(--color-foreground-rgb) / 0.18); border-radius: 8px; overflow: hidden; }
 #fe-{{ sid }} .fe-qty-btn { width: 38px; height: 38px; background: transparent; border: 0; cursor: pointer; font-size: 18px; font-weight: 700; color: inherit; }
 #fe-{{ sid }} .fe-qty-btn:hover:not([disabled]) { background: rgb(var(--color-foreground-rgb) / 0.06); }
@@ -786,7 +850,7 @@
   }
   #fe-stickybar-{{ sid }} .fe-stickybar-info { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
   #fe-stickybar-{{ sid }} .fe-stickybar-counter { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.65; color: var(--color-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #fe-stickybar-{{ sid }} .fe-stickybar-total { font-size: 1.05rem; font-weight: 800; color: var(--color-foreground); line-height: 1.1; }
+  #fe-stickybar-{{ sid }} .fe-stickybar-total { font-size: var(--ftd-sub-size); font-weight: 800; color: var(--color-foreground); line-height: 1.1; }
   #fe-stickybar-{{ sid }} .fe-stickybar-total:empty::before { content: attr(data-empty); font-size: var(--ftd-small-size); font-weight: 700; opacity: 0.6; }
   #fe-stickybar-{{ sid }} .fe-stickybar-btn {
     flex: 0 0 auto; min-width: 46%;
@@ -833,7 +897,7 @@
   var PLAN_LABEL_Q = {{ block.settings.quarterly_label | default: '3 Every 3 Months' | json }};
   var PLAN_LABEL_OT = {{ block.settings.onetime_card_label | default: 'One Time' | json }};
   var ONETIME_HANDLE = {{ onetime_handle | json }};
-  var FUNCTION_BLOCKS_COUNT = {{ function_blocks.size | json }};
+  var FUNCTION_BLOCKS_COUNT = {{ fn_count | json }};
   var SIMPLE_SUBS = {{ block.settings.simplified_for_subs | json }} && !!ONETIME_HANDLE;
   var SIMPLE_SUBS_Q = !!ONETIME_HANDLE && FUNCTION_BLOCKS_COUNT === 0;
   var SIMPLE_SUBS_PLAN_M = {{ block.settings.simple_plan_monthly | json }};
@@ -1061,8 +1125,11 @@
         var thumb = l.thumb ? '<img class="fe-ov-thumb" src="' + l.thumb + '" alt="">' : '<span class="fe-ov-thumb"></span>';
         html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + thumb + '<span class="fe-ov-line-txt">' + esc(l.name || ('Pouch ' + (i + 1))) + (l.sub ? '<span class="fe-ov-line-sub">' + esc(l.sub) + '</span>' : '') + '</span></span><span class="fe-ov-line-price">' + formatMoney(l.price * qty) + '</span></li>';
       });
-      /* "1st included free" creatine row — quarterly bundles only. */
-      if (state.purchaseType === 'quarterly') {
+      /* "1st included free" creatine row — quarterly bundles only, and only
+         once the bundle actually has pouches in it. It's granted by the
+         bundle, so listing it against an empty bundle reads as if creatine
+         were the product being sold. */
+      if (state.purchaseType === 'quarterly' && lines.length > 0) {
         var crThumbFree = ADDON_IMG_URL ? '<img class="fe-ov-thumb" src="' + ADDON_IMG_URL + '" alt="">' : '<span class="fe-ov-thumb"></span>';
         html += '<li class="fe-ov-line"><span class="fe-ov-line-name">' + crThumbFree + '<span class="fe-ov-line-txt">Creatine<span class="fe-ov-line-sub">1st included free</span></span></span><span class="fe-ov-line-price is-free">FREE</span></li>';
       }
@@ -1221,6 +1288,52 @@
       applyPurchaseType(radio.value);
     });
   });
+
+  /* Seed the quarterly pouches so the pre-selected bundle opens as a
+     complete order: every pouch starts on the product whose page this is,
+     and the customer swaps whichever ones they want. Without this the
+     bundle starts with zero pouches chosen, and since the "1st creatine
+     included free" row renders for any quarterly selection, creatine would
+     be the only line in the summary on a hydration PDP. */
+  function seedQuarterlyDefaults() {
+    if (!quarterlyView) return;
+    for (var qs = 1; qs <= BUNDLE_COUNT; qs++) {
+      var cfg = 'q' + qs;
+      var slot = slots[cfg];
+      var wrap = root.querySelector('.fe-fcards[data-config="' + cfg + '"]');
+      if (!slot || slot.functionId || !wrap) continue;
+      var cards = wrap.querySelectorAll('.fe-fcard:not([data-coming-soon])');
+      if (!cards.length) continue;
+      var pick = null;
+      if (ONETIME_HANDLE) {
+        for (var ci = 0; ci < cards.length; ci++) {
+          if (cards[ci].dataset.productHandle === ONETIME_HANDLE) { pick = cards[ci]; break; }
+        }
+      }
+      if (!pick) pick = cards[0];
+      selectFunction(pick, false);
+      var firstFlavor = pick.querySelector('.fe-flavor-opt');
+      if (firstFlavor) {
+        pick.querySelectorAll('.fe-flavor-opt').forEach(function (b) {
+          b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false');
+        });
+        firstFlavor.classList.add('is-active');
+        firstFlavor.setAttribute('aria-pressed', 'true');
+        slot.flavorName = firstFlavor.dataset.flavorName;
+      }
+    }
+  }
+
+  /* The quarterly bundle ships pre-checked in the markup, so reflect that
+     selection on load — otherwise the card renders ticked while the build
+     step stays locked and no plan is applied. */
+  var preselected = root.querySelector('input[name="fe-plan-' + SID + '"]:checked');
+  if (preselected) {
+    var preLabel = preselected.closest('.fe-plan');
+    if (preLabel) preLabel.classList.add('is-active');
+    if (preselected.value === 'quarterly') seedQuarterlyDefaults();
+    applyPurchaseType(preselected.value);
+  }
 
   /* Select a function card for a config slot. Free switching: clicking
      any card activates it and clears the previously-selected card's
