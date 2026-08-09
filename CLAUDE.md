@@ -26,6 +26,14 @@ Rules:
 - JSON templates: parse (strip the leading `/* ... */` header first).
 - Liquid: check `{% schema %}` JSON parses and liquid tag pairs balance.
 
+## Parked work
+
+- `docs/blog-post-structured-data.md` — full spec for BlogPosting + FAQPage
+  JSON-LD on `sections/main-blog-post.liquid`. Deliberately NOT implemented:
+  waiting on the first published blog post. Implement when an article goes live
+  on the `news` blog. Note the FAQ schema must not ship without the FAQs also
+  being rendered visibly on the page.
+
 ## Store context
 
 - Old store (livefortified.com, CDN prefix 0612/2425/5547) is being retired;
