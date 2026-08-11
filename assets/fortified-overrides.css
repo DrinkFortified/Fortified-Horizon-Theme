@@ -245,3 +245,43 @@ button.shopify-payment-button__button--unbranded:hover {
 #header-component .header__column--right header-menu {
   min-width: 0;
 }
+
+/* ---- Cart icon: neutralise the bubble mask ----
+ * cart-icon.js toggles .header-actions__cart-icon--has-cart on connect and on
+ * every cart update — i.e. after first paint, and only when the cart has
+ * items. That class is the one thing in the theme that masks the icon:
+ *
+ *   mask: radial-gradient(calc(var(--cart-bubble-size) + 2px) at
+ *         calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
+ *         transparent 45.45%, #fff 45.45%, #fff 100%);
+ *
+ * It is meant to punch a small transparent hole where the count bubble sits.
+ * On a 22px icon that hole is large relative to the glyph, and the icon
+ * renders correctly and then vanishes a frame later — which is the reported
+ * symptom, and it only reproduces with a non-empty cart.
+ *
+ * Drop the mask and let the bubble sit on top. The cost is cosmetic: no
+ * cut-out ring behind the bubble. */
+#header-component .header-actions__cart-icon.header-actions__cart-icon--has-cart svg {
+  mask: none;
+  -webkit-mask: none;
+}
+
+/* Belt and braces while this is being confirmed: the icon must occupy space
+ * and be painted regardless of variable resolution or element upgrade. */
+#header-component .header-actions__cart-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--icon-size-md, 1.375rem);
+  min-height: var(--icon-size-md, 1.375rem);
+}
+
+#header-component .header-actions__cart-icon svg {
+  display: block;
+  width: var(--icon-size-md, 1.375rem);
+  height: var(--icon-size-md, 1.375rem);
+  color: var(--color-foreground);
+  opacity: 1;
+  visibility: visible;
+}
