@@ -1,5 +1,3 @@
-
-
 {% liquid
   assign order = 'logo,menu,localization,search,drawer_search,actions'
 
@@ -308,15 +306,6 @@
   {% endif %}
   data-skip-node-update
   data-scroll-direction="none"
-  {% if section.settings.desktop_menu_style == 'drawer' %}
-    {%- comment -%}
-      Hamburger at every width. data-menu-style is normally set by JS on the
-      next frame; emitting it here too means the drawer layout is correct in
-      the first paint instead of flashing the inline menu.
-    {%- endcomment -%}
-    data-desktop-menu-style="drawer"
-    data-menu-style="drawer"
-  {% endif %}
   {% if section.settings.menu_row == 'top' and bottom_row_blocks.size > 0 %}
     data-submenu-overlap-bottom-row
   {% endif %}
@@ -454,30 +443,6 @@
 
   #header-component[data-menu-style='drawer'] .header__column {
     display: contents;
-  }
-
-  /* Forced hamburger on desktop. The drawer grid is the mobile one, which
-     goes edge-to-edge on purpose; above the mobile breakpoint the row's own
-     page-width padding should govern instead, and the columns can breathe. */
-  @media screen and (min-width: 750px) {
-    #header-component[data-desktop-menu-style='drawer'] .header__columns {
-      padding-inline: 0;
-      column-gap: var(--gap-md, 1rem);
-
-      /* The drawer grid is the mobile one, where the right-hand tracks are
-         44px bookends sized for a single icon. header-actions holds the CTA,
-         the account control AND the cart icon, so at desktop widths those
-         tracks have to size to their content or the cart icon gets clipped
-         out of the bar. */
-      --header-template-columns: var(--header-mobile-bookend) var(--header-mobile-bookend) 1fr auto auto;
-    }
-
-    #header-component[data-desktop-menu-style='drawer'] header-actions {
-      display: flex;
-      align-items: center;
-      gap: var(--gap-sm, 0.75rem);
-      justify-content: flex-end;
-    }
   }
 
   @media screen and (min-width: 750px) {
@@ -763,20 +728,6 @@
     .overflow-menu::part(list) {
       justify-content: flex-end;
     }
-
-    /* The menu and the actions share this flex row. The menu is the element
-       that is meant to give way — it has an overflow-list that collapses items
-       into "More" — while the actions are fixed-size icons. Without these the
-       nav consumes the row and the cart icon, being last, is pushed past the
-       viewport edge and simply disappears. Upstream Horizon has no CTA in this
-       row, so it never had to survive this much content. */
-    header-actions {
-      flex-shrink: 0;
-    }
-
-    header-menu {
-      min-width: 0;
-    }
   }
 
   .header__columns {
@@ -938,73 +889,6 @@
   .header-actions__action:not(.account-button) svg {
     width: var(--icon-size-md);
     height: var(--icon-size-md);
-  }
-
-  /* Cart icon fallbacks.
-     The two rules above size this icon entirely through CSS variables, and the
-     account button is excluded from them by :not(.account-button) — so if a
-     variable fails to resolve, or <cart-icon> never upgrades and stays an
-     unsized inline element, the cart collapses to nothing while the account
-     icon beside it still renders. That is exactly the symptom seen here, and
-     every input checked out as stock, so pin concrete fallbacks rather than
-     rely on the cascade. Real values still win: the var() is tried first and
-     the literal is only the fallback. */
-  #header-component .header-actions__cart-icon,
-  #header-component cart-drawer-component,
-  #header-component .action__cart {
-    display: inline-flex;
-    align-items: center;
-  }
-
-  #header-component .header-actions__cart-icon .svg-wrapper {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--button-size, 44px);
-    height: var(--button-size, 44px);
-  }
-
-  #header-component .header-actions__cart-icon svg {
-    width: var(--icon-size-md, 1.375rem);
-    height: var(--icon-size-md, 1.375rem);
-    color: var(--color-foreground);
-    stroke-width: var(--icon-stroke-width, 1px);
-  }
-
-  /* Header CTA pill — sits left of the account/cart icons, opens the
-     FTD product-selector slide-over when its href matches the trigger.
-     Explicit color/background overrides because .header-actions__action
-     above resets --button-color to var(--color-foreground), which would
-     otherwise blend the label into the button bg. */
-  .header-actions__cta {
-    padding-block: 0.55rem;
-    padding-inline: 1rem;
-    font-size: 0.85rem;
-    line-height: 1;
-    white-space: nowrap;
-    align-self: center;
-    margin-inline-end: var(--gap-sm, 8px);
-    text-decoration: none;
-    border: 0;
-    border-radius: var(--style-border-radius-buttons-primary, 999px);
-  }
-  .header-actions__cta.button {
-    --button-color: var(--color-primary-button-text);
-    --button-background-color: var(--color-primary-button-background);
-    color: var(--color-primary-button-text);
-    background: var(--color-primary-button-background);
-  }
-  .header-actions__cta.button-secondary {
-    --button-color: var(--color-secondary-button-text);
-    --button-background-color: var(--color-secondary-button-background);
-    color: var(--color-secondary-button-text);
-    background: var(--color-secondary-button-background);
-    box-shadow: inset 0 0 0 var(--style-border-width-secondary, 1px) var(--color-secondary-button-border, currentColor);
-    border-radius: var(--style-border-radius-buttons-secondary, 999px);
-  }
-  .header-actions__cta:hover { text-decoration: none; opacity: 0.92; }
-  @media (max-width: 749px) {
-    .header-actions__cta { display: none; }
   }
 
   .header:has(#Details-menu-drawer-container[open]) {
@@ -1271,23 +1155,6 @@
     {
       "type": "header",
       "content": "t:content.menu"
-    },
-    {
-      "type": "select",
-      "id": "desktop_menu_style",
-      "label": "Menu style",
-      "info": "Hamburger shows the drawer menu at every screen size, with the toggle on the left.",
-      "options": [
-        {
-          "value": "auto",
-          "label": "Inline links (hamburger on small screens)"
-        },
-        {
-          "value": "drawer",
-          "label": "Hamburger at all sizes"
-        }
-      ],
-      "default": "auto"
     },
     {
       "type": "select",
@@ -1674,45 +1541,6 @@
       ],
       "default": "none",
       "visible_if": "{{ section.settings.actions_display_style == 'text' }}"
-    },
-    {
-      "type": "checkbox",
-      "id": "cta_button_show",
-      "label": "Show CTA button",
-      "default": true,
-      "info": "Adds a pill button to the right of the menu, before the account/cart icons."
-    },
-    {
-      "type": "text",
-      "id": "cta_button_label",
-      "label": "CTA button label",
-      "default": "Build Your Bundle",
-      "visible_if": "{{ section.settings.cta_button_show }}"
-    },
-    {
-      "type": "text",
-      "id": "cta_button_link",
-      "label": "CTA button link",
-      "default": "#open-bundle",
-      "info": "Use #open-bundle to open the FTD product-selector slide-over (block must exist on the page), or paste any URL.",
-      "visible_if": "{{ section.settings.cta_button_show }}"
-    },
-    {
-      "type": "select",
-      "id": "cta_button_style",
-      "label": "CTA button style",
-      "default": "primary",
-      "options": [
-        {
-          "value": "primary",
-          "label": "Filled"
-        },
-        {
-          "value": "secondary",
-          "label": "Outline"
-        }
-      ],
-      "visible_if": "{{ section.settings.cta_button_show }}"
     },
     {
       "type": "header",

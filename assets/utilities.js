@@ -706,13 +706,6 @@ export function setHeaderMenuStyle() {
   const headerComponent = /** @type {HTMLElement} | null */ (document.querySelector('#header-component'));
   if (headerComponent) {
     window.requestAnimationFrame(() => {
-      // Opted into the hamburger at every width, so skip the width/touch
-      // detection entirely — otherwise this would flip back to the inline
-      // menu on the first resize or re-render.
-      if (headerComponent.dataset.desktopMenuStyle === 'drawer') {
-        headerComponent.dataset.menuStyle = 'drawer';
-        return;
-      }
       const overflowList = headerComponent?.querySelector('overflow-list');
       const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
       headerComponent.dataset.menuStyle = isTouchDevice() || hasReachedMinimum ? 'drawer' : 'menu';

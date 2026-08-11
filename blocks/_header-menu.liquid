@@ -1,4 +1,3 @@
-
 {%- doc -%}
   Renders a header menu block.
 
@@ -18,12 +17,7 @@
       data-hydration-key="header-drawer-mobile"
       {{ block.shopify_attributes }}
     >
-      {% render 'header-drawer',
-        linklist: block_settings.menu,
-        data_header_drawer_type: 'mobile-drawer',
-        block: block,
-        section: section
-      %}
+      {% render 'header-drawer', linklist: block_settings.menu, data_header_drawer_type: 'mobile-drawer', block: block, section: section %}
     </div>
 
   {% when 'navigation_bar' %}
