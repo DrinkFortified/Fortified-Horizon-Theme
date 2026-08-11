@@ -463,6 +463,20 @@
     #header-component[data-desktop-menu-style='drawer'] .header__columns {
       padding-inline: 0;
       column-gap: var(--gap-md, 1rem);
+
+      /* The drawer grid is the mobile one, where the right-hand tracks are
+         44px bookends sized for a single icon. header-actions holds the CTA,
+         the account control AND the cart icon, so at desktop widths those
+         tracks have to size to their content or the cart icon gets clipped
+         out of the bar. */
+      --header-template-columns: var(--header-mobile-bookend) var(--header-mobile-bookend) 1fr auto auto;
+    }
+
+    #header-component[data-desktop-menu-style='drawer'] header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--gap-sm, 0.75rem);
+      justify-content: flex-end;
     }
   }
 
