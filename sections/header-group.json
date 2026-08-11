@@ -54,7 +54,7 @@
         "menu_position": "right",
         "menu_row": "top",
         "customer_account_menu": "",
-        "show_search": false,
+        "show_search": true,
         "search_position": "right",
         "search_row": "top",
         "show_country": false,
