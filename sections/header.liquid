@@ -763,6 +763,20 @@
     .overflow-menu::part(list) {
       justify-content: flex-end;
     }
+
+    /* The menu and the actions share this flex row. The menu is the element
+       that is meant to give way — it has an overflow-list that collapses items
+       into "More" — while the actions are fixed-size icons. Without these the
+       nav consumes the row and the cart icon, being last, is pushed past the
+       viewport edge and simply disappears. Upstream Horizon has no CTA in this
+       row, so it never had to survive this much content. */
+    header-actions {
+      flex-shrink: 0;
+    }
+
+    header-menu {
+      min-width: 0;
+    }
   }
 
   .header__columns {
