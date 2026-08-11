@@ -191,3 +191,30 @@ document.addEventListener(
   },
   { capture: true }
 );
+
+/**
+ * Clears a stale scroll lock.
+ *
+ * `html[scroll-lock]` sets `overflow: hidden`, and it is only ever removed by
+ * the toggle handler above firing on close. If a locking element is hidden or
+ * removed while still open — a menu drawer that stops being displayed when the
+ * header menu style changes, a dialog torn out by a section re-render — that
+ * close event never arrives and the whole site becomes unscrollable. The header
+ * drawer carries data-skip-node-update, so a stale lock survives navigation.
+ *
+ * Rather than guess at every path that can strand the attribute, verify it:
+ * if nothing is actually open, the lock is wrong and gets dropped.
+ */
+function releaseStaleScrollLock() {
+  if (!document.documentElement.hasAttribute('scroll-lock')) return;
+  const openDetails = document.querySelector('details[scroll-lock][open]');
+  if (openDetails) return;
+  const openDialog = document.querySelector('dialog[open]');
+  if (openDialog) return;
+  document.documentElement.removeAttribute('scroll-lock');
+}
+
+document.addEventListener('DOMContentLoaded', releaseStaleScrollLock);
+window.addEventListener('pageshow', releaseStaleScrollLock);
+// Menu-style switches and section re-renders can strand the lock after load.
+window.addEventListener('resize', releaseStaleScrollLock);
