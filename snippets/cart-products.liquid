@@ -121,15 +121,35 @@
             </tr>
           </thead>
 
-          <tbody class="LOOP_1q0i53-mc_bundles LOOP_t11ied-w6_bundles"  role="rowgroup">
+          {%- comment -%}
+            EXPERIMENT switch — 'liquid' groups bundles server-side (below),
+            'loop' restores Loop's client-side injection. Governs both the skip
+            inside the loop and the initLoopBundle call at the end of the file;
+            the two must always agree or bundle rows render twice.
+          {%- endcomment -%}
+          {% assign ftd_bundle_render = 'liquid' %}
+          <tbody
+            {% if ftd_bundle_render == 'loop' %}class="LOOP_1q0i53-mc_bundles LOOP_t11ied-w6_bundles"{% endif %}
+            role="rowgroup"
+          >
             {% assign ftd_rendered_bundle_ids = '' %}
             {% for item in cart.items %}
 {% comment %}
     LOOP SUBSCRIPTIONS (https://apps.shopify.com/loop-subscriptions)
-    DO NOT modify this source code because
-    It is automatically generated from LOOP SUBSCRIPTIONS BUNDLE DESIGN
-    If you need to make change, please contact the Loop support team
     LOOP BUNDLE CODE STARTS
+
+    EXPERIMENT — Loop's snippet skips every _bundleId line here so that
+    loop_bundle.js can inject its own rows client-side. That does not work in
+    Horizon: the cart re-renders server-side through cart-items-component, so
+    injected rows are wiped on every quantity change, and Loop's subtotal fix
+    targets `.totals__subtotal-value`, which this theme does not have — so
+    bundle discounts were never reflected in the cart total.
+
+    With ftd_bundle_render = 'liquid' the skip is disabled and the grouped
+    bundle row below renders server-side instead, which survives re-render and
+    lets Shopify compute the subtotal natively. Set 'loop' to restore Loop's
+    original behaviour; the block below is left byte-identical so it can be
+    handed back to Loop support unchanged.
 {% endcomment %}
     {% assign isBundleItem = false %}
     {%- for property in item.properties -%}
@@ -138,7 +158,7 @@
             {% break %}
         {% endif %}
     {%- endfor -%}
-    {% if isBundleItem == true %}
+    {% if isBundleItem == true and ftd_bundle_render == 'loop' %}
         {% continue %}
     {% endif %}
 {% comment %}
@@ -229,7 +249,17 @@
                     </div>
                   </td>
                   <td class="cart-items__quantity" role="cell" headers="quantity">
-                    <div class="cart-items__quantity-controls">
+                    <div class="cart-items__quantity-controls ftd-bundle-actions">
+                      {%- comment -%}
+                        _bundleId holds the Loop bundle transaction id, and Loop
+                        hosts an editor for it at /change/<id>. Linking there is
+                        what stops "edit" meaning "rebuild from scratch" — the
+                        customer opens their existing bundle already populated.
+                      {%- endcomment -%}
+                      <a
+                        class="ftd-bundle-edit"
+                        href="/a/loop_subscriptions/bundle/change/{{ ftd_item_bundle_id | url_encode }}"
+                      >{{ 'content.edit' | t | default: 'Edit' }}</a>
                       <button
                         class="button cart-items__remove"
                         type="button"
@@ -1068,6 +1098,20 @@
   .cart-items__bundle-row .cart-items__bundle {
     margin-block-start: var(--margin-2xs);
   }
+  /* Edit sits beside Remove so the bundle reads as one editable unit rather
+     than a row you can only delete. */
+  .ftd-bundle-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs, 0.5rem);
+  }
+  .ftd-bundle-edit {
+    font-size: var(--ftd-small-size, 0.8rem);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    color: var(--color-foreground);
+    white-space: nowrap;
+  }
 {% endstylesheet %}
 
 <script>
@@ -1089,22 +1133,53 @@
       if (!keys.length) return;
       btn.disabled = true;
       var updates = {};
-      keys.forEach(function (k) { updates[k] = 0; });
-      var sections = findSectionIds().join(',');
-      fetch('/cart/update.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ updates: updates, sections: sections, sections_url: window.location.pathname })
-      }).then(function (r) { return r.json(); }).then(function () {
+      /* Remove line by line through change.js rather than update.js. update.js
+         resolves its keys against variant ids, and the free creatine and the
+         discounted second creatine are the SAME variant on two lines — so a
+         removal keyed by line id is ambiguous there and can take the wrong
+         line. change.js addresses exactly one line by key. */
+      var chain = Promise.resolve();
+      keys.forEach(function (k) {
+        chain = chain.then(function () {
+          return fetch('/cart/change.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ id: k, quantity: 0 })
+          }).then(function (r) {
+            /* A cart endpoint that answers with HTML would otherwise blow up in
+               .json() as "Unexpected token '<'", which says nothing useful. */
+            return r.text().then(function (t) {
+              var body = null;
+              if (t) { try { body = JSON.parse(t); } catch (_) { body = null; } }
+              if (body === null && t) throw new Error('Cart request to /cart/change.js returned ' + r.status + ' (not JSON).');
+              if (!r.ok) throw new Error((body && (body.description || body.message)) || ('Cart error ' + r.status));
+              return body;
+            });
+          });
+        });
+      });
+      chain.then(function () {
         document.dispatchEvent(new CustomEvent('cart:update', { bubbles: true, detail: { source: 'ftd-bundle-remove' } }));
         window.location.reload();
-      }).catch(function () { window.location.reload(); });
+      }).catch(function (err) {
+        btn.disabled = false;
+        try { console.error('[FTD] bundle remove failed', err); } catch (_) {}
+        window.location.reload();
+      });
     });
   })();
 </script>
 
-<script defer="defer">
-  window.Loop = {};
-  window.Loop.bundleCartAllItems = {{ cart.items | json }};
-  initLoopBundle("LOOP_1q0i53-mc_bundles");
-</script>
+{%- comment -%}
+  Loop's client-side bundle renderer. Only initialised when the switch at the
+  top of this file is set to 'loop'; with 'liquid' the grouped row is rendered
+  server-side instead and running this too would inject a duplicate set of rows
+  into the same tbody.
+{%- endcomment -%}
+{%- if ftd_bundle_render == 'loop' -%}
+  <script defer="defer">
+    window.Loop = {};
+    window.Loop.bundleCartAllItems = {{ cart.items | json }};
+    initLoopBundle("LOOP_1q0i53-mc_bundles");
+  </script>
+{%- endif -%}
