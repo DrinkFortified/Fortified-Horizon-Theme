@@ -211,3 +211,37 @@ button.shopify-payment-button__button--unbranded:hover {
     justify-content: var(--vertical-alignment-mobile, var(--vertical-alignment));
   }
 }
+
+/* ---- Header actions: keep the cart icon in the row ----
+ * Horizon switches the header to its mobile grid whenever data-menu-style
+ * becomes 'drawer' — which JS sets on a touch device OR as soon as the
+ * overflow list reports 'minimum-reached'. A seven-item menu trips that at
+ * desktop widths too.
+ *
+ * In that grid header-actions is pinned to `grid-area: rightB`, a single
+ * --header-mobile-bookend track (44px) sized for ONE icon. It actually holds
+ * the account control AND the cart, so the cart — rendered last — overflows
+ * the track and disappears. Because the attribute is set in a rAF after first
+ * paint, the icon renders correctly and then vanishes a moment later.
+ *
+ * Let the two right-hand tracks size to their content above the mobile
+ * breakpoint, and stop header-actions shrinking. Mobile is left alone: the
+ * bookend sizing is correct there. */
+@media screen and (min-width: 750px) {
+  #header-component[data-menu-style='drawer'] .header__columns {
+    --header-template-columns: var(--header-mobile-bookend) var(--header-mobile-bookend) 1fr auto auto;
+  }
+}
+
+#header-component header-actions {
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--gap-xs, 0.5rem);
+}
+
+/* The menu is the element meant to give way — it has an overflow list that
+ * collapses items into "More" — so it, not the actions, should absorb the
+ * squeeze when both share the right column in inline-menu mode. */
+#header-component .header__column--right header-menu {
+  min-width: 0;
+}
