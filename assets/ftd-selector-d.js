@@ -743,7 +743,11 @@
     reconcileCart().then(patchLoopBundle).then(getCart).then(function (cart) {
       var ok = (cart.items || []).some(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
       if (!ok) throw new Error('Could not add your selections to the cart.');
-      try { history.pushState({}, '', '/cart'); } catch (_) {}
+      /* Deliberately no history.pushState('/cart') here. Pushing a fake cart
+         entry made Back from checkout restore THIS page under the /cart URL,
+         so the real cart page became unreachable and customers saw the
+         builder's review step instead of their cart. Let the browser keep
+         the true history and let /cart be the cart. */
       window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout';
     }).catch(function (e) {
       if (actBtn) actBtn.disabled = false; $$('[data-action="checkout"]').forEach(function (b) { b.disabled = false; });

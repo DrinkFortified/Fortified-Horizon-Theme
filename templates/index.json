@@ -4251,7 +4251,7 @@
             "slideover_width": 560,
             "close_label": "Close",
             "trigger_href": "#open-bundle",
-            "open_on_cart_click": true,
+            "open_on_cart_click": false,
             "cart_trigger_selector": "[data-testid=\"cart-drawer-trigger\"], [data-testid=\"cart-icon\"], a.action__cart",
             "plan_image": "shopify://shop_images/CTA-Hero-Desktop2.webp",
             "heading": "Build Your Clean Hydration Ritual",

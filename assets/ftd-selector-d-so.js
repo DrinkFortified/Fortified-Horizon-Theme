@@ -732,7 +732,11 @@
     reconcileCart().then(patchLoopBundle).then(getCart).then(function (cart) {
       var ok = (cart.items || []).some(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
       if (!ok) throw new Error('Could not add your selections to the cart.');
-      try { history.pushState({}, '', '/cart'); } catch (_) {}
+      /* Deliberately no history.pushState('/cart') here. Pushing a fake cart
+         entry made Back from checkout restore THIS page under the /cart URL,
+         so the real cart page became unreachable and customers saw the
+         builder's review step instead of their cart. Let the browser keep
+         the true history and let /cart be the cart. */
       window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout';
     }).catch(function (e) {
       if (actBtn) actBtn.disabled = false; $$('[data-action="checkout"]').forEach(function (b) { b.disabled = false; });
@@ -764,17 +768,10 @@
     } catch (_) {}
   });
   window.addEventListener('pageshow', function (e) {
-    if (!e.persisted) return;
-    /* bfcache restore. If the document was restored with the /cart URL
-       (doCheckout pushState + back from checkout, mostly mobile), the
-       cart-page redirect never runs — reopen the summary here instead. */
-    hydrateFromCart().then(function () {
-      if (/\/cart\/?$/.test(window.location.pathname)) {
-        try { history.replaceState({}, '', '/'); } catch (_) {}
-        showStep(totalQty() > 0 ? 'review' : 'plans', { scroll: false });
-        try { openDlg(); } catch (_) {}
-      }
-    });
+    /* Plain re-hydrate. This used to detect a /cart URL and rewrite it to
+       '/' while opening the builder, which meant a genuine cart page could
+       be replaced by the summary. The cart page owns /cart. */
+    if (e.persisted) hydrateFromCart();
   });
   /* Slide-over open/close. Portal to <body> so no ancestor's
      transform/filter/will-change traps the dialog inside its
@@ -850,16 +847,8 @@
     }, true);
   }
 
-  /* /cart redirect landing: theme.liquid bounces the cart page to the
-     homepage with ?ftd-cart=1 (e.g. browser back from checkout) - open
-     straight to the cart summary, then clean the URL. */
-  if (/[?&]ftd-cart=1/.test(window.location.search)) {
-    try { history.replaceState({}, '', window.location.pathname + window.location.hash); } catch (_) {}
-    hydrateFromCart().then(function () {
-      showStep(totalQty() > 0 ? 'review' : 'plans', { scroll: false });
-      openDlg();
-    });
-  }
+  /* The ?ftd-cart=1 landing handler is gone along with the theme.liquid
+     redirect that produced it. /cart now renders the cart page. */
   }
   window.__ftdDSOMain = function () {
     var q = window.__ftdDSOQueue || [];
