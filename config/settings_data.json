@@ -752,10 +752,5 @@
         }
       }
     }
-  },
-  "platform_customizations": {
-    "custom_css": [
-      "[data-testid=\"cart-drawer-trigger\"],cart-drawer-component,a.action__cart {display: none !important;}"
-    ]
   }
 }
