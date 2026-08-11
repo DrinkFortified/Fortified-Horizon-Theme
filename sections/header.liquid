@@ -940,6 +940,37 @@
     height: var(--icon-size-md);
   }
 
+  /* Cart icon fallbacks.
+     The two rules above size this icon entirely through CSS variables, and the
+     account button is excluded from them by :not(.account-button) — so if a
+     variable fails to resolve, or <cart-icon> never upgrades and stays an
+     unsized inline element, the cart collapses to nothing while the account
+     icon beside it still renders. That is exactly the symptom seen here, and
+     every input checked out as stock, so pin concrete fallbacks rather than
+     rely on the cascade. Real values still win: the var() is tried first and
+     the literal is only the fallback. */
+  #header-component .header-actions__cart-icon,
+  #header-component cart-drawer-component,
+  #header-component .action__cart {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  #header-component .header-actions__cart-icon .svg-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--button-size, 44px);
+    height: var(--button-size, 44px);
+  }
+
+  #header-component .header-actions__cart-icon svg {
+    width: var(--icon-size-md, 1.375rem);
+    height: var(--icon-size-md, 1.375rem);
+    color: var(--color-foreground);
+    stroke-width: var(--icon-stroke-width, 1px);
+  }
+
   /* Header CTA pill — sits left of the account/cart icons, opens the
      FTD product-selector slide-over when its href matches the trigger.
      Explicit color/background overrides because .header-actions__action
