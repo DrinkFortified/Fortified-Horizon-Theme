@@ -310,13 +310,23 @@
                       quantity: item.quantity
                     %}
 
+                    {% # Let the stepper reach 0 so minus removes the line; respect a real quantity rule when one exists %}
+                    {% liquid
+                      assign quantity_rule_min = item.variant.quantity_rule.min | default: 1
+                      assign quantity_min = 0
+                      if quantity_rule_min > 1
+                        assign quantity_min = quantity_rule_min
+                      endif
+                    %}
+
                     {% render 'quantity-selector',
                       product: item.product,
                       variant: item.variant,
                       in_cart_quantity: item.quantity,
                       line_index: item.index,
                       class: 'cart-primary-typography',
-                      can_update_quantity: can_update_quantity
+                      can_update_quantity: can_update_quantity,
+                      min: quantity_min
                     %}
 
                     <button
