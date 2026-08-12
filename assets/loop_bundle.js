@@ -1,4 +1,4 @@
-/*  Loop Subscription Bundle Snippet v3.4
+/*  Loop Subscription Bundle Snippet v3.5
 
 Created and maintained by LOOP SUBSCRIPTIONS (https://apps.shopify.com/loop-subscriptions)
 DO NOT modify source code of this file because
@@ -16,6 +16,23 @@ const LOOP_BUNDLE_URL = "https://api-service.loopwork.co/bundleTransaction/getBu
 const LOOP_API_SERVICE_URL = "https://api-service.loopwork.co";
 let BUNDLE_CONTAINER_CLASS = "BUNDLE_CONTAINER_CLASS";
 let CART_SUBTOTAL_CLASS = "CART_SUBTOTAL_CLASS";
+
+const isValidBundleId = (bundleId) => {
+    return (
+        typeof bundleId === "string" &&
+        /^([0-9a-f]{32}|[0-9A-Z]{26})$/.test(bundleId)
+    );
+};
+
+const bundleIdRegistry = new Map();
+
+const generateBundleRef = () => {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (char) => {
+        const random = crypto.getRandomValues(new Uint8Array(1))[0] & 15;
+        const value = char === "x" ? random : (random & 0x3) | 0x8;
+        return value.toString(16);
+    });
+};
 
 //dev
 // const LOOP_BUNDLE_URL =
@@ -42,8 +59,8 @@ const getItemsHtmlLoop = (item, bundleQuantityMapping) => {
     } x ${quantity || ""}</span></p>`;
 };
 
-const getEditCartButton = (bundleTransactionId, editBtnText = "Edit") => {
-    return `<button onclick="event.preventDefault(); changeBundleCartItems('${bundleTransactionId}');" style="background:none;border:none;display:flex;align-items:center;gap:3px;cursor:pointer;padding:0; text-decoration:underline;">
+const getEditCartButton = (bundleRef, editBtnText = "Edit") => {
+    return `<button class="loop-edit-bundle-btn" data-bundle-ref="${bundleRef}" style="background:none;border:none;display:flex;align-items:center;gap:3px;cursor:pointer;padding:0; text-decoration:underline;">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 17 17">
             <path fill-rule="evenodd" d="M15.655 4.344a2.695 2.695 0 0 0-3.81 0l-.599.599-.009-.009-1.06 1.06.008.01-5.88 5.88a2.75 2.75 0 0 0-.805 1.944v1.922a.75.75 0 0 0 .75.75h1.922a2.75 2.75 0 0 0 1.944-.806l7.54-7.539a2.695 2.695 0 0 0 0-3.81Zm-4.409 2.72-5.88 5.88a1.25 1.25 0 0 0-.366.884v1.172h1.172c.331 0 .65-.132.883-.366l5.88-5.88-1.689-1.69Zm2.75.629.599-.599a1.195 1.195 0 1 0-1.69-1.689l-.598.599 1.69 1.689Z"></path>
         </svg>
@@ -78,7 +95,7 @@ const getBundleCartTableTemplateLoop = (bundleItem, index, bundleLink) => {
         <p class="product-option">${
             bundleItem.sellingPlan || ""
         }</p><ul class="discounts list-unstyled" role="list" aria-label="Discount"></ul>
-        ${getEditCartButton(bundleItem.bundleId, bundleItem.editBtnText)}
+        ${getEditCartButton(bundleItem.bundleRef, bundleItem.editBtnText)}
     </td>
 
     <td class="cart-item__totals right medium-hide large-up-hide">
@@ -95,11 +112,9 @@ const getBundleCartTableTemplateLoop = (bundleItem, index, bundleLink) => {
           <input disabled class="quantity__input" type="number" value="1" min="0">
         </quantity-input>
         <cart-remove-button>
-          <a onclick="removeBundleLoop('${
-              bundleItem.bundleId
-          }')" class="button button--tertiary" aria-label="${
-        bundleItem.label
-    }" style="cursor : pointer">
+          <a class="button button--tertiary loop-remove-bundle-btn" data-bundle-ref="${
+              bundleItem.bundleRef
+          }" aria-label="${bundleItem.label}" style="cursor : pointer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true" role="presentation" class="icon icon-remove">
                 <path d="M14 3h-3.53a3.07 3.07 0 00-.6-1.65C9.44.82 8.8.5 8 .5s-1.44.32-1.87.85A3.06 3.06 0 005.53 3H2a.5.5 0 000 1h1.25v10c0 .28.22.5.5.5h8.5a.5.5 0 00.5-.5V4H14a.5.5 0 000-1zM6.91 1.98c.23-.29.58-.48 1.09-.48s.85.19 1.09.48c.2.24.3.6.36 1.02h-2.9c.05-.42.17-.78.36-1.02zm4.84 11.52h-7.5V4h7.5v9.5z" fill="currentColor"></path>
                 <path d="M6.55 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5zM9.45 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5z" fill="currentColor"></path>
@@ -159,10 +174,10 @@ const getBundleCartDrawerTemplateLoop = (bundleItem, index, bundleLink) => {
                 ${bundleItem.price}
               </span>
             </div>
-            ${getEditCartButton(bundleItem.bundleId, bundleItem.editBtnText)}
-            <div onclick="removeBundleLoop('${
-                bundleItem.bundleId
-            }')" style="cursor:pointer; width: fit-content;height: 15px;display: inline-flex;flex-direction: row-reverse;">
+            ${getEditCartButton(bundleItem.bundleRef, bundleItem.editBtnText)}
+            <div class="loop-remove-bundle-btn" data-bundle-ref="${
+                bundleItem.bundleRef
+            }" style="cursor:pointer; width: fit-content;height: 15px;display: inline-flex;flex-direction: row-reverse;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width: 1em; height: 1em;" aria-hidden="true" focusable="false" role="presentation" class="icon icon-remove">
                     <path d="M14 3h-3.53a3.07 3.07 0 00-.6-1.65C9.44.82 8.8.5 8 .5s-1.44.32-1.87.85A3.06 3.06 0 005.53 3H2a.5.5 0 000 1h1.25v10c0 .28.22.5.5.5h8.5a.5.5 0 00.5-.5V4H14a.5.5 0 000-1zM6.91 1.98c.23-.29.58-.48 1.09-.48s.85.19 1.09.48c.2.24.3.6.36 1.02h-2.9c.05-.42.17-.78.36-1.02zm4.84 11.52h-7.5V4h7.5v9.5z" fill="currentColor"></path>
                     <path d="M6.55 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5zM9.45 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5z" fill="currentColor"></path>
@@ -210,10 +225,10 @@ const getBundleCartItemsDivTemplateLoop = (bundleItem, index, bundleLink) => {
                 }
               <span style="font-weight: 600;">${bundleItem.price}</span>
             </div>
-            ${getEditCartButton(bundleItem.bundleId, bundleItem.editBtnText)}
-            <div onclick="removeBundleLoop('${
-                bundleItem.bundleId
-            }')" style="cursor:pointer; vertical-align: text-top; width: fit-content;height: 15px;display: inline-flex;flex-direction: row-reverse;">
+            ${getEditCartButton(bundleItem.bundleRef, bundleItem.editBtnText)}
+            <div class="loop-remove-bundle-btn" data-bundle-ref="${
+                bundleItem.bundleRef
+            }" style="cursor:pointer; vertical-align: text-top; width: fit-content;height: 15px;display: inline-flex;flex-direction: row-reverse;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width: 1em; height: 1em;" aria-hidden="true" focusable="false" role="presentation" class="icon icon-remove">
                     <path d="M14 3h-3.53a3.07 3.07 0 00-.6-1.65C9.44.82 8.8.5 8 .5s-1.44.32-1.87.85A3.06 3.06 0 005.53 3H2a.5.5 0 000 1h1.25v10c0 .28.22.5.5.5h8.5a.5.5 0 00.5-.5V4H14a.5.5 0 000-1zM6.91 1.98c.23-.29.58-.48 1.09-.48s.85.19 1.09.48c.2.24.3.6.36 1.02h-2.9c.05-.42.17-.78.36-1.02zm4.84 11.52h-7.5V4h7.5v9.5z" fill="currentColor"></path>
                     <path d="M6.55 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5zM9.45 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5z" fill="currentColor"></path>
@@ -281,11 +296,9 @@ const getPresetBundleCartTemplateLoop = (bundleItem, index, bundleLink) => {
           }" min="0">
         </quantity-input>
         <cart-remove-button>
-          <a onclick="removeBundleLoop('${
-              bundleItem.bundleId
-          }')" class="button button--tertiary" aria-label="${
-        bundleItem.label
-    }" style="cursor : pointer">
+          <a class="button button--tertiary loop-remove-bundle-btn" data-bundle-ref="${
+              bundleItem.bundleRef
+          }" aria-label="${bundleItem.label}" style="cursor : pointer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true" role="presentation" class="icon icon-remove">
                 <path d="M14 3h-3.53a3.07 3.07 0 00-.6-1.65C9.44.82 8.8.5 8 .5s-1.44.32-1.87.85A3.06 3.06 0 005.53 3H2a.5.5 0 000 1h1.25v10c0 .28.22.5.5.5h8.5a.5.5 0 00.5-.5V4H14a.5.5 0 000-1zM6.91 1.98c.23-.29.58-.48 1.09-.48s.85.19 1.09.48c.2.24.3.6.36 1.02h-2.9c.05-.42.17-.78.36-1.02zm4.84 11.52h-7.5V4h7.5v9.5z" fill="currentColor"></path>
                 <path d="M6.55 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5zM9.45 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5z" fill="currentColor"></path>
@@ -365,11 +378,9 @@ const getPresetBundleCartDrawerTemplateLoop = (
           }" min="0">
         </quantity-input>
         <cart-remove-button>
-          <a onclick="removeBundleLoop('${
-              bundleItem.bundleId
-          }')" class="button button--tertiary" aria-label="${
-        bundleItem.label
-    }" style="cursor : pointer">
+          <a class="button button--tertiary loop-remove-bundle-btn" data-bundle-ref="${
+              bundleItem.bundleRef
+          }" aria-label="${bundleItem.label}" style="cursor : pointer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true" role="presentation" class="icon icon-remove">
                 <path d="M14 3h-3.53a3.07 3.07 0 00-.6-1.65C9.44.82 8.8.5 8 .5s-1.44.32-1.87.85A3.06 3.06 0 005.53 3H2a.5.5 0 000 1h1.25v10c0 .28.22.5.5.5h8.5a.5.5 0 00.5-.5V4H14a.5.5 0 000-1zM6.91 1.98c.23-.29.58-.48 1.09-.48s.85.19 1.09.48c.2.24.3.6.36 1.02h-2.9c.05-.42.17-.78.36-1.02zm4.84 11.52h-7.5V4h7.5v9.5z" fill="currentColor"></path>
                 <path d="M6.55 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5zM9.45 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5z" fill="currentColor"></path>
@@ -623,7 +634,7 @@ const getBundleItemsLoop = (items) => {
     for (const item of items) {
         const bundleId =
             item?.properties?._bundleId ?? item?.properties?.bundleId;
-        if (!bundleId) continue;
+        if (!bundleId || !isValidBundleId(bundleId)) continue;
         if (!Object.hasOwn(bundleItemsMap, bundleId)) {
             bundleItemsMap[bundleId] = {
                 bundleId,
@@ -681,6 +692,9 @@ const renderBundleItemsLoop = (bundleItems, clientId) => {
 
     for (let i = 0; i < bundleItems.length; ++i) {
         let bundleItem = bundleItems[i];
+        const bundleRef = generateBundleRef();
+        bundleIdRegistry.set(bundleRef, bundleItem.bundleId);
+        bundleItem.bundleRef = bundleRef;
         const _bundleLink = bundleItem.isPresetBundleProduct
             ? `https://${window.Shopify.shop}/products/${bundleItem.productHandle}`
             : `${BUNDLE_LINK_PREFIX}/${bundleItem.loopBundleId}`;
@@ -726,6 +740,28 @@ const renderBundleItemsLoop = (bundleItems, clientId) => {
         }
         _parent.innerHTML = `${_template} ${_parent.innerHTML}`;
     }
+
+    if (!_parent.dataset.loopListenersAttached) {
+        attachBundleEventListeners(_parent);
+        _parent.dataset.loopListenersAttached = "true";
+    }
+};
+
+const attachBundleEventListeners = (parent) => {
+    parent.addEventListener("click", (event) => {
+        const editBtn = event.target.closest(".loop-edit-bundle-btn");
+        if (editBtn) {
+            event.preventDefault();
+            const bundleId = bundleIdRegistry.get(editBtn.dataset.bundleRef);
+            if (bundleId) changeBundleCartItems(bundleId);
+            return;
+        }
+        const removeBtn = event.target.closest(".loop-remove-bundle-btn");
+        if (removeBtn) {
+            const bundleId = bundleIdRegistry.get(removeBtn.dataset.bundleRef);
+            if (bundleId) removeBundleLoop(bundleId);
+        }
+    });
 };
 
 async function getCartItemsLoop() {
