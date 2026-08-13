@@ -141,9 +141,19 @@
         }
       });
       var additions = desired.filter(function (it) { return !keep[itemSig(it)]; });
+      var removalKeys = Object.keys(removals);
+
+      /* The cart already matches the build. Reuse the copy we just read
+         rather than asking for it again, and stay quiet: with nothing
+         written there is no change for anyone to hear about. This is the
+         common case — scheduleSync fires on every toggle. */
+      if (!additions.length && !qtyFixes.length && !removalKeys.length) {
+        return { cart: cart, changed: false };
+      }
+
       var step = additions.length
         ? cartPost('/cart/add.js', { items: additions })
-        : Promise.resolve();
+        : Promise.resolve(null);
       qtyFixes.forEach(function (fix) {
         step = step.then(function () { return cartPost('/cart/change.js', fix); });
       });
@@ -151,13 +161,22 @@
          resolves its keys against variant ids, and the free creatine and the
          discounted second creatine are the SAME variant on two lines — so a
          removal keyed by line id is ambiguous there and can take out the
-         wrong line or miss entirely. change.js addresses one line by key. */
-      Object.keys(removals).forEach(function (lineKey) {
+         wrong line or miss entirely. change.js addresses one line by key.
+
+         These stay sequential on purpose: Shopify locks the cart per write,
+         so firing them together races. */
+      removalKeys.forEach(function (lineKey) {
         step = step.then(function () { return cartPost('/cart/change.js', { id: lineKey, quantity: 0 }); });
       });
-      return step.then(getCart);
-    }).then(function (cart) {
-      paintTotalsFromCart(cart); notifyCartChanged();
+
+      /* change.js answers with the entire cart, so when a change ran last its
+         response already IS the fresh cart. add.js answers with only the
+         lines it added, so an additions-only sync still has to re-read. */
+      var endsWithChange = qtyFixes.length > 0 || removalKeys.length > 0;
+      var fresh = endsWithChange ? step : step.then(getCart);
+      return fresh.then(function (c) { return { cart: c, changed: true }; });
+    }).then(function (res) {
+      paintTotalsFromCart(res.cart); if (res.changed) notifyCartChanged();
       syncing = false; if (syncAgain) { syncAgain = false; return reconcileCart(); }
     }).catch(function (e) { syncing = false; try { console.error('[FTDC-D] reconcile', e); } catch (_) {} });
   }
