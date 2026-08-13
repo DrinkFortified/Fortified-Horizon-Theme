@@ -8,7 +8,6 @@
   if (!root) return;
   var BUNDLE_COUNT = parseInt(C.BUNDLE_COUNT, 10) || 3;
   var STEPS_ORDER = ['plans', 'products', 'review'];
-  var STORAGE_KEY = 'ftdcWizardState_v1';
   var RETURN_FLAG_KEY = 'ftdcReturnToReview';
   var state = { step: 'plans', plan: 'quarterly', selections: {} };
   var PLAN_NAMES = C.PLAN_NAMES;
@@ -628,57 +627,6 @@
     });
   });
 
-  /* Persist + restore wizard state. Used to let the customer come back
-     from /checkout via the homepage logo and land on the Review step
-     with their selections intact. */
-  function persistState() {
-    try {
-      var cr = $('[data-creatine-input]');
-      var crB = $('[data-creatine2-input]');
-      var data = { plan: state.plan, selections: state.selections, creatineChecked: !!(cr && cr.checked), creatine2Checked: !!(crB && crB.checked), ts: new Date().getTime() };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    } catch (_) {}
-  }
-  function restoreState() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return false;
-      var data = JSON.parse(raw);
-      if (!data || !data.plan) return false;
-      /* Expire after 7 days. */
-      if (data.ts && (new Date().getTime() - data.ts) > 7 * 24 * 60 * 60 * 1000) {
-        localStorage.removeItem(STORAGE_KEY);
-        return false;
-      }
-      state.plan = data.plan;
-      state.selections = data.selections || {};
-      var radio = root.querySelector('input[name="ftdc-plan-' + SID + '"][value="' + data.plan + '"]');
-      if (radio) {
-        $$('.ftdc__plan').forEach(function (p) { p.classList.remove('is-active'); });
-        var l = radio.closest('.ftdc__plan'); if (l) l.classList.add('is-active');
-        radio.checked = true;
-      }
-      Object.keys(state.selections).forEach(function (v) {
-        var sel = state.selections[v];
-        var card = root.querySelector('.ftdc__card[data-variant-id="' + v + '"]');
-        if (card) {
-          card.classList.add('is-selected');
-          var a = card.querySelector('.ftdc__add'), q = card.querySelector('.ftdc__qty'), i = card.querySelector('.ftdc__qty-input');
-          if (a) a.hidden = true; if (q) q.hidden = false; if (i) i.value = sel.qty;
-        }
-      });
-      if (data.creatineChecked) {
-        var cr2 = $('[data-creatine-input]');
-        if (cr2) cr2.checked = true;
-      }
-      if (data.creatine2Checked && data.plan === 'quarterly') {
-        var crb = $('[data-creatine2-input]');
-        if (crb) crb.checked = true;
-      }
-      return true;
-    } catch (_) { return false; }
-  }
-
   function buildItems() {
     var items = [];
     Object.keys(state.selections).forEach(function (k) {
@@ -759,7 +707,6 @@
     if (!canProc()) return;
     if (!totalQty()) return;
     /* Stash a session flag so a return-from-checkout visit lands on Review. */
-    persistState();
     try { sessionStorage.setItem(RETURN_FLAG_KEY, '1'); } catch (_) {}
     if (actBtn) actBtn.disabled = true; $$('[data-action="checkout"]').forEach(function (b) { b.disabled = true; });
     var cr = $('[data-creatine-input]');
