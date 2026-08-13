@@ -40,6 +40,8 @@
   var syncAgain = false;
   var syncTimer = null;
   var hydratedOnce = false;
+  var lastSelfWrite = 0;     /* stamp of our own last cart write, to ignore its echo */
+  var SELF_WRITE_QUIET_MS = 1500;
 
   /* Cart endpoints answer with JSON, but a redirect, a challenge page or a
      routing miss answers with HTML — and .json() on that throws the opaque
@@ -270,10 +272,28 @@
     }).catch(function (e) { try { console.warn('[FTDC-D] Loop bundle patch failed, proceeding without grouping:', e); } catch (_) {} });
   }
   function notifyCartChanged() {
+    lastSelfWrite = new Date().getTime();
     try { document.dispatchEvent(new CustomEvent('ftdc:cart-changed', { detail: { from: SID } })); } catch (_) {}
     try { document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true })); } catch (_) {}
   }
   document.addEventListener('ftdc:cart-changed', function (e) { if (e && e.detail && e.detail.from === SID) return; hydrateFromCart(); });
+
+  /* The theme writes to the cart behind our back: the drawer and cart page
+     quantity steppers, and line removal (which is a change to quantity 0).
+     Those dispatch the theme's own cart:update, never ftdc:cart-changed, so
+     without this the builder goes on showing a line the customer just deleted
+     and the next reconcile re-adds it.
+
+     Guards, in order: a reconcile in flight or queued means our own desired
+     state is newer than the cart, so hydrating would clobber it; and our
+     writes echo back, because notifyCartChanged fires cart:refresh and the
+     cart components answer that with a cart:update of their own a moment
+     later. Hydrating on that echo is harmless but costs a needless /cart.js. */
+  document.addEventListener('cart:update', function () {
+    if (syncing || hydrating || syncTimer) return;
+    if (new Date().getTime() - lastSelfWrite < SELF_WRITE_QUIET_MS) return;
+    hydrateFromCart();
+  });
 
   function sortStagedBlocks() {
     var stage = $('[data-ftdc-stage]');
