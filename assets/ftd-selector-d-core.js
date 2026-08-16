@@ -21,10 +21,16 @@
      show it permanently instead of only on Review. Absent for Selector D,
      so its behaviour is unchanged. */
   var LIVE_SUMMARY = !!C.LIVE_SUMMARY;
+  /* Opt-in: no Review step — the aside already shows the order, so Bundle is
+     the last step and its button goes straight to checkout. */
+  var SKIP_REVIEW = !!C.SKIP_REVIEW;
+  /* Opt-in: picking a plan moves straight on to the flavours on every screen
+     size, not just mobile. */
+  var ADVANCE_ON_PLAN = !!C.ADVANCE_ON_PLAN;
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
   var BUNDLE_COUNT = parseInt(C.BUNDLE_COUNT, 10) || 3;
-  var STEPS_ORDER = ['plans', 'products', 'review'];
+  var STEPS_ORDER_FULL = ['plans', 'products', 'review'];
   var RETURN_FLAG_KEY = 'ftdcReturnToReview';
   var state = { step: 'plans', plan: 'quarterly', selections: {} };
   var PLAN_NAMES = C.PLAN_NAMES;
@@ -373,6 +379,7 @@
     /* Hard-hide the sticky bar on Review (it duplicates the step's own
        Checkout button); inline style so no stylesheet can override it. */
     var bar0 = $('[data-bar]'); if (bar0) bar0.style.display = (name === 'review') ? 'none' : '';
+    var STEPS_ORDER = SKIP_REVIEW ? ['plans', 'products'] : STEPS_ORDER_FULL;
     var idx = STEPS_ORDER.indexOf(name);
     $$('.ftdc__step').forEach(function (s) { var m = s.dataset.step === name; s.hidden = !m; s.classList.toggle('is-active', m); });
     $$('.ftdc__step-pill').forEach(function (p) { var pi = STEPS_ORDER.indexOf(p.dataset.stepPill); p.classList.toggle('is-active', pi === idx); p.classList.toggle('is-done', pi < idx); });
@@ -430,7 +437,7 @@
       updateBar(); updateProgress(); updateCreatineIncluded(); scheduleSync();
       /* Mobile: auto-advance to the Bundle step so the customer doesn't
          have to scroll back up and tap Continue. */
-      if (window.matchMedia && window.matchMedia('(max-width: 749px)').matches) {
+      if (ADVANCE_ON_PLAN || (window.matchMedia && window.matchMedia('(max-width: 749px)').matches)) {
         setTimeout(function () { showStep('products'); }, 240);
       }
     });
@@ -521,7 +528,9 @@
     if (bt) bt.textContent = fmtMoney(t.total);
     if (sw && sv) { if (t.saved > 0) { sw.hidden = false; sv.textContent = fmtMoney(t.saved); } else sw.hidden = true; }
     var lab = $('[data-bar-label]'), btn = $('.ftdc__bar-action'), r = canProc();
-    if (lab) lab.textContent = BAR_LABELS[state.step] || BAR_LABELS.plans;
+    /* With no Review step, Bundle is the last one, so it carries the final label. */
+    var labKey = (SKIP_REVIEW && state.step === 'products') ? 'review' : state.step;
+    if (lab) lab.textContent = BAR_LABELS[labKey] || BAR_LABELS[state.step] || BAR_LABELS.plans;
     if (btn) btn.disabled = state.step === 'plans' ? false : !r;
     /* Quarterly + Bundle step: warn when not all 3 slots are filled. */
     var w = $('[data-bar-warning]');
@@ -641,7 +650,7 @@
   var actBtn = $('.ftdc__bar-action');
   if (actBtn) actBtn.addEventListener('click', function () {
     if (state.step === 'plans') showStep('products');
-    else if (state.step === 'products') { if (canProc()) showStep('review'); }
+    else if (state.step === 'products') { if (canProc()) { if (SKIP_REVIEW) doCheckout(); else showStep('review'); } }
     else doCheckout();
   });
   $$('[data-action="review"]').forEach(function (b) { b.addEventListener('click', function () { if (canProc()) showStep('review'); }); });
@@ -783,7 +792,7 @@
         sessionStorage.removeItem(RETURN_FLAG_KEY);
         if (totalQty() > 0) {
           updateProgress(); updateBar(); updateCreatineIncluded();
-          showStep('review');
+          showStep(SKIP_REVIEW ? 'products' : 'review');
           if (surface && typeof surface.onReturnToReview === 'function') surface.onReturnToReview(api);
           else setTimeout(function () { try { root.scrollIntoView({behavior: 'smooth', block: 'start'}); } catch (_) {} }, 80);
         }
