@@ -182,6 +182,11 @@
   ></script>
 {%- endif -%}
 
+{%- if block_settings.constrain_to_viewport -%}
+  {% # `.constrain-height` consumes `--header-height` at first paint (product-media-container-styles.liquid) %}
+  {% render 'measure-header-heights', only_on_desktop: true %}
+{%- endif -%}
+
 {% style %}
   {% unless block_settings.aspect_ratio == 'adapt' %}
     .product-media-container {
@@ -470,8 +475,7 @@
                 {% if block_settings.zoom %}
                   on:pointerenter="/preloadImage/{{ forloop.index0 }}"
                 {% endif %}
-              >
-              </button>
+              ></button>
             {%- endif -%}
             {%- liquid
               if needs_both_sizes and forloop.first
@@ -638,6 +642,7 @@
   </media-gallery>
 {% endif %}
 
+{% render 'product-media-container-styles' %}
 {% render 'product-media-gallery-content-styles' %}
 
 {% stylesheet %}

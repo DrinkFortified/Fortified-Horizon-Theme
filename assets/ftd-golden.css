@@ -25,6 +25,11 @@
      Spacing            Fibonacci ∪ Lucas — both converge on φ, and
                         interleaved they step by ~φ^(1/2) on whole pixels,
                         which keeps 1px borders and rules crisp.
+
+   UPSTREAM DRIFT — Horizon 4.1.4 dropped --margin-3xl, --margin-5xl,
+   --menu-font-lg--size and --spacing-scale-sm from its own token set.
+   Their overrides came out with the upgrade rather than being left here
+   as declarations nothing reads. Re-check this list on the next upgrade.
    ========================================================================== */
 
 :root:root {
@@ -49,7 +54,6 @@
   /* Menu sizes snap onto the same ladder rather than running their own. */
   --menu-font-sm--size: 0.887rem;
   --menu-font-md--size: 1rem;
-  --menu-font-lg--size: 1.128rem;
   --menu-font-xl--size: 1.272rem;
   --menu-font-2xl--size: 1.618rem;
 
@@ -100,9 +104,7 @@
   --margin-lg: 1.125rem;     /* 18 */
   --margin-xl: 1.3125rem;    /* 21 */
   --margin-2xl: 1.8125rem;   /* 29 */
-  --margin-3xl: 2.125rem;    /* 34 */
   --margin-4xl: 2.9375rem;   /* 47 */
-  --margin-5xl: 3.4375rem;   /* 55 */
   --margin-6xl: 5.5625rem;   /* 89 */
 
   /* ---- Spacing: gaps ---------------------------------------------------- */
@@ -118,7 +120,6 @@
   --gap-3xl: 3.4375rem;      /* 55 */
 
   /* Horizon multiplies section spacing by these. 1/φ and 1/√φ. */
-  --spacing-scale-sm: 0.618;
   --spacing-scale-md: 0.786;
   --spacing-scale-default: 1;
 
