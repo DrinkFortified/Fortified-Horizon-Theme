@@ -352,8 +352,26 @@
                   headers="quantity"
                 >
                   {% # Here I want to pass some arguments to the quantity block so it knows which value should the input be set to. Though quantity block could be a snippet instead %}
-                  {% assign can_update_quantity = item.instructions.can_update_quantity
-                    | default: true, allow_false: true
+                  {% liquid
+                    assign can_update_quantity = item.instructions.can_update_quantity | default: true, allow_false: true
+
+                    # FORTIFIED — the product selector owns its cart lines and fixes both
+                    # creatine lines at 1 per bundle, so the cart must not offer a stepper
+                    # for them. Written as nested ifs on purpose: Liquid has no operator
+                    # precedence and evaluates and/or right to left, so a combined
+                    # condition here would not mean what it looks like.
+                    # Remove is deliberately left alone — locking it as well would strand
+                    # a line the customer has no way to clear from the cart page.
+                    assign ftd_qty_locked = false
+                    if item.properties['_sel'] == 'ftdc-d'
+                      assign ftd_role = item.properties['_role']
+                      if ftd_role == 'creatine' or ftd_role == 'creatine2'
+                        assign ftd_qty_locked = true
+                      endif
+                    endif
+                    if ftd_qty_locked
+                      assign can_update_quantity = false
+                    endif
                   %}
                   <div class="cart-items__quantity-controls">
                     {% render 'volume-pricing-info',
