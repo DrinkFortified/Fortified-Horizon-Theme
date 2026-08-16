@@ -144,6 +144,80 @@
   #ftdc-{{ sid }} .ftdc__plan-was { text-decoration: none; }
 
   /* Header (heading/description/bullets) only makes sense on the Plan step. */
+
+  /* ───── Gold: two columns, split on φ ─────────────────────────────────
+     The wizard runs in the main column; the order stays visible in the
+     aside on every step, which is the whole point of this variant. 1.618fr
+     to 1fr, so the split holds at any width. */
+  #ftdc-{{ sid }} .ftdcg__cols {
+    display: grid;
+    grid-template-columns: 1.618fr minmax(280px, 1fr);
+    gap: 2.125rem;                       /* 34 — Fibonacci */
+    align-items: start;
+  }
+  #ftdc-{{ sid }} .ftdcg__main { min-width: 0; }
+
+  #ftdc-{{ sid }} .ftdcg__aside { position: sticky; top: 1.3125rem; min-width: 0; }
+  #ftdc-{{ sid }} .ftdcg__aside-inner { display: flex; flex-direction: column; gap: 0.8125rem; }
+
+  #ftdc-{{ sid }} .ftdcg__summary {
+    border: 2px solid rgb(var(--color-foreground-rgb) / 0.12);
+    border-radius: var(--ftdc-radius, 13px);
+    background: var(--color-background);
+    padding: 1.3125rem;
+  }
+  #ftdc-{{ sid }} .ftdcg__summary-label {
+    margin: 0 0 0.5rem; font-size: var(--font-size--xs, 0.786rem);
+    font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgb(var(--color-foreground-rgb) / 0.6);
+  }
+  #ftdc-{{ sid }} .ftdcg__summary .ftdc__review-plan { margin: 0 0 0.5rem; font-weight: 700; }
+  #ftdc-{{ sid }} .ftdcg__summary-note {
+    margin: 0.8125rem 0 0; font-size: var(--font-size--3xs, 0.618rem); line-height: 1.4;
+    color: rgb(var(--color-foreground-rgb) / 0.55);
+  }
+
+  /* Free-shipping reassurance strip */
+  #ftdc-{{ sid }} .ftdcg__ship { display: flex; flex-direction: column; gap: 0.3125rem; }
+  #ftdc-{{ sid }} .ftdcg__ship-label {
+    margin: 0; font-size: var(--font-size--2xs, 0.697rem); font-weight: 700;
+    color: rgb(var(--color-foreground-rgb) / 0.7);
+  }
+  #ftdc-{{ sid }} .ftdcg__ship-bar {
+    height: 5px; border-radius: 999px; overflow: hidden;
+    background: rgb(var(--color-foreground-rgb) / 0.1);
+  }
+  #ftdc-{{ sid }} .ftdcg__ship-fill { display: block; height: 100%; width: 100%; background: #17a34a; }
+
+  #ftdc-{{ sid }} .ftdcg__cta {
+    width: 100%; border: 0; cursor: pointer;
+    padding: 1.125rem 1.3125rem;
+    border-radius: var(--style-border-radius-buttons-primary, 8px);
+    background: var(--color-foreground); color: var(--color-background);
+    font-family: var(--font-heading--family, inherit);
+    font-size: var(--font-size--sm, 0.887rem); font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; line-height: 1;
+  }
+  #ftdc-{{ sid }} .ftdcg__cta:hover { opacity: 0.9; }
+  #ftdc-{{ sid }} .ftdcg__once {
+    margin: 0; text-align: center;
+    font-size: var(--font-size--2xs, 0.697rem);
+    color: rgb(var(--color-foreground-rgb) / 0.6);
+  }
+  #ftdc-{{ sid }} .ftdcg__review-hint {
+    margin: 0 0 1.125rem; color: rgb(var(--color-foreground-rgb) / 0.7);
+  }
+
+  /* The aside carries the order on desktop, so the sticky bar would just
+     repeat it. Below the breakpoint the columns stack and the bar comes back. */
+  @media screen and (min-width: 990px) {
+    #ftdc-{{ sid }} .ftdc__bar { display: none !important; }
+  }
+  @media screen and (max-width: 989px) {
+    #ftdc-{{ sid }} .ftdcg__cols { grid-template-columns: 1fr; gap: 1.3125rem; }
+    #ftdc-{{ sid }} .ftdcg__aside { position: static; }
+  }
+
   #ftdc-{{ sid }}[data-active-step="products"] .ftdc__header,
   #ftdc-{{ sid }}[data-active-step="review"] .ftdc__header { display: none; }
 
@@ -205,6 +279,9 @@
       <li class="ftdc__step-pill" data-step-pill="products" role="button" tabindex="0"><span class="ftdc__step-num">2</span><span class="ftdc__step-label">{{ section.settings.step_label_2 | default: 'Bundle' }}</span></li>
       <li class="ftdc__step-pill" data-step-pill="review" role="button" tabindex="0"><span class="ftdc__step-num">3</span><span class="ftdc__step-label">{{ section.settings.step_label_4 | default: 'Review' }}</span></li>
     </ol>
+
+    <div class="ftdcg__cols">
+      <div class="ftdcg__main">
 
     {%- comment %} ───── STEP 1 — PLANS ───── {%- endcomment %}
     {%- assign plan_img_mob  = section.settings.plan_image_mobile | default: section.settings.plan_image -%}
@@ -344,38 +421,75 @@
           </div>
         {%- endif -%}
 
-        <div class="ftdc__upsells" data-upsells></div>
       </div>
     </div>
 
-    {%- comment %} ───── STEP 4 — REVIEW ───── {%- endcomment %}
+    {%- comment %} ───── STEP 3 — REVIEW ─────
+      Slim by design: the order itself lives in the aside, which is visible on
+      every step. Duplicating the data-review-* hooks here would break it —
+      the runtime binds the first match only. {%- endcomment %}
     <div class="ftdc__step" data-step="review" hidden>
       <button class="ftdc__back" type="button" data-step-back="products" aria-label="Back to bundle"><span aria-hidden="true">←</span> {{ section.settings.back_label | default: 'Back' }}</button>
       <div class="ftdc__bundle-head">
         <p class="ftdc__bundle-eyebrow">{{ section.settings.review_eyebrow | default: 'Review your order' }}</p>
-        <p class="ftdc__review-plan" data-review-plan></p>
       </div>
-      <ul class="ftdc__review-lines list-unstyled" data-review-lines></ul>
-      <div class="ftdc__review-extra" data-review-extra hidden></div>
-      <dl class="ftdc__review-totals">
-        <div class="ftdc__review-row ftdc__review-row--original" data-review-original-wrap hidden>
-          <dt>{{ section.settings.original_label | default: 'Original price' }}</dt>
-          <dd data-review-original>$0.00</dd>
-        </div>
-        <div class="ftdc__review-row ftdc__review-row--saved" data-review-saved-wrap hidden>
-          <dt>{{ section.settings.saved_word | default: 'Saved' }}</dt>
-          <dd data-review-saved>$0.00</dd>
-        </div>
-        <div class="ftdc__review-row ftdc__review-row--total">
-          <dt>{{ section.settings.total_label | default: 'Total' }}</dt>
-          <dd data-review-total>$0.00</dd>
-        </div>
-      </dl>
+      <p class="ftdcg__review-hint">{{ section.settings.review_hint | default: 'Your order is on the right. Check it over, then continue to checkout.' }}</p>
       <div class="ftdc__step-actions">
         <button class="ftdc__btn ftdc__btn--ghost" type="button" data-step-back="products">{{ section.settings.edit_order_label | default: 'Edit Order' }}</button>
         <button class="ftdc__btn ftdc__btn--primary" type="button" data-action="checkout">{{ section.settings.checkout_label | default: 'Checkout' }}</button>
       </div>
     </div>
+
+      </div>{%- comment %} /.ftdcg__main {%- endcomment %}
+
+      {%- comment %} ───── ORDER SUMMARY — visible on every step ───── {%- endcomment %}
+      <aside class="ftdcg__aside" aria-label="{{ section.settings.summary_label | default: 'Your Order' | escape }}">
+        <div class="ftdcg__aside-inner">
+
+          <div class="ftdc__upsells" data-upsells></div>
+
+          <div class="ftdcg__summary">
+            <p class="ftdcg__summary-label">{{ section.settings.summary_label | default: 'Your Order' }}</p>
+            <p class="ftdc__review-plan" data-review-plan></p>
+            <ul class="ftdc__review-lines list-unstyled" data-review-lines></ul>
+            <div class="ftdc__review-extra" data-review-extra hidden></div>
+            <dl class="ftdc__review-totals">
+              <div class="ftdc__review-row ftdc__review-row--original" data-review-original-wrap hidden>
+                <dt>{{ section.settings.original_label | default: 'Original price' }}</dt>
+                <dd data-review-original>$0.00</dd>
+              </div>
+              <div class="ftdc__review-row ftdc__review-row--saved" data-review-saved-wrap hidden>
+                <dt>{{ section.settings.saved_word | default: 'Saved' }}</dt>
+                <dd data-review-saved>$0.00</dd>
+              </div>
+              <div class="ftdc__review-row ftdc__review-row--total">
+                <dt>{{ section.settings.total_label | default: 'Total' }}</dt>
+                <dd data-review-total>$0.00</dd>
+              </div>
+            </dl>
+            {%- if section.settings.summary_note != blank -%}
+              <p class="ftdcg__summary-note">{{ section.settings.summary_note }}</p>
+            {%- endif -%}
+          </div>
+
+          {%- if section.settings.shipping_note != blank -%}
+            <div class="ftdcg__ship">
+              <p class="ftdcg__ship-label">{{ section.settings.shipping_note }}</p>
+              <div class="ftdcg__ship-bar" aria-hidden="true"><span class="ftdcg__ship-fill"></span></div>
+            </div>
+          {%- endif -%}
+
+          <button class="ftdcg__cta" type="button" data-action="checkout">
+            {{ section.settings.checkout_label | default: 'Checkout' }}
+          </button>
+
+          {%- if section.settings.purchase_once_label != blank -%}
+            <p class="ftdcg__once">{{ section.settings.purchase_once_label }}</p>
+          {%- endif -%}
+
+        </div>
+      </aside>
+    </div>{%- comment %} /.ftdcg__cols {%- endcomment %}
 
     <div class="ftdc__bar" data-bar>
       <div class="ftdc__bar-summary">
@@ -397,6 +511,7 @@
   (window.__ftdDQueue = window.__ftdDQueue || []).push({
     SID: {{ section.id | json }},
     BUNDLE_COUNT: {{ bundle_count | json }},
+    LIVE_SUMMARY: true,   /* aside shows the order on every step, not just Review */
     PLAN_NAMES: {
     monthly:   {{ section.settings.monthly_title   | default: 'Monthly Subscription' | json }},
     quarterly: {{ section.settings.quarterly_title | default: 'Quarterly Bundle'     | json }},
@@ -1019,6 +1134,40 @@
       "step": 4,
       "unit": "px",
       "default": 52
+    },
+    {
+      "type": "header",
+      "content": "Order summary"
+    },
+    {
+      "type": "text",
+      "id": "summary_label",
+      "label": "Summary title",
+      "default": "Your Order"
+    },
+    {
+      "type": "text",
+      "id": "summary_note",
+      "label": "Summary note",
+      "default": "Subscriptions ship free. Discounts applied at checkout."
+    },
+    {
+      "type": "text",
+      "id": "shipping_note",
+      "label": "Shipping strip",
+      "default": "Subscriptions ship free"
+    },
+    {
+      "type": "text",
+      "id": "purchase_once_label",
+      "label": "Below the button",
+      "default": "Or purchase once:"
+    },
+    {
+      "type": "text",
+      "id": "review_hint",
+      "label": "Review step hint",
+      "default": "Your order is on the right. Check it over, then continue to checkout."
     }
   ],
   "blocks": [

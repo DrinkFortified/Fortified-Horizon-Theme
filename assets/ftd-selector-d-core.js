@@ -17,6 +17,10 @@
 
   function run(C, surface) {
   var SID = C.SID;
+  /* Opt-in: keep the order summary painted on every step, for surfaces that
+     show it permanently instead of only on Review. Absent for Selector D,
+     so its behaviour is unchanged. */
+  var LIVE_SUMMARY = !!C.LIVE_SUMMARY;
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
   var BUNDLE_COUNT = parseInt(C.BUNDLE_COUNT, 10) || 3;
@@ -224,7 +228,7 @@
     });
     cartTotals = has ? { total: total, saved: saved } : null;
     updateBar();
-    if (state.step === 'review') renderReview();
+    if (state.step === 'review' || LIVE_SUMMARY) renderReview();
   }
   function planFromSellingId(spId) {
     if (!spId) return 'onetime';
@@ -372,7 +376,7 @@
     var idx = STEPS_ORDER.indexOf(name);
     $$('.ftdc__step').forEach(function (s) { var m = s.dataset.step === name; s.hidden = !m; s.classList.toggle('is-active', m); });
     $$('.ftdc__step-pill').forEach(function (p) { var pi = STEPS_ORDER.indexOf(p.dataset.stepPill); p.classList.toggle('is-active', pi === idx); p.classList.toggle('is-done', pi < idx); });
-    if (name === 'review') renderReview();
+    if (name === 'review' || LIVE_SUMMARY) renderReview();
     updateBar();
     if (shouldScroll) {
       setTimeout(function () {
@@ -762,6 +766,7 @@
   if (cr2Toggle) cr2Toggle.addEventListener('change', function () { updateBar(); scheduleSync(); });
 
   showStep('plans', {scroll: false}); updateProgress(); updateBar();
+  if (LIVE_SUMMARY) renderReview();   /* paint the aside before the first interaction */
 
   var api = buildApi(C, root, {
     hydrateFromCart: hydrateFromCart, showStep: showStep, totalQty: totalQty,
