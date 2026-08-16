@@ -527,11 +527,11 @@
     var t = (cartTotals || compute()), bt = $('[data-bar-total]'), sw = $('[data-bar-saved-wrap]'), sv = $('[data-bar-saved]');
     if (bt) bt.textContent = fmtMoney(t.total);
     if (sw && sv) { if (t.saved > 0) { sw.hidden = false; sv.textContent = fmtMoney(t.saved); } else sw.hidden = true; }
-    var lab = $('[data-bar-label]'), btn = $('.ftdc__bar-action'), r = canProc();
+    var lab = $('[data-bar-label]'), r = canProc();
     /* With no Review step, Bundle is the last one, so it carries the final label. */
     var labKey = (SKIP_REVIEW && state.step === 'products') ? 'review' : state.step;
     if (lab) lab.textContent = BAR_LABELS[labKey] || BAR_LABELS[state.step] || BAR_LABELS.plans;
-    if (btn) btn.disabled = state.step === 'plans' ? false : !r;
+    setAdvanceDisabled(state.step === 'plans' ? false : !r);
     /* Quarterly + Bundle step: warn when not all 3 slots are filled. */
     var w = $('[data-bar-warning]');
     if (w) {
@@ -647,12 +647,14 @@
   }
 
   $$('[data-step-back]').forEach(function (b) { b.addEventListener('click', function () { showStep(b.dataset.stepBack); }); });
-  var actBtn = $('.ftdc__bar-action');
-  if (actBtn) actBtn.addEventListener('click', function () {
+  var actBtns = $$('[data-action="next"]');
+  var actBtn = actBtns[0] || null;
+  function setAdvanceDisabled(v) { actBtns.forEach(function (b) { b.disabled = v; }); }
+  actBtns.forEach(function (btn0) { btn0.addEventListener('click', function () {
     if (state.step === 'plans') showStep('products');
     else if (state.step === 'products') { if (canProc()) { if (SKIP_REVIEW) doCheckout(); else showStep('review'); } }
     else doCheckout();
-  });
+  }); });
   $$('[data-action="review"]').forEach(function (b) { b.addEventListener('click', function () { if (canProc()) showStep('review'); }); });
   $$('[data-action="checkout"]').forEach(function (b) { b.addEventListener('click', doCheckout); });
 
@@ -746,7 +748,7 @@
     if (!totalQty()) return;
     /* Stash a session flag so a return-from-checkout visit lands on Review. */
     try { sessionStorage.setItem(RETURN_FLAG_KEY, '1'); } catch (_) {}
-    if (actBtn) actBtn.disabled = true; $$('[data-action="checkout"]').forEach(function (b) { b.disabled = true; });
+    setAdvanceDisabled(true); $$('[data-action="checkout"]').forEach(function (b) { b.disabled = true; });
     var cr = $('[data-creatine-input]');
     var ot = state.plan === 'onetime' && cr && cr.checked;
     var d = ot ? (cr.dataset.discountOnetime || '') : '';
@@ -763,7 +765,7 @@
          the true history and let /cart be the cart. */
       window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout';
     }).catch(function (e) {
-      if (actBtn) actBtn.disabled = false; $$('[data-action="checkout"]').forEach(function (b) { b.disabled = false; });
+      setAdvanceDisabled(false); $$('[data-action="checkout"]').forEach(function (b) { b.disabled = false; });
       alert((e && e.message) || 'Something went wrong');
     });
   }
