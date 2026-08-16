@@ -77,7 +77,7 @@
     /* auto-fit (not auto-fill): collapses unused tracks to 0 width so a
        partial row of cards centers as a group instead of leaving trailing
        empty columns that push the visible cards to the left. */
-    #ftdc-{{ sid }} .ftdc__grid { grid-template-columns: repeat(auto-fit, minmax(200px, 230px)); }
+    /* superseded by the one-row rule below */
   }
   @media (max-width: 749px) {
     #ftdc-{{ sid }} .ftdc__step--has-image.is-active { grid-template-columns: 1fr; gap: 1rem; }
@@ -117,14 +117,8 @@
   }
   #ftdc-{{ sid }} .ftdc__bundle-warning[hidden] { display: none; }
 
-  /* Bundle progress header stays pinned while scrolling the product grid. */
-  #ftdc-{{ sid }} .ftdc__step[data-step="products"] .ftdc__bundle-head {
-    position: sticky;
-    top: 0;
-    z-index: 6;
-    background: var(--color-background);
-    padding-block: 0.75rem 0.5rem;
-  }
+  /* The progress header used to be pinned inside the products step. It now
+     rides in the aside, which is pinned as a whole, so that rule is gone. */
 
   /* Badge: tighter, closer to the text. justify-self: start stops it from
      stretching to the full grid-column width (its parent .ftdc__plan is a
@@ -218,6 +212,47 @@
     #ftdc-{{ sid }} .ftdcg__aside { position: static; }
   }
 
+
+  /* ───── Gold: the aside stays put ─────────────────────────────────────
+     Progress, add-ons and the order all live here, so the column is tall.
+     A plain sticky element taller than the viewport scrolls away with the
+     page — capping the height and letting it scroll internally is what
+     actually keeps it in view. */
+  #ftdc-{{ sid }} .ftdcg__aside {
+    max-height: calc(100vh - 2.625rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    padding-right: 0.3125rem;
+  }
+  #ftdc-{{ sid }} .ftdcg__aside .ftdc__bundle-head {
+    padding: 0.8125rem 0 0;
+  }
+  #ftdc-{{ sid }} .ftdcg__aside .ftdc__bundle-bar { max-width: none; }
+  #ftdc-{{ sid }} .ftdcg__aside .ftdc__upsell { padding: 0.6875rem 0.8125rem; gap: 0.6875rem; grid-template-columns: 55px 1fr auto; }
+
+  /* ───── Flavour cards: one row, always ────────────────────────────────
+     auto-fill wrapped to a second row as soon as the cards would go under
+     220px. The count comes from the Function blocks, so let the track count
+     follow the cards rather than the width: one column per card, each free
+     to shrink. Below the breakpoint they scroll sideways instead of wrapping. */
+  #ftdc-{{ sid }} .ftdc__grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    justify-content: stretch;
+  }
+  @media screen and (max-width: 749px) {
+    #ftdc-{{ sid }} .ftdc__grid {
+      grid-auto-columns: minmax(46%, 1fr);
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 0.5rem;
+    }
+    #ftdc-{{ sid }} .ftdc__grid > * { scroll-snap-align: start; }
+  }
+
   #ftdc-{{ sid }}[data-active-step="products"] .ftdc__header,
   #ftdc-{{ sid }}[data-active-step="review"] .ftdc__header { display: none; }
 
@@ -227,7 +262,7 @@
   }
 
   /* Merged step 2 add-ons section (was step 3) */
-  #ftdc-{{ sid }} .ftdc__bundle-addons { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px dashed rgb(var(--color-foreground-rgb) / 0.18); display: flex; flex-direction: column; gap: 0.75rem; }
+  #ftdc-{{ sid }} .ftdc__bundle-addons { display: flex; flex-direction: column; gap: 0.5rem; }
   #ftdc-{{ sid }} .ftdc__bundle-addons-head { margin: 0 0 0.25rem; }
   #ftdc-{{ sid }} .ftdc__step-pill { transition: opacity 0.15s; }
   #ftdc-{{ sid }} .ftdc__step-pill:hover { opacity: 0.85; }
@@ -342,12 +377,6 @@
     {%- comment %} ───── STEP 2 — PRODUCTS ───── {%- endcomment %}
     <div class="ftdc__step" data-step="products" hidden>
       <button class="ftdc__back" type="button" data-step-back="plans" aria-label="Back to plan"><span aria-hidden="true">←</span> {{ section.settings.back_label | default: 'Back' }}</button>
-      <div class="ftdc__bundle-head">
-        <p class="ftdc__bundle-eyebrow">{{ section.settings.bundle_label | default: 'Your Bundle' }}</p>
-        <p class="ftdc__bundle-progress-text" data-progress-text>0 {{ section.settings.of_word | default: 'of' }} {{ bundle_count }} {{ section.settings.selected_word | default: 'selected' }}</p>
-        <div class="ftdc__bundle-bar"><div class="ftdc__bundle-bar-fill" data-progress-fill style="width:0%"></div></div>
-        <p class="ftdc__bundle-warning" data-bar-warning hidden role="status"></p>
-      </div>
       <div class="ftdc__empty" data-grid-empty hidden>
         <p><strong>No products configured yet.</strong></p>
         <p>In the theme editor sidebar, click each <em>Function</em> block inside this selector and pick a Shopify product. Each product variant will render as a selectable card here.</p>
@@ -355,73 +384,6 @@
       <div class="ftdc__grid" data-grid></div>
 
       {%- comment %} ── Add-ons (merged from old Step 3) ── {%- endcomment %}
-      <div class="ftdc__bundle-addons">
-        <p class="ftdc__bundle-eyebrow ftdc__bundle-addons-head">{{ section.settings.addons_label | default: 'Add to your order' }}</p>
-
-        {%- assign included_img = section.settings.addon_image | default: addon.featured_image -%}
-        <div class="ftdc__upsell ftdc__upsell--included" data-creatine-included hidden aria-hidden="true">
-          <div class="ftdc__upsell-media">
-            {%- if included_img != blank -%}
-              <img src="{{ included_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">
-            {%- endif -%}
-          </div>
-          <div class="ftdc__upsell-body">
-            <p class="ftdc__upsell-title">Creatine — Included</p>
-            <p class="ftdc__upsell-desc">Free with your 3-month bundle.</p>
-            <div class="ftdc__upsell-pricing">
-              <span class="ftdc__upsell-price ftdc__upsell-price--free">FREE</span>
-            </div>
-          </div>
-          <div class="ftdc__upsell-toggle">
-            <span class="ftdc__included-check" aria-label="Included" role="img">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </div>
-        </div>
-
-        {%- if addon != blank -%}
-          <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine>
-            <div class="ftdc__upsell-media">
-              {%- assign addon_img = section.settings.addon_image | default: addon.featured_image -%}
-              {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
-            </div>
-            <div class="ftdc__upsell-body">
-              <p class="ftdc__upsell-title" data-creatine-title>{{ section.settings.addon_label_monthly | default: 'Add Creatine — 50% off' }}</p>
-              <p class="ftdc__upsell-desc" data-creatine-desc>{{ section.settings.addon_desc_monthly | default: '' }}</p>
-              <div class="ftdc__upsell-pricing">
-                <span class="ftdc__upsell-price" data-creatine-price>{{ section.settings.addon_price_monthly | default: '$12.00' }}</span>
-                {%- if section.settings.addon_was_monthly != blank -%}<s class="ftdc__upsell-was" data-creatine-was>{{ section.settings.addon_was_monthly }}</s>{%- endif -%}
-              </div>
-            </div>
-            <div class="ftdc__upsell-toggle">
-              <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input data-variant="{{ addon_variant_id }}" data-plan-monthly="{{ section.settings.addon_loop_plan_monthly }}" data-plan-quarterly-free="{{ section.settings.addon_loop_plan_quarterly_free }}" data-plan-quarterly-50off="{{ section.settings.addon_loop_plan_quarterly_50off }}" data-discount-onetime="{{ section.settings.addon_discount_code_onetime }}">
-              <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
-            </div>
-          </div>
-
-          {%- comment %} Quarterly only: optional 2nd creatine at 50% off
-              (the first is included free above). Revealed by
-              updateCreatineIncluded() when plan == quarterly. {%- endcomment %}
-          <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine2 hidden>
-            <div class="ftdc__upsell-media">
-              {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
-            </div>
-            <div class="ftdc__upsell-body">
-              <p class="ftdc__upsell-title" data-creatine2-title>{{ section.settings.addon_label_quarterly | default: 'Add a 2nd Creatine — 50% off' }}</p>
-              <p class="ftdc__upsell-desc">{{ section.settings.addon_desc_quarterly | default: '' }}</p>
-              <div class="ftdc__upsell-pricing">
-                <span class="ftdc__upsell-price" data-creatine2-price>{{ section.settings.addon_price_quarterly | default: '$12.00' }}</span>
-                {%- if section.settings.addon_was_quarterly != blank -%}<s class="ftdc__upsell-was">{{ section.settings.addon_was_quarterly }}</s>{%- endif -%}
-              </div>
-            </div>
-            <div class="ftdc__upsell-toggle">
-              <input type="checkbox" id="ftdc-cr2-{{ sid }}" class="visually-hidden" data-creatine2-input>
-              <label for="ftdc-cr2-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
-            </div>
-          </div>
-        {%- endif -%}
-
-      </div>
     </div>
 
     {%- comment %} ───── STEP 3 — REVIEW ─────
@@ -445,6 +407,83 @@
       {%- comment %} ───── ORDER SUMMARY — visible on every step ───── {%- endcomment %}
       <aside class="ftdcg__aside" aria-label="{{ section.settings.summary_label | default: 'Your Order' | escape }}">
         <div class="ftdcg__aside-inner">
+
+          {%- comment %} Bundle progress, then the add-ons. Both live in the
+            aside so they stay put while the customer scrolls the flavour grid. {%- endcomment %}
+          <div class="ftdc__bundle-head">
+            <p class="ftdc__bundle-eyebrow">{{ section.settings.bundle_label | default: 'Your Bundle' }}</p>
+            <p class="ftdc__bundle-progress-text" data-progress-text>0 {{ section.settings.of_word | default: 'of' }} {{ bundle_count }} {{ section.settings.selected_word | default: 'selected' }}</p>
+            <div class="ftdc__bundle-bar"><div class="ftdc__bundle-bar-fill" data-progress-fill style="width:0%"></div></div>
+            <p class="ftdc__bundle-warning" data-bar-warning hidden role="status"></p>
+          </div>
+
+          <div class="ftdc__bundle-addons">
+            <p class="ftdc__bundle-eyebrow ftdc__bundle-addons-head">{{ section.settings.addons_label | default: 'Add to your order' }}</p>
+
+            {%- assign included_img = section.settings.addon_image | default: addon.featured_image -%}
+            <div class="ftdc__upsell ftdc__upsell--included" data-creatine-included hidden aria-hidden="true">
+              <div class="ftdc__upsell-media">
+                {%- if included_img != blank -%}
+                  <img src="{{ included_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">
+                {%- endif -%}
+              </div>
+              <div class="ftdc__upsell-body">
+                <p class="ftdc__upsell-title">Creatine — Included</p>
+                <p class="ftdc__upsell-desc">Free with your 3-month bundle.</p>
+                <div class="ftdc__upsell-pricing">
+                  <span class="ftdc__upsell-price ftdc__upsell-price--free">FREE</span>
+                </div>
+              </div>
+              <div class="ftdc__upsell-toggle">
+                <span class="ftdc__included-check" aria-label="Included" role="img">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+            </div>
+
+            {%- if addon != blank -%}
+              <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine>
+                <div class="ftdc__upsell-media">
+                  {%- assign addon_img = section.settings.addon_image | default: addon.featured_image -%}
+                  {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
+                </div>
+                <div class="ftdc__upsell-body">
+                  <p class="ftdc__upsell-title" data-creatine-title>{{ section.settings.addon_label_monthly | default: 'Add Creatine — 50% off' }}</p>
+                  <p class="ftdc__upsell-desc" data-creatine-desc>{{ section.settings.addon_desc_monthly | default: '' }}</p>
+                  <div class="ftdc__upsell-pricing">
+                    <span class="ftdc__upsell-price" data-creatine-price>{{ section.settings.addon_price_monthly | default: '$12.00' }}</span>
+                    {%- if section.settings.addon_was_monthly != blank -%}<s class="ftdc__upsell-was" data-creatine-was>{{ section.settings.addon_was_monthly }}</s>{%- endif -%}
+                  </div>
+                </div>
+                <div class="ftdc__upsell-toggle">
+                  <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input data-variant="{{ addon_variant_id }}" data-plan-monthly="{{ section.settings.addon_loop_plan_monthly }}" data-plan-quarterly-free="{{ section.settings.addon_loop_plan_quarterly_free }}" data-plan-quarterly-50off="{{ section.settings.addon_loop_plan_quarterly_50off }}" data-discount-onetime="{{ section.settings.addon_discount_code_onetime }}">
+                  <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
+                </div>
+              </div>
+
+              {%- comment %} Quarterly only: optional 2nd creatine at 50% off
+                  (the first is included free above). Revealed by
+                  updateCreatineIncluded() when plan == quarterly. {%- endcomment %}
+              <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine2 hidden>
+                <div class="ftdc__upsell-media">
+                  {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
+                </div>
+                <div class="ftdc__upsell-body">
+                  <p class="ftdc__upsell-title" data-creatine2-title>{{ section.settings.addon_label_quarterly | default: 'Add a 2nd Creatine — 50% off' }}</p>
+                  <p class="ftdc__upsell-desc">{{ section.settings.addon_desc_quarterly | default: '' }}</p>
+                  <div class="ftdc__upsell-pricing">
+                    <span class="ftdc__upsell-price" data-creatine2-price>{{ section.settings.addon_price_quarterly | default: '$12.00' }}</span>
+                    {%- if section.settings.addon_was_quarterly != blank -%}<s class="ftdc__upsell-was">{{ section.settings.addon_was_quarterly }}</s>{%- endif -%}
+                  </div>
+                </div>
+                <div class="ftdc__upsell-toggle">
+                  <input type="checkbox" id="ftdc-cr2-{{ sid }}" class="visually-hidden" data-creatine2-input>
+                  <label for="ftdc-cr2-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
+                </div>
+              </div>
+            {%- endif -%}
+
+          </div>
 
           <div class="ftdc__upsells" data-upsells></div>
 
