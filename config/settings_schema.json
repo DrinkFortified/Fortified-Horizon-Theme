@@ -66,6 +66,324 @@
           "background": "#ffffff",
           "foreground": "#000000"
         }
+      },
+      {
+        "type": "paragraph",
+        "content": "Colour schemes are kept for the Fortified sections, which were built on them. Horizon 4.1.4 moved its own sections to the single palette above."
+      },
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "label": "t:settings.background",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "foreground_heading",
+            "label": "t:settings.headings",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "foreground",
+            "label": "t:settings.text",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "primary",
+            "label": "t:settings.primary_color",
+            "default": "#000F9F",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "primary_hover",
+            "label": "t:settings.primary_hover_color",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "border",
+            "label": "t:settings.borders",
+            "default": "#E6E6E6",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "shadow",
+            "label": "t:settings.shadow_color",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "header",
+            "content": "t:names.primary_button"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_background",
+            "label": "t:settings.background",
+            "default": "#000F9F",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "primary_button_text",
+            "label": "t:settings.text",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "primary_button_border",
+            "label": "t:settings.borders",
+            "default": "#000F9F",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "primary_button_hover_background",
+            "label": "t:settings.hover_background",
+            "default": "#000F9F",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "primary_button_hover_text",
+            "label": "t:settings.hover_text",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "primary_button_hover_border",
+            "label": "t:settings.hover_borders",
+            "default": "#000F9F",
+            "alpha": true
+          },
+          {
+            "type": "header",
+            "content": "t:names.secondary_button"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_background",
+            "label": "t:settings.background",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_text",
+            "label": "t:settings.text",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_border",
+            "label": "t:settings.borders",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_hover_background",
+            "label": "t:settings.hover_background",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_hover_text",
+            "label": "t:settings.hover_text",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_hover_border",
+            "label": "t:settings.hover_borders",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "header",
+            "content": "t:names.inputs"
+          },
+          {
+            "type": "color",
+            "id": "input_background",
+            "label": "t:settings.background",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "input_text_color",
+            "label": "t:settings.text",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "input_border_color",
+            "label": "t:settings.borders",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "input_hover_background",
+            "label": "t:settings.hover_background",
+            "default": "#F5F5F5",
+            "alpha": true
+          },
+          {
+            "type": "header",
+            "content": "t:names.variants"
+          },
+          {
+            "type": "color",
+            "id": "variant_background_color",
+            "label": "t:settings.background",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "variant_text_color",
+            "label": "t:settings.text",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "variant_border_color",
+            "label": "t:settings.borders",
+            "default": "#E6E6E6",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "variant_hover_background_color",
+            "label": "t:settings.hover_background",
+            "default": "#F5F5F5",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "variant_hover_text_color",
+            "label": "t:settings.hover_text",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "variant_hover_border_color",
+            "label": "t:settings.hover_borders",
+            "default": "#E6E6E6",
+            "alpha": true
+          },
+          {
+            "type": "header",
+            "content": "t:names.selected_variants"
+          },
+          {
+            "type": "color",
+            "id": "selected_variant_background_color",
+            "label": "t:settings.background",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "selected_variant_text_color",
+            "label": "t:settings.text",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "selected_variant_border_color",
+            "label": "t:settings.borders",
+            "default": "#000000",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "selected_variant_hover_background_color",
+            "label": "t:settings.hover_background",
+            "default": "#1A1A1A",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "selected_variant_hover_text_color",
+            "label": "t:settings.hover_text",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "selected_variant_hover_border_color",
+            "label": "t:settings.hover_borders",
+            "default": "#1A1A1A",
+            "alpha": true
+          }
+        ],
+        "role": {
+          "text": "foreground",
+          "background": "background",
+          "links": "primary",
+          "icons": "foreground",
+          "primary_button": "primary_button_background",
+          "on_primary_button": "primary_button_text",
+          "primary_button_border": "primary_button_border",
+          "secondary_button": "secondary_button_background",
+          "on_secondary_button": "secondary_button_text",
+          "secondary_button_border": "secondary_button_border"
+        }
+      },
+      {
+        "type": "color_scheme",
+        "id": "badge_sale_color_scheme",
+        "label": "t:settings.badge_sale_color_scheme",
+        "default": "scheme-1"
+      },
+      {
+        "type": "color_scheme",
+        "id": "badge_sold_out_color_scheme",
+        "label": "t:settings.badge_sold_out_color_scheme",
+        "default": "scheme-5"
+      },
+      {
+        "type": "color_scheme",
+        "id": "drawer_color_scheme",
+        "label": "t:settings.color_scheme",
+        "default": "scheme-1"
+      },
+      {
+        "type": "color_scheme",
+        "id": "popover_color_scheme",
+        "label": "t:settings.color_scheme",
+        "default": "scheme-1"
+      },
+      {
+        "type": "color_scheme",
+        "id": "quick_add_color_scheme",
+        "label": "t:settings.quick_add_colors",
+        "default": "scheme-1",
+        "visible_if": "{{ settings.quick_add == true }}"
       }
     ]
   },

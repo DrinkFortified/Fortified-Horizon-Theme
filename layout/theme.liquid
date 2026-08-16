@@ -40,6 +40,11 @@
   {%- render 'scripts' -%}
   {%- render 'theme-styles-variables' -%}
   {%- render 'color-palette' -%}
+  {%- comment -%}
+    Scheme classes for the Fortified sections. 4.1.4 dropped these; the palette
+    above owns :root, this only adds the .color-<scheme> classes on top.
+  {%- endcomment -%}
+  {%- render 'color-schemes' -%}
   {% comment %}
     Golden-ratio token layer. Must come after theme-styles-variables, which it
     re-proportions. See the header of ftd-golden.css.
