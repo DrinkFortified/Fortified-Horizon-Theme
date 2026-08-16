@@ -2530,7 +2530,7 @@
           "type": "_ftd-c-function",
           "settings": {
             "function_label": "Everyday",
-            "product": "",
+            "product": "everyday",
             "coming_soon": false,
             "spec_top": "D3 + K2",
             "spec_1": "1,200MG MAGNESIUM",
@@ -2546,7 +2546,7 @@
           "type": "_ftd-c-function",
           "settings": {
             "function_label": "Energy",
-            "product": "",
+            "product": "energy",
             "coming_soon": false,
             "spec_top": "150mg CAFFEINE",
             "spec_1": "1,200MG MAGNESIUM",
