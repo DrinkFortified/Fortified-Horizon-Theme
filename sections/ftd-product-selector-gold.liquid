@@ -8,6 +8,12 @@
   freshly added ProductSelectorGold renders identically out of the box.
   The creatine add-on ("addon_*") is the upsell section.
 
+  The preset carries the homepage's bullets and function cards but not its
+  announce-fomo bar: that block is disabled on the homepage, and a preset
+  has no way to express "present but off" — 'disabled' is template grammar,
+  not preset grammar, and including it makes Shopify reject the whole
+  section. Add the block from the editor if you want the bar.
+
   Shares the runtime, the stylesheet and the child blocks with Product
   Selector D. It also shares CART_OWNER, so the two must not be rendered
   on the same page — they would fight over the same cart lines.
@@ -1037,26 +1043,6 @@
       "name": "ProductSelectorGold",
       "category": "Fortified",
       "blocks": {
-        "announce_fomo1": {
-          "type": "_ftdc-announce-fomo",
-          "settings": {
-            "total_spots": 1000,
-            "claimed_count_thousands": 0,
-            "claimed_count_units": 0,
-            "metafield_namespace": "",
-            "metafield_key": "",
-            "active_template": "Only **{remaining}** of **{total}** subscription spots left",
-            "exhausted_template": "All **{total}** subscription spots claimed.",
-            "bg": "#ffffff",
-            "fg": "#000000",
-            "show_progress_bar": true,
-            "bar_active_color": "#e8833a",
-            "bar_exhausted_color": "#9ca3af",
-            "bar_track_color": "#ffffff2e",
-            "bar_height": 6
-          },
-          "disabled": true
-        },
         "bullet1": {
           "type": "_ftd-c-bullet",
           "settings": {
@@ -1111,7 +1097,6 @@
         }
       },
       "block_order": [
-        "announce_fomo1",
         "bullet1",
         "bullet2",
         "bullet3",
