@@ -151,7 +151,7 @@
   }
   #ftdc-{{ sid }} .ftdcg__main { min-width: 0; }
 
-  #ftdc-{{ sid }} .ftdcg__aside { position: sticky; min-width: 0; }
+  #ftdc-{{ sid }} .ftdcg__aside { position: sticky; top: 1.3125rem; min-width: 0; }
   #ftdc-{{ sid }} .ftdcg__aside-inner { display: flex; flex-direction: column; gap: 0.8125rem; }
 
   #ftdc-{{ sid }} .ftdcg__summary {
@@ -202,6 +202,11 @@
     margin: 0 0 1.125rem; color: rgb(var(--color-foreground-rgb) / 0.7);
   }
 
+  /* The aside carries the order on desktop, so the sticky bar would just
+     repeat it. Below the breakpoint the columns stack and the bar comes back. */
+  @media screen and (min-width: 990px) {
+    #ftdc-{{ sid }} .ftdc__bar { display: none !important; }
+  }
   @media screen and (max-width: 989px) {
     #ftdc-{{ sid }} .ftdcg__cols { grid-template-columns: 1fr; gap: 1.3125rem; }
     #ftdc-{{ sid }} .ftdcg__aside { position: static; }
@@ -214,6 +219,7 @@
      page — capping the height and letting it scroll internally is what
      actually keeps it in view. */
   #ftdc-{{ sid }} .ftdcg__aside {
+    max-height: calc(100vh - 2.625rem);
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
@@ -245,90 +251,6 @@
       padding-bottom: 0.5rem;
     }
     #ftdc-{{ sid }} .ftdc__grid > * { scroll-snap-align: start; }
-  }
-
-
-  /* ───── Gold: the advance control ─────────────────────────────────────
-     The shared bar is normally sticky at the bottom of the viewport. Here it
-     sits inline at the foot of the main column, directly under whatever step
-     you are on, so it never floats over the flavour grid or the aside — and
-     so there is always something visible saying what happens next.
-     Overriding position rather than hiding it matters: this is the only
-     element the runtime binds the advance action to. */
-  #ftdc-{{ sid }} .ftdc__bar {
-    position: static;
-    max-width: none;
-    width: 100%;
-    margin: 1.3125rem 0 0;
-    box-shadow: none;
-    border-radius: var(--ftdc-radius, 13px);
-    padding: 0.8125rem 1.3125rem;
-    gap: 1.3125rem;
-  }
-  #ftdc-{{ sid }} .ftdc__bar-action { padding-inline: 2.125rem; }
-
-  /* Nudge under the plan cards. The 3-month plan is preselected, so without
-     this the customer can sit on step 1 not realising anything is required. */
-  #ftdc-{{ sid }} .ftdcg__plan-hint {
-    margin: 1.3125rem 0 0;
-    text-align: center;
-    font-size: var(--font-size--sm, 0.887rem);
-    color: rgb(var(--color-foreground-rgb) / 0.65);
-  }
-
-  /* ───── Upgrade banner ────────────────────────────────────────────────
-     Visible only while the 3-month plan is not the selected one. */
-  #ftdc-{{ sid }} .ftdcg__upgrade {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.8125rem;
-    border-radius: var(--ftdc-radius, 13px);
-    border: 2px solid var(--ftdc-accent, #1fa8a1);
-    background: rgb(var(--color-foreground-rgb) / 0.03);
-  }
-  #ftdc-{{ sid }}:has(.ftdc__plan[data-plan="quarterly"] input:checked) .ftdcg__upgrade { display: none; }
-  #ftdc-{{ sid }} .ftdcg__upgrade-badge {
-    align-self: flex-start;
-    padding: 0.1875rem 0.5rem;
-    border-radius: 999px;
-    background: var(--ftdc-accent, #1fa8a1);
-    color: #fff;
-    font-size: var(--font-size--3xs, 0.618rem);
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  #ftdc-{{ sid }} .ftdcg__upgrade-title { margin: 0; font-weight: 700; font-size: var(--font-size--lg, 1.128rem); line-height: 1.206; }
-  #ftdc-{{ sid }} .ftdcg__upgrade-body  { margin: 0; font-size: var(--font-size--2xs, 0.697rem); line-height: 1.412; color: rgb(var(--color-foreground-rgb) / 0.7); }
-  #ftdc-{{ sid }} .ftdcg__upgrade-cta {
-    display: block;
-    margin-top: 0.1875rem;
-    padding: 0.6875rem 0.8125rem;
-    text-align: center;
-    cursor: pointer;
-    border-radius: var(--style-border-radius-buttons-primary, 8px);
-    background: var(--ftdc-accent, #1fa8a1);
-    color: #fff;
-    font-family: var(--font-heading--family, inherit);
-    font-size: var(--font-size--2xs, 0.697rem);
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    line-height: 1;
-  }
-  #ftdc-{{ sid }} .ftdcg__upgrade-cta:hover { opacity: 0.9; }
-
-  /* ───── No stacking, no overlap ───────────────────────────────────────
-     The only pinned element left is the aside. Give it a top offset that
-     clears a sticky header, and keep it below any theme overlay. */
-  #ftdc-{{ sid }} {
-    --ftdcg-aside-top: {{ section.settings.aside_offset | default: 21 }}px;
-  }
-  #ftdc-{{ sid }} .ftdcg__aside {
-    top: var(--ftdcg-aside-top);
-    max-height: calc(100vh - var(--ftdcg-aside-top) - 1.3125rem);
-    z-index: 1;
   }
 
   #ftdc-{{ sid }}[data-active-step="products"] .ftdc__header,
@@ -390,6 +312,7 @@
     <ol class="ftdc__steps" role="list" aria-label="Order steps">
       <li class="ftdc__step-pill is-active" data-step-pill="plans" role="button" tabindex="0"><span class="ftdc__step-num">1</span><span class="ftdc__step-label">{{ section.settings.step_label_1 | default: 'Plan' }}</span></li>
       <li class="ftdc__step-pill" data-step-pill="products" role="button" tabindex="0"><span class="ftdc__step-num">2</span><span class="ftdc__step-label">{{ section.settings.step_label_2 | default: 'Bundle' }}</span></li>
+      <li class="ftdc__step-pill" data-step-pill="review" role="button" tabindex="0"><span class="ftdc__step-num">3</span><span class="ftdc__step-label">{{ section.settings.step_label_4 | default: 'Review' }}</span></li>
     </ol>
 
     <div class="ftdcg__cols">
@@ -416,7 +339,7 @@
       <div class="ftdc__plans" data-plan-order="{{ section.settings.plan_order | default: 'quarterly,monthly,onetime' }}">
         {%- if show_quarterly -%}
           <label class="ftdc__plan is-active" data-plan="quarterly">
-            <input type="radio" id="ftdc-plan-q-{{ sid }}" name="ftdc-plan-{{ sid }}" value="quarterly" checked>
+            <input type="radio" name="ftdc-plan-{{ sid }}" value="quarterly" checked>
             <span class="ftdc__plan-tick" aria-hidden="true"></span>
             {%- if section.settings.quarterly_badge != blank -%}<span class="ftdc__plan-badge">{{ section.settings.quarterly_badge }}</span>{%- endif -%}
             <div class="ftdc__plan-title">{{ section.settings.quarterly_title | default: '3 Pouches Every 3 Months' }}</div>
@@ -449,9 +372,6 @@
           </label>
         {%- endif -%}
       </div>
-      {%- if section.settings.plan_hint != blank -%}
-        <p class="ftdcg__plan-hint">{{ section.settings.plan_hint }}</p>
-      {%- endif -%}
     </div>
 
     {%- comment %} ───── STEP 2 — PRODUCTS ───── {%- endcomment %}
@@ -466,38 +386,27 @@
       {%- comment %} ── Add-ons (merged from old Step 3) ── {%- endcomment %}
     </div>
 
-        <div class="ftdc__bar" data-bar>
-          <div class="ftdc__bar-summary">
-            <span class="ftdc__bar-total"><strong>{{ section.settings.total_label | default: 'Total' }}:</strong> <span data-bar-total>$0.00</span></span>
-            <span class="ftdc__bar-saved" data-bar-saved-wrap hidden>({{ section.settings.saved_word | default: 'Saved' }} <span data-bar-saved>$0.00</span>)</span>
-          </div>
-          <button class="ftdc__bar-action" type="button" data-action="next"><span data-bar-label>{{ section.settings.action_label_step1 | default: 'Continue' }}</span></button>
-        </div>
+    {%- comment %} ───── STEP 3 — REVIEW ─────
+      Slim by design: the order itself lives in the aside, which is visible on
+      every step. Duplicating the data-review-* hooks here would break it —
+      the runtime binds the first match only. {%- endcomment %}
+    <div class="ftdc__step" data-step="review" hidden>
+      <button class="ftdc__back" type="button" data-step-back="products" aria-label="Back to bundle"><span aria-hidden="true">←</span> {{ section.settings.back_label | default: 'Back' }}</button>
+      <div class="ftdc__bundle-head">
+        <p class="ftdc__bundle-eyebrow">{{ section.settings.review_eyebrow | default: 'Review your order' }}</p>
+      </div>
+      <p class="ftdcg__review-hint">{{ section.settings.review_hint | default: 'Your order is on the right. Check it over, then continue to checkout.' }}</p>
+      <div class="ftdc__step-actions">
+        <button class="ftdc__btn ftdc__btn--ghost" type="button" data-step-back="products">{{ section.settings.edit_order_label | default: 'Edit Order' }}</button>
+        <button class="ftdc__btn ftdc__btn--primary" type="button" data-action="checkout">{{ section.settings.checkout_label | default: 'Checkout' }}</button>
+      </div>
+    </div>
 
       </div>{%- comment %} /.ftdcg__main {%- endcomment %}
 
       {%- comment %} ───── ORDER SUMMARY — visible on every step ───── {%- endcomment %}
       <aside class="ftdcg__aside" aria-label="{{ section.settings.summary_label | default: 'Your Order' | escape }}">
         <div class="ftdcg__aside-inner">
-
-          {%- comment %} Shown only while the 3-month plan is NOT selected. Toggled by
-            CSS :has() on the plan radio, so it needs no script and cannot drift
-            out of sync with the runtime. The CTA is a label bound to the
-            quarterly radio, so clicking it fires a real change event. {%- endcomment %}
-          {%- if section.settings.upgrade_title != blank -%}
-            <div class="ftdcg__upgrade">
-              {%- if section.settings.upgrade_badge != blank -%}
-                <span class="ftdcg__upgrade-badge">{{ section.settings.upgrade_badge }}</span>
-              {%- endif -%}
-              <p class="ftdcg__upgrade-title">{{ section.settings.upgrade_title }}</p>
-              {%- if section.settings.upgrade_body != blank -%}
-                <p class="ftdcg__upgrade-body">{{ section.settings.upgrade_body }}</p>
-              {%- endif -%}
-              <label class="ftdcg__upgrade-cta" for="ftdc-plan-q-{{ sid }}" role="button" tabindex="0">
-                {{ section.settings.upgrade_cta | default: 'Switch to 3-month' }}
-              </label>
-            </div>
-          {%- endif -%}
 
           {%- comment %} Bundle progress, then the add-ons. Both live in the
             aside so they stay put while the customer scrolls the flavour grid. {%- endcomment %}
@@ -621,6 +530,13 @@
       </aside>
     </div>{%- comment %} /.ftdcg__cols {%- endcomment %}
 
+    <div class="ftdc__bar" data-bar>
+      <div class="ftdc__bar-summary">
+        <span class="ftdc__bar-total"><strong>{{ section.settings.total_label | default: 'Total' }}:</strong> <span data-bar-total>$0.00</span></span>
+        <span class="ftdc__bar-saved" data-bar-saved-wrap hidden>({{ section.settings.saved_word | default: 'Saved' }} <span data-bar-saved>$0.00</span>)</span>
+      </div>
+      <button class="ftdc__bar-action" type="button" data-action="next"><span data-bar-label>{{ section.settings.action_label_step1 | default: 'Continue' }}</span></button>
+    </div>
 
   </div>
 
@@ -635,8 +551,6 @@
     SID: {{ section.id | json }},
     BUNDLE_COUNT: {{ bundle_count | json }},
     LIVE_SUMMARY: true,   /* aside shows the order on every step, not just Review */
-    SKIP_REVIEW: true,      /* no Review step — the aside is the review */
-    ADVANCE_ON_PLAN: true,  /* picking a plan moves straight to the flavours */
     PLAN_NAMES: {
     monthly:   {{ section.settings.monthly_title   | default: 'Monthly Subscription' | json }},
     quarterly: {{ section.settings.quarterly_title | default: 'Quarterly Bundle'     | json }},
@@ -1293,51 +1207,6 @@
       "id": "review_hint",
       "label": "Review step hint",
       "default": "Your order is on the right. Check it over, then continue to checkout."
-    },
-    {
-      "type": "header",
-      "content": "Nudges"
-    },
-    {
-      "type": "text",
-      "id": "plan_hint",
-      "label": "Hint under the plan cards",
-      "default": "3 Month Supply is selected — continue to choose your flavors."
-    },
-    {
-      "type": "text",
-      "id": "upgrade_badge",
-      "label": "Banner badge",
-      "default": "Best value"
-    },
-    {
-      "type": "text",
-      "id": "upgrade_title",
-      "label": "Banner title",
-      "default": "Save 20% with the 3-month plan"
-    },
-    {
-      "type": "text",
-      "id": "upgrade_body",
-      "label": "Banner body",
-      "default": "Every 3 months, free shipping, and your first Creatine included free."
-    },
-    {
-      "type": "text",
-      "id": "upgrade_cta",
-      "label": "Banner button",
-      "default": "Switch to 3-month"
-    },
-    {
-      "type": "range",
-      "id": "aside_offset",
-      "label": "Sticky offset (px)",
-      "min": 0,
-      "max": 160,
-      "step": 1,
-      "unit": "px",
-      "default": 21,
-      "info": "Clears a sticky header so the order column never sits under it."
     }
   ],
   "blocks": [

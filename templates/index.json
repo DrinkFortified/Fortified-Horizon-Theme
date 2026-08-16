@@ -2612,7 +2612,7 @@
         "of_word": "of",
         "selected_word": "selected",
         "add_label": "ADD",
-        "addon_product": "",
+        "addon_product": "creatine",
         "addon_label_monthly": "Add Creatine — 25% off",
         "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
         "addon_label_onetime": "Add Creatine — 25% off",
@@ -2649,7 +2649,12 @@
         "content_max_width": 1360,
         "color_scheme": "",
         "padding-block-start": 84,
-        "padding-block-end": 52
+        "padding-block-end": 52,
+        "summary_label": "Your Order",
+        "summary_note": "Subscriptions ship free. Discounts applied at checkout.",
+        "shipping_note": "Subscriptions ship free",
+        "purchase_once_label": "Or purchase once:",
+        "review_hint": "Your order is on the right. Check it over, then continue to checkout."
       }
     },
     "fortified_stats_comparison_CLiX76": {
