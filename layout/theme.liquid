@@ -22,6 +22,11 @@
   {%- render 'scripts' -%}
   {%- render 'theme-styles-variables' -%}
   {%- render 'color-schemes' -%}
+  {% comment %}
+    Golden-ratio token layer. Must come after theme-styles-variables, which it
+    re-proportions. See the header of ftd-golden.css.
+  {% endcomment %}
+  {{ 'ftd-golden.css' | asset_url | stylesheet_tag }}
 
   {% if request.design_mode %}
     {%- render 'theme-editor' -%}

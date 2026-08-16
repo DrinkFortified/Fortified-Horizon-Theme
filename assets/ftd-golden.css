@@ -1,0 +1,153 @@
+/* ftd-golden.css — FORTIFIED golden-ratio token layer
+   ==========================================================================
+   Every size, gap and rhythm in the theme comes from one number: φ = 1.618034.
+
+   Horizon funnels the whole site through the token block in
+   snippets/theme-styles-variables.liquid, so redefining those tokens here
+   re-proportions every section, snippet and block at once — no component is
+   edited, and nothing is hardcoded twice.
+
+   WHY :root:root — theme-styles-variables.liquid emits an inline {% style %}
+   block in <head>. This file is linked after it, which already wins on
+   document order, but the doubled selector (specificity 0,2,0 against its
+   0,1,0) makes that independent of load order and of anything Shopify or an
+   app injects later. It is deliberate, not a workaround for a cascade bug.
+
+   THE TWO LADDERS
+   Type and spacing both step by a root of φ, so that every second or third
+   step lands on a whole power of φ. Intermediate steps exist because a UI
+   genuinely needs sizes closer together than 1.618 apart — a scale that
+   only offers 16 → 26 → 42 is how a theme ends up with ten ad-hoc sizes
+   instead of one system.
+
+     Type, UI tier      φ^(1/4) = 1.1278   3xs … lg
+     Type, display tier φ^(1/2) = 1.2720   xl  … 6xl
+     Spacing            Fibonacci ∪ Lucas — both converge on φ, and
+                        interleaved they step by ~φ^(1/2) on whole pixels,
+                        which keeps 1px borders and rules crisp.
+   ========================================================================== */
+
+:root:root {
+  /* ---- Type scale -------------------------------------------------------
+     Anchored at 1rem so the customer's own browser font size still governs.
+     The exact powers of φ are the named landmarks:
+       3xs = 1/φ    md = 1    2xl = φ    4xl = φ²    6xl = φ³              */
+
+  --font-size--3xs: 0.618rem;   /*  9.9px  = 1/φ   */
+  --font-size--2xs: 0.697rem;   /* 11.2px          */
+  --font-size--xs: 0.786rem;    /* 12.6px  = 1/√φ  */
+  --font-size--sm: 0.887rem;    /* 14.2px          */
+  --font-size--md: 1rem;        /* 16.0px  base    */
+  --font-size--lg: 1.128rem;    /* 18.0px          */
+  --font-size--xl: 1.272rem;    /* 20.4px  = √φ    */
+  --font-size--2xl: 1.618rem;   /* 25.9px  = φ     */
+  --font-size--3xl: 2.058rem;   /* 32.9px          */
+  --font-size--4xl: 2.618rem;   /* 41.9px  = φ²    */
+  --font-size--5xl: 3.33rem;    /* 53.3px          */
+  --font-size--6xl: 4.236rem;   /* 67.8px  = φ³    */
+
+  /* Menu sizes snap onto the same ladder rather than running their own. */
+  --menu-font-sm--size: 0.887rem;
+  --menu-font-md--size: 1rem;
+  --menu-font-lg--size: 1.128rem;
+  --menu-font-xl--size: 1.272rem;
+  --menu-font-2xl--size: 1.618rem;
+
+  /* ---- Line height ------------------------------------------------------
+     Built as 1 + (φ−1)/n, so the loosest body setting is exactly φ. Large
+     type wants proportionally less leading, which the ladder gives for free. */
+
+  --line-height--display-tight: 1;
+  --line-height--display-normal: 1.103;
+  --line-height--display-loose: 1.155;
+
+  --line-height--heading-tight: 1.155;
+  --line-height--heading-normal: 1.206;
+  --line-height--heading-loose: 1.309;
+
+  --line-height--body-tight: 1.309;
+  --line-height--body-normal: 1.412;
+  --line-height--body-loose: 1.618;   /* = φ */
+
+  /* ---- Letter spacing ---------------------------------------------------
+     1/φ² = 0.382, so ±0.0382em is the φ-derived tracking step. Display type
+     is set one step tighter, which is what large sizes want.               */
+
+  --letter-spacing--display-tight: -0.0382em;
+  --letter-spacing--display-normal: 0em;
+  --letter-spacing--display-loose: 0.0382em;
+
+  --letter-spacing--heading-tight: -0.0382em;
+  --letter-spacing--heading-normal: 0em;
+  --letter-spacing--heading-loose: 0.0382em;
+
+  --letter-spacing--body-tight: -0.0236em;   /* 1/φ³ */
+  --letter-spacing--body-normal: 0em;
+  --letter-spacing--body-loose: 0.0236em;
+
+  /* ---- Spacing: margins -------------------------------------------------
+     3 5 8 11 13 18 21 29 34 47 55 89 px. Fibonacci (3 5 8 13 21 34 55 89)
+     interleaved with Lucas (11 18 29 47) — both sequences converge on φ, so
+     consecutive steps sit at ~1.27 and alternate steps at ~1.618.
+     Written in rem so they scale with the root size; the comment is the
+     pixel value at the 16px default.                                       */
+
+  --margin-3xs: 0.1875rem;   /*  3 */
+  --margin-2xs: 0.3125rem;   /*  5 */
+  --margin-xs: 0.5rem;       /*  8 */
+  --margin-sm: 0.6875rem;    /* 11 */
+  --margin-md: 0.8125rem;    /* 13 */
+  --margin-lg: 1.125rem;     /* 18 */
+  --margin-xl: 1.3125rem;    /* 21 */
+  --margin-2xl: 1.8125rem;   /* 29 */
+  --margin-3xl: 2.125rem;    /* 34 */
+  --margin-4xl: 2.9375rem;   /* 47 */
+  --margin-5xl: 3.4375rem;   /* 55 */
+  --margin-6xl: 5.5625rem;   /* 89 */
+
+  /* ---- Spacing: gaps ---------------------------------------------------- */
+
+  --gap-3xs: 0.1875rem;      /*  3 */
+  --gap-2xs: 0.3125rem;      /*  5 */
+  --gap-xs: 0.5rem;          /*  8 */
+  --gap-sm: 0.6875rem;       /* 11 */
+  --gap-md: 0.8125rem;       /* 13 */
+  --gap-lg: 1.125rem;        /* 18 */
+  --gap-xl: 1.3125rem;       /* 21 */
+  --gap-2xl: 2.125rem;       /* 34 */
+  --gap-3xl: 3.4375rem;      /* 55 */
+
+  /* Horizon multiplies section spacing by these. 1/φ and 1/√φ. */
+  --spacing-scale-sm: 0.618;
+  --spacing-scale-md: 0.786;
+  --spacing-scale-default: 1;
+
+}
+
+/* ---- Page gutter ----------------------------------------------------------
+   Fibonacci either side of Horizon's 16 / 40.
+
+   These have to be set on the same elements Horizon sets them on. base.css
+   puts --page-margin on the .page-width-* class that lands on <body>, not on
+   :root — a :root declaration would be shadowed by the closer one on <body>,
+   because inheritance takes the nearest ancestor that sets the value. Same
+   750px breakpoint as base.css so the two never disagree mid-range.
+
+   Widening the desktop gutter further (to 55) reads as more premium but
+   pushes total page width out by 42px — try it on a wide screen first.     */
+
+:root .page-width-wide,
+:root .page-width-normal,
+:root .page-width-narrow,
+:root .page-width-content {
+  --page-margin: 1.3125rem;  /* 21 — was 16 */
+}
+
+@media screen and (min-width: 750px) {
+  :root .page-width-wide,
+  :root .page-width-normal,
+  :root .page-width-narrow,
+  :root .page-width-content {
+    --page-margin: 2.125rem;  /* 34 — was 40 */
+  }
+}

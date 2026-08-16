@@ -53,9 +53,12 @@
   #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"] { --ftdc-accent: {{ acc_quarterly }}; }
   #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] { --ftdc-accent: {{ acc_onetime }}; }
   #ftdc-{{ sid }} .ftdc__plan { border-top: 4px solid var(--ftdc-accent, var(--color-primary-button-background)); }
-  #ftdc-{{ sid }} .ftdc__step--has-image.is-active { display: grid; grid-template-columns: minmax(300px, 460px) 1fr; gap: 1.4rem; align-items: start; }
+  /* Golden split, written as fractions so the ratio holds at every width
+     rather than only at the one it was measured at. Was
+     minmax(300px, 460px) 1fr, which resolved to 1.908:1 at 1360px. */
+  #ftdc-{{ sid }} .ftdc__step--has-image.is-active { display: grid; grid-template-columns: minmax(300px, 1fr) 1.618fr; gap: 2.125rem; align-items: start; }
   #ftdc-{{ sid }} .ftdc__plans-image { position: sticky; top: 1rem; }
-  #ftdc-{{ sid }} .ftdc__plans-image img { width: 100%; height: auto; display: block; border-radius: var(--ftdc-radius, 12px); object-fit: cover; }
+  #ftdc-{{ sid }} .ftdc__plans-image img { width: 100%; height: auto; aspect-ratio: 1 / 1.618; display: block; border-radius: var(--ftdc-radius, 13px); object-fit: cover; }
   /* Plan layout: the two subscriptions side-by-side on top, Buy Once
      spanning the full width beneath them. */
   #ftdc-{{ sid }} .ftdc__plans { grid-template-columns: 1fr 1fr; }
@@ -969,7 +972,7 @@
       "max": 24,
       "step": 1,
       "unit": "px",
-      "default": 12
+      "default": 13
     },
     {
       "type": "range",
@@ -999,7 +1002,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 72
+      "default": 84
     },
     {
       "type": "range",
@@ -1009,7 +1012,7 @@
       "max": 200,
       "step": 4,
       "unit": "px",
-      "default": 64
+      "default": 52
     }
   ],
   "blocks": [
