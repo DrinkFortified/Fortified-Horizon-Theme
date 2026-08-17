@@ -1,10 +1,19 @@
-/* ftd-selector-d-core.js - the Product Selector D runtime, shared by every
-   surface that renders the builder: the inline section (ftd-selector-d.js)
-   and the slide-over (ftd-selector-d-so.js). Those two are thin shims that
-   drain their own config queue and call in here.
+/* ftd-selector-gold-core.js - the Selector Gold runtime.
 
-   Both surfaces write the same cart lines (CART_OWNER below), so the rules
-   have to live in one place — they were duplicated, and drifted.
+   Forked from ftd-selector-d-core.js so Gold can be changed without touching
+   anything Selector D or its slide-over load. Those two keep the D core and
+   are not affected by edits here. The fork is deliberate: Gold-only behaviour
+   was previously carried in the shared core behind opt-in flags, which meant
+   Gold work kept landing in a file D depends on.
+
+   Gold's behaviour is switched on from the section's config block:
+     LIVE_SUMMARY      aside shows the order on every step
+     SKIP_REVIEW       two steps only, no Review
+     ADVANCE_ON_PLAN   picking a plan moves straight to the flavours
+     CTA_ADDS_TO_CART  final button adds to cart instead of going to checkout
+
+   Gold writes the same cart lines as Selector D (CART_OWNER below), so cart
+   rules still apply to both — that tag is what the cart snippet keys off.
 
    surface is optional and lets a caller extend the runtime without forking
    it. Both hooks are called with the api object built at the bottom:
@@ -13,14 +22,29 @@
                                    the build is non-empty; default scrolls the
                                    wizard into view. */
 (function () {
-  if (window.__ftdDRun) return;   /* both surfaces may load this file */
+  if (window.__ftdGoldRun) return;   /* Gold's own guard — namespaced so D's core cannot claim it */
 
   function run(C, surface) {
   var SID = C.SID;
+  /* Opt-in: keep the order summary painted on every step, for surfaces that
+     show it permanently instead of only on Review. Absent for Selector D,
+     so its behaviour is unchanged. */
+  var LIVE_SUMMARY = !!C.LIVE_SUMMARY;
+  /* Opt-in: no Review step — the aside already shows the order, so Bundle is
+     the last step and its button goes straight to checkout. */
+  var SKIP_REVIEW = !!C.SKIP_REVIEW;
+  /* Opt-in: picking a plan moves straight on to the flavours on every screen
+     size, not just mobile. */
+  var ADVANCE_ON_PLAN = !!C.ADVANCE_ON_PLAN;
+  /* Opt-in: the final button adds to cart instead of leaving for /checkout.
+     The build is already in the cart either way (cart-as-state), so this only
+     changes the ending: finish the Loop bundle grouping, then open the cart
+     drawer and stay put. Absent for Selector D, which still checks out. */
+  var CTA_ADDS_TO_CART = !!C.CTA_ADDS_TO_CART;
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
   var BUNDLE_COUNT = parseInt(C.BUNDLE_COUNT, 10) || 3;
-  var STEPS_ORDER = ['plans', 'products', 'review'];
+  var STEPS_ORDER_FULL = ['plans', 'products', 'review'];
   var RETURN_FLAG_KEY = 'ftdcReturnToReview';
   var state = { step: 'plans', plan: 'quarterly', selections: {} };
   var PLAN_NAMES = C.PLAN_NAMES;
@@ -224,7 +248,7 @@
     });
     cartTotals = has ? { total: total, saved: saved } : null;
     updateBar();
-    if (state.step === 'review') renderReview();
+    if (state.step === 'review' || LIVE_SUMMARY) renderReview();
   }
   function planFromSellingId(spId) {
     if (!spId) return 'onetime';
@@ -369,10 +393,11 @@
     /* Hard-hide the sticky bar on Review (it duplicates the step's own
        Checkout button); inline style so no stylesheet can override it. */
     var bar0 = $('[data-bar]'); if (bar0) bar0.style.display = (name === 'review') ? 'none' : '';
+    var STEPS_ORDER = SKIP_REVIEW ? ['plans', 'products'] : STEPS_ORDER_FULL;
     var idx = STEPS_ORDER.indexOf(name);
     $$('.ftdc__step').forEach(function (s) { var m = s.dataset.step === name; s.hidden = !m; s.classList.toggle('is-active', m); });
     $$('.ftdc__step-pill').forEach(function (p) { var pi = STEPS_ORDER.indexOf(p.dataset.stepPill); p.classList.toggle('is-active', pi === idx); p.classList.toggle('is-done', pi < idx); });
-    if (name === 'review') renderReview();
+    if (name === 'review' || LIVE_SUMMARY) renderReview();
     updateBar();
     if (shouldScroll) {
       setTimeout(function () {
@@ -426,7 +451,7 @@
       updateBar(); updateProgress(); updateCreatineIncluded(); scheduleSync();
       /* Mobile: auto-advance to the Bundle step so the customer doesn't
          have to scroll back up and tap Continue. */
-      if (window.matchMedia && window.matchMedia('(max-width: 749px)').matches) {
+      if (ADVANCE_ON_PLAN || (window.matchMedia && window.matchMedia('(max-width: 749px)').matches)) {
         setTimeout(function () { showStep('products'); }, 240);
       }
     });
@@ -516,9 +541,11 @@
     var t = (cartTotals || compute()), bt = $('[data-bar-total]'), sw = $('[data-bar-saved-wrap]'), sv = $('[data-bar-saved]');
     if (bt) bt.textContent = fmtMoney(t.total);
     if (sw && sv) { if (t.saved > 0) { sw.hidden = false; sv.textContent = fmtMoney(t.saved); } else sw.hidden = true; }
-    var lab = $('[data-bar-label]'), btn = $('.ftdc__bar-action'), r = canProc();
-    if (lab) lab.textContent = BAR_LABELS[state.step] || BAR_LABELS.plans;
-    if (btn) btn.disabled = state.step === 'plans' ? false : !r;
+    var lab = $('[data-bar-label]'), r = canProc();
+    /* With no Review step, Bundle is the last one, so it carries the final label. */
+    var labKey = (SKIP_REVIEW && state.step === 'products') ? 'review' : state.step;
+    if (lab) lab.textContent = BAR_LABELS[labKey] || BAR_LABELS[state.step] || BAR_LABELS.plans;
+    setAdvanceDisabled(state.step === 'plans' ? false : !r);
     /* Quarterly + Bundle step: warn when not all 3 slots are filled. */
     var w = $('[data-bar-warning]');
     if (w) {
@@ -634,12 +661,14 @@
   }
 
   $$('[data-step-back]').forEach(function (b) { b.addEventListener('click', function () { showStep(b.dataset.stepBack); }); });
-  var actBtn = $('.ftdc__bar-action');
-  if (actBtn) actBtn.addEventListener('click', function () {
+  var actBtns = $$('[data-action="next"]');
+  var actBtn = actBtns[0] || null;
+  function setAdvanceDisabled(v) { actBtns.forEach(function (b) { b.disabled = v; }); }
+  actBtns.forEach(function (btn0) { btn0.addEventListener('click', function () {
     if (state.step === 'plans') showStep('products');
-    else if (state.step === 'products') { if (canProc()) showStep('review'); }
+    else if (state.step === 'products') { if (canProc()) { if (SKIP_REVIEW) doCheckout(); else showStep('review'); } }
     else doCheckout();
-  });
+  }); });
   $$('[data-action="review"]').forEach(function (b) { b.addEventListener('click', function () { if (canProc()) showStep('review'); }); });
   $$('[data-action="checkout"]').forEach(function (b) { b.addEventListener('click', doCheckout); });
 
@@ -728,12 +757,38 @@
       });
   }
 
+  /* Open the theme's cart drawer. Markup nests it as
+     <theme-drawer> > <dialog> > <cart-drawer-component>, so the drawer is the
+     ancestor of the component, not the other way round. Returns false when the
+     theme has no drawer (cart_type is 'page'), so the caller can fall back. */
+  function openCartDrawer() {
+    var host = document.querySelector('cart-drawer-component');
+    var drawer = host && host.closest ? host.closest('theme-drawer') : null;
+    if (!drawer || typeof drawer.open !== 'function') return false;
+    try { if (!drawer.isOpen) drawer.open(); } catch (_) { return false; }
+    return true;
+  }
+
+  /* One-time discounts normally ride along on the /discount/<code> redirect to
+     checkout. Staying on the page means nothing ever visits that URL, so fetch
+     it instead — that still sets the discount on the session. Best effort: a
+     failure here must not cost the customer their add. */
+  function applyDiscountInPlace(code) {
+    if (!code) return Promise.resolve();
+    return fetch('/discount/' + encodeURIComponent(code) + '?redirect=/cart.js', {
+      credentials: 'same-origin'
+    }).catch(function () {});
+  }
+
   function doCheckout() {
     if (!canProc()) return;
     if (!totalQty()) return;
-    /* Stash a session flag so a return-from-checkout visit lands on Review. */
-    try { sessionStorage.setItem(RETURN_FLAG_KEY, '1'); } catch (_) {}
-    if (actBtn) actBtn.disabled = true; $$('[data-action="checkout"]').forEach(function (b) { b.disabled = true; });
+    /* Stash a session flag so a return-from-checkout visit lands on Review.
+       Pointless when the button never leaves for checkout. */
+    if (!CTA_ADDS_TO_CART) {
+      try { sessionStorage.setItem(RETURN_FLAG_KEY, '1'); } catch (_) {}
+    }
+    setAdvanceDisabled(true); $$('[data-action="checkout"]').forEach(function (b) { b.disabled = true; });
     var cr = $('[data-creatine-input]');
     var ot = state.plan === 'onetime' && cr && cr.checked;
     var d = ot ? (cr.dataset.discountOnetime || '') : '';
@@ -743,6 +798,21 @@
     reconcileCart().then(patchLoopBundle).then(getCart).then(function (cart) {
       var ok = (cart.items || []).some(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
       if (!ok) throw new Error('Could not add your selections to the cart.');
+
+      /* Add-to-cart ending: the build is already in the cart and the bundle
+         grouping just landed, so there is nothing left to add — show the
+         customer the cart and give the button back. */
+      if (CTA_ADDS_TO_CART) {
+        return applyDiscountInPlace(d).then(function () {
+          setAdvanceDisabled(false);
+          $$('[data-action="checkout"]').forEach(function (b) { b.disabled = false; });
+          /* Repaint the theme's cart components before the drawer opens, so it
+             cannot flash the pre-bundle contents. */
+          try { document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true })); } catch (_) {}
+          if (!openCartDrawer()) window.location.href = '/cart';
+        });
+      }
+
       /* Deliberately no history.pushState('/cart') here. Pushing a fake cart
          entry made Back from checkout restore THIS page under the /cart URL,
          so the real cart page became unreachable and customers saw the
@@ -750,7 +820,7 @@
          the true history and let /cart be the cart. */
       window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout';
     }).catch(function (e) {
-      if (actBtn) actBtn.disabled = false; $$('[data-action="checkout"]').forEach(function (b) { b.disabled = false; });
+      setAdvanceDisabled(false); $$('[data-action="checkout"]').forEach(function (b) { b.disabled = false; });
       alert((e && e.message) || 'Something went wrong');
     });
   }
@@ -762,6 +832,7 @@
   if (cr2Toggle) cr2Toggle.addEventListener('change', function () { updateBar(); scheduleSync(); });
 
   showStep('plans', {scroll: false}); updateProgress(); updateBar();
+  if (LIVE_SUMMARY) renderReview();   /* paint the aside before the first interaction */
 
   var api = buildApi(C, root, {
     hydrateFromCart: hydrateFromCart, showStep: showStep, totalQty: totalQty,
@@ -778,7 +849,7 @@
         sessionStorage.removeItem(RETURN_FLAG_KEY);
         if (totalQty() > 0) {
           updateProgress(); updateBar(); updateCreatineIncluded();
-          showStep('review');
+          showStep(SKIP_REVIEW ? 'products' : 'review');
           if (surface && typeof surface.onReturnToReview === 'function') surface.onReturnToReview(api);
           else setTimeout(function () { try { root.scrollIntoView({behavior: 'smooth', block: 'start'}); } catch (_) {} }, 80);
         }
@@ -802,11 +873,11 @@
     };
   }
 
-  window.__ftdDRun = run;
+  window.__ftdGoldRun = run;
 
   /* A shim may have been parsed before this file. Flush whatever it queued,
      then make later pushes run straight away. */
-  var pending = window.__ftdDCorePending || [];
-  window.__ftdDCorePending = { push: function (f) { try { f(); } catch (e) { console.error('ftd-selector-d-core.js', e); } } };
-  for (var i = 0; i < pending.length; i++) window.__ftdDCorePending.push(pending[i]);
+  var pending = window.__ftdGoldCorePending || [];
+  window.__ftdGoldCorePending = { push: function (f) { try { f(); } catch (e) { console.error('ftd-selector-gold-core.js', e); } } };
+  for (var i = 0; i < pending.length; i++) window.__ftdGoldCorePending.push(pending[i]);
 })();

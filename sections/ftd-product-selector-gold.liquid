@@ -711,7 +711,7 @@
 
 
 <script>
-  (window.__ftdDQueue = window.__ftdDQueue || []).push({
+  (window.__ftdGoldQueue = window.__ftdGoldQueue || []).push({
     SID: {{ section.id | json }},
     BUNDLE_COUNT: {{ bundle_count | json }},
     LIVE_SUMMARY: true,   /* aside shows the order on every step, not just Review */
@@ -741,10 +741,10 @@
     MONTHLY_PCT: {{ section.settings.monthly_estimate_pct | default: 90 }},
     QUARTERLY_PCT: {{ section.settings.quarterly_estimate_pct | default: 90 }}
   });
-  if (window.__ftdDMain) window.__ftdDMain();
+  if (window.__ftdGoldMain) window.__ftdGoldMain();
 </script>
-<script src="{{ 'ftd-selector-d-core.js' | asset_url }}" defer></script>
-<script src="{{ 'ftd-selector-d.js' | asset_url }}" defer></script>
+<script src="{{ 'ftd-selector-gold-core.js' | asset_url }}" defer></script>
+<script src="{{ 'ftd-selector-gold.js' | asset_url }}" defer></script>
 
 {% schema %}
 {

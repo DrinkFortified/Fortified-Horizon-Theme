@@ -374,30 +374,37 @@
                     endif
                   %}
                   <div class="cart-items__quantity-controls">
-                    {% render 'volume-pricing-info',
-                      variant: item.variant,
-                      unique_id: item.index,
-                      quantity: item.quantity
-                    %}
+                    {% # FORTIFIED — the selector's creatine lines are fixed at 1 per bundle,
+                       so they get no quantity UI at all: no stepper and no volume-pricing
+                       readout. A disabled stepper still printed the number, which read as a
+                       control the customer could not use. Remove stays, below, so the line
+                       is never stranded. %}
+                    {% unless ftd_qty_locked %}
+                      {% render 'volume-pricing-info',
+                        variant: item.variant,
+                        unique_id: item.index,
+                        quantity: item.quantity
+                      %}
 
-                    {% # Let the stepper reach 0 so minus removes the line; respect a real quantity rule when one exists %}
-                    {% liquid
-                      assign quantity_rule_min = item.variant.quantity_rule.min | default: 1
-                      assign quantity_min = 0
-                      if quantity_rule_min > 1
-                        assign quantity_min = quantity_rule_min
-                      endif
-                    %}
+                      {% # Let the stepper reach 0 so minus removes the line; respect a real quantity rule when one exists %}
+                      {% liquid
+                        assign quantity_rule_min = item.variant.quantity_rule.min | default: 1
+                        assign quantity_min = 0
+                        if quantity_rule_min > 1
+                          assign quantity_min = quantity_rule_min
+                        endif
+                      %}
 
-                    {% render 'quantity-selector',
-                      product: item.product,
-                      variant: item.variant,
-                      in_cart_quantity: item.quantity,
-                      line_index: item.index,
-                      class: 'cart-primary-typography',
-                      can_update_quantity: can_update_quantity,
-                      min: quantity_min
-                    %}
+                      {% render 'quantity-selector',
+                        product: item.product,
+                        variant: item.variant,
+                        in_cart_quantity: item.quantity,
+                        line_index: item.index,
+                        class: 'cart-primary-typography',
+                        can_update_quantity: can_update_quantity,
+                        min: quantity_min
+                      %}
+                    {% endunless %}
 
                     <button
                       class="button cart-items__remove"
