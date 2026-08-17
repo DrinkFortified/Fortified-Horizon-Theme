@@ -2409,6 +2409,7 @@
         "ftd_c_function_pkzaNH",
         "ftd_c_function_gbkDqk"
       ],
+      "disabled": true,
       "name": "FTD - Product Selector D",
       "settings": {
         "anchor_id": "#flow",
@@ -2654,7 +2655,14 @@
         "summary_note": "Subscriptions ship free. Discounts applied at checkout.",
         "shipping_note": "Subscriptions ship free",
         "purchase_once_label": "Or purchase once:",
-        "review_hint": "Your order is on the right. Check it over, then continue to checkout."
+        "review_hint": "Your order is on the right. Check it over, then continue to checkout.",
+        "plan_hint": "3 Month Supply is selected — continue to choose your flavors.",
+        "plan_continue_label": "Choose your flavors",
+        "upgrade_badge": "Best value",
+        "upgrade_title": "Save 20% with the 3-month plan",
+        "upgrade_body": "Every 3 months, free shipping, and your first Creatine included free.",
+        "upgrade_cta": "Switch to 3-month",
+        "aside_offset": 21
       }
     },
     "fortified_stats_comparison_CLiX76": {
