@@ -690,7 +690,7 @@
           {%- endif -%}
 
           <button class="ftdcg__cta" type="button" data-action="checkout">
-            {{ section.settings.checkout_label | default: 'Checkout' }}
+            {{ section.settings.checkout_label | default: 'Add to Cart' }}
           </button>
 
           {%- if section.settings.purchase_once_label != blank -%}
@@ -717,6 +717,7 @@
     LIVE_SUMMARY: true,   /* aside shows the order on every step, not just Review */
     SKIP_REVIEW: true,      /* no Review step — the aside is the review */
     ADVANCE_ON_PLAN: true,  /* picking a plan moves straight to the flavours */
+    CTA_ADDS_TO_CART: true, /* final button adds to cart and opens the drawer */
     PLAN_NAMES: {
     monthly:   {{ section.settings.monthly_title   | default: 'Monthly Subscription' | json }},
     quarterly: {{ section.settings.quarterly_title | default: 'Quarterly Bundle'     | json }},
@@ -725,7 +726,7 @@
     BAR_LABELS: {
     plans:    {{ section.settings.action_label_step1 | default: 'Continue'     | json }},
     products: {{ section.settings.action_label_step2 | default: 'Review Order' | json }},
-    review:   {{ section.settings.checkout_label      | default: 'Checkout'     | json }}
+    review:   {{ section.settings.checkout_label      | default: 'Add to Cart'  | json }}
   },
     LOOP_BUNDLE: {
     enabled:           {{ section.settings.loop_bundle_enabled | json }},
@@ -1258,8 +1259,9 @@
     {
       "type": "text",
       "id": "checkout_label",
-      "label": "Checkout",
-      "default": "Checkout"
+      "label": "Add to cart button",
+      "default": "Add to Cart",
+      "info": "This button adds the build to the cart and opens the cart drawer. It does not go to checkout."
     },
     {
       "type": "text",

@@ -27,6 +27,11 @@
   /* Opt-in: picking a plan moves straight on to the flavours on every screen
      size, not just mobile. */
   var ADVANCE_ON_PLAN = !!C.ADVANCE_ON_PLAN;
+  /* Opt-in: the final button adds to cart instead of leaving for /checkout.
+     The build is already in the cart either way (cart-as-state), so this only
+     changes the ending: finish the Loop bundle grouping, then open the cart
+     drawer and stay put. Absent for Selector D, which still checks out. */
+  var CTA_ADDS_TO_CART = !!C.CTA_ADDS_TO_CART;
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
   var BUNDLE_COUNT = parseInt(C.BUNDLE_COUNT, 10) || 3;
@@ -743,11 +748,37 @@
       });
   }
 
+  /* Open the theme's cart drawer. Markup nests it as
+     <theme-drawer> > <dialog> > <cart-drawer-component>, so the drawer is the
+     ancestor of the component, not the other way round. Returns false when the
+     theme has no drawer (cart_type is 'page'), so the caller can fall back. */
+  function openCartDrawer() {
+    var host = document.querySelector('cart-drawer-component');
+    var drawer = host && host.closest ? host.closest('theme-drawer') : null;
+    if (!drawer || typeof drawer.open !== 'function') return false;
+    try { if (!drawer.isOpen) drawer.open(); } catch (_) { return false; }
+    return true;
+  }
+
+  /* One-time discounts normally ride along on the /discount/<code> redirect to
+     checkout. Staying on the page means nothing ever visits that URL, so fetch
+     it instead — that still sets the discount on the session. Best effort: a
+     failure here must not cost the customer their add. */
+  function applyDiscountInPlace(code) {
+    if (!code) return Promise.resolve();
+    return fetch('/discount/' + encodeURIComponent(code) + '?redirect=/cart.js', {
+      credentials: 'same-origin'
+    }).catch(function () {});
+  }
+
   function doCheckout() {
     if (!canProc()) return;
     if (!totalQty()) return;
-    /* Stash a session flag so a return-from-checkout visit lands on Review. */
-    try { sessionStorage.setItem(RETURN_FLAG_KEY, '1'); } catch (_) {}
+    /* Stash a session flag so a return-from-checkout visit lands on Review.
+       Pointless when the button never leaves for checkout. */
+    if (!CTA_ADDS_TO_CART) {
+      try { sessionStorage.setItem(RETURN_FLAG_KEY, '1'); } catch (_) {}
+    }
     setAdvanceDisabled(true); $$('[data-action="checkout"]').forEach(function (b) { b.disabled = true; });
     var cr = $('[data-creatine-input]');
     var ot = state.plan === 'onetime' && cr && cr.checked;
@@ -758,6 +789,21 @@
     reconcileCart().then(patchLoopBundle).then(getCart).then(function (cart) {
       var ok = (cart.items || []).some(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
       if (!ok) throw new Error('Could not add your selections to the cart.');
+
+      /* Add-to-cart ending: the build is already in the cart and the bundle
+         grouping just landed, so there is nothing left to add — show the
+         customer the cart and give the button back. */
+      if (CTA_ADDS_TO_CART) {
+        return applyDiscountInPlace(d).then(function () {
+          setAdvanceDisabled(false);
+          $$('[data-action="checkout"]').forEach(function (b) { b.disabled = false; });
+          /* Repaint the theme's cart components before the drawer opens, so it
+             cannot flash the pre-bundle contents. */
+          try { document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true })); } catch (_) {}
+          if (!openCartDrawer()) window.location.href = '/cart';
+        });
+      }
+
       /* Deliberately no history.pushState('/cart') here. Pushing a fake cart
          entry made Back from checkout restore THIS page under the /cart URL,
          so the real cart page became unreachable and customers saw the
