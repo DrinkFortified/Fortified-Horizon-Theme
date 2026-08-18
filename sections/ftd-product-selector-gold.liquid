@@ -295,25 +295,28 @@
   }
   #ftdc-{{ sid }} .ftdc__bar-action { padding-inline: 2.125rem; }
 
-  /* Nudge under the plan cards. The 3-month plan is preselected, so without
-     this the customer can sit on step 1 not realising anything is required. */
-  #ftdc-{{ sid }} .ftdcg__plan-hint {
-    margin: 1.3125rem 0 0;
-    text-align: center;
-    font-size: var(--font-size--sm, 0.887rem);
-    color: rgb(var(--color-foreground-rgb) / 0.65);
-  }
 
   /* ───── Upgrade banner ────────────────────────────────────────────────
      Visible only while the 3-month plan is not the selected one. */
   #ftdc-{{ sid }} .ftdcg__upgrade {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.8125rem;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.8125rem 1.3125rem;
+    margin: 1.3125rem 0 0;
+    padding: 0.8125rem 1.3125rem;
     border-radius: var(--ftdc-radius, 13px);
     border: 2px solid var(--ftdc-accent, #1fa8a1);
     background: rgb(var(--color-foreground-rgb) / 0.03);
+  }
+  #ftdc-{{ sid }} .ftdcg__upgrade-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3125rem;
+    flex: 1 1 18rem;
+    min-width: 0;
   }
   #ftdc-{{ sid }}:has(.ftdc__plan[data-plan="quarterly"] input:checked) .ftdcg__upgrade { display: none; }
   #ftdc-{{ sid }} .ftdcg__upgrade-badge {
@@ -331,8 +334,8 @@
   #ftdc-{{ sid }} .ftdcg__upgrade-body  { margin: 0; font-size: var(--font-size--2xs, 0.697rem); line-height: 1.412; color: rgb(var(--color-foreground-rgb) / 0.7); }
   #ftdc-{{ sid }} .ftdcg__upgrade-cta {
     display: block;
-    margin-top: 0.1875rem;
-    padding: 0.6875rem 0.8125rem;
+    flex: 0 0 auto;
+    padding: 0.6875rem 1.3125rem;
     text-align: center;
     cursor: pointer;
     border-radius: var(--style-border-radius-buttons-primary, 8px);
@@ -473,50 +476,19 @@
   #ftdc-{{ sid }}[data-active-step="plans"]    .ftdcg__only-bundle { display: none !important; }
   #ftdc-{{ sid }}[data-active-step="products"] .ftdcg__only-plans  { display: none !important; }
 
-  /* Plan recap — the aside's job on step 1. Built by renderPlanRecap() from
-     the selected card, so it restates the choice without repeating the card's
-     full sales copy word for word next to it. */
-  #ftdc-{{ sid }} .ftdcg__recap {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3125rem;
-    padding: 1.125rem 1.3125rem;
-    border: 2px solid var(--ftdc-accent, #1fa8a1);
-    border-radius: var(--ftdc-radius, 13px);
-    background: var(--color-background);
-  }
-  #ftdc-{{ sid }} .ftdcg__recap[hidden] { display: none; }
-  #ftdc-{{ sid }} .ftdcg__recap[data-plan="monthly"]   { --ftdc-accent: {{ acc_monthly }}; }
-  #ftdc-{{ sid }} .ftdcg__recap[data-plan="quarterly"] { --ftdc-accent: {{ acc_quarterly }}; }
-  #ftdc-{{ sid }} .ftdcg__recap[data-plan="onetime"]   { --ftdc-accent: {{ acc_onetime }}; }
-  #ftdc-{{ sid }} .ftdcg__recap-badge {
-    align-self: flex-start;
-    padding: 0.1875rem 0.5rem;
-    border-radius: 4px;
-    background: var(--ftdc-accent, #1fa8a1);
-    color: #fff;
-    font-size: var(--font-size--3xs, 0.618rem);
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  #ftdc-{{ sid }} .ftdcg__recap-badge[hidden] { display: none; }
-  #ftdc-{{ sid }} .ftdcg__recap-eyebrow {
-    margin: 0.125rem 0 0;
-    font-size: var(--font-size--xs, 0.786rem);
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgb(var(--color-foreground-rgb) / 0.55);
-  }
-  #ftdc-{{ sid }} .ftdcg__recap-title {
-    margin: 0;
-    font-size: var(--font-size--lg, 1.128rem);
-    font-weight: 800;
-    line-height: 1.206;
-  }
-  #ftdc-{{ sid }} .ftdcg__recap-price { display: flex; align-items: baseline; gap: 0.35rem; flex-wrap: wrap; }
-  #ftdc-{{ sid }} .ftdcg__recap-price[hidden] { display: none; }
+  /* ───── The plan step has no sidebar ──────────────────────────────────
+     Nothing exists to summarise before a single choice has been made, so
+     the column could only ever repeat the cards beside it — which is
+     exactly what it did. Worse, holding a column open cost the cards the
+     width they needed: at a 1000px viewport the main column came out at
+     548px and the Buy Once row tore into three lines. The plan step gets
+     the whole width; the aside returns on Bundle, where there is an order
+     to show. */
+  #ftdc-{{ sid }}[data-active-step="plans"] .ftdcg__cols { grid-template-columns: 1fr; }
+  #ftdc-{{ sid }}[data-active-step="plans"] .ftdcg__aside { display: none; }
+  /* Full width is not the same as unlimited: two cards spread across a
+     1900px monitor read worse than two sensible ones. */
+  #ftdc-{{ sid }} .ftdc__step[data-step="plans"] { max-width: 60rem; margin-inline: auto; }
 
 
   /* ───── Steps read as progress, not as a choice ───────────────────────
@@ -572,32 +544,38 @@
      option with the least value for the customer was the largest object on
      the screen and the last word on the page. It keeps the span — the row
      reads cleanly — but is styled as the footnote it is: half the padding,
-     price inline instead of stacked, muted surface. */
+     price inline instead of stacked, muted surface.
+
+     Explicit grid placement, not flex-wrap: wrap re-flowed on the width
+     left over after the badge and the title, so the price landed on its own
+     line at some widths and beside the title at others. Placed cells cannot
+     do that — the middle column absorbs the slack instead. */
   #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"] {
-    display: flex !important;
-    flex-wrap: wrap;
+    display: grid !important;
+    /* !important: ftdc.css pins every plan card to a single-column track
+       list with !important, so an unweighted declaration here loses and
+       columns 2 and 3 get auto-created as implicit tracks instead. */
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
     align-items: center;
-    gap: 0.25rem 0.875rem !important;
+    column-gap: 0.75rem !important;
+    row-gap: 0.25rem !important;
     padding: 0.75rem 3rem 0.75rem 1.1rem !important;
     background: rgb(var(--color-foreground-rgb) / 0.03);
   }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-badge { order: -1; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-title {
-    width: auto !important;
-    padding-right: 0;
-    font-size: 15px;
-  }
-  /* order puts the price on the title's line (pushed right) and drops the
-     bullets to their own line beneath. Source order is badge, title, desc,
-     pricing, so without this the price wrapped below the bullets. */
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-pricing {
-    width: auto !important;
-    margin: 0 0 0 auto;
-    order: 1;
-  }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-price { font-size: 18px; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-badge   { grid-row: 1; grid-column: 1; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-title   { grid-row: 1; grid-column: 2; width: auto !important; padding-right: 0; font-size: 15px; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-pricing { grid-row: 1; grid-column: 3; width: auto !important; margin: 0; justify-content: flex-end; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-price   { font-size: 18px; }
   /* The bullets become one compact inline row rather than a stacked list. */
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-desc { width: 100% !important; font-size: 12px; order: 2; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-desc    { grid-row: 2; grid-column: 1 / -1; width: auto !important; font-size: 12px; }
+  /* Too narrow for one line: badge on top, then title and price paired. */
+  @media screen and (max-width: 749px) {
+    #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"] { grid-template-columns: minmax(0, 1fr) auto !important; }
+    #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-badge   { grid-row: 1; grid-column: 1 / -1; }
+    #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-title   { grid-row: 2; grid-column: 1; }
+    #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-pricing { grid-row: 2; grid-column: 2; }
+    #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-desc    { grid-row: 3; }
+  }
   #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-desc ul {
     display: flex;
     flex-wrap: wrap;
@@ -707,10 +685,35 @@
           </label>
         {%- endif -%}
       </div>
-      {%- comment %} Filled by updatePlanHint() so it names the plan actually
-        selected. Held as a template on the attribute: {plan} is substituted at
-        runtime, and a string without the placeholder still shows verbatim. {%- endcomment %}
-      <p class="ftdcg__plan-hint" data-plan-hint="{{ section.settings.plan_hint | escape }}" hidden></p>
+      {%- comment %} The nudge to the 3-month plan, directly under the cards it
+        is talking about. It lived in the aside, which the plan step no longer
+        has. Shown only while the 3-month plan is NOT selected, via CSS :has()
+        on the radio, so it needs no script and cannot drift out of sync with
+        the runtime. The CTA is a label bound to the quarterly radio, so
+        clicking it fires a real change event.
+
+        Plan step only: switching plans clears every flavour already picked, so
+        offering this beside a half-built bundle would invite the customer to
+        throw their own work away. {%- endcomment %}
+      {%- if section.settings.upgrade_title != blank -%}
+        <div class="ftdcg__upgrade">
+          <div class="ftdcg__upgrade-copy">
+            {%- if section.settings.upgrade_badge != blank -%}
+              <span class="ftdcg__upgrade-badge">{{ section.settings.upgrade_badge }}</span>
+            {%- endif -%}
+            <p class="ftdcg__upgrade-title">{{ section.settings.upgrade_title }}</p>
+            {%- if section.settings.upgrade_body != blank -%}
+              <p class="ftdcg__upgrade-body">{{ section.settings.upgrade_body }}</p>
+            {%- endif -%}
+          </div>
+          {%- comment %} A <label for> already activates its radio on click and the
+            radio itself is keyboard-reachable, so role="button" only mislabelled
+            it — and its tabindex led to a stop where Enter did nothing. {%- endcomment %}
+          <label class="ftdcg__upgrade-cta" for="ftdc-plan-q-{{ sid }}">
+            {{ section.settings.upgrade_cta | default: 'Switch to 3-month' }}
+          </label>
+        </div>
+      {%- endif -%}
       {%- comment %} The plan screen gets its own advance button. The shared bar is
         hidden on this step so there is exactly one thing to press. {%- endcomment %}
       <button class="ftdcg__advance" type="button" data-action="next">
@@ -744,47 +747,6 @@
       {%- comment %} ───── ORDER SUMMARY — visible on every step ───── {%- endcomment %}
       <aside class="ftdcg__aside" aria-label="{{ section.settings.summary_label | default: 'Your Order' | escape }}">
         <div class="ftdcg__aside-inner">
-
-          {%- comment %} ── Step 1 only ──────────────────────────────────────
-            The aside used to paint the bundle progress, the add-ons and the
-            full order line list before a single flavour had been chosen: it
-            answered questions the customer had not been asked yet, and stacked
-            up tall enough to need its own scrollbar next to the page's. On the
-            plan step it now confirms the choice and nothing else. {%- endcomment %}
-          <div class="ftdcg__recap ftdcg__only-plans" data-plan-recap hidden>
-            <span class="ftdcg__recap-badge" data-recap-badge hidden></span>
-            <p class="ftdcg__recap-eyebrow">{{ section.settings.recap_label | default: 'Your plan' }}</p>
-            <p class="ftdcg__recap-title" data-recap-title></p>
-            <div class="ftdcg__recap-price" data-recap-price></div>
-          </div>
-
-          {%- comment %} Shown only while the 3-month plan is NOT selected. Toggled by
-            CSS :has() on the plan radio, so it needs no script and cannot drift
-            out of sync with the runtime. The CTA is a label bound to the
-            quarterly radio, so clicking it fires a real change event.
-
-            Plan step only: switching plans clears every flavour already picked
-            (the runtime resets state.selections), so offering it beside a
-            half-built bundle invites the customer to throw their own work
-            away. {%- endcomment %}
-          {%- if section.settings.upgrade_title != blank -%}
-            <div class="ftdcg__upgrade ftdcg__only-plans">
-              {%- if section.settings.upgrade_badge != blank -%}
-                <span class="ftdcg__upgrade-badge">{{ section.settings.upgrade_badge }}</span>
-              {%- endif -%}
-              <p class="ftdcg__upgrade-title">{{ section.settings.upgrade_title }}</p>
-              {%- if section.settings.upgrade_body != blank -%}
-                <p class="ftdcg__upgrade-body">{{ section.settings.upgrade_body }}</p>
-              {%- endif -%}
-              {%- comment %} A <label for> already activates its radio on click and
-                the radio itself is keyboard-reachable, so role="button" only
-                mislabelled it — and its tabindex led to a stop where Enter did
-                nothing. {%- endcomment %}
-              <label class="ftdcg__upgrade-cta" for="ftdc-plan-q-{{ sid }}">
-                {{ section.settings.upgrade_cta | default: 'Switch to 3-month' }}
-              </label>
-            </div>
-          {%- endif -%}
 
           {%- comment %} Bundle progress, then the add-ons. Both live in the
             aside so they stay put while the customer scrolls the flavour grid. {%- endcomment %}
@@ -1594,20 +1556,6 @@
     {
       "type": "header",
       "content": "Nudges"
-    },
-    {
-      "type": "text",
-      "id": "plan_hint",
-      "label": "Hint under the plan cards",
-      "default": "{plan} selected — continue to choose your flavors.",
-      "info": "Use {plan} where the selected plan's name should appear. Without it the text is shown as typed, which will contradict the cards as soon as a different plan is picked."
-    },
-    {
-      "type": "text",
-      "id": "recap_label",
-      "label": "Plan recap eyebrow",
-      "default": "Your plan",
-      "info": "Heading of the panel that confirms the chosen plan on step 1."
     },
     {
       "type": "text",

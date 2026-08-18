@@ -668,39 +668,7 @@
      button back mid-flight and let the customer fire a second one. */
   var busy = false;
 
-  /* The hint under the plan cards was a fixed merchant string naming one plan,
-     so it contradicted the cards the moment any other plan was selected — it
-     read "3 Month Supply is selected" while Buy Once carried the tick. The
-     copy is now a template: {plan} becomes the plan actually chosen. A string
-     without the placeholder is still shown verbatim. */
-  function updatePlanHint() {
-    var el = $('[data-plan-hint]'); if (!el) return;
-    var tpl = el.getAttribute('data-plan-hint') || '';
-    if (!tpl) { el.hidden = true; return; }
-    el.textContent = tpl.split('{plan}').join(PLAN_NAMES[state.plan] || state.plan);
-    el.hidden = false;
-  }
 
-  /* Step 1's aside: restate the plan the customer is on, built from the
-     selected card itself so the two can never drift apart. */
-  function renderPlanRecap() {
-    var box = $('[data-plan-recap]'); if (!box) return;
-    var checked = root.querySelector('.ftdc__plan input:checked');
-    var card = (checked && checked.closest('.ftdc__plan')) || root.querySelector('.ftdc__plan.is-active');
-    if (!card) { box.hidden = true; return; }
-    box.hidden = false;
-    box.setAttribute('data-plan', card.dataset.plan || '');
-    [['[data-recap-title]', '.ftdc__plan-title'],
-     ['[data-recap-price]', '.ftdc__plan-pricing'],
-     ['[data-recap-desc]',  '.ftdc__plan-desc']].forEach(function (pair) {
-      var host = box.querySelector(pair[0]); if (!host) return;
-      var from = card.querySelector(pair[1]);
-      host.innerHTML = from ? from.innerHTML : '';
-      host.hidden = !from;
-    });
-    var badge = box.querySelector('[data-recap-badge]'), b = card.querySelector('.ftdc__plan-badge');
-    if (badge) { badge.textContent = b ? b.textContent.trim() : ''; badge.hidden = !b; }
-  }
 
   function updateBar() {
     var t = (cartTotals || compute()), bt = $('[data-bar-total]'), sw = $('[data-bar-saved-wrap]'), sv = $('[data-bar-saved]');
@@ -716,8 +684,6 @@
        the same rule the advance button already used. */
     var ready = r && totalQty() > 0;
     $$('[data-action="checkout"]').forEach(function (b) { b.disabled = busy || !ready; });
-    updatePlanHint();
-    renderPlanRecap();
     /* Repaint the order here rather than only from showStep() and the cart
        round-trip. Adding a flavour or flipping the add-on called updateBar()
        but not renderReview(), so the always-visible summary sat stale until a
