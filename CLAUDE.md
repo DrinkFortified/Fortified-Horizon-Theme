@@ -4,22 +4,38 @@ Shopify Horizon-based theme for FORTIFIED® (drinkfortified.myshopify.com).
 The theme "Fortified-Horizon-Theme/main" on that store is connected to this
 repo via Shopify's GitHub integration and tracks `main` (two-way sync).
 
-## Branch workflow (exactly 3 branches)
+## Branch workflow (exactly 4 branches)
 
 | Branch | Role |
 |---|---|
+| `Experiment001` | Sandbox. Features that are NOT ready for deployment get built and tried here. Breaking things here is the point. Connected to its own Shopify theme, so a push syncs to that theme — never to the live site. |
+| `test` | Staging. Where a feature is perfected before it goes anywhere. Promote from `Experiment001` once it works; merge into `main` only when the user approves. |
 | `main` | Production. Auto-syncs to the GitHub-connected theme — a push here IS a deploy (live site, once that theme is published). Shopify also commits customizer edits back here automatically. |
-| `test` | Staging. ALL new work is developed and pushed here first. Merge into `main` only when the user approves. |
 | `backup` | Known-good snapshot of `main`. Fast-forward it to `main` on every backup run. Never develop here. |
 
+Flow: `Experiment001` → `test` → `main`, with `backup` trailing `main`.
+
 Rules:
-- Never push unapproved changes to `main`; build on `test`, merge on approval.
+- Never push unapproved changes to `main`; perfect on `test`, merge on approval.
+- Risky or unproven work belongs on `Experiment001`, not `test`.
 - Do not create additional branches; no PRs unless explicitly requested.
 - Before editing template/settings JSON, pull the latest from the theme (or
-  `git pull`) first — the customizer commits to `main` and stale local copies
-  clobber user edits.
+  `git pull`) first — stale local copies clobber user edits.
 - After any approved merge to `main`, fast-forward `backup` when the user asks
   for a backup: `git push origin main:backup`.
+
+### Shopify and apps commit back to these branches
+
+`Experiment001` and `main` are both connected to Shopify themes, so the sync
+runs two ways. Customizer edits AND app installs land as
+"Update from Shopify for theme …" commits without warning — Loop Subscriptions
+has re-injected its bundle code into `layout/theme.liquid`,
+`snippets/cart-products.liquid` and `assets/loop_bundle.js` this way.
+
+So: always `git fetch` and inspect before pushing. If a push is rejected, read
+what landed before integrating — an app's live change can look like dead code
+locally. Never assume a file is unused because nothing in the repo references
+it today.
 
 ## Validation before any push
 

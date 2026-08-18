@@ -7,6 +7,7 @@
   type="module"
 ></script>
 
+{% render 'dialog-styles' %}
 {%- liquid
   # Trigger style: plain text link (default) or a real theme button.
   # Button styles use the .button / .button-secondary chrome (and the
@@ -37,7 +38,7 @@
 
   <dialog
     ref="dialog"
-    class="popup-link__content dialog-modal color-{{ settings.popover_color_scheme }}{% if block_settings.behavior == 'drawer' %} popup-link__content--drawer dialog-drawer{% elsif block_settings.behavior == 'fullscreen' %} popup-link__content--fullscreen{% endif %}"
+    class="popup-link__content dialog-modal color-custom-popover{% if block_settings.behavior == 'drawer' %} popup-link__content--drawer dialog-drawer{% elsif block_settings.behavior == 'fullscreen' %} popup-link__content--fullscreen{% endif %}"
     scroll-lock
     aria-labelledby="popup-dialog-heading"
   >
