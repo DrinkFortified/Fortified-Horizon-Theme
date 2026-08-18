@@ -318,6 +318,16 @@
     flex: 1 1 18rem;
     min-width: 0;
   }
+  /* Aside copy of the same nudge: one narrow column, not a wide banner. */
+  #ftdc-{{ sid }} .ftdcg__upgrade--aside {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6875rem;
+    margin: 0;
+    padding: 0.8125rem;
+  }
+  #ftdc-{{ sid }} .ftdcg__upgrade--aside .ftdcg__upgrade-copy { flex: 1 1 auto; }
+  #ftdc-{{ sid }} .ftdcg__upgrade--aside .ftdcg__upgrade-cta { text-align: center; }
   #ftdc-{{ sid }}:has(.ftdc__plan[data-plan="quarterly"] input:checked) .ftdcg__upgrade { display: none; }
   #ftdc-{{ sid }} .ftdcg__upgrade-badge {
     align-self: flex-start;
@@ -695,24 +705,29 @@
         Plan step only: switching plans clears every flavour already picked, so
         offering this beside a half-built bundle would invite the customer to
         throw their own work away. {%- endcomment %}
-      {%- if section.settings.upgrade_title != blank -%}
-        <div class="ftdcg__upgrade">
-          <div class="ftdcg__upgrade-copy">
-            {%- if section.settings.upgrade_badge != blank -%}
-              <span class="ftdcg__upgrade-badge">{{ section.settings.upgrade_badge }}</span>
-            {%- endif -%}
-            <p class="ftdcg__upgrade-title">{{ section.settings.upgrade_title }}</p>
-            {%- if section.settings.upgrade_body != blank -%}
-              <p class="ftdcg__upgrade-body">{{ section.settings.upgrade_body }}</p>
-            {%- endif -%}
-          </div>
-          {%- comment %} A <label for> already activates its radio on click and the
-            radio itself is keyboard-reachable, so role="button" only mislabelled
-            it — and its tabindex led to a stop where Enter did nothing. {%- endcomment %}
-          <label class="ftdcg__upgrade-cta" for="ftdc-plan-q-{{ sid }}">
-            {{ section.settings.upgrade_cta | default: 'Switch to 3-month' }}
-          </label>
+      {%- comment %} Captured once and placed on both steps: a banner under the
+        plan cards, and a narrow card in the aside beneath "Your Bundle". Same
+        copy, same target radio, two different shapes. {%- endcomment %}
+      {%- capture upgrade_inner -%}
+        <div class="ftdcg__upgrade-copy">
+          {%- if section.settings.upgrade_badge != blank -%}
+            <span class="ftdcg__upgrade-badge">{{ section.settings.upgrade_badge }}</span>
+          {%- endif -%}
+          <p class="ftdcg__upgrade-title">{{ section.settings.upgrade_title }}</p>
+          {%- if section.settings.upgrade_body != blank -%}
+            <p class="ftdcg__upgrade-body">{{ section.settings.upgrade_body }}</p>
+          {%- endif -%}
         </div>
+        {%- comment %} A <label for> already activates its radio on click and the
+          radio itself is keyboard-reachable, so role="button" only mislabelled
+          it — and its tabindex led to a stop where Enter did nothing. {%- endcomment %}
+        <label class="ftdcg__upgrade-cta" for="ftdc-plan-q-{{ sid }}">
+          {{ section.settings.upgrade_cta | default: 'Switch to 3-month' }}
+        </label>
+      {%- endcapture -%}
+
+      {%- if section.settings.upgrade_title != blank -%}
+        <div class="ftdcg__upgrade ftdcg__upgrade--banner">{{ upgrade_inner }}</div>
       {%- endif -%}
       {%- comment %} The plan screen gets its own advance button. The shared bar is
         hidden on this step so there is exactly one thing to press. {%- endcomment %}
@@ -757,6 +772,15 @@
             <p class="ftdc__bundle-warning" data-bar-warning hidden role="status"></p>
           </div>
 
+          {%- comment %} The same 3-month upsell, directly under "Your Bundle".
+            Hidden by the :has() rule below once the 3-month plan is selected.
+            Switching plans from here keeps the flavours already chosen —
+            reclampSelections() trims them to the new plan instead of emptying
+            the build. {%- endcomment %}
+          {%- if section.settings.upgrade_title != blank -%}
+            <div class="ftdcg__upgrade ftdcg__upgrade--aside ftdcg__only-bundle">{{ upgrade_inner }}</div>
+          {%- endif -%}
+
           <div class="ftdc__bundle-addons ftdcg__only-bundle">
             <p class="ftdc__bundle-eyebrow ftdc__bundle-addons-head">{{ section.settings.addons_label | default: 'Add to your order' }}</p>
 
@@ -768,8 +792,10 @@
                 {%- endif -%}
               </div>
               <div class="ftdc__upsell-body">
-                <p class="ftdc__upsell-title">Creatine — Included</p>
-                <p class="ftdc__upsell-desc">Free with your 3-month bundle.</p>
+                {%- comment %} The gift is first-order only now, so "free with
+                  your 3-month bundle" would promise it on every renewal. {%- endcomment %}
+                <p class="ftdc__upsell-title">{{ section.settings.addon_included_title | default: 'Creatine — Included' }}</p>
+                <p class="ftdc__upsell-desc">{{ section.settings.addon_included_desc | default: 'Free with your first 3-month order.' }}</p>
                 <div class="ftdc__upsell-pricing">
                   <span class="ftdc__upsell-price ftdc__upsell-price--free">FREE</span>
                 </div>
@@ -796,7 +822,7 @@
                   </div>
                 </div>
                 <div class="ftdc__upsell-toggle">
-                  <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input data-variant="{{ addon_variant_id }}" data-plan-monthly="{{ section.settings.addon_loop_plan_monthly }}" data-plan-quarterly-free="{{ section.settings.addon_loop_plan_quarterly_free }}" data-plan-quarterly-50off="{{ section.settings.addon_loop_plan_quarterly_50off }}" data-discount-onetime="{{ section.settings.addon_discount_code_onetime }}">
+                  <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input data-variant="{{ addon_variant_id }}" data-plan-monthly="{{ section.settings.addon_loop_plan_monthly }}" data-plan-quarterly-50off="{{ section.settings.addon_loop_plan_quarterly_50off }}" data-discount-onetime="{{ section.settings.addon_discount_code_onetime }}">
                   <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
                 </div>
               </div>
@@ -1296,6 +1322,19 @@
     },
     {
       "type": "text",
+      "id": "addon_included_title",
+      "label": "Included row title (3-month)",
+      "default": "Creatine — Included"
+    },
+    {
+      "type": "text",
+      "id": "addon_included_desc",
+      "label": "Included row description (3-month)",
+      "default": "Free with your first 3-month order.",
+      "info": "The gift is first-order only — it is a one-off line with no selling plan, zeroed by a Shopify automatic discount. Do not promise it on every renewal."
+    },
+    {
+      "type": "text",
       "id": "addon_was_monthly",
       "label": "Monthly was",
       "default": "$24.00"
@@ -1317,12 +1356,6 @@
       "id": "addon_loop_plan_monthly",
       "label": "Loop plan monthly",
       "default": "2852585628"
-    },
-    {
-      "type": "text",
-      "id": "addon_loop_plan_quarterly_free",
-      "label": "Loop plan quarterly free",
-      "default": "2852618396"
     },
     {
       "type": "text",

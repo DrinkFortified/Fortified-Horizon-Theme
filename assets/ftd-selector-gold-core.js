@@ -82,6 +82,17 @@
      summary rows and the total cannot disagree — they did, because compute()
      only ever summed the pouches and silently ignored the creatine the
      customer had just been charged for in the row above it. */
+  /* Our lines from the last cart read, so the add-on rows can quote real
+     prices instead of the merchant's promise. Null until the first sync. */
+  var cartLines = null;
+  function cartLineByRole(role) {
+    if (!cartLines) return null;
+    for (var i = 0; i < cartLines.length; i++) {
+      if ((cartLines[i].properties || {})._role === role) return cartLines[i];
+    }
+    return null;
+  }
+
   function activeAddons() {
     var out = [];
     if (!Object.keys(state.selections).length) return out;
@@ -89,10 +100,22 @@
     var img = imgEl ? (imgEl.currentSrc || imgEl.getAttribute('src') || '') : '';
     var cr = $('[data-creatine-input]');
     if (state.plan === 'quarterly') {
+      /* The gift is zeroed by a Shopify automatic discount, which the theme
+         does not control and cannot assume fired. Once the cart has answered,
+         quote what the line ACTUALLY costs: promising FREE beside a total that
+         charged for it is the same lie the add-on total used to tell. Before
+         the first sync there is no line yet, so the promise stands. */
+      var gift = cartLineByRole('creatine');
+      var giftCents = gift ? gift.final_line_price : 0;
+      var giftWas = gift ? Math.max(gift.original_line_price != null ? gift.original_line_price : gift.line_price, giftCents)
+                         : parseMoney(txt('[data-creatine-was]'));
       out.push({
-        name: 'Creatine', note: 'Included free with your bundle',
-        priceText: 'FREE', cents: 0, savedCents: parseMoney(txt('[data-creatine-was]')),
-        free: true, imgSrc: img
+        name: 'Creatine',
+        note: giftCents > 0 ? '' : 'Free with your first order',
+        priceText: giftCents > 0 ? fmtMoney(giftCents) : 'FREE',
+        cents: giftCents,
+        savedCents: Math.max(0, giftWas - giftCents),
+        free: giftCents === 0, imgSrc: img
       });
       var cr2 = $('[data-creatine2-input]');
       if (cr2 && cr2.checked) {
@@ -216,7 +239,11 @@
         var cp = {}; cp[CART_SEL] = CART_OWNER; cp._role = 'creatine';
         var ci = { id: cv, quantity: 1, properties: cp };
         if (state.plan === 'monthly') { var p1 = parseInt(cr.dataset.planMonthly, 10); if (p1) ci.selling_plan = p1; }
-        else if (state.plan === 'quarterly') { var p2 = parseInt(cr.dataset.planQuarterlyFree, 10); if (p2) ci.selling_plan = p2; }
+        /* Quarterly's free creatine is a FIRST-ORDER GIFT, not a subscription
+           line: no selling plan, so Loop never renews it, and a Shopify
+           automatic discount zeroes it. It used to ride a dedicated Loop
+           "free" selling plan, which made it recur forever. */
+        else if (state.plan === 'quarterly') { cp._upsell = 'creatine-first-order-free'; }
         else { cp._upsell = 'creatine-onetime'; }
         items.push(ci);
       }
@@ -331,8 +358,10 @@
   function paintTotalsFromCart(cart) {
     if (!cart || !cart.items) return;
     var total = 0, saved = 0, has = false;
+    cartLines = [];
     cart.items.forEach(function (l) {
       if ((l.properties || {})[CART_SEL] !== CART_OWNER) return;
+      cartLines.push(l);
       has = true; total += l.final_line_price;
       saved += Math.max(0, lineOriginal(l) - l.final_line_price);
     });
@@ -553,20 +582,27 @@
       state.plan = r.value;
       $$('.ftdc__plan').forEach(function (p) { p.classList.remove('is-active'); });
       var l = r.closest('.ftdc__plan'); if (l) l.classList.add('is-active');
-      state.selections = {};
-      $$('.ftdc__card').forEach(reset);
+      /* Keep the flavours already chosen and trim them to what the new plan
+         allows, rather than emptying the build. The upgrade nudge now sits
+         beside a half-built bundle on the Bundle step, and wiping every
+         selection the moment it is pressed would mean the prompt to save 20%
+         quietly costs the customer their work. */
+      reclampSelections();
       upsellAutoScrolled = false;
-      /* Reset the add-on choice on every plan switch (selections above also
-         reset) — updateCreatineIncluded() will re-force it on if the new
-         plan is quarterly; other plans start unchecked until manually set. */
+      /* The add-on choice does not survive a plan switch: each plan prices it
+         differently. updateCreatineIncluded() re-forces it on for quarterly;
+         other plans start unchecked until set. */
       var cr0 = $('[data-creatine-input]');
       if (cr0) cr0.checked = false;
       var cr20 = $('[data-creatine2-input]');
       if (cr20) cr20.checked = false;
       updateBar(); updateProgress(); updateCreatineIncluded(); scheduleSync();
-      /* Mobile: auto-advance to the Bundle step so the customer doesn't
-         have to scroll back up and tap Continue. */
-      if (ADVANCE_ON_PLAN || (window.matchMedia && window.matchMedia('(max-width: 749px)').matches)) {
+      /* Auto-advance to the Bundle step so the customer doesn't have to
+         scroll back and press Continue. Only from the plan step: switching
+         plans from the aside nudge is already on Bundle, and re-entering it
+         would yank the page back to the top mid-build. */
+      if (state.step === 'plans' &&
+          (ADVANCE_ON_PLAN || (window.matchMedia && window.matchMedia('(max-width: 749px)').matches))) {
         setTimeout(function () { showStep('products'); }, 240);
       }
     });
@@ -577,6 +613,26 @@
     c.classList.remove('is-selected');
     var a = $('.ftdc__add', c), q = $('.ftdc__qty', c), i = $('.ftdc__qty-input', c);
     if (a) a.hidden = false; if (q) q.hidden = true; if (i) i.value = 0;
+  }
+  /* Fit the current selections into the new plan's ceiling: quarterly takes
+     BUNDLE_COUNT pouches, monthly exactly one, one-time as many as you like.
+     Trims from the end so the earliest choices survive, then repaints every
+     card from whatever state survived. */
+  function reclampSelections() {
+    var cap = bundleSize();
+    if (cap) {
+      var running = 0;
+      Object.keys(state.selections).forEach(function (k) {
+        var allowed = Math.max(0, Math.min(state.selections[k].qty, cap - running));
+        running += allowed;
+        if (allowed === 0) delete state.selections[k];
+        else state.selections[k].qty = allowed;
+      });
+    }
+    $$('.ftdc__card').forEach(function (c) {
+      var s = state.selections[c.dataset.variantId];
+      if (s) applyQty(c, s.qty); else reset(c);
+    });
   }
   function setQty(c, n) {
     n = Math.max(0, Math.floor(n));
@@ -812,7 +868,8 @@
       if (cv) {
         var ci = { id: cv, quantity: 1 };
         if (state.plan === 'monthly') { var p = parseInt(cr.dataset.planMonthly, 10); if (p) ci.selling_plan = p; }
-        else if (state.plan === 'quarterly') { var p = parseInt(cr.dataset.planQuarterlyFree, 10); if (p) ci.selling_plan = p; }
+        /* First-order gift: no selling plan, so it never renews. See desiredItems(). */
+        else if (state.plan === 'quarterly') { ci.properties = { _upsell: 'creatine-first-order-free' }; }
         else { ci.properties = { _upsell: 'creatine-onetime' }; }
         items.push(ci);
       }
