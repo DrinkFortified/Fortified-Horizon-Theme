@@ -185,6 +185,20 @@
   }
   #ftdc-{{ sid }} .ftdcg__ship-tick { flex: none; color: #17a34a; }
 
+  /* Cart errors, shown beside the button that caused them. */
+  #ftdc-{{ sid }} .ftdcg__error {
+    margin: 0;
+    padding: 0.6875rem 0.8125rem;
+    border-radius: var(--ftdc-radius, 13px);
+    border: 2px solid #B42318;
+    background: #FEF3F2;
+    color: #B42318;
+    font-size: var(--font-size--2xs, 0.697rem);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  #ftdc-{{ sid }} .ftdcg__error[hidden] { display: none; }
+
   #ftdc-{{ sid }} .ftdcg__cta {
     width: 100%; border: 0; cursor: pointer;
     padding: 1.125rem 1.3125rem;
@@ -885,6 +899,10 @@
               <span>{{ section.settings.shipping_note }}</span>
             </p>
           {%- endif -%}
+
+          {%- comment %} Cart failures land here rather than in a browser alert.
+            role="alert" so it is announced when it appears. {%- endcomment %}
+          <p class="ftdcg__error ftdcg__only-bundle" data-cart-error role="alert" hidden></p>
 
           <button class="ftdcg__cta ftdcg__only-bundle" type="button" data-action="checkout">
             {{ section.settings.checkout_label | default: 'Add to Cart' }}

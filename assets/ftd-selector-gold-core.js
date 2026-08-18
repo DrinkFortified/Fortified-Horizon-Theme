@@ -137,12 +137,31 @@
      routing miss answers with HTML — and .json() on that throws the opaque
      "Unexpected token '<'" the customer sees at checkout. Read as text and
      name the endpoint so failures are diagnosable. */
-  function cartFetch(url, opts) {
+  /* Shopify throttles the cart endpoints, and it answers a throttled call with
+     an HTML error page — which is how a plain rate limit reached the customer
+     as "returned 429 (not JSON)". A 429 is "slow down", not "this failed", so
+     back off and try again before anyone hears about it. Same for the 5xx
+     blips the platform occasionally returns under load. */
+  var RETRY_STATUS = { 429: 1, 502: 1, 503: 1, 504: 1 };
+  var CART_RETRIES = 3;
+  function cartFetch(url, opts, attempt) {
+    attempt = attempt || 0;
     return fetch(url, opts).then(function (r) {
+      if (RETRY_STATUS[r.status] && attempt < CART_RETRIES) {
+        /* Retry-After is in seconds when Shopify sends it; otherwise back off
+           exponentially from 400ms. Capped so a wedged store cannot leave the
+           button spinning for a minute. */
+        var hinted = 0;
+        try { hinted = parseFloat((r.headers && r.headers.get && r.headers.get('Retry-After')) || '') || 0; } catch (_) {}
+        var waitMs = Math.min(hinted > 0 ? hinted * 1000 : 400 * Math.pow(2, attempt), 5000);
+        return new Promise(function (res) { setTimeout(res, waitMs); })
+          .then(function () { return cartFetch(url, opts, attempt + 1); });
+      }
       return r.text().then(function (t) {
         var body = null;
         if (t) { try { body = JSON.parse(t); } catch (_) { body = null; } }
         if (body === null && t) {
+          if (RETRY_STATUS[r.status]) throw new Error('THROTTLED');
           throw new Error('Cart request to ' + url + ' returned ' + r.status + ' (not JSON).');
         }
         if (!r.ok) {
@@ -154,9 +173,26 @@
   }
   var CART_POST = { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } };
   function cartPost(url, payload) {
-    return cartFetch(url, { method: CART_POST.method, headers: CART_POST.headers, body: JSON.stringify(payload) });
+    /* Any write makes a cached read stale, so drop it before AND after: the
+       call itself may race with a read started while it was in flight. */
+    cartRead = null;
+    return cartFetch(url, { method: CART_POST.method, headers: CART_POST.headers, body: JSON.stringify(payload) })
+      .then(function (b) { cartRead = null; return b; },
+            function (e) { cartRead = null; throw e; });
   }
-  function getCart() { return cartFetch('/cart.js', { headers: { 'Accept': 'application/json' } }); }
+  /* Checkout alone reads the cart three times in a row (reconcile, then the
+     Loop patch, then the verify), and every one of those was its own request
+     against a throttled endpoint. Reads within the window share one call;
+     any write above invalidates it, so this can never serve a stale cart. */
+  var cartRead = null, cartReadAt = 0, CART_READ_TTL = 250;
+  function getCart() {
+    var now = new Date().getTime();
+    if (cartRead && (now - cartReadAt) < CART_READ_TTL) return cartRead;
+    cartReadAt = now;
+    cartRead = cartFetch('/cart.js', { headers: { 'Accept': 'application/json' } })
+      .catch(function (e) { cartRead = null; throw e; });
+    return cartRead;
+  }
 
   /* Exact line set this builder should own, with identity properties. */
   function desiredItems() {
@@ -323,6 +359,7 @@
     if (a) a.hidden = true; if (q) q.hidden = false; if (i) i.value = n;
   }
   /* Rebuild the builder UI from the real cart (load + external changes). */
+  var creatineBackfillTried = false;
   function hydrateFromCart() {
     return getCart().then(function (cart) {
       hydratedOnce = true;
@@ -348,9 +385,27 @@
       if (cr2h) cr2h.checked = hadCreatine2;
       hydrating = false;
       updateProgress(); updateCreatineIncluded(); paintTotalsFromCart(cart);
-      /* Existing quarterly cart from before free creatine was auto-included
-         — reconcile once so the promised free item actually lands in cart. */
-      if (state.plan === 'quarterly' && !hadCreatine && cr && cr.checked) scheduleSync();
+      /* Existing quarterly cart from before free creatine was auto-included —
+         reconcile so the promised free item actually lands in the cart.
+
+         This said "once" but nothing enforced it, and it is one half of a
+         loop: updateCreatineIncluded() above forces the box on for quarterly,
+         so whenever the add does not produce a creatine line — out of stock, a
+         selling plan the variant no longer accepts, an app rewriting the line
+         — the sync fires, notifyCartChanged() emits cart:refresh, the theme
+         answers with cart:update, the listener below re-hydrates, and we are
+         right back here.
+
+         It only closes when that echo lands AFTER the SELF_WRITE_QUIET_MS
+         window; a fast theme is suppressed by that guard and settles. Which is
+         why it never shows up locally and does on a loaded store: measured at
+         a 1.6s echo it ran 1 add + 3 reads every 2s indefinitely, roughly 90
+         requests a minute against endpoints Shopify throttles. One attempt per
+         page load. */
+      if (state.plan === 'quarterly' && !hadCreatine && cr && cr.checked && !creatineBackfillTried) {
+        creatineBackfillTried = true;
+        scheduleSync();
+      }
     }).catch(function (e) { hydrating = false; hydratedOnce = true; try { console.error('[FTDC-D] hydrate', e); } catch (_) {} });
   }
   /* Loop bundle (Option A): mint a transaction, then stamp _bundleId +
@@ -871,6 +926,25 @@
     }).catch(function () {});
   }
 
+  /* A browser alert carrying "returned 429 (not JSON)" tells the customer
+     nothing they can act on, and blocks the page until they dismiss it. Say
+     what happened next to the button they pressed, and only fall back to the
+     modal if the section has no place to put the message. */
+  function showCartError(e) {
+    var raw = (e && e.message) || '';
+    var msg = raw === 'THROTTLED' || /\b429\b/.test(raw)
+      ? 'The store is busy right now — give it a few seconds and try again.'
+      : (raw || 'Something went wrong. Please try again.');
+    var box = $('[data-cart-error]');
+    if (!box) { alert(msg); return; }
+    box.textContent = msg;
+    box.hidden = false;
+    if (cartErrorTimer) clearTimeout(cartErrorTimer);
+    cartErrorTimer = setTimeout(function () { box.hidden = true; }, 8000);
+    try { box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (_) {}
+  }
+  var cartErrorTimer = null;
+
   function doCheckout() {
     if (!canProc()) return;
     if (!totalQty()) return;
@@ -912,7 +986,7 @@
       window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout';
     }).catch(function (e) {
       busy = false; updateBar();
-      alert((e && e.message) || 'Something went wrong');
+      showCartError(e);
     });
   }
 
