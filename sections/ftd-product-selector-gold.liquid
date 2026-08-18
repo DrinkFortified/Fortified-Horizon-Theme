@@ -177,17 +177,13 @@
     color: rgb(var(--color-foreground-rgb) / 0.55);
   }
 
-  /* Free-shipping reassurance strip */
-  #ftdc-{{ sid }} .ftdcg__ship { display: flex; flex-direction: column; gap: 0.3125rem; }
-  #ftdc-{{ sid }} .ftdcg__ship-label {
-    margin: 0; font-size: var(--font-size--2xs, 0.697rem); font-weight: 700;
+  /* Free-shipping reassurance line */
+  #ftdc-{{ sid }} .ftdcg__ship {
+    display: flex; align-items: center; gap: 0.4375rem; margin: 0;
+    font-size: var(--font-size--2xs, 0.697rem); font-weight: 700;
     color: rgb(var(--color-foreground-rgb) / 0.7);
   }
-  #ftdc-{{ sid }} .ftdcg__ship-bar {
-    height: 5px; border-radius: 999px; overflow: hidden;
-    background: rgb(var(--color-foreground-rgb) / 0.1);
-  }
-  #ftdc-{{ sid }} .ftdcg__ship-fill { display: block; height: 100%; width: 100%; background: #17a34a; }
+  #ftdc-{{ sid }} .ftdcg__ship-tick { flex: none; color: #17a34a; }
 
   #ftdc-{{ sid }} .ftdcg__cta {
     width: 100%; border: 0; cursor: pointer;
@@ -215,15 +211,27 @@
 
 
   /* ───── Gold: the aside stays put ─────────────────────────────────────
-     Progress, add-ons and the order all live here, so the column is tall.
-     A plain sticky element taller than the viewport scrolls away with the
-     page — capping the height and letting it scroll internally is what
-     actually keeps it in view. */
-  #ftdc-{{ sid }} .ftdcg__aside {
+     The column used to carry progress, add-ons and the whole order on every
+     step, which made it tall enough to need its own scrollbar running beside
+     the page's. It is now scoped per step (see "one job per step" below), so
+     on a normal desktop viewport it simply fits and no nested scroll region is
+     needed. Short viewports keep the cap, because there the alternative is
+     content pinned off the bottom of the screen with no way to reach it. */
+  @media screen and (max-height: 780px) {
+    #ftdc-{{ sid }} .ftdcg__aside {
+      max-height: calc(100vh - var(--ftdcg-aside-top) - 1.3125rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+      padding-right: 0.3125rem;
+    }
+  }
+  /* A long flavour list is the one genuinely unbounded part of the column.
+     Bound that, rather than making the whole column scroll. */
+  #ftdc-{{ sid }} .ftdcg__summary .ftdc__review-lines {
+    max-height: 15.5rem;
     overflow-y: auto;
-    overscroll-behavior: contain;
     scrollbar-width: thin;
-    padding-right: 0.3125rem;
   }
   #ftdc-{{ sid }} .ftdcg__aside .ftdc__bundle-head {
     padding: 0.8125rem 0 0;
@@ -333,7 +341,6 @@
   }
   #ftdc-{{ sid }} .ftdcg__aside {
     top: var(--ftdcg-aside-top);
-    max-height: calc(100vh - var(--ftdcg-aside-top) - 1.3125rem);
     z-index: 1;
   }
 
@@ -441,6 +448,169 @@
   #ftdc-{{ sid }} .ftdc__review-row dd { margin: 0; font-variant-numeric: tabular-nums; }
   #ftdc-{{ sid }} .ftdc__review-row--total dt, #ftdc-{{ sid }} .ftdc__review-row--total dd { font-size: 1.15rem; font-weight: 800; }
   #ftdc-{{ sid }} .ftdc__review-row--saved dd { color: var(--ftdc-accent, #1FA8A1); }
+
+
+  /* ───── One job per step ──────────────────────────────────────────────
+     The whole premise of Gold is that the order stays visible while you
+     build it. That is right on the Bundle step and wrong on the Plan step,
+     where it showed a filled bundle bar, an add-on toggle and a priced line
+     list for flavours that had not been chosen yet — a summary of decisions
+     nobody had made. Each panel now belongs to the step it answers for. */
+  #ftdc-{{ sid }}[data-active-step="plans"]    .ftdcg__only-bundle { display: none !important; }
+  #ftdc-{{ sid }}[data-active-step="products"] .ftdcg__only-plans  { display: none !important; }
+
+  /* Plan recap — the aside's job on step 1. Built by renderPlanRecap() from
+     the selected card, so it restates the choice without repeating the card's
+     full sales copy word for word next to it. */
+  #ftdc-{{ sid }} .ftdcg__recap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3125rem;
+    padding: 1.125rem 1.3125rem;
+    border: 2px solid var(--ftdc-accent, #1fa8a1);
+    border-radius: var(--ftdc-radius, 13px);
+    background: var(--color-background);
+  }
+  #ftdc-{{ sid }} .ftdcg__recap[hidden] { display: none; }
+  #ftdc-{{ sid }} .ftdcg__recap[data-plan="monthly"]   { --ftdc-accent: {{ acc_monthly }}; }
+  #ftdc-{{ sid }} .ftdcg__recap[data-plan="quarterly"] { --ftdc-accent: {{ acc_quarterly }}; }
+  #ftdc-{{ sid }} .ftdcg__recap[data-plan="onetime"]   { --ftdc-accent: {{ acc_onetime }}; }
+  #ftdc-{{ sid }} .ftdcg__recap-badge {
+    align-self: flex-start;
+    padding: 0.1875rem 0.5rem;
+    border-radius: 4px;
+    background: var(--ftdc-accent, #1fa8a1);
+    color: #fff;
+    font-size: var(--font-size--3xs, 0.618rem);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  #ftdc-{{ sid }} .ftdcg__recap-badge[hidden] { display: none; }
+  #ftdc-{{ sid }} .ftdcg__recap-eyebrow {
+    margin: 0.125rem 0 0;
+    font-size: var(--font-size--xs, 0.786rem);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground-rgb) / 0.55);
+  }
+  #ftdc-{{ sid }} .ftdcg__recap-title {
+    margin: 0;
+    font-size: var(--font-size--lg, 1.128rem);
+    font-weight: 800;
+    line-height: 1.206;
+  }
+  #ftdc-{{ sid }} .ftdcg__recap-price { display: flex; align-items: baseline; gap: 0.35rem; flex-wrap: wrap; }
+  #ftdc-{{ sid }} .ftdcg__recap-price[hidden] { display: none; }
+
+
+  /* ───── Steps read as progress, not as a choice ───────────────────────
+     Two filled pills side by side read as a segmented control — "1 Plan" or
+     "Bundle", pick one — which is the opposite of what they mean. Numbered
+     nodes joined by a connector, with the finished one ticked, say "step 1
+     of 2" instead. */
+  #ftdc-{{ sid }} .ftdc__steps { align-items: center; gap: 0; }
+  #ftdc-{{ sid }} .ftdc__step-pill {
+    background: none;
+    padding: 0.4rem 0.6rem;
+    color: rgb(var(--color-foreground-rgb) / 0.45);
+  }
+  #ftdc-{{ sid }} .ftdc__step-pill.is-active { background: none; color: var(--color-foreground); }
+  #ftdc-{{ sid }} .ftdc__step-pill.is-done   { color: rgb(var(--color-foreground-rgb) / 0.7); }
+  #ftdc-{{ sid }} .ftdc__step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.375rem;
+    height: 1.375rem;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    background: none;
+    color: inherit;
+    font-size: var(--font-size--2xs, 0.697rem);
+  }
+  #ftdc-{{ sid }} .ftdc__step-pill.is-active .ftdc__step-num {
+    background: var(--color-foreground);
+    border-color: var(--color-foreground);
+    color: var(--color-background);
+  }
+  #ftdc-{{ sid }} .ftdc__step-pill.is-done .ftdc__step-num {
+    background: var(--ftdc-accent, #1fa8a1);
+    border-color: var(--ftdc-accent, #1fa8a1);
+    color: #fff;
+    font-size: 0;
+  }
+  #ftdc-{{ sid }} .ftdc__step-pill.is-done .ftdc__step-num::after { content: '\2713'; font-size: 0.75rem; line-height: 1; }
+  #ftdc-{{ sid }} .ftdc__step-pill + .ftdc__step-pill::before {
+    content: '';
+    width: clamp(1.5rem, 6vw, 3.5rem);
+    height: 2px;
+    border-radius: 2px;
+    background: rgb(var(--color-foreground-rgb) / 0.18);
+  }
+  #ftdc-{{ sid }} .ftdc__step-pill.is-active + .ftdc__step-pill::before,
+  #ftdc-{{ sid }} .ftdc__step-pill.is-done + .ftdc__step-pill::before { background: var(--color-foreground); }
+
+
+  /* ───── Plan hierarchy ────────────────────────────────────────────────
+     Buy Once spanned the full width beneath the two subscriptions, so the
+     option with the least value for the customer was the largest object on
+     the screen and the last word on the page. It keeps the span — the row
+     reads cleanly — but is styled as the footnote it is: half the padding,
+     price inline instead of stacked, muted surface. */
+  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"] {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.875rem !important;
+    padding: 0.75rem 3rem 0.75rem 1.1rem !important;
+    background: rgb(var(--color-foreground-rgb) / 0.03);
+  }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-badge { order: -1; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-title {
+    width: auto !important;
+    padding-right: 0;
+    font-size: 15px;
+  }
+  /* order puts the price on the title's line (pushed right) and drops the
+     bullets to their own line beneath. Source order is badge, title, desc,
+     pricing, so without this the price wrapped below the bullets. */
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-pricing {
+    width: auto !important;
+    margin: 0 0 0 auto;
+    order: 1;
+  }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-price { font-size: 18px; }
+  /* The bullets become one compact inline row rather than a stacked list. */
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-desc { width: 100% !important; font-size: 12px; order: 2; }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-desc ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.125rem 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-desc li { margin: 0; }
+  /* The two subscription cards carry different numbers of bullets, so their
+     prices landed at different heights and could not be compared at a glance.
+     Column flex plus an auto top margin drops both prices to the same line. */
+  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan:not([data-plan="onetime"]) { display: flex !important; flex-direction: column; }
+  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan:not([data-plan="onetime"]) .ftdc__plan-pricing { margin-top: auto; }
+  /* Lift the recommended plan clear of its neighbour. */
+  #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"].is-active { box-shadow: 0 0 0 3px color-mix(in srgb, var(--ftdc-accent) 18%, transparent), 0 6px 20px rgb(var(--color-foreground-rgb) / 0.1); }
+
+  /* A one-time order has no target size, so updateProgress() hides the track
+     rather than show a bar that reads "complete" at every quantity. */
+  #ftdc-{{ sid }} .ftdc__bundle-bar[hidden] { display: none; }
+
+  /* Desktop: the aside CTA is on screen at all times, so the inline bar is a
+     second button doing the same job. Mobile: the aside stacks below the
+     grid, so the bar is the action actually to hand — keep it there. */
+  @media screen and (min-width: 990px) {
+    #ftdc-{{ sid }} .ftdc__bar { display: none; }
+  }
 </style>
 
 <div id="{{ anchor_id }}">
@@ -523,9 +693,10 @@
           </label>
         {%- endif -%}
       </div>
-      {%- if section.settings.plan_hint != blank -%}
-        <p class="ftdcg__plan-hint">{{ section.settings.plan_hint }}</p>
-      {%- endif -%}
+      {%- comment %} Filled by updatePlanHint() so it names the plan actually
+        selected. Held as a template on the attribute: {plan} is substituted at
+        runtime, and a string without the placeholder still shows verbatim. {%- endcomment %}
+      <p class="ftdcg__plan-hint" data-plan-hint="{{ section.settings.plan_hint | escape }}" hidden></p>
       {%- comment %} The plan screen gets its own advance button. The shared bar is
         hidden on this step so there is exactly one thing to press. {%- endcomment %}
       <button class="ftdcg__advance" type="button" data-action="next">
@@ -560,12 +731,30 @@
       <aside class="ftdcg__aside" aria-label="{{ section.settings.summary_label | default: 'Your Order' | escape }}">
         <div class="ftdcg__aside-inner">
 
+          {%- comment %} ── Step 1 only ──────────────────────────────────────
+            The aside used to paint the bundle progress, the add-ons and the
+            full order line list before a single flavour had been chosen: it
+            answered questions the customer had not been asked yet, and stacked
+            up tall enough to need its own scrollbar next to the page's. On the
+            plan step it now confirms the choice and nothing else. {%- endcomment %}
+          <div class="ftdcg__recap ftdcg__only-plans" data-plan-recap hidden>
+            <span class="ftdcg__recap-badge" data-recap-badge hidden></span>
+            <p class="ftdcg__recap-eyebrow">{{ section.settings.recap_label | default: 'Your plan' }}</p>
+            <p class="ftdcg__recap-title" data-recap-title></p>
+            <div class="ftdcg__recap-price" data-recap-price></div>
+          </div>
+
           {%- comment %} Shown only while the 3-month plan is NOT selected. Toggled by
             CSS :has() on the plan radio, so it needs no script and cannot drift
             out of sync with the runtime. The CTA is a label bound to the
-            quarterly radio, so clicking it fires a real change event. {%- endcomment %}
+            quarterly radio, so clicking it fires a real change event.
+
+            Plan step only: switching plans clears every flavour already picked
+            (the runtime resets state.selections), so offering it beside a
+            half-built bundle invites the customer to throw their own work
+            away. {%- endcomment %}
           {%- if section.settings.upgrade_title != blank -%}
-            <div class="ftdcg__upgrade">
+            <div class="ftdcg__upgrade ftdcg__only-plans">
               {%- if section.settings.upgrade_badge != blank -%}
                 <span class="ftdcg__upgrade-badge">{{ section.settings.upgrade_badge }}</span>
               {%- endif -%}
@@ -573,7 +762,11 @@
               {%- if section.settings.upgrade_body != blank -%}
                 <p class="ftdcg__upgrade-body">{{ section.settings.upgrade_body }}</p>
               {%- endif -%}
-              <label class="ftdcg__upgrade-cta" for="ftdc-plan-q-{{ sid }}" role="button" tabindex="0">
+              {%- comment %} A <label for> already activates its radio on click and
+                the radio itself is keyboard-reachable, so role="button" only
+                mislabelled it — and its tabindex led to a stop where Enter did
+                nothing. {%- endcomment %}
+              <label class="ftdcg__upgrade-cta" for="ftdc-plan-q-{{ sid }}">
                 {{ section.settings.upgrade_cta | default: 'Switch to 3-month' }}
               </label>
             </div>
@@ -581,14 +774,14 @@
 
           {%- comment %} Bundle progress, then the add-ons. Both live in the
             aside so they stay put while the customer scrolls the flavour grid. {%- endcomment %}
-          <div class="ftdc__bundle-head">
+          <div class="ftdc__bundle-head ftdcg__only-bundle">
             <p class="ftdc__bundle-eyebrow">{{ section.settings.bundle_label | default: 'Your Bundle' }}</p>
             <p class="ftdc__bundle-progress-text" data-progress-text>0 {{ section.settings.of_word | default: 'of' }} {{ bundle_count }} {{ section.settings.selected_word | default: 'selected' }}</p>
-            <div class="ftdc__bundle-bar"><div class="ftdc__bundle-bar-fill" data-progress-fill style="width:0%"></div></div>
+            <div class="ftdc__bundle-bar" data-progress-track><div class="ftdc__bundle-bar-fill" data-progress-fill style="width:0%"></div></div>
             <p class="ftdc__bundle-warning" data-bar-warning hidden role="status"></p>
           </div>
 
-          <div class="ftdc__bundle-addons">
+          <div class="ftdc__bundle-addons ftdcg__only-bundle">
             <p class="ftdc__bundle-eyebrow ftdc__bundle-addons-head">{{ section.settings.addons_label | default: 'Add to your order' }}</p>
 
             {%- assign included_img = section.settings.addon_image | default: addon.featured_image -%}
@@ -644,7 +837,7 @@
                   <p class="ftdc__upsell-desc">{{ section.settings.addon_desc_quarterly | default: '' }}</p>
                   <div class="ftdc__upsell-pricing">
                     <span class="ftdc__upsell-price" data-creatine2-price>{{ section.settings.addon_price_quarterly | default: '$12.00' }}</span>
-                    {%- if section.settings.addon_was_quarterly != blank -%}<s class="ftdc__upsell-was">{{ section.settings.addon_was_quarterly }}</s>{%- endif -%}
+                    {%- if section.settings.addon_was_quarterly != blank -%}<s class="ftdc__upsell-was" data-creatine2-was>{{ section.settings.addon_was_quarterly }}</s>{%- endif -%}
                   </div>
                 </div>
                 <div class="ftdc__upsell-toggle">
@@ -656,9 +849,9 @@
 
           </div>
 
-          <div class="ftdc__upsells" data-upsells></div>
+          <div class="ftdc__upsells ftdcg__only-bundle" data-upsells></div>
 
-          <div class="ftdcg__summary">
+          <div class="ftdcg__summary ftdcg__only-bundle">
             <p class="ftdcg__summary-label">{{ section.settings.summary_label | default: 'Your Order' }}</p>
             <p class="ftdc__review-plan" data-review-plan></p>
             <ul class="ftdc__review-lines list-unstyled" data-review-lines></ul>
@@ -683,18 +876,22 @@
           </div>
 
           {%- if section.settings.shipping_note != blank -%}
-            <div class="ftdcg__ship">
-              <p class="ftdcg__ship-label">{{ section.settings.shipping_note }}</p>
-              <div class="ftdcg__ship-bar" aria-hidden="true"><span class="ftdcg__ship-fill"></span></div>
-            </div>
+            {%- comment %} Was a green bar rendered permanently at 100% — a
+              progress indicator with nothing to progress toward, which is the
+              same thing that made the bundle bar meaningless on a one-time
+              order. It is a reassurance line, so it now looks like one. {%- endcomment %}
+            <p class="ftdcg__ship">
+              <svg class="ftdcg__ship-tick" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>{{ section.settings.shipping_note }}</span>
+            </p>
           {%- endif -%}
 
-          <button class="ftdcg__cta" type="button" data-action="checkout">
+          <button class="ftdcg__cta ftdcg__only-bundle" type="button" data-action="checkout">
             {{ section.settings.checkout_label | default: 'Add to Cart' }}
           </button>
 
           {%- if section.settings.purchase_once_label != blank -%}
-            <p class="ftdcg__once">{{ section.settings.purchase_once_label }}</p>
+            <p class="ftdcg__once ftdcg__only-bundle">{{ section.settings.purchase_once_label }}</p>
           {%- endif -%}
 
         </div>
@@ -1384,7 +1581,15 @@
       "type": "text",
       "id": "plan_hint",
       "label": "Hint under the plan cards",
-      "default": "3 Month Supply is selected — continue to choose your flavors."
+      "default": "{plan} selected — continue to choose your flavors.",
+      "info": "Use {plan} where the selected plan's name should appear. Without it the text is shown as typed, which will contradict the cards as soon as a different plan is picked."
+    },
+    {
+      "type": "text",
+      "id": "recap_label",
+      "label": "Plan recap eyebrow",
+      "default": "Your plan",
+      "info": "Heading of the panel that confirms the chosen plan on step 1."
     },
     {
       "type": "text",

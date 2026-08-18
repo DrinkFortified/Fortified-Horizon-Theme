@@ -61,6 +61,60 @@
   function $(s, c) { return (c || root).querySelector(s); }
   function $$(s, c) { return Array.prototype.slice.call((c || root).querySelectorAll(s)); }
   function fmtMoney(c) { return '$' + (Math.max(0, c) / 100).toFixed(2); }
+  function txt(sel) { var e = $(sel); return e ? e.textContent.trim() : ''; }
+  /* Money written for humans ("$12.00") back to cents. Add-on prices are
+     merchant-typed strings rather than variant prices, so reading them back is
+     the only way the total can agree with the row the customer is looking at. */
+  function parseMoney(s) {
+    if (!s) return 0;
+    var m = String(s).replace(/[^0-9.,]/g, '');
+    if (!m) return 0;
+    /* Last separator wins as the decimal point; anything earlier is grouping. */
+    var cut = Math.max(m.lastIndexOf('.'), m.lastIndexOf(','));
+    var whole = m, frac = '';
+    if (cut > -1 && m.length - cut - 1 <= 2) { whole = m.slice(0, cut); frac = m.slice(cut + 1); }
+    whole = whole.replace(/[.,]/g, '');
+    return (parseInt(whole || '0', 10) * 100) + parseInt((frac + '00').slice(0, 2), 10);
+  }
+
+  /* The priced add-ons currently on the order, in the order they are shown.
+     ONE source of truth: compute() and renderReview() both read this, so the
+     summary rows and the total cannot disagree — they did, because compute()
+     only ever summed the pouches and silently ignored the creatine the
+     customer had just been charged for in the row above it. */
+  function activeAddons() {
+    var out = [];
+    if (!Object.keys(state.selections).length) return out;
+    var imgEl = $('[data-upsell-creatine] .ftdc__upsell-media img') || $('[data-creatine-included] .ftdc__upsell-media img');
+    var img = imgEl ? (imgEl.currentSrc || imgEl.getAttribute('src') || '') : '';
+    var cr = $('[data-creatine-input]');
+    if (state.plan === 'quarterly') {
+      out.push({
+        name: 'Creatine', note: 'Included free with your bundle',
+        priceText: 'FREE', cents: 0, savedCents: parseMoney(txt('[data-creatine-was]')),
+        free: true, imgSrc: img
+      });
+      var cr2 = $('[data-creatine2-input]');
+      if (cr2 && cr2.checked) {
+        var p2 = parseMoney(txt('[data-creatine2-price]'));
+        out.push({
+          name: txt('[data-creatine2-title]') || '2nd Creatine', note: '',
+          priceText: txt('[data-creatine2-price]'), cents: p2,
+          savedCents: Math.max(0, parseMoney(txt('[data-creatine2-was]')) - p2),
+          free: false, imgSrc: img
+        });
+      }
+    } else if (cr && cr.checked) {
+      var p1 = parseMoney(txt('[data-creatine-price]'));
+      out.push({
+        name: txt('[data-creatine-title]') || 'Creatine add-on', note: '',
+        priceText: txt('[data-creatine-price]'), cents: p1,
+        savedCents: Math.max(0, parseMoney(txt('[data-creatine-was]')) - p1),
+        free: false, imgSrc: img
+      });
+    }
+    return out;
+  }
 
   /* ============================================================
      CART-AS-STATE LAYER (Product Selector D)
@@ -396,7 +450,13 @@
     var STEPS_ORDER = SKIP_REVIEW ? ['plans', 'products'] : STEPS_ORDER_FULL;
     var idx = STEPS_ORDER.indexOf(name);
     $$('.ftdc__step').forEach(function (s) { var m = s.dataset.step === name; s.hidden = !m; s.classList.toggle('is-active', m); });
-    $$('.ftdc__step-pill').forEach(function (p) { var pi = STEPS_ORDER.indexOf(p.dataset.stepPill); p.classList.toggle('is-active', pi === idx); p.classList.toggle('is-done', pi < idx); });
+    $$('.ftdc__step-pill').forEach(function (p) {
+      var pi = STEPS_ORDER.indexOf(p.dataset.stepPill);
+      p.classList.toggle('is-active', pi === idx); p.classList.toggle('is-done', pi < idx);
+      /* The trail is styled state only; this is what says "you are here" to a
+         screen reader. */
+      if (pi === idx) p.setAttribute('aria-current', 'step'); else p.removeAttribute('aria-current');
+    });
     if (name === 'review' || LIVE_SUMMARY) renderReview();
     updateBar();
     if (shouldScroll) {
@@ -521,9 +581,15 @@
   function bundleSize() { return state.plan === 'quarterly' ? BUNDLE_COUNT : (state.plan === 'monthly' ? 1 : 0); }
   function updateProgress() {
     var n = totalQty(), s = bundleSize(), pt = $('[data-progress-text]'), pf = $('[data-progress-fill]');
-    if (!pt || !pf) return;
-    if (s) { pt.textContent = n + ' of ' + s + ' selected'; pf.style.width = Math.min(100, n / s * 100) + '%'; }
-    else   { pt.textContent = n ? (n + ' selected') : 'Choose your pouches'; pf.style.width = n > 0 ? '100%' : '0%'; }
+    var track = $('[data-progress-track]');
+    if (pt && pf) {
+      if (s) { pt.textContent = n + ' of ' + s + ' selected'; pf.style.width = Math.min(100, n / s * 100) + '%'; }
+      else   { pt.textContent = n ? (n + (n === 1 ? ' pouch' : ' pouches') + ' selected') : 'Choose your pouches'; pf.style.width = '0%'; }
+    }
+    /* A one-time order has no fixed size, so there is nothing to fill toward.
+       The bar used to jump to 100% on the first pouch and sit there, reading
+       "complete" at every quantity — hide it rather than lie. */
+    if (track) track.hidden = !s;
   }
   function compute() {
     var mu = (C.MONTHLY_PCT / 100);
@@ -535,8 +601,52 @@
       var c = s.compareAt > s.price ? s.compareAt : s.price;
       sa += Math.max(0, c - u) * s.qty;
     });
+    /* Add-ons are part of what the customer pays, so they are part of the
+       total. Before this they were listed with a price and then left out of
+       the sum, so the order read "$12.00" on one line and a total that did not
+       include it two lines below. */
+    activeAddons().forEach(function (a) { t += a.cents; sa += a.savedCents || 0; });
     return { total: Math.round(t), saved: Math.round(sa) };
   }
+  /* An add-to-cart round trip is in flight. updateBar() runs during that
+     window (the cart repaint calls it), so without this it would hand the
+     button back mid-flight and let the customer fire a second one. */
+  var busy = false;
+
+  /* The hint under the plan cards was a fixed merchant string naming one plan,
+     so it contradicted the cards the moment any other plan was selected — it
+     read "3 Month Supply is selected" while Buy Once carried the tick. The
+     copy is now a template: {plan} becomes the plan actually chosen. A string
+     without the placeholder is still shown verbatim. */
+  function updatePlanHint() {
+    var el = $('[data-plan-hint]'); if (!el) return;
+    var tpl = el.getAttribute('data-plan-hint') || '';
+    if (!tpl) { el.hidden = true; return; }
+    el.textContent = tpl.split('{plan}').join(PLAN_NAMES[state.plan] || state.plan);
+    el.hidden = false;
+  }
+
+  /* Step 1's aside: restate the plan the customer is on, built from the
+     selected card itself so the two can never drift apart. */
+  function renderPlanRecap() {
+    var box = $('[data-plan-recap]'); if (!box) return;
+    var checked = root.querySelector('.ftdc__plan input:checked');
+    var card = (checked && checked.closest('.ftdc__plan')) || root.querySelector('.ftdc__plan.is-active');
+    if (!card) { box.hidden = true; return; }
+    box.hidden = false;
+    box.setAttribute('data-plan', card.dataset.plan || '');
+    [['[data-recap-title]', '.ftdc__plan-title'],
+     ['[data-recap-price]', '.ftdc__plan-pricing'],
+     ['[data-recap-desc]',  '.ftdc__plan-desc']].forEach(function (pair) {
+      var host = box.querySelector(pair[0]); if (!host) return;
+      var from = card.querySelector(pair[1]);
+      host.innerHTML = from ? from.innerHTML : '';
+      host.hidden = !from;
+    });
+    var badge = box.querySelector('[data-recap-badge]'), b = card.querySelector('.ftdc__plan-badge');
+    if (badge) { badge.textContent = b ? b.textContent.trim() : ''; badge.hidden = !b; }
+  }
+
   function updateBar() {
     var t = (cartTotals || compute()), bt = $('[data-bar-total]'), sw = $('[data-bar-saved-wrap]'), sv = $('[data-bar-saved]');
     if (bt) bt.textContent = fmtMoney(t.total);
@@ -545,7 +655,20 @@
     /* With no Review step, Bundle is the last one, so it carries the final label. */
     var labKey = (SKIP_REVIEW && state.step === 'products') ? 'review' : state.step;
     if (lab) lab.textContent = BAR_LABELS[labKey] || BAR_LABELS[state.step] || BAR_LABELS.plans;
-    setAdvanceDisabled(state.step === 'plans' ? false : !r);
+    setAdvanceDisabled(busy || (state.step === 'plans' ? false : !r));
+    /* The aside's Add-to-Cart stayed live on every step, so an empty or
+       half-filled bundle could be pushed straight into the cart. Gate it on
+       the same rule the advance button already used. */
+    var ready = r && totalQty() > 0;
+    $$('[data-action="checkout"]').forEach(function (b) { b.disabled = busy || !ready; });
+    updatePlanHint();
+    renderPlanRecap();
+    /* Repaint the order here rather than only from showStep() and the cart
+       round-trip. Adding a flavour or flipping the add-on called updateBar()
+       but not renderReview(), so the always-visible summary sat stale until a
+       reconcile came back ~450ms later — on a slow cart call, seconds of the
+       customer looking at an order that was not theirs. */
+    if (LIVE_SUMMARY) renderReview();
     /* Quarterly + Bundle step: warn when not all 3 slots are filled. */
     var w = $('[data-bar-warning]');
     if (w) {
@@ -595,39 +718,7 @@
     var extra = $('[data-review-extra]');
     if (extra) {
       extra.innerHTML = '';
-      var extras = [];
-      var creatineUpsellImg = (function () {
-        var crEl = $('[data-upsell-creatine] .ftdc__upsell-media img') || $('[data-creatine-included] .ftdc__upsell-media img');
-        return crEl ? (crEl.currentSrc || crEl.getAttribute('src') || '') : '';
-      })();
-      var hasSelections = Object.keys(state.selections).length > 0;
-      if (state.plan === 'quarterly' && hasSelections) {
-        extras.push({ name: 'Creatine', note: 'Included free with your bundle', price: 'FREE', free: true, imgSrc: creatineUpsellImg });
-      }
-      var cr = $('[data-creatine-input]');
-      if (state.plan !== 'quarterly' && cr && cr.checked && hasSelections) {
-        var priceNode = $('[data-creatine-price]');
-        var titleNode = $('[data-creatine-title]');
-        extras.push({
-          name:  titleNode ? titleNode.textContent.trim() : 'Creatine add-on',
-          note:  '',
-          price: priceNode ? priceNode.textContent.trim() : '',
-          free:  false,
-          imgSrc: creatineUpsellImg
-        });
-      }
-      var crSecond = $('[data-creatine2-input]');
-      if (state.plan === 'quarterly' && crSecond && crSecond.checked && hasSelections) {
-        var priceNode2 = $('[data-creatine2-price]');
-        var titleNode2 = $('[data-creatine2-title]');
-        extras.push({
-          name:  titleNode2 ? titleNode2.textContent.trim() : '2nd Creatine',
-          note:  '',
-          price: priceNode2 ? priceNode2.textContent.trim() : '',
-          free:  false,
-          imgSrc: creatineUpsellImg
-        });
-      }
+      var extras = activeAddons();
       if (extras.length) {
         extra.hidden = false;
         extras.forEach(function (e) {
@@ -635,7 +726,7 @@
           var thumb = document.createElement('span'); thumb.className = 'ftdc__review-line-thumb';
           if (e.imgSrc) { var ti = document.createElement('img'); ti.src = e.imgSrc; ti.alt = ''; ti.loading = 'lazy'; ti.width = 56; ti.height = 56; thumb.appendChild(ti); }
           var n = document.createElement('span'); n.className = 'ftdc__review-line-name'; n.textContent = e.name + (e.note ? ' — ' + e.note : '');
-          var p = document.createElement('span'); p.className = 'ftdc__review-line-price' + (e.free ? ' ftdc__review-line-price--free' : ''); p.textContent = e.price;
+          var p = document.createElement('span'); p.className = 'ftdc__review-line-price' + (e.free ? ' ftdc__review-line-price--free' : ''); p.textContent = e.priceText;
           row.appendChild(thumb); row.appendChild(n); row.appendChild(p);
           extra.appendChild(row);
         });
@@ -788,6 +879,7 @@
     if (!CTA_ADDS_TO_CART) {
       try { sessionStorage.setItem(RETURN_FLAG_KEY, '1'); } catch (_) {}
     }
+    busy = true;
     setAdvanceDisabled(true); $$('[data-action="checkout"]').forEach(function (b) { b.disabled = true; });
     var cr = $('[data-creatine-input]');
     var ot = state.plan === 'onetime' && cr && cr.checked;
@@ -804,8 +896,7 @@
          customer the cart and give the button back. */
       if (CTA_ADDS_TO_CART) {
         return applyDiscountInPlace(d).then(function () {
-          setAdvanceDisabled(false);
-          $$('[data-action="checkout"]').forEach(function (b) { b.disabled = false; });
+          busy = false; updateBar();
           /* Repaint the theme's cart components before the drawer opens, so it
              cannot flash the pre-bundle contents. */
           try { document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true })); } catch (_) {}
@@ -820,7 +911,7 @@
          the true history and let /cart be the cart. */
       window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout';
     }).catch(function (e) {
-      setAdvanceDisabled(false); $$('[data-action="checkout"]').forEach(function (b) { b.disabled = false; });
+      busy = false; updateBar();
       alert((e && e.message) || 'Something went wrong');
     });
   }
