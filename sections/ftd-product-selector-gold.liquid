@@ -795,7 +795,7 @@
                 {%- comment %} The gift is first-order only now, so "free with
                   your 3-month bundle" would promise it on every renewal. {%- endcomment %}
                 <p class="ftdc__upsell-title">{{ section.settings.addon_included_title | default: 'Creatine — Included' }}</p>
-                <p class="ftdc__upsell-desc">{{ section.settings.addon_included_desc | default: 'Free with your first 3-month order.' }}</p>
+                <p class="ftdc__upsell-desc">{{ section.settings.addon_included_desc | default: 'Free with your first order.' }}</p>
                 <div class="ftdc__upsell-pricing">
                   <span class="ftdc__upsell-price ftdc__upsell-price--free">FREE</span>
                 </div>
@@ -917,6 +917,7 @@
   (window.__ftdGoldQueue = window.__ftdGoldQueue || []).push({
     SID: {{ section.id | json }},
     BUNDLE_COUNT: {{ bundle_count | json }},
+    GIFT_MIN: {{ section.settings.gift_threshold | default: 3 | json }},
     LIVE_SUMMARY: true,   /* aside shows the order on every step, not just Review */
     SKIP_REVIEW: true,      /* no Review step — the aside is the review */
     ADVANCE_ON_PLAN: true,  /* picking a plan moves straight to the flavours */
@@ -1321,6 +1322,16 @@
       "default": "$18.00"
     },
     {
+      "type": "range",
+      "id": "gift_threshold",
+      "label": "Free creatine at N pouches",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 3,
+      "info": "Subscription orders with at least this many pouches get the creatine added free. MUST match the \"Buy N\" side of the 3PackFree automatic discount in Shopify — that discount is what actually zeroes the line. If they disagree, customers are shown a gift they get charged for."
+    },
+    {
       "type": "text",
       "id": "addon_included_title",
       "label": "Included row title (3-month)",
@@ -1330,7 +1341,7 @@
       "type": "text",
       "id": "addon_included_desc",
       "label": "Included row description (3-month)",
-      "default": "Free with your first 3-month order.",
+      "default": "Free with your first order.",
       "info": "The gift is first-order only — it is a one-off line with no selling plan, zeroed by a Shopify automatic discount. Do not promise it on every renewal."
     },
     {

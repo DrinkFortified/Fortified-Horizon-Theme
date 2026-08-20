@@ -44,6 +44,9 @@
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
   var BUNDLE_COUNT = parseInt(C.BUNDLE_COUNT, 10) || 3;
+  /* Pouches needed to earn the free creatine. Must match the "Buy N" side
+     of the 3PackFree automatic discount in Shopify. */
+  var GIFT_MIN = parseInt(C.GIFT_MIN, 10) || 3;
   var STEPS_ORDER_FULL = ['plans', 'products', 'review'];
   var RETURN_FLAG_KEY = 'ftdcReturnToReview';
   var state = { step: 'plans', plan: 'quarterly', selections: {} };
@@ -99,7 +102,7 @@
     var imgEl = $('[data-upsell-creatine] .ftdc__upsell-media img') || $('[data-creatine-included] .ftdc__upsell-media img');
     var img = imgEl ? (imgEl.currentSrc || imgEl.getAttribute('src') || '') : '';
     var cr = $('[data-creatine-input]');
-    if (state.plan === 'quarterly') {
+    if (giftQualifies()) {
       /* The gift is zeroed by a Shopify automatic discount, which the theme
          does not control and cannot assume fired. Once the cart has answered,
          quote what the line ACTUALLY costs: promising FREE beside a total that
@@ -118,7 +121,7 @@
         free: giftCents === 0, imgSrc: img
       });
       var cr2 = $('[data-creatine2-input]');
-      if (cr2 && cr2.checked) {
+      if (cr2 && cr2.checked && state.plan === 'quarterly') {
         var p2 = parseMoney(txt('[data-creatine2-price]'));
         out.push({
           name: txt('[data-creatine2-title]') || '2nd Creatine', note: '',
@@ -238,12 +241,14 @@
       if (cv) {
         var cp = {}; cp[CART_SEL] = CART_OWNER; cp._role = 'creatine';
         var ci = { id: cv, quantity: 1, properties: cp };
-        if (state.plan === 'monthly') { var p1 = parseInt(cr.dataset.planMonthly, 10); if (p1) ci.selling_plan = p1; }
-        /* Quarterly's free creatine is a FIRST-ORDER GIFT, not a subscription
-           line: no selling plan, so Loop never renews it, and a Shopify
-           automatic discount zeroes it. It used to ride a dedicated Loop
-           "free" selling plan, which made it recur forever. */
-        else if (state.plan === 'quarterly') { cp._upsell = 'creatine-first-order-free'; }
+        /* The gift is a FIRST-ORDER, ONE-TIME line: no selling plan, so Loop
+           never renews it — and, critically, so Shopify's 3PackFree discount
+           can reach it at all. That discount is appliesOnSubscription:false,
+           meaning it only ever zeroes one-time lines. The same rule protects
+           the PAID monthly add-on below, which does carry a selling plan and
+           so cannot be zeroed by accident. */
+        if (giftQualifies()) { cp._upsell = 'creatine-first-order-free'; }
+        else if (state.plan === 'monthly') { var p1 = parseInt(cr.dataset.planMonthly, 10); if (p1) ci.selling_plan = p1; }
         else { cp._upsell = 'creatine-onetime'; }
         items.push(ci);
       }
@@ -554,26 +559,50 @@
     }
   }
 
-  /* Quarterly bundles include creatine free — force the toggle on and hide
-     the manual "Add Creatine" row (it would otherwise contradict the
-     "Included — FREE" banner and require a redundant manual step). Any
-     other plan restores the manual, priced toggle. */
+  /* Does this build earn the free creatine? Any subscription plan with at
+     least GIFT_MIN pouches — it used to be "quarterly, always", which only
+     worked because quarterly was the only plan that could reach three.
+     Monthly can now too.
+
+     GIFT_MIN mirrors the "Buy 3" side of the 3PackFree automatic discount in
+     Shopify. That discount is what actually makes the line free; this only
+     decides when to put the line in the cart. If the two disagree, the
+     customer is shown a gift they get charged for, so the setting carries a
+     warning to keep them in step. One-time orders are excluded on purpose:
+     the ask was subscriptions only. */
+  function giftQualifies() {
+    return state.plan !== 'onetime' && totalQty() >= GIFT_MIN;
+  }
+
+  /* Show the gift as an "Included — FREE" row and hide the manual priced
+     toggle, which would otherwise contradict it and demand a redundant click.
+     Below the threshold the priced toggle comes back. */
   function updateCreatineIncluded() {
+    var gift = giftQualifies();
     var el = $('[data-creatine-included]');
-    var isQuarterly = state.plan === 'quarterly';
-    if (el) el.hidden = !isQuarterly;
+    if (el) el.hidden = !gift;
     var crRow = $('[data-upsell-creatine]');
-    if (crRow) crRow.hidden = isQuarterly;
+    if (crRow) crRow.hidden = gift;
     /* Quarterly-only: optional 2nd creatine at 50% (first one is free). */
     var cr2Row = $('[data-upsell-creatine2]');
-    if (cr2Row) cr2Row.hidden = !isQuarterly;
-    /* Only ever FORCE the checkbox on for quarterly. Never force it off here
-       — this runs after hydrateFromCart too, and a monthly/one-time
-       customer who genuinely paid for the add-on would otherwise get it
-       silently unchecked (and removed from cart on the next sync). */
+    if (cr2Row) cr2Row.hidden = !(gift && state.plan === 'quarterly');
     var cr = $('[data-creatine-input]');
-    if (cr && isQuarterly) cr.checked = true;
+    if (!cr) return;
+    if (gift) {
+      cr.checked = true;
+      giftAutoAdded = true;
+    } else if (giftAutoAdded) {
+      /* The build dropped back under the threshold, so take back what we
+         added — but ONLY that. Never force the box off otherwise: this runs
+         after hydrateFromCart too, and a customer who genuinely paid for the
+         add-on would be silently unchecked and have it pulled from their
+         cart on the next sync. */
+      cr.checked = false;
+      giftAutoAdded = false;
+    }
   }
+  /* True while the creatine in the cart is there because we put it there. */
+  var giftAutoAdded = false;
 
   var upsellAutoScrolled = false;
 
@@ -655,7 +684,7 @@
       c.classList.add('is-selected');
       if (a) a.hidden = true; if (q) q.hidden = false; if (i) i.value = n;
     }
-    updateProgress(); updateBar(); scheduleSync();
+    updateProgress(); updateCreatineIncluded(); updateBar(); scheduleSync();
     /* Quarterly bundle just filled up for the first time this visit — ease
        the customer down to the add-ons instead of leaving it to scroll. */
     if (state.plan === 'quarterly' && !upsellAutoScrolled && totalQty() === BUNDLE_COUNT) {
@@ -859,9 +888,10 @@
       var cv = parseInt(cr.dataset.variant, 10);
       if (cv) {
         var ci = { id: cv, quantity: 1 };
-        if (state.plan === 'monthly') { var p = parseInt(cr.dataset.planMonthly, 10); if (p) ci.selling_plan = p; }
-        /* First-order gift: no selling plan, so it never renews. See desiredItems(). */
-        else if (state.plan === 'quarterly') { ci.properties = { _upsell: 'creatine-first-order-free' }; }
+        /* First-order gift: no selling plan, so it never renews and the
+           3PackFree discount can reach it. See desiredItems(). */
+        if (giftQualifies()) { ci.properties = { _upsell: 'creatine-first-order-free' }; }
+        else if (state.plan === 'monthly') { var p = parseInt(cr.dataset.planMonthly, 10); if (p) ci.selling_plan = p; }
         else { ci.properties = { _upsell: 'creatine-onetime' }; }
         items.push(ci);
       }
