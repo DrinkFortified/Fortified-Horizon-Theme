@@ -715,9 +715,11 @@
         Plan step only: switching plans clears every flavour already picked, so
         offering this beside a half-built bundle would invite the customer to
         throw their own work away. {%- endcomment %}
-      {%- comment %} Captured once and placed on both steps: a banner under the
-        plan cards, and a narrow card in the aside beneath "Your Bundle". Same
-        copy, same target radio, two different shapes. {%- endcomment %}
+      {%- comment %} The 3-month nudge, captured here and rendered once, in the
+        aside beneath "Your Bundle" on the Bundle step. It used to appear as a
+        banner under the plan cards as well; that copy is gone, because the
+        plan cards already state the 3-month offer immediately above it and the
+        second ask read as clutter on the first screen. {%- endcomment %}
       {%- capture upgrade_inner -%}
         <div class="ftdcg__upgrade-copy">
           {%- if section.settings.upgrade_badge != blank -%}
@@ -735,10 +737,6 @@
           {{ section.settings.upgrade_cta | default: 'Switch to 3-month' }}
         </label>
       {%- endcapture -%}
-
-      {%- if section.settings.upgrade_title != blank -%}
-        <div class="ftdcg__upgrade ftdcg__upgrade--banner">{{ upgrade_inner }}</div>
-      {%- endif -%}
       {%- comment %} The plan screen gets its own advance button. The shared bar is
         hidden on this step so there is exactly one thing to press. {%- endcomment %}
       <button class="ftdcg__advance" type="button" data-action="next">
