@@ -195,6 +195,42 @@
   }
   #ftdc-{{ sid }} .ftdcg__ship-tick { flex: none; color: #17a34a; }
 
+  /* Quantity stepper on the creatine row (one-time orders). */
+  #ftdc-{{ sid }} .ftdcg__addon-qty {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.125rem;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.25);
+    border-radius: var(--style-border-radius-buttons-primary, 8px);
+    overflow: hidden;
+  }
+  #ftdc-{{ sid }} .ftdcg__addon-qty[hidden] { display: none; }
+  #ftdc-{{ sid }} .ftdcg__addon-qty button {
+    border: 0;
+    background: none;
+    cursor: pointer;
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    color: var(--color-foreground);
+    font-size: var(--font-size--sm, 0.887rem);
+    line-height: 1;
+  }
+  #ftdc-{{ sid }} .ftdcg__addon-qty button:hover { background: rgb(var(--color-foreground-rgb) / 0.06); }
+  #ftdc-{{ sid }} .ftdcg__addon-qty-input {
+    width: 2rem;
+    border: 0;
+    padding: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-size: var(--font-size--xs, 0.786rem);
+    text-align: center;
+    -moz-appearance: textfield;
+  }
+  #ftdc-{{ sid }} .ftdcg__addon-qty-input::-webkit-outer-spin-button,
+  #ftdc-{{ sid }} .ftdcg__addon-qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
   /* Cart errors, shown beside the button that caused them. */
   #ftdc-{{ sid }} .ftdcg__error {
     margin: 0;
@@ -476,6 +512,9 @@
   #ftdc-{{ sid }} .ftdc__review-line-price--free { color: var(--ftdc-accent, #1FA8A1); }
   #ftdc-{{ sid }} .ftdc__review-extra { margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed rgb(var(--color-foreground-rgb) / 0.2); }
   #ftdc-{{ sid }} .ftdc__review-extra .ftdc__review-line--extra { grid-template-columns: 56px minmax(0, 1fr) auto; border-top: 0; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+  /* With a multiplier the extra row needs the pouch lines' four tracks. */
+  #ftdc-{{ sid }} .ftdc__review-extra .ftdc__review-line--extra-qty { grid-template-columns: 56px minmax(0, 1fr) auto auto; }
+  #ftdc-{{ sid }} .ftdcg__aside .ftdc__review-extra .ftdc__review-line--extra-qty { grid-template-columns: 34px minmax(0, 1fr) auto auto; }
   /* Review totals: price breakdown (Original -> Saved -> Total), anchored
      right above the buttons. Label left, value right, adidas-style. */
   #ftdc-{{ sid }} .ftdc__review-totals { margin: 1rem 0 1.25rem auto; padding-top: 0.75rem; border-top: 2px solid rgb(var(--color-foreground-rgb) / 0.2); display: flex; flex-direction: column; gap: 0.35rem; width: 100%; max-width: 24em; }
@@ -846,7 +885,18 @@
                 </div>
                 <div class="ftdc__upsell-toggle">
                   <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input data-variant="{{ addon_variant_id }}" data-plan-monthly="{{ section.settings.addon_loop_plan_monthly }}" data-plan-quarterly-50off="{{ section.settings.addon_loop_plan_quarterly_50off }}" data-discount-onetime="{{ section.settings.addon_discount_code_onetime }}">
-                  <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
+                  <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" data-creatine-switch aria-hidden="true"></label>
+                  {%- comment %} One-time orders buy creatine by the unit, like the
+                    pouches, so the on/off switch is replaced by a stepper there.
+                    Subscriptions keep the switch: the add-on is one per shipment,
+                    and the gift is always a single unit. {%- endcomment %}
+                  <div class="ftdcg__addon-qty" data-creatine-qty hidden>
+                    <button type="button" data-creatine-qty-action="dec" aria-label="{{ 'accessibility.decrease_quantity' | t | default: 'Decrease quantity' | escape }}">&minus;</button>
+                    <input class="ftdcg__addon-qty-input" type="number" min="0" step="1" value="0"
+                      data-creatine-qty-input
+                      aria-label="{{ section.settings.addon_qty_label | default: 'Creatine quantity' | escape }}">
+                    <button type="button" data-creatine-qty-action="inc" aria-label="{{ 'accessibility.increase_quantity' | t | default: 'Increase quantity' | escape }}">+</button>
+                  </div>
                 </div>
               </div>
 
@@ -1343,6 +1393,13 @@
       "id": "addon_price_onetime",
       "label": "One-time price",
       "default": "$18.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_qty_label",
+      "label": "Creatine quantity label",
+      "default": "Creatine quantity",
+      "info": "Accessible name for the quantity stepper shown on one-time orders."
     },
     {
       "type": "text",

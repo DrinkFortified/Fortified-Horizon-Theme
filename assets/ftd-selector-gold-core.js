@@ -131,11 +131,14 @@
         });
       }
     } else if (cr && cr.checked) {
-      var p1 = parseMoney(txt('[data-creatine-price]'));
+      var qty = creatineQty();
+      var unit = parseMoney(txt('[data-creatine-price]'));
+      var unitWas = parseMoney(txt('[data-creatine-was]'));
       out.push({
         name: txt('[data-creatine-title]') || 'Creatine add-on', note: '',
-        priceText: txt('[data-creatine-price]'), cents: p1,
-        savedCents: Math.max(0, parseMoney(txt('[data-creatine-was]')) - p1),
+        priceText: fmtMoney(unit * qty), cents: unit * qty,
+        savedCents: Math.max(0, (unitWas - unit) * qty),
+        qty: qty,
         free: false, imgSrc: img
       });
     }
@@ -240,7 +243,7 @@
       var cv = parseInt(cr.dataset.variant, 10);
       if (cv) {
         var cp = {}; cp[CART_SEL] = CART_OWNER; cp._role = 'creatine';
-        var ci = { id: cv, quantity: 1, properties: cp };
+        var ci = { id: cv, quantity: creatineQty(), properties: cp };
         /* The gift is a FIRST-ORDER, ONE-TIME line: no selling plan, so Loop
            never renews it — and, critically, so Shopify's 3PackFree discount
            can reach it at all. That discount is appliesOnSubscription:false,
@@ -455,6 +458,7 @@
          drawer instead of the selector — it was false and a gift that no
          longer qualified was left sitting in the cart to be charged for. */
       giftAutoAdded = creatineIsGift(creatineLine);
+      addonQty = creatineLine ? (creatineLine.quantity || 0) : 0;
       var cr2h = $('[data-creatine2-input]');
       var hadCreatine2 = ours.some(function (l) { return (l.properties || {})._role === 'creatine2'; });
       if (cr2h) cr2h.checked = hadCreatine2;
@@ -668,6 +672,7 @@
      Below the threshold the priced toggle comes back. */
   function updateCreatineIncluded() {
     updateAddonPricing();
+    updateAddonQtyUI();
     var gift = giftQualifies();
     var el = $('[data-creatine-included]');
     if (el) el.hidden = !gift;
@@ -693,6 +698,40 @@
   }
   /* True while the creatine in the cart is there because we put it there. */
   var giftAutoAdded = false;
+  /* How many creatines a one-time order is buying. Subscriptions take one per
+     shipment and the gift is a single unit, so this only applies to onetime. */
+  var addonQty = 0;
+
+  /* THE number of creatines on the order. Everything — the cart payload, the
+     summary row, the total — goes through here, so the three cannot disagree
+     the way the add-on price and the total once did. */
+  function creatineQty() {
+    if (giftQualifies()) return 1;
+    var cr = $('[data-creatine-input]');
+    if (!cr || !cr.checked) return 0;
+    return state.plan === 'onetime' ? Math.max(1, addonQty) : 1;
+  }
+
+  /* Swap the on/off switch for a stepper on one-time, and keep the two in
+     step: the checkbox stays the "is it on the order" flag that the rest of
+     the runtime already keys off, the stepper only decides how many. */
+  function updateAddonQtyUI() {
+    var box = $('[data-creatine-qty]'), sw = $('[data-creatine-switch]');
+    var stepper = state.plan === 'onetime' && !giftQualifies();
+    if (box) box.hidden = !stepper;
+    if (sw) sw.hidden = stepper;
+    var input = $('[data-creatine-qty-input]');
+    if (input) input.value = stepper ? creatineQty() : 0;
+  }
+
+  function setAddonQty(n) {
+    n = Math.max(0, Math.floor(n) || 0);
+    addonQty = n;
+    var cr = $('[data-creatine-input]');
+    if (cr) cr.checked = n > 0;
+    clearGiftSyncGuard();
+    updateAddonQtyUI(); updateBar(); scheduleSync();
+  }
 
   var upsellAutoScrolled = false;
 
@@ -713,6 +752,7 @@
          other plans start unchecked until set. */
       var cr0 = $('[data-creatine-input]');
       if (cr0) cr0.checked = false;
+      addonQty = 0;
       var cr20 = $('[data-creatine2-input]');
       if (cr20) cr20.checked = false;
       clearGiftSyncGuard();
@@ -917,7 +957,14 @@
           if (e.imgSrc) { var ti = document.createElement('img'); ti.src = e.imgSrc; ti.alt = ''; ti.loading = 'lazy'; ti.width = 56; ti.height = 56; thumb.appendChild(ti); }
           var n = document.createElement('span'); n.className = 'ftdc__review-line-name'; n.textContent = e.name + (e.note ? ' — ' + e.note : '');
           var p = document.createElement('span'); p.className = 'ftdc__review-line-price' + (e.free ? ' ftdc__review-line-price--free' : ''); p.textContent = e.priceText;
-          row.appendChild(thumb); row.appendChild(n); row.appendChild(p);
+          row.appendChild(thumb); row.appendChild(n);
+          /* Match the pouch lines, which carry their own multiplier. */
+          if (e.qty > 1) {
+            var q = document.createElement('span'); q.className = 'ftdc__review-line-qty'; q.textContent = '\u00d7 ' + e.qty;
+            row.appendChild(q);
+            row.classList.add('ftdc__review-line--extra-qty');
+          }
+          row.appendChild(p);
           extra.appendChild(row);
         });
       } else {
@@ -979,7 +1026,7 @@
     if (cr && cr.checked && Object.keys(state.selections).length > 0) {
       var cv = parseInt(cr.dataset.variant, 10);
       if (cv) {
-        var ci = { id: cv, quantity: 1 };
+        var ci = { id: cv, quantity: creatineQty() };
         /* First-order gift: no selling plan, so it never renews and the
            3PackFree discount can reach it. See desiredItems(). */
         if (giftQualifies()) { ci.properties = { _upsell: 'creatine-first-order-free' }; }
@@ -1129,7 +1176,19 @@
 
   /* Add-on toggle reconciles the cart. */
   var crToggle = $('[data-creatine-input]');
-  if (crToggle) crToggle.addEventListener('change', function () { clearGiftSyncGuard(); updateBar(); scheduleSync(); });
+  if (crToggle) crToggle.addEventListener('change', function () {
+    /* Ticking the switch on a one-time order means "one of them" — without
+       this the stepper would still read 0 and nothing would reach the cart. */
+    if (state.plan === 'onetime') addonQty = crToggle.checked ? Math.max(1, addonQty) : 0;
+    clearGiftSyncGuard(); updateAddonQtyUI(); updateBar(); scheduleSync();
+  });
+  $$('[data-creatine-qty-action]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setAddonQty(creatineQty() + (btn.dataset.creatineQtyAction === 'inc' ? 1 : -1));
+    });
+  });
+  var crQtyInput = $('[data-creatine-qty-input]');
+  if (crQtyInput) crQtyInput.addEventListener('change', function () { setAddonQty(parseInt(crQtyInput.value, 10)); });
   var cr2Toggle = $('[data-creatine2-input]');
   if (cr2Toggle) cr2Toggle.addEventListener('change', function () { updateBar(); scheduleSync(); });
 

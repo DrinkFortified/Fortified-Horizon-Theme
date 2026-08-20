@@ -355,9 +355,16 @@
                   {% liquid
                     assign can_update_quantity = item.instructions.can_update_quantity | default: true, allow_false: true
 
-                    # FORTIFIED — the product selector owns its cart lines and fixes both
-                    # creatine lines at 1 per bundle, so the cart must not offer a stepper
-                    # for them. Written as nested ifs on purpose: Liquid has no operator
+                    # FORTIFIED — the product selector owns its cart lines, and some of
+                    # them are fixed at one: the free gift, and the discounted second
+                    # creatine. Those get no stepper, because changing the count would
+                    # not change what the offer gives you.
+                    #
+                    # A creatine the customer BOUGHT is different. One-time orders now
+                    # buy it by the unit like the pouches, so locking every creatine
+                    # line would freeze a quantity they had just chosen.
+                    #
+                    # Written as nested ifs on purpose: Liquid has no operator
                     # precedence and evaluates and/or right to left, so a combined
                     # condition here would not mean what it looks like.
                     # Remove is deliberately left alone — locking it as well would strand
@@ -365,8 +372,14 @@
                     assign ftd_qty_locked = false
                     if item.properties['_sel'] == 'ftdc-d'
                       assign ftd_role = item.properties['_role']
-                      if ftd_role == 'creatine' or ftd_role == 'creatine2'
+                      assign ftd_upsell = item.properties['_upsell']
+                      if ftd_role == 'creatine2'
                         assign ftd_qty_locked = true
+                      endif
+                      if ftd_role == 'creatine'
+                        if ftd_upsell != 'creatine-onetime'
+                          assign ftd_qty_locked = true
+                        endif
                       endif
                     endif
                     if ftd_qty_locked
