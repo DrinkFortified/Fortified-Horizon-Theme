@@ -195,6 +195,78 @@
   }
   #ftdc-{{ sid }} .ftdcg__ship-tick { flex: none; color: #17a34a; }
 
+  /* ───── Which plan is selected ────────────────────────────────────────
+     Selection used to be drawn entirely in the plan's own accent — border,
+     ring and tick. That works for the orange and teal subscriptions and
+     fails completely for Buy Once, whose accent is grey (#8e8e93): picking
+     it turned every selection cue grey, the least selected-looking colour
+     available. The accent still brands the offer (badge, top stripe); the
+     picked state now has a colour of its own, so it reads the same on all
+     three cards. */
+  #ftdc-{{ sid }} .ftdc__plans { --ftdcg-selected: var(--color-foreground); }
+  #ftdc-{{ sid }} .ftdc__plan.is-active {
+    border-color: var(--ftdcg-selected);
+    background: rgb(var(--color-foreground-rgb) / 0.04);
+    box-shadow: 0 0 0 3px rgb(var(--color-foreground-rgb) / 0.16);
+  }
+  #ftdc-{{ sid }} .ftdc__plan.is-active .ftdc__plan-tick {
+    background: var(--ftdcg-selected);
+    border-color: var(--ftdcg-selected);
+  }
+  /* Buy Once is deliberately recessive when unpicked; picking it must still
+     lift it clear of that. */
+  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"].is-active {
+    background: rgb(var(--color-foreground-rgb) / 0.06);
+  }
+  #ftdc-{{ sid }} .ftdcg__plan-selected {
+    position: absolute;
+    top: 13px;
+    right: 42px;
+    display: none;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    background: var(--ftdcg-selected);
+    color: var(--color-background);
+    font-size: var(--font-size--3xs, 0.618rem);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    line-height: 1.7;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  #ftdc-{{ sid }} .ftdc__plan.is-active .ftdcg__plan-selected { display: block; }
+  /* Below this the badge and the marker would meet. */
+  @media screen and (max-width: 520px) {
+    #ftdc-{{ sid }} .ftdcg__plan-selected { display: none !important; }
+  }
+  /* Buy Once is a single compact row, so an absolutely positioned marker
+     lands on top of the price. Give it a track of its own instead and let
+     the price shift left.
+     The .is-active qualifier is load-bearing, not decoration: the Buy Once
+     layout block above uses the same selector and the same !important, so a
+     plain repeat here loses on source order and the marker lands in the
+     price's track. It also means the fourth track only exists while there is
+     a marker to put in it. */
+  @media screen and (min-width: 750px) {
+    #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"].is-active {
+      grid-template-columns: auto minmax(0, 1fr) auto auto !important;
+    }
+    #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"].is-active .ftdcg__plan-selected {
+      position: static;
+      grid-row: 1;
+      grid-column: 3;
+      align-self: center;
+    }
+    #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"].is-active .ftdc__plan-pricing {
+      grid-row: 1;
+      grid-column: 4;
+    }
+  }
+  /* Narrower than that the row has no room for it at all. */
+  @media screen and (max-width: 749px) {
+    #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdcg__plan-selected { display: none !important; }
+  }
+
   /* Quantity stepper on the creatine row (one-time orders). */
   #ftdc-{{ sid }} .ftdcg__addon-qty {
     display: inline-flex;
@@ -713,6 +785,7 @@
           <label class="ftdc__plan is-active" data-plan="quarterly">
             <input type="radio" id="ftdc-plan-q-{{ sid }}" name="ftdc-plan-{{ sid }}" value="quarterly" checked>
             <span class="ftdc__plan-tick" aria-hidden="true"></span>
+            <span class="ftdcg__plan-selected" aria-hidden="true">{{ section.settings.selected_label | default: 'Selected' }}</span>
             {%- if section.settings.quarterly_badge != blank -%}<span class="ftdc__plan-badge">{{ section.settings.quarterly_badge }}</span>{%- endif -%}
             <div class="ftdc__plan-title">{{ section.settings.quarterly_title | default: '3 Pouches Every 3 Months' }}</div>
             {%- if section.settings.quarterly_desc != blank -%}<div class="ftdc__plan-desc">{{ section.settings.quarterly_desc }}</div>{%- endif -%}
@@ -724,6 +797,7 @@
           <label class="ftdc__plan" data-plan="monthly">
             <input type="radio" name="ftdc-plan-{{ sid }}" value="monthly">
             <span class="ftdc__plan-tick" aria-hidden="true"></span>
+            <span class="ftdcg__plan-selected" aria-hidden="true">{{ section.settings.selected_label | default: 'Selected' }}</span>
             {%- if section.settings.monthly_badge != blank -%}<span class="ftdc__plan-badge">{{ section.settings.monthly_badge }}</span>{%- endif -%}
             <div class="ftdc__plan-title">{{ section.settings.monthly_title | default: '1 Pouch Every Month' }}</div>
             {%- if section.settings.monthly_desc != blank -%}<div class="ftdc__plan-desc">{{ section.settings.monthly_desc }}</div>{%- endif -%}
@@ -735,6 +809,7 @@
           <label class="ftdc__plan" data-plan="onetime">
             <input type="radio" name="ftdc-plan-{{ sid }}" value="onetime">
             <span class="ftdc__plan-tick" aria-hidden="true"></span>
+            <span class="ftdcg__plan-selected" aria-hidden="true">{{ section.settings.selected_label | default: 'Selected' }}</span>
             {%- if section.settings.onetime_badge != blank -%}<span class="ftdc__plan-badge">{{ section.settings.onetime_badge }}</span>{%- endif -%}
             <div class="ftdc__plan-title">{{ section.settings.onetime_title | default: 'Single Pouch' }}</div>
             {%- if section.settings.onetime_desc != blank -%}<div class="ftdc__plan-desc">{{ section.settings.onetime_desc }}</div>{%- endif -%}
@@ -1393,6 +1468,13 @@
       "id": "addon_price_onetime",
       "label": "One-time price",
       "default": "$18.00"
+    },
+    {
+      "type": "text",
+      "id": "selected_label",
+      "label": "Selected plan marker",
+      "default": "Selected",
+      "info": "Shown on whichever plan card is currently chosen."
     },
     {
       "type": "text",
