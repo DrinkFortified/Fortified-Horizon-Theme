@@ -396,7 +396,6 @@
             "fortified_product_selector_QyTFG3": {
               "type": "fortified-product-selector",
               "name": "Block - Product Selector",
-              "disabled": true,
               "settings": {
                 "heading": "Everyday Hydration",
                 "subheading": "Electrolytes + D3 + K2",
