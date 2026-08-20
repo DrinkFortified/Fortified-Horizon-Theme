@@ -394,6 +394,12 @@
   }
   /* Rebuild the builder UI from the real cart (load + external changes). */
   var creatineBackfillTried = false;
+  /* One automatic gift add/remove per page load, so a write that keeps
+     failing cannot spin against the theme's cart:update echo — the same
+     failure that walked the cart endpoints into a 429. Any deliberate
+     change clears it, because that is a fresh intent rather than a retry. */
+  var giftSyncTried = false;
+  function clearGiftSyncGuard() { giftSyncTried = false; }
   function hydrateFromCart() {
     return getCart().then(function (cart) {
       hydratedOnce = true;
@@ -412,13 +418,35 @@
       $$('.ftdc__card').forEach(reset);
       pouch.forEach(function (l) { var card = root.querySelector('.ftdc__card[data-variant-id="' + l.variant_id + '"]'); if (card) applyQty(card, l.quantity); });
       var cr = $('[data-creatine-input]');
-      var hadCreatine = ours.some(function (l) { return (l.properties || {})._role === 'creatine'; });
+      var creatineLine = null;
+      for (var ci = 0; ci < ours.length; ci++) {
+        if ((ours[ci].properties || {})._role === 'creatine') { creatineLine = ours[ci]; break; }
+      }
+      var hadCreatine = !!creatineLine;
       if (cr) cr.checked = hadCreatine;
+      /* Recover "this creatine is ours, not something they paid for" from the
+         cart line rather than from memory. giftAutoAdded is a page-lifetime
+         flag, so on any reload — or when the pouches are changed from the cart
+         drawer instead of the selector — it was false and a gift that no
+         longer qualified was left sitting in the cart to be charged for. The
+         _upsell stamp we write at add time survives all of that. */
+      giftAutoAdded = !!(creatineLine && (creatineLine.properties || {})._upsell === 'creatine-first-order-free');
       var cr2h = $('[data-creatine2-input]');
       var hadCreatine2 = ours.some(function (l) { return (l.properties || {})._role === 'creatine2'; });
       if (cr2h) cr2h.checked = hadCreatine2;
       hydrating = false;
+      var checkedBefore = !!(cr && cr.checked);
       updateProgress(); updateCreatineIncluded(); paintTotalsFromCart(cart);
+      /* updateCreatineIncluded() has just decided whether the build still
+         earns the gift. If it changed its mind, the cart has to follow —
+         otherwise the customer keeps a creatine the 3-pouch discount will no
+         longer zero. Guarded like the backfill below: one automatic write per
+         page load, cleared by any deliberate change (see clearGiftSyncGuard),
+         so a write that keeps failing cannot spin against cart:update. */
+      if (cr && cr.checked !== checkedBefore && !giftSyncTried) {
+        giftSyncTried = true;
+        scheduleSync();
+      }
       /* Existing quarterly cart from before free creatine was auto-included —
          reconcile so the promised free item actually lands in the cart.
 
@@ -663,6 +691,7 @@
       if (cr0) cr0.checked = false;
       var cr20 = $('[data-creatine2-input]');
       if (cr20) cr20.checked = false;
+      clearGiftSyncGuard();
       updateBar(); updateProgress(); updateCreatineIncluded(); scheduleSync();
       /* Auto-advance to the Bundle step so the customer doesn't have to
          scroll back and press Continue. Only from the plan step: switching
@@ -722,6 +751,7 @@
       c.classList.add('is-selected');
       if (a) a.hidden = true; if (q) q.hidden = false; if (i) i.value = n;
     }
+    clearGiftSyncGuard();
     updateProgress(); updateCreatineIncluded(); updateBar(); scheduleSync();
     /* Quarterly bundle just filled up for the first time this visit — ease
        the customer down to the add-ons instead of leaving it to scroll. */
@@ -1075,7 +1105,7 @@
 
   /* Add-on toggle reconciles the cart. */
   var crToggle = $('[data-creatine-input]');
-  if (crToggle) crToggle.addEventListener('change', function () { updateBar(); scheduleSync(); });
+  if (crToggle) crToggle.addEventListener('change', function () { clearGiftSyncGuard(); updateBar(); scheduleSync(); });
   var cr2Toggle = $('[data-creatine2-input]');
   if (cr2Toggle) cr2Toggle.addEventListener('change', function () { updateBar(); scheduleSync(); });
 
