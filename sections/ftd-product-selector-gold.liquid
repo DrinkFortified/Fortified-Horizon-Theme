@@ -41,7 +41,17 @@
   assign show_monthly   = section.settings.show_monthly
   assign show_quarterly = section.settings.show_quarterly
   assign bundle_count   = section.settings.bundle_count | default: 3
-  assign addon          = section.settings.addon_product
+  assign addon = section.settings.addon_product
+  comment
+    Shopify's product setting type accepts no default, so a freshly added
+    section has no creatine and the whole add-on row — the paid one-time and
+    monthly offers included — renders as nothing at all. The preset can seed
+    the hydration function blocks but not this. Falling back to a handle gives
+    it a real default; picking a product in the editor still wins.
+  endcomment
+  if addon == blank and section.settings.addon_product_handle != blank
+    assign addon = all_products[section.settings.addon_product_handle]
+  endif
   assign addon_variant_id = ''
   if addon != blank and addon.selected_or_first_available_variant != blank
     assign addon_variant_id = addon.selected_or_first_available_variant.id
@@ -1335,6 +1345,13 @@
       "id": "addon_price_onetime",
       "label": "One-time price",
       "default": "$18.00"
+    },
+    {
+      "type": "text",
+      "id": "addon_product_handle",
+      "label": "Creatine product handle (fallback)",
+      "default": "creatine",
+      "info": "Used only when no product is picked above. Shopify does not allow a default on a product picker, so this is what gives a newly added section its creatine — without it the whole add-on row renders as nothing."
     },
     {
       "type": "range",

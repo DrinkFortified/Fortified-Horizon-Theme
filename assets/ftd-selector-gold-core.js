@@ -392,6 +392,31 @@
     c.classList.add('is-selected');
     if (a) a.hidden = true; if (q) q.hidden = false; if (i) i.value = n;
   }
+  /* Is this cart's creatine line one WE gave away, or one the customer chose
+     to pay for? Only a gift may be taken back out when the build drops under
+     the threshold.
+
+     Keying purely on the _upsell stamp was too narrow: we only started
+     writing it on 2026-08-18, so every creatine added before that — and every
+     one added by the old Loop free-plan route — went unrecognised and sat in
+     the cart being charged for. Fall back to the two things that positively
+     identify a PAID line instead, and treat anything else as ours:
+
+       - a selling plan means the recurring monthly add-on they opted into
+       - _upsell=creatine-onetime is the one-time add-on they opted into
+
+     Erring this way costs us a creatine at worst. Erring the other way
+     charges someone $24 for something the page called free. */
+  function creatineIsGift(line) {
+    if (!line) return false;
+    var p = line.properties || {};
+    if (p._upsell === 'creatine-first-order-free') return true;
+    if (p._upsell === 'creatine-onetime') return false;
+    var sa = line.selling_plan_allocation;
+    if (sa && sa.selling_plan && sa.selling_plan.id) return false;
+    return true;
+  }
+
   /* Rebuild the builder UI from the real cart (load + external changes). */
   var creatineBackfillTried = false;
   /* One automatic gift add/remove per page load, so a write that keeps
@@ -428,9 +453,8 @@
          cart line rather than from memory. giftAutoAdded is a page-lifetime
          flag, so on any reload — or when the pouches are changed from the cart
          drawer instead of the selector — it was false and a gift that no
-         longer qualified was left sitting in the cart to be charged for. The
-         _upsell stamp we write at add time survives all of that. */
-      giftAutoAdded = !!(creatineLine && (creatineLine.properties || {})._upsell === 'creatine-first-order-free');
+         longer qualified was left sitting in the cart to be charged for. */
+      giftAutoAdded = creatineIsGift(creatineLine);
       var cr2h = $('[data-creatine2-input]');
       var hadCreatine2 = ours.some(function (l) { return (l.properties || {})._role === 'creatine2'; });
       if (cr2h) cr2h.checked = hadCreatine2;
