@@ -1057,6 +1057,138 @@
       opacity: 1;
     }
   }
+  /* ───── Loop Subscriptions bundle rows ────────────────────────────────
+     Loop injects its bundle group using Dawn's cart markup — .cart-item,
+     .cart-item__details, .quantity__input, .price--end, .small-hide and
+     friends. Horizon defines none of those classes, so the row fell out of
+     the layout entirely: the details cell was crushed to ~100px (one word
+     per line), the native number input claimed 185px, BOTH price cells
+     painted because Dawn's responsive helpers do not exist here, and the
+     row ran 556px wide inside a 420px drawer.
+
+     Loop regenerates assets/loop_bundle.js and its blocks in this file
+     whenever it is reinstalled, so this styles their classes from the
+     theme's own stylesheet instead of editing their code. */
+  .cart-items__table .cart-item {
+    --cart-item-price-width: 6rem;
+
+    display: grid;
+    grid-template-columns: clamp(2.5rem, 15cqi, 7.5rem) minmax(0, 1fr) minmax(var(--cart-item-price-width), auto);
+    grid-template-areas:
+      'media details price'
+      'media quantity price';
+    column-gap: var(--gap-md);
+    align-items: start;
+    padding-bottom: var(--cart-items-gap);
+    margin-bottom: var(--margin-lg);
+  }
+  .cart-items__table .cart-item > .cart-item__media    { grid-area: media; }
+  .cart-items__table .cart-item > .cart-item__details  { grid-area: details; }
+  .cart-items__table .cart-item > .cart-item__quantity { grid-area: quantity; }
+  .cart-items__table .cart-item > .cart-item__totals   { grid-area: price; text-align: right; }
+  .cart-items__table .cart-item > * { min-width: 0; }
+
+  /* Dawn's responsive helpers. Horizon has no equivalent, so without these
+     the mobile and desktop price cells both render — the duplicated total.
+     Scoped to the cart table so the class names cannot leak. */
+  @media screen and (max-width: 749px) {
+    .cart-items__table .cart-item .small-hide { display: none; }
+  }
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .cart-items__table .cart-item .medium-hide { display: none; }
+  }
+  @media screen and (min-width: 990px) {
+    .cart-items__table .cart-item .large-up-hide { display: none; }
+  }
+
+  /* Thumbnail, matched to the theme's own cart media. */
+  .cart-items__table .cart-item__link { display: none; }
+  .cart-items__table .cart-item__image-container { display: block; overflow: hidden; }
+  .cart-items__table .cart-item__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--style-border-radius-buttons-primary, 8px);
+  }
+
+  /* Bundle name, sized like .cart-items__title rather than a bare h4. */
+  .cart-items__table .cart-item__name {
+    display: block;
+    font-size: var(--font-size--md);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--color-foreground);
+    text-decoration: none;
+    overflow-wrap: break-word;
+    margin-block-end: var(--margin-xs, 0.25rem);
+  }
+
+  /* The pouches inside the bundle: a tight list, not a wall of text. */
+  .cart-items__table .cart-item__details .product-option {
+    font-size: var(--font-size--xs);
+    line-height: 1.4;
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+    overflow-wrap: break-word;
+  }
+  .cart-items__table .cart-item__details .product-option p { margin: 0; }
+  /* Each pouch is its own paragraph; long titles wrap to 2-3 lines, so
+     without a gap the three of them read as one block of text. */
+  .cart-items__table .cart-item__details .product-option p + p { margin-block-start: 0.3em; }
+  .cart-items__table .cart-item__details .product-option br { display: none; }
+  .cart-items__table .cart-item__details dl:empty { display: none; }
+
+  /* Quantity: Loop's input is disabled (bundle quantity is fixed), so show
+     it as a value rather than an oversized native number field. */
+  .cart-items__table .cart-item__quantity-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm, 0.5rem);
+    margin-block-start: var(--margin-sm, 0.5rem);
+  }
+  .cart-items__table .cart-item .quantity { display: inline-flex; }
+  .cart-items__table .cart-item .quantity__input {
+    width: auto;
+    min-width: 0;
+    max-width: 3.5rem;
+    padding: 0.25rem 0.4rem;
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-40, 0.4));
+    border-radius: var(--style-border-radius-buttons-primary, 8px);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: var(--font-size--xs);
+    text-align: center;
+    -moz-appearance: textfield;
+  }
+  .cart-items__table .cart-item .quantity__input::-webkit-outer-spin-button,
+  .cart-items__table .cart-item .quantity__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Remove control: an icon button, not a full-width theme button. */
+  .cart-items__table .cart-item .loop-remove-bundle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--minimum-touch-target, 44px);
+    height: var(--minimum-touch-target, 44px);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+    text-decoration: none;
+  }
+  .cart-items__table .cart-item .loop-remove-bundle-btn:hover { color: var(--color-foreground); }
+  .cart-items__table .cart-item .icon-remove { width: 1rem; height: 1rem; }
+
+  .cart-items__table .cart-item .price--end {
+    font-size: var(--font-size--sm);
+    white-space: nowrap;
+  }
+  .cart-items__table .cart-item .discounts { margin-block-start: var(--margin-xs, 0.25rem); }
 {% endstylesheet %}
 
 <script defer="defer">
