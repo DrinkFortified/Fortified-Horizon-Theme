@@ -574,10 +574,48 @@
     return state.plan !== 'onetime' && totalQty() >= GIFT_MIN;
   }
 
+  /* Point the paid creatine row at the current plan's copy and price. The row
+     was rendered once from the monthly settings and never changed, so a
+     one-time customer saw the monthly price — $12.00 against a one-time price
+     of $18.00, a $6 under-quote that activeAddons() then copied into the order
+     summary and the total, because it reads these same nodes.
+
+     Quarterly has no paid first-creatine price of its own (addon_*_quarterly
+     is the second one, at 50% off), so it falls back to the monthly figures:
+     it is a subscription, and the row only appears there mid-build before the
+     bundle reaches the gift threshold. */
+  function updateAddonPricing() {
+    var row = $('[data-upsell-creatine]');
+    if (!row) return;
+    var key = state.plan === 'onetime' ? 'onetime' : 'monthly';
+    var pick = function (name) {
+      var v = row.getAttribute('data-' + name + '-' + key);
+      if (v === null || v === '') v = row.getAttribute('data-' + name + '-monthly') || '';
+      v = v.trim();
+      /* A lone dash is how these settings carry "nothing" — the saved monthly
+         description is literally "-", which rendered as a stray hyphen under
+         the title. The section already treats it that way for onetime_was. */
+      return (v === '-' || v === '—') ? '' : v;
+    };
+    var set = function (sel, value) {
+      var el = $(sel, row);
+      if (!el) return;
+      el.textContent = value;
+      /* An empty description or strike-through price would otherwise leave a
+         blank line and a stray gap in the row. */
+      el.hidden = !value;
+    };
+    set('[data-creatine-title]', pick('label'));
+    set('[data-creatine-desc]', pick('desc'));
+    set('[data-creatine-price]', pick('price'));
+    set('[data-creatine-was]', pick('was'));
+  }
+
   /* Show the gift as an "Included — FREE" row and hide the manual priced
      toggle, which would otherwise contradict it and demand a redundant click.
      Below the threshold the priced toggle comes back. */
   function updateCreatineIncluded() {
+    updateAddonPricing();
     var gift = giftQualifies();
     var el = $('[data-creatine-included]');
     if (el) el.hidden = !gift;

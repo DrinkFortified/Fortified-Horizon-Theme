@@ -808,17 +808,32 @@
             </div>
 
             {%- if addon != blank -%}
-              <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine>
+              {%- comment %} The paid creatine offer. Its copy and price were
+                hardcoded to the monthly settings, so a one-time customer was
+                quoted the monthly price — and the addon_*_onetime settings,
+                which exist in the schema, were never rendered anywhere. Each
+                plan's values now ride on the row as data attributes and
+                updateAddonPricing() writes the right one into view. {%- endcomment %}
+              <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine
+                data-label-monthly="{{ section.settings.addon_label_monthly | default: 'Add Creatine' | escape }}"
+                data-label-onetime="{{ section.settings.addon_label_onetime | default: section.settings.addon_label_monthly | escape }}"
+                data-desc-monthly="{{ section.settings.addon_desc_monthly | escape }}"
+                data-desc-onetime="{{ section.settings.addon_desc_onetime | default: section.settings.addon_desc_monthly | escape }}"
+                data-price-monthly="{{ section.settings.addon_price_monthly | default: '$12.00' | escape }}"
+                data-price-onetime="{{ section.settings.addon_price_onetime | default: section.settings.addon_price_monthly | escape }}"
+                data-was-monthly="{{ section.settings.addon_was_monthly | escape }}"
+                data-was-onetime="{{ section.settings.addon_was_onetime | default: section.settings.addon_was_monthly | escape }}"
+              >
                 <div class="ftdc__upsell-media">
                   {%- assign addon_img = section.settings.addon_image | default: addon.featured_image -%}
                   {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
                 </div>
                 <div class="ftdc__upsell-body">
-                  <p class="ftdc__upsell-title" data-creatine-title>{{ section.settings.addon_label_monthly | default: 'Add Creatine — 50% off' }}</p>
-                  <p class="ftdc__upsell-desc" data-creatine-desc>{{ section.settings.addon_desc_monthly | default: '' }}</p>
+                  <p class="ftdc__upsell-title" data-creatine-title>{{ section.settings.addon_label_monthly | default: 'Add Creatine' }}</p>
+                  <p class="ftdc__upsell-desc" data-creatine-desc>{{ section.settings.addon_desc_monthly }}</p>
                   <div class="ftdc__upsell-pricing">
                     <span class="ftdc__upsell-price" data-creatine-price>{{ section.settings.addon_price_monthly | default: '$12.00' }}</span>
-                    {%- if section.settings.addon_was_monthly != blank -%}<s class="ftdc__upsell-was" data-creatine-was>{{ section.settings.addon_was_monthly }}</s>{%- endif -%}
+                    <s class="ftdc__upsell-was" data-creatine-was>{{ section.settings.addon_was_monthly }}</s>
                   </div>
                 </div>
                 <div class="ftdc__upsell-toggle">
