@@ -2558,6 +2558,27 @@
             "loop_plan_quarterly": "2852520092"
           },
           "blocks": {}
+        },
+        "ftd_creatine_MIGRATED": {
+          "type": "_ftd-c-creatine",
+          "settings": {
+            "product": "creatine",
+            "product_handle": "creatine",
+            "title": "Creatine",
+            "spec_top": "Add-on",
+            "label_monthly": "Add Creatine — 25% off",
+            "desc_monthly": "-",
+            "price_monthly": "$12.00",
+            "was_monthly": "$24.00",
+            "loop_plan_monthly": "2852585628",
+            "label_onetime": "Add Creatine — 25% off",
+            "desc_onetime": "One-time. Discount auto-applied.",
+            "price_onetime": "$18.00",
+            "was_onetime": "$24.00",
+            "discount_code_onetime": "-",
+            "included_title": "Creatine — Included",
+            "included_desc": "Free with your first order."
+          }
         }
       },
       "block_order": [
@@ -2566,7 +2587,8 @@
         "ftd_c_bullet_waYM3k",
         "ftd_c_bullet_c4ctJi",
         "ftd_c_function_4Xqnjf",
-        "ftd_c_function_biDjaB"
+        "ftd_c_function_biDjaB",
+        "ftd_creatine_MIGRATED"
       ],
       "name": "FTD - Selector Gold",
       "settings": {

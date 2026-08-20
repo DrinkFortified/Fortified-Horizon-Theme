@@ -1,0 +1,255 @@
+{%- comment -%}
+  Creatine, as a block rather than a pile of section settings.
+
+  It emits two things, and the parent section's JS moves each into place on
+  init (see sortStagedBlocks):
+
+    data-slot="creatine-card"     -> the flavour grid, beside the hydration
+                                     cards. This is where creatine is BOUGHT,
+                                     at any quantity, priced per plan.
+    data-slot="creatine-included" -> the aside add-ons list. This is only the
+                                     free-gift confirmation; it has no control,
+                                     because there is nothing to decide.
+
+  Splitting them is the point. The purchase and the gift used to share one
+  checkbox, which is why the row had to flip between "Add Creatine — 25% off"
+  and "Included — FREE" and why the two states kept contradicting each other.
+
+  The runtime keys entirely off the data attributes below, so it did not need
+  to change shape when this moved out of the section.
+{%- endcomment -%}
+{%- liquid
+  assign prod = block.settings.product
+  if prod == blank and block.settings.product_handle != blank
+    assign prod = all_products[block.settings.product_handle]
+  endif
+  assign v_id = ''
+  if prod != blank and prod.selected_or_first_available_variant != blank
+    assign v_id = prod.selected_or_first_available_variant.id
+  endif
+  assign card_img = block.settings.image | default: prod.featured_image
+-%}
+<div class="ftdc__creatine-wrap" data-slot="creatine-group" style="display:contents" {{ block.shopify_attributes }}>
+  {%- if prod != blank and v_id != blank -%}
+
+    {%- comment -%} ── Bought here, at any quantity ── {%- endcomment -%}
+    <article class="ftdc__card ftdc__card--creatine" data-slot="creatine-card"
+             data-creatine-card
+             data-variant="{{ v_id }}"
+             data-plan-monthly="{{ block.settings.loop_plan_monthly }}"
+             data-discount-onetime="{{ block.settings.discount_code_onetime }}"
+             data-label-monthly="{{ block.settings.label_monthly | default: block.settings.title | escape }}"
+             data-label-onetime="{{ block.settings.label_onetime | default: block.settings.label_monthly | escape }}"
+             data-desc-monthly="{{ block.settings.desc_monthly | escape }}"
+             data-desc-onetime="{{ block.settings.desc_onetime | default: block.settings.desc_monthly | escape }}"
+             data-price-monthly="{{ block.settings.price_monthly | escape }}"
+             data-price-onetime="{{ block.settings.price_onetime | default: block.settings.price_monthly | escape }}"
+             data-was-monthly="{{ block.settings.was_monthly | escape }}"
+             data-was-onetime="{{ block.settings.was_onetime | default: block.settings.was_monthly | escape }}">
+      <div class="ftdc__card-media">
+        {%- if card_img != blank -%}
+          <img src="{{ card_img | image_url: width: 480 }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="240" height="240">
+        {%- else -%}
+          <div class="ftdc__card-ph" aria-hidden="true"></div>
+        {%- endif -%}
+        <span class="ftdc__card-tick" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+      <div class="ftdc__card-body">
+        {%- if block.settings.spec_top != blank and block.settings.spec_top != '-' -%}
+          <span class="ftdc__card-spec-top">{{ block.settings.spec_top }}</span>
+        {%- endif -%}
+        <h3 class="ftdc__card-name" data-creatine-title>{{ block.settings.title | default: prod.title }}</h3>
+        <p class="ftdc__card-creatine-desc" data-creatine-desc>{{ block.settings.desc_monthly }}</p>
+        <div class="ftdc__card-creatine-pricing">
+          <span class="ftdc__card-creatine-price" data-creatine-price>{{ block.settings.price_monthly }}</span>
+          <s class="ftdc__card-creatine-was" data-creatine-was>{{ block.settings.was_monthly }}</s>
+        </div>
+        <button class="ftdc__add" type="button" data-creatine-add>{{ block.settings.add_label | default: 'Add' }}</button>
+        <div class="ftdc__qty" data-creatine-qty hidden>
+          <button class="ftdc__qty-btn" type="button" data-creatine-qty-action="dec" aria-label="Decrease quantity">&minus;</button>
+          <input class="ftdc__qty-input" type="number" min="0" value="0" inputmode="numeric"
+                 data-creatine-qty-input aria-label="{{ block.settings.qty_label | default: 'Creatine quantity' | escape }}">
+          <button class="ftdc__qty-btn" type="button" data-creatine-qty-action="inc" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+    </article>
+
+    {%- comment -%} ── Given, not bought: no control, nothing to decide ── {%- endcomment -%}
+    <div class="ftdc__upsell ftdc__upsell--included" data-slot="creatine-included"
+         data-creatine-included data-variant="{{ v_id }}" hidden aria-hidden="true">
+      <div class="ftdc__upsell-media">
+        {%- if card_img != blank -%}
+          <img src="{{ card_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="ftdc__upsell-body">
+        <p class="ftdc__upsell-title">{{ block.settings.included_title | default: 'Creatine — Included' }}</p>
+        <p class="ftdc__upsell-desc">{{ block.settings.included_desc | default: 'Free with your first order.' }}</p>
+        <div class="ftdc__upsell-pricing">
+          <span class="ftdc__upsell-price ftdc__upsell-price--free">{{ block.settings.included_price_text | default: 'FREE' }}</span>
+        </div>
+      </div>
+      <div class="ftdc__upsell-toggle">
+        <span class="ftdc__included-check" aria-label="Included" role="img">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </div>
+
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Creatine",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Creatine product"
+    },
+    {
+      "type": "text",
+      "id": "product_handle",
+      "label": "Product handle (fallback)",
+      "default": "creatine",
+      "info": "Used only when no product is picked above. Shopify allows no default on a product picker, so this is what gives a newly added block its creatine."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Defaults to the product's featured image."
+    },
+    {
+      "type": "header",
+      "content": "Card"
+    },
+    {
+      "type": "text",
+      "id": "spec_top",
+      "label": "Eyebrow",
+      "default": "Add-on"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Card title",
+      "default": "Creatine"
+    },
+    {
+      "type": "text",
+      "id": "add_label",
+      "label": "Add button",
+      "default": "Add"
+    },
+    {
+      "type": "text",
+      "id": "qty_label",
+      "label": "Quantity label",
+      "default": "Creatine quantity",
+      "info": "Accessible name for the quantity stepper."
+    },
+    {
+      "type": "header",
+      "content": "Price — subscriptions"
+    },
+    {
+      "type": "text",
+      "id": "label_monthly",
+      "label": "Subscription label",
+      "default": "Add Creatine — 25% off"
+    },
+    {
+      "type": "text",
+      "id": "desc_monthly",
+      "label": "Subscription description"
+    },
+    {
+      "type": "text",
+      "id": "price_monthly",
+      "label": "Subscription price",
+      "default": "$12.00"
+    },
+    {
+      "type": "text",
+      "id": "was_monthly",
+      "label": "Subscription compare-at",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "loop_plan_monthly",
+      "label": "Loop selling plan (monthly)",
+      "info": "Applied to a creatine bought on the monthly plan so it renews with the subscription."
+    },
+    {
+      "type": "header",
+      "content": "Price — one-time"
+    },
+    {
+      "type": "text",
+      "id": "label_onetime",
+      "label": "One-time label",
+      "default": "Add Creatine — 25% off"
+    },
+    {
+      "type": "text",
+      "id": "desc_onetime",
+      "label": "One-time description"
+    },
+    {
+      "type": "text",
+      "id": "price_onetime",
+      "label": "One-time price",
+      "default": "$18.00"
+    },
+    {
+      "type": "text",
+      "id": "was_onetime",
+      "label": "One-time compare-at",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "discount_code_onetime",
+      "label": "One-time discount code",
+      "info": "Optional. Applied at add-to-cart for one-time orders."
+    },
+    {
+      "type": "header",
+      "content": "Free gift row"
+    },
+    {
+      "type": "paragraph",
+      "content": "Shown in the order sidebar when the build earns the free creatine. It has no control — the gift is decided by the pouch count, not by the customer."
+    },
+    {
+      "type": "text",
+      "id": "included_title",
+      "label": "Title",
+      "default": "Creatine — Included"
+    },
+    {
+      "type": "text",
+      "id": "included_desc",
+      "label": "Description",
+      "default": "Free with your first order.",
+      "info": "The gift is first-order only — a one-off line with no selling plan, zeroed by the 3PackFree automatic discount. Do not promise it on every renewal."
+    },
+    {
+      "type": "text",
+      "id": "included_price_text",
+      "label": "Price text",
+      "default": "FREE"
+    }
+  ]
+}
+{% endschema %}
