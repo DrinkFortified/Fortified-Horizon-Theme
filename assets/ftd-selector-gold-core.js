@@ -615,7 +615,7 @@
     if (a) a.hidden = false; if (q) q.hidden = true; if (i) i.value = 0;
   }
   /* Fit the current selections into the new plan's ceiling: quarterly takes
-     BUNDLE_COUNT pouches, monthly exactly one, one-time as many as you like.
+     BUNDLE_COUNT pouches; monthly and one-time take as many as you like.
      Trims from the end so the earliest choices survive, then repaints every
      card from whatever state survived. */
   function reclampSelections() {
@@ -639,24 +639,13 @@
     if (state.plan === 'quarterly') {
       var others = totalQty() - (state.selections[c.dataset.variantId] ? state.selections[c.dataset.variantId].qty : 0);
       n = Math.min(n, Math.max(0, BUNDLE_COUNT - others));
-    } else if (state.plan === 'monthly') {
-      /* Monthly = exactly 1 pouch total. Selecting another card replaces
-         the current selection rather than stacking. */
-      n = Math.min(n, 1);
-      if (n > 0) {
-        Object.keys(state.selections).forEach(function (k) {
-          if (k !== c.dataset.variantId) {
-            delete state.selections[k];
-            var other = root.querySelector('.ftdc__card[data-variant-id="' + k + '"]');
-            if (other) {
-              other.classList.remove('is-selected');
-              var oa = other.querySelector('.ftdc__add'), oq = other.querySelector('.ftdc__qty'), oi = other.querySelector('.ftdc__qty-input');
-              if (oa) oa.hidden = false; if (oq) oq.hidden = true; if (oi) oi.value = 0;
-            }
-          }
-        });
-      }
     }
+    /* Monthly used to be exactly one pouch, and picking a second flavour
+       REPLACED the first rather than adding to it. It now takes as many as
+       the customer wants, like a one-time order — the difference is only that
+       every line carries that variant's monthly selling plan, so the whole
+       lot renews together. Only quarterly is still capped, because the
+       3-pouch bundle is the offer. */
     var v = c.dataset.variantId, a = $('.ftdc__add', c), q = $('.ftdc__qty', c), i = $('.ftdc__qty-input', c);
     if (n === 0) {
       delete state.selections[v]; c.classList.remove('is-selected');
@@ -689,7 +678,10 @@
   });
 
   function totalQty() { var n = 0; Object.keys(state.selections).forEach(function (k) { n += state.selections[k].qty; }); return n; }
-  function bundleSize() { return state.plan === 'quarterly' ? BUNDLE_COUNT : (state.plan === 'monthly' ? 1 : 0); }
+  /* The number of pouches a plan requires, or 0 for "as many as you like".
+     Monthly returned 1 here, which is what drove the "1 of 1 selected"
+     progress, the exactly-one continue rule, and the trim on plan switch. */
+  function bundleSize() { return state.plan === 'quarterly' ? BUNDLE_COUNT : 0; }
   function updateProgress() {
     var n = totalQty(), s = bundleSize(), pt = $('[data-progress-text]'), pf = $('[data-progress-fill]');
     var track = $('[data-progress-track]');

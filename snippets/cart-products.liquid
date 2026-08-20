@@ -374,11 +374,21 @@
                     endif
                   %}
                   <div class="cart-items__quantity-controls">
-                    {% # FORTIFIED — the selector's creatine lines are fixed at 1 per bundle,
-                       so they get no quantity UI at all: no stepper and no volume-pricing
-                       readout. A disabled stepper still printed the number, which read as a
-                       control the customer could not use. Remove stays, below, so the line
-                       is never stranded. %}
+                    {% comment %}
+                      FORTIFIED — the selector's creatine lines are fixed at 1 per bundle,
+                      so they get no quantity UI at all: no stepper and no volume-pricing
+                      readout. A disabled stepper still printed the number, which read as a
+                      control the customer could not use. Remove stays, below, so the line
+                      is never stranded.
+
+                      This was an inline hash comment spanning five lines. Shopify requires
+                      EVERY line of an inline comment to begin with a hash, so the four
+                      continuation lines were parsed as Liquid. That made the file invalid,
+                      and the GitHub sync rejected it silently from 2026-08-17 onward: the
+                      theme sat on the last good version for four days while every other
+                      file kept updating normally. Anything multi-line belongs in a comment
+                      block like this one.
+                    {% endcomment %}
                     {% unless ftd_qty_locked %}
                       {% render 'volume-pricing-info',
                         variant: item.variant,
