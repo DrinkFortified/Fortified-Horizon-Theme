@@ -600,7 +600,10 @@
     /* The creatine block emits two halves: the card is bought from, in the
        flavour grid; the gift row only confirms, in the add-ons list. */
     var addons = $('.ftdc__bundle-addons');
-    $$('[data-slot="creatine-card"]', stage).forEach(function (n) { if (grid) { grid.appendChild(n); moved.fn++; } });
+    /* Under the flavour grid, not inside it: the grid lays its children out
+       as equal columns, and creatine is an add-on rather than a flavour. */
+    var creSlot = $('[data-creatine-slot]');
+    $$('[data-slot="creatine-card"]', stage).forEach(function (n) { if (creSlot) { creSlot.appendChild(n); } });
     $$('[data-slot="creatine-included"]', stage).forEach(function (n) { if (addons) { addons.appendChild(n); } });
     $$('[data-slot="creatine-addon"]', stage).forEach(function (n) { if (addons) { addons.appendChild(n); } });
     $$('[data-slot="creatine-addon2"]', stage).forEach(function (n) { if (addons) { addons.appendChild(n); } });
@@ -723,6 +726,8 @@
        switch instead, and only while they have not already earned the gift. */
     var card = $('[data-creatine-card]');
     if (card) card.hidden = !onetime;
+    var slot = $('[data-creatine-slot]');
+    if (slot) slot.hidden = !onetime;
     var payRow = $('[data-upsell-creatine]');
     if (payRow) payRow.hidden = onetime || gift;
     /* The first one is the gift, so the discounted second only makes sense

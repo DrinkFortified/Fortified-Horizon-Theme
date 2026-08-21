@@ -267,6 +267,60 @@
     #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdcg__plan-selected { display: none !important; }
   }
 
+  /* Creatine's own row under the flavour grid. Laid out horizontally so it
+     reads as an add-on rather than a fourth flavour, and so it does not have
+     to guess how many flavour columns there are. */
+  #ftdc-{{ sid }} .ftdcg__creatine-slot { margin-top: 0.85rem; }
+  #ftdc-{{ sid }} .ftdcg__creatine-slot[hidden] { display: none; }
+  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card--creatine {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0 1rem;
+    width: 100%;
+  }
+  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-media { aspect-ratio: 1; width: 5.5rem; }
+  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-body {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.875rem;
+    padding-inline: 0;
+  }
+  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-spec-top { flex-basis: 100%; }
+  /* The grid card clamps its name to three lines and reserves height for
+     them; on one line that reads as a gap. */
+  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-name {
+    min-height: 0;
+    -webkit-line-clamp: 2;
+    font-size: 14px;
+  }
+  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-creatine-pricing { margin-top: 0; }
+  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__add,
+  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__qty {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+    margin: 0 0.9rem 0 0;
+  }
+  /* Both stretch to their column by default, which is right in a narrow
+     grid card and far too wide across a full-width row. */
+  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__add { width: auto; padding-inline: 1.5rem; }
+  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__qty { width: 8.5rem; }
+  @media screen and (max-width: 599px) {
+    #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card--creatine {
+      grid-template-columns: 4rem minmax(0, 1fr);
+    }
+    #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-media { width: 4rem; }
+    #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__add,
+    #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__qty {
+      grid-column: 2;
+      grid-row: 2;
+      justify-self: start;
+      padding-inline-end: 0;
+    }
+  }
+
   /* ───── The creatine card ─────────────────────────────────────────────
      It sits in the flavour grid beside the hydration cards, so it inherits
      .ftdc__card wholesale; only its price block is its own. */
@@ -891,6 +945,11 @@
         <p>In the theme editor sidebar, click each <em>Function</em> block inside this selector and pick a Shopify product. Each product variant will render as a selectable card here.</p>
       </div>
       <div class="ftdc__grid" data-grid></div>
+
+      {%- comment %} The creatine card sits under the flavours rather than as
+        another column beside them: it is an add-on, not a flavour, and the
+        grid lays its children out as equal columns. One-time only. {%- endcomment %}
+      <div class="ftdcg__creatine-slot" data-creatine-slot hidden></div>
 
       {%- comment %} ── Add-ons (merged from old Step 3) ── {%- endcomment %}
     </div>
