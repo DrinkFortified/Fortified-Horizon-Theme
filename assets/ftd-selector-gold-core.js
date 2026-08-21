@@ -145,6 +145,26 @@
       var wasSel   = state.plan === 'onetime' ? '[data-creatine-was]'   : '[data-upsell-creatine] .ftdc__upsell-was';
       var unit = parseMoney(txt(priceSel));
       var unitWas = parseMoney(txt(wasSel));
+      /* Those are merchant-typed marketing prices — "$18.00, was $24.00" —
+         and nothing in the theme makes them true. Whatever discount is meant
+         to deliver them lives in Shopify, and may not exist or may not fire.
+         Once the cart has answered, quote what the line ACTUALLY costs, the
+         same rule the gift row follows. Before the first sync the promise
+         stands, because there is no line to read yet. */
+      var buyLine = cartLineByRole('creatine-buy');
+      if (buyLine) {
+        var realNow = buyLine.final_line_price;
+        var realWas = Math.max(buyLine.original_line_price != null ? buyLine.original_line_price : buyLine.line_price, realNow);
+        out.push({
+          name: txt('[data-creatine-title]') || 'Creatine',
+          note: '',
+          priceText: fmtMoney(realNow), cents: realNow,
+          savedCents: Math.max(0, realWas - realNow),
+          qty: qty,
+          free: realNow === 0, imgSrc: img
+        });
+        return out;
+      }
       out.push({
         name: txt('[data-creatine-title]') || 'Creatine',
         note: '',
