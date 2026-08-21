@@ -98,7 +98,7 @@
 
   function activeAddons() {
     var out = [];
-    if (!Object.keys(state.selections).length) return out;
+    if (!Object.keys(state.selections).length && state.plan !== 'onetime') return out;
     var card = $('[data-creatine-card]');
     var imgEl = card ? card.querySelector('img') : null;
     var img = imgEl ? (imgEl.currentSrc || imgEl.getAttribute('src') || '') : '';
@@ -123,12 +123,28 @@
       });
     }
 
+    /* Quarterly's discounted second unit. */
+    var cr2a = $('[data-creatine2-input]');
+    if (state.plan === 'quarterly' && cr2a && cr2a.checked) {
+      var p2a = parseMoney(txt('[data-creatine2-price]'));
+      out.push({
+        name: txt('[data-creatine2-title]') || '2nd Creatine', note: '',
+        priceText: txt('[data-creatine2-price]'), cents: p2a,
+        savedCents: Math.max(0, parseMoney(txt('[data-creatine2-was]')) - p2a),
+        free: false, imgSrc: img
+      });
+    }
+
     /* Bought units are their own row, listed whether or not a gift is also
        on the order — they are a separate cart line. */
     var qty = creatineQty();
     if (qty > 0) {
-      var unit = parseMoney(txt('[data-creatine-price]'));
-      var unitWas = parseMoney(txt('[data-creatine-was]'));
+      /* The card carries one-time pricing; the switch row carries the
+         subscription's. Read whichever is actually on screen. */
+      var priceSel = state.plan === 'onetime' ? '[data-creatine-price]' : '[data-upsell-creatine] .ftdc__upsell-price';
+      var wasSel   = state.plan === 'onetime' ? '[data-creatine-was]'   : '[data-upsell-creatine] .ftdc__upsell-was';
+      var unit = parseMoney(txt(priceSel));
+      var unitWas = parseMoney(txt(wasSel));
       out.push({
         name: txt('[data-creatine-title]') || 'Creatine',
         note: '',
@@ -242,8 +258,11 @@
        Creatine is still an add-on to a hydration order and is never sent on
        its own; the flavour grid is where a pouch gets chosen. */
     var card = $('[data-creatine-card]');
+    /* Creatine is an add-on to a hydration order on a subscription — it must
+       not ship alone on a plan whose whole point is the pouches. A one-time
+       order is just a shop, so there it can stand by itself. */
     var hasPouches = Object.keys(state.selections).length > 0;
-    if (card && hasPouches) {
+    if (card && (hasPouches || state.plan === 'onetime')) {
       var cv = parseInt(card.dataset.variant, 10);
       if (cv) {
         if (giftQualifies()) {
@@ -263,6 +282,18 @@
           }
           items.push(bi);
         }
+      }
+    }
+    /* Quarterly's discounted second unit: its own line, its own selling plan. */
+    var cr2d = $('[data-creatine2-input]');
+    var card2d = $('[data-creatine-card]');
+    if (state.plan === 'quarterly' && cr2d && cr2d.checked && card2d && Object.keys(state.selections).length > 0) {
+      var v2d = parseInt(card2d.dataset.variant, 10);
+      var row2d = $('[data-upsell-creatine2]');
+      var p50d = row2d ? parseInt(row2d.getAttribute('data-plan-quarterly-50off'), 10) : 0;
+      if (v2d && p50d) {
+        var cp2d = {}; cp2d[CART_SEL] = CART_OWNER; cp2d._role = 'creatine2';
+        items.push({ id: v2d, quantity: 1, selling_plan: p50d, properties: cp2d });
       }
     }
     return items;
@@ -456,6 +487,10 @@
       /* The bought count comes back from its own line, so a reload cannot
          confuse it with the gift. */
       addonQty = boughtLine ? (boughtLine.quantity || 0) : 0;
+      var crH = $('[data-creatine-input]');
+      if (crH) crH.checked = !!boughtLine;
+      var cr2H = $('[data-creatine2-input]');
+      if (cr2H) cr2H.checked = ours.some(function (l) { return (l.properties || {})._role === 'creatine2'; });
       /* Recover "this creatine is ours, not something they paid for" from the
          cart line rather than from memory. giftAutoAdded is a page-lifetime
          flag, so on any reload — or when the pouches are changed from the cart
@@ -567,6 +602,8 @@
     var addons = $('.ftdc__bundle-addons');
     $$('[data-slot="creatine-card"]', stage).forEach(function (n) { if (grid) { grid.appendChild(n); moved.fn++; } });
     $$('[data-slot="creatine-included"]', stage).forEach(function (n) { if (addons) { addons.appendChild(n); } });
+    $$('[data-slot="creatine-addon"]', stage).forEach(function (n) { if (addons) { addons.appendChild(n); } });
+    $$('[data-slot="creatine-addon2"]', stage).forEach(function (n) { if (addons) { addons.appendChild(n); } });
     if (bullets) bullets.hidden = moved.bullet === 0;
     if (announce) announce.hidden = moved.ann === 0;
     var gridEmpty = $('[data-grid-empty]');
@@ -679,8 +716,19 @@
     updateAddonPricing();
     updateAddonQtyUI();
     var gift = giftQualifies();
+    var onetime = state.plan === 'onetime';
     var el = $('[data-creatine-included]');
     if (el) el.hidden = !gift;
+    /* The card is the one-time storefront for creatine; subscriptions get the
+       switch instead, and only while they have not already earned the gift. */
+    var card = $('[data-creatine-card]');
+    if (card) card.hidden = !onetime;
+    var payRow = $('[data-upsell-creatine]');
+    if (payRow) payRow.hidden = onetime || gift;
+    /* The first one is the gift, so the discounted second only makes sense
+       once the bundle has earned it. */
+    var row2 = $('[data-upsell-creatine2]');
+    if (row2) row2.hidden = !(gift && state.plan === 'quarterly');
     /* The gift is a cart line of our own making, tracked separately from
        anything the customer bought, so withdrawing it can never take their
        purchase with it. */
@@ -699,7 +747,13 @@
      separately and shipped as its own cart line — see desiredItems(). They
      used to share one checkbox, which is why the row kept having to flip
      between "Add Creatine" and "Included — FREE". */
-  function creatineQty() { return Math.max(0, addonQty); }
+  function creatineQty() {
+    /* One-time buys by the unit from the card. A subscription add-on is not a
+       quantity you pick — it is one per shipment — so there it is the switch. */
+    if (state.plan === 'onetime') return Math.max(0, addonQty);
+    var cr = $('[data-creatine-input]');
+    return (cr && cr.checked) ? 1 : 0;
+  }
 
   /* Swap the on/off switch for a stepper on one-time, and keep the two in
      step: the checkbox stays the "is it on the order" flag that the rest of
@@ -742,6 +796,8 @@
          differently. updateCreatineIncluded() re-forces it on for quarterly;
          other plans start unchecked until set. */
       addonQty = 0;
+      var cr0 = $('[data-creatine-input]'); if (cr0) cr0.checked = false;
+      var cr20 = $('[data-creatine2-input]'); if (cr20) cr20.checked = false;
       clearGiftSyncGuard();
       updateBar(); updateProgress(); updateCreatineIncluded(); scheduleSync();
       /* Auto-advance to the Bundle step so the customer doesn't have to
@@ -878,7 +934,7 @@
     /* The aside's Add-to-Cart stayed live on every step, so an empty or
        half-filled bundle could be pushed straight into the cart. Gate it on
        the same rule the advance button already used. */
-    var ready = r && totalQty() > 0;
+    var ready = r && (totalQty() > 0 || (state.plan === 'onetime' && creatineQty() > 0));
     $$('[data-action="checkout"]').forEach(function (b) { b.disabled = busy || !ready; });
     /* Repaint the order here rather than only from showStep() and the cart
        round-trip. Adding a flavour or flipping the add-on called updateBar()
@@ -900,7 +956,12 @@
   }
   function canProc() {
     if (state.step === 'plans') return !!state.plan;
-    if (state.step === 'products') { var n = totalQty(), s = bundleSize(); return s ? n === s : n > 0; }
+    if (state.step === 'products') {
+      var n = totalQty(), s = bundleSize();
+      /* One-time may be creatine and nothing else. */
+      if (!s && state.plan === 'onetime') return n > 0 || creatineQty() > 0;
+      return s ? n === s : n > 0;
+    }
     return true;
   }
 
@@ -1010,7 +1071,7 @@
     });
     /* Mirrors desiredItems(): a separate gift line and bought line. */
     var card2 = $('[data-creatine-card]');
-    if (card2 && Object.keys(state.selections).length > 0) {
+    if (card2 && (Object.keys(state.selections).length > 0 || state.plan === 'onetime')) {
       var cv2 = parseInt(card2.dataset.variant, 10);
       if (cv2) {
         if (giftQualifies()) {
@@ -1028,6 +1089,14 @@
           items.push(bi2);
         }
       }
+    }
+    var cr2b = $('[data-creatine2-input]');
+    var cardb = $('[data-creatine-card]');
+    if (state.plan === 'quarterly' && cr2b && cr2b.checked && cardb && Object.keys(state.selections).length > 0) {
+      var v2b = parseInt(cardb.dataset.variant, 10);
+      var row2b = $('[data-upsell-creatine2]');
+      var p50b = row2b ? parseInt(row2b.getAttribute('data-plan-quarterly-50off'), 10) : 0;
+      if (v2b && p50b) items.push({ id: v2b, quantity: 1, selling_plan: p50b });
     }
     return items;
   }
@@ -1119,7 +1188,7 @@
 
   function doCheckout() {
     if (!canProc()) return;
-    if (!totalQty()) return;
+    if (!totalQty() && !(state.plan === 'onetime' && creatineQty() > 0)) return;
     /* Stash a session flag so a return-from-checkout visit lands on Review.
        Pointless when the button never leaves for checkout. */
     if (!CTA_ADDS_TO_CART) {
@@ -1165,6 +1234,14 @@
   /* Add-on toggle reconciles the cart. */
   var crAdd = $('[data-creatine-add]');
   if (crAdd) crAdd.addEventListener('click', function () { setAddonQty(1); });
+  var crToggle = $('[data-creatine-input]');
+  if (crToggle) crToggle.addEventListener('change', function () {
+    clearGiftSyncGuard(); updateBar(); scheduleSync();
+  });
+  var cr2Toggle = $('[data-creatine2-input]');
+  if (cr2Toggle) cr2Toggle.addEventListener('change', function () {
+    clearGiftSyncGuard(); updateBar(); scheduleSync();
+  });
   $$('[data-creatine-qty-action]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       setAddonQty(creatineQty() + (btn.dataset.creatineQtyAction === 'inc' ? 1 : -1));

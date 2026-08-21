@@ -32,7 +32,8 @@
 <div class="ftdc__creatine-wrap" data-slot="creatine-group" style="display:contents" {{ block.shopify_attributes }}>
   {%- if prod != blank and v_id != blank -%}
 
-    {%- comment -%} ── Bought here, at any quantity ── {%- endcomment -%}
+    {%- comment -%} ── One-time orders buy it here, at any quantity ──
+      Shown only on the one-time plan; subscriptions use the row below. {%- endcomment -%}
     <article class="ftdc__card ftdc__card--creatine" data-slot="creatine-card"
              data-creatine-card
              data-variant="{{ v_id }}"
@@ -75,6 +76,59 @@
         </div>
       </div>
     </article>
+
+    {%- comment -%} ── Subscriptions buy it here, one per shipment ──
+      The card above is one-time only: a monthly add-on is not a quantity you
+      pick, it is a thing that ships with every order. {%- endcomment -%}
+    <div class="ftdc__upsell ftdc__upsell--creatine" data-slot="creatine-addon"
+         data-upsell-creatine hidden
+         data-variant="{{ v_id }}"
+         data-plan-monthly="{{ block.settings.loop_plan_monthly }}">
+      <div class="ftdc__upsell-media">
+        {%- if card_img != blank -%}<img src="{{ card_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
+      </div>
+      <div class="ftdc__upsell-body">
+        <p class="ftdc__upsell-title">{{ block.settings.label_monthly | default: 'Add Creatine' }}</p>
+        {%- if block.settings.desc_monthly != blank and block.settings.desc_monthly != '-' -%}
+          <p class="ftdc__upsell-desc">{{ block.settings.desc_monthly }}</p>
+        {%- endif -%}
+        <div class="ftdc__upsell-pricing">
+          <span class="ftdc__upsell-price">{{ block.settings.price_monthly }}</span>
+          {%- if block.settings.was_monthly != blank and block.settings.was_monthly != '-' -%}
+            <s class="ftdc__upsell-was">{{ block.settings.was_monthly }}</s>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="ftdc__upsell-toggle">
+        <input type="checkbox" id="ftdc-cr-{{ block.id }}" class="visually-hidden" data-creatine-input>
+        <label for="ftdc-cr-{{ block.id }}" class="ftdc__switch" aria-hidden="true"></label>
+      </div>
+    </div>
+
+    {%- comment -%} ── Quarterly only: a second one at 50%, the first being free ── {%- endcomment -%}
+    <div class="ftdc__upsell ftdc__upsell--creatine" data-slot="creatine-addon2"
+         data-upsell-creatine2 hidden
+         data-plan-quarterly-50off="{{ block.settings.loop_plan_quarterly_50off }}">
+      <div class="ftdc__upsell-media">
+        {%- if card_img != blank -%}<img src="{{ card_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
+      </div>
+      <div class="ftdc__upsell-body">
+        <p class="ftdc__upsell-title" data-creatine2-title>{{ block.settings.label_quarterly | default: 'Add a 2nd Creatine — 50% off' }}</p>
+        {%- if block.settings.desc_quarterly != blank and block.settings.desc_quarterly != '-' -%}
+          <p class="ftdc__upsell-desc">{{ block.settings.desc_quarterly }}</p>
+        {%- endif -%}
+        <div class="ftdc__upsell-pricing">
+          <span class="ftdc__upsell-price" data-creatine2-price>{{ block.settings.price_quarterly }}</span>
+          {%- if block.settings.was_quarterly != blank and block.settings.was_quarterly != '-' -%}
+            <s class="ftdc__upsell-was" data-creatine2-was>{{ block.settings.was_quarterly }}</s>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="ftdc__upsell-toggle">
+        <input type="checkbox" id="ftdc-cr2-{{ block.id }}" class="visually-hidden" data-creatine2-input>
+        <label for="ftdc-cr2-{{ block.id }}" class="ftdc__switch" aria-hidden="true"></label>
+      </div>
+    </div>
 
     {%- comment -%} ── Given, not bought: no control, nothing to decide ── {%- endcomment -%}
     <div class="ftdc__upsell ftdc__upsell--included" data-slot="creatine-included"
@@ -222,6 +276,42 @@
       "id": "discount_code_onetime",
       "label": "One-time discount code",
       "info": "Optional. Applied at add-to-cart for one-time orders."
+    },
+    {
+      "type": "header",
+      "content": "Second creatine — 3-month only"
+    },
+    {
+      "type": "paragraph",
+      "content": "Offered in the sidebar once the 3-month bundle has earned its free creatine. The first is the gift; this is a discounted second one."
+    },
+    {
+      "type": "text",
+      "id": "label_quarterly",
+      "label": "Label",
+      "default": "Add a 2nd Creatine — 50% off"
+    },
+    {
+      "type": "text",
+      "id": "desc_quarterly",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "price_quarterly",
+      "label": "Price",
+      "default": "$12.00"
+    },
+    {
+      "type": "text",
+      "id": "was_quarterly",
+      "label": "Compare-at",
+      "default": "$24.00"
+    },
+    {
+      "type": "text",
+      "id": "loop_plan_quarterly_50off",
+      "label": "Loop selling plan (2nd creatine)"
     },
     {
       "type": "header",

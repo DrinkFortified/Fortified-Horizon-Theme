@@ -2577,7 +2577,12 @@
             "was_onetime": "$24.00",
             "discount_code_onetime": "-",
             "included_title": "Creatine — Included",
-            "included_desc": "Free with your first order."
+            "included_desc": "Free with your first order.",
+            "label_quarterly": "Add a 2nd Creatine — 50% off",
+            "desc_quarterly": "1st Creatine is free with your bundle.",
+            "price_quarterly": "$12.00",
+            "was_quarterly": "$24.00",
+            "loop_plan_quarterly_50off": "2852552860"
           }
         }
       },
