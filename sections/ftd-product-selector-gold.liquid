@@ -267,6 +267,34 @@
     #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdcg__plan-selected { display: none !important; }
   }
 
+  /* The chosen plan, above "Your Bundle". */
+  #ftdc-{{ sid }} .ftdcg__bundle-plan {
+    margin: 0 0 0.1875rem;
+    font-size: var(--font-size--lg, 1.128rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--color-foreground);
+  }
+  #ftdc-{{ sid }} .ftdcg__bundle-plan:empty { display: none; }
+
+  /* Optional image on the 3-month nudge. The nudge is a narrow column in the
+     aside, so the image sits above the copy and is cropped rather than
+     allowed to set the height. */
+  #ftdc-{{ sid }} .ftdcg__upgrade-media {
+    flex: 1 1 100%;
+    margin: 0;
+    border-radius: calc(var(--ftdc-radius, 13px) - 4px);
+    overflow: hidden;
+    line-height: 0;
+  }
+  #ftdc-{{ sid }} .ftdcg__upgrade-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 9rem;
+    object-fit: cover;
+  }
+
   /* Creatine's own row under the flavour grid. Laid out horizontally so it
      reads as an add-on rather than a fourth flavour, and so it does not have
      to guess how many flavour columns there are. */
@@ -913,6 +941,13 @@
         plan cards already state the 3-month offer immediately above it and the
         second ask read as clutter on the first screen. {%- endcomment %}
       {%- capture upgrade_inner -%}
+        {%- if section.settings.upgrade_image != blank -%}
+          <div class="ftdcg__upgrade-media">
+            <img src="{{ section.settings.upgrade_image | image_url: width: 640 }}"
+                 alt="{{ section.settings.upgrade_title | escape }}"
+                 width="320" height="200" loading="lazy">
+          </div>
+        {%- endif -%}
         <div class="ftdcg__upgrade-copy">
           {%- if section.settings.upgrade_badge != blank -%}
             <span class="ftdcg__upgrade-badge">{{ section.settings.upgrade_badge }}</span>
@@ -971,6 +1006,10 @@
           {%- comment %} Bundle progress, then the add-ons. Both live in the
             aside so they stay put while the customer scrolls the flavour grid. {%- endcomment %}
           <div class="ftdc__bundle-head ftdcg__only-bundle">
+            {%- comment %} The plan, named. On this step the cards are off screen,
+              so without it the only clue to which plan is running is the price
+              arithmetic further down. Filled by updatePlanBadge(). {%- endcomment %}
+            <p class="ftdcg__bundle-plan" data-bundle-plan></p>
             <p class="ftdc__bundle-eyebrow">{{ section.settings.bundle_label | default: 'Your Bundle' }}</p>
             <p class="ftdc__bundle-progress-text" data-progress-text>0 {{ section.settings.of_word | default: 'of' }} {{ bundle_count }} {{ section.settings.selected_word | default: 'selected' }}</p>
             <div class="ftdc__bundle-bar" data-progress-track><div class="ftdc__bundle-bar-fill" data-progress-fill style="width:0%"></div></div>
@@ -1772,6 +1811,12 @@
       "id": "plan_continue_label",
       "label": "Plan screen button",
       "default": "Choose your flavors"
+    },
+    {
+      "type": "image_picker",
+      "id": "upgrade_image",
+      "label": "Banner image",
+      "info": "Optional. Shown above the copy on the 3-month nudge in the order sidebar."
     },
     {
       "type": "text",

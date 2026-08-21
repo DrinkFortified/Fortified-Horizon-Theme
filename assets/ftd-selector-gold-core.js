@@ -961,6 +961,12 @@
        the same rule the advance button already used. */
     var ready = r && (totalQty() > 0 || (state.plan === 'onetime' && creatineQty() > 0));
     $$('[data-action="checkout"]').forEach(function (b) { b.disabled = busy || !ready; });
+    /* Name the plan above "Your Bundle": on the Bundle step the plan cards
+       are off screen, so this is the only place that says which one is
+       running. */
+    var planBadge = $('[data-bundle-plan]');
+    if (planBadge) planBadge.textContent = PLAN_NAMES[state.plan] || '';
+
     /* Repaint the order here rather than only from showStep() and the cart
        round-trip. Adding a flavour or flipping the add-on called updateBar()
        but not renderReview(), so the always-visible summary sat stale until a
