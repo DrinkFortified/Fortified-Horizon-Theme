@@ -167,7 +167,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h4>*Nothing hidden*</h4>",
+                    "text": "<h4>**Nothing hidden**</h4>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -178,7 +178,7 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "text_color": "",
+                    "text_color": "#FFFFFF",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -204,7 +204,7 @@
                     "letter_spacing": "tight",
                     "case": "none",
                     "wrap": "pretty",
-                    "text_color": "",
+                    "text_color": "#FFFFFF",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -261,7 +261,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<ul><li>Organic Fruit Flavors</li><li>Essential Minerals</li><li>No Artificial Sweeteners</li><li>No Mumbo Jumbo!</li></ul>",
+                        "text": "<ul><li>Organic Fruit Flavors</li><li>Essential Minerals</li><li>No Mumbo Jumbo!</li></ul>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -272,7 +272,7 @@
                         "letter_spacing": "normal",
                         "case": "none",
                         "wrap": "pretty",
-                        "text_color": "",
+                        "text_color": "#FFFFFF",
                         "background": false,
                         "background_color": "#00000026",
                         "corner_radius": 0,
@@ -334,7 +334,7 @@
                       "type": "button",
                       "name": "t:names.button",
                       "settings": {
-                        "label": "Get the offer",
+                        "label": "SHOP NOW",
                         "link": "#leadcapture",
                         "open_in_new_tab": false,
                         "open_in_popup": false,
@@ -353,6 +353,7 @@
                     "text_imzgWF": {
                       "type": "text",
                       "name": "t:names.text",
+                      "disabled": true,
                       "settings": {
                         "text": "<p><em>Founding members get <br/>first access & FREE CREATINE for LIFE!</em></p>",
                         "width": "fit-content",
@@ -379,6 +380,7 @@
                     "image_FTCWYD": {
                       "type": "image",
                       "name": "t:names.image",
+                      "disabled": true,
                       "settings": {
                         "image": "shopify://shop_images/CreaIcon.webp",
                         "link": "",
@@ -540,7 +542,7 @@
         "desktop_video": "shopify://files/videos/HORIZONTAL NEW LABEL.mp4",
         "mobile_video": "shopify://files/videos/VERTICAL NEW LABEL.mp4",
         "video_fit": "contain",
-        "toggle_overlay": false,
+        "toggle_overlay": true,
         "overlay_color": "#00000040",
         "overlay_style": "solid",
         "gradient_direction": "to top",
