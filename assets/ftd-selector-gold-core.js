@@ -37,9 +37,9 @@
      size, not just mobile. */
   var ADVANCE_ON_PLAN = !!C.ADVANCE_ON_PLAN;
   /* Opt-in: the final button adds to cart instead of leaving for /checkout.
-     The build is already in the cart either way (cart-as-state), so this only
-     changes the ending: finish the Loop bundle grouping, then open the cart
-     drawer and stay put. Absent for Selector D, which still checks out. */
+     Either way it is the press that commits the build; this only changes what
+     happens next — open the cart drawer and stay put, or leave for checkout.
+     Absent for Selector D, which still checks out. */
   var CTA_ADDS_TO_CART = !!C.CTA_ADDS_TO_CART;
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
@@ -85,17 +85,6 @@
      summary rows and the total cannot disagree — they did, because compute()
      only ever summed the pouches and silently ignored the creatine the
      customer had just been charged for in the row above it. */
-  /* Our lines from the last cart read, so the add-on rows can quote real
-     prices instead of the merchant's promise. Null until the first sync. */
-  var cartLines = null;
-  function cartLineByRole(role) {
-    if (!cartLines) return null;
-    for (var i = 0; i < cartLines.length; i++) {
-      if ((cartLines[i].properties || {})._role === role) return cartLines[i];
-    }
-    return null;
-  }
-
   function activeAddons() {
     var out = [];
     if (!Object.keys(state.selections).length && state.plan !== 'onetime') return out;
@@ -104,22 +93,17 @@
     var img = imgEl ? (imgEl.currentSrc || imgEl.getAttribute('src') || '') : '';
 
     if (giftQualifies()) {
-      /* The gift is zeroed by a Shopify automatic discount, which the theme
-         does not control and cannot assume fired. Once the cart has answered,
-         quote what the line ACTUALLY costs: promising FREE beside a total that
-         charged for it is the same lie the add-on total used to tell. Before
-         the first sync there is no line yet, so the promise stands. */
-      var gift = cartLineByRole('creatine');
-      var giftCents = gift ? gift.final_line_price : 0;
-      var giftWas = gift ? Math.max(gift.original_line_price != null ? gift.original_line_price : gift.line_price, giftCents)
-                         : parseMoney(txt('[data-creatine-was]'));
+      /* Quoted at the promise, because this is a quote. The gift is zeroed by
+         a Shopify automatic discount, and nothing on the page can know whether
+         that fired until the order is actually in the cart — which the drawer
+         then shows, priced for real, a second after Add to Cart. */
       out.push({
         name: 'Creatine',
-        note: giftCents > 0 ? '' : 'Free with your first order',
-        priceText: giftCents > 0 ? fmtMoney(giftCents) : 'FREE',
-        cents: giftCents,
-        savedCents: Math.max(0, giftWas - giftCents),
-        free: giftCents === 0, imgSrc: img
+        note: 'Free with your first order',
+        priceText: 'FREE',
+        cents: 0,
+        savedCents: parseMoney(txt('[data-creatine-was]')),
+        free: true, imgSrc: img
       });
     }
 
@@ -143,28 +127,11 @@
          subscription's. Read whichever is actually on screen. */
       var priceSel = state.plan === 'onetime' ? '[data-creatine-price]' : '[data-upsell-creatine] .ftdc__upsell-price';
       var wasSel   = state.plan === 'onetime' ? '[data-creatine-was]'   : '[data-upsell-creatine] .ftdc__upsell-was';
+      /* Merchant-typed marketing prices, same as the gift row above: a quote
+         of what the configured discounts should deliver, not a reading of a
+         cart line. The cart is the authority and answers a moment later. */
       var unit = parseMoney(txt(priceSel));
       var unitWas = parseMoney(txt(wasSel));
-      /* Those are merchant-typed marketing prices — "$18.00, was $24.00" —
-         and nothing in the theme makes them true. Whatever discount is meant
-         to deliver them lives in Shopify, and may not exist or may not fire.
-         Once the cart has answered, quote what the line ACTUALLY costs, the
-         same rule the gift row follows. Before the first sync the promise
-         stands, because there is no line to read yet. */
-      var buyLine = cartLineByRole('creatine-buy');
-      if (buyLine) {
-        var realNow = buyLine.final_line_price;
-        var realWas = Math.max(buyLine.original_line_price != null ? buyLine.original_line_price : buyLine.line_price, realNow);
-        out.push({
-          name: txt('[data-creatine-title]') || 'Creatine',
-          note: '',
-          priceText: fmtMoney(realNow), cents: realNow,
-          savedCents: Math.max(0, realWas - realNow),
-          qty: qty,
-          free: realNow === 0, imgSrc: img
-        });
-        return out;
-      }
       out.push({
         name: txt('[data-creatine-title]') || 'Creatine',
         note: '',
@@ -178,21 +145,32 @@
   }
 
   /* ============================================================
-     CART-AS-STATE LAYER (Product Selector D)
-     Mirrors the build into the real Shopify cart so it survives refresh
-     and stays in sync sitewide. Only touches lines we created (property
-     _sel === SID). Loop bundle grouping is applied at checkout (Option A).
+     DRAFT, THEN COMMIT
+
+     The build lives here, in the page, and reaches the cart exactly once —
+     when the customer presses Add to Cart.
+
+     It used to be the other way round: every click wrote to the cart and the
+     cart was read back as the source of truth. That is what made switching
+     plans fragile. A switch had to migrate lines, which meant one add plus a
+     removal per line, fired back to back at endpoints Shopify throttles; and
+     because the removals are chained behind the add — deliberately, so a
+     cancelled navigation cannot empty someone's cart — a single failed add
+     left the new plan unsent AND the old lines standing, with nothing said to
+     the customer and no path back. Which is exactly what it did.
+
+     Drafting locally removes the whole class of problem. Switching plans now
+     writes nothing at all. And because a commit only ever ADDS, a cart can
+     hold a one-time order and a subscription side by side: build one, add it,
+     build the next, add that too.
+
+     What still belongs to the cart: lines we have already committed. We do
+     not track or re-own them — the cart drawer edits them like any other
+     line. The one exception is the free creatine, which is only free while
+     the bundle that earned it is still there; see sweepUnearnedGift().
      ============================================================ */
   var CART_SEL = '_sel';
-  var CART_OWNER = 'ftdc-d'; /* shared by every Product Selector D surface so the section + slide-over read/write the same cart lines (real sitewide sync) */
-  var cartTotals = null;     /* {total, saved} from our real cart lines, or null */
-  var hydrating = false;     /* suppress writes while painting UI from cart */
-  var syncing = false;
-  var syncAgain = false;
-  var syncTimer = null;
-  var hydratedOnce = false;
-  var lastSelfWrite = 0;     /* stamp of our own last cart write, to ignore its echo */
-  var SELF_WRITE_QUIET_MS = 1500;
+  var CART_OWNER = 'ftdc-d'; /* shared by every Product Selector D surface so the section + slide-over read/write the same cart lines */
 
   /* Cart endpoints answer with JSON, but a redirect, a challenge page or a
      routing miss answers with HTML — and .json() on that throws the opaque
@@ -241,10 +219,10 @@
       .then(function (b) { cartRead = null; return b; },
             function (e) { cartRead = null; throw e; });
   }
-  /* Checkout alone reads the cart three times in a row (reconcile, then the
-     Loop patch, then the verify), and every one of those was its own request
-     against a throttled endpoint. Reads within the window share one call;
-     any write above invalidates it, so this can never serve a stale cart. */
+  /* Committing reads the cart twice in a row (the Loop patch, then the
+     verify), and every read is its own request against a throttled endpoint.
+     Reads within the window share one call; any write above invalidates it,
+     so this can never serve a stale cart. */
   var cartRead = null, cartReadAt = 0, CART_READ_TTL = 250;
   function getCart() {
     var now = new Date().getTime();
@@ -319,127 +297,24 @@
     return items;
   }
 
-  /* Make the cart match the build. Diff-based and constructive-first:
-     add missing lines, fix quantities, and only then remove stale lines.
-     A full clear-then-re-add tears apart when navigation cancels the
-     re-add mid-flight, silently emptying the customer's cart. */
-  function lineSig(l) {
-    var p = l.properties || {};
-    var sp = (l.selling_plan_allocation && l.selling_plan_allocation.selling_plan && l.selling_plan_allocation.selling_plan.id) || '';
-    return [l.variant_id, sp, p._role || ''].join('|');
-  }
-  function itemSig(it) {
-    return [it.id, it.selling_plan || '', (it.properties && it.properties._role) || ''].join('|');
-  }
-  function reconcileCart() {
-    /* Never reconcile before the first hydration: state starts empty, and
-       an empty-state reconcile would wipe the customer's saved lines. */
-    if (!hydratedOnce) return hydrateFromCart().then(function () { return reconcileCart(); });
-    if (syncing) { syncAgain = true; return Promise.resolve(); }
-    syncing = true;
-    var desired = desiredItems();
-    return getCart().then(function (cart) {
-      var wantBySig = {};
-      desired.forEach(function (it) { wantBySig[itemSig(it)] = it; });
-      var keep = {}, qtyFixes = [], removals = {};
-      (cart.items || []).forEach(function (l) {
-        if ((l.properties || {})[CART_SEL] !== CART_OWNER) return;
-        var sig = lineSig(l), want = wantBySig[sig];
-        if (want && !keep[sig]) {
-          keep[sig] = l;
-          if (l.quantity !== want.quantity) qtyFixes.push({ id: l.key, quantity: want.quantity });
-        } else {
-          removals[l.key] = 0;
-        }
-      });
-      var additions = desired.filter(function (it) { return !keep[itemSig(it)]; });
-      var removalKeys = Object.keys(removals);
+  /* Put the finished build into the cart. The only place this file writes
+     lines, and it runs only when the customer presses Add to Cart.
 
-      /* The cart already matches the build. Reuse the copy we just read
-         rather than asking for it again, and stay quiet: with nothing
-         written there is no change for anyone to hear about. This is the
-         common case — scheduleSync fires on every toggle. */
-      if (!additions.length && !qtyFixes.length && !removalKeys.length) {
-        return { cart: cart, changed: false };
-      }
+     It adds; it never removes. Whatever is already in the cart is someone
+     else's — an order they built a minute ago, something from another page —
+     and stays exactly as it is.
 
-      var step = additions.length
-        ? cartPost('/cart/add.js', { items: additions })
-        : Promise.resolve(null);
-      qtyFixes.forEach(function (fix) {
-        step = step.then(function () { return cartPost('/cart/change.js', fix); });
-      });
-      /* Remove line by line via change.js rather than update.js. update.js
-         resolves its keys against variant ids, and the free creatine and the
-         discounted second creatine are the SAME variant on two lines — so a
-         removal keyed by line id is ambiguous there and can take out the
-         wrong line or miss entirely. change.js addresses one line by key.
-
-         These stay sequential on purpose: Shopify locks the cart per write,
-         so firing them together races. */
-      removalKeys.forEach(function (lineKey) {
-        step = step.then(function () { return cartPost('/cart/change.js', { id: lineKey, quantity: 0 }); });
-      });
-
-      /* change.js answers with the entire cart, so when a change ran last its
-         response already IS the fresh cart. add.js answers with only the
-         lines it added, so an additions-only sync still has to re-read. */
-      var endsWithChange = qtyFixes.length > 0 || removalKeys.length > 0;
-      var fresh = endsWithChange ? step : step.then(getCart);
-      return fresh.then(function (c) { return { cart: c, changed: true }; });
-    }).then(function (res) {
-      paintTotalsFromCart(res.cart); if (res.changed) notifyCartChanged();
-      syncing = false; if (syncAgain) { syncAgain = false; return reconcileCart(); }
-    }).catch(function (e) { syncing = false; try { console.error('[FTDC-D] reconcile', e); } catch (_) {} });
-  }
-  function scheduleSync() {
-    if (hydrating) return;
-    if (syncTimer) clearTimeout(syncTimer);
-    syncTimer = setTimeout(function () { syncTimer = null; reconcileCart(); }, 450);
+     One request, so the build lands whole or not at all. /cart/add.js is
+     atomic across its items array, which is what we want here: a bundle
+     half-added is priced as a bundle and shipped as an accident, whereas a
+     clean failure is something the customer can simply press again. */
+  function commitToCart() {
+    var items = desiredItems();
+    if (!items.length) return Promise.reject(new Error('Nothing selected yet.'));
+    return cartPost('/cart/add.js', { items: items });
   }
 
-  /* Undiscounted worth of a cart line. Selling-plan discounts and the
-     one-time checkout code never surface as cart line discounts, so pull
-     the compare-at from the plan allocation or the rendered card instead. */
-  function lineOriginal(l) {
-    var qty = l.quantity || 1;
-    var orig = (l.original_line_price != null ? l.original_line_price : l.line_price);
-    var sa = l.selling_plan_allocation;
-    if (sa && sa.compare_at_price != null) orig = Math.max(orig, sa.compare_at_price * qty);
-    var card = root.querySelector('.ftdc__card[data-variant-id="' + l.variant_id + '"]');
-    if (card) {
-      var cmp = parseInt(card.dataset.variantCompare, 10) || 0;
-      if (cmp) orig = Math.max(orig, cmp * qty);
-    }
-    return orig;
-  }
-  /* Real totals for our lines -> cartTotals (consumed by updateBar/renderReview). */
-  function paintTotalsFromCart(cart) {
-    if (!cart || !cart.items) return;
-    var total = 0, saved = 0, has = false;
-    cartLines = [];
-    cart.items.forEach(function (l) {
-      if ((l.properties || {})[CART_SEL] !== CART_OWNER) return;
-      cartLines.push(l);
-      has = true; total += l.final_line_price;
-      saved += Math.max(0, lineOriginal(l) - l.final_line_price);
-    });
-    cartTotals = has ? { total: total, saved: saved } : null;
-    updateBar();
-    if (state.step === 'review' || LIVE_SUMMARY) renderReview();
-  }
-  function planFromSellingId(spId) {
-    if (!spId) return 'onetime';
-    spId = String(spId);
-    if (LOOP_BUNDLE.cartSellingPlanId && String(LOOP_BUNDLE.cartSellingPlanId) === spId) return 'quarterly';
-    var cards = $$('.ftdc__card');
-    for (var i = 0; i < cards.length; i++) {
-      if (String(cards[i].dataset.planQuarterly) === spId) return 'quarterly';
-      if (String(cards[i].dataset.planMonthly) === spId) return 'monthly';
-    }
-    return state.plan;
-  }
-  /* Apply a card qty WITHOUT writing to the cart (hydration only). */
+  /* Set a card's quantity and repaint it, without touching the cart. */
   function applyQty(c, n) {
     var v = c.dataset.variantId, a = $('.ftdc__add', c), q = $('.ftdc__qty', c), i = $('.ftdc__qty-input', c);
     state.selections[v] = { qty: n, variantId: v, fnId: c.dataset.fnId, fnLabel: c.dataset.fnLabel, flavorName: c.dataset.flavorName, planMonthly: c.dataset.planMonthly || '', planQuarterly: c.dataset.planQuarterly || '', price: parseInt(c.dataset.variantPrice, 10) || 0, compareAt: parseInt(c.dataset.variantCompare, 10) || 0 };
@@ -471,94 +346,62 @@
     return true;
   }
 
-  /* Rebuild the builder UI from the real cart (load + external changes). */
-  var creatineBackfillTried = false;
-  /* One automatic gift add/remove per page load, so a write that keeps
-     failing cannot spin against the theme's cart:update echo — the same
-     failure that walked the cart endpoints into a 429. Any deliberate
-     change clears it, because that is a fresh intent rather than a retry. */
-  var giftSyncTried = false;
-  function clearGiftSyncGuard() { giftSyncTried = false; }
-  function hydrateFromCart() {
+  /* The free creatine is only free while the bundle that earned it is still
+     in the cart. Nothing else here reads the cart any more, but this has to:
+     the customer can delete pouches from the cart drawer long after we
+     committed them, and a creatine left behind on its own gets charged for at
+     $24 on a page that called it free.
+
+     Same for the quarterly second creatine, which exists only as an add-on to
+     a bundle. A one-time creatine someone deliberately bought stands alone —
+     that is a product they chose, not something we put there.
+
+     Pouches are counted across the whole cart rather than per order, which is
+     deliberate: 3PackFree is a cart-level "buy 3 hydration" discount and does
+     not care which order they came from, so this must not either. Where it is
+     ambiguous it keeps the creatine — the cost of that is one creatine, and
+     the cost of the opposite is charging someone $24 for a free item.
+
+     Runs once, on load. It used to run on every cart change, which is how a
+     write that kept failing walked the cart endpoints into a 429; there is
+     nothing to re-trigger it now. */
+  function sweepUnearnedGift() {
     return getCart().then(function (cart) {
-      hydratedOnce = true;
       var ours = (cart.items || []).filter(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
-      if (!ours.length) { cartTotals = null; updateBar(); return; }
-      hydrating = true;
-      var pouch = ours.filter(function (l) { return (l.properties || {})._role === 'pouch'; });
-      if (pouch.length) {
-        var sa = pouch[0].selling_plan_allocation;
-        var spId = sa && sa.selling_plan && sa.selling_plan.id;
-        var guess = planFromSellingId(spId);
-        var radio = $('input[name="ftdc-plan-' + SID + '"][value="' + guess + '"]');
-        if (radio) { radio.checked = true; state.plan = guess; $$('.ftdc__plan').forEach(function (p) { p.classList.remove('is-active'); }); var l = radio.closest('.ftdc__plan'); if (l) l.classList.add('is-active'); }
-      }
-      state.selections = {};
-      $$('.ftdc__card').forEach(reset);
-      pouch.forEach(function (l) { var card = root.querySelector('.ftdc__card[data-variant-id="' + l.variant_id + '"]'); if (card) applyQty(card, l.quantity); });
-      var creatineLine = null;
-      for (var ci = 0; ci < ours.length; ci++) {
-        if ((ours[ci].properties || {})._role === 'creatine') { creatineLine = ours[ci]; break; }
-      }
-      var boughtLine = null;
-      for (var bi3 = 0; bi3 < ours.length; bi3++) {
-        if ((ours[bi3].properties || {})._role === 'creatine-buy') { boughtLine = ours[bi3]; break; }
-      }
-      /* The bought count comes back from its own line, so a reload cannot
-         confuse it with the gift. */
-      addonQty = boughtLine ? (boughtLine.quantity || 0) : 0;
-      var crH = $('[data-creatine-input]');
-      if (crH) crH.checked = !!boughtLine;
-      var cr2H = $('[data-creatine2-input]');
-      if (cr2H) cr2H.checked = ours.some(function (l) { return (l.properties || {})._role === 'creatine2'; });
-      /* Recover "this creatine is ours, not something they paid for" from the
-         cart line rather than from memory. giftAutoAdded is a page-lifetime
-         flag, so on any reload — or when the pouches are changed from the cart
-         drawer instead of the selector — it was false and a gift that no
-         longer qualified was left sitting in the cart to be charged for. */
-      giftAutoAdded = creatineIsGift(creatineLine);
-      hydrating = false;
-      var giftBefore = giftAutoAdded;
-      updateProgress(); updateCreatineIncluded(); paintTotalsFromCart(cart);
-      /* updateCreatineIncluded() has just decided whether the build still
-         earns the gift. If it changed its mind, the cart has to follow —
-         otherwise the customer keeps a creatine the 3-pouch discount will no
-         longer zero. Guarded like the backfill below: one automatic write per
-         page load, cleared by any deliberate change (see clearGiftSyncGuard),
-         so a write that keeps failing cannot spin against cart:update. */
-      if (giftAutoAdded !== giftBefore && !giftSyncTried) {
-        giftSyncTried = true;
-        scheduleSync();
-      }
-      /* Existing quarterly cart from before free creatine was auto-included —
-         reconcile so the promised free item actually lands in the cart.
+      if (!ours.length) return;
+      var pouches = 0;
+      ours.forEach(function (l) { if ((l.properties || {})._role === 'pouch') pouches += (l.quantity || 0); });
 
-         This said "once" but nothing enforced it, and it is one half of a
-         loop: updateCreatineIncluded() above forces the box on for quarterly,
-         so whenever the add does not produce a creatine line — out of stock, a
-         selling plan the variant no longer accepts, an app rewriting the line
-         — the sync fires, notifyCartChanged() emits cart:refresh, the theme
-         answers with cart:update, the listener below re-hydrates, and we are
-         right back here.
+      var doomed = ours.filter(function (l) {
+        var role = (l.properties || {})._role;
+        if (role === 'creatine') return pouches < GIFT_MIN && creatineIsGift(l);
+        if (role === 'creatine2') return pouches === 0;
+        return false;
+      });
+      if (!doomed.length) return;
 
-         It only closes when that echo lands AFTER the SELF_WRITE_QUIET_MS
-         window; a fast theme is suppressed by that guard and settles. Which is
-         why it never shows up locally and does on a loaded store: measured at
-         a 1.6s echo it ran 1 add + 3 reads every 2s indefinitely, roughly 90
-         requests a minute against endpoints Shopify throttles. One attempt per
-         page load. */
-      if (state.plan === 'quarterly' && !hadCreatine && cr && cr.checked && !creatineBackfillTried) {
-        creatineBackfillTried = true;
-        scheduleSync();
-      }
-    }).catch(function (e) { hydrating = false; hydratedOnce = true; try { console.error('[FTDC-D] hydrate', e); } catch (_) {} });
+      return doomed.reduce(function (chain, l) {
+        return chain.then(function () { return cartPost('/cart/change.js', { id: l.key, quantity: 0 }); });
+      }, Promise.resolve()).then(function () {
+        return getCart().then(function (c) { return announceCartUpdate(c, 'update'); });
+      });
+    }).catch(function (e) { try { console.warn('[FTDC-D] gift sweep', e); } catch (_) {} });
   }
+
   /* Loop bundle (Option A): mint a transaction, then stamp _bundleId +
      selling plan onto our quarterly pouch lines already in the cart. */
   function patchLoopBundle() {
     if (!(LOOP_BUNDLE_ON && state.plan === 'quarterly')) return Promise.resolve();
     return getCart().then(function (cart) {
-      var pouches = (cart.items || []).filter(function (l) { var p = l.properties || {}; return p[CART_SEL] === CART_OWNER && p._role === 'pouch'; });
+      var key0 = LOOP_BUNDLE.propKey || '_bundleId';
+      /* Only lines that have not been grouped yet. A cart can now hold more
+         than one quarterly order — build one, add it, build another — and
+         re-stamping an earlier one with this transaction's id would fold two
+         separate subscriptions into a single bundle. */
+      var pouches = (cart.items || []).filter(function (l) {
+        var p = l.properties || {};
+        return p[CART_SEL] === CART_OWNER && p._role === 'pouch' && !p[key0];
+      });
       if (!pouches.length) return;
       var body = { bundleId: parseInt(LOOP_BUNDLE.bundleId, 10), bundleVariantId: parseInt(LOOP_BUNDLE.bundleVariantId, 10) || null, bundleDiscountId: parseInt(LOOP_BUNDLE.bundleDiscountId, 10) || null, sellingPlanId: parseInt(LOOP_BUNDLE.apiSellingPlanId, 10) };
       return fetch('https://bundle.loopwork.co/api/transactions/create', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
@@ -634,8 +477,8 @@
 
   /* Announce a cart write to the theme. `action` is 'add' only when the
      customer pressed Add to Cart — that is the flag cart-drawer-component
-     reads to decide whether to open itself, so an incremental reconcile while
-     they are still building must not claim it. */
+     reads to decide whether to open itself, so the gift sweep must not claim
+     it and pop the drawer open at someone who just loaded the page. */
   function announceCartUpdate(cart, action) {
     return standardEvents().then(function (mod) {
       var Ctor = mod && mod.CartLinesUpdateEvent;
@@ -682,35 +525,13 @@
     }).catch(function (e) { try { console.warn('[FTDC-D] cart announce failed', e); } catch (_) {} });
   }
 
-  function notifyCartChanged() {
-    lastSelfWrite = new Date().getTime();
-    try { document.dispatchEvent(new CustomEvent('ftdc:cart-changed', { detail: { from: SID } })); } catch (_) {}
-    /* An incremental reconcile: repaint the theme's cart, do not open it. */
-    getCart().then(function (cart) { return announceCartUpdate(cart, 'update'); }).catch(function () {});
-  }
-  document.addEventListener('ftdc:cart-changed', function (e) { if (e && e.detail && e.detail.from === SID) return; hydrateFromCart(); });
+  /* No listener for cart changes made elsewhere any more. The builder is a
+     draft, not a mirror of the cart, so a quantity edited in the drawer is
+     simply the customer editing their cart — nothing here needs to follow it,
+     and nothing here will contradict it. Every guard that used to referee
+     that argument (the in-flight flags, the self-write quiet window, the echo
+     suppression) went with it. */
 
-  /* The theme writes to the cart behind our back: the drawer and cart page
-     quantity steppers, and line removal (which is a change to quantity 0).
-     Those dispatch the cart's own update event, never ftdc:cart-changed, so
-     without this the builder goes on showing a line the customer just deleted
-     and the next reconcile re-adds it.
-
-     Guards, in order: our own announcements carry ftdcFrom; a reconcile in
-     flight or queued means our desired state is newer than the cart, so
-     hydrating would clobber it; and a write of ours can still echo back
-     through a component that re-dispatches, so the quiet window stays.
-
-     cart:update is kept alongside the standard event because the older
-     selectors on this store, and Loop's bundle code, still emit it. */
-  function onForeignCartChange(e) {
-    if (e && e.ftdcFrom === SID) return;
-    if (syncing || hydrating || syncTimer) return;
-    if (new Date().getTime() - lastSelfWrite < SELF_WRITE_QUIET_MS) return;
-    hydrateFromCart();
-  }
-  document.addEventListener('cart:update', onForeignCartChange);
-  document.addEventListener(STD_CART_EVENT, onForeignCartChange);
 
   function sortStagedBlocks() {
     var stage = $('[data-ftdc-stage]');
@@ -876,13 +697,7 @@
        once the bundle has earned it. */
     var row2 = $('[data-upsell-creatine2]');
     if (row2) row2.hidden = !(gift && state.plan === 'quarterly');
-    /* The gift is a cart line of our own making, tracked separately from
-       anything the customer bought, so withdrawing it can never take their
-       purchase with it. */
-    giftAutoAdded = gift;
   }
-  /* True while the creatine in the cart is there because we put it there. */
-  var giftAutoAdded = false;
   /* How many creatines a one-time order is buying. Subscriptions take one per
      shipment and the gift is a single unit, so this only applies to onetime. */
   var addonQty = 0;
@@ -921,8 +736,7 @@
 
   function setAddonQty(n) {
     addonQty = Math.max(0, Math.floor(n) || 0);
-    clearGiftSyncGuard();
-    updateAddonQtyUI(); updateBar(); scheduleSync();
+    updateAddonQtyUI(); updateBar();
   }
 
   var upsellAutoScrolled = false;
@@ -945,8 +759,7 @@
       addonQty = 0;
       var cr0 = $('[data-creatine-input]'); if (cr0) cr0.checked = false;
       var cr20 = $('[data-creatine2-input]'); if (cr20) cr20.checked = false;
-      clearGiftSyncGuard();
-      updateBar(); updateProgress(); updateCreatineIncluded(); scheduleSync();
+      updateBar(); updateProgress(); updateCreatineIncluded();
       /* Auto-advance to the Bundle step so the customer doesn't have to
          scroll back and press Continue. Only from the plan step: switching
          plans from the aside nudge is already on Bundle, and re-entering it
@@ -1005,8 +818,7 @@
       c.classList.add('is-selected');
       if (a) a.hidden = true; if (q) q.hidden = false; if (i) i.value = n;
     }
-    clearGiftSyncGuard();
-    updateProgress(); updateCreatineIncluded(); updateBar(); scheduleSync();
+    updateProgress(); updateCreatineIncluded(); updateBar();
     /* Quarterly bundle just filled up for the first time this visit — ease
        the customer down to the add-ons instead of leaving it to scroll. */
     if (state.plan === 'quarterly' && !upsellAutoScrolled && totalQty() === BUNDLE_COUNT) {
@@ -1070,7 +882,7 @@
 
 
   function updateBar() {
-    var t = (cartTotals || compute()), bt = $('[data-bar-total]'), sw = $('[data-bar-saved-wrap]'), sv = $('[data-bar-saved]');
+    var t = compute(), bt = $('[data-bar-total]'), sw = $('[data-bar-saved-wrap]'), sv = $('[data-bar-saved]');
     if (bt) bt.textContent = fmtMoney(t.total);
     if (sw && sv) { if (t.saved > 0) { sw.hidden = false; sv.textContent = fmtMoney(t.saved); } else sw.hidden = true; }
     var lab = $('[data-bar-label]'), r = canProc();
@@ -1089,11 +901,11 @@
     var planBadge = $('[data-bundle-plan]');
     if (planBadge) planBadge.textContent = PLAN_NAMES[state.plan] || '';
 
-    /* Repaint the order here rather than only from showStep() and the cart
-       round-trip. Adding a flavour or flipping the add-on called updateBar()
-       but not renderReview(), so the always-visible summary sat stale until a
-       reconcile came back ~450ms later — on a slow cart call, seconds of the
-       customer looking at an order that was not theirs. */
+    /* Repaint the order on every change. This is now the only thing that
+       reflects a click back at the customer — the summary IS the build until
+       Add to Cart is pressed — so it has to be immediate. It once waited on a
+       cart round trip to repaint, which on a slow store meant seconds of
+       looking at an order that was not yours. */
     if (LIVE_SUMMARY) renderReview();
     /* Quarterly + Bundle step: warn when not all 3 slots are filled. */
     var w = $('[data-bar-warning]');
@@ -1172,7 +984,7 @@
         extra.hidden = true;
       }
     }
-    var t = (cartTotals || compute());
+    var t = compute();
     var rt = $('[data-review-total]');
     var sv = $('[data-review-saved]');
     var sw = $('[data-review-saved-wrap]');
@@ -1342,29 +1154,26 @@
   function doCheckout() {
     if (!canProc()) return;
     if (!totalQty() && !(state.plan === 'onetime' && creatineQty() > 0)) return;
-    /* Stash a session flag so a return-from-checkout visit lands on Review.
-       Pointless when the button never leaves for checkout. */
-    if (!CTA_ADDS_TO_CART) {
-      try { sessionStorage.setItem(RETURN_FLAG_KEY, '1'); } catch (_) {}
-    }
     busy = true;
     setAdvanceDisabled(true); $$('[data-action="checkout"]').forEach(function (b) { b.disabled = true; });
     var dcard = $('[data-creatine-card]');
     var ot = state.plan === 'onetime' && creatineQty() > 0;
     var d = (ot && dcard) ? (dcard.dataset.discountOnetime || '') : '';
-    if (syncTimer) { clearTimeout(syncTimer); syncTimer = null; }
-    /* Cart already holds the build (cart-as-state): ensure synced, apply the
-       Loop bundle grouping to our quarterly lines, then go to checkout. */
-    reconcileCart().then(patchLoopBundle).then(getCart).then(function (cart) {
+    /* The build has not been near the cart until now. Put it in, group the
+       quarterly lines into their Loop bundle, then hand it over. */
+    commitToCart().then(patchLoopBundle).then(getCart).then(function (cart) {
       var ok = (cart.items || []).some(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
       if (!ok) throw new Error('Could not add your selections to the cart.');
 
-      /* Add-to-cart ending: the build is already in the cart and the bundle
-         grouping just landed, so there is nothing left to add — show the
-         customer the cart and give the button back. */
       if (CTA_ADDS_TO_CART) {
         return applyDiscountInPlace(d).then(function () {
-          busy = false; updateBar();
+          busy = false;
+          /* Clear the builder now that the cart owns this order. Leaving it
+             filled invites a second press that silently doubles the order,
+             and an empty builder is what makes a second DIFFERENT order
+             possible — pick one-time, add it, switch to monthly, build again.
+             Both end up in the same cart, because a commit only ever adds. */
+          clearDraft();
           /* Announce it as an 'add' — that is what makes the theme repaint the
              drawer with the finished bundle AND open it. openCartDrawer() is
              the backstop for a store with the auto-open setting switched off;
@@ -1388,16 +1197,29 @@
     });
   }
 
-  /* Add-on toggle reconciles the cart. */
+  /* Empty the builder back to a fresh order form, keeping the plan the
+     customer is on so building a second one of the same kind is one click.
+     Only ever called after the cart has taken the previous build. */
+  function clearDraft() {
+    state.selections = {};
+    addonQty = 0;
+    var c1 = $('[data-creatine-input]'); if (c1) c1.checked = false;
+    var c2 = $('[data-creatine2-input]'); if (c2) c2.checked = false;
+    $$('.ftdc__card').forEach(reset);
+    upsellAutoScrolled = false;
+    updateProgress(); updateCreatineIncluded(); updateBar();
+    if (LIVE_SUMMARY) renderReview();
+  }
+
   var crAdd = $('[data-creatine-add]');
   if (crAdd) crAdd.addEventListener('click', function () { setAddonQty(1); });
   var crToggle = $('[data-creatine-input]');
   if (crToggle) crToggle.addEventListener('change', function () {
-    clearGiftSyncGuard(); updateBar(); scheduleSync();
+    updateBar();
   });
   var cr2Toggle = $('[data-creatine2-input]');
   if (cr2Toggle) cr2Toggle.addEventListener('change', function () {
-    clearGiftSyncGuard(); updateBar(); scheduleSync();
+    updateBar();
   });
   $$('[data-creatine-qty-action]').forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -1411,28 +1233,21 @@
   if (LIVE_SUMMARY) renderReview();   /* paint the aside before the first interaction */
 
   var api = buildApi(C, root, {
-    hydrateFromCart: hydrateFromCart, showStep: showStep, totalQty: totalQty,
+    sweepUnearnedGift: sweepUnearnedGift, showStep: showStep, totalQty: totalQty,
     updateBar: updateBar, updateProgress: updateProgress,
     updateCreatineIncluded: updateCreatineIncluded
   });
   if (surface && typeof surface.init === 'function') surface.init(api);
 
-  /* Cart is the source of truth: hydrate the build from the live cart on
-     load (survives refresh) and on bfcache restore. */
-  hydrateFromCart().then(function () {
-    try {
-      if (sessionStorage.getItem(RETURN_FLAG_KEY) === '1') {
-        sessionStorage.removeItem(RETURN_FLAG_KEY);
-        if (totalQty() > 0) {
-          updateProgress(); updateBar(); updateCreatineIncluded();
-          showStep(SKIP_REVIEW ? 'products' : 'review');
-          if (surface && typeof surface.onReturnToReview === 'function') surface.onReturnToReview(api);
-          else setTimeout(function () { try { root.scrollIntoView({behavior: 'smooth', block: 'start'}); } catch (_) {} }, 80);
-        }
-      }
-    } catch (_) {}
-  });
-  window.addEventListener('pageshow', function (e) { if (e.persisted) hydrateFromCart(); });
+  /* The builder starts empty on every load — it is an order form, not a
+     picture of the cart. The one thing it does read the cart for is a free
+     creatine whose bundle has since been deleted. */
+  sweepUnearnedGift();
+
+  /* A flag used to be stashed here so a return-from-checkout visit could
+     land on Review with the build restored from the cart. Nothing restores a
+     build any more, so clear any left over from before this shipped. */
+  try { sessionStorage.removeItem(RETURN_FLAG_KEY); } catch (_) {}
   }
 
   /* Everything a surface is allowed to reach. Keep this list small: anything
@@ -1440,7 +1255,7 @@
   function buildApi(C, root, fns) {
     return {
       C: C, SID: C.SID, root: root,
-      hydrateFromCart: fns.hydrateFromCart,
+      sweepUnearnedGift: fns.sweepUnearnedGift,
       showStep: fns.showStep,
       totalQty: fns.totalQty,
       updateBar: fns.updateBar,
