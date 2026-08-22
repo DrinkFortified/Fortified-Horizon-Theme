@@ -29,8 +29,8 @@
           "static": true,
           "settings": {
             "menu": "main-menu",
-            "background_color": "{{ settings.color_palette.background }}",
-            "text_color": "",
+            "background_color": "{{ settings.color_palette.color1 }}",
+            "text_color": "#FFFFFF",
             "type_font_primary_size": "0.875rem",
             "menu_font_style": "inverse",
             "type_font_primary_link": "body",
