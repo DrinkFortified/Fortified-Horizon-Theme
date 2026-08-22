@@ -548,7 +548,7 @@
         "gradient_direction": "to top",
         "section_height": "auto",
         "section_height_custom": 70,
-        "horizontal_alignment": "flex-start",
+        "horizontal_alignment": "center",
         "vertical_alignment": "center",
         "content_max_width": 1400,
         "content_gutter": 40,
