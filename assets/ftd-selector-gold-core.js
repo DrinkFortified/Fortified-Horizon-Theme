@@ -393,8 +393,13 @@
 
       var doomed = ours.filter(function (l) {
         var role = (l.properties || {})._role;
+        /* Both creatines hang off the bundle, so both go when the bundle
+           does. The second one is sold at half price BECAUSE it is riding on
+           a 3-pack; it used to survive until the last pouch was gone, which
+           left someone who dropped from three pouches to two holding a
+           half-price add-on to an order that no longer existed. */
         if (role === 'creatine') return pouches < GIFT_MIN && creatineIsGift(l);
-        if (role === 'creatine2') return pouches === 0;
+        if (role === 'creatine2') return pouches < GIFT_MIN;
         return false;
       });
       if (!doomed.length) return;
@@ -852,6 +857,12 @@
     });
   }
   function setQty(c, n) {
+    /* A coming-soon card is not for sale. CSS makes it unclickable, but
+       pointer-events only stops a real pointer — it does nothing about a
+       script, a synthetic event, or the day someone overrides the rule. This
+       is the gate that actually decides, and every path into a selection goes
+       through here. */
+    if (c.hasAttribute('data-coming-soon')) return;
     n = Math.max(0, Math.floor(n));
     if (state.plan === 'quarterly') {
       var others = totalQty() - (state.selections[c.dataset.variantId] ? state.selections[c.dataset.variantId].qty : 0);

@@ -63,6 +63,14 @@
                data-variant-price="{{ v.price }}"
                data-variant-compare="{{ v.compare_at_price | default: 0 }}"
                {%- if block.settings.coming_soon %} data-coming-soon="true" aria-disabled="true"{%- endif %}>
+        {%- if block.settings.coming_soon -%}
+          {%- comment -%}
+            A direct child of the card, not of the media, so it can stay crisp
+            while everything it is stamped across is dimmed — a badge inside
+            the faded area would be faded with it.
+          {%- endcomment -%}
+          <span class="ftdc__card-soon">{{ block.settings.coming_soon_label | default: 'Coming Soon' }}</span>
+        {%- endif -%}
         <div class="ftdc__card-media">
           {%- if card_img != blank -%}
             <img src="{{ card_img | image_url: width: 480 }}" alt="{{ block.settings.function_label | escape }} – {{ flavor_name | escape }}" loading="lazy" width="240" height="240">
@@ -126,6 +134,12 @@
       "id": "coming_soon",
       "label": "Coming soon",
       "default": false
+    },
+    {
+      "type": "text",
+      "id": "coming_soon_label",
+      "label": "Coming soon badge text",
+      "default": "Coming Soon"
     },
     {
       "type": "text",

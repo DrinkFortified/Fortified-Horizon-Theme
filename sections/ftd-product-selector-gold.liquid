@@ -305,6 +305,47 @@
      One-time only. The card hides itself; .ftdc [hidden] carries the
      !important that beats .ftdc__card's display: flex. */
 
+  /* ───── Coming soon ───────────────────────────────────────────────────
+     A card marked coming soon reads as one: a badge across the corner, the
+     rest of it dimmed, and nothing on it clickable.
+
+     These rules are Gold's own on purpose. The card WAS being dimmed already,
+     by a rule belonging to Selector D — Shopify bundles every theme stylesheet
+     tag into one file whether or not the section renders, so a disabled
+     section was quietly styling this one. That is not something to build on:
+     it is invisible from here and disappears the day D is deleted.
+
+     Dimming lands on the media and the body rather than the card, because a
+     badge inside a faded parent cannot be brighter than it. */
+  #ftdc-{{ sid }} .ftdc__card[data-coming-soon] {
+    opacity: 1;
+    pointer-events: none;
+  }
+  #ftdc-{{ sid }} .ftdc__card[data-coming-soon] .ftdc__card-media,
+  #ftdc-{{ sid }} .ftdc__card[data-coming-soon] .ftdc__card-body {
+    opacity: 0.5;
+  }
+  /* The Add button would be a control that does nothing. The badge is the
+     message; a dead button beside it just contradicts it. */
+  #ftdc-{{ sid }} .ftdc__card[data-coming-soon] .ftdc__card-action { display: none; }
+  #ftdc-{{ sid }} .ftdc__card-soon {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 1;
+    display: inline-flex;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.4;
+    white-space: nowrap;
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+
   /* The one piece with no flavour-card equivalent: flavours carry spec chips
      where this carries a sentence. Sized to sit in the same band. */
   #ftdc-{{ sid }} .ftdc__card-creatine-desc {
