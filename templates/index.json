@@ -1149,7 +1149,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>D3 + K2 You Can Actually Read</p>",
+            "text": "<p>D3 + K2 Functional Ingredients You Need</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -2252,69 +2252,6 @@
         "padding-block-end": 0
       }
     },
-    "fortified_subscribe_save_gPX8Rx": {
-      "type": "fortified-subscribe-save",
-      "blocks": {
-        "benefit_xE8i3U": {
-          "type": "benefit",
-          "settings": {
-            "text": "Save 20% on every order, automatically when subscribed to the 90-Day Supply Every 3 Months plan"
-          }
-        },
-        "benefit_R7apX4": {
-          "type": "benefit",
-          "settings": {
-            "text": "Free creatine on quarterly plans for the life of your subscription"
-          }
-        },
-        "benefit_BQ4FPY": {
-          "type": "benefit",
-          "settings": {
-            "text": "Skip, swap, or cancel anytime"
-          }
-        },
-        "benefit_RiBeWX": {
-          "type": "benefit",
-          "settings": {
-            "text": "Never run out of your ritual"
-          }
-        },
-        "benefit_7NB9mb": {
-          "type": "benefit",
-          "settings": {
-            "text": "45-Day Money Back Guarantee"
-          }
-        }
-      },
-      "block_order": [
-        "benefit_xE8i3U",
-        "benefit_R7apX4",
-        "benefit_BQ4FPY",
-        "benefit_RiBeWX",
-        "benefit_7NB9mb"
-      ],
-      "name": "FTD - Subscribe & Save",
-      "settings": {
-        "anchor_id": "#promo",
-        "eyebrow": "Subscribe & Save",
-        "eyebrow_color": "#1fa8a1",
-        "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
-        "button_label": "Get The VIP Founders offer",
-        "button_link": "#leadcapture",
-        "button_style": "outline",
-        "foreground_image_focal": "center",
-        "image_position": "right",
-        "background_image": "shopify://shop_images/88588dc4ec1159c1c0561ae6b16ace7fb988b0f6.png",
-        "background_overlay": 0,
-        "text_color": "light",
-        "section_width": "full-width",
-        "content_max_width": 1800,
-        "color_scheme": "scheme-5",
-        "padding-block-start": 88,
-        "padding-block-end": 88,
-        "custom_css": ""
-      }
-    },
     "ftd_product_selector_d_VQUQM3": {
       "type": "ftd-product-selector-d",
       "blocks": {
@@ -2564,8 +2501,10 @@
           "settings": {
             "product": "creatine",
             "product_handle": "creatine",
-            "title": "Creatine",
             "spec_top": "Add-on",
+            "title": "Creatine",
+            "add_label": "Add",
+            "qty_label": "Creatine quantity",
             "label_monthly": "Add Creatine — 25% off",
             "desc_monthly": "-",
             "price_monthly": "$12.00",
@@ -2576,14 +2515,16 @@
             "price_onetime": "$24.00",
             "was_onetime": "",
             "discount_code_onetime": "",
-            "included_title": "Creatine — Included",
-            "included_desc": "Free with your first order.",
             "label_quarterly": "Add a 2nd Creatine — 50% off",
             "desc_quarterly": "1st Creatine is free with your bundle.",
             "price_quarterly": "$12.00",
             "was_quarterly": "$24.00",
-            "loop_plan_quarterly_50off": "2852552860"
-          }
+            "loop_plan_quarterly_50off": "2852552860",
+            "included_title": "Creatine — Included",
+            "included_desc": "Free with your first order.",
+            "included_price_text": "FREE"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
@@ -2650,11 +2591,16 @@
         "addon_price_monthly": "$12.00",
         "addon_price_quarterly": "$12.00",
         "addon_price_onetime": "$18.00",
+        "selected_label": "Selected",
+        "addon_qty_label": "Creatine quantity",
+        "addon_product_handle": "creatine",
+        "gift_threshold": 3,
+        "addon_included_title": "Creatine — Included",
+        "addon_included_desc": "Free with your first order.",
         "addon_was_monthly": "$24.00",
         "addon_was_quarterly": "$24.00",
         "addon_was_onetime": "$24.00",
         "addon_loop_plan_monthly": "2852585628",
-        "addon_loop_plan_quarterly_free": "2852618396",
         "addon_loop_plan_quarterly_50off": "2852552860",
         "addon_discount_code_onetime": "-",
         "loop_bundle_enabled": true,
@@ -2683,13 +2629,75 @@
         "shipping_note": "Subscriptions ship free",
         "purchase_once_label": "",
         "review_hint": "Your order is on the right. Check it over, then continue to checkout.",
-        "plan_hint": "3 Month Supply is selected — continue to choose your flavors.",
         "plan_continue_label": "Choose your flavors",
         "upgrade_badge": "Best value",
         "upgrade_title": "Save 20% with the 3-month plan",
         "upgrade_body": "Every 3 months, free shipping, and your first Creatine included free.",
         "upgrade_cta": "Switch to 3-month",
         "aside_offset": 21
+      }
+    },
+    "fortified_subscribe_save_gPX8Rx": {
+      "type": "fortified-subscribe-save",
+      "blocks": {
+        "benefit_xE8i3U": {
+          "type": "benefit",
+          "settings": {
+            "text": "Save 20% on every order, automatically when subscribed to the 90-Day Supply Every 3 Months plan"
+          }
+        },
+        "benefit_R7apX4": {
+          "type": "benefit",
+          "settings": {
+            "text": "Free creatine on quarterly plans for the life of your subscription"
+          }
+        },
+        "benefit_BQ4FPY": {
+          "type": "benefit",
+          "settings": {
+            "text": "Skip, swap, or cancel anytime"
+          }
+        },
+        "benefit_RiBeWX": {
+          "type": "benefit",
+          "settings": {
+            "text": "Never run out of your ritual"
+          }
+        },
+        "benefit_7NB9mb": {
+          "type": "benefit",
+          "settings": {
+            "text": "45-Day Money Back Guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_xE8i3U",
+        "benefit_R7apX4",
+        "benefit_BQ4FPY",
+        "benefit_RiBeWX",
+        "benefit_7NB9mb"
+      ],
+      "name": "FTD - Subscribe & Save",
+      "settings": {
+        "anchor_id": "#promo",
+        "eyebrow": "Subscribe & Save",
+        "eyebrow_color": "#1fa8a1",
+        "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
+        "button_label": "Get The VIP Founders offer",
+        "button_link": "#leadcapture",
+        "button_style": "outline",
+        "foreground_image_focal": "center",
+        "image_position": "right",
+        "background_image": "shopify://shop_images/88588dc4ec1159c1c0561ae6b16ace7fb988b0f6.png",
+        "background_overlay": 0,
+        "text_color": "light",
+        "section_width": "full-width",
+        "content_max_width": 1800,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 88,
+        "padding-block-end": 88,
+        "custom_css": ""
       }
     },
     "fortified_stats_comparison_CLiX76": {
@@ -4084,7 +4092,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>D3 + K2 You Can Actually Read</p>",
+            "text": "<p>D3 + K2 Functional Ingredients You Need</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -4708,9 +4716,9 @@
     "fortified_truth_kr6XwC",
     "ftd_c_supp_facts_4JN74r",
     "media_with_content_PXwBjE",
-    "fortified_subscribe_save_gPX8Rx",
     "ftd_product_selector_d_VQUQM3",
     "ftd_product_selector_gold_6P3LL6",
+    "fortified_subscribe_save_gPX8Rx",
     "fortified_stats_comparison_CLiX76",
     "fortified_comparison_pPqHMj",
     "fortified_tabs_KnFXW8",
