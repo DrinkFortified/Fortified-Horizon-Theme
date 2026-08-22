@@ -537,8 +537,8 @@
       "name": "Hero Responsive",
       "settings": {
         "lcp_priority": true,
-        "desktop_image": "shopify://shop_images/01HeroDesk.webp",
-        "mobile_image": "shopify://shop_images/01HeroMobile.webp",
+        "desktop_video": "shopify://files/videos/HORIZONTAL NEW LABEL.mp4",
+        "mobile_video": "shopify://files/videos/VERTICAL NEW LABEL.mp4",
         "video_fit": "contain",
         "toggle_overlay": false,
         "overlay_color": "#00000040",
