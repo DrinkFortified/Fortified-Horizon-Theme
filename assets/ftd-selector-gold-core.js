@@ -739,6 +739,12 @@
     if (announce) announce.hidden = moved.ann === 0;
     var gridEmpty = $('[data-grid-empty]');
     if (gridEmpty) gridEmpty.hidden = (moved.fn > 0);
+    /* The flavour grid is one row of equal columns, so a card's width is the
+       row divided by however many flavours the merchant added. The creatine
+       card sits in its own row below and has to match, which CSS alone cannot
+       work out from a row it is not in — hand it the count. */
+    var cols = moved.fn + moved.fnPh;
+    if (root && cols > 0) root.style.setProperty('--ftdcg-cols', cols);
   }
   sortStagedBlocks();
 
@@ -817,10 +823,13 @@
     var row = $('[data-creatine-card]');
     if (!row) return;
     var key = state.plan === 'onetime' ? 'onetime' : 'monthly';
-    var pick = function (name) {
+    /* `was` deliberately does not inherit: a strike-through is a claim that
+       this plan discounts the item, and the monthly claim is not true of a
+       one-time order. Everything else falls back happily. */
+    var pick = function (name, inherit) {
       var v = row.getAttribute('data-' + name + '-' + key);
-      if (v === null || v === '') v = row.getAttribute('data-' + name + '-monthly') || '';
-      v = v.trim();
+      if ((v === null || v === '') && inherit !== false) v = row.getAttribute('data-' + name + '-monthly') || '';
+      v = (v || '').trim();
       /* A lone dash is how these settings carry "nothing" — the saved monthly
          description is literally "-", which rendered as a stray hyphen under
          the title. The section already treats it that way for onetime_was. */
@@ -834,10 +843,15 @@
          blank line and a stray gap in the row. */
       el.hidden = !value;
     };
+    var price = pick('price');
+    var was = pick('was', false);
+    /* And a was-price equal to the price is not a discount either, however it
+       got there. */
+    if (was === price) was = '';
     set('[data-creatine-title]', pick('label'));
     set('[data-creatine-desc]', pick('desc'));
-    set('[data-creatine-price]', pick('price'));
-    set('[data-creatine-was]', pick('was'));
+    set('[data-creatine-price]', price);
+    set('[data-creatine-was]', was);
   }
 
   /* Show the gift as an "Included — FREE" row and hide the manual priced

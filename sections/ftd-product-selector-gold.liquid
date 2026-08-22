@@ -295,83 +295,43 @@
     object-fit: cover;
   }
 
-  /* Creatine's own row under the flavour grid. Laid out horizontally so it
-     reads as an add-on rather than a fourth flavour, and so it does not have
-     to guess how many flavour columns there are. */
-  #ftdc-{{ sid }} .ftdcg__creatine-slot { margin-top: 0.85rem; }
-  #ftdc-{{ sid }} .ftdcg__creatine-slot[hidden] { display: none; }
-  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card--creatine {
+  /* ───── The creatine card ─────────────────────────────────────────────
+     A flavour card in every respect except where it sits: its own row below
+     the grid rather than in it, so it reads as the add-on it is and does not
+     get shuffled in among the flavours.
+
+     That row carries the flavour grid's own track sizing, so the card lands
+     on the first column at exactly the width a flavour card has — same media
+     square, same clamped name, same price block pinned to the bottom, same
+     full-width Add button. Everything it needs comes from .ftdc__card;
+     nothing here re-styles the card itself.
+
+     --ftdcg-cols is the flavour count, set by the runtime: the grid above is
+     one row of equal columns, and a row of one card cannot infer how wide a
+     column in a different row turned out to be. */
+  #ftdc-{{ sid }} .ftdcg__creatine-slot {
     display: grid;
-    grid-template-columns: 5.5rem minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 0 1rem;
-    width: 100%;
+    grid-template-columns: repeat(var(--ftdcg-cols, 3), minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-top: 0.85rem;
   }
-  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-media { aspect-ratio: 1; width: 5.5rem; }
-  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-body {
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.25rem 0.875rem;
-    padding-inline: 0;
-  }
-  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-spec-top { flex-basis: 100%; }
-  /* The grid card clamps its name to three lines and reserves height for
-     them; on one line that reads as a gap. */
-  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-name {
-    min-height: 0;
-    -webkit-line-clamp: 2;
-    font-size: 14px;
-  }
-  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-creatine-pricing { margin-top: 0; }
-  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__add,
-  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__qty {
-    grid-column: 3;
-    grid-row: 1;
-    align-self: center;
-    margin: 0 0.9rem 0 0;
-  }
-  /* Both stretch to their column by default, which is right in a narrow
-     grid card and far too wide across a full-width row. */
-  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__add { width: auto; padding-inline: 1.5rem; }
-  #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__qty { width: 8.5rem; }
-  @media screen and (max-width: 599px) {
-    #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card--creatine {
-      grid-template-columns: 4rem minmax(0, 1fr);
-    }
-    #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__card-media { width: 4rem; }
-    #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__add,
-    #ftdc-{{ sid }} .ftdcg__creatine-slot .ftdc__qty {
-      grid-column: 2;
-      grid-row: 2;
-      justify-self: start;
-      padding-inline-end: 0;
-    }
+  #ftdc-{{ sid }} .ftdcg__creatine-slot[hidden] { display: none; }
+  /* Below 750px the flavour grid becomes a snap scroller of 46%-wide cards.
+     One card does not scroll, so it just takes that width and stays put. */
+  @media screen and (max-width: 749px) {
+    #ftdc-{{ sid }} .ftdcg__creatine-slot { grid-template-columns: 46%; }
   }
 
-  /* ───── The creatine card ─────────────────────────────────────────────
-     It sits in the flavour grid beside the hydration cards, so it inherits
-     .ftdc__card wholesale; only its price block is its own. */
+  /* The one piece with no flavour-card equivalent: flavours carry spec chips
+     where this carries a sentence. Sized to sit in the same band. */
   #ftdc-{{ sid }} .ftdc__card-creatine-desc {
-    margin: 0.125rem 0 0;
+    margin: 0;
     font-size: var(--font-size--2xs, 0.697rem);
     line-height: 1.4;
     color: rgb(var(--color-foreground-rgb) / var(--opacity-70, 0.7));
   }
   #ftdc-{{ sid }} .ftdc__card-creatine-desc:empty { display: none; }
-  #ftdc-{{ sid }} .ftdc__card-creatine-pricing {
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.3125rem;
-  }
-  #ftdc-{{ sid }} .ftdc__card-creatine-price { font-weight: 800; }
-  #ftdc-{{ sid }} .ftdc__card-creatine-was {
-    font-size: var(--font-size--2xs, 0.697rem);
-    color: rgb(var(--color-foreground-rgb) / 0.5);
-  }
-  #ftdc-{{ sid }} .ftdc__card-creatine-was:empty { display: none; }
+  #ftdc-{{ sid }} .ftdc__card--creatine .ftdc__card-was:empty { display: none; }
 
   /* Quantity stepper on the creatine row (one-time orders). */
   #ftdc-{{ sid }} .ftdcg__addon-qty {
