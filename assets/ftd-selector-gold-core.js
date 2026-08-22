@@ -589,10 +589,12 @@
     /* The creatine block emits two halves: the card is bought from, in the
        flavour grid; the gift row only confirms, in the add-ons list. */
     var addons = $('.ftdc__bundle-addons');
-    /* Under the flavour grid, not inside it: the grid lays its children out
-       as equal columns, and creatine is an add-on rather than a flavour. */
-    var creSlot = $('[data-creatine-slot]');
-    $$('[data-slot="creatine-card"]', stage).forEach(function (n) { if (creSlot) { creSlot.appendChild(n); } });
+    /* Last card in the flavour grid, not a row of its own below it. It is an
+       add-on, so it goes after everything else — but it is still one of the
+       cards, so it flows with them: at six flavours that puts four on the
+       first row and the two Performance ones plus creatine on the second,
+       rather than stranding creatine on a third row by itself. */
+    $$('[data-slot="creatine-card"]', stage).forEach(function (n) { if (grid) { grid.appendChild(n); } });
     $$('[data-slot="creatine-included"]', stage).forEach(function (n) { if (addons) { addons.appendChild(n); } });
     $$('[data-slot="creatine-addon"]', stage).forEach(function (n) { if (addons) { addons.appendChild(n); } });
     $$('[data-slot="creatine-addon2"]', stage).forEach(function (n) { if (addons) { addons.appendChild(n); } });
@@ -600,16 +602,24 @@
     if (announce) announce.hidden = moved.ann === 0;
     var gridEmpty = $('[data-grid-empty]');
     if (gridEmpty) gridEmpty.hidden = (moved.fn > 0);
-    /* How many columns the flavour grid gets: one per flavour, up to MAX_COLS,
-       after which they wrap onto a new row. Six across was unreadable.
+    syncGridCols();
+  }
 
-       Capped here rather than in CSS because repeat() wants a literal integer
-       and will not take a min(). The creatine slot reads the same variable, so
-       its card stays exactly a flavour card's width without having to work out
-       the width of a grid it is not part of. */
-    var MAX_COLS = 4;
-    var cols = Math.min(moved.fn + moved.fnPh, MAX_COLS);
-    if (root && cols > 0) root.style.setProperty('--ftdcg-cols', cols);
+  /* How many columns the grid gets: one per visible card, up to MAX_COLS,
+     after which they wrap onto a new row. Six across was unreadable.
+
+     Capped here rather than in CSS because repeat() wants a literal integer
+     and will not take a min(). Counts what is actually SHOWING, because the
+     creatine card comes and goes with the plan — with two flavours and no
+     creatine, three columns would leave the pair sitting in two thirds of
+     the row. */
+  var MAX_COLS = 4;
+  function syncGridCols() {
+    var grid = $('[data-grid]');
+    if (!grid || !root) return;
+    var shown = 0;
+    $$('.ftdc__card', grid).forEach(function (c) { if (!c.hidden) shown++; });
+    if (shown > 0) root.style.setProperty('--ftdcg-cols', Math.min(shown, MAX_COLS));
   }
   sortStagedBlocks();
 
@@ -733,8 +743,8 @@
        switch instead, and only while they have not already earned the gift. */
     var card = $('[data-creatine-card]');
     if (card) card.hidden = !onetime;
-    var slot = $('[data-creatine-slot]');
-    if (slot) slot.hidden = !onetime;
+    /* Showing or hiding it changes how many cards are in the row. */
+    syncGridCols();
     var payRow = $('[data-upsell-creatine]');
     if (payRow) payRow.hidden = onetime || gift;
     /* The first one is the gift, so the discounted second only makes sense

@@ -296,31 +296,14 @@
   }
 
   /* ───── The creatine card ─────────────────────────────────────────────
-     A flavour card in every respect except where it sits: its own row below
-     the grid rather than in it, so it reads as the add-on it is and does not
-     get shuffled in among the flavours.
+     A flavour card in every respect, and the runtime drops it into the
+     flavour grid as the last card, so it wraps along with them: at six
+     flavours that is four on the first row, then the two Performance cards
+     and creatine on the second. It needs no layout rules of its own —
+     everything comes from .ftdc__card and the grid it now lives in.
 
-     That row carries the flavour grid's own track sizing, so the card lands
-     on the first column at exactly the width a flavour card has — same media
-     square, same clamped name, same price block pinned to the bottom, same
-     full-width Add button. Everything it needs comes from .ftdc__card;
-     nothing here re-styles the card itself.
-
-     It shares --ftdcg-cols with the flavour grid, so the two cannot drift:
-     a row holding one card has no way to infer how wide a column in a
-     different grid turned out to be. */
-  #ftdc-{{ sid }} .ftdcg__creatine-slot {
-    display: grid;
-    grid-template-columns: repeat(var(--ftdcg-cols, 4), minmax(0, 1fr));
-    gap: 0.85rem;
-    margin-top: 0.85rem;
-  }
-  #ftdc-{{ sid }} .ftdcg__creatine-slot[hidden] { display: none; }
-  /* Below 750px the flavour grid becomes a snap scroller of 46%-wide cards.
-     One card does not scroll, so it just takes that width and stays put. */
-  @media screen and (max-width: 749px) {
-    #ftdc-{{ sid }} .ftdcg__creatine-slot { grid-template-columns: 46%; }
-  }
+     One-time only. The card hides itself; .ftdc [hidden] carries the
+     !important that beats .ftdc__card's display: flex. */
 
   /* The one piece with no flavour-card equivalent: flavours carry spec chips
      where this carries a sentence. Sized to sit in the same band. */
@@ -950,11 +933,6 @@
         <p>In the theme editor sidebar, click each <em>Function</em> block inside this selector and pick a Shopify product. Each product variant will render as a selectable card here.</p>
       </div>
       <div class="ftdc__grid" data-grid></div>
-
-      {%- comment %} The creatine card sits under the flavours rather than as
-        another column beside them: it is an add-on, not a flavour, and the
-        grid lays its children out as equal columns. One-time only. {%- endcomment %}
-      <div class="ftdcg__creatine-slot" data-creatine-slot hidden></div>
 
       {%- comment %} ── Add-ons (merged from old Step 3) ── {%- endcomment %}
     </div>
