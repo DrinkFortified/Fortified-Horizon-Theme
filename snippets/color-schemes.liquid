@@ -1,15 +1,21 @@
 {% doc %}
   Outputs CSS custom property declarations for all color schemes defined in theme settings.
 
+  KEPT ACROSS THE 4.1.4 UPGRADE. Horizon 4.1.4 dropped colour schemes for a
+  single palette (snippets/color-palette.liquid) and stopped emitting the
+  .color-<scheme-id> classes. 43 Fortified sections declare a color_scheme
+  setting and 31 render class="color-{{ section.settings.color_scheme }}",
+  so those classes still have to exist.
+
+  Unlike the 3.5.1 original this no longer claims :root — the palette owns
+  the document defaults now, and this only paints the scheme classes on top.
+
   @param {string} [scheme_classes] - Accumulated CSS selector string for color schemes (used internally as an accumulator).
 {% enddoc %}
 
 {% style %}
   {% for scheme in settings.color_schemes -%}
     {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
-    {% if forloop.index == 1 %}
-      :root,
-    {% endif %}
     {% assign background_brightness = scheme.settings.background | color_brightness %}
     {% if background_brightness < 64 %}
       {% assign opacity_5_15 = 0.15 %}

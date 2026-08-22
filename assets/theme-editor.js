@@ -258,18 +258,6 @@ if (window.Shopify?.designMode && !isIOS) {
         open: (el) => el.showDialog(),
       },
       {
-        name: 'cart-drawer',
-        selector: 'cart-drawer-component',
-        matches(el) {
-          return !!el.closest(this.selector);
-        },
-        isOpen: (el) => el.getAttribute('open') != null,
-        open: (el) => {
-          // @ts-ignore
-          el.open();
-        },
-      },
-      {
         name: 'header-drawer',
         selector: 'header-drawer',
         matches(el) {
@@ -308,7 +296,7 @@ if (window.Shopify?.designMode && !isIOS) {
         isOpen: (el) => el.getAttribute('open') != null,
         open: (el, instanceId) => {
           const button = document.querySelector(
-            `product-form-component[data-product-id="${instanceId}"] .quick-add__button--choose`
+            `quick-add-component[data-product-id="${instanceId}"] .quick-add__button--choose`
           );
 
           // @ts-ignore
