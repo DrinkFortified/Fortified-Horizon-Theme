@@ -600,11 +600,15 @@
     if (announce) announce.hidden = moved.ann === 0;
     var gridEmpty = $('[data-grid-empty]');
     if (gridEmpty) gridEmpty.hidden = (moved.fn > 0);
-    /* The flavour grid is one row of equal columns, so a card's width is the
-       row divided by however many flavours the merchant added. The creatine
-       card sits in its own row below and has to match, which CSS alone cannot
-       work out from a row it is not in — hand it the count. */
-    var cols = moved.fn + moved.fnPh;
+    /* How many columns the flavour grid gets: one per flavour, up to MAX_COLS,
+       after which they wrap onto a new row. Six across was unreadable.
+
+       Capped here rather than in CSS because repeat() wants a literal integer
+       and will not take a min(). The creatine slot reads the same variable, so
+       its card stays exactly a flavour card's width without having to work out
+       the width of a grid it is not part of. */
+    var MAX_COLS = 4;
+    var cols = Math.min(moved.fn + moved.fnPh, MAX_COLS);
     if (root && cols > 0) root.style.setProperty('--ftdcg-cols', cols);
   }
   sortStagedBlocks();
