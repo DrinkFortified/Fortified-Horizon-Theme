@@ -790,7 +790,11 @@ export function setHeaderMenuStyle() {
     window.requestAnimationFrame(() => {
       const overflowList = headerComponent?.querySelector('overflow-list');
       const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
-      headerComponent.dataset.menuStyle = isTouchDevice() || hasReachedMinimum ? 'drawer' : 'menu';
+      // data-force-drawer is the header's "Always use the hamburger menu"
+      // setting. Without it the inline menu comes back on any non-touch
+      // screen wide enough to hold it, on every resize this runs.
+      const forceDrawer = headerComponent.hasAttribute('data-force-drawer');
+      headerComponent.dataset.menuStyle = forceDrawer || isTouchDevice() || hasReachedMinimum ? 'drawer' : 'menu';
     });
   }
 }

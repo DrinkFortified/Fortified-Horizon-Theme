@@ -332,6 +332,16 @@
   {% if sticky %}
     sticky="{{ sticky }}"
   {% endif %}
+  {% comment %}
+    Keep the hamburger at every width instead of letting the header decide.
+    Read by setHeaderMenuStyle() in utilities.js, which otherwise picks the
+    inline menu on any non-touch screen wide enough to fit it. Every layout
+    rule in this header already keys off data-menu-style, so pinning the
+    attribute is the whole switch — there is nothing else to override.
+  {% endcomment %}
+  {% if section.settings.always_drawer_menu %}
+    data-force-drawer
+  {% endif %}
   data-skip-node-update
   data-scroll-direction="none"
   {% if section.settings.menu_row == 'top' and bottom_row_blocks.size > 0 %}
@@ -1279,6 +1289,13 @@
     {
       "type": "header",
       "content": "t:content.search"
+    },
+    {
+      "type": "checkbox",
+      "id": "always_drawer_menu",
+      "label": "Always use the hamburger menu",
+      "info": "Keeps the drawer at every screen size instead of switching to an inline menu on wide screens.",
+      "default": true
     },
     {
       "type": "checkbox",
