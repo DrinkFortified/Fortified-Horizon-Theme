@@ -91,7 +91,7 @@
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "center",
             "horizontal_alignment_mobile": "",
-            "vertical_alignment_mobile": "",
+            "vertical_alignment_mobile": "center",
             "gap": 12,
             "width": "fill",
             "custom_width": 100,
