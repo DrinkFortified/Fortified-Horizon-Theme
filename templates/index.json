@@ -2702,6 +2702,7 @@
         "benefit_RiBeWX",
         "benefit_7NB9mb"
       ],
+      "disabled": true,
       "name": "FTD - Subscribe & Save",
       "settings": {
         "anchor_id": "#promo",
