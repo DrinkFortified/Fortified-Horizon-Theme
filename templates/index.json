@@ -2498,6 +2498,22 @@
           },
           "blocks": {}
         },
+        "ftd_c_function_K36fyD": {
+          "type": "_ftd-c-function",
+          "settings": {
+            "function_label": "Everyday",
+            "product": "everyday",
+            "coming_soon": true,
+            "spec_top": "D3 + K2",
+            "spec_1": "1,200MG MAGNESIUM",
+            "spec_2": "150MG SODIUM",
+            "spec_3": "-",
+            "flavor_option": "-",
+            "loop_plan_monthly": "2852487324",
+            "loop_plan_quarterly": "2852520092"
+          },
+          "blocks": {}
+        },
         "ftd_creatine_MIGRATED": {
           "type": "_ftd-c-creatine",
           "settings": {
@@ -2536,6 +2552,7 @@
         "ftd_c_bullet_c4ctJi",
         "ftd_c_function_4Xqnjf",
         "ftd_c_function_biDjaB",
+        "ftd_c_function_K36fyD",
         "ftd_creatine_MIGRATED"
       ],
       "name": "FTD - Selector Gold",
