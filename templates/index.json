@@ -167,7 +167,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h4>**Nothing hidden**</h4>",
+                    "text": "<h4>Nothing hidden</h4>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -4280,7 +4280,7 @@
       "settings": {
         "anchor_id": "",
         "movement_direction": "normal",
-        "background_color": "#1FA8A1",
+        "background_color": "#1fa8a1",
         "padding-block-start": 24,
         "padding-block-end": 24,
         "gap_between_elements": 24
