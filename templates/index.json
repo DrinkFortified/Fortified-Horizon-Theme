@@ -335,7 +335,7 @@
                       "name": "t:names.button",
                       "settings": {
                         "label": "SHOP NOW",
-                        "link": "#leadcapture",
+                        "link": "#flow",
                         "open_in_new_tab": false,
                         "open_in_popup": false,
                         "style_class": "button",
@@ -1314,7 +1314,7 @@
       "settings": {
         "anchor_id": "",
         "movement_direction": "normal",
-        "background_color": "#1FA8A1",
+        "background_color": "#1fa8a1",
         "padding-block-start": 24,
         "padding-block-end": 24,
         "gap_between_elements": 24
@@ -1937,7 +1937,7 @@
         "icon_background_color": "#0a0a0a",
         "icon_color": "#ffffff",
         "button_label": "Get The VIP Founders offer",
-        "button_link": "#leadcapture",
+        "button_link": "#flow",
         "center_cta": true,
         "secondary_button_label": "",
         "secondary_button_link": "",
@@ -2016,7 +2016,7 @@
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
         "button_label": "Get The VIP Founders offer",
-        "button_link": "#leadcapture",
+        "button_link": "#flow",
         "button_style": "filled",
         "columns_desktop": 4,
         "enable_carousel": false,
@@ -2166,275 +2166,6 @@
         "padding-block-end": 64
       }
     },
-    "media_with_content_PXwBjE": {
-      "type": "media-with-content",
-      "blocks": {
-        "media": {
-          "type": "_media-without-appearance",
-          "static": true,
-          "settings": {
-            "media_type": "image",
-            "image": "shopify://shop_images/NoMumboJumbo.webp",
-            "link": "",
-            "video_loop": true,
-            "video_autoplay": false,
-            "image_position": "cover",
-            "video_position": "cover"
-          },
-          "blocks": {}
-        },
-        "content": {
-          "type": "_content-without-appearance",
-          "static": true,
-          "settings": {
-            "horizontal_alignment_flex_direction_column": "flex-end",
-            "vertical_alignment_flex_direction_column": "flex-end",
-            "gap": 24
-          },
-          "blocks": {
-            "jumbo_text_hDRkw4": {
-              "type": "jumbo-text",
-              "name": "t:names.jumbo_text",
-              "settings": {
-                "text": "No\nMumbo\nJumbo",
-                "font": "heading",
-                "alignment": "right",
-                "line_height": "0.8",
-                "letter_spacing": "-0.03em",
-                "case": "uppercase",
-                "text_effect": "none",
-                "animation_repeat": false,
-                "text_color": ""
-              },
-              "blocks": {}
-            },
-            "text_reRQCb": {
-              "type": "text",
-              "name": "t:names.text",
-              "settings": {
-                "text": "<h4>Just REAL ingredients </h4>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "jumbo_text_hDRkw4",
-            "text_reRQCb"
-          ]
-        }
-      },
-      "name": "t:names.editorial_jumbo_text",
-      "settings": {
-        "anchor_id": "",
-        "media_position": "right",
-        "media_width": "medium",
-        "media_height": "60svh",
-        "section_width": "full-width",
-        "extend_media": true,
-        "background_color": "",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
-    "ftd_product_selector_d_VQUQM3": {
-      "type": "ftd-product-selector-d",
-      "blocks": {
-        "ftdc_announce_fomo_cABmYX": {
-          "type": "_ftdc-announce-fomo",
-          "disabled": true,
-          "settings": {
-            "total_spots": 1000,
-            "claimed_count_thousands": 0,
-            "claimed_count_units": 0,
-            "metafield_namespace": "",
-            "metafield_key": "",
-            "active_template": "Only **{remaining}** of **{total}** subscription spots left",
-            "exhausted_template": "All **{total}** subscription spots claimed.",
-            "bg": "#ffffff",
-            "fg": "#000000",
-            "show_progress_bar": true,
-            "bar_active_color": "#e8833a",
-            "bar_exhausted_color": "#9ca3af",
-            "bar_track_color": "#ffffff2e",
-            "bar_height": 6
-          },
-          "blocks": {}
-        },
-        "ftd_c_bullet_KXpQNQ": {
-          "type": "_ftd-c-bullet",
-          "settings": {
-            "text": "Real-Fruit Organic Flavors"
-          },
-          "blocks": {}
-        },
-        "ftd_c_bullet_HMiw3i": {
-          "type": "_ftd-c-bullet",
-          "settings": {
-            "text": "Zero Artificial Sweeteners"
-          },
-          "blocks": {}
-        },
-        "ftd_c_bullet_9qMzCQ": {
-          "type": "_ftd-c-bullet",
-          "settings": {
-            "text": "Cancel Anytime"
-          },
-          "blocks": {}
-        },
-        "ftd_c_bullet_iBbphK": {
-          "type": "_ftd-c-bullet",
-          "settings": {
-            "text": "45 Day Money Back Guarantee"
-          },
-          "blocks": {}
-        },
-        "ftd_c_function_pkzaNH": {
-          "type": "_ftd-c-function",
-          "settings": {
-            "function_label": "Everyday",
-            "product": "everyday",
-            "coming_soon": false,
-            "spec_top": "D3 + K2",
-            "spec_1": "1,200MG MAGNESIUM",
-            "spec_2": "150MG SODIUM",
-            "spec_3": "-",
-            "flavor_option": "-",
-            "loop_plan_monthly": "2852487324",
-            "loop_plan_quarterly": "2852520092"
-          },
-          "blocks": {}
-        },
-        "ftd_c_function_gbkDqk": {
-          "type": "_ftd-c-function",
-          "settings": {
-            "function_label": "Energy",
-            "product": "energy",
-            "coming_soon": false,
-            "spec_top": "150mg CAFFEINE",
-            "spec_1": "1,200MG MAGNESIUM",
-            "spec_2": "150MG SODIUM",
-            "spec_3": "-",
-            "flavor_option": "-",
-            "loop_plan_monthly": "2852487324",
-            "loop_plan_quarterly": "2852520092"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ftdc_announce_fomo_cABmYX",
-        "ftd_c_bullet_KXpQNQ",
-        "ftd_c_bullet_HMiw3i",
-        "ftd_c_bullet_9qMzCQ",
-        "ftd_c_bullet_iBbphK",
-        "ftd_c_function_pkzaNH",
-        "ftd_c_function_gbkDqk"
-      ],
-      "disabled": true,
-      "name": "FTD - Product Selector D",
-      "settings": {
-        "anchor_id": "#flow",
-        "heading": "Build Your Clean Hydration Ritual",
-        "description": "<p>Mix any function, with any organic flavor.</p>",
-        "step_label_1": "Plan",
-        "step_label_2": "Bundle",
-        "step_label_3": "Boost",
-        "step_label_4": "Review",
-        "back_label": "Back",
-        "review_eyebrow": "Review your order",
-        "review_label": "Review Order",
-        "edit_order_label": "Edit Order",
-        "plan_order": "quarterly,monthly,onetime",
-        "show_quarterly": true,
-        "quarterly_badge": "Most Popular - 20% OFF",
-        "quarterly_title": "3 Month Supply Every 3 Months",
-        "quarterly_desc": "<ul><li>20% OFF Every Shipment</li><li>FREE 45 day Supply of Creatine </li><li>FREE Shipping on Every Order</li><li>45 Day Happiness Guarantee</li><li>Pause, Skip or Cancel Anytime</li></ul>",
-        "quarterly_price": "$47.20",
-        "quarterly_period": "/ per 30 pack",
-        "quarterly_was": "Save $42.79 per month",
-        "quarterly_accent_color": "#e8833a",
-        "bundle_count": 3,
-        "quarterly_estimate_pct": 90,
-        "show_monthly": true,
-        "monthly_badge": "Monthly - 10% OFF",
-        "monthly_title": "1 Month Supply Every Month",
-        "monthly_desc": "<ul><li>10% OFF Every Shipment</li><li>FREE Shipping on Every Order</li><li>45 Day Happiness Guarantee</li><li>Pause, Skip or Cancel Anytime</li></ul>",
-        "monthly_price": "$53.10",
-        "monthly_period": "/ per 30 pack",
-        "monthly_was": "Save $5.90 per Month",
-        "monthly_accent_color": "#1fa8a1",
-        "monthly_estimate_pct": 90,
-        "show_onetime": true,
-        "onetime_badge": "Buy Once - NO FREE SHIPPING",
-        "onetime_title": "30-Day Supply",
-        "onetime_desc": "<ul><li>45 Day Happiness Guarantee</li><li>$5.00 Shipping</li></ul>",
-        "onetime_price": "$59.00",
-        "onetime_period": "/ per 30 pack",
-        "onetime_was": "-",
-        "onetime_accent_color": "#8e8e93",
-        "bundle_label": "Your Bundle",
-        "of_word": "of",
-        "selected_word": "selected",
-        "add_label": "ADD",
-        "addon_product": "creatine",
-        "addon_label_monthly": "Add Creatine — 25% off",
-        "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
-        "addon_label_onetime": "Add Creatine — 25% off",
-        "addon_desc_monthly": "-",
-        "addon_desc_quarterly": "1st Creatine is free with your bundle.",
-        "addon_desc_onetime": "One-time. Discount auto-applied.",
-        "addon_price_monthly": "$12.00",
-        "addon_price_quarterly": "$12.00",
-        "addon_price_onetime": "$18.00",
-        "addon_was_monthly": "$24.00",
-        "addon_was_quarterly": "$24.00",
-        "addon_was_onetime": "$24.00",
-        "addon_loop_plan_monthly": "2852585628",
-        "addon_loop_plan_quarterly_free": "2852618396",
-        "addon_loop_plan_quarterly_50off": "2852552860",
-        "addon_discount_code_onetime": "-",
-        "loop_bundle_enabled": true,
-        "loop_bundle_id": "7684",
-        "loop_bundle_variant_id": "15034",
-        "loop_bundle_discount_id": "50941",
-        "loop_bundle_api_selling_plan_id": "130527",
-        "loop_bundle_selling_plan_id": "2852520092",
-        "loop_bundle_name": "90-Day Bundle — Every 3 Months",
-        "loop_bundle_property_key": "_bundleId",
-        "total_label": "Total",
-        "original_label": "Original price",
-        "saved_word": "Saved",
-        "action_label_step1": "Next →",
-        "action_label_step2": "Continue",
-        "checkout_label": "Checkout",
-        "add_more_label": "Add More",
-        "plan_image": "shopify://shop_images/CTA-Hero-Desktop2.webp",
-        "accent_color": "#1fa8a1",
-        "card_radius": 12,
-        "content_max_width": 1360,
-        "color_scheme": "",
-        "padding-block-start": 72,
-        "padding-block-end": 64
-      }
-    },
     "ftd_product_selector_gold_6P3LL6": {
       "type": "ftd-product-selector-gold",
       "blocks": {
@@ -2472,6 +2203,7 @@
             "function_label": "Everyday",
             "product": "everyday",
             "coming_soon": false,
+            "coming_soon_label": "Coming Soon",
             "spec_top": "D3 + K2",
             "spec_1": "1,200MG MAGNESIUM",
             "spec_2": "150MG SODIUM",
@@ -2488,6 +2220,7 @@
             "function_label": "Energy",
             "product": "energy",
             "coming_soon": false,
+            "coming_soon_label": "Coming Soon",
             "spec_top": "150mg CAFFEINE",
             "spec_1": "1,200MG MAGNESIUM",
             "spec_2": "150MG SODIUM",
@@ -2504,6 +2237,7 @@
             "function_label": "Everyday",
             "product": "performance-electrolyte-powder-with-creatine-by-fortified®",
             "coming_soon": true,
+            "coming_soon_label": "Coming Soon",
             "spec_top": "Creatine",
             "spec_1": "1,200MG MAGNESIUM",
             "spec_2": "150MG SODIUM",
@@ -2656,6 +2390,277 @@
         "aside_offset": 21
       }
     },
+    "media_with_content_PXwBjE": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/NoMumboJumbo.webp",
+            "link": "",
+            "video_loop": true,
+            "video_autoplay": false,
+            "image_position": "cover",
+            "video_position": "cover"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-end",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 24
+          },
+          "blocks": {
+            "jumbo_text_hDRkw4": {
+              "type": "jumbo-text",
+              "name": "t:names.jumbo_text",
+              "settings": {
+                "text": "No\nMumbo\nJumbo",
+                "font": "heading",
+                "alignment": "right",
+                "line_height": "0.8",
+                "letter_spacing": "-0.03em",
+                "case": "uppercase",
+                "text_effect": "none",
+                "animation_repeat": false,
+                "text_color": ""
+              },
+              "blocks": {}
+            },
+            "text_reRQCb": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<h4>Just REAL ingredients </h4>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "jumbo_text_hDRkw4",
+            "text_reRQCb"
+          ]
+        }
+      },
+      "name": "t:names.editorial_jumbo_text",
+      "settings": {
+        "anchor_id": "",
+        "media_position": "right",
+        "media_width": "medium",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "extend_media": true,
+        "background_color": "",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "ftd_product_selector_d_VQUQM3": {
+      "type": "ftd-product-selector-d",
+      "blocks": {
+        "ftdc_announce_fomo_cABmYX": {
+          "type": "_ftdc-announce-fomo",
+          "disabled": true,
+          "settings": {
+            "total_spots": 1000,
+            "claimed_count_thousands": 0,
+            "claimed_count_units": 0,
+            "metafield_namespace": "",
+            "metafield_key": "",
+            "active_template": "Only **{remaining}** of **{total}** subscription spots left",
+            "exhausted_template": "All **{total}** subscription spots claimed.",
+            "bg": "#ffffff",
+            "fg": "#000000",
+            "show_progress_bar": true,
+            "bar_active_color": "#e8833a",
+            "bar_exhausted_color": "#9ca3af",
+            "bar_track_color": "#ffffff2e",
+            "bar_height": 6
+          },
+          "blocks": {}
+        },
+        "ftd_c_bullet_KXpQNQ": {
+          "type": "_ftd-c-bullet",
+          "settings": {
+            "text": "Real-Fruit Organic Flavors"
+          },
+          "blocks": {}
+        },
+        "ftd_c_bullet_HMiw3i": {
+          "type": "_ftd-c-bullet",
+          "settings": {
+            "text": "Zero Artificial Sweeteners"
+          },
+          "blocks": {}
+        },
+        "ftd_c_bullet_9qMzCQ": {
+          "type": "_ftd-c-bullet",
+          "settings": {
+            "text": "Cancel Anytime"
+          },
+          "blocks": {}
+        },
+        "ftd_c_bullet_iBbphK": {
+          "type": "_ftd-c-bullet",
+          "settings": {
+            "text": "45 Day Money Back Guarantee"
+          },
+          "blocks": {}
+        },
+        "ftd_c_function_pkzaNH": {
+          "type": "_ftd-c-function",
+          "settings": {
+            "function_label": "Everyday",
+            "product": "everyday",
+            "coming_soon": false,
+            "coming_soon_label": "Coming Soon",
+            "spec_top": "D3 + K2",
+            "spec_1": "1,200MG MAGNESIUM",
+            "spec_2": "150MG SODIUM",
+            "spec_3": "-",
+            "flavor_option": "-",
+            "loop_plan_monthly": "2852487324",
+            "loop_plan_quarterly": "2852520092"
+          },
+          "blocks": {}
+        },
+        "ftd_c_function_gbkDqk": {
+          "type": "_ftd-c-function",
+          "settings": {
+            "function_label": "Energy",
+            "product": "energy",
+            "coming_soon": false,
+            "coming_soon_label": "Coming Soon",
+            "spec_top": "150mg CAFFEINE",
+            "spec_1": "1,200MG MAGNESIUM",
+            "spec_2": "150MG SODIUM",
+            "spec_3": "-",
+            "flavor_option": "-",
+            "loop_plan_monthly": "2852487324",
+            "loop_plan_quarterly": "2852520092"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ftdc_announce_fomo_cABmYX",
+        "ftd_c_bullet_KXpQNQ",
+        "ftd_c_bullet_HMiw3i",
+        "ftd_c_bullet_9qMzCQ",
+        "ftd_c_bullet_iBbphK",
+        "ftd_c_function_pkzaNH",
+        "ftd_c_function_gbkDqk"
+      ],
+      "disabled": true,
+      "name": "FTD - Product Selector D",
+      "settings": {
+        "anchor_id": "#flow",
+        "heading": "Build Your Clean Hydration Ritual",
+        "description": "<p>Mix any function, with any organic flavor.</p>",
+        "step_label_1": "Plan",
+        "step_label_2": "Bundle",
+        "step_label_3": "Boost",
+        "step_label_4": "Review",
+        "back_label": "Back",
+        "review_eyebrow": "Review your order",
+        "review_label": "Review Order",
+        "edit_order_label": "Edit Order",
+        "plan_order": "quarterly,monthly,onetime",
+        "show_quarterly": true,
+        "quarterly_badge": "Most Popular - 20% OFF",
+        "quarterly_title": "3 Month Supply Every 3 Months",
+        "quarterly_desc": "<ul><li>20% OFF Every Shipment</li><li>FREE 45 day Supply of Creatine </li><li>FREE Shipping on Every Order</li><li>45 Day Happiness Guarantee</li><li>Pause, Skip or Cancel Anytime</li></ul>",
+        "quarterly_price": "$47.20",
+        "quarterly_period": "/ per 30 pack",
+        "quarterly_was": "Save $42.79 per month",
+        "quarterly_accent_color": "#e8833a",
+        "bundle_count": 3,
+        "quarterly_estimate_pct": 90,
+        "show_monthly": true,
+        "monthly_badge": "Monthly - 10% OFF",
+        "monthly_title": "1 Month Supply Every Month",
+        "monthly_desc": "<ul><li>10% OFF Every Shipment</li><li>FREE Shipping on Every Order</li><li>45 Day Happiness Guarantee</li><li>Pause, Skip or Cancel Anytime</li></ul>",
+        "monthly_price": "$53.10",
+        "monthly_period": "/ per 30 pack",
+        "monthly_was": "Save $5.90 per Month",
+        "monthly_accent_color": "#1fa8a1",
+        "monthly_estimate_pct": 90,
+        "show_onetime": true,
+        "onetime_badge": "Buy Once - NO FREE SHIPPING",
+        "onetime_title": "30-Day Supply",
+        "onetime_desc": "<ul><li>45 Day Happiness Guarantee</li><li>$5.00 Shipping</li></ul>",
+        "onetime_price": "$59.00",
+        "onetime_period": "/ per 30 pack",
+        "onetime_was": "-",
+        "onetime_accent_color": "#8e8e93",
+        "bundle_label": "Your Bundle",
+        "of_word": "of",
+        "selected_word": "selected",
+        "add_label": "ADD",
+        "addon_product": "creatine",
+        "addon_label_monthly": "Add Creatine — 25% off",
+        "addon_label_quarterly": "Add a 2nd Creatine — 50% off",
+        "addon_label_onetime": "Add Creatine — 25% off",
+        "addon_desc_monthly": "-",
+        "addon_desc_quarterly": "1st Creatine is free with your bundle.",
+        "addon_desc_onetime": "One-time. Discount auto-applied.",
+        "addon_price_monthly": "$12.00",
+        "addon_price_quarterly": "$12.00",
+        "addon_price_onetime": "$18.00",
+        "addon_was_monthly": "$24.00",
+        "addon_was_quarterly": "$24.00",
+        "addon_was_onetime": "$24.00",
+        "addon_loop_plan_monthly": "2852585628",
+        "addon_loop_plan_quarterly_free": "2852618396",
+        "addon_loop_plan_quarterly_50off": "2852552860",
+        "addon_discount_code_onetime": "-",
+        "loop_bundle_enabled": true,
+        "loop_bundle_id": "7684",
+        "loop_bundle_variant_id": "15034",
+        "loop_bundle_discount_id": "50941",
+        "loop_bundle_api_selling_plan_id": "130527",
+        "loop_bundle_selling_plan_id": "2852520092",
+        "loop_bundle_name": "90-Day Bundle — Every 3 Months",
+        "loop_bundle_property_key": "_bundleId",
+        "total_label": "Total",
+        "original_label": "Original price",
+        "saved_word": "Saved",
+        "action_label_step1": "Next →",
+        "action_label_step2": "Continue",
+        "checkout_label": "Checkout",
+        "add_more_label": "Add More",
+        "plan_image": "shopify://shop_images/CTA-Hero-Desktop2.webp",
+        "accent_color": "#1fa8a1",
+        "card_radius": 12,
+        "content_max_width": 1360,
+        "color_scheme": "",
+        "padding-block-start": 72,
+        "padding-block-end": 64
+      }
+    },
     "fortified_subscribe_save_gPX8Rx": {
       "type": "fortified-subscribe-save",
       "blocks": {
@@ -2704,7 +2709,7 @@
         "eyebrow_color": "#1fa8a1",
         "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
         "button_label": "Get The VIP Founders offer",
-        "button_link": "#leadcapture",
+        "button_link": "#flow",
         "button_style": "outline",
         "foreground_image_focal": "center",
         "image_position": "right",
@@ -2910,7 +2915,7 @@
         "comp_check_color": "",
         "cross_color": "#9ca3af",
         "cta_label": "Get The VIP Founders offer",
-        "cta_link": "#leadcapture",
+        "cta_link": "#flow",
         "cta_style": "filled",
         "secondary_button_label": "",
         "secondary_button_link": "#shopify-section-ftd_c_supp_facts_4JN74r",
@@ -4016,7 +4021,7 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "text_color": "",
+            "text_color": "{{ settings.color_palette.background }}",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -4069,7 +4074,7 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "text_color": "",
+            "text_color": "{{ settings.color_palette.background }}",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -4122,7 +4127,7 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "text_color": "",
+            "text_color": "{{ settings.color_palette.background }}",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -4175,7 +4180,7 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "text_color": "",
+            "text_color": "{{ settings.color_palette.background }}",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -4227,7 +4232,7 @@
             "letter_spacing": "tight",
             "case": "none",
             "wrap": "nowrap",
-            "text_color": "",
+            "text_color": "{{ settings.color_palette.background }}",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -4274,7 +4279,7 @@
       "settings": {
         "anchor_id": "",
         "movement_direction": "normal",
-        "background_color": "",
+        "background_color": "#1FA8A1",
         "padding-block-start": 24,
         "padding-block-end": 24,
         "gap_between_elements": 24
@@ -4390,7 +4395,7 @@
         "eyebrow_color": "#1fa8a1",
         "heading": "Lock In Your Ritual. Get Free Creatine. Forever.",
         "button_label": "Get The VIP Founders offer",
-        "button_link": "#leadcapture",
+        "button_link": "#flow",
         "button_style": "outline",
         "foreground_image_focal": "center",
         "image_position": "right",
@@ -4646,6 +4651,7 @@
                 "function_label": "Everyday",
                 "product": "everyday",
                 "coming_soon": false,
+                "coming_soon_label": "Coming Soon",
                 "spec_top": "D3 + K2",
                 "spec_1": "1,200MG MAGNESIUM",
                 "spec_2": "150MG SODIUM",
@@ -4662,6 +4668,7 @@
                 "function_label": "Energy",
                 "product": "energy",
                 "coming_soon": false,
+                "coming_soon_label": "Coming Soon",
                 "spec_top": "150mg CAFFEINE",
                 "spec_1": "1,200MG MAGNESIUM",
                 "spec_2": "150MG SODIUM",
@@ -4734,9 +4741,9 @@
     "fortified_ingredients_callout_TBXrBt",
     "fortified_truth_kr6XwC",
     "ftd_c_supp_facts_4JN74r",
+    "ftd_product_selector_gold_6P3LL6",
     "media_with_content_PXwBjE",
     "ftd_product_selector_d_VQUQM3",
-    "ftd_product_selector_gold_6P3LL6",
     "fortified_subscribe_save_gPX8Rx",
     "fortified_stats_comparison_CLiX76",
     "fortified_comparison_pPqHMj",
