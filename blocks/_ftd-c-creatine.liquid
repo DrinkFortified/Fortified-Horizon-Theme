@@ -46,7 +46,13 @@
              data-price-monthly="{{ block.settings.price_monthly | escape }}"
              data-price-onetime="{{ block.settings.price_onetime | default: block.settings.price_monthly | escape }}"
              data-was-monthly="{{ block.settings.was_monthly | escape }}"
-             data-was-onetime="{{ block.settings.was_onetime | default: block.settings.was_monthly | escape }}">
+             {%- comment -%}
+               No fallback to the monthly figure, unlike the label, description
+               and price above. A was-price is a claim about a discount, and
+               the monthly one does not hold on a one-time order: inheriting it
+               printed "$24.00" struck through beside a $24.00 price.
+             {%- endcomment -%}
+             data-was-onetime="{{ block.settings.was_onetime | escape }}">
       <div class="ftdc__card-media">
         {%- if card_img != blank -%}
           <img src="{{ card_img | image_url: width: 480 }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="240" height="240">
@@ -62,17 +68,25 @@
           <span class="ftdc__card-spec-top">{{ block.settings.spec_top }}</span>
         {%- endif -%}
         <h3 class="ftdc__card-name" data-creatine-title>{{ block.settings.title | default: prod.title }}</h3>
+        {%- comment -%}
+          Shares the flavour cards' pricing and action classes rather than
+          keeping its own: this is one of the cards in the grid, so it should
+          be the same card. The only piece with no flavour equivalent is the
+          description — the flavour cards carry spec chips there instead.
+        {%- endcomment -%}
         <p class="ftdc__card-creatine-desc" data-creatine-desc>{{ block.settings.desc_monthly }}</p>
-        <div class="ftdc__card-creatine-pricing">
-          <span class="ftdc__card-creatine-price" data-creatine-price>{{ block.settings.price_monthly }}</span>
-          <s class="ftdc__card-creatine-was" data-creatine-was>{{ block.settings.was_monthly }}</s>
+        <div class="ftdc__card-pricing">
+          <span class="ftdc__card-price" data-creatine-price>{{ block.settings.price_monthly }}</span>
+          <s class="ftdc__card-was" data-creatine-was>{{ block.settings.was_monthly }}</s>
         </div>
-        <button class="ftdc__add" type="button" data-creatine-add>{{ block.settings.add_label | default: 'Add' }}</button>
-        <div class="ftdc__qty" data-creatine-qty hidden>
-          <button class="ftdc__qty-btn" type="button" data-creatine-qty-action="dec" aria-label="Decrease quantity">&minus;</button>
-          <input class="ftdc__qty-input" type="number" min="0" value="0" inputmode="numeric"
-                 data-creatine-qty-input aria-label="{{ block.settings.qty_label | default: 'Creatine quantity' | escape }}">
-          <button class="ftdc__qty-btn" type="button" data-creatine-qty-action="inc" aria-label="Increase quantity">+</button>
+        <div class="ftdc__card-action">
+          <button class="ftdc__add" type="button" data-creatine-add>{{ block.settings.add_label | default: 'Add' }}</button>
+          <div class="ftdc__qty" data-creatine-qty hidden>
+            <button class="ftdc__qty-btn" type="button" data-creatine-qty-action="dec" aria-label="Decrease quantity">&minus;</button>
+            <input class="ftdc__qty-input" type="number" min="0" value="0" inputmode="numeric"
+                   data-creatine-qty-input aria-label="{{ block.settings.qty_label | default: 'Creatine quantity' | escape }}">
+            <button class="ftdc__qty-btn" type="button" data-creatine-qty-action="inc" aria-label="Increase quantity">+</button>
+          </div>
         </div>
       </div>
     </article>
