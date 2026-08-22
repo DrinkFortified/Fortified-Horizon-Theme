@@ -18,12 +18,14 @@ class HeaderDrawer extends Component {
     super.connectedCallback();
 
     this.addEventListener('keyup', this.#onKeyUp);
+    this.addEventListener('click', this.#onLinkActivate);
     this.#setupAnimatedElementListeners();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('keyup', this.#onKeyUp);
+    this.removeEventListener('click', this.#onLinkActivate);
   }
 
   /**
@@ -34,6 +36,36 @@ class HeaderDrawer extends Component {
     if (event.key !== 'Escape') return;
 
     this.#close(this.#getDetailsElement(event));
+  };
+
+  /**
+   * Close the main menu drawer when one of its links is activated.
+   *
+   * Drawer links are plain anchors, so a link to another page takes the whole
+   * document — drawer included — down with it and never needed closing. A link
+   * whose target is on the page we are already on does not navigate at all:
+   * the browser just scrolls to the anchor, leaving the drawer sitting over
+   * the section it scrolled to. That is most of this store's menu, which
+   * points at #everyday, #flow, #stats and friends.
+   *
+   * Closing on every link covers both cases; on a real navigation the drawer
+   * is simply closing as the next page loads.
+   *
+   * @param {MouseEvent} event
+   */
+  #onLinkActivate = (event) => {
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (!(event.target instanceof Element)) return;
+
+    const link = event.target.closest('a[href]');
+
+    // Anchors that open elsewhere leave this page — and this drawer — standing.
+    if (!link || !this.contains(link)) return;
+    if (link.target && link.target !== '_self') return;
+    if (!this.isOpen) return;
+
+    this.close();
   };
 
   /**

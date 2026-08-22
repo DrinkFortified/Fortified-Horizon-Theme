@@ -580,29 +580,137 @@
         });
     }).catch(function (e) { try { console.warn('[FTDC-D] Loop bundle patch failed, proceeding without grouping:', e); } catch (_) {} });
   }
+  /* ---- Talking to the theme's cart UI ----------------------------------
+
+     Horizon 4 retired the cart:refresh / cart:update pair this file was
+     written against and moved the whole cart conversation onto Shopify's
+     standard events. Nothing listens to cart:refresh any more, which is why
+     writing to the cart left the drawer, the bubble and the count showing the
+     cart as it was before — only a page load caught them up.
+
+     The one event that matters is shopify:cart:lines-update. It carries a
+     promise, and the theme's components hang their work off it:
+       cart-drawer-component  auto-opens, but only for action 'add'
+       cart-items-component   re-renders the drawer/page contents
+       cart-icon, header-actions  update the bubble and the live region
+
+     Resolving with no `sections` is the supported path for a caller outside
+     the cart: cart-items-component answers it by re-rendering the section
+     from the server itself.
+
+     The event class lives behind the theme's import map. Warm it up front so
+     the add-to-cart click does not wait on a network round trip, and fall
+     back to a plain event carrying the same fields — every listener in the
+     theme reads `action`, `promise` and `target`, nothing more. */
+  var STD_CART_EVENT = 'shopify:cart:lines-update';
+  var stdEvents = null;
+  function standardEvents() {
+    if (stdEvents) return stdEvents;
+    stdEvents = import('@shopify/events')
+      .catch(function () { return import('https://cdn.shopify.com/storefront/standard-events.js'); })
+      .catch(function () { return null; });
+    return stdEvents;
+  }
+  standardEvents();
+
+  /* The shape CartLinesUpdateEvent.createCartFromAjaxResponse would give us,
+     for when the module could not be loaded. Money is in cents over /cart.js
+     and a decimal string in the event payload. */
+  function cartSummaryFromAjax(c) {
+    var cur = c.currency || 'USD';
+    function money(cents) { return ((cents || 0) / 100).toFixed(2); }
+    return {
+      id: c.token || '',
+      totalQuantity: c.item_count || 0,
+      cost: { totalAmount: { amount: money(c.total_price), currencyCode: cur } },
+      lines: (c.items || []).map(function (l) {
+        return { id: l.key, quantity: l.quantity, cost: { totalAmount: { amount: money(l.final_line_price), currencyCode: cur } } };
+      }),
+      discountCodes: (c.cart_level_discount_applications || []).map(function (d) {
+        return { applicable: true, code: d.title || '' };
+      })
+    };
+  }
+
+  /* Announce a cart write to the theme. `action` is 'add' only when the
+     customer pressed Add to Cart — that is the flag cart-drawer-component
+     reads to decide whether to open itself, so an incremental reconcile while
+     they are still building must not claim it. */
+  function announceCartUpdate(cart, action) {
+    return standardEvents().then(function (mod) {
+      var Ctor = mod && mod.CartLinesUpdateEvent;
+      var ours = (cart.items || []).filter(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
+      var lines = (ours.length ? ours : (cart.items || [])).map(function (l) {
+        return action === 'add'
+          ? { merchandiseId: String(l.variant_id), quantity: l.quantity }
+          : { id: l.key, quantity: l.quantity };
+      });
+      if (!lines.length) return;
+
+      var resolve;
+      var promise = new Promise(function (res) { resolve = res; });
+      /* Nothing here rejects, but an unhandled rejection would still surface
+         in the console if one ever did. */
+      promise.catch(function () {});
+
+      var payload = { action: action, context: 'standard-action', lines: lines, promise: promise };
+      var evt;
+      try {
+        evt = Ctor ? new Ctor(payload) : null;
+      } catch (_) { evt = null; }
+      if (!evt) {
+        evt = new Event(STD_CART_EVENT, { bubbles: true, composed: true });
+        Object.keys(payload).forEach(function (k) { evt[k] = payload[k]; });
+      }
+      /* So our own listener below can tell our echo from a real outside
+         change without leaning on the timing guard alone. */
+      evt.ftdcFrom = SID;
+
+      var summary;
+      try {
+        summary = Ctor && Ctor.createCartFromAjaxResponse ? Ctor.createCartFromAjaxResponse(cart) : cartSummaryFromAjax(cart);
+      } catch (_) { summary = cartSummaryFromAjax(cart); }
+
+      document.dispatchEvent(evt);
+      /* Resolve after dispatch: the listeners hang their work off this promise
+         and have to be attached before it settles. */
+      resolve({
+        cart: summary,
+        detail: { items: cart.items || [], itemCount: cart.item_count || 0, source: 'ftd-selector-gold', didError: false }
+      });
+      return promise;
+    }).catch(function (e) { try { console.warn('[FTDC-D] cart announce failed', e); } catch (_) {} });
+  }
+
   function notifyCartChanged() {
     lastSelfWrite = new Date().getTime();
     try { document.dispatchEvent(new CustomEvent('ftdc:cart-changed', { detail: { from: SID } })); } catch (_) {}
-    try { document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true })); } catch (_) {}
+    /* An incremental reconcile: repaint the theme's cart, do not open it. */
+    getCart().then(function (cart) { return announceCartUpdate(cart, 'update'); }).catch(function () {});
   }
   document.addEventListener('ftdc:cart-changed', function (e) { if (e && e.detail && e.detail.from === SID) return; hydrateFromCart(); });
 
   /* The theme writes to the cart behind our back: the drawer and cart page
      quantity steppers, and line removal (which is a change to quantity 0).
-     Those dispatch the theme's own cart:update, never ftdc:cart-changed, so
+     Those dispatch the cart's own update event, never ftdc:cart-changed, so
      without this the builder goes on showing a line the customer just deleted
      and the next reconcile re-adds it.
 
-     Guards, in order: a reconcile in flight or queued means our own desired
-     state is newer than the cart, so hydrating would clobber it; and our
-     writes echo back, because notifyCartChanged fires cart:refresh and the
-     cart components answer that with a cart:update of their own a moment
-     later. Hydrating on that echo is harmless but costs a needless /cart.js. */
-  document.addEventListener('cart:update', function () {
+     Guards, in order: our own announcements carry ftdcFrom; a reconcile in
+     flight or queued means our desired state is newer than the cart, so
+     hydrating would clobber it; and a write of ours can still echo back
+     through a component that re-dispatches, so the quiet window stays.
+
+     cart:update is kept alongside the standard event because the older
+     selectors on this store, and Loop's bundle code, still emit it. */
+  function onForeignCartChange(e) {
+    if (e && e.ftdcFrom === SID) return;
     if (syncing || hydrating || syncTimer) return;
     if (new Date().getTime() - lastSelfWrite < SELF_WRITE_QUIET_MS) return;
     hydrateFromCart();
-  });
+  }
+  document.addEventListener('cart:update', onForeignCartChange);
+  document.addEventListener(STD_CART_EVENT, onForeignCartChange);
 
   function sortStagedBlocks() {
     var stage = $('[data-ftdc-stage]');
@@ -1243,10 +1351,14 @@
       if (CTA_ADDS_TO_CART) {
         return applyDiscountInPlace(d).then(function () {
           busy = false; updateBar();
-          /* Repaint the theme's cart components before the drawer opens, so it
-             cannot flash the pre-bundle contents. */
-          try { document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true })); } catch (_) {}
-          if (!openCartDrawer()) window.location.href = '/cart';
+          /* Announce it as an 'add' — that is what makes the theme repaint the
+             drawer with the finished bundle AND open it. openCartDrawer() is
+             the backstop for a store with the auto-open setting switched off;
+             it no-ops when the announcement already opened the drawer, and
+             reports false only when this theme has no drawer at all. */
+          return announceCartUpdate(cart, 'add').then(function () {
+            if (!openCartDrawer()) window.location.href = '/cart';
+          });
         });
       }
 
