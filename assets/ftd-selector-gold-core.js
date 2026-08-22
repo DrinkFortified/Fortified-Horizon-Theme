@@ -169,6 +169,9 @@
      line. The one exception is the free creatine, which is only free while
      the bundle that earned it is still there; see sweepUnearnedGift().
      ============================================================ */
+  /* Shopify's standard cart event. Declared up here because the gift sweep
+     below listens for it, long before the announce block that sends it. */
+  var STD_CART_EVENT = 'shopify:cart:lines-update';
   var CART_SEL = '_sel';
   var CART_OWNER = 'ftdc-d'; /* shared by every Product Selector D surface so the section + slide-over read/write the same cart lines */
 
@@ -362,10 +365,26 @@
      ambiguous it keeps the creatine — the cost of that is one creatine, and
      the cost of the opposite is charging someone $24 for a free item.
 
-     Runs once, on load. It used to run on every cart change, which is how a
-     write that kept failing walked the cart endpoints into a 429; there is
-     nothing to re-trigger it now. */
+     Runs on load AND on every cart change, because the change that strands a
+     gift is made in the CART DRAWER — the customer drops from three pouches to
+     two there, no page ever reloads, and a load-only sweep never sees it. That
+     is precisely the reported bug: the discount stops applying, the creatine
+     goes from free to $24, and it just sits there.
+
+     This is the shape that once spun the cart endpoints into a 429, so the
+     brakes matter. It only writes when a doomed line actually exists, so a
+     successful removal ends it: the line is gone and the next pass finds
+     nothing. A removal that keeps FAILING is the dangerous case, and that is
+     what SWEEP_MAX_WRITES caps. Our own removals are skipped by ftdcFrom, and
+     the whole thing is debounced because stepper clicks arrive in bursts. */
+  var SWEEP_MAX_WRITES = 4;
+  var sweepWrites = 0;
+  var sweepBusy = false;
+  var sweepTimer = null;
+
   function sweepUnearnedGift() {
+    if (sweepBusy || sweepWrites >= SWEEP_MAX_WRITES) return Promise.resolve();
+    sweepBusy = true;
     return getCart().then(function (cart) {
       var ours = (cart.items || []).filter(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
       if (!ours.length) return;
@@ -379,14 +398,36 @@
         return false;
       });
       if (!doomed.length) return;
+      sweepWrites++;
 
       return doomed.reduce(function (chain, l) {
         return chain.then(function () { return cartPost('/cart/change.js', { id: l.key, quantity: 0 }); });
       }, Promise.resolve()).then(function () {
+        /* Announced so the drawer repaints without the line it just lost.
+           'update', never 'add' — this must not pop the drawer open at
+           someone who is not looking at it. */
         return getCart().then(function (c) { return announceCartUpdate(c, 'update'); });
       });
-    }).catch(function (e) { try { console.warn('[FTDC-D] gift sweep', e); } catch (_) {} });
+    }).catch(function (e) { try { console.warn('[FTDC-D] gift sweep', e); } catch (_) {} })
+      .then(function () { sweepBusy = false; }, function () { sweepBusy = false; });
   }
+
+  /* Cart edits arrive in bursts — every tap of the drawer's minus button is
+     its own write — so settle before reading. */
+  function scheduleSweep() {
+    if (sweepTimer) clearTimeout(sweepTimer);
+    sweepTimer = setTimeout(function () { sweepTimer = null; sweepUnearnedGift(); }, 600);
+  }
+
+  /* The only cart listener left. It does not rebuild the builder — the
+     builder is still a draft that owes the cart nothing — it just asks
+     whether a gift in there is still earned. */
+  function onCartChanged(e) {
+    if (e && e.ftdcFrom === SID) return;
+    scheduleSweep();
+  }
+  document.addEventListener(STD_CART_EVENT, onCartChanged);
+  document.addEventListener('cart:update', onCartChanged);
 
   /* Loop bundle (Option A): mint a transaction, then stamp _bundleId +
      selling plan onto our quarterly pouch lines already in the cart. */
@@ -445,7 +486,6 @@
      the add-to-cart click does not wait on a network round trip, and fall
      back to a plain event carrying the same fields — every listener in the
      theme reads `action`, `promise` and `target`, nothing more. */
-  var STD_CART_EVENT = 'shopify:cart:lines-update';
   var stdEvents = null;
   function standardEvents() {
     if (stdEvents) return stdEvents;

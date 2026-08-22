@@ -385,6 +385,19 @@
                     if ftd_qty_locked
                       assign can_update_quantity = false
                     endif
+
+                    # A line with no stepper has exactly one control left, so that
+                    # control has to be there. The selector clears an unearned free
+                    # creatine by itself, but if that cannot run — a script error, a
+                    # wedged cart endpoint — the customer is left looking at a $24
+                    # charge for something the page called free. An app saying
+                    # can_remove: false on a line WE put in the cart does not get to
+                    # make it unclearable.
+                    #
+                    # Reassigned every iteration, not just when locked: Liquid keeps
+                    # assigns across a for loop, so a one-way set here would leak
+                    # onto every line after the first locked one.
+                    assign ftd_force_remove = ftd_qty_locked
                   %}
                   <div class="cart-items__quantity-controls">
                     {% comment %}
@@ -435,6 +448,9 @@
                       aria-label="{{ 'accessibility.remove_item' | t: title: item.title | escape }}"
                       on:click="/onLineItemRemove/{{ item.index | plus: 1 }}"
                       {% assign can_remove = item.instructions.can_remove | default: true, allow_false: true %}
+                      {% if ftd_force_remove %}
+                        {% assign can_remove = true %}
+                      {% endif %}
                       {% if can_remove == false %}
                         hidden
                       {% endif %}
