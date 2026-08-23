@@ -438,8 +438,15 @@
      the page's. It is now scoped per step (see "one job per step" below), so
      on a normal desktop viewport it simply fits and no nested scroll region is
      needed. Short viewports keep the cap, because there the alternative is
-     content pinned off the bottom of the screen with no way to reach it. */
-  @media screen and (max-height: 780px) {
+     content pinned off the bottom of the screen with no way to reach it.
+
+     Desktop only. This was keyed on viewport HEIGHT alone, which is true of
+     nearly every phone in portrait and all of them in landscape — so the
+     summary got its own scrollbar on mobile, inside a page that already
+     scrolls. The cap exists to rescue a STICKY column that would otherwise
+     run off the bottom unreachable; below 990px the aside is position: static
+     and stacked in normal flow, so there is nothing to rescue. */
+  @media screen and (min-width: 990px) and (max-height: 780px) {
     #ftdc-{{ sid }} .ftdcg__aside {
       max-height: calc(100vh - var(--ftdcg-aside-top) - 1.3125rem);
       overflow-y: auto;
@@ -449,11 +456,16 @@
     }
   }
   /* A long flavour list is the one genuinely unbounded part of the column.
-     Bound that, rather than making the whole column scroll. */
-  #ftdc-{{ sid }} .ftdcg__summary .ftdc__review-lines {
-    max-height: 15.5rem;
-    overflow-y: auto;
-    scrollbar-width: thin;
+     Bound that, rather than making the whole column scroll — and, again, only
+     where the column is sticky. On mobile the order simply runs down the page
+     with everything else; a box you have to scroll inside a page you are
+     already scrolling is the thing being fixed here, at any height. */
+  @media screen and (min-width: 990px) {
+    #ftdc-{{ sid }} .ftdcg__summary .ftdc__review-lines {
+      max-height: 15.5rem;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
   }
   #ftdc-{{ sid }} .ftdcg__aside .ftdc__bundle-head {
     padding: 0.8125rem 0 0;
@@ -484,7 +496,16 @@
          out inside the viewport at a third of its width instead of scrolling. */
       grid-template-columns: none;
       grid-auto-flow: column;
-      grid-auto-columns: minmax(46%, 1fr);
+      /* Narrow enough that the next flavour shows at the edge of the screen.
+         Two cards plus the gap have to leave a visible slice of the third,
+         otherwise the row looks like it ends there and nobody swipes. At 46%
+         the pair filled ~95% of the width and the peek was a couple of
+         millimetres.
+
+         The 1fr max still matters: with only two cards there is nothing to
+         peek at, so they stretch to fill the row and the scroller disappears
+         rather than leaving a gap where a third card would have been. */
+      grid-auto-columns: minmax(40%, 1fr);
       overflow-x: auto;
       overscroll-behavior-inline: contain;
       scroll-snap-type: x mandatory;
