@@ -14,6 +14,8 @@
     "logo_height": 31,
     "logo_height_mobile": 30,
     "favicon": "shopify://shop_images/Logo_Shield_White.svg",
+    "badge_sale_color_scheme": "scheme-1",
+    "badge_sold_out_color_scheme": "scheme-5",
     "type_body_font": "inter_n4",
     "type_subheading_font": "inter_n5",
     "type_heading_font": "inter_n7",
@@ -50,8 +52,7 @@
     "card_hover_effect": "none",
     "badge_position": "top-right",
     "badge_corner_radius": 100,
-    "badge_sale_color_scheme": "scheme-1",
-    "badge_sold_out_color_scheme": "scheme-5",
+    "badge_sale_text_color": "#ffffff",
     "badge_text_transform": "none",
     "primary_button_border_width": 0,
     "button_border_radius_primary": 14,
@@ -62,12 +63,10 @@
     "auto_open_cart_drawer": true,
     "show_cart_note": true,
     "show_add_discount_code": true,
-    "drawer_drop_shadow": true,
     "icon_stroke": "default",
     "input_border_width": 1,
     "inputs_border_radius": 4,
     "popover_border_radius": 14,
-    "popover_border": "none",
     "currency_code_enabled_product_pages": false,
     "currency_code_enabled_product_cards": false,
     "currency_code_enabled_cart_items": true,
@@ -80,6 +79,8 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
     "variant_button_width": "equal-width-buttons",
+    "drawer_drop_shadow": true,
+    "popover_border": "none",
     "content_for_index": [],
     "blocks": {
       "2567389343055140935": {
@@ -118,6 +119,17 @@
         "type": "shopify://apps/consentmo-gdpr/blocks/gdpr_cookie_consent/4fbe573f-a377-4fea-9801-3ee0858cae41",
         "disabled": false,
         "settings": {}
+      },
+      "18272643779398082604": {
+        "type": "shopify://apps/timesact-pre-order/blocks/app-embed-v2/bf6c109b-79b5-457c-8752-0e5e9e9676e7",
+        "disabled": false,
+        "settings": {
+          "debug_mode": false,
+          "add_to_cart_text": "Add to cart",
+          "sold_out_text": "Sold out",
+          "unavailable_text": "Unavailable",
+          "use_custom_script": false
+        }
       }
     },
     "color_schemes": {
@@ -479,8 +491,7 @@
       "color1": "#333333",
       "color2": "#EEF1EA",
       "color3": "#dfdfdf"
-    },
-    "badge_sale_text_color": "#ffffff"
+    }
   },
   "presets": {
     "Horizon": {
