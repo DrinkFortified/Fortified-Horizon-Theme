@@ -1639,6 +1639,7 @@
         "ftd_c_function_K36fyD",
         "ftd_creatine_MIGRATED"
       ],
+      "disabled": true,
       "name": "FTD - Selector Gold",
       "settings": {
         "anchor_id": "#flow",
