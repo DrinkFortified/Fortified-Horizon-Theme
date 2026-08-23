@@ -1509,7 +1509,7 @@
         "icons_style": "arrow",
         "icons_shape": "circle",
         "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
+        "horizontal_alignment": "center",
         "gap": 28,
         "background_color": "",
         "padding-block-start": 48,
