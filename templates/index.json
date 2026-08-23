@@ -1245,7 +1245,7 @@
       ],
       "name": "t:names.marquee_section",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#mrq",
         "movement_direction": "normal",
         "background_color": "#1fa8a1",
         "padding-block-start": 24,
