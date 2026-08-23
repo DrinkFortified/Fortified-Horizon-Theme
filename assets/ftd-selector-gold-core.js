@@ -625,7 +625,55 @@
     var shown = 0;
     $$('.ftdc__card', grid).forEach(function (c) { if (!c.hidden) shown++; });
     if (shown > 0) root.style.setProperty('--ftdcg-cols', Math.min(shown, MAX_COLS));
+    syncScrollHint();
   }
+
+  /* A scrollbar drawn by hand for the mobile flavour row.
+
+     The native one cannot be pinned open where it matters: iOS ignores
+     scrollbar-width and ::-webkit-scrollbar on touch scrollers and shows its
+     indicator only while a finger is down, so a row that scrolls looks
+     identical to one that does not until you try.
+
+     The thumb's length is how much of the row fits on screen and its position
+     is how far along you are, which is what a scrollbar is. Hidden outright
+     when everything already fits, because an indicator that never moves is
+     just noise. */
+  function syncScrollHint() {
+    var grid = $('[data-grid]');
+    var hint = $('[data-scrollhint]');
+    var thumb = $('[data-scrollhint-thumb]');
+    if (!grid || !hint || !thumb) return;
+
+    var visible = grid.clientWidth;
+    var total = grid.scrollWidth;
+    /* A pixel of slack: sub-pixel widths otherwise report a scrollable row
+       that cannot actually move. */
+    if (total <= visible + 1) { hint.hidden = true; return; }
+    hint.hidden = false;
+
+    var ratio = visible / total;
+    var maxScroll = total - visible;
+    var progress = maxScroll > 0 ? Math.min(1, Math.max(0, grid.scrollLeft / maxScroll)) : 0;
+    /* Scale from the left edge, then slide by the share of the track the
+       thumb does not occupy — so it reaches the right edge exactly at the
+       end of the scroll rather than overshooting. */
+    thumb.style.transform = 'translateX(' + (progress * (1 - ratio) * 100) + '%) scaleX(' + ratio + ')';
+  }
+
+  (function bindScrollHint() {
+    var grid = $('[data-grid]');
+    if (!grid) return;
+    grid.addEventListener('scroll', syncScrollHint, { passive: true });
+    /* Cards arrive from the staging area, the plan changes what is shown, and
+       a rotation changes what fits — all of which change the answer. */
+    if (typeof ResizeObserver === 'function') {
+      try { new ResizeObserver(syncScrollHint).observe(grid); } catch (_) {}
+    } else {
+      window.addEventListener('resize', syncScrollHint);
+    }
+  })();
+
   sortStagedBlocks();
 
   var plansContainer = $('.ftdc__plans');

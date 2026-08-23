@@ -483,6 +483,7 @@
      needs a literal integer and will not take a min(). Under the cap the
      cards still fill the row: three flavours means three columns, not three
      quarters of one. Below the breakpoint they scroll sideways instead. */
+  #ftdc-{{ sid }} .ftdcg__scrollhint { display: none; }
   #ftdc-{{ sid }} .ftdc__grid {
     grid-template-columns: repeat(var(--ftdcg-cols, 4), minmax(0, 1fr));
     grid-auto-flow: row;
@@ -512,6 +513,32 @@
       padding-bottom: 0.5rem;
     }
     #ftdc-{{ sid }} .ftdc__grid > * { scroll-snap-align: start; }
+
+    /* The scroll indicator only exists where the row actually scrolls. */
+    #ftdc-{{ sid }} .ftdcg__scrollhint {
+      display: block;
+      height: 4px;
+      margin: 0.6875rem auto 0;
+      width: 6rem;
+      border-radius: 999px;
+      background: rgb(var(--color-foreground-rgb) / 0.16);
+      overflow: hidden;
+    }
+    #ftdc-{{ sid }} .ftdcg__scrollhint-thumb {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--ftdc-accent, var(--color-primary-button-background));
+      transform-origin: left center;
+      /* Position and length are set from JS as percentages of the track, so
+         the thumb reads as "how much of the row you are seeing, and where". */
+      width: 100%;
+      transform: translateX(0) scaleX(0.5);
+      transition: transform 0.08s linear;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #ftdc-{{ sid }} .ftdcg__scrollhint-thumb { transition: none; }
+    }
   }
 
 
@@ -995,6 +1022,15 @@
         <p>In the theme editor sidebar, click each <em>Function</em> block inside this selector and pick a Shopify product. Each product variant will render as a selectable card here.</p>
       </div>
       <div class="ftdc__grid" data-grid></div>
+      {%- comment %} A scrollbar we draw ourselves, because the native one
+        cannot be kept visible: iOS ignores scrollbar-width and
+        ::-webkit-scrollbar on touch scrollers and only flashes its indicator
+        while a finger is down. Purely decorative — the row it describes is
+        already reachable by swipe, keyboard and screen reader — so it is
+        hidden from assistive tech rather than announced twice. {%- endcomment %}
+      <div class="ftdcg__scrollhint" data-scrollhint hidden aria-hidden="true">
+        <span class="ftdcg__scrollhint-thumb" data-scrollhint-thumb></span>
+      </div>
 
       {%- comment %} ── Add-ons (merged from old Step 3) ── {%- endcomment %}
     </div>
