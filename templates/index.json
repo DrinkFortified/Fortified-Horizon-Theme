@@ -268,7 +268,7 @@
                       "name": "t:names.button",
                       "settings": {
                         "label": "SHOP NOW",
-                        "link": "#flow",
+                        "link": "#mrq",
                         "open_in_new_tab": false,
                         "open_in_popup": false,
                         "style_class": "button",
