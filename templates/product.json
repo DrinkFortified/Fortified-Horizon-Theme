@@ -292,7 +292,8 @@
                 "panel_color_scheme": "",
                 "padding-block-start": 32,
                 "padding-block-end": 32,
-                "custom_css": ""
+                "custom_css": "",
+                "use_current_product": true
               },
               "blocks": {
                 "ftd_ps_benefit_kckgiX": {
