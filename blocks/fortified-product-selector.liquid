@@ -109,6 +109,14 @@
   if onetime_product != blank
     assign onetime_handle = onetime_product.handle
   endif
+
+  # "Use the product on this page" only means anything where there IS one.
+  # On the homepage `product` is empty, so this stays off and the selector
+  # keeps rendering the functions the merchant pinned.
+  assign use_current_product = false
+  if block.settings.use_current_product and product != blank
+    assign use_current_product = true
+  endif
 -%}
 
 <div
@@ -137,7 +145,84 @@
     the function and benefit data has to come back through the DOM. The JS
     below reads it and builds the real cards.
   {%- endcomment %}
-  <div style="display:none" data-ftd-ps-stage aria-hidden="true">{% content_for 'blocks' %}</div>
+  <div style="display:none" data-ftd-ps-stage aria-hidden="true">
+    {% content_for 'blocks' %}
+    {%- comment %}
+      "Use the product on this page": emit a function built from the product
+      being viewed, in exactly the shape a _ftd-ps-function block emits, so
+      every card, flavour and cart path below works on it unchanged.
+
+      Marked data-dynamic so the JS knows to ignore the hand-picked function
+      blocks. Otherwise a PDP would show this product AND whichever products
+      were pinned in the template — which is the bug this fixes: the selector
+      had no idea what page it was on, so the creatine page advertised
+      Everyday and Energy.
+
+      Selling plan IDs stay settings rather than being guessed from the
+      product's plan groups. Which plan is "the monthly offer" is a
+      merchandising decision, not a fact about the product — this store's
+      creatine carries three plans, two of which are bundle add-ons that
+      would be wrong to surface here.
+    {%- endcomment %}
+    {%- if use_current_product -%}
+      {%- liquid
+        assign cp_img = block.settings.current_card_image | default: product.featured_image
+        assign cp_flavor_opt = null
+        if product.options_with_values.size > 0
+          assign cp_want = block.settings.flavor_option | downcase | strip
+          if cp_want != blank
+            for opt in product.options_with_values
+              assign cp_have = opt.name | downcase | strip
+              if cp_have == cp_want
+                assign cp_flavor_opt = opt
+              endif
+            endfor
+          endif
+          if cp_flavor_opt == null
+            assign cp_flavor_opt = product.options_with_values.first
+          endif
+        endif
+      -%}
+      <div
+        data-ftd-ps-fn
+        data-dynamic="1"
+        data-fn-id="current-product"
+        data-fn-label="{{ product.title | escape }}"
+        data-enabled="1"
+        data-product-handle="{{ product.handle }}"
+        data-coming-soon="0"
+        data-spec-1="{{ block.settings.current_spec_1 | escape }}"
+        data-spec-2="{{ block.settings.current_spec_2 | escape }}"
+        data-spec-3="{{ block.settings.current_spec_3 | escape }}"
+        data-description="{{ product.description | strip_html | truncate: 160 | escape }}"
+        data-plan-monthly="{{ block.settings.current_plan_monthly }}"
+        data-plan-quarterly="{{ block.settings.current_plan_quarterly }}"
+        data-card-image="{% if cp_img != blank %}{{ cp_img | image_url: width: 480 }}{% endif %}"
+        data-thumbnail="{% if cp_img != blank %}{{ cp_img | image_url: width: 200 }}{% endif %}"
+      >
+        {%- comment %}
+          A single-variant product (creatine) has one option holding
+          "Default Title". Emitting that as a flavour would put a button
+          reading "Default Title" under the card, so a product with nothing
+          to choose between gets no flavour list at all — which the card
+          builder already handles, and which the cart path already handles by
+          falling back to the first available variant.
+        {%- endcomment %}
+        {%- if product.variants.size > 1 and cp_flavor_opt != null and cp_flavor_opt.values.size > 1 -%}
+          {%- for val in cp_flavor_opt.values -%}
+            {%- assign cp_thumb = '' -%}
+            {%- for v in product.variants -%}
+              {%- if v.options contains val -%}
+                {%- if v.featured_image != blank -%}{%- assign cp_thumb = v.featured_image | image_url: width: 80 -%}{%- endif -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+            <span data-ftd-ps-flavor data-flavor-name="{{ val | escape }}" data-thumbnail="{{ cp_thumb }}"></span>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
 
   <div class="fe-container">
 
@@ -153,8 +238,22 @@
         </span>
       {%- endif -%}
 
-      {%- if block.settings.heading != blank -%}<h2 class="fe-heading">{{ block.settings.heading }}</h2>{%- endif -%}
-      {%- if block.settings.subheading != blank -%}<p class="fe-subheading">{{ block.settings.subheading }}</p>{%- endif -%}
+      {%- comment %}
+        In dynamic mode the copy comes from the product too. A heading typed
+        into the template is the same problem as a product pinned into it: it
+        is right for one page and wrong on every other. Per-product copy
+        belongs on the product.
+      {%- endcomment %}
+      {%- liquid
+        assign fe_heading = block.settings.heading
+        assign fe_subheading = block.settings.subheading
+        if use_current_product
+          assign fe_heading = product.title
+          assign fe_subheading = product.description | strip_html | truncate: 120
+        endif
+      -%}
+      {%- if fe_heading != blank -%}<h2 class="fe-heading">{{ fe_heading }}</h2>{%- endif -%}
+      {%- if fe_subheading != blank -%}<p class="fe-subheading">{{ fe_subheading }}</p>{%- endif -%}
 
       {%- if bn_count > 0 -%}
         <ul class="fe-benefits">
@@ -1005,7 +1104,12 @@
   var stagedBenefits = [];
   var stage = root.querySelector('[data-ftd-ps-stage]');
   if (stage) {
-    Array.prototype.forEach.call(stage.querySelectorAll('[data-ftd-ps-fn]'), function (node) {
+    /* When the block is reading the page's product, that node is the whole
+       truth — the functions pinned in the template describe some other page.
+       Benefit blocks are untouched by this; only functions are replaced. */
+    var dynamicFns = stage.querySelectorAll('[data-ftd-ps-fn][data-dynamic="1"]');
+    var fnNodes = dynamicFns.length ? dynamicFns : stage.querySelectorAll('[data-ftd-ps-fn]');
+    Array.prototype.forEach.call(fnNodes, function (node) {
       if (node.getAttribute('data-enabled') !== '1') return;
       if (!node.getAttribute('data-product-handle')) return;
       var flavors = [];
@@ -2745,6 +2849,49 @@
       "id": "custom_css",
       "label": "Custom CSS",
       "info": "Targets this block only. Use the .fe- class names on its elements."
+    },
+    {
+      "type": "header",
+      "content": "Use the page's product"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_current_product",
+      "label": "Use the product on this page",
+      "info": "On a product page, build the selector from that product instead of the functions pinned below. Heading, subheading, image, flavours and price all follow the product. Ignored on pages with no product.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "current_plan_monthly",
+      "label": "Monthly plan ID (page product)",
+      "info": "Which selling plan is the monthly offer. Left blank, the card is one-time only."
+    },
+    {
+      "type": "text",
+      "id": "current_plan_quarterly",
+      "label": "Every 3 months plan ID (page product)"
+    },
+    {
+      "type": "image_picker",
+      "id": "current_card_image",
+      "label": "Card image override (page product)",
+      "info": "Defaults to the product's featured image."
+    },
+    {
+      "type": "text",
+      "id": "current_spec_1",
+      "label": "Spec tag 1 (page product)"
+    },
+    {
+      "type": "text",
+      "id": "current_spec_2",
+      "label": "Spec tag 2 (page product)"
+    },
+    {
+      "type": "text",
+      "id": "current_spec_3",
+      "label": "Spec tag 3 (page product)"
     }
   ],
   "blocks": [
