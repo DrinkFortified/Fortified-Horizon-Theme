@@ -378,7 +378,14 @@
       </div>
 
       {%- comment %} ───── STEP 2: BUILD BUNDLE ───── {%- endcomment %}
-      <div class="fe-step fe-step--locked" id="fe-build-group-{{ sid }}" aria-disabled="true">
+      {%- comment %}
+        Step 2 exists to choose what goes IN a plan: N pouches for quarterly,
+        one for monthly. With neither of those on offer there is nothing for
+        it to do, so it does not render open — hidden here rather than only in
+        JS so it never flashes before the script runs.
+      {%- endcomment %}
+      <div class="fe-step fe-step--locked" id="fe-build-group-{{ sid }}" aria-disabled="true"
+           {% unless show_monthly or show_quarterly %}style="display:none"{% endunless %}>
         <div class="fe-step-head">
           <p class="fe-step-title"><span class="fe-step-num">2</span><span id="fe-build-label-{{ sid }}">{{ block.settings.build_step_label | default: 'Build Your Bundle' }}</span></p>
           <span class="fe-step-note" id="fe-counter-{{ sid }}"></span>
@@ -983,9 +990,11 @@
   var SID          = {{ sid | json }};
   var BUNDLE_COUNT = {{ bundle_count | json }};
   var BUILD_LABEL  = {{ block.settings.build_step_label | json }} || 'Build {count}-Pouch Bundle';
-  /* True when this selector is reading the page's product and that product
-     has exactly one variant, so there is genuinely nothing to choose. */
-  var DYNAMIC_SINGLE_VARIANT = {% if use_current_product and product.variants.size == 1 %}true{% else %}false{% endif %};
+  /* Step 2 is only reachable when a plan that uses it is switched on. Guessing
+     from the variant count instead was the wrong test: whether the step is
+     wanted is a merchandising decision the merchant already makes with the
+     show_monthly / show_quarterly switches. */
+  var BUILD_STEP_ENABLED = {% if show_monthly or show_quarterly %}true{% else %}false{% endif %};
   var POUCHES_WORD = {{ block.settings.pouches_word | default: 'Pouches' | json }};
   var FLAVOR_LABEL = {{ flavor_label | json }};
   var COMING_SOON_TEXT = {{ coming_soon_txt | json }};
@@ -1487,14 +1496,8 @@
     /* The One-Time plan card now contains its own flavor picker, so the
        Step 2 panel adds no value when a dedicated one-time product is set. */
     if (buildGroup) {
-      /* Nothing to build when the plan takes one unit and that unit has no
-         choice to make — a single-variant product on a one-time plan. The
-         step would be a heading called "Bundle" over one fixed item. This is
-         what a creatine page looks like: one SKU, no flavours. */
-      var singleUnit = monthlyLike || onetimeDedicated;
-      var nothingToPick = singleUnit && DYNAMIC_SINGLE_VARIANT;
-      if (type === 'onetime' && ONETIME_HANDLE) buildGroup.style.display = 'none';
-      else if (nothingToPick) buildGroup.style.display = 'none';
+      if (!BUILD_STEP_ENABLED) buildGroup.style.display = 'none';
+      else if (type === 'onetime' && ONETIME_HANDLE) buildGroup.style.display = 'none';
       else buildGroup.style.display = '';
     }
     if (buildGroup) { buildGroup.classList.remove('fe-step--locked'); buildGroup.removeAttribute('aria-disabled'); }
