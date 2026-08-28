@@ -464,8 +464,14 @@
           </div>
         {%- endif -%}
 
-        {%- comment %} Quarterly: function-card grid if functions are configured, else simplified flavor picker per pouch using the configured / page product {%- endcomment %}
-        {%- if fn_count > 0 -%}
+        {%- comment %} Quarterly: function-card grid if functions are configured, else simplified flavor picker per pouch using the configured / page product.
+
+          Only when the quarterly plan can actually be chosen. The plan CARD
+          was already gated on show_quarterly but its build view was not, so a
+          selector offering one-time only still shipped three pouch slots of
+          markup for a plan with no way to reach it. {%- endcomment %}
+        {%- if show_quarterly == false -%}
+        {%- elsif fn_count > 0 -%}
           <div class="fe-build-view fe-build-view--quarterly" data-build-view="quarterly">
             {%- for i in (1..bundle_count) -%}
               <div class="fe-pouch">
@@ -977,6 +983,9 @@
   var SID          = {{ sid | json }};
   var BUNDLE_COUNT = {{ bundle_count | json }};
   var BUILD_LABEL  = {{ block.settings.build_step_label | json }} || 'Build {count}-Pouch Bundle';
+  /* True when this selector is reading the page's product and that product
+     has exactly one variant, so there is genuinely nothing to choose. */
+  var DYNAMIC_SINGLE_VARIANT = {% if use_current_product and product.variants.size == 1 %}true{% else %}false{% endif %};
   var POUCHES_WORD = {{ block.settings.pouches_word | default: 'Pouches' | json }};
   var FLAVOR_LABEL = {{ flavor_label | json }};
   var COMING_SOON_TEXT = {{ coming_soon_txt | json }};
@@ -1064,7 +1073,17 @@
 
   /* Replace the {count} placeholder on load so it never shows literally
      before a plan is picked. Updated again per-plan in applyPurchaseType. */
-  if (buildLabelEl) buildLabelEl.textContent = BUILD_LABEL.replace('{count}', BUNDLE_COUNT);
+  /* Was hard-coded to BUNDLE_COUNT, so the step announced "Build 3-Pouch
+     Bundle" on load no matter which plan was active — including a selector
+     offering only a single one-time item. applyPlan() recomputes it properly
+     a moment later, which is why it only showed until you touched something.
+     Start from the active plan instead. */
+  if (buildLabelEl) {
+    var initPlan = (root.querySelector('.fe-plan.is-active') || {}).getAttribute
+      ? root.querySelector('.fe-plan.is-active').getAttribute('data-plan') : null;
+    var initCount = (initPlan === 'quarterly') ? BUNDLE_COUNT : 1;
+    buildLabelEl.textContent = BUILD_LABEL.replace('{count}', initCount);
+  }
 
   var state = { purchaseType: null };
   var slots = {};
@@ -1468,7 +1487,14 @@
     /* The One-Time plan card now contains its own flavor picker, so the
        Step 2 panel adds no value when a dedicated one-time product is set. */
     if (buildGroup) {
+      /* Nothing to build when the plan takes one unit and that unit has no
+         choice to make — a single-variant product on a one-time plan. The
+         step would be a heading called "Bundle" over one fixed item. This is
+         what a creatine page looks like: one SKU, no flavours. */
+      var singleUnit = monthlyLike || onetimeDedicated;
+      var nothingToPick = singleUnit && DYNAMIC_SINGLE_VARIANT;
       if (type === 'onetime' && ONETIME_HANDLE) buildGroup.style.display = 'none';
+      else if (nothingToPick) buildGroup.style.display = 'none';
       else buildGroup.style.display = '';
     }
     if (buildGroup) { buildGroup.classList.remove('fe-step--locked'); buildGroup.removeAttribute('aria-disabled'); }
