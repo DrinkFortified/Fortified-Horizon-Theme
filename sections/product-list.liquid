@@ -10,8 +10,27 @@
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
+{%- comment -%}
+  "Link cards to the product page" off: the cards still show the product, they
+  just stop being a way in to it.
+
+  Scoped to this section by an id on the wrapper rather than changed in
+  snippets/product-card.liquid, because that snippet also draws the cards on
+  collection pages and in featured-product blocks, where the link is the whole
+  point.
+
+  Belt and braces on purpose. pointer-events stops the mouse; removing href
+  and the tab stop is what actually stops a keyboard, since a focusable anchor
+  with an href is still reachable by Tab and Enter no matter what CSS says.
+{%- endcomment -%}
+{%- if section.settings.card_links_enabled == false -%}
+  <style>
+    #product-list-{{ section.id }} .product-card__link { pointer-events: none; cursor: default; }
+  </style>
+{%- endif -%}
 <div
   data-testid="product-list"
+  id="product-list-{{ section.id }}"
   class="
     section
     section--{{ section.settings.section_width }}
@@ -86,6 +105,26 @@
   </div>
 </div>
 
+{%- if section.settings.card_links_enabled == false -%}
+  <script>
+    (function () {
+      var root = document.getElementById('product-list-{{ section.id }}');
+      if (!root) return;
+      var strip = function () {
+        root.querySelectorAll('a.product-card__link[href]').forEach(function (a) {
+          a.removeAttribute('href');
+          a.setAttribute('tabindex', '-1');
+          a.setAttribute('aria-hidden', 'true');
+        });
+      };
+      strip();
+      /* Cards can be re-rendered by the section rendering API, which brings
+         the hrefs back with them. */
+      try { new MutationObserver(strip).observe(root, { childList: true, subtree: true }); } catch (e) {}
+    })();
+  </script>
+{%- endif -%}
+
 {% schema %}
 {
   "name": "t:names.product_list",
@@ -102,9 +141,19 @@
     }
   ],
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "card_links_enabled",
+      "label": "Link cards to the product page",
+      "info": "Turn off to show the products without letting shoppers open their product pages from here.",
+      "default": true
+    },
     {
       "type": "collection",
       "id": "collection",
@@ -436,7 +485,10 @@
               }
             }
           },
-          "block_order": ["product_list_text", "product_list_button"]
+          "block_order": [
+            "product_list_text",
+            "product_list_button"
+          ]
         },
         "static-product-card": {
           "type": "_product-card",
@@ -514,7 +566,11 @@
               }
             }
           },
-          "block_order": ["product-card-gallery", "product_title", "price"]
+          "block_order": [
+            "product-card-gallery",
+            "product_title",
+            "price"
+          ]
         }
       },
       "block_order": []
@@ -606,7 +662,10 @@
               }
             }
           },
-          "block_order": ["product_list_text", "product_list_button"]
+          "block_order": [
+            "product_list_text",
+            "product_list_button"
+          ]
         },
         "static-product-card": {
           "type": "_product-card",
@@ -684,7 +743,11 @@
               }
             }
           },
-          "block_order": ["product-card-gallery", "product_title", "price"]
+          "block_order": [
+            "product-card-gallery",
+            "product_title",
+            "price"
+          ]
         }
       },
       "block_order": []
@@ -777,7 +840,10 @@
               }
             }
           },
-          "block_order": ["product_list_text", "product_list_button"]
+          "block_order": [
+            "product_list_text",
+            "product_list_button"
+          ]
         },
         "static-product-card": {
           "type": "_product-card",
@@ -855,7 +921,11 @@
               }
             }
           },
-          "block_order": ["product-card-gallery", "product_title", "price"]
+          "block_order": [
+            "product-card-gallery",
+            "product_title",
+            "price"
+          ]
         }
       },
       "block_order": []

@@ -1513,7 +1513,8 @@
         "gap": 28,
         "background_color": "",
         "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-end": 48,
+        "card_links_enabled": false
       }
     },
     "ftd_product_selector_gold_6P3LL6": {
