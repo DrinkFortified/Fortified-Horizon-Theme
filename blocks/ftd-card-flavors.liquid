@@ -55,15 +55,19 @@
           endif
         endfor
 
-        # An SVG goes out at its own URL. Shopify's image CDN resizes raster
-        # formats; handing it a vector buys nothing and risks a URL that does
-        # not resolve, which would show as a broken thumbnail rather than as
-        # an error anyone would notice.
-        assign thumb_src = thumb.src
-        if thumb_src contains '.svg'
-          assign thumb_url = thumb_src
-        else
-          assign thumb_url = thumb | image_url: width: fetch_width
+        # Everything goes through image_url, SVGs included. Shopify stores an
+        # uploaded SVG as an ordinary image with real dimensions, so the filter
+        # returns a working CDN URL and simply has no resizing to do on a
+        # vector. image.src is NOT the shortcut it looks like: it is the
+        # relative path, which a browser resolves against the shop domain and
+        # then fails to find.
+        assign thumb_url = thumb | image_url: width: fetch_width
+
+        # A thumbnail that resolves to nothing would render as a broken image
+        # rather than as anything anyone would notice, so fall back to the
+        # variant's own pack shot instead.
+        if thumb_url == blank
+          assign thumb_url = variant.featured_media.preview_image | image_url: width: fetch_width
         endif
       -%}
       <button
