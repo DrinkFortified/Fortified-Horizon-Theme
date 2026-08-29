@@ -36,6 +36,21 @@
       pointer-events: none;
       cursor: default;
     }
+
+    {% # The hand cursor does not come from the links at all: base.css puts %}
+    {% # cursor:pointer on .product-card__content, the whole card body. With %}
+    {% # the anchors made pointer-events:none the pointer falls through to %}
+    {% # that container, so it keeps promising a click that never lands. %}
+    #product-list-{{ section.id }} .product-card__content {
+      cursor: default;
+    }
+
+    {% # Quick add, swatches and their labels are still real controls, so %}
+    {% # they keep the hand. Text and number fields keep their own caret. %}
+    #product-list-{{ section.id }} .product-card__content
+      :is(button, select, summary, label, a[href], input:not([type='text']):not([type='number'])) {
+      cursor: pointer;
+    }
   </style>
 {%- endif -%}
 <div
