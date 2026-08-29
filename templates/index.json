@@ -1429,7 +1429,13 @@
               "name": "Flavor picker",
               "settings": {
                 "thumb_size": 44,
-                "alignment": "flex-start"
+                "alignment": "flex-start",
+                "flavor_1_name": "Salty Orange",
+                "flavor_1_image": "shopify://shop_images/SaltyOrange-b.svg",
+                "flavor_2_name": "Salty Watermelon",
+                "flavor_2_image": "shopify://shop_images/SaltyWatermelon-b.svg",
+                "flavor_3_name": "",
+                "flavor_4_name": ""
               },
               "blocks": {}
             },
