@@ -1497,6 +1497,7 @@
       },
       "name": "t:names.products_carousel",
       "settings": {
+        "card_links_enabled": false,
         "collection": "frontpage",
         "layout_type": "grid",
         "carousel_on_mobile": false,
@@ -1513,8 +1514,7 @@
         "gap": 28,
         "background_color": "",
         "padding-block-start": 48,
-        "padding-block-end": 48,
-        "card_links_enabled": false
+        "padding-block-end": 48
       }
     },
     "ftd_product_selector_gold_6P3LL6": {
@@ -4587,6 +4587,7 @@
         "benefit_acE4Nr",
         "benefit_6H6hWk"
       ],
+      "disabled": true,
       "name": "FTD - Subscribe & Save",
       "settings": {
         "anchor_id": "#bottomfooter",
