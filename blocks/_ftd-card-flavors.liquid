@@ -1,0 +1,163 @@
+{%- comment -%}
+  Flavour picker for a product card.
+
+  Horizon's own Swatches block would do this, but it only renders when
+  option_value.swatch exists, and Shopify fills that in solely for
+  metafield-linked product options. Linking the Flavor option would mean a
+  product-data migration on live products that carry Loop and Timesact selling
+  plans, so this block does the same job from data the products already have:
+  every flavour here has its own pack shot attached to its variant.
+
+  Scope is deliberately narrow. One option, more than one variant — the
+  flavour case. With two or more options a single click cannot resolve a
+  variant, and guessing would put the wrong thing in the cart, so the block
+  renders nothing and the card is left as it was.
+{%- endcomment -%}
+
+{% liquid
+  assign product = closest.product
+  assign show = false
+  if product != blank and product.options.size == 1 and product.variants.size > 1
+    assign show = true
+  endif
+
+  assign selected_id = product.selected_or_first_available_variant.id
+  assign size = block.settings.thumb_size | default: 44
+  assign fetch_width = size | times: 3
+%}
+
+{% if show %}
+  <ftd-card-flavors
+    class="ftd-flavors"
+    style="--ftd-flavor-size: {{ size }}px; justify-content: {{ block.settings.alignment }};"
+    {{ block.shopify_attributes }}
+  >
+    {%- for variant in product.variants -%}
+      <button
+        type="button"
+        class="ftd-flavors__item"
+        aria-pressed="{% if variant.id == selected_id %}true{% else %}false{% endif %}"
+        data-variant-id="{{ variant.id }}"
+        {%- if variant.featured_media %}
+          data-media-id="{{ variant.featured_media.id }}"
+        {%- endif %}
+        data-price="{{ variant.price | money }}"
+        {%- unless variant.available %}
+          disabled
+        {%- endunless %}
+      >
+        {%- if variant.featured_media -%}
+          <img
+            class="ftd-flavors__img"
+            src="{{ variant.featured_media.preview_image | image_url: width: fetch_width }}"
+            alt=""
+            width="{{ size }}"
+            height="{{ size }}"
+            loading="lazy"
+          >
+        {%- else -%}
+          <span class="ftd-flavors__text" aria-hidden="true">{{ variant.title | slice: 0, 2 }}</span>
+        {%- endif -%}
+        {%- comment -%}
+          The flavour name is the button's only accessible name — the image is
+          decorative, since "a picture of the orange pouch" is not something a
+          screen reader can usefully describe here.
+        {%- endcomment -%}
+        <span class="visually-hidden">{{ variant.title }}</span>
+      </button>
+    {%- endfor -%}
+  </ftd-card-flavors>
+
+  <script src="{{ 'ftd-card-flavors.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% stylesheet %}
+  .ftd-flavors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .ftd-flavors__item {
+    display: block;
+    padding: 0;
+    border: 1px solid rgb(from var(--color-foreground) r g b / 20%);
+    border-radius: 50%;
+    background: var(--color-background);
+    cursor: pointer;
+    line-height: 0;
+    overflow: hidden;
+    width: var(--ftd-flavor-size, 44px);
+    height: var(--ftd-flavor-size, 44px);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .ftd-flavors__item[aria-pressed='true'] {
+    border-color: var(--color-foreground);
+    box-shadow: 0 0 0 1px var(--color-foreground);
+  }
+
+  /* Focus has to be visible on its own, not only via the pressed ring, or the
+     picker becomes unusable from a keyboard. */
+  .ftd-flavors__item:focus-visible {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: 2px;
+  }
+
+  .ftd-flavors__item[disabled] {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .ftd-flavors__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ftd-flavors__text {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    line-height: 1;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Flavor picker",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows one thumbnail per variant, using the image attached to that variant. Only appears on products with a single option and more than one variant."
+    },
+    {
+      "type": "range",
+      "id": "thumb_size",
+      "label": "Thumbnail size",
+      "min": 28,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "flex-start"
+    }
+  ]
+}
+{% endschema %}
