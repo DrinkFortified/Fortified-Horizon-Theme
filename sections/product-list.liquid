@@ -45,11 +45,25 @@
       cursor: default;
     }
 
-    {% # Quick add, swatches and their labels are still real controls, so %}
-    {% # they keep the hand. Text and number fields keep their own caret. %}
+    {% # Swatches and their labels are still real controls, so they keep the %}
+    {% # hand. Text and number fields keep their own caret. %}
     #product-list-{{ section.id }} .product-card__content
       :is(button, select, summary, label, a[href], input:not([type='text']):not([type='number'])) {
       cursor: pointer;
+    }
+
+    {% # The quick-add overlay cannot survive this toggle. For a product with %}
+    {% # selling plans — every product on this store has them, Loop and %}
+    {% # Timesact both — quick-add renders only "Choose options", and %}
+    {% # quick-add.js sends that button to the product page via %}
+    {% # window.location.href. That is a route the link guard cannot close, %}
+    {% # because it is script navigation and not an anchor. %}
+    {% # %}
+    {% # It is already inert rather than dangerous: productPageUrl reads the %}
+    {% # href we just removed and returns '', so the handler bails. But an %}
+    {% # inert button is worse than no button, so take it out of the card. %}
+    #product-list-{{ section.id }} quick-add-component {
+      display: none;
     }
   </style>
 {%- endif -%}
