@@ -117,6 +117,31 @@
   if block.settings.use_current_product and product != blank
     assign use_current_product = true
   endif
+
+  # Which plan opens selected. Quarterly was hard-coded checked in the markup,
+  # which is right for a hydration bundle and wrong for a single tub of
+  # creatine. Falls back rather than trusting the setting blindly: a default
+  # pointing at a plan the merchant has since switched off would open the
+  # selector with nothing selected and the Add to Cart button dead.
+  assign default_plan = block.settings.default_plan | default: 'quarterly'
+  if default_plan == 'quarterly' and show_quarterly == false
+    assign default_plan = ''
+  endif
+  if default_plan == 'monthly' and show_monthly == false
+    assign default_plan = ''
+  endif
+  if default_plan == 'onetime' and show_onetime == false
+    assign default_plan = ''
+  endif
+  if default_plan == blank
+    if show_quarterly
+      assign default_plan = 'quarterly'
+    elsif show_monthly
+      assign default_plan = 'monthly'
+    elsif show_onetime
+      assign default_plan = 'onetime'
+    endif
+  endif
 -%}
 
 <div
@@ -286,7 +311,7 @@
         <div class="fe-plans">
           {%- if show_quarterly -%}
             <label class="fe-plan fe-plan--full fe-plan--hero" data-plan="quarterly">
-              <input type="radio" name="fe-plan-{{ sid }}" value="quarterly" checked>
+              <input type="radio" name="fe-plan-{{ sid }}" value="quarterly"{% if default_plan == 'quarterly' %} checked{% endif %}>
               <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               {%- if block.settings.quarterly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--quarterly">{{ block.settings.quarterly_badge }}</span>{%- endif -%}
               <span class="fe-plan-title">
@@ -314,7 +339,7 @@
           <div class="fe-plans-subs">
             {%- if show_onetime -%}
             <label class="fe-plan" data-plan="onetime">
-              <input type="radio" name="fe-plan-{{ sid }}" value="onetime">
+              <input type="radio" name="fe-plan-{{ sid }}" value="onetime"{% if default_plan == 'onetime' %} checked{% endif %}>
               <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               {%- if block.settings.onetime_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--onetime">{{ block.settings.onetime_badge }}</span>{%- endif -%}
               <span class="fe-plan-title">
@@ -352,7 +377,7 @@
 
             {%- if show_monthly -%}
               <label class="fe-plan" data-plan="monthly">
-                <input type="radio" name="fe-plan-{{ sid }}" value="monthly">
+                <input type="radio" name="fe-plan-{{ sid }}" value="monthly"{% if default_plan == 'monthly' %} checked{% endif %}>
                 <span class="fe-plan-tick" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 {%- if block.settings.monthly_badge != blank -%}<span class="fe-plan-badge fe-plan-badge--monthly">{{ block.settings.monthly_badge }}</span>{%- endif -%}
                 <span class="fe-plan-title">
@@ -1906,24 +1931,67 @@
         .then(function (data) {
           var cart = data.cart;
           var sections = data.sections;
-          var totalQty = finalItems.reduce(function (sum, it) { return sum + (it.quantity || 1); }, 0);
 
-          /* Dispatch Horizon's cart:update event so cart-items-component re-renders */
-          var evt = new Event('cart:update', { bubbles: true });
-          evt.detail = {
-            resource: cart,
-            sourceId: 'fe-' + SID,
-            data: {
-              source: 'fortified-product-selector',
-              itemCount: totalQty,
-              sections: sections
-            }
+          /* Horizon 4 retired cart:update. Nothing listens to it any more, so
+             the add succeeded and the drawer went on showing the cart as it
+             was — the same break the homepage selector had. The event that
+             matters is shopify:cart:lines-update, and what the theme's
+             components actually consume is the PROMISE hanging off it:
+             cart-drawer-component auto-opens on action 'add',
+             cart-items-component re-renders, and the bubble and count follow.
+
+             Resolving with no `sections` is the supported path for a caller
+             outside the cart — cart-items-component answers that by
+             re-rendering the section from the server itself — but we already
+             asked /cart/add.js for them, so hand them over and save the round
+             trip. */
+          var resolve;
+          var promise = new Promise(function (res) { resolve = res; });
+          promise.catch(function () {});
+
+          var payload = {
+            action: 'add',
+            context: 'product',
+            lines: finalItems.map(function (it) {
+              return { merchandiseId: String(it.id), quantity: it.quantity || 1 };
+            }),
+            promise: promise
           };
+          var evt = new Event('shopify:cart:lines-update', { bubbles: true, composed: true });
+          Object.keys(payload).forEach(function (k) { evt[k] = payload[k]; });
           document.dispatchEvent(evt);
 
-          /* Open the cart drawer if it exists */
-          var drawer = document.querySelector('cart-drawer-component');
-          if (drawer && typeof drawer.open === 'function') drawer.open();
+          var cur = cart.currency || 'USD';
+          resolve({
+            cart: {
+              id: cart.token || '',
+              totalQuantity: cart.item_count || 0,
+              cost: { totalAmount: { amount: ((cart.total_price || 0) / 100).toFixed(2), currencyCode: cur } },
+              lines: (cart.items || []).map(function (l) {
+                return { id: l.key, quantity: l.quantity,
+                  cost: { totalAmount: { amount: ((l.final_line_price || 0) / 100).toFixed(2), currencyCode: cur } } };
+              }),
+              discountCodes: []
+            },
+            detail: {
+              sections: sections || undefined,
+              items: cart.items || [],
+              itemCount: cart.item_count || 0,
+              source: 'fortified-product-selector',
+              didError: false
+            }
+          });
+
+          /* The drawer is <theme-drawer> wrapping <cart-drawer-component>, so
+             the component is the CHILD — it has no open() of its own. Calling
+             it here did nothing. The announcement above already opens the
+             drawer when the store has auto-open on; this is the backstop for
+             when it does not. */
+          var host = document.querySelector('cart-drawer-component');
+          var drawer = host && host.closest ? host.closest('theme-drawer') : null;
+          if (drawer && typeof drawer.open === 'function' && !drawer.isOpen) {
+            try { drawer.open(); } catch (_) {}
+          }
 
           pushEvent('fe_add_to_cart_success', { purchase_type: oneTime ? 'onetime' : state.purchaseType });
         })
@@ -2073,6 +2141,27 @@
     {
       "type": "header",
       "content": "Step 1 — Plans"
+    },
+    {
+      "type": "select",
+      "id": "default_plan",
+      "label": "Plan selected by default",
+      "info": "Which plan opens selected. Falls back to the first plan that is switched on if this one is hidden.",
+      "options": [
+        {
+          "value": "quarterly",
+          "label": "Every 3 months"
+        },
+        {
+          "value": "monthly",
+          "label": "Monthly"
+        },
+        {
+          "value": "onetime",
+          "label": "One-time"
+        }
+      ],
+      "default": "quarterly"
     },
     {
       "type": "text",

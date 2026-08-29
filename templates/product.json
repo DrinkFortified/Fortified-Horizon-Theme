@@ -293,7 +293,8 @@
                 "padding-block-start": 32,
                 "padding-block-end": 32,
                 "custom_css": "",
-                "use_current_product": true
+                "use_current_product": true,
+                "default_plan": "onetime"
               },
               "blocks": {
                 "ftd_ps_benefit_kckgiX": {
