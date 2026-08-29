@@ -211,6 +211,7 @@
             "ftd_product_selector_d_slideover_6yxwKb": {
               "type": "ftd-product-selector-d-slideover",
               "name": "FTD - ProductSelector-DS",
+              "disabled": true,
               "settings": {
                 "button_label": "",
                 "button_style": "outline",
@@ -511,7 +512,13 @@
                 "panel_color_scheme": "",
                 "padding-block-start": 32,
                 "padding-block-end": 32,
-                "custom_css": ""
+                "custom_css": "",
+                "use_current_product": false,
+                "current_plan_monthly": "",
+                "current_plan_quarterly": "",
+                "current_spec_1": "",
+                "current_spec_2": "",
+                "current_spec_3": ""
               },
               "blocks": {
                 "ftd_ps_function_AahjQ3": {
