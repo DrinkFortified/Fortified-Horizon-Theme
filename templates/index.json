@@ -1426,10 +1426,12 @@
             },
             "ftd_card_flavors": {
               "type": "_ftd-card-flavors",
+              "name": "Flavor picker",
               "settings": {
                 "thumb_size": 44,
                 "alignment": "flex-start"
-              }
+              },
+              "blocks": {}
             },
             "buy_buttons_6ehr3C": {
               "type": "buy-buttons",
