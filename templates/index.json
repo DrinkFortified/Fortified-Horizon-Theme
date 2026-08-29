@@ -1424,6 +1424,13 @@
               },
               "blocks": {}
             },
+            "ftd_card_flavors": {
+              "type": "_ftd-card-flavors",
+              "settings": {
+                "thumb_size": 44,
+                "alignment": "flex-start"
+              }
+            },
             "buy_buttons_6ehr3C": {
               "type": "buy-buttons",
               "name": "t:names.product_buy_buttons",
