@@ -14,10 +14,15 @@
   "Link cards to the product page" off: the cards still show the product, they
   just stop being a way in to it.
 
-  Scoped to this section by an id on the wrapper rather than changed in
-  snippets/product-card.liquid, because that snippet also draws the cards on
-  collection pages and in featured-product blocks, where the link is the whole
-  point.
+  A card carries THREE anchors, all pointing at the same product URL — the
+  invisible overlay (product-card.liquid), the image (card-gallery.liquid) and
+  the title (product-title.liquid). Blocking only the overlay leaves the image
+  and the title live, which looks fixed and is not. assets/product-card.js
+  keeps the same trio in #updateLinks; that is the canonical list.
+
+  Scoped to this section by an id on the wrapper rather than changed in those
+  snippets, because they also draw the cards on collection pages and in
+  featured-product blocks, where the link is the whole point.
 
   Belt and braces on purpose. pointer-events stops the mouse; removing href
   and the tab stop is what actually stops a keyboard, since a focusable anchor
@@ -25,7 +30,12 @@
 {%- endcomment -%}
 {%- if section.settings.card_links_enabled == false -%}
   <style>
-    #product-list-{{ section.id }} .product-card__link { pointer-events: none; cursor: default; }
+    #product-list-{{ section.id }} a[ref='productCardLink'],
+    #product-list-{{ section.id }} a[ref='cardGalleryLink'],
+    #product-list-{{ section.id }} a[ref='productTitleLink'] {
+      pointer-events: none;
+      cursor: default;
+    }
   </style>
 {%- endif -%}
 <div
@@ -110,11 +120,15 @@
     (function () {
       var root = document.getElementById('product-list-{{ section.id }}');
       if (!root) return;
+      var SEL = 'a[ref="productCardLink"][href], a[ref="cardGalleryLink"][href], a[ref="productTitleLink"][href]';
       var strip = function () {
-        root.querySelectorAll('a.product-card__link[href]').forEach(function (a) {
+        root.querySelectorAll(SEL).forEach(function (a) {
           a.removeAttribute('href');
           a.setAttribute('tabindex', '-1');
-          a.setAttribute('aria-hidden', 'true');
+          /* Only the overlay gets hidden from assistive tech: it is an empty
+             anchor whose aria-label just repeats the title. Hiding the image
+             or the title anchor would take the product name with it. */
+          if (a.classList.contains('product-card__link')) a.setAttribute('aria-hidden', 'true');
         });
       };
       strip();
