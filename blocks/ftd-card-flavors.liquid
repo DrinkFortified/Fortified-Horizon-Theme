@@ -54,6 +54,17 @@
             break
           endif
         endfor
+
+        # An SVG goes out at its own URL. Shopify's image CDN resizes raster
+        # formats; handing it a vector buys nothing and risks a URL that does
+        # not resolve, which would show as a broken thumbnail rather than as
+        # an error anyone would notice.
+        assign thumb_src = thumb.src
+        if thumb_src contains '.svg'
+          assign thumb_url = thumb_src
+        else
+          assign thumb_url = thumb | image_url: width: fetch_width
+        endif
       -%}
       <button
         type="button"
@@ -71,7 +82,7 @@
         {%- if thumb != blank -%}
           <img
             class="ftd-flavors__img"
-            src="{{ thumb | image_url: width: fetch_width }}"
+            src="{{ thumb_url }}"
             alt=""
             width="{{ size }}"
             height="{{ size }}"
