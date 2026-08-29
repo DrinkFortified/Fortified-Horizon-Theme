@@ -164,7 +164,16 @@
   "
   {{ block.shopify_attributes }}
 >
-  {%- comment %}
+    {%- comment %}
+    The gift sweep, as its own file so this page has one at all. The homepage
+    selector runs the same rule inside its runtime, which only loads where that
+    section is — so on a product page nothing was clearing a free creatine
+    whose bundle had been taken apart in the drawer. The script stands down
+    when that runtime is present.
+  {%- endcomment %}
+  <script src="{{ 'ftd-gift-sweep.js' | asset_url }}" defer></script>
+
+{%- comment %}
     Child blocks render themselves into this hidden stage. It is the only way
     to reach them: block.blocks is empty from the parent's Liquid scope, so
     the function and benefit data has to come back through the DOM. The JS
@@ -1784,7 +1793,12 @@
     for (var k = 0; k < ids.length; k++) {
       var s = slots[ids[k]];
       if (!s.variant) return null;
-      var item = { id: s.variant.id, quantity: qty };
+      /* Same ownership marks the homepage selector uses. Without them these
+         lines are invisible to the gift sweep — which is why a creatine added
+         here survived dropping below three pouches: the sweep was looking for
+         _sel/_role and found nothing to count or clear. */
+      var item = { id: s.variant.id, quantity: qty,
+                   properties: { _sel: 'ftdc-d', _role: 'pouch' } };
       if (!isOnetime) {
         var plan = findSellingPlanId(s.product, slotPlanRaw(s));
         if (plan) item.selling_plan = plan;
@@ -1804,10 +1818,13 @@
         if (FOMO_GIFT_ON && FOMO_SOLD_OUT) {
           // Spots gone: creatine as a one-time gift. A native "buy bundle, get
           // creatine free" automatic discount zeroes this line at checkout.
-          items.push({ id: avFree, quantity: qty, properties: { '_gift': 'First-order creatine gift' } });
+          items.push({ id: avFree, quantity: qty, properties: {
+            _gift: 'First-order creatine gift',
+            _sel: 'ftdc-d', _role: 'creatine', _upsell: 'creatine-first-order-free' } });
         } else {
           var freePlanId = parseInt(addonInput.dataset.addonPlanQuarterlyFree, 10);
-          if (freePlanId) items.push({ id: avFree, quantity: qty, selling_plan: freePlanId });
+          if (freePlanId) items.push({ id: avFree, quantity: qty, selling_plan: freePlanId,
+            properties: { _sel: 'ftdc-d', _role: 'creatine', _upsell: 'creatine-first-order-free' } });
         }
       }
     }
