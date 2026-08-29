@@ -1425,7 +1425,7 @@
               "blocks": {}
             },
             "ftd_card_flavors": {
-              "type": "_ftd-card-flavors",
+              "type": "ftd-card-flavors",
               "name": "Flavor picker",
               "settings": {
                 "thumb_size": 44,
