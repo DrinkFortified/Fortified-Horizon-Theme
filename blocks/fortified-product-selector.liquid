@@ -1073,6 +1073,18 @@
   } catch (_) {}
 
   /* Free shipping bar */
+  /* Shopify's standard cart events live behind the theme's import map.
+     Warmed here so Add to Cart does not pay for the fetch. */
+  var stdEvents = null;
+  function standardEvents() {
+    if (stdEvents) return stdEvents;
+    stdEvents = import('@shopify/events')
+      .catch(function () { return import('https://cdn.shopify.com/storefront/standard-events.js'); })
+      .catch(function () { return null; });
+    return stdEvents;
+  }
+  standardEvents();
+
   var SHOW_SHIPPING    = {{ block.settings.show_shipping_bar | json }};
   var SHIP_THRESHOLD   = ({{ block.settings.shipping_threshold_dollars | default: 100 | json }}) * 100;
   var SHIP_TEXT_SUB      = {{ block.settings.shipping_text_subscription | default: 'Subscriptions ship free' | json }};
@@ -1455,9 +1467,12 @@
     if (!SHOW_SHIPPING || !shipEl) return;
     shipEl.hidden = false;
     if (state.purchaseType === 'monthly' || state.purchaseType === 'quarterly') {
-      if (shipFill) shipFill.style.width = '100%';
-      shipEl.classList.add('is-unlocked');
-      if (shipText) shipText.textContent = SHIP_TEXT_SUB;
+      /* Every subscription ships free, so there is no threshold to travel
+         towards. This used to fill the bar to 100% and caption it — which is
+         still a progress bar, still drawn next to a number the customer has
+         no reason to care about, and read as "spend $100 for free shipping"
+         on a plan that already has it. Nothing to show, so show nothing. */
+      shipEl.hidden = true;
     } else if (state.purchaseType === 'onetime') {
       if (t >= SHIP_THRESHOLD) {
         if (shipFill) shipFill.style.width = '100%';
@@ -1957,41 +1972,63 @@
             }),
             promise: promise
           };
-          var evt = new Event('shopify:cart:lines-update', { bubbles: true, composed: true });
-          Object.keys(payload).forEach(function (k) { evt[k] = payload[k]; });
-          document.dispatchEvent(evt);
-
           var cur = cart.currency || 'USD';
-          resolve({
-            cart: {
-              id: cart.token || '',
-              totalQuantity: cart.item_count || 0,
-              cost: { totalAmount: { amount: ((cart.total_price || 0) / 100).toFixed(2), currencyCode: cur } },
-              lines: (cart.items || []).map(function (l) {
-                return { id: l.key, quantity: l.quantity,
-                  cost: { totalAmount: { amount: ((l.final_line_price || 0) / 100).toFixed(2), currencyCode: cur } } };
-              }),
-              discountCodes: []
-            },
-            detail: {
-              sections: sections || undefined,
-              items: cart.items || [],
-              itemCount: cart.item_count || 0,
-              source: 'fortified-product-selector',
-              didError: false
-            }
-          });
+
+          /* Resolved only AFTER the event is dispatched: the theme's
+             components hang their work off this promise and have to be
+             listening before it settles. */
+          function settle() {
+            resolve({
+              cart: {
+                id: cart.token || '',
+                totalQuantity: cart.item_count || 0,
+                cost: { totalAmount: { amount: ((cart.total_price || 0) / 100).toFixed(2), currencyCode: cur } },
+                lines: (cart.items || []).map(function (l) {
+                  return { id: l.key, quantity: l.quantity,
+                    cost: { totalAmount: { amount: ((l.final_line_price || 0) / 100).toFixed(2), currencyCode: cur } } };
+                }),
+                discountCodes: []
+              },
+              detail: {
+                sections: sections || undefined,
+                items: cart.items || [],
+                itemCount: cart.item_count || 0,
+                source: 'fortified-product-selector',
+                didError: false
+              }
+            });
+          }
 
           /* The drawer is <theme-drawer> wrapping <cart-drawer-component>, so
-             the component is the CHILD — it has no open() of its own. Calling
-             it here did nothing. The announcement above already opens the
-             drawer when the store has auto-open on; this is the backstop for
-             when it does not. */
-          var host = document.querySelector('cart-drawer-component');
-          var drawer = host && host.closest ? host.closest('theme-drawer') : null;
-          if (drawer && typeof drawer.open === 'function' && !drawer.isOpen) {
-            try { drawer.open(); } catch (_) {}
+             the component is the CHILD and has no open() of its own — calling
+             it on the component did nothing at all. The announcement opens the
+             drawer by itself where the store has auto-open on; this is the
+             backstop for where it does not. */
+          function openDrawer() {
+            var host = document.querySelector('cart-drawer-component');
+            var drawer = host && host.closest ? host.closest('theme-drawer') : null;
+            if (drawer && typeof drawer.open === 'function' && !drawer.isOpen) {
+              try { drawer.open(); } catch (_) {}
+            }
           }
+
+          /* Same shape the homepage selector uses: the real event class when
+             the theme's import map gives it to us, so anything type-checking
+             the event still sees the right thing, and a plain event carrying
+             the same fields when it does not — every listener in the theme
+             reads action, promise and target, nothing more. */
+          standardEvents().then(function (mod) {
+            var Ctor = mod && mod.CartLinesUpdateEvent;
+            var evt = null;
+            try { evt = Ctor ? new Ctor(payload) : null; } catch (_) { evt = null; }
+            if (!evt) {
+              evt = new Event('shopify:cart:lines-update', { bubbles: true, composed: true });
+              Object.keys(payload).forEach(function (k) { evt[k] = payload[k]; });
+            }
+            document.dispatchEvent(evt);
+            settle();
+            openDrawer();
+          });
 
           pushEvent('fe_add_to_cart_success', { purchase_type: oneTime ? 'onetime' : state.purchaseType });
         })
