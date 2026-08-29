@@ -33,6 +33,28 @@
     {{ block.shopify_attributes }}
   >
     {%- for variant in product.variants -%}
+      {%- liquid
+        # The variant pack shot is the default, and a good one — it is already
+        # per-flavour. An uploaded thumbnail wins when its name matches this
+        # flavour, so a 44px circle can be art rather than a shrunken pouch.
+        #
+        # Matched on the option value's name, not on position, because the
+        # same card block draws every product in the collection. All three
+        # flavoured products here use the same two names, so one upload per
+        # flavour covers the lot.
+        assign thumb = variant.featured_media.preview_image
+        assign flavour = variant.title | downcase | strip
+
+        for i in (1..4)
+          assign name_key = 'flavor_' | append: i | append: '_name'
+          assign image_key = 'flavor_' | append: i | append: '_image'
+          assign candidate = block.settings[name_key] | downcase | strip
+          if candidate != blank and candidate == flavour and block.settings[image_key] != blank
+            assign thumb = block.settings[image_key]
+            break
+          endif
+        endfor
+      -%}
       <button
         type="button"
         class="ftd-flavors__item"
@@ -46,10 +68,10 @@
           disabled
         {%- endunless %}
       >
-        {%- if variant.featured_media -%}
+        {%- if thumb != blank -%}
           <img
             class="ftd-flavors__img"
-            src="{{ variant.featured_media.preview_image | image_url: width: fetch_width }}"
+            src="{{ thumb | image_url: width: fetch_width }}"
             alt=""
             width="{{ size }}"
             height="{{ size }}"
@@ -157,6 +179,56 @@
         { "value": "flex-end", "label": "Right" }
       ],
       "default": "flex-start"
+    },
+    {
+      "type": "header",
+      "content": "Flavor thumbnails"
+    },
+    {
+      "type": "paragraph",
+      "content": "Optional. Upload a thumbnail and it replaces that flavor's pack shot in the picker. The name has to match the product's option value exactly, for example Salty Orange. Leave a slot empty and that flavor keeps using its variant image. These apply to every card in the section, so one upload per flavor covers all the products that share it."
+    },
+    {
+      "type": "text",
+      "id": "flavor_1_name",
+      "label": "Flavor 1 name",
+      "default": "Salty Orange"
+    },
+    {
+      "type": "image_picker",
+      "id": "flavor_1_image",
+      "label": "Flavor 1 thumbnail"
+    },
+    {
+      "type": "text",
+      "id": "flavor_2_name",
+      "label": "Flavor 2 name",
+      "default": "Salty Watermelon"
+    },
+    {
+      "type": "image_picker",
+      "id": "flavor_2_image",
+      "label": "Flavor 2 thumbnail"
+    },
+    {
+      "type": "text",
+      "id": "flavor_3_name",
+      "label": "Flavor 3 name"
+    },
+    {
+      "type": "image_picker",
+      "id": "flavor_3_image",
+      "label": "Flavor 3 thumbnail"
+    },
+    {
+      "type": "text",
+      "id": "flavor_4_name",
+      "label": "Flavor 4 name"
+    },
+    {
+      "type": "image_picker",
+      "id": "flavor_4_image",
+      "label": "Flavor 4 thumbnail"
     }
   ],
   "presets": [
