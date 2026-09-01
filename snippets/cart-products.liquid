@@ -14,6 +14,25 @@
 {% render 'cart-typography-styles' %}
 {% render 'price-styles' %}
 
+{%- comment -%}
+  ── Cart links to the product page: OFF until launch ──────────────────────
+
+  Turn them back on by flipping ftd_cart_pdp_links to true below. That is the
+  only change needed; both the linked and unlinked markup are kept in the file
+  and neither has been deleted.
+
+  Two things in each cart line lead to a product page, and both follow this
+  switch — the thumbnail (.cart-items__media-container) and the title
+  (.cart-items__title). Off, they render as a div and a span carrying the same
+  classes, so the layout is unchanged; those classes bring their own display
+  and sizing rather than relying on the anchor.
+
+  Kept as a live flag rather than commented-out markup on purpose: a comment
+  would drift out of step with the rest of the file as it changes, and would
+  not be caught by any check. Both branches here stay real code.
+{%- endcomment -%}
+{%- assign ftd_cart_pdp_links = false -%}
+
 {% liquid
   assign block_settings = block.settings
 %}
@@ -191,15 +210,27 @@
                         assign ratio = item.image.aspect_ratio
                       endif
                     %}
-                    <a
-                      href="{{ item.url }}"
-                      class="cart-items__media-container"
-                      style="--ratio:{{ ratio }};"
-                    >
+                    {%- capture cart_item_thumb -%}
                       {%- liquid
                         echo item.image | image_url: width: 250 | image_tag: class: 'cart-items__media-image border-style', style: border_override
                       -%}
-                    </a>
+                    {%- endcapture -%}
+                    {%- if ftd_cart_pdp_links -%}
+                      <a
+                        href="{{ item.url }}"
+                        class="cart-items__media-container"
+                        style="--ratio:{{ ratio }};"
+                      >
+                        {{ cart_item_thumb }}
+                      </a>
+                    {%- else -%}
+                      <div
+                        class="cart-items__media-container"
+                        style="--ratio:{{ ratio }};"
+                      >
+                        {{ cart_item_thumb }}
+                      </div>
+                    {%- endif -%}
                   {%- endif %}
                 </td>
                 <td
@@ -215,15 +246,27 @@
                       endif
                     -%}
                     <div class="cart-items__title-row">
-                      <a
-                        href="{{ item.url }}"
-                        class="cart-items__title"
-                        {% if item.parent_relationship.parent != null %}
-                          aria-label="{{ 'accessibility.nested_product' | t: product_title: item.product.title, parent_title: item.parent_relationship.parent.title | escape }}"
-                        {% endif %}
-                      >
-                        {{- item.product.title -}}
-                      </a>
+                      {%- if ftd_cart_pdp_links -%}
+                        <a
+                          href="{{ item.url }}"
+                          class="cart-items__title"
+                          {% if item.parent_relationship.parent != null %}
+                            aria-label="{{ 'accessibility.nested_product' | t: product_title: item.product.title, parent_title: item.parent_relationship.parent.title | escape }}"
+                          {% endif %}
+                        >
+                          {{- item.product.title -}}
+                        </a>
+                      {%- else -%}
+                        {%- comment -%}
+                          A span, not a disabled anchor: an anchor with no href
+                          is still read out as a link by some screen readers,
+                          and the nested-product aria-label only made sense as
+                          a link description, so it goes with the link.
+                        {%- endcomment -%}
+                        <span class="cart-items__title">
+                          {{- item.product.title -}}
+                        </span>
+                      {%- endif -%}
                       {% render 'cart-disclosure-tooltip',
                         product: item.product,
                         unique_id: cart_disclosure_unique_id,
