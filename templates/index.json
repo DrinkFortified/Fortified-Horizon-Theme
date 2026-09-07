@@ -268,7 +268,7 @@
                       "name": "t:names.button",
                       "settings": {
                         "label": "SHOP NOW",
-                        "link": "#mrq",
+                        "link": "#flow",
                         "open_in_new_tab": false,
                         "open_in_popup": false,
                         "style_class": "button",
@@ -1511,6 +1511,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "t:names.products_carousel",
       "settings": {
         "card_links_enabled": false,
