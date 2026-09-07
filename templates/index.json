@@ -3664,7 +3664,7 @@
             "review_selection": "all",
             "products": [],
             "filter_pinned": false,
-            "filter_featured": false,
+            "filter_featured": true,
             "filter_custom_tags": "",
             "show_media_only": false,
             "display_order": "media_first",
@@ -3696,7 +3696,7 @@
       ],
       "name": "Reviews",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#reviews",
         "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
