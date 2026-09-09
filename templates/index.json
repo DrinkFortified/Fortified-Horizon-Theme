@@ -268,7 +268,7 @@
                       "name": "t:names.button",
                       "settings": {
                         "label": "SHOP NOW",
-                        "link": "#mrq",
+                        "link": "#flow",
                         "open_in_new_tab": false,
                         "open_in_popup": false,
                         "style_class": "button",
@@ -1511,6 +1511,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "t:names.products_carousel",
       "settings": {
         "card_links_enabled": false,
@@ -1656,7 +1657,6 @@
         "ftd_c_function_K36fyD",
         "ftd_creatine_MIGRATED"
       ],
-      "disabled": true,
       "name": "FTD - Selector Gold",
       "settings": {
         "anchor_id": "#flow",
@@ -2409,7 +2409,7 @@
             "media_type": "image",
             "image": "shopify://shop_images/Hero-2.webp",
             "category": "Precise Doses",
-            "caption": "150mg sodium and 1,200mg magnesium. Not a sprinkle.",
+            "caption": "1200mg sodium and 150mg magnesium. Not a sprinkle.",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -2916,7 +2916,6 @@
         "benefit_RiBeWX",
         "benefit_7NB9mb"
       ],
-      "disabled": true,
       "name": "FTD - Subscribe & Save",
       "settings": {
         "anchor_id": "#promo",
@@ -3665,7 +3664,7 @@
             "review_selection": "all",
             "products": [],
             "filter_pinned": false,
-            "filter_featured": false,
+            "filter_featured": true,
             "filter_custom_tags": "",
             "show_media_only": false,
             "display_order": "media_first",
@@ -3697,7 +3696,7 @@
       ],
       "name": "Reviews",
       "settings": {
-        "anchor_id": "",
+        "anchor_id": "#reviews",
         "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
