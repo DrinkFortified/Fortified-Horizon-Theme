@@ -1,0 +1,91 @@
+{%- liquid
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'mhld-' | append: sid
+-%}
+{{ 'ftd-maha.css' | asset_url | stylesheet_tag }}
+<section id="{{ root }}" class="maha mhld" style="--maha-max:{{ section.settings.max_width }}px;--mhld-bg:{{ section.settings.bg_color }};--mhld-pt:{{ section.settings.padding_top }}px;--mhld-pb:{{ section.settings.padding_bottom }}px;" {{ section.shopify_attributes }}>
+  <div class="maha__inner">
+    <header class="mhld__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="maha__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="maha__h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.body != blank -%}<p class="maha__lede">{{ section.settings.body }}</p>{%- endif -%}
+    </header>
+    <div class="mhld__cols">
+      <div class="mhld__col mhld__col--in">
+        <h3 class="mhld__col-title">{{ section.settings.in_title }}</h3>
+        <ul class="mhld__list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'included' -%}
+              <li class="mhld__row" {{ block.shopify_attributes }}>
+                <span class="mhld__mark mhld__mark--in" aria-hidden="true">&#10003;</span>
+                <span class="mhld__body"><strong class="mhld__name">{{ block.settings.name }}</strong>{% if block.settings.why != blank %}<span class="mhld__why">{{ block.settings.why }}</span>{% endif %}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+      <div class="mhld__col mhld__col--out">
+        <h3 class="mhld__col-title">{{ section.settings.out_title }}</h3>
+        <ul class="mhld__list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'excluded' -%}
+              <li class="mhld__row" {{ block.shopify_attributes }}>
+                <span class="mhld__mark mhld__mark--out" aria-hidden="true">&#215;</span>
+                <span class="mhld__body"><strong class="mhld__name mhld__name--out">{{ block.settings.name }}</strong>{% if block.settings.why != blank %}<span class="mhld__why">{{ block.settings.why }}</span>{% endif %}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+    {%- if section.settings.footnote != blank -%}<p class="mhld__foot">{{ section.settings.footnote }}</p>{%- endif -%}
+  </div>
+</section>
+{% stylesheet %}
+.mhld{background:var(--mhld-bg,#FFFFFF);padding-block:var(--mhld-pt,72px) var(--mhld-pb,72px)}
+.mhld__head{display:flex;flex-direction:column;gap:12px;max-width:62ch;margin-bottom:var(--maha-s7)}
+.mhld__cols{display:grid;grid-template-columns:1fr 1fr;gap:var(--maha-s5)}
+.mhld__col{border:1px solid var(--maha-line);border-radius:var(--maha-r-lg);padding:clamp(20px,2.6vw,30px);background:var(--maha-paper)}
+.mhld__col--in{background:var(--maha-sage-soft);border-color:var(--maha-line-strong)}
+.mhld__col-title{margin:0 0 var(--maha-s4);font-size:var(--maha-micro);font-weight:800;letter-spacing:var(--maha-track);text-transform:uppercase;color:var(--maha-forest)}
+.mhld__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.mhld__row{display:flex;align-items:flex-start;gap:12px}
+.mhld__mark{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:22px;height:22px;border-radius:50%;font-size:13px;font-weight:800;line-height:1;margin-top:1px}
+.mhld__mark--in{background:var(--maha-good);color:#fff}
+.mhld__mark--out{background:transparent;color:var(--maha-bad);border:1.5px dashed var(--maha-bad)}
+.mhld__body{display:flex;flex-direction:column;gap:3px}
+.mhld__name{font-size:var(--maha-small);font-weight:700;color:var(--maha-ink)}
+.mhld__name--out{opacity:.72;text-decoration:line-through;text-decoration-thickness:1.5px}
+.mhld__why{font-size:var(--maha-micro);line-height:1.5;color:var(--maha-ink-70)}
+.mhld__foot{margin:var(--maha-s5) 0 0;font-size:var(--maha-micro);color:var(--maha-ink-45);max-width:70ch}
+@media (max-width:749px){.mhld{padding-block:40px}.mhld__cols{grid-template-columns:minmax(0,1fr)}.mhld__head{margin-bottom:24px}}
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "MAHA Label Decoder",
+  "tag": "section",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Turn the pouch around"},
+    {"type":"text","id":"heading","label":"Heading","default":"What is in it, and what is not."},
+    {"type":"textarea","id":"body","label":"Body","default":"No proprietary blends. Every active is listed with its dose so you can compare it against anything else in your cabinet."},
+    {"type":"text","id":"in_title","label":"Included column title","default":"In every scoop"},
+    {"type":"text","id":"out_title","label":"Excluded column title","default":"Never in the pouch"},
+    {"type":"textarea","id":"footnote","label":"Footnote","default":"These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease."},
+    {"type":"color","id":"bg_color","label":"Background","default":"#FFFFFF"},
+    {"type":"range","id":"max_width","min":900,"max":1600,"step":20,"unit":"px","label":"Max width","default":1200},
+    {"type":"range","id":"padding_top","min":0,"max":160,"step":4,"unit":"px","label":"Padding top","default":72},
+    {"type":"range","id":"padding_bottom","min":0,"max":160,"step":4,"unit":"px","label":"Padding bottom","default":72}
+  ],
+  "blocks": [
+    {"type":"included","name":"Included ingredient","settings":[
+      {"type":"text","id":"name","label":"Ingredient","default":"Magnesium malate"},
+      {"type":"text","id":"why","label":"Why it is here","default":"Gentler on the stomach than oxide"}
+    ]},
+    {"type":"excluded","name":"Excluded ingredient","settings":[
+      {"type":"text","id":"name","label":"Ingredient","default":"Sucralose"},
+      {"type":"text","id":"why","label":"Why it is out","default":"Artificial sweetener"}
+    ]}
+  ],
+  "presets": [{"name":"MAHA Label Decoder","blocks":[{"type":"included"},{"type":"included"},{"type":"included"},{"type":"excluded"},{"type":"excluded"},{"type":"excluded"}]}]
+}
+{% endschema %}

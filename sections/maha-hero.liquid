@@ -1,0 +1,78 @@
+{%- liquid
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'mhhe-' | append: sid
+-%}
+{{ 'ftd-maha.css' | asset_url | stylesheet_tag }}
+<section id="{{ root }}" class="maha mhhe" style="--maha-max:{{ section.settings.max_width }}px;--mhhe-bg:{{ section.settings.bg_color }};--mhhe-pt:{{ section.settings.padding_top }}px;--mhhe-pb:{{ section.settings.padding_bottom }}px;" {{ section.shopify_attributes }}>
+  <div class="maha__inner mhhe__grid">
+    <div class="mhhe__copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="maha__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h1 class="mhhe__h1">{{ section.settings.heading }}</h1>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="mhhe__sub maha__lede">{{ section.settings.subheading }}</p>{%- endif -%}
+      {%- if section.blocks.size > 0 -%}
+        <ul class="mhhe__proof">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'point' -%}<li class="mhhe__point" {{ block.shopify_attributes }}><span class="mhhe__check" aria-hidden="true">&#10003;</span>{{ block.settings.text }}</li>{%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      <div class="mhhe__actions">
+        {%- if section.settings.cta_text != blank -%}<a class="maha__cta" href="{{ section.settings.cta_link | default: '#' }}">{{ section.settings.cta_text }}</a>{%- endif -%}
+        {%- if section.settings.cta2_text != blank -%}<a class="maha__cta maha__cta--ghost" href="{{ section.settings.cta2_link | default: '#' }}">{{ section.settings.cta2_text }}</a>{%- endif -%}
+      </div>
+      {%- if section.settings.reassurance != blank -%}<p class="mhhe__reassure">{{ section.settings.reassurance }}</p>{%- endif -%}
+    </div>
+    <div class="mhhe__media">
+      {%- if section.settings.image != blank -%}
+        <img class="mhhe__img" src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.image.alt | escape }}" width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}" loading="eager" fetchpriority="high">
+      {%- else -%}
+        <div class="mhhe__ph" role="presentation"></div>
+      {%- endif -%}
+      {%- if section.settings.badge_text != blank -%}<span class="mhhe__badge">{{ section.settings.badge_text }}</span>{%- endif -%}
+    </div>
+  </div>
+</section>
+{% stylesheet %}
+.mhhe{background:var(--mhhe-bg,#FAF7F0);padding-block:var(--mhhe-pt,56px) var(--mhhe-pb,56px)}
+.mhhe__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,72px);align-items:center}
+.mhhe__copy{display:flex;flex-direction:column;gap:var(--maha-s4)}
+.mhhe__h1{margin:0;font-size:var(--maha-h1);font-weight:800;line-height:var(--maha-lh-tight);letter-spacing:-.022em;color:var(--maha-forest);text-wrap:balance}
+.mhhe__sub{font-size:clamp(16px,1.35vw,19px)}
+.mhhe__proof{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.mhhe__point{display:flex;align-items:flex-start;gap:10px;font-size:var(--maha-small);font-weight:600;color:var(--maha-ink)}
+.mhhe__check{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:var(--maha-sage-soft);color:var(--maha-good);font-size:12px;font-weight:800;margin-top:1px}
+.mhhe__actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:var(--maha-s2)}
+.mhhe__reassure{margin:2px 0 0;font-size:var(--maha-micro);color:var(--maha-ink-45)}
+.mhhe__media{position:relative}
+.mhhe__img{display:block;width:100%;height:auto;border-radius:var(--maha-r-lg);box-shadow:var(--maha-shadow)}
+.mhhe__ph{width:100%;aspect-ratio:4/5;border-radius:var(--maha-r-lg);background:linear-gradient(160deg,var(--maha-sage-soft),var(--maha-clay-soft))}
+.mhhe__badge{position:absolute;left:16px;bottom:16px;padding:9px 15px;border-radius:var(--maha-r-pill);background:var(--maha-paper);border:1px solid var(--maha-line-strong);font-size:var(--maha-micro);font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--maha-forest);box-shadow:var(--maha-shadow)}
+@media (max-width:989px){.mhhe__grid{grid-template-columns:minmax(0,1fr)}.mhhe__media{order:-1}.mhhe__ph{aspect-ratio:16/10}}
+@media (max-width:749px){.mhhe{padding-block:32px 36px}.mhhe__actions .maha__cta{width:100%}}
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "MAHA Hero",
+  "tag": "section",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Made for label readers"},
+    {"type":"text","id":"heading","label":"Heading","default":"Every ingredient, named on the front."},
+    {"type":"textarea","id":"subheading","label":"Subheading","default":"Hydration and creatine with organic fruit flavors, essential minerals, and nothing you need a chemistry degree to pronounce."},
+    {"type":"text","id":"cta_text","label":"Primary button","default":"Shop the lineup"},
+    {"type":"url","id":"cta_link","label":"Primary link"},
+    {"type":"text","id":"cta2_text","label":"Secondary button","default":"Read the label first"},
+    {"type":"url","id":"cta2_link","label":"Secondary link"},
+    {"type":"text","id":"reassurance","label":"Reassurance line","default":"Cancel or skip anytime. No auto-upsells."},
+    {"type":"image_picker","id":"image","label":"Hero image"},
+    {"type":"text","id":"badge_text","label":"Image badge","default":"Batch-tested"},
+    {"type":"color","id":"bg_color","label":"Background","default":"#FAF7F0"},
+    {"type":"range","id":"max_width","min":900,"max":1600,"step":20,"unit":"px","label":"Max width","default":1200},
+    {"type":"range","id":"padding_top","min":0,"max":160,"step":4,"unit":"px","label":"Padding top","default":56},
+    {"type":"range","id":"padding_bottom","min":0,"max":160,"step":4,"unit":"px","label":"Padding bottom","default":56}
+  ],
+  "blocks": [
+    {"type":"point","name":"Proof point","settings":[{"type":"text","id":"text","label":"Text","default":"Organic fruit flavors, never natural flavors"}]}
+  ],
+  "presets": [{"name":"MAHA Hero","blocks":[{"type":"point"},{"type":"point"},{"type":"point"}]}]
+}
+{% endschema %}

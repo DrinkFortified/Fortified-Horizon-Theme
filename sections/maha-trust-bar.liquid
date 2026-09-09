@@ -1,0 +1,48 @@
+{%- liquid
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'mhtb-' | append: sid
+-%}
+{{ 'ftd-maha.css' | asset_url | stylesheet_tag }}
+<section id="{{ root }}" class="maha mhtb" style="--maha-max:{{ section.settings.max_width }}px;--mhtb-bg:{{ section.settings.bg_color }};--mhtb-pt:{{ section.settings.padding_top }}px;--mhtb-pb:{{ section.settings.padding_bottom }}px;" {{ section.shopify_attributes }}>
+  <div class="maha__inner mhtb__inner">
+    {%- if section.settings.label != blank -%}<span class="mhtb__label">{{ section.settings.label }}</span>{%- endif -%}
+    <ul class="mhtb__list">
+      {%- for block in section.blocks -%}
+        <li class="mhtb__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.icon != blank -%}<img class="mhtb__icon" src="{{ block.settings.icon | image_url: width: 96 }}" alt="" width="48" height="48" loading="lazy">{%- endif -%}
+          <span class="mhtb__text">{{ block.settings.text }}</span>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{% stylesheet %}
+.mhtb{background:var(--mhtb-bg,#E6EDE3);padding-block:var(--mhtb-pt,14px) var(--mhtb-pb,14px);border-block:1px solid var(--maha-line)}
+.mhtb__inner{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:var(--maha-s3) var(--maha-s6)}
+.mhtb__label{font-size:var(--maha-micro);font-weight:700;letter-spacing:var(--maha-track);text-transform:uppercase;color:var(--maha-ink-45)}
+.mhtb__list{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:var(--maha-s3) var(--maha-s6);list-style:none;margin:0;padding:0}
+.mhtb__item{display:inline-flex;align-items:center;gap:8px}
+.mhtb__icon{width:22px;height:22px;object-fit:contain;flex:0 0 auto}
+.mhtb__text{font-size:var(--maha-micro);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--maha-forest)}
+@media (max-width:749px){.mhtb__inner{gap:10px 18px}.mhtb__list{gap:10px 18px}}
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "MAHA Trust Bar",
+  "tag": "section",
+  "settings": [
+    {"type":"text","id":"label","label":"Leading label","default":"Verified"},
+    {"type":"color","id":"bg_color","label":"Background","default":"#E6EDE3"},
+    {"type":"range","id":"max_width","min":900,"max":1600,"step":20,"unit":"px","label":"Max width","default":1200},
+    {"type":"range","id":"padding_top","min":0,"max":64,"step":2,"unit":"px","label":"Padding top","default":14},
+    {"type":"range","id":"padding_bottom","min":0,"max":64,"step":2,"unit":"px","label":"Padding bottom","default":14}
+  ],
+  "blocks": [
+    {"type":"item","name":"Trust item","settings":[
+      {"type":"image_picker","id":"icon","label":"Icon"},
+      {"type":"text","id":"text","label":"Text","default":"Third-party tested"}
+    ]}
+  ],
+  "presets": [{"name":"MAHA Trust Bar","blocks":[{"type":"item"},{"type":"item"},{"type":"item"},{"type":"item"}]}]
+}
+{% endschema %}

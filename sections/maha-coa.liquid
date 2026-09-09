@@ -1,0 +1,66 @@
+{%- liquid
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'mhco-' | append: sid
+-%}
+{{ 'ftd-maha.css' | asset_url | stylesheet_tag }}
+<section id="{{ root }}" class="maha mhco" style="--maha-max:{{ section.settings.max_width }}px;--mhco-bg:{{ section.settings.bg_color }};--mhco-pt:{{ section.settings.padding_top }}px;--mhco-pb:{{ section.settings.padding_bottom }}px;" {{ section.shopify_attributes }}>
+  <div class="maha__inner mhco__grid">
+    <div class="mhco__copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="maha__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="maha__h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.body != blank -%}<p class="maha__lede">{{ section.settings.body }}</p>{%- endif -%}
+      {%- if section.settings.cta_text != blank -%}<a class="maha__cta" href="{{ section.settings.cta_link | default: '#' }}">{{ section.settings.cta_text }}</a>{%- endif -%}
+      {%- if section.settings.disclaimer != blank -%}<p class="mhco__disc">{{ section.settings.disclaimer }}</p>{%- endif -%}
+    </div>
+    <ul class="mhco__tests">
+      {%- for block in section.blocks -%}
+        <li class="mhco__test" {{ block.shopify_attributes }}>
+          <span class="mhco__test-name">{{ block.settings.name }}</span>
+          <span class="mhco__test-result">{{ block.settings.result }}</span>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{% stylesheet %}
+.mhco{background:var(--mhco-bg,#1F3D2B);padding-block:var(--mhco-pt,72px) var(--mhco-pb,72px);color:#F4F1EA}
+.mhco .maha__h2,.mhco .maha__eyebrow{color:#F4F1EA}
+.mhco .maha__lede{color:rgba(244,241,234,.78)}
+.mhco .maha__cta{background:#F4F1EA;border-color:#F4F1EA;color:var(--maha-forest)}
+.mhco .maha__cta:hover{background:#fff;border-color:#fff;color:var(--maha-forest)}
+.mhco .maha a:focus-visible,.mhco a:focus-visible{outline-color:#F4F1EA}
+.mhco__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,64px);align-items:center}
+.mhco__copy{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.mhco__disc{margin:0;font-size:var(--maha-micro);color:rgba(244,241,234,.55);max-width:52ch}
+.mhco__tests{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border:1px solid rgba(244,241,234,.22);border-radius:var(--maha-r-lg);overflow:hidden}
+.mhco__test{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;border-bottom:1px solid rgba(244,241,234,.14)}
+.mhco__test:last-child{border-bottom:0}
+.mhco__test-name{font-size:var(--maha-small);font-weight:600;color:#F4F1EA}
+.mhco__test-result{font-size:var(--maha-micro);font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#9FD3B0;white-space:nowrap}
+@media (max-width:749px){.mhco{padding-block:40px}.mhco__grid{grid-template-columns:minmax(0,1fr)}.mhco__copy .maha__cta{width:100%}}
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "MAHA Testing & COA",
+  "tag": "section",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Independent lab results"},
+    {"type":"text","id":"heading","label":"Heading","default":"We publish the test, not just the claim."},
+    {"type":"textarea","id":"body","label":"Body","default":"Every batch is sent to a third-party lab. You can pull the certificate of analysis for the exact lot number printed on your pouch."},
+    {"type":"text","id":"cta_text","label":"Button","default":"Look up your batch"},
+    {"type":"url","id":"cta_link","label":"Button link"},
+    {"type":"textarea","id":"disclaimer","label":"Disclaimer","default":"Results reflect the tested lot. Confirm the lot number on your pouch matches the certificate you are viewing."},
+    {"type":"color","id":"bg_color","label":"Background","default":"#1F3D2B"},
+    {"type":"range","id":"max_width","min":900,"max":1600,"step":20,"unit":"px","label":"Max width","default":1200},
+    {"type":"range","id":"padding_top","min":0,"max":160,"step":4,"unit":"px","label":"Padding top","default":72},
+    {"type":"range","id":"padding_bottom","min":0,"max":160,"step":4,"unit":"px","label":"Padding bottom","default":72}
+  ],
+  "blocks": [
+    {"type":"test","name":"Test line","settings":[
+      {"type":"text","id":"name","label":"Test","default":"Heavy metals (lead, arsenic, cadmium, mercury)"},
+      {"type":"text","id":"result","label":"Result","default":"Passed"}
+    ]}
+  ],
+  "presets": [{"name":"MAHA Testing & COA","blocks":[{"type":"test"},{"type":"test"},{"type":"test"},{"type":"test"}]}]
+}
+{% endschema %}
