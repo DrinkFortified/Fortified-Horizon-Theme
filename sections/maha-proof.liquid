@@ -1,0 +1,107 @@
+{%- liquid
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'mhpr-' | append: sid
+-%}
+{{ 'ftd-maha.css' | asset_url | stylesheet_tag }}
+<section id="{{ root }}" class="maha mhpr" style="--maha-max:{{ section.settings.max_width }}px;--mhpr-bg:{{ section.settings.bg_color }};--mhpr-pt:{{ section.settings.padding_top }}px;--mhpr-pb:{{ section.settings.padding_bottom }}px;" {{ section.shopify_attributes }}>
+  <div class="maha__inner">
+    <header class="mhpr__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="maha__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="maha__h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.aggregate != blank -%}<p class="mhpr__agg">{{ section.settings.aggregate }}</p>{%- endif -%}
+    </header>
+
+    <ul class="maha__grid mhpr__grid" style="--mhpr-cols:{{ section.settings.columns }};">
+      {%- for block in section.blocks -%}
+        <li class="maha__card mhpr__card" {{ block.shopify_attributes }}>
+          <figure class="mhpr__fig">
+            {%- if block.settings.show_stars -%}
+              {%- assign star_count = block.settings.stars | default: 5 -%}
+              <div class="mhpr__stars" role="img" aria-label="{{ star_count }} out of 5">
+                {%- for i in (1..5) -%}
+                  <span class="mhpr__star{% if i > star_count %} mhpr__star--off{% endif %}" aria-hidden="true">&#9733;</span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.headline != blank -%}
+              <p class="mhpr__headline">{{ block.settings.headline }}</p>
+            {%- endif -%}
+
+            <blockquote class="mhpr__quote">{{ block.settings.quote }}</blockquote>
+
+            <figcaption class="mhpr__by">
+              {%- if block.settings.avatar != blank -%}
+                <img class="mhpr__avatar" src="{{ block.settings.avatar | image_url: width: 96 }}" alt="" width="40" height="40" loading="lazy">
+              {%- endif -%}
+              <span class="mhpr__meta">
+                <span class="mhpr__name">{{ block.settings.name }}</span>
+                {%- if block.settings.detail != blank -%}<span class="mhpr__detail">{{ block.settings.detail }}</span>{%- endif -%}
+              </span>
+              {%- if block.settings.verified -%}
+                <span class="mhpr__verified">{{ section.settings.verified_label }}</span>
+              {%- endif -%}
+            </figcaption>
+          </figure>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {%- if section.settings.disclosure != blank -%}
+      <p class="mhpr__disclosure">{{ section.settings.disclosure }}</p>
+    {%- endif -%}
+  </div>
+</section>
+{% stylesheet %}
+.mhpr{background:var(--mhpr-bg,#FAF7F0);padding-block:var(--mhpr-pt,72px) var(--mhpr-pb,72px)}
+.mhpr__head{display:flex;flex-direction:column;gap:var(--maha-s3);align-items:center;text-align:center;margin-bottom:var(--maha-s7)}
+.mhpr__agg{margin:0;font-size:var(--maha-small);font-weight:700;color:var(--maha-forest-soft)}
+.mhpr__grid{grid-template-columns:repeat(var(--mhpr-cols,3),minmax(0,1fr));list-style:none;margin:0;padding:0;align-items:stretch}
+.mhpr__card{display:flex}
+.mhpr__fig{display:flex;flex-direction:column;gap:var(--maha-s3);margin:0;width:100%}
+.mhpr__stars{display:flex;gap:2px;line-height:1}
+.mhpr__star{font-size:15px;color:var(--maha-clay)}
+.mhpr__star--off{color:var(--maha-line-strong)}
+.mhpr__headline{margin:0;font-size:var(--maha-h3);font-weight:700;line-height:1.24;color:var(--maha-forest);text-wrap:balance}
+.mhpr__quote{margin:0;font-size:var(--maha-small);line-height:var(--maha-lh-body);color:var(--maha-ink-70)}
+.mhpr__by{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:var(--maha-s3);border-top:1px solid var(--maha-line)}
+.mhpr__avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;flex:0 0 auto}
+.mhpr__meta{display:flex;flex-direction:column;gap:1px;min-width:0}
+.mhpr__name{font-size:var(--maha-small);font-weight:700;color:var(--maha-ink)}
+.mhpr__detail{font-size:var(--maha-micro);color:var(--maha-ink-45)}
+.mhpr__verified{margin-left:auto;padding:5px 10px;border-radius:var(--maha-r-pill);background:var(--maha-sage-soft);color:var(--maha-good);font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;line-height:1;white-space:nowrap}
+.mhpr__disclosure{margin:var(--maha-s6) auto 0;max-width:var(--maha-measure);text-align:center;font-size:var(--maha-micro);color:var(--maha-ink-45)}
+@media (max-width:989px){.mhpr__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:749px){.mhpr{padding-block:44px 44px}.mhpr__grid{grid-template-columns:minmax(0,1fr)}.mhpr__head{margin-bottom:var(--maha-s6)}.mhpr__verified{margin-left:0}}
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "MAHA Proof",
+  "tag": "section",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"From people who read labels"},
+    {"type":"text","id":"heading","label":"Heading","default":"They checked the panel before they checked the reviews."},
+    {"type":"text","id":"aggregate","label":"Aggregate line","info":"Free text. Only enter a rating or count you can substantiate, since the FTC treats unsupported review claims as deceptive."},
+    {"type":"text","id":"verified_label","label":"Verified badge text","default":"Verified buyer"},
+    {"type":"range","id":"columns","min":2,"max":4,"step":1,"label":"Columns","default":3},
+    {"type":"textarea","id":"disclosure","label":"Disclosure","info":"Disclose incentives, free product or affiliate relationships here if any reviewer received them."},
+    {"type":"color","id":"bg_color","label":"Background","default":"#FAF7F0"},
+    {"type":"range","id":"max_width","min":900,"max":1600,"step":20,"unit":"px","label":"Max width","default":1200},
+    {"type":"range","id":"padding_top","min":0,"max":160,"step":4,"unit":"px","label":"Padding top","default":72},
+    {"type":"range","id":"padding_bottom","min":0,"max":160,"step":4,"unit":"px","label":"Padding bottom","default":72}
+  ],
+  "blocks": [
+    {"type":"review","name":"Review","settings":[
+      {"type":"checkbox","id":"show_stars","label":"Show stars","default":true},
+      {"type":"range","id":"stars","min":1,"max":5,"step":1,"label":"Stars","default":5},
+      {"type":"text","id":"headline","label":"Headline"},
+      {"type":"textarea","id":"quote","label":"Quote"},
+      {"type":"image_picker","id":"avatar","label":"Avatar"},
+      {"type":"text","id":"name","label":"Name"},
+      {"type":"text","id":"detail","label":"Detail","info":"For example a city and state, or which product they bought."},
+      {"type":"checkbox","id":"verified","label":"Show verified badge","default":true}
+    ]}
+  ],
+  "presets": [{"name":"MAHA Proof","blocks":[{"type":"review"},{"type":"review"},{"type":"review"}]}]
+}
+{% endschema %}

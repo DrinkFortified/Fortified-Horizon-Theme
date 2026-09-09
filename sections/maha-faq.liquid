@@ -1,0 +1,78 @@
+{%- liquid
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'mhfq-' | append: sid
+-%}
+{{ 'ftd-maha.css' | asset_url | stylesheet_tag }}
+<section id="{{ root }}" class="maha mhfq" style="--maha-max:{{ section.settings.max_width }}px;--mhfq-bg:{{ section.settings.bg_color }};--mhfq-pt:{{ section.settings.padding_top }}px;--mhfq-pb:{{ section.settings.padding_bottom }}px;" {{ section.shopify_attributes }}>
+  <div class="maha__inner mhfq__inner">
+    <div class="mhfq__aside">
+      {%- if section.settings.eyebrow != blank -%}<p class="maha__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="maha__h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.body != blank -%}<p class="maha__lede mhfq__body">{{ section.settings.body }}</p>{%- endif -%}
+      {%- if section.settings.cta_text != blank -%}
+        <a class="maha__cta maha__cta--ghost mhfq__cta" href="{{ section.settings.cta_link | default: '#' }}">{{ section.settings.cta_text }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="mhfq__list">
+      {%- for block in section.blocks -%}
+        <details class="mhfq__item" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+          <summary class="mhfq__q">
+            <span class="mhfq__qtext">{{ block.settings.question }}</span>
+            <span class="mhfq__sign" aria-hidden="true"></span>
+          </summary>
+          <div class="mhfq__a">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% stylesheet %}
+.mhfq{background:var(--mhfq-bg,#FFFFFF);padding-block:var(--mhfq-pt,72px) var(--mhfq-pb,72px)}
+.mhfq__inner{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(28px,5vw,72px);align-items:start}
+.mhfq__aside{display:flex;flex-direction:column;gap:var(--maha-s3);position:sticky;top:24px}
+.mhfq__body{font-size:var(--maha-small)}
+.mhfq__cta{align-self:flex-start;margin-top:var(--maha-s2)}
+.mhfq__list{display:flex;flex-direction:column;border-top:1px solid var(--maha-line)}
+.mhfq__item{border-bottom:1px solid var(--maha-line)}
+.mhfq__q{display:flex;align-items:center;justify-content:space-between;gap:var(--maha-s4);padding:var(--maha-s4) 0;cursor:pointer;list-style:none;font-size:var(--maha-body);font-weight:700;color:var(--maha-forest)}
+.mhfq__q::-webkit-details-marker{display:none}
+.mhfq__q:hover{color:var(--maha-forest-soft)}
+.mhfq__qtext{flex:1 1 auto;text-wrap:balance}
+.mhfq__sign{position:relative;flex:0 0 auto;width:20px;height:20px}
+.mhfq__sign::before,.mhfq__sign::after{content:"";position:absolute;top:50%;left:50%;translate:-50% -50%;background:var(--maha-forest);transition:opacity var(--maha-dur) var(--maha-ease),rotate var(--maha-dur) var(--maha-ease)}
+.mhfq__sign::before{width:14px;height:2px}
+.mhfq__sign::after{width:2px;height:14px}
+.mhfq__item[open] .mhfq__sign::after{opacity:0;rotate:90deg}
+.mhfq__a{padding:0 0 var(--maha-s5);max-width:var(--maha-measure);font-size:var(--maha-small);line-height:var(--maha-lh-body);color:var(--maha-ink-70)}
+.mhfq__a > :first-child{margin-top:0}
+.mhfq__a > :last-child{margin-bottom:0}
+.mhfq__a a{color:var(--maha-forest);text-underline-offset:2px}
+@media (max-width:989px){.mhfq__inner{grid-template-columns:minmax(0,1fr)}.mhfq__aside{position:static}}
+@media (max-width:749px){.mhfq{padding-block:44px 44px}.mhfq__cta{width:100%}}
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "MAHA FAQ",
+  "tag": "section",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Straight answers"},
+    {"type":"text","id":"heading","label":"Heading","default":"The questions we would ask too."},
+    {"type":"textarea","id":"body","label":"Body","default":"If something here is still unclear, that is on us. Ask and we will answer plainly."},
+    {"type":"text","id":"cta_text","label":"Button text","default":"Contact us"},
+    {"type":"url","id":"cta_link","label":"Button link"},
+    {"type":"color","id":"bg_color","label":"Background","default":"#FFFFFF"},
+    {"type":"range","id":"max_width","min":900,"max":1600,"step":20,"unit":"px","label":"Max width","default":1200},
+    {"type":"range","id":"padding_top","min":0,"max":160,"step":4,"unit":"px","label":"Padding top","default":72},
+    {"type":"range","id":"padding_bottom","min":0,"max":160,"step":4,"unit":"px","label":"Padding bottom","default":72}
+  ],
+  "blocks": [
+    {"type":"qa","name":"Question","settings":[
+      {"type":"text","id":"question","label":"Question"},
+      {"type":"richtext","id":"answer","label":"Answer"},
+      {"type":"checkbox","id":"open","label":"Open by default","default":false}
+    ]}
+  ],
+  "presets": [{"name":"MAHA FAQ","blocks":[{"type":"qa"},{"type":"qa"},{"type":"qa"},{"type":"qa"},{"type":"qa"}]}]
+}
+{% endschema %}

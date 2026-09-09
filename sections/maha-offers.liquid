@@ -1,0 +1,165 @@
+{%- liquid
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'mhof-' | append: sid
+-%}
+{{ 'ftd-maha.css' | asset_url | stylesheet_tag }}
+<section id="{{ root }}" class="maha mhof" style="--maha-max:{{ section.settings.max_width }}px;--mhof-bg:{{ section.settings.bg_color }};--mhof-pt:{{ section.settings.padding_top }}px;--mhof-pb:{{ section.settings.padding_bottom }}px;" {{ section.shopify_attributes }}>
+  <div class="maha__inner">
+    <header class="mhof__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="maha__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="maha__h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="maha__lede mhof__lede">{{ section.settings.subheading }}</p>{%- endif -%}
+    </header>
+
+    <div class="maha__grid mhof__grid" style="--mhof-cols:{{ section.settings.columns }};">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign p = block.settings.product
+          assign has_product = false
+          if p != blank
+            assign has_product = true
+          endif
+        -%}
+        <article class="maha__card mhof__card{% if block.settings.featured %} mhof__card--featured{% endif %}" {{ block.shopify_attributes }}>
+          {%- if block.settings.featured and block.settings.badge != blank -%}
+            <span class="mhof__flag">{{ block.settings.badge }}</span>
+          {%- endif -%}
+
+          <div class="mhof__media">
+            {%- if block.settings.image != blank -%}
+              <img class="mhof__img" src="{{ block.settings.image | image_url: width: 700 }}" alt="{{ block.settings.image.alt | escape }}" width="350" height="350" loading="lazy">
+            {%- elsif has_product and p.featured_image != blank -%}
+              <img class="mhof__img" src="{{ p.featured_image | image_url: width: 700 }}" alt="{{ p.featured_image.alt | default: p.title | escape }}" width="350" height="350" loading="lazy">
+            {%- else -%}
+              <div class="mhof__ph" role="presentation"></div>
+            {%- endif -%}
+          </div>
+
+          <div class="mhof__body">
+            {%- if block.settings.kicker != blank -%}<span class="maha__pill mhof__kicker">{{ block.settings.kicker }}</span>{%- endif -%}
+
+            <h3 class="maha__h3 mhof__title">
+              {%- if block.settings.title != blank -%}
+                {{ block.settings.title }}
+              {%- elsif has_product -%}
+                {{ p.title }}
+              {%- else -%}
+                Product
+              {%- endif -%}
+            </h3>
+
+            {%- if block.settings.description != blank -%}
+              <p class="mhof__desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.detail_1 != blank or block.settings.detail_2 != blank or block.settings.detail_3 != blank -%}
+              <ul class="mhof__specs">
+                {%- if block.settings.detail_1 != blank -%}<li class="mhof__spec"><span class="mhof__tick" aria-hidden="true">&#10003;</span>{{ block.settings.detail_1 }}</li>{%- endif -%}
+                {%- if block.settings.detail_2 != blank -%}<li class="mhof__spec"><span class="mhof__tick" aria-hidden="true">&#10003;</span>{{ block.settings.detail_2 }}</li>{%- endif -%}
+                {%- if block.settings.detail_3 != blank -%}<li class="mhof__spec"><span class="mhof__tick" aria-hidden="true">&#10003;</span>{{ block.settings.detail_3 }}</li>{%- endif -%}
+              </ul>
+            {%- endif -%}
+
+            <div class="mhof__foot">
+              {%- if has_product -%}
+                <p class="mhof__price">
+                  {%- if p.compare_at_price > p.price -%}
+                    <span class="mhof__was"><s>{{ p.compare_at_price | money }}</s></span>
+                  {%- endif -%}
+                  <span class="mhof__now">{{ p.price | money }}</span>
+                  {%- if block.settings.price_note != blank -%}<span class="mhof__per">{{ block.settings.price_note }}</span>{%- endif -%}
+                </p>
+
+                {%- if p.available -%}
+                  <a class="maha__cta mhof__cta" href="{{ p.url }}">{{ block.settings.cta_text | default: 'Shop now' }}</a>
+                {%- else -%}
+                  <span class="maha__cta mhof__cta mhof__cta--out" aria-disabled="true">{{ block.settings.sold_out_text | default: 'Back in stock soon' }}</span>
+                {%- endif -%}
+              {%- else -%}
+                <p class="mhof__price"><span class="mhof__now">{{ block.settings.fallback_price }}</span></p>
+                <a class="maha__cta mhof__cta" href="{{ block.settings.cta_link | default: '#' }}">{{ block.settings.cta_text | default: 'Shop now' }}</a>
+              {%- endif -%}
+            </div>
+
+            {%- if block.settings.reassurance != blank -%}
+              <p class="mhof__reassure">{{ block.settings.reassurance }}</p>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.footnote != blank -%}
+      <p class="mhof__footnote">{{ section.settings.footnote }}</p>
+    {%- endif -%}
+  </div>
+</section>
+{% stylesheet %}
+.mhof{background:var(--mhof-bg,#FFFFFF);padding-block:var(--mhof-pt,72px) var(--mhof-pb,72px)}
+.mhof__head{display:flex;flex-direction:column;gap:var(--maha-s3);align-items:center;text-align:center;margin-bottom:var(--maha-s7)}
+.mhof__lede{margin-inline:auto;text-align:center}
+.mhof__grid{grid-template-columns:repeat(var(--mhof-cols,3),minmax(0,1fr));align-items:stretch}
+.mhof__card{position:relative;display:flex;flex-direction:column;gap:var(--maha-s4);padding:clamp(18px,2.2vw,26px);transition:transform var(--maha-dur) var(--maha-ease),box-shadow var(--maha-dur) var(--maha-ease)}
+.mhof__card:hover{transform:translateY(-2px);box-shadow:var(--maha-shadow)}
+.mhof__card--featured{border-color:var(--maha-forest);border-width:2px}
+.mhof__flag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);white-space:nowrap;padding:6px 14px;border-radius:var(--maha-r-pill);background:var(--maha-forest);color:#fff;font-size:var(--maha-micro);font-weight:800;letter-spacing:.07em;text-transform:uppercase;line-height:1}
+.mhof__media{border-radius:var(--maha-r-md);background:var(--maha-cream);overflow:hidden}
+.mhof__img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:contain;padding:10px}
+.mhof__ph{width:100%;aspect-ratio:1/1;background:linear-gradient(160deg,var(--maha-sage-soft),var(--maha-clay-soft))}
+.mhof__body{display:flex;flex-direction:column;gap:var(--maha-s3);flex:1 1 auto}
+.mhof__kicker{align-self:flex-start}
+.mhof__title{text-wrap:balance}
+.mhof__desc{margin:0;font-size:var(--maha-small);color:var(--maha-ink-70)}
+.mhof__specs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.mhof__spec{display:flex;align-items:flex-start;gap:9px;font-size:var(--maha-small);color:var(--maha-ink)}
+.mhof__tick{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:18px;height:18px;border-radius:50%;background:var(--maha-sage-soft);color:var(--maha-good);font-size:11px;font-weight:800;margin-top:2px}
+.mhof__foot{display:flex;flex-direction:column;gap:var(--maha-s3);margin-top:auto;padding-top:var(--maha-s3)}
+.mhof__price{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;margin:0}
+.mhof__now{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--maha-forest)}
+.mhof__was{font-size:15px;color:var(--maha-ink-45)}
+.mhof__per{font-size:var(--maha-micro);color:var(--maha-ink-45)}
+.mhof__cta{width:100%}
+.mhof__cta--out{background:var(--maha-sage-soft);border-color:var(--maha-line-strong);color:var(--maha-ink-45);cursor:not-allowed;pointer-events:none}
+.mhof__reassure{margin:0;font-size:var(--maha-micro);color:var(--maha-ink-45);text-align:center}
+.mhof__footnote{margin:var(--maha-s6) auto 0;max-width:var(--maha-measure);text-align:center;font-size:var(--maha-micro);color:var(--maha-ink-45)}
+@media (max-width:989px){.mhof__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:749px){.mhof{padding-block:44px 44px}.mhof__grid{grid-template-columns:minmax(0,1fr)}.mhof__head{margin-bottom:var(--maha-s6)}}
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "MAHA Offers",
+  "tag": "section",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"The lineup"},
+    {"type":"text","id":"heading","label":"Heading","default":"Three products. Nothing hidden in any of them."},
+    {"type":"textarea","id":"subheading","label":"Subheading","default":"Pick what your day actually needs. Every label is printed in full, and every ingredient is there for a reason you can read."},
+    {"type":"range","id":"columns","min":2,"max":4,"step":1,"label":"Columns","default":3},
+    {"type":"textarea","id":"footnote","label":"Footnote","default":"These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease."},
+    {"type":"color","id":"bg_color","label":"Background","default":"#FFFFFF"},
+    {"type":"range","id":"max_width","min":900,"max":1600,"step":20,"unit":"px","label":"Max width","default":1200},
+    {"type":"range","id":"padding_top","min":0,"max":160,"step":4,"unit":"px","label":"Padding top","default":72},
+    {"type":"range","id":"padding_bottom","min":0,"max":160,"step":4,"unit":"px","label":"Padding bottom","default":72}
+  ],
+  "blocks": [
+    {"type":"offer","name":"Offer","settings":[
+      {"type":"product","id":"product","label":"Product","info":"Price, image, link and availability are read from this product."},
+      {"type":"checkbox","id":"featured","label":"Highlight this card","default":false},
+      {"type":"text","id":"badge","label":"Highlight badge","default":"Most popular"},
+      {"type":"text","id":"kicker","label":"Kicker pill","default":"Daily"},
+      {"type":"text","id":"title","label":"Title override","info":"Leave blank to use the product title."},
+      {"type":"textarea","id":"description","label":"Short description"},
+      {"type":"text","id":"detail_1","label":"Detail 1"},
+      {"type":"text","id":"detail_2","label":"Detail 2"},
+      {"type":"text","id":"detail_3","label":"Detail 3"},
+      {"type":"image_picker","id":"image","label":"Image override"},
+      {"type":"text","id":"price_note","label":"Price note","default":"per pouch"},
+      {"type":"text","id":"cta_text","label":"Button text","default":"Shop now"},
+      {"type":"url","id":"cta_link","label":"Button link","info":"Used only when no product is selected."},
+      {"type":"text","id":"fallback_price","label":"Fallback price","info":"Used only when no product is selected."},
+      {"type":"text","id":"sold_out_text","label":"Sold out text","default":"Back in stock soon"},
+      {"type":"text","id":"reassurance","label":"Reassurance line","default":"Skip or cancel anytime"}
+    ]}
+  ],
+  "presets": [{"name":"MAHA Offers","blocks":[{"type":"offer"},{"type":"offer"},{"type":"offer"}]}]
+}
+{% endschema %}
