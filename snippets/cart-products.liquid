@@ -421,7 +421,22 @@
                       endif
                       if ftd_role == 'creatine'
                         if ftd_upsell != 'creatine-onetime'
-                          assign ftd_qty_locked = true
+                          # Locked only while it is ACTUALLY free. A gift has a
+                          # fixed quantity of one, so a stepper on it is
+                          # meaningless — but the moment the customer drops
+                          # below the pouch threshold, 3PackFree stops applying
+                          # and this becomes a $24 charge. A $24 charge is not a
+                          # gift, and it must not keep a gift's restrictions.
+                          #
+                          # Keyed on the price rather than on a pouch count
+                          # copied down here, because the price is the thing
+                          # being complained about and the only signal that
+                          # cannot drift out of step with the discount. Whatever
+                          # the reason a line is being charged for, if it is
+                          # being charged for, the customer gets full control.
+                          if item.final_line_price == 0
+                            assign ftd_qty_locked = true
+                          endif
                         endif
                       endif
                     endif
@@ -1278,3 +1293,20 @@
   window.Loop.bundleCartAllItems = {{ cart.items | json }};
   initLoopBundle("LOOP_1q0i53-mc_bundles");
 </script>
+
+{%- comment -%}
+  FORTIFIED — the free creatine is only free while the bundle that earned it is
+  still in the cart, and that rule has to hold wherever the cart can be edited.
+
+  It used to load only from the two selectors, so it ran on the homepage and on
+  product pages and nowhere else. The cart page has no selector on it: a
+  customer who dropped from three pouches to two there watched 3PackFree stop
+  applying, the creatine turn into a $24 charge, and nothing clear it — which
+  is exactly the reported bug.
+
+  Loading it from here instead ties it to the cart itself. This snippet draws
+  both the cart page and the drawer, and the drawer is in the header on every
+  page, so the rule now follows the cart everywhere it can be changed. The file
+  stands down on its own wherever the Gold runtime is already doing this job.
+{%- endcomment -%}
+<script src="{{ 'ftd-gift-sweep.js' | asset_url }}" defer></script>

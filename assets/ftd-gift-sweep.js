@@ -106,6 +106,13 @@
 
   function sweep() {
     if (busy || writes >= MAX_WRITES) return Promise.resolve();
+    /* Checked here and not only at startup. This file is loaded from the cart
+       markup, which the drawer puts in the header — earlier in the document
+       than the homepage selector, so with both deferred this script runs
+       first and the start() check below sees no runtime yet. Asking again on
+       every pass means whichever loads second still stands down, instead of
+       two sweepers racing to remove the same line. */
+    if (window.__ftdGoldRun) return Promise.resolve();
     busy = true;
     return getCart().then(function (cart) {
       var ours = (cart.items || []).filter(function (l) {
@@ -154,15 +161,18 @@
   }
 
   function start() {
-    /* The homepage selector runs this same rule inside its own runtime. Where
-       it is loaded, let it own the job. */
-    if (window.__ftdGoldRun) return;
     if (window.__ftdGiftSweepStarted) return;
     window.__ftdGiftSweepStarted = true;
 
     document.addEventListener(EVT, onCartChanged);
     document.addEventListener('cart:update', onCartChanged);
-    sweep();
+
+    /* The first pass waits for load rather than firing here. Everything on the
+       page that could claim ownership of this rule is deferred too, and the
+       opening sweep is the one pass with no cart change driving it, so there
+       is nothing to lose by letting the page settle first. */
+    if (document.readyState === 'complete') sweep();
+    else window.addEventListener('load', function () { sweep(); }, { once: true });
   }
 
   if (document.readyState === 'loading') {
