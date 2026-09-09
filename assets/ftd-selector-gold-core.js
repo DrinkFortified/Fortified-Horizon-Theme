@@ -47,6 +47,10 @@
   /* Pouches needed to earn the free creatine. Must match the "Buy N" side
      of the 3PackFree automatic discount in Shopify. */
   var GIFT_MIN = parseInt(C.GIFT_MIN, 10) || 3;
+  /* Whether the free creatine is on offer at all. Absent means on: a section
+     saved before this setting existed should keep the behaviour it had, not
+     quietly withdraw the gift. Only an explicit false turns it off. */
+  var GIFT_ON = C.GIFT_ON !== false;
   var STEPS_ORDER_FULL = ['plans', 'products', 'review'];
   var RETURN_FLAG_KEY = 'ftdcReturnToReview';
   var state = { step: 'plans', plan: 'quarterly', selections: {} };
@@ -734,6 +738,13 @@
      warning to keep them in step. One-time orders are excluded on purpose:
      the ask was subscriptions only. */
   function giftQualifies() {
+    /* One gate for the whole offer. Every place the gift shows up — the
+       "Included — FREE" row, the order summary line, the cart line itself —
+       asks this, so switching it off here withdraws the offer everywhere
+       rather than leaving a promise on the page that the cart does not keep.
+       With it off, updateCreatineIncluded() falls through to showing
+       subscribers the paid creatine row instead. */
+    if (!GIFT_ON) return false;
     return state.plan !== 'onetime' && totalQty() >= GIFT_MIN;
   }
 
