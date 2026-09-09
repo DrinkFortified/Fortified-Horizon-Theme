@@ -1,0 +1,254 @@
+{
+  "sections": {
+    "hero": {
+      "type": "maha-hero",
+      "blocks": {
+        "p1": {
+          "type": "point",
+          "settings": {
+            "text": "Organic fruit flavors, never \"natural flavors\""
+          }
+        },
+        "p2": {
+          "type": "point",
+          "settings": {
+            "text": "No artificial sweeteners, dyes, or fillers"
+          }
+        },
+        "p3": {
+          "type": "point",
+          "settings": {
+            "text": "Every ingredient named and measured on the panel"
+          }
+        }
+      },
+      "block_order": ["p1", "p2", "p3"],
+      "settings": {
+        "eyebrow": "Made for label readers",
+        "heading": "You read the label. We wrote it to be read.",
+        "subheading": "Hydration and creatine with organic fruit flavors, essential minerals, and nothing you need a chemistry degree to pronounce.",
+        "cta_text": "Shop the lineup",
+        "cta_link": "#maha-offers",
+        "cta2_text": "Read the label first",
+        "cta2_link": "#maha-decoder",
+        "reassurance": "Skip or cancel anytime. No auto-upsells at checkout.",
+        "badge_text": "Batch-tested",
+        "bg_color": "#FAF7F0",
+        "max_width": 1200,
+        "padding_top": 64,
+        "padding_bottom": 56
+      }
+    },
+    "trust": {
+      "type": "maha-trust-bar",
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "text": "Third-party tested"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "text": "Organic fruit flavors"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "text": "No artificial sweeteners"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "text": "Made in the USA"
+          }
+        }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"],
+      "settings": {
+        "label": "Verified",
+        "bg_color": "#E6EDE3",
+        "max_width": 1200,
+        "padding_top": 14,
+        "padding_bottom": 14
+      }
+    },
+    "decoder": {
+      "type": "maha-label-decoder",
+      "settings": {}
+    },
+    "coa": {
+      "type": "maha-coa",
+      "settings": {}
+    },
+    "offers": {
+      "type": "maha-offers",
+      "blocks": {
+        "o1": {
+          "type": "offer",
+          "settings": {
+            "product": "everyday",
+            "featured": true,
+            "badge": "Most popular",
+            "kicker": "Everyday",
+            "description": "Built for the other 23 hours of the day, not just the workout.",
+            "detail_1": "Vitamin D3 + K2 as MK-7",
+            "detail_2": "Magnesium malate and pink Himalayan salt",
+            "detail_3": "No caffeine, no sugar",
+            "price_note": "30 servings",
+            "cta_text": "Shop Everyday",
+            "sold_out_text": "Back in stock soon",
+            "reassurance": "Skip or cancel anytime"
+          }
+        },
+        "o2": {
+          "type": "offer",
+          "settings": {
+            "product": "energy",
+            "featured": false,
+            "kicker": "Afternoons",
+            "description": "Natural caffeine instead of synthetic, with the full panel printed.",
+            "detail_1": "Natural caffeine, no synthetic stimulants",
+            "detail_2": "Magnesium malate and pink Himalayan salt",
+            "detail_3": "No proprietary blends",
+            "price_note": "30 servings",
+            "cta_text": "Shop Energy",
+            "sold_out_text": "Back in stock soon",
+            "reassurance": "Skip or cancel anytime"
+          }
+        },
+        "o3": {
+          "type": "offer",
+          "settings": {
+            "product": "creatine",
+            "featured": false,
+            "kicker": "One ingredient",
+            "description": "Creatine monohydrate and nothing else. No flavors to hide behind.",
+            "detail_1": "Single-ingredient, unflavored",
+            "detail_2": "No artificial sweeteners or fillers",
+            "detail_3": "Mixes into anything you already drink",
+            "price_note": "45 servings",
+            "cta_text": "Shop Creatine",
+            "sold_out_text": "Back in stock soon",
+            "reassurance": "Skip or cancel anytime"
+          }
+        }
+      },
+      "block_order": ["o1", "o2", "o3"],
+      "settings": {
+        "eyebrow": "The lineup",
+        "heading": "Three products. Nothing hidden in any of them.",
+        "subheading": "Pick what your day actually needs. Every label is printed in full, and every ingredient is there for a reason you can read.",
+        "columns": 3,
+        "footnote": "These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "bg_color": "#FFFFFF",
+        "max_width": 1200,
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "proof": {
+      "type": "maha-proof",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "show_stars": true,
+            "stars": 5,
+            "verified": true
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "show_stars": true,
+            "stars": 5,
+            "verified": true
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "show_stars": true,
+            "stars": 5,
+            "verified": true
+          }
+        }
+      },
+      "block_order": ["r1", "r2", "r3"],
+      "settings": {
+        "eyebrow": "From people who read labels",
+        "heading": "They checked the panel before they checked the reviews.",
+        "aggregate": "",
+        "verified_label": "Verified buyer",
+        "columns": 3,
+        "disclosure": "",
+        "bg_color": "#FAF7F0",
+        "max_width": 1200,
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "faq": {
+      "type": "maha-faq",
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "question": "What does \"organic fruit flavors\" actually mean here?",
+            "answer": "<p>It means the flavor comes from certified organic fruit sources and is listed as such on the panel. It is not the catch-all \"natural flavors\" line, which can legally cover dozens of undisclosed components.</p>",
+            "open": true
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "question": "Is this third-party tested, and can I see the results?",
+            "answer": "<p>Yes. Certificates of analysis are published for each batch. Match the lot number on your pouch to the corresponding certificate.</p>",
+            "open": false
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "question": "Are there artificial sweeteners, dyes, or fillers?",
+            "answer": "<p>No. There are no artificial sweeteners, no synthetic dyes, and no fillers. Everything in the pouch appears on the panel with an amount next to it.</p>",
+            "open": false
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "question": "Can my kids drink this?",
+            "answer": "<p>These are dietary supplements formulated for adults. Talk to your pediatrician before giving any supplement to a child, and consult your physician if you are pregnant, nursing, or managing a medical condition.</p>",
+            "open": false
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "question": "How does the subscription work?",
+            "answer": "<p>You choose the delivery interval and can skip, reschedule, or cancel at any time from your account. There is no cancellation fee and no auto-upsell added at checkout.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5"],
+      "settings": {
+        "eyebrow": "Straight answers",
+        "heading": "The questions we would ask too.",
+        "body": "If something here is still unclear, that is on us. Ask and we will answer plainly.",
+        "cta_text": "Contact us",
+        "cta_link": "/pages/contact",
+        "bg_color": "#FFFFFF",
+        "max_width": 1200,
+        "padding_top": 72,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": ["hero", "trust", "decoder", "coa", "offers", "proof", "faq"]
+}
