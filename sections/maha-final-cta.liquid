@@ -1,0 +1,28 @@
+{%- liquid
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'mhfc-' | append: sid
+-%}
+{{ 'ftd-maha.css' | asset_url | stylesheet_tag }}
+<section id="{{ root }}" class="maha mhfc" style="--maha-max:{{ section.settings.max_width }}px;--mhfc-bg:{{ section.settings.bg_color }};--mhfc-pt:{{ section.settings.padding_top }}px;--mhfc-pb:{{ section.settings.padding_bottom }}px;" {{ section.shopify_attributes }}>
+  <div class="maha__inner mhfc__inner">
+    {%- if section.settings.eyebrow != blank -%}<p class="maha__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    {%- if section.settings.heading != blank -%}<h2 class="maha__h2">{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- if section.settings.body != blank -%}<p class="maha__lede">{{ section.settings.body }}</p>{%- endif -%}
+    <div class="mhfc__actions">
+      {%- if section.settings.cta_text != blank -%}<a class="maha__cta" href="{{ section.settings.cta_link | default: '/collections/all' }}">{{ section.settings.cta_text }}</a>{%- endif -%}
+      {%- if section.settings.cta2_text != blank -%}<a class="maha__cta maha__cta--ghost" href="{{ section.settings.cta2_link | default: '/pages/contact' }}">{{ section.settings.cta2_text }}</a>{%- endif -%}
+    </div>
+    {%- if section.settings.note != blank -%}<p class="mhfc__note">{{ section.settings.note }}</p>{%- endif -%}
+  </div>
+</section>
+{% stylesheet %}
+.mhfc{background:var(--mhfc-bg,#E6EDE3);padding-block:var(--mhfc-pt,72px) var(--mhfc-pb,72px);border-block:1px solid var(--maha-line)}
+.mhfc__inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--maha-s4)}
+.mhfc__inner .maha__lede{text-align:center;margin-inline:auto}
+.mhfc__actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:var(--maha-s2)}
+.mhfc__note{margin:0;color:var(--maha-ink-45);font-size:var(--maha-micro)}
+@media(max-width:749px){.mhfc{padding-block:44px}.mhfc__actions{width:100%}.mhfc__actions .maha__cta{width:100%}}
+{% endstylesheet %}
+{% schema %}
+{"name":"MAHA Final CTA","tag":"section","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Read it. Choose it. Use it."},{"type":"text","id":"heading","label":"Heading","default":"A routine with nothing to second-guess."},{"type":"textarea","id":"body","label":"Body","default":"Start with the product that fits your day, then review every ingredient before checkout."},{"type":"text","id":"cta_text","label":"Primary button","default":"Shop the lineup"},{"type":"url","id":"cta_link","label":"Primary link"},{"type":"text","id":"cta2_text","label":"Secondary button","default":"Ask a question"},{"type":"url","id":"cta2_link","label":"Secondary link"},{"type":"text","id":"note","label":"Reassurance note","default":"Clear labels. Clear choices. No pressure."},{"type":"color","id":"bg_color","label":"Background","default":"#E6EDE3"},{"type":"range","id":"max_width","min":900,"max":1600,"step":20,"unit":"px","label":"Max width","default":1200},{"type":"range","id":"padding_top","min":0,"max":160,"step":4,"unit":"px","label":"Padding top","default":72},{"type":"range","id":"padding_bottom","min":0,"max":160,"step":4,"unit":"px","label":"Padding bottom","default":72}],"presets":[{"name":"MAHA Final CTA"}]}
+{% endschema %}

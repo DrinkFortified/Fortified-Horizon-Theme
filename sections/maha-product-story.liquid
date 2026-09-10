@@ -1,0 +1,69 @@
+{%- liquid
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'mhps-' | append: sid
+  assign handle = product.handle
+-%}
+{{ 'ftd-maha.css' | asset_url | stylesheet_tag }}
+<section id="{{ root }}" class="maha mhps" style="--maha-max:{{ section.settings.max_width }}px;--mhps-bg:{{ section.settings.bg_color }};--mhps-pt:{{ section.settings.padding_top }}px;--mhps-pb:{{ section.settings.padding_bottom }}px;" {{ section.shopify_attributes }}>
+  <div class="maha__inner">
+    <header class="mhps__head">
+      <p class="maha__eyebrow">The label-reader brief</p>
+      {%- case handle -%}
+        {%- when 'creatine' -%}<h2 class="maha__h2">One ingredient. No fine print.</h2><p class="maha__lede">Pure, unflavored creatine monohydrate in a full 5g serving. Nothing added to make a simple formula look complicated.</p>
+        {%- when 'energy' -%}<h2 class="maha__h2">Energy without the mystery blend.</h2><p class="maha__lede">Natural caffeine, electrolytes, and organic fruit flavors with the amounts disclosed on the product label.</p>
+        {%- else -%}<h2 class="maha__h2">Daily hydration you can explain.</h2><p class="maha__lede">A caffeine-free electrolyte routine with vitamin D3 and K2, organic fruit flavors, and a label designed to be read.</p>
+      {%- endcase -%}
+    </header>
+    <div class="maha__grid mhps__facts">
+      {%- case handle -%}
+        {%- when 'creatine' -%}
+          <article class="maha__card"><span class="mhps__number">1</span><h3 class="maha__h3">Ingredient</h3><p>Creatine monohydrate. No flavors, sweeteners, dyes, or fillers.</p></article>
+          <article class="maha__card"><span class="mhps__number">5g</span><h3 class="maha__h3">Per serving</h3><p>A clearly stated serving amount rather than a proprietary blend.</p></article>
+          <article class="maha__card"><span class="mhps__number">45</span><h3 class="maha__h3">Servings</h3><p>Unflavored so it can fit into the drink already in your routine.</p></article>
+        {%- when 'energy' -%}
+          <article class="maha__card"><span class="mhps__number">30</span><h3 class="maha__h3">Servings</h3><p>A measured daily-use format with the full ingredient panel available before purchase.</p></article>
+          <article class="maha__card"><span class="mhps__number">2</span><h3 class="maha__h3">Organic flavor choices</h3><p>Organic Salty Orange and organic Salty Watermelon.</p></article>
+          <article class="maha__card"><span class="mhps__number">0g</span><h3 class="maha__h3">Sugar</h3><p>No artificial sweeteners and no proprietary blend.</p></article>
+        {%- else -%}
+          <article class="maha__card"><span class="mhps__number">30</span><h3 class="maha__h3">Servings</h3><p>Built as a repeatable hydration routine rather than a one-off wellness trend.</p></article>
+          <article class="maha__card"><span class="mhps__number">2</span><h3 class="maha__h3">Organic flavor choices</h3><p>Organic Salty Orange and organic Salty Watermelon.</p></article>
+          <article class="maha__card"><span class="mhps__number">0mg</span><h3 class="maha__h3">Caffeine</h3><p>A caffeine-free option for the part of the day that does not need another stimulant.</p></article>
+      {%- endcase -%}
+    </div>
+    <div class="mhps__detail">
+      <div><p class="maha__eyebrow">Read everything</p><h3 class="maha__h3">The product description is part of the decision.</h3></div>
+      <div class="mhps__rte">{{ product.description }}</div>
+    </div>
+    <div class="mhps__faq">
+      <h2 class="maha__h2">Questions before checkout</h2>
+      <details open><summary>How do I choose the right option?</summary><div>{% if handle == 'creatine' %}Choose Creatine when you want a single-ingredient, unflavored supplement. Select the purchase option shown above.{% else %}Choose Everyday for caffeine-free hydration or Energy when you want natural caffeine. Then select organic Salty Orange or organic Salty Watermelon above.{% endif %}</div></details>
+      <details><summary>Where can I review the complete ingredients?</summary><div>The full product description and label information are shown on this page. Review the pouch label again when it arrives, especially if you manage an allergy or dietary restriction.</div></details>
+      <details><summary>Is this intended for children?</summary><div>These dietary supplements are formulated for adults. Ask a pediatrician before giving any supplement to a child. Consult a qualified clinician if you are pregnant, nursing, taking medication, or managing a medical condition.</div></details>
+      <details><summary>Can I change or cancel a subscription?</summary><div>Review the purchase terms shown with the selected plan. Available subscription controls are managed through your customer account.</div></details>
+    </div>
+    <p class="mhps__legal">These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+  </div>
+</section>
+{% stylesheet %}
+.mhps{background:var(--mhps-bg,#FAF7F0);padding-block:var(--mhps-pt,72px) var(--mhps-pb,72px)}
+.mhps__head{display:flex;flex-direction:column;gap:var(--maha-s3);align-items:center;text-align:center;margin-bottom:var(--maha-s7)}
+.mhps__head .maha__lede{text-align:center;margin-inline:auto}
+.mhps__facts{grid-template-columns:repeat(3,minmax(0,1fr))}
+.mhps__facts .maha__card{display:flex;flex-direction:column;gap:var(--maha-s2)}
+.mhps__facts p{margin:0;color:var(--maha-ink-70);font-size:var(--maha-small)}
+.mhps__number{font-size:clamp(34px,4vw,54px);font-weight:800;line-height:1;color:var(--maha-forest)}
+.mhps__detail{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(24px,5vw,64px);margin-top:var(--maha-s7);padding:clamp(24px,4vw,48px);border-radius:var(--maha-r-lg);background:var(--maha-paper);border:1px solid var(--maha-line)}
+.mhps__detail>div:first-child{display:flex;flex-direction:column;gap:var(--maha-s3)}
+.mhps__rte{color:var(--maha-ink-70);font-size:var(--maha-small)}
+.mhps__rte p{margin-top:0}.mhps__rte p:last-child{margin-bottom:0}
+.mhps__faq{max-width:860px;margin:var(--maha-s8) auto 0}
+.mhps__faq>.maha__h2{text-align:center;margin-bottom:var(--maha-s5)}
+.mhps__faq details{border-bottom:1px solid var(--maha-line)}
+.mhps__faq summary{padding:18px 0;cursor:pointer;font-weight:700;color:var(--maha-forest)}
+.mhps__faq details div{padding:0 0 20px;color:var(--maha-ink-70);font-size:var(--maha-small)}
+.mhps__legal{max-width:var(--maha-measure);margin:var(--maha-s6) auto 0;text-align:center;color:var(--maha-ink-45);font-size:var(--maha-micro)}
+@media(max-width:749px){.mhps{padding-block:44px}.mhps__facts,.mhps__detail{grid-template-columns:minmax(0,1fr)}.mhps__head{margin-bottom:var(--maha-s6)}}
+{% endstylesheet %}
+{% schema %}
+{"name":"MAHA Product Story","tag":"section","settings":[{"type":"color","id":"bg_color","label":"Background","default":"#FAF7F0"},{"type":"range","id":"max_width","min":900,"max":1600,"step":20,"unit":"px","label":"Max width","default":1200},{"type":"range","id":"padding_top","min":0,"max":160,"step":4,"unit":"px","label":"Padding top","default":72},{"type":"range","id":"padding_bottom","min":0,"max":160,"step":4,"unit":"px","label":"Padding bottom","default":72}],"presets":[{"name":"MAHA Product Story"}]}
+{% endschema %}

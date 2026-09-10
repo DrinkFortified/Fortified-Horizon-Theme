@@ -1,0 +1,71 @@
+{%- liquid
+  assign sid = section.id | replace: '_', '' | downcase
+  assign root = 'mhcb-' | append: sid
+  assign has_image = false
+  if section.settings.image != blank
+    assign has_image = true
+  endif
+-%}
+{{ 'ftd-maha.css' | asset_url | stylesheet_tag }}
+<section id="{{ root }}" class="maha mhcb{% if has_image %} mhcb--split{% endif %}" style="--maha-max:{{ section.settings.max_width }}px;--mhcb-bg:{{ section.settings.bg_color }};--mhcb-pt:{{ section.settings.padding_top }}px;--mhcb-pb:{{ section.settings.padding_bottom }}px;" {{ section.shopify_attributes }}>
+  <div class="maha__inner mhcb__layout">
+    <div class="mhcb__copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="maha__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="maha__h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.body != blank -%}<div class="mhcb__body">{{ section.settings.body }}</div>{%- endif -%}
+      {%- if section.settings.show_page_content and page.content != blank -%}<div class="mhcb__body mhcb__rte">{{ page.content }}</div>{%- endif -%}
+      {%- if section.settings.cta_text != blank -%}<a class="maha__cta" href="{{ section.settings.cta_link | default: '/collections/all' }}">{{ section.settings.cta_text }}</a>{%- endif -%}
+    </div>
+    {%- if has_image -%}
+      <div class="mhcb__media"><img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.image.alt | escape }}" width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}" loading="lazy"></div>
+    {%- endif -%}
+  </div>
+  {%- if section.blocks.size > 0 -%}
+    <div class="maha__inner maha__grid mhcb__cards" style="--mhcb-cols:{{ section.settings.columns }};">
+      {%- for block in section.blocks -%}
+        <article class="maha__card mhcb__card" {{ block.shopify_attributes }}>
+          {%- if block.settings.label != blank -%}<span class="maha__pill">{{ block.settings.label }}</span>{%- endif -%}
+          {%- if block.settings.heading != blank -%}<h3 class="maha__h3">{{ block.settings.heading }}</h3>{%- endif -%}
+          {%- if block.settings.text != blank -%}<p>{{ block.settings.text }}</p>{%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+{% stylesheet %}
+.mhcb{background:var(--mhcb-bg,#FAF7F0);padding-block:var(--mhcb-pt,72px) var(--mhcb-pb,72px)}
+.mhcb__layout{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center}
+.mhcb--split .mhcb__layout{grid-template-columns:minmax(0,1fr) minmax(0,.9fr)}
+.mhcb__copy{display:flex;flex-direction:column;align-items:flex-start;gap:var(--maha-s4)}
+.mhcb__body,.mhcb__rte{max-width:var(--maha-measure);color:var(--maha-ink-70)}
+.mhcb__body p,.mhcb__rte p{margin:0 0 1em}.mhcb__body p:last-child,.mhcb__rte p:last-child{margin-bottom:0}
+.mhcb__rte h2,.mhcb__rte h3{color:var(--maha-forest);line-height:var(--maha-lh-head)}
+.mhcb__media img{display:block;width:100%;height:auto;max-height:620px;object-fit:cover;border-radius:var(--maha-r-lg);box-shadow:var(--maha-shadow)}
+.mhcb__cards{grid-template-columns:repeat(var(--mhcb-cols,3),minmax(0,1fr));margin-top:var(--maha-s7)}
+.mhcb__card{display:flex;flex-direction:column;align-items:flex-start;gap:var(--maha-s3)}
+.mhcb__card p{margin:0;color:var(--maha-ink-70);font-size:var(--maha-small)}
+@media(max-width:989px){.mhcb--split .mhcb__layout{grid-template-columns:minmax(0,1fr)}.mhcb__cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:749px){.mhcb{padding-block:44px}.mhcb__cards{grid-template-columns:minmax(0,1fr);margin-top:var(--maha-s6)}.mhcb__copy .maha__cta{width:100%}}
+{% endstylesheet %}
+{% schema %}
+{
+  "name":"MAHA Content Band",
+  "tag":"section",
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Nothing hidden"},
+    {"type":"text","id":"heading","label":"Heading","default":"Designed for people who read the label."},
+    {"type":"richtext","id":"body","label":"Body"},
+    {"type":"checkbox","id":"show_page_content","label":"Show current page content","default":false},
+    {"type":"image_picker","id":"image","label":"Image"},
+    {"type":"text","id":"cta_text","label":"Button text"},
+    {"type":"url","id":"cta_link","label":"Button link"},
+    {"type":"range","id":"columns","min":2,"max":4,"step":1,"label":"Card columns","default":3},
+    {"type":"color","id":"bg_color","label":"Background","default":"#FAF7F0"},
+    {"type":"range","id":"max_width","min":900,"max":1600,"step":20,"unit":"px","label":"Max width","default":1200},
+    {"type":"range","id":"padding_top","min":0,"max":160,"step":4,"unit":"px","label":"Padding top","default":72},
+    {"type":"range","id":"padding_bottom","min":0,"max":160,"step":4,"unit":"px","label":"Padding bottom","default":72}
+  ],
+  "blocks":[{"type":"card","name":"Content card","settings":[{"type":"text","id":"label","label":"Label"},{"type":"text","id":"heading","label":"Heading"},{"type":"textarea","id":"text","label":"Text"}]}],
+  "presets":[{"name":"MAHA Content Band","blocks":[{"type":"card"},{"type":"card"},{"type":"card"}]}]
+}
+{% endschema %}
