@@ -2434,5 +2434,21 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "FORTIFIED — Loop Subscriptions",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Switches for each place the theme hands work to Loop. Turning one off stops the theme doing that part — it does not uninstall Loop, and Loop keeps doing whatever it does on its own side."
+      },
+      {
+        "type": "checkbox",
+        "id": "loop_cart_grouping",
+        "label": "Let Loop draw bundled lines in the cart",
+        "default": true,
+        "info": "On, Loop takes every line carrying a _bundleId out of the normal cart list and redraws it as one bundle row with a single remove button. Off, those lines render as ordinary cart rows with their own quantity and remove controls. This only changes how the cart looks — the lines still carry _bundleId, so Loop still groups the order on its side."
+      }
+    ]
   }
 ]

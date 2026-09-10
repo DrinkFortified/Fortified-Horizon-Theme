@@ -170,12 +170,27 @@
     LOOP BUNDLE CODE STARTS
 {% endcomment %}
     {% assign isBundleItem = false %}
+    {%- comment -%}
+      FORTIFIED — gated on the "Let Loop draw bundled lines in the cart" theme
+      setting. As Loop ships it, the search below runs unconditionally and any
+      line carrying a _bundleId is skipped from this list so Loop can redraw it
+      as one bundle row. Off, the search never runs, so those lines stay here
+      and render as ordinary rows with their own quantity and remove controls.
+
+      The lines keep their _bundleId either way, so Loop still groups the order
+      on its side. This is presentation only.
+
+      Loop regenerates this block from their bundle designer, so if this
+      condition ever vanishes, that is why — re-apply it.
+    {%- endcomment -%}
+    {%- if settings.loop_cart_grouping -%}
     {%- for property in item.properties -%}
         {% if property.first == '_bundleId' %}
             {% assign isBundleItem = true %}
             {% break %}
         {% endif %}
     {%- endfor -%}
+    {%- endif -%}
     {% if isBundleItem == true %}
         {% continue %}
     {% endif %}
@@ -1288,11 +1303,18 @@
   .cart-items__table .cart-item .discounts { margin-block-start: var(--margin-xs, 0.25rem); }
 {% endstylesheet %}
 
-<script defer="defer">
-  window.Loop = {};
-  window.Loop.bundleCartAllItems = {{ cart.items | json }};
-  initLoopBundle("LOOP_1q0i53-mc_bundles");
-</script>
+{%- comment -%}
+  FORTIFIED — same switch as the row filter above. loop_bundle.js only defines
+  initLoopBundle and waits to be called, so not calling it is what actually
+  leaves the cart alone; the tbody class above it is inert on its own.
+{%- endcomment -%}
+{%- if settings.loop_cart_grouping -%}
+  <script defer="defer">
+    window.Loop = {};
+    window.Loop.bundleCartAllItems = {{ cart.items | json }};
+    initLoopBundle("LOOP_1q0i53-mc_bundles");
+  </script>
+{%- endif -%}
 
 {%- comment -%}
   FORTIFIED — the free creatine is only free while the bundle that earned it is
