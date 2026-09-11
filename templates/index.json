@@ -2463,7 +2463,7 @@
         "media_height": "60svh",
         "section_width": "full-width",
         "extend_media": true,
-        "background_color": "#1FA8A1",
+        "background_color": "#1fa8a1",
         "padding-block-start": 0,
         "padding-block-end": 0
       }
@@ -2552,6 +2552,7 @@
         },
         "ftd_creatine_MIGRATED": {
           "type": "_ftd-c-creatine",
+          "disabled": true,
           "settings": {
             "product": "creatine",
             "product_handle": "creatine",
