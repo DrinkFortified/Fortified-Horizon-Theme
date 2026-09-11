@@ -119,7 +119,30 @@
       </div>
     </div>
 
-    {%- comment -%} ── Quarterly only: a second one at 50%, the first being free ── {%- endcomment -%}
+    {%- comment -%}
+      ── SECOND CREATINE UPSELL — OFF ───────────────────────────────────────
+
+      The quarterly "Add a 2nd Creatine — 50% off", on Loop selling plan
+      2852552860 ("Quarterly Creatine - 50%"). Turned off, not deleted: the
+      markup below is intact and uncommenting it is the only step needed to
+      bring the offer back.
+
+      One deletion switches the whole thing off because every piece of the
+      runtime reaches it through this markup and guards on finding it —
+      desiredItems() and buildItems() both require data-creatine2-input before
+      they will add a line, activeAddons() before it will price one, and
+      updateCreatineIncluded() before it will show a row. With the markup gone
+      they each do nothing, so there is no second creatine to select, to be
+      charged for, or to see.
+
+      Two things are deliberately NOT switched off, because carts already hold
+      these lines: the gift sweep still clears a _role=creatine2 line when the
+      bundle that earned it goes, and snippets/cart-products.liquid still
+      treats one as fixed-quantity. Removing an offer must not strand the
+      orders that took it.
+
+      To restore: delete this comment wrapper. Nothing else.
+
     <div class="ftdc__upsell ftdc__upsell--creatine" data-slot="creatine-addon2"
          data-upsell-creatine2 hidden
          data-plan-quarterly-50off="{{ block.settings.loop_plan_quarterly_50off }}">
@@ -143,6 +166,7 @@
         <label for="ftdc-cr2-{{ block.id }}" class="ftdc__switch" aria-hidden="true"></label>
       </div>
     </div>
+    {%- endcomment -%}
 
     {%- comment -%} ── Given, not bought: no control, nothing to decide ── {%- endcomment -%}
     <div class="ftdc__upsell ftdc__upsell--included" data-slot="creatine-included"
