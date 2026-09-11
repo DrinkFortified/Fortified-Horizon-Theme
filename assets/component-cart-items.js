@@ -206,11 +206,21 @@ export class CartItemsComponent extends createViewEventElement(Component) {
    * @param {string} config.action - The action.
    */
   updateQuantity(config) {
+    const { line, quantity } = config;
+    const lineId = this.refs.cartItemRows[line - 1]?.dataset.key;
+    if (!lineId) {
+      // A section replacement invalidated this control; refresh rather than
+      // guessing an index that may now refer to the automatically added gift.
+      sectionRenderer.renderSection(this.sectionId, {
+        cache: false,
+        mode: this.isDrawer ? 'hydration' : 'full',
+      });
+      return;
+    }
     const cartPerformaceUpdateMarker = cartPerformance.createStartingMarker(`${config.action}:user-action`);
 
     this.#disableCartItems();
 
-    const { line, quantity } = config;
     const { cartTotal } = this.refs;
 
     const cartItemsComponents = document.querySelectorAll('cart-items-component');
@@ -222,7 +232,9 @@ export class CartItemsComponent extends createViewEventElement(Component) {
     });
 
     const body = JSON.stringify({
-      line: line,
+      // Gift insertion/removal can move positions before the drawer rerenders.
+      // Address the row the customer actually edited, never its old position.
+      id: lineId,
       quantity: quantity,
       sections: Array.from(sectionsToUpdate).join(','),
       sections_url: window.location.pathname,
@@ -231,7 +243,6 @@ export class CartItemsComponent extends createViewEventElement(Component) {
     cartTotal?.shimmer();
 
     const deferredUpdatePromise = CartLinesUpdateEvent.createPromise();
-    const lineId = this.refs.cartItemRows[line - 1]?.dataset.key ?? '';
     this.dispatchEvent(
       new CartLinesUpdateEvent({
         action: config.action === 'change' && quantity > 0 ? 'update' : 'remove',

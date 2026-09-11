@@ -670,6 +670,25 @@ test('a lost add response does not cause a duplicate add when an event retries',
   assert.equal(announcements, 1, 'retry refreshes the cart UI even if the lost write already succeeded');
 });
 
+test('a failed gift write retains refresh intent when the next verified cart needs no mutation', async () => {
+  const h = environment({ items: [hydration(3)], intercept: (call) => {
+    if (call.method === 'POST') return response({}, 422);
+  } });
+  const announcements = [];
+  h.document.addEventListener(CART_EVENT, (event) => {
+    if (event.ftdcFrom === 'ftd-gift-sweep') announcements.push(event);
+  });
+  await assert.rejects(h.reconcile(), /422/);
+  assert.equal(announcements.length, 0);
+  h.items[0].quantity = 2;
+  await h.reconcile();
+  assert.equal(h.posts().length, 1, 'the verified retry is a no-op');
+  assert.equal(announcements.length, 1);
+  assert.equal((await announcements[0].promise).detail.items[0].quantity, 2);
+  await h.reconcile();
+  assert.equal(announcements.length, 1, 'ordinary no-op checks do not keep announcing');
+});
+
 test('nonconverging successful writes are bounded per run and a later manual retry works', async () => {
   let ignoreUpdates = true;
   const h = environment({ items: [hydration(3), gift(2)], intercept: (call, cart) => {

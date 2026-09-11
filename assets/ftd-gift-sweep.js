@@ -284,8 +284,8 @@
       }
 
       if (needsAnnouncement) {
-        needsAnnouncement = false;
         announce(cart);
+        needsAnnouncement = false;
       }
       if (priceMismatch) throw new Error('The complimentary variant is no longer zero-priced.');
       if (dirty || pending.size || Date.now() < quietUntil) continue;
