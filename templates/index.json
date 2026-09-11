@@ -2418,7 +2418,7 @@
                 "case": "uppercase",
                 "text_effect": "none",
                 "animation_repeat": false,
-                "text_color": ""
+                "text_color": "{{ settings.color_palette.background }}"
               },
               "blocks": {}
             },
@@ -2437,7 +2437,7 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "text_color": "",
+                "text_color": "{{ settings.color_palette.background }}",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
@@ -2463,7 +2463,7 @@
         "media_height": "60svh",
         "section_width": "full-width",
         "extend_media": true,
-        "background_color": "",
+        "background_color": "#1FA8A1",
         "padding-block-start": 0,
         "padding-block-end": 0
       }
@@ -2957,7 +2957,7 @@
         "table_radius": 16,
         "section_width": "full-width",
         "content_max_width": 1360,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-b6fff204-2611-42ad-97a3-74dfcba91118",
         "padding-block-start": 64,
         "padding-block-end": 64,
         "custom_css": ""
