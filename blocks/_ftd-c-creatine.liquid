@@ -94,30 +94,47 @@
     {%- comment -%} ── Subscriptions buy it here, one per shipment ──
       The card above is one-time only: a monthly add-on is not a quantity you
       pick, it is a thing that ships with every order. {%- endcomment -%}
-    <div class="ftdc__upsell ftdc__upsell--creatine" data-slot="creatine-addon"
-         data-upsell-creatine hidden
-         data-variant="{{ v_id }}"
-         data-plan-monthly="{{ block.settings.loop_plan_monthly }}">
-      <div class="ftdc__upsell-media">
-        {%- if card_img != blank -%}<img src="{{ card_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
-      </div>
-      <div class="ftdc__upsell-body">
-        <p class="ftdc__upsell-title">{{ block.settings.label_monthly | default: 'Add Creatine' }}</p>
-        {%- if block.settings.desc_monthly != blank and block.settings.desc_monthly != '-' -%}
-          <p class="ftdc__upsell-desc">{{ block.settings.desc_monthly }}</p>
-        {%- endif -%}
-        <div class="ftdc__upsell-pricing">
-          <span class="ftdc__upsell-price">{{ block.settings.price_monthly }}</span>
-          {%- if block.settings.was_monthly != blank and block.settings.was_monthly != '-' -%}
-            <s class="ftdc__upsell-was">{{ block.settings.was_monthly }}</s>
-          {%- endif -%}
+    {%- comment -%}
+      __ PAID CREATINE UPSELL ("Add Creatine - 25% off") - OFF __
+
+      The subscription add-on row, on Loop plan 2852585628 ("Monthly Creatine -
+      25%"). Turned off, not deleted: the markup below is intact and deleting
+      this comment wrapper is the only step needed to bring it back.
+
+      Removing the markup is what switches it off, because the runtime reaches
+      the offer only through it and guards on finding it. creatineQty() returns 0
+      for a subscription with no data-creatine-input, so nothing is priced and
+      nothing is added; updateCreatineIncluded() skips a row it cannot find.
+      Buying creatine on a ONE-TIME order is unaffected, since that comes off the
+      card, which stays.
+
+      The free creatine is untouched and still arrives when the bundle earns it.
+
+        <div class="ftdc__upsell ftdc__upsell--creatine" data-slot="creatine-addon"
+             data-upsell-creatine hidden
+             data-variant="{{ v_id }}"
+             data-plan-monthly="{{ block.settings.loop_plan_monthly }}">
+          <div class="ftdc__upsell-media">
+            {%- if card_img != blank -%}<img src="{{ card_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
+          </div>
+          <div class="ftdc__upsell-body">
+            <p class="ftdc__upsell-title">{{ block.settings.label_monthly | default: 'Add Creatine' }}</p>
+            {%- if block.settings.desc_monthly != blank and block.settings.desc_monthly != '-' -%}
+              <p class="ftdc__upsell-desc">{{ block.settings.desc_monthly }}</p>
+            {%- endif -%}
+            <div class="ftdc__upsell-pricing">
+              <span class="ftdc__upsell-price">{{ block.settings.price_monthly }}</span>
+              {%- if block.settings.was_monthly != blank and block.settings.was_monthly != '-' -%}
+                <s class="ftdc__upsell-was">{{ block.settings.was_monthly }}</s>
+              {%- endif -%}
+            </div>
+          </div>
+          <div class="ftdc__upsell-toggle">
+            <input type="checkbox" id="ftdc-cr-{{ block.id }}" class="visually-hidden" data-creatine-input>
+            <label for="ftdc-cr-{{ block.id }}" class="ftdc__switch" aria-hidden="true"></label>
+          </div>
         </div>
-      </div>
-      <div class="ftdc__upsell-toggle">
-        <input type="checkbox" id="ftdc-cr-{{ block.id }}" class="visually-hidden" data-creatine-input>
-        <label for="ftdc-cr-{{ block.id }}" class="ftdc__switch" aria-hidden="true"></label>
-      </div>
-    </div>
+    {%- endcomment -%}
 
     {%- comment -%}
       ── SECOND CREATINE UPSELL — OFF ───────────────────────────────────────

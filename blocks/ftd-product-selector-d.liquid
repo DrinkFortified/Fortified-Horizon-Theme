@@ -237,29 +237,46 @@
       </button>
 
       {%- if addon != blank -%}
-        <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine>
-          <div class="ftdc__upsell-media">
-            {%- assign addon_img = block.settings.addon_image | default: addon.featured_image -%}
-            {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
-          </div>
-          <div class="ftdc__upsell-body">
-            <p class="ftdc__upsell-title" data-creatine-title>{{ block.settings.addon_label_monthly | default: 'Add Creatine — 50% off' }}</p>
-            <p class="ftdc__upsell-desc" data-creatine-desc>{{ block.settings.addon_desc_monthly | default: '' }}</p>
-            <div class="ftdc__upsell-pricing">
-              <span class="ftdc__upsell-price" data-creatine-price>{{ block.settings.addon_price_monthly | default: '$12.00' }}</span>
-              {%- if block.settings.addon_was_monthly != blank -%}<s class="ftdc__upsell-was" data-creatine-was>{{ block.settings.addon_was_monthly }}</s>{%- endif -%}
-            </div>
-          </div>
-          <div class="ftdc__upsell-toggle">
-            <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input
-                   data-variant="{{ addon_variant_id }}"
-                   data-plan-monthly="{{ block.settings.addon_loop_plan_monthly }}"
-                   data-plan-quarterly-free="{{ block.settings.addon_loop_plan_quarterly_free }}"
-                   data-plan-quarterly-50off="{{ block.settings.addon_loop_plan_quarterly_50off }}"
-                   data-discount-onetime="{{ block.settings.addon_discount_code_onetime }}">
-            <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
-          </div>
-        </div>
+        {%- comment -%}
+          __ PAID CREATINE UPSELL ("Add Creatine - 25% off") - OFF __
+
+          The subscription add-on row, on Loop plan 2852585628 ("Monthly Creatine -
+          25%"). Turned off, not deleted: the markup below is intact and deleting
+          this comment wrapper is the only step needed to bring it back.
+
+          Removing the markup is what switches it off, because the runtime reaches
+          the offer only through it and guards on finding it. creatineQty() returns 0
+          for a subscription with no data-creatine-input, so nothing is priced and
+          nothing is added; updateCreatineIncluded() skips a row it cannot find.
+          Buying creatine on a ONE-TIME order is unaffected, since that comes off the
+          card, which stays.
+
+          The free creatine is untouched and still arrives when the bundle earns it.
+
+                <div class="ftdc__upsell ftdc__upsell--creatine" data-upsell-creatine>
+                  <div class="ftdc__upsell-media">
+                    {%- assign addon_img = block.settings.addon_image | default: addon.featured_image -%}
+                    {%- if addon_img != blank -%}<img src="{{ addon_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">{%- endif -%}
+                  </div>
+                  <div class="ftdc__upsell-body">
+                    <p class="ftdc__upsell-title" data-creatine-title>{{ block.settings.addon_label_monthly | default: 'Add Creatine — 50% off' }}</p>
+                    <p class="ftdc__upsell-desc" data-creatine-desc>{{ block.settings.addon_desc_monthly | default: '' }}</p>
+                    <div class="ftdc__upsell-pricing">
+                      <span class="ftdc__upsell-price" data-creatine-price>{{ block.settings.addon_price_monthly | default: '$12.00' }}</span>
+                      {%- if block.settings.addon_was_monthly != blank -%}<s class="ftdc__upsell-was" data-creatine-was>{{ block.settings.addon_was_monthly }}</s>{%- endif -%}
+                    </div>
+                  </div>
+                  <div class="ftdc__upsell-toggle">
+                    <input type="checkbox" id="ftdc-cr-{{ sid }}" class="visually-hidden" data-creatine-input
+                           data-variant="{{ addon_variant_id }}"
+                           data-plan-monthly="{{ block.settings.addon_loop_plan_monthly }}"
+                           data-plan-quarterly-free="{{ block.settings.addon_loop_plan_quarterly_free }}"
+                           data-plan-quarterly-50off="{{ block.settings.addon_loop_plan_quarterly_50off }}"
+                           data-discount-onetime="{{ block.settings.addon_discount_code_onetime }}">
+                    <label for="ftdc-cr-{{ sid }}" class="ftdc__switch" aria-hidden="true"></label>
+                  </div>
+                </div>
+        {%- endcomment -%}
       {%- endif -%}
 
       {%- for ub in upsell_blocks -%}
