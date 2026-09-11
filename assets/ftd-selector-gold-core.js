@@ -1326,10 +1326,26 @@
     var dcard = $('[data-creatine-card]');
     var ot = state.plan === 'onetime' && creatineQty() > 0;
     var d = (ot && dcard) ? (dcard.dataset.discountOnetime || '') : '';
-    /* The build has not been near the cart until now. Put it in, group the
-       quarterly lines into their Loop bundle, then hand it over. */
-    commitToCart().then(function () {
+    /* The build has not been near the cart until now. Put it in, then hand it
+       over — and where the handover keeps the customer on this page, do NOT
+       wait for Loop before doing so.
+
+       A ceiling stopped a dead Loop endpoint from breaking Add to Cart, but it
+       still charged the customer the wait: five seconds of a button that looks
+       broken, before a drawer that was ready the whole time. The cart is
+       complete the moment /cart/add.js returns. Grouping is bookkeeping for
+       Loop's order webhook, so it can catch up behind an open drawer.
+
+       The checkout path is the exception and still waits. There the customer
+       leaves this page immediately, and a patch cut off mid-flight is a
+       subscription that never gets grouped. */
+    var groupLoopBundle = function () {
       return withTimeout(patchLoopBundle, LOOP_TIMEOUT_MS, 'Loop bundle grouping');
+    };
+
+    commitToCart().then(function () {
+      if (CTA_ADDS_TO_CART) return;
+      return groupLoopBundle();
     }).then(getCart).then(function (cart) {
       var ok = (cart.items || []).some(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
       if (!ok) throw new Error('Could not add your selections to the cart.');
@@ -1343,6 +1359,11 @@
              possible — pick one-time, add it, switch to monthly, build again.
              Both end up in the same cart, because a commit only ever adds. */
           clearDraft();
+          /* Grouping starts now and finishes on its own time. Its writes
+             announce themselves, so the drawer picks up the grouped state
+             whenever it lands rather than holding the drawer shut until it
+             does. */
+          try { groupLoopBundle(); } catch (_) {}
           /* Announce it as an 'add' — that is what makes the theme repaint the
              drawer with the finished bundle AND open it. openCartDrawer() is
              the backstop for a store with the auto-open setting switched off;

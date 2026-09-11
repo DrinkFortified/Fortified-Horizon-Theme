@@ -2446,8 +2446,8 @@
         "type": "checkbox",
         "id": "loop_cart_grouping",
         "label": "Let Loop draw bundled lines in the cart",
-        "default": true,
-        "info": "On, Loop takes every line carrying a _bundleId out of the normal cart list and redraws it as one bundle row with a single remove button. Off, those lines render as ordinary cart rows with their own quantity and remove controls. This only changes how the cart looks — the lines still carry _bundleId, so Loop still groups the order on its side."
+        "default": false,
+        "info": "OFF by default, deliberately. On, Loop takes every line carrying a _bundleId out of the normal cart list and promises to redraw it as one bundle row — but that row is drawn by Loop's script, from two calls to loopwork.co. When either is slow, blocked by a content blocker, or down, nothing is drawn and the customer's items are simply missing from a cart that still counts them. Off, those lines render as ordinary cart rows with their own quantity and remove controls, always. Either way the lines keep their _bundleId, so Loop still groups the order on its side — this only decides who draws the cart."
       }
     ]
   }
