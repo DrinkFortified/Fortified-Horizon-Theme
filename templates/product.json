@@ -992,7 +992,7 @@
           "type": "feature_row",
           "settings": {
             "label": "Sodium per serving",
-            "fortified_value": "1200mg",
+            "fortified_value": "1,200mg",
             "icon": "text"
           }
         },
@@ -1016,7 +1016,7 @@
           "type": "feature_row",
           "settings": {
             "label": "Magnesium Malate",
-            "fortified_value": "1000mg",
+            "fortified_value": "150mg",
             "icon": "check"
           }
         },

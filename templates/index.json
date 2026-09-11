@@ -2035,7 +2035,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Potassium",
-            "description": "150mg, from real coconut water. Works with sodium so water actually reaches your cells.",
+            "description": "200mg, from real coconut water. Works with sodium so water actually reaches your cells.",
             "icon": "shopify://shop_images/Potassium2-b.svg",
             "icon_color_override": ""
           }
@@ -2185,7 +2185,7 @@
             "media_type": "image",
             "image": "shopify://shop_images/Hero-2.webp",
             "category": "Precise Doses",
-            "caption": "1200mg sodium and 150mg magnesium. Not a sprinkle.",
+            "caption": "1,200mg sodium and 150mg magnesium. Not a sprinkle.",
             "show_icon": false,
             "icon": "shopify://shop_images/Logo_Shield_White.svg",
             "link": ""
@@ -2507,8 +2507,8 @@
             "coming_soon": false,
             "coming_soon_label": "Coming Soon",
             "spec_top": "D3 + K2",
-            "spec_1": "1,200MG MAGNESIUM",
-            "spec_2": "150MG SODIUM",
+            "spec_1": "1,200MG SODIUM",
+            "spec_2": "150MG MAGNESIUM",
             "spec_3": "-",
             "flavor_option": "-",
             "loop_plan_monthly": "2852487324",
@@ -2524,8 +2524,8 @@
             "coming_soon": false,
             "coming_soon_label": "Coming Soon",
             "spec_top": "150mg CAFFEINE",
-            "spec_1": "1,200MG MAGNESIUM",
-            "spec_2": "150MG SODIUM",
+            "spec_1": "1,200MG SODIUM",
+            "spec_2": "150MG MAGNESIUM",
             "spec_3": "-",
             "flavor_option": "-",
             "loop_plan_monthly": "2852487324",
@@ -2541,8 +2541,8 @@
             "coming_soon": true,
             "coming_soon_label": "Coming Soon",
             "spec_top": "Creatine",
-            "spec_1": "1,200MG MAGNESIUM",
-            "spec_2": "150MG SODIUM",
+            "spec_1": "1,200MG SODIUM",
+            "spec_2": "150MG MAGNESIUM",
             "spec_3": "5gr Creatine",
             "flavor_option": "-",
             "loop_plan_monthly": "2852487324",
@@ -2869,7 +2869,7 @@
           "type": "feature_row",
           "settings": {
             "label": "Sodium per serving",
-            "fortified_value": "1200mg",
+            "fortified_value": "1,200mg",
             "icon": "text"
           }
         },
@@ -2893,7 +2893,7 @@
           "type": "feature_row",
           "settings": {
             "label": "Magnesium Malate",
-            "fortified_value": "1000mg",
+            "fortified_value": "150mg",
             "icon": "check"
           }
         },
@@ -2978,10 +2978,10 @@
           "settings": {
             "image": "shopify://shop_images/Fortified_-_Shield.svg",
             "title": "Pink Himalayan Sodium",
-            "description": "1,210mg from Ancient Ocean® Pink Himalayan Salt — the electrolyte you lose most, dosed to actually replace it.",
+            "description": "1,200mg from Ancient Ocean® Pink Himalayan Salt — the electrolyte you lose most, dosed to actually replace it.",
             "button_label": "Learn More",
             "button_link": "",
-            "stat_number": "1200MG",
+            "stat_number": "1,200MG",
             "stat_label": "Per Serving",
             "fact_title": "Why It Matters",
             "fact_text": "Sodium drives fluid absorption so water reaches your cells instead of passing through."
@@ -2991,10 +2991,10 @@
           "type": "row",
           "settings": {
             "title": "Magnesium Malate",
-            "description": "1,000mg of one of the most bioavailable magnesium forms — supports energy, muscle function, and calm.",
+            "description": "150mg of magnesium in one of its most bioavailable forms — supports energy, muscle function, and calm.",
             "button_label": "Learn More",
             "button_link": "",
-            "stat_number": "1200MG",
+            "stat_number": "150MG",
             "stat_label": "Per Serving",
             "fact_title": "Why It Matters",
             "fact_text": "Most people quietly run low on magnesium from food alone."
@@ -3038,10 +3038,10 @@
           "type": "row",
           "settings": {
             "title": "Magnesium Malate",
-            "description": "1,000mg bioavailable magnesium to support steady energy and recovery on your most active days.",
+            "description": "150mg bioavailable magnesium to support steady energy and recovery on your most active days.",
             "button_label": "Learn More",
             "button_link": "",
-            "stat_number": "1200MG",
+            "stat_number": "150MG",
             "stat_label": "Per Serving",
             "fact_title": "Why It Matters",
             "fact_text": "Replaces a mineral you sweat out and rarely get enough of."
@@ -3054,7 +3054,7 @@
             "description": "From CocOganic® Plus — real-food potassium that rounds out the complete electrolyte matrix.",
             "button_label": "Learn More",
             "button_link": "",
-            "stat_number": "1200MG",
+            "stat_number": "200MG",
             "stat_label": "Per Serving",
             "fact_title": "Why It Matters",
             "fact_text": "Potassium works with sodium to keep your fluids in balance."
@@ -3834,7 +3834,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<h2>Why we exist</h2><p>Most “hydration” drinks are flavored sugar water pretending to be healthy. We built FORTIFIED™ differently, because the label should tell the truth, and the dose should actually do something.</p><p>Every blend starts with a transparent electrolyte base: 1,210mg sodium from Ancient Ocean® Pink Himalayan Salt, 150mg magnesium malate, 200mg potassium. From there we stack in function,  EVERYDAY - Vitamin D3 + K2 for daily structure/function support, ENERGY - with natural caffeine from real coffee bean for clean energy* No proprietary blends. No Mumbo Jumbor - ust real ingredients that pull their weight.</p><h2>The label promise</h2><ul><li>Every milligram disclosed. No proprietary blends, ever.</li><li>Zero sugar, zero artificial sweeteners. Sweetened with monk fruit and fermented Reb M, no Stevia, never sucralose or aspartame.</li><li>Real minerals. Sodium from Ancient Ocean®  Pink Himalayan Salt. Potassium from real coconut water. Magnesium as malate, not oxide.</li><li>Natural caffeine. From real coffee bean, never caffeine anhydrous, never synthetic stimulants.</li><li>Single-ingredient supplements. Our Creatine Monohydrate is one ingredient. That's the whole label.</li></ul><h2>How it's made</h2><p>FORTIFIED™ products are manufactured in the USA in a cGMP-compliant facility, with raw ingredients third-party tested before they go into a stick pack. Our flavor systems use Organic Flavors & Organic Lemon Juice Powder, Salty Orange and Salty Watermelon,  so what's on the front of the pouch matches what's on the back.</p><h2>Our mission</h2><p>To help you hydrate with purpose.</p><p>Our mission is to “Inspire people to live better healthier lives through body, mind and spirit.</p><h2>Built for label-readers, by label-readers.</h2><p>If you've ever flipped a pouch over, googled the seventh ingredient, and put it back on the shelf,  this brand was built for you. <a href=\"https://ecqc3ezgq3h03qbr-75594465436.shopifypreview.com/collections/all\">Shop the lineup</a> or <a href=\"https://ecqc3ezgq3h03qbr-75594465436.shopifypreview.com/pages/why-fortified\">read about why we built it this way</a>.</p><p>* These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease.</p>",
+                        "text": "<h2>Why we exist</h2><p>Most “hydration” drinks are flavored sugar water pretending to be healthy. We built FORTIFIED™ differently, because the label should tell the truth, and the dose should actually do something.</p><p>Every blend starts with a transparent electrolyte base: 1,200mg sodium from Ancient Ocean® Pink Himalayan Salt, 150mg magnesium malate, 200mg potassium. From there we stack in function,  EVERYDAY - Vitamin D3 + K2 for daily structure/function support, ENERGY - with natural caffeine from real coffee bean for clean energy* No proprietary blends. No Mumbo Jumbor - ust real ingredients that pull their weight.</p><h2>The label promise</h2><ul><li>Every milligram disclosed. No proprietary blends, ever.</li><li>Zero sugar, zero artificial sweeteners. Sweetened with monk fruit and fermented Reb M, no Stevia, never sucralose or aspartame.</li><li>Real minerals. Sodium from Ancient Ocean®  Pink Himalayan Salt. Potassium from real coconut water. Magnesium as malate, not oxide.</li><li>Natural caffeine. From real coffee bean, never caffeine anhydrous, never synthetic stimulants.</li><li>Single-ingredient supplements. Our Creatine Monohydrate is one ingredient. That's the whole label.</li></ul><h2>How it's made</h2><p>FORTIFIED™ products are manufactured in the USA in a cGMP-compliant facility, with raw ingredients third-party tested before they go into a stick pack. Our flavor systems use Organic Flavors & Organic Lemon Juice Powder, Salty Orange and Salty Watermelon,  so what's on the front of the pouch matches what's on the back.</p><h2>Our mission</h2><p>To help you hydrate with purpose.</p><p>Our mission is to “Inspire people to live better healthier lives through body, mind and spirit.</p><h2>Built for label-readers, by label-readers.</h2><p>If you've ever flipped a pouch over, googled the seventh ingredient, and put it back on the shelf,  this brand was built for you. <a href=\"https://ecqc3ezgq3h03qbr-75594465436.shopifypreview.com/collections/all\">Shop the lineup</a> or <a href=\"https://ecqc3ezgq3h03qbr-75594465436.shopifypreview.com/pages/why-fortified\">read about why we built it this way</a>.</p><p>* These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease.</p>",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -4686,8 +4686,8 @@
                 "coming_soon": false,
                 "coming_soon_label": "Coming Soon",
                 "spec_top": "D3 + K2",
-                "spec_1": "1,200MG MAGNESIUM",
-                "spec_2": "150MG SODIUM",
+                "spec_1": "1,200MG SODIUM",
+                "spec_2": "150MG MAGNESIUM",
                 "spec_3": "-",
                 "flavor_option": "-",
                 "loop_plan_monthly": "2852487324",
@@ -4703,8 +4703,8 @@
                 "coming_soon": false,
                 "coming_soon_label": "Coming Soon",
                 "spec_top": "150mg CAFFEINE",
-                "spec_1": "1,200MG MAGNESIUM",
-                "spec_2": "150MG SODIUM",
+                "spec_1": "1,200MG SODIUM",
+                "spec_2": "150MG MAGNESIUM",
                 "spec_3": "-",
                 "flavor_option": "-",
                 "loop_plan_monthly": "2852487324",

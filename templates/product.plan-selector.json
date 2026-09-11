@@ -360,8 +360,8 @@
                     "coming_soon": false,
                     "coming_soon_label": "Coming Soon",
                     "spec_top": "D3 + K2",
-                    "spec_1": "1,200MG MAGNESIUM",
-                    "spec_2": "150MG SODIUM",
+                    "spec_1": "1,200MG SODIUM",
+                    "spec_2": "150MG MAGNESIUM",
                     "spec_3": "-",
                     "flavor_option": "-",
                     "loop_plan_monthly": "2852487324",
@@ -377,8 +377,8 @@
                     "coming_soon": false,
                     "coming_soon_label": "Coming Soon",
                     "spec_top": "150mg CAFFEINE",
-                    "spec_1": "1,200MG MAGNESIUM",
-                    "spec_2": "150MG SODIUM",
+                    "spec_1": "1,200MG SODIUM",
+                    "spec_2": "150MG MAGNESIUM",
                     "spec_3": "-",
                     "flavor_option": "-",
                     "loop_plan_monthly": "2852487324",
@@ -758,7 +758,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Sodium",
-            "description": "1,210mg from Ancient Ocean® Pink Himalayan Salt to drive real hydration.",
+            "description": "1,200mg from Ancient Ocean® Pink Himalayan Salt to drive real hydration.",
             "icon_color_override": ""
           }
         },
@@ -774,7 +774,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Magnesium",
-            "description": "1,000mg magnesium malate — a highly bioavailable form for energy and recovery.",
+            "description": "150mg magnesium from magnesium malate — a highly bioavailable form for energy and recovery.",
             "icon_color_override": ""
           }
         },
@@ -860,7 +860,7 @@
         "stat_3y7DCP": {
           "type": "stat",
           "settings": {
-            "number": "1,210mg",
+            "number": "1,200mg",
             "label": "Sodium Per Serving",
             "description": "From Ancient Ocean® Pink Himalayan Salt to drive real hydration.",
             "number_color": "",
@@ -1024,7 +1024,7 @@
           "type": "feature_row",
           "settings": {
             "label": "Sodium per serving",
-            "fortified_value": "1200mg",
+            "fortified_value": "1,200mg",
             "icon": "text"
           }
         },
@@ -1048,7 +1048,7 @@
           "type": "feature_row",
           "settings": {
             "label": "Magnesium Malate",
-            "fortified_value": "1000mg",
+            "fortified_value": "150mg",
             "icon": "check"
           }
         },
@@ -1146,7 +1146,7 @@
           "type": "nutrient",
           "settings": {
             "label": "Sodium",
-            "amount": "1210mg",
+            "amount": "1,200mg",
             "daily_value": "53%",
             "indent_level": 0,
             "bold_label": true,
@@ -1222,7 +1222,7 @@
         "callout_7qd93w": {
           "type": "callout",
           "settings": {
-            "title": "Why 1,210mg sodium?",
+            "title": "Why 1,200mg sodium?",
             "body": "Sodium is the primary electrolyte lost in sweat and drives fluid absorption via sodium-glucose cotransport in the small intestine.",
             "accent_color": "#1fa8a1"
           }

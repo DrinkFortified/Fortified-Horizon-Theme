@@ -363,7 +363,7 @@
         "text_lp_marquee": {
           "type": "text",
           "settings": {
-            "text": "<p>Zero Sugar · Zero Artificial Sweeteners · Every Milligram Disclosed · 1,210mg Sodium · Real Minerals · No Crash</p>",
+            "text": "<p>Zero Sugar · Zero Artificial Sweeteners · Every Milligram Disclosed · 1,200mg Sodium · Real Minerals · No Crash</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -414,8 +414,8 @@
             "function_label": "Everyday Hydration",
             "product": "everyday",
             "coming_soon": false,
-            "spec_1": "1,210mg Sodium",
-            "spec_2": "1,000mg Magnesium",
+            "spec_1": "1,200mg Sodium",
+            "spec_2": "150mg Magnesium",
             "spec_3": "Vitamin D3 + K2",
             "description": "Real minerals + Vitamin D3 and K2. Caffeine-free, any time of day.",
             "flavor_option": "",
@@ -432,8 +432,8 @@
             "product": "energy",
             "coming_soon": false,
             "spec_1": "152mg Natural Caffeine",
-            "spec_2": "1,210mg Sodium",
-            "spec_3": "1,000mg Magnesium",
+            "spec_2": "1,200mg Sodium",
+            "spec_3": "150mg Magnesium",
             "description": "Real coffee-bean caffeine + the full electrolyte stack. No anhydrous, no crash.",
             "flavor_option": "",
             "manual_flavors": "Original\nWatermelon\nBerry",
@@ -444,7 +444,7 @@
         "lp_ps_benefit_1": {
           "type": "benefit_item",
           "settings": {
-            "text": "1,210mg Sodium Per Serving"
+            "text": "1,200mg Sodium Per Serving"
           }
         },
         "lp_ps_benefit_2": {
@@ -574,7 +574,7 @@
         "i1": {
           "type": "ingredient",
           "settings": {
-            "name": "1,210mg Sodium",
+            "name": "1,200mg Sodium",
             "description": "From Ancient Ocean® Pink Himalayan Salt — the electrolyte you sweat out most.",
             "icon_color_override": ""
           }
@@ -582,7 +582,7 @@
         "i2": {
           "type": "ingredient",
           "settings": {
-            "name": "1,000mg Magnesium",
+            "name": "150mg Magnesium",
             "description": "As bioavailable magnesium malate — supports energy and muscle function.",
             "icon_color_override": ""
           }
@@ -737,7 +737,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Sodium",
-            "description": "1,210mg from Ancient Ocean® Pink Himalayan Salt — the electrolyte you lose most.",
+            "description": "1,200mg from Ancient Ocean® Pink Himalayan Salt — the electrolyte you lose most.",
             "tag_label": "Hydration",
             "tag_color": "#1fa8a1",
             "link": ""
@@ -747,7 +747,7 @@
           "type": "ingredient",
           "settings": {
             "name": "Magnesium",
-            "description": "1,000mg of bioavailable magnesium malate for energy, muscle function, and calm.",
+            "description": "150mg of magnesium from bioavailable magnesium malate for energy, muscle function, and calm.",
             "tag_label": "Recovery",
             "tag_color": "#1fa8a1",
             "link": ""
@@ -808,7 +808,7 @@
           "type": "feature_row",
           "settings": {
             "label": "Sodium per serving",
-            "fortified_value": "1,210mg",
+            "fortified_value": "1,200mg",
             "icon": "text"
           }
         },
@@ -832,7 +832,7 @@
           "type": "feature_row",
           "settings": {
             "label": "Magnesium per serving",
-            "fortified_value": "1,000mg",
+            "fortified_value": "150mg",
             "icon": "text"
           }
         },
