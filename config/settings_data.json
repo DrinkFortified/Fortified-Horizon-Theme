@@ -120,9 +120,14 @@
         "disabled": false,
         "settings": {}
       },
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      },
       "18272643779398082604": {
         "type": "shopify://apps/timesact-pre-order/blocks/app-embed-v2/bf6c109b-79b5-457c-8752-0e5e9e9676e7",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "debug_mode": false,
           "add_to_cart_text": "Add to cart",
@@ -131,9 +136,9 @@
           "use_custom_script": false
         }
       },
-      "14060646107696862457": {
-        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": false,
+      "4061484991452085298": {
+        "type": "shopify://apps/commslayer-helpdesk-chat/blocks/chat-widget/e555a08e-ceaa-4a9b-ab9f-a58bccbfc762",
+        "disabled": true,
         "settings": {}
       }
     },
