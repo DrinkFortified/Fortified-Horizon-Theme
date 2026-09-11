@@ -856,7 +856,8 @@ test('checkout waits through the 300 ms stepper debounce and mutation, preservin
   assert.equal(submission.method, 'post');
   assert.equal(submission.target, '_self');
   assert.equal(submission.enctype, 'application/x-www-form-urlencoded');
-  assert.deepEqual(submission.fields, [['note', note.value], ['updates[]', '2'], ['checkout', 'Checkout']]);
+  assert.deepEqual(submission.fields, [['note', note.value], ['updates[hydration]', '2'], ['checkout', 'Checkout']]);
+  assert.equal(quantity.disabled, false, 'original quantity control is restored after submission');
   assert.equal(submission.submitter, button);
   assert.equal(nativeSubmitEvents, 1, 'downstream submit handlers run on the validated native replay only');
   assert.equal(button.getAttribute('aria-busy'), null);
@@ -904,7 +905,11 @@ test('replaced cart form and external submitter retain checkout name, overrides,
   assert.equal(submitted.target, '_top');
   assert.equal(submitted.enctype, 'multipart/form-data');
   assert.equal(submitted.submitter.getAttribute('formnovalidate'), '');
-  assert.deepEqual(submitted.fields, [['note', 'Current server-rendered note'], ['checkout', 'Checkout']]);
+  assert.deepEqual(submitted.fields, [
+    ['note', 'Current server-rendered note'],
+    ...h.items.map((line) => [`updates[${line.key}]`, String(line.quantity)]),
+    ['checkout', 'Checkout'],
+  ]);
   assert.equal(replacement.form.children.length, 1, 'temporary submitter is cleaned up');
 });
 
@@ -934,6 +939,76 @@ test('native requestSubmit replay respects validation changes made during reconc
   await h.clock.tick(1000);
   assert.equal(h.document.submissions.length, 0);
   assert.equal(h.gifts().length, 1);
+});
+
+test('gift-first native checkout uses verified keyed quantities, not the incomplete or stale positional form', async () => {
+  const h = environment({ items: [gift(), hydration(3)] });
+  const { form, button, note } = h.form();
+  const positional = h.document.createElement('input');
+  positional.name = 'updates[]';
+  positional.value = '3'; // Only hydration has an input; gift is cart line one.
+  form.appendChild(positional);
+  const staleKeyed = h.document.createElement('input');
+  staleKeyed.name = 'updates[hydration]';
+  staleKeyed.value = '6';
+  staleKeyed.setAttribute('form', form.id);
+  h.document.body.appendChild(staleKeyed);
+  const initiallyDisabled = h.document.createElement('input');
+  initiallyDisabled.name = 'updates[obsolete-key]';
+  initiallyDisabled.value = '9';
+  initiallyDisabled.disabled = true;
+  form.appendChild(initiallyDisabled);
+  button.click();
+  // Simulate late stale section HTML while the checkout guard is waiting.
+  positional.value = '12';
+  staleKeyed.value = '10';
+  await h.clock.tick(1000);
+  assert.equal(h.document.submissions.length, 1);
+  assert.deepEqual(h.document.submissions[0].fields, [
+    ['note', note.value], ['updates[gift]', '1'], ['updates[hydration]', '3'], ['checkout', 'Checkout'],
+  ]);
+  assert.equal(positional.disabled, false);
+  assert.equal(positional.value, '12', 'DOM control state is not rewritten or lost');
+  assert.equal(staleKeyed.disabled, false, 'external associated controls are restored too');
+  assert.equal(initiallyDisabled.disabled, true);
+  assert.equal(form.children.length, 3, 'temporary hidden quantity controls are removed');
+});
+
+test('keyed quantity controls are cleaned up when native validation or another submit handler cancels', async () => {
+  for (const reason of ['validation', 'handler']) {
+    const h = environment({ items: [gift(), hydration(3)] });
+    const { form, button } = h.form();
+    const quantity = h.document.createElement('input');
+    quantity.name = 'updates[]';
+    quantity.value = '3';
+    form.appendChild(quantity);
+    if (reason === 'handler') h.document.addEventListener('submit', (event) => event.preventDefault());
+    button.click();
+    if (reason === 'validation') form.valid = false;
+    await h.clock.tick(1000);
+    assert.equal(h.document.submissions.length, 0);
+    assert.equal(quantity.disabled, false);
+    assert.equal(form.children.length, 2);
+    assert.equal(button.getAttribute('aria-busy'), null);
+  }
+});
+
+test('checkout fails safely if verified cart lines lack safe unique keys', async () => {
+  for (const key of [undefined, '', 'gift', 'invalid[key]']) {
+    const h = environment({ items: [gift(), hydration(3, { key })] });
+    const { form, button } = h.form();
+    const quantity = h.document.createElement('input');
+    quantity.name = 'updates[]';
+    quantity.value = '3';
+    form.appendChild(quantity);
+    button.click();
+    await h.clock.tick(1000);
+    assert.equal(h.document.submissions.length, 0);
+    assert.equal(h.error().hidden, false);
+    assert.equal(h.document.activeElement, h.error());
+    assert.equal(quantity.disabled, false);
+    assert.equal(form.children.length, 2);
+  }
 });
 
 test('checkout links wait for pending mutations and reconciliation, with one activation for repeated clicks', async () => {

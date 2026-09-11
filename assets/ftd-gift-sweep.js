@@ -360,8 +360,9 @@
     // promise yet, even if checkout was clicked immediately afterwards.
     noteActivity(STEPPER_SETTLE_MS);
     checkoutTask = (async function () {
-      do { await reconcile(); } while (dirty || pending.size || Date.now() < quietUntil);
-      resume();
+      var cart;
+      do { cart = await reconcile(); } while (dirty || pending.size || Date.now() < quietUntil);
+      resume(cart);
     })().catch(function (error) {
       showError(error, true);
     }).finally(function () {
@@ -371,6 +372,45 @@
         else control.setAttribute('aria-busy', priorBusy);
       }
     });
+  }
+
+  function verifiedQuantityFields(form, cart) {
+    var keys = new Set();
+    cart.items.forEach(function (line) {
+      if (typeof line.key !== 'string' || !line.key || /[\[\]]/.test(line.key) || keys.has(line.key) ||
+        !Number.isSafeInteger(Number(line.quantity)) || Number(line.quantity) < 0) {
+        throw new Error('Cart quantities could not be verified. Please try checkout again.');
+      }
+      keys.add(line.key);
+    });
+    var disabled = [];
+    var inputs = [];
+    function restore() {
+      inputs.forEach(function (input) { input.remove(); });
+      disabled.forEach(function (entry) { entry.control.disabled = entry.value; });
+    }
+    try {
+      // Locked gift rows have no updates[] input, and a pending section render
+      // can leave stale quantities in the DOM. Never submit that positional
+      // array: it can put a hydration quantity onto the preceding gift line.
+      Array.prototype.slice.call(form.elements).forEach(function (control) {
+        if (control.name !== 'updates' && !/^updates\[/.test(control.name || '')) return;
+        disabled.push({ control: control, value: control.disabled });
+        control.disabled = true;
+      });
+      cart.items.forEach(function (line) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'updates[' + line.key + ']';
+        input.value = String(line.quantity);
+        inputs.push(input);
+        form.appendChild(input);
+      });
+    } catch (error) {
+      restore();
+      throw error;
+    }
+    return restore;
   }
 
   function onSubmit(event) {
@@ -388,7 +428,7 @@
         if (value !== null) attributes[name] = value;
       });
     }
-    guardCheckout(function () {
+    guardCheckout(function (cart) {
       var form = originalForm.isConnected ? originalForm : formId && document.getElementById(formId);
       if (!form || !form.isConnected) throw new Error('The cart form changed. Please try checkout again.');
       var button = submitter;
@@ -402,7 +442,9 @@
         button = temporary;
       }
       resumingForm = form;
+      var restoreQuantities;
       try {
+        restoreQuantities = verifiedQuantityFields(form, cart);
         // requestSubmit preserves native validation, submit handlers, name/value,
         // form action/method/target and other successful controls. Never replace
         // the cart POST with location = '/checkout' or call form.submit().
@@ -412,6 +454,7 @@
         else throw new Error('Please use the Checkout button to continue.');
       } finally {
         resumingForm = null;
+        if (restoreQuantities) restoreQuantities();
         if (temporary) temporary.remove();
       }
     }, submitter || originalForm);
