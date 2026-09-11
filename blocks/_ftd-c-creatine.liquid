@@ -226,8 +226,8 @@
         {%- endif -%}
       </div>
       <div class="ftdc__upsell-body">
-        <p class="ftdc__upsell-title">{{ block.settings.included_title | default: 'Creatine — Included' }}</p>
-        <p class="ftdc__upsell-desc">{{ block.settings.included_desc | default: 'Free with your first order.' }}</p>
+        <p class="ftdc__upsell-title">{{ block.settings.included_title | default: 'FREE Lifetime Creatine' }}</p>
+        <p class="ftdc__upsell-desc">{{ block.settings.included_desc | default: 'Your first creatine is added automatically.' }}</p>
         <div class="ftdc__upsell-pricing">
           <span class="ftdc__upsell-price ftdc__upsell-price--free">{{ block.settings.included_price_text | default: 'FREE' }}</span>
         </div>
@@ -407,7 +407,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Shown while the build is still short of the free creatine, with a bar that fills as bags are added. It swaps for the gift row below the moment the threshold is reached. The number in the copy should match \"Free creatine at N pouches\" in the section settings."
+      "content": "Shown while fewer than 3 hydration bags with a valid subscription plan are selected. It swaps for the gift row at 3 or more. The cart uses the same three-unit rule across all pages."
     },
     {
       "type": "text",
@@ -434,14 +434,14 @@
       "type": "text",
       "id": "included_title",
       "label": "Title",
-      "default": "Creatine — Included"
+      "default": "FREE Lifetime Creatine"
     },
     {
       "type": "text",
       "id": "included_desc",
       "label": "Description",
-      "default": "Free with your first order.",
-      "info": "The gift is first-order only — a one-off line with no selling plan, zeroed by the 3PackFree automatic discount. Do not promise it on every renewal."
+      "default": "Your first creatine is added automatically.",
+      "info": "The theme adds one zero-priced creatine without a selling plan to the initial cart. Loop manages renewal eligibility separately; no extra plan is created here."
     },
     {
       "type": "text",

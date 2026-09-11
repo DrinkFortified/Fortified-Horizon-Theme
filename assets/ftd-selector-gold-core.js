@@ -44,13 +44,13 @@
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
   var BUNDLE_COUNT = parseInt(C.BUNDLE_COUNT, 10) || 3;
-  /* Pouches needed to earn the free creatine. Must match the "Buy N" side
-     of the 3PackFree automatic discount in Shopify. */
-  var GIFT_MIN = parseInt(C.GIFT_MIN, 10) || 3;
-  /* Whether the free creatine is on offer at all. Absent means on: a section
-     saved before this setting existed should keep the behaviour it had, not
-     quietly withdraw the gift. Only an explicit false turns it off. */
-  var GIFT_ON = C.GIFT_ON !== false;
+  /* The global service owns the exact three-subscription-Hydration rule.
+     Section settings cannot change the threshold or withdraw a global gift. */
+  var giftService = window.FtdCreatineGift;
+  var giftConfig = (giftService && giftService.config) || {};
+  var GIFT_MIN = Number(giftConfig.minimum) || 3;
+  var GIFT_ON = !!(giftConfig.available && giftService &&
+    typeof giftService.giftItem === 'function' && giftService.giftItem());
   /* Counter under the progress bar. Read from the block's own setting when it
      is there, so the copy stays with the row it belongs to. */
   var PROGRESS_NOTE = (function () {
@@ -105,29 +105,14 @@
     var img = imgEl ? (imgEl.currentSrc || imgEl.getAttribute('src') || '') : '';
 
     if (giftQualifies()) {
-      /* Quoted at the promise, because this is a quote. The gift is zeroed by
-         a Shopify automatic discount, and nothing on the page can know whether
-         that fired until the order is actually in the cart — which the drawer
-         then shows, priced for real, a second after Add to Cart. */
       out.push({
-        name: 'Creatine',
-        note: 'Free with your first order',
+        name: 'FREE Lifetime Creatine',
+        note: 'Auto-added to your first order; renewals managed by your subscription',
         priceText: 'FREE',
         cents: 0,
-        savedCents: parseMoney(txt('[data-creatine-was]')),
+        /* A zero-price gift is not a discount against a marketing was-price. */
+        savedCents: 0,
         free: true, imgSrc: img
-      });
-    }
-
-    /* Quarterly's discounted second unit. */
-    var cr2a = $('[data-creatine2-input]');
-    if (state.plan === 'quarterly' && cr2a && cr2a.checked) {
-      var p2a = parseMoney(txt('[data-creatine2-price]'));
-      out.push({
-        name: txt('[data-creatine2-title]') || '2nd Creatine', note: '',
-        priceText: txt('[data-creatine2-price]'), cents: p2a,
-        savedCents: Math.max(0, parseMoney(txt('[data-creatine2-was]')) - p2a),
-        free: false, imgSrc: img
       });
     }
 
@@ -139,7 +124,7 @@
          subscription's. Read whichever is actually on screen. */
       var priceSel = state.plan === 'onetime' ? '[data-creatine-price]' : '[data-upsell-creatine] .ftdc__upsell-price';
       var wasSel   = state.plan === 'onetime' ? '[data-creatine-was]'   : '[data-upsell-creatine] .ftdc__upsell-was';
-      /* Merchant-typed marketing prices, same as the gift row above: a quote
+      /* Merchant-typed marketing prices: a quote
          of what the configured discounts should deliver, not a reading of a
          cart line. The cart is the authority and answers a moment later. */
       var unit = parseMoney(txt(priceSel));
@@ -178,11 +163,9 @@
 
      What still belongs to the cart: lines we have already committed. We do
      not track or re-own them — the cart drawer edits them like any other
-     line. The one exception is the free creatine, which is only free while
-     the bundle that earned it is still there; see sweepUnearnedGift().
+     line. The global FtdCreatineGift service alone maintains the gift.
      ============================================================ */
-  /* Shopify's standard cart event. Declared up here because the gift sweep
-     below listens for it, long before the announce block that sends it. */
+  /* Shopify's standard cart event, used when handing the final cart to the UI. */
   var STD_CART_EVENT = 'shopify:cart:lines-update';
   var CART_SEL = '_sel';
   var CART_OWNER = 'ftdc-d'; /* shared by every Product Selector D surface so the section + slide-over read/write the same cart lines */
@@ -248,7 +231,19 @@
     return cartRead;
   }
 
-  /* Exact line set this builder should own, with identity properties. */
+  /* Liquid emits plan IDs only when allocated to this specific variant.
+     Reject malformed IDs too: parseInt alone would accept "123-invalid". */
+  function selectedPlanId(s) {
+    var value = state.plan === 'monthly' ? s.planMonthly
+      : state.plan === 'quarterly' ? s.planQuarterly : '';
+    var text = String(value || '').trim();
+    var id = Number(text);
+    return /^\d+$/.test(text) && id > 0 && id <= 9007199254740991 ? id : 0;
+  }
+  function isSubscription() { return state.plan === 'monthly' || state.plan === 'quarterly'; }
+
+  /* Gold adds selections, never the gift. Missing allocations must fail before
+     any POST, rather than silently selling a "subscription" as one-time. */
   function desiredItems() {
     var items = [];
     Object.keys(state.selections).forEach(function (k) {
@@ -257,19 +252,19 @@
       if (s.fnLabel) props._fn = s.fnLabel;
       if (s.flavorName) props._flavor = s.flavorName;
       var it = { id: parseInt(s.variantId, 10), quantity: s.qty, properties: props };
-      if (state.plan === 'monthly') { var pm = parseInt(s.planMonthly, 10); if (pm) it.selling_plan = pm; }
-      else if (state.plan === 'quarterly') { var pq = parseInt(s.planQuarterly, 10); if (pq) it.selling_plan = pq; }
+      if (isSubscription()) {
+        var planId = selectedPlanId(s);
+        if (!planId) {
+          throw new Error('The ' + state.plan + ' subscription is unavailable for ' +
+            (s.flavorName || s.fnLabel || 'a selected item') +
+            '. Choose another item or plan. Nothing was added to your cart.');
+        }
+        it.selling_plan = planId;
+      }
       items.push(it);
     });
-    /* Two creatine lines, never one. The gift carries _role=creatine and no
-       selling plan, which is both how 3PackFree can reach it and how the
-       eviction knows it is ours to take back. Anything BOUGHT carries
-       _role=creatine-buy, so withdrawing the gift can never remove it — and
-       so the two do not collapse into a single cart line, since lineSig()
-       keys on role.
-
-       Creatine is still an add-on to a hydration order and is never sent on
-       its own; the flavour grid is where a pouch gets chosen. */
+    /* Intentional paid add-ons remain disabled by creatineQty(). If restored,
+       they must stay separate from the gift and must not receive a plan. */
     var card = $('[data-creatine-card]');
     /* Creatine is an add-on to a hydration order on a subscription — it must
        not ship alone on a plan whose whole point is the pouches. A one-time
@@ -278,173 +273,73 @@
     if (card && (hasPouches || state.plan === 'onetime')) {
       var cv = parseInt(card.dataset.variant, 10);
       if (cv) {
-        if (giftQualifies()) {
-          var gp = {}; gp[CART_SEL] = CART_OWNER; gp._role = 'creatine';
-          gp._upsell = 'creatine-first-order-free';
-          items.push({ id: cv, quantity: 1, properties: gp });
-        }
         var bought = creatineQty();
         if (bought > 0) {
           var bp = {}; bp[CART_SEL] = CART_OWNER; bp._role = 'creatine-buy';
           var bi = { id: cv, quantity: bought, properties: bp };
-          if (state.plan === 'monthly') {
-            var pm2 = parseInt(card.dataset.planMonthly, 10);
-            if (pm2) bi.selling_plan = pm2;
-          } else if (state.plan === 'onetime') {
+          if (state.plan === 'onetime') {
             bp._upsell = 'creatine-onetime';
           }
           items.push(bi);
         }
       }
     }
-    /* Quarterly's discounted second unit: its own line, its own selling plan. */
-    var cr2d = $('[data-creatine2-input]');
-    var card2d = $('[data-creatine-card]');
-    if (state.plan === 'quarterly' && cr2d && cr2d.checked && card2d && Object.keys(state.selections).length > 0) {
-      var v2d = parseInt(card2d.dataset.variant, 10);
-      var row2d = $('[data-upsell-creatine2]');
-      var p50d = row2d ? parseInt(row2d.getAttribute('data-plan-quarterly-50off'), 10) : 0;
-      if (v2d && p50d) {
-        var cp2d = {}; cp2d[CART_SEL] = CART_OWNER; cp2d._role = 'creatine2';
-        items.push({ id: v2d, quantity: 1, selling_plan: p50d, properties: cp2d });
-      }
-    }
     return items;
   }
 
-  /* Put the finished build into the cart. The only place this file writes
-     lines, and it runs only when the customer presses Add to Cart.
+  /* Do not use the legacy shim's safe catch here: a failed gift sync must be
+     visible. The service returns the final cart after its own writes settle. */
+  function reconcileGift() {
+    cartRead = null;
+    return Promise.resolve().then(function () {
+      var service = window.FtdCreatineGift;
+      if (!service || typeof service.reconcile !== 'function') {
+        throw new Error('The gift sync service is unavailable.');
+      }
+      return service.reconcile();
+    }).then(function (cart) {
+      cartRead = null;
+      if (!cart || !Array.isArray(cart.items)) throw new Error('Gift sync did not return the final cart.');
+      return cart;
+    }, function (e) { cartRead = null; throw e; });
+  }
 
-     It adds; it never removes. Whatever is already in the cart is someone
-     else's — an order they built a minute ago, something from another page —
-     and stays exactly as it is.
-
-     One request, so the build lands whole or not at all. /cart/add.js is
-     atomic across its items array, which is what we want here: a bundle
-     half-added is priced as a bundle and shipped as an accident, whereas a
-     clean failure is something the customer can simply press again. */
+  /* Add the build once, then reconcile the global gift. Only the post-add
+     reconciliation is caught: a real add failure must still reject. Returning
+     an explicit partial success prevents a gift failure from inviting another
+     hydration add. Even a failed fallback read must preserve that distinction. */
   function commitToCart() {
-    var items = desiredItems();
-    if (!items.length) return Promise.reject(new Error('Nothing selected yet.'));
-    return cartPost('/cart/add.js', { items: items });
+    return Promise.resolve().then(function () {
+      var items = desiredItems();
+      if (!items.length) throw new Error('Nothing selected yet.');
+      return cartPost('/cart/add.js', { items: items });
+    }).then(function () {
+      return reconcileGift().then(function (cart) {
+        return { cart: cart, giftSyncError: null };
+      }, function (e) {
+        return getCart().then(function (cart) {
+          return { cart: cart, giftSyncError: e };
+        }, function () {
+          return { cart: null, giftSyncError: e };
+        });
+      });
+    });
   }
 
   /* Set a card's quantity and repaint it, without touching the cart. */
   function applyQty(c, n) {
     var v = c.dataset.variantId, a = $('.ftdc__add', c), q = $('.ftdc__qty', c), i = $('.ftdc__qty-input', c);
-    state.selections[v] = { qty: n, variantId: v, fnId: c.dataset.fnId, fnLabel: c.dataset.fnLabel, flavorName: c.dataset.flavorName, planMonthly: c.dataset.planMonthly || '', planQuarterly: c.dataset.planQuarterly || '', price: parseInt(c.dataset.variantPrice, 10) || 0, compareAt: parseInt(c.dataset.variantCompare, 10) || 0 };
+    state.selections[v] = { qty: n, variantId: v, productType: c.dataset.productType || '', fnId: c.dataset.fnId, fnLabel: c.dataset.fnLabel, flavorName: c.dataset.flavorName, planMonthly: c.dataset.planMonthly || '', planQuarterly: c.dataset.planQuarterly || '', price: parseInt(c.dataset.variantPrice, 10) || 0, compareAt: parseInt(c.dataset.variantCompare, 10) || 0 };
     c.classList.add('is-selected');
     if (a) a.hidden = true; if (q) q.hidden = false; if (i) i.value = n;
   }
-  /* Is this cart's creatine line one WE gave away, or one the customer chose
-     to pay for? Only a gift may be taken back out when the build drops under
-     the threshold.
-
-     Keying purely on the _upsell stamp was too narrow: we only started
-     writing it on 2026-08-18, so every creatine added before that — and every
-     one added by the old Loop free-plan route — went unrecognised and sat in
-     the cart being charged for. Fall back to the two things that positively
-     identify a PAID line instead, and treat anything else as ours:
-
-       - a selling plan means the recurring monthly add-on they opted into
-       - _upsell=creatine-onetime is the one-time add-on they opted into
-
-     Erring this way costs us a creatine at worst. Erring the other way
-     charges someone $24 for something the page called free. */
-  function creatineIsGift(line) {
-    if (!line) return false;
-    var p = line.properties || {};
-    if (p._upsell === 'creatine-first-order-free') return true;
-    if (p._upsell === 'creatine-onetime') return false;
-    var sa = line.selling_plan_allocation;
-    if (sa && sa.selling_plan && sa.selling_plan.id) return false;
-    return true;
-  }
-
-  /* The free creatine is only free while the bundle that earned it is still
-     in the cart. Nothing else here reads the cart any more, but this has to:
-     the customer can delete pouches from the cart drawer long after we
-     committed them, and a creatine left behind on its own gets charged for at
-     $24 on a page that called it free.
-
-     Same for the quarterly second creatine, which exists only as an add-on to
-     a bundle. A one-time creatine someone deliberately bought stands alone —
-     that is a product they chose, not something we put there.
-
-     Pouches are counted across the whole cart rather than per order, which is
-     deliberate: 3PackFree is a cart-level "buy 3 hydration" discount and does
-     not care which order they came from, so this must not either. Where it is
-     ambiguous it keeps the creatine — the cost of that is one creatine, and
-     the cost of the opposite is charging someone $24 for a free item.
-
-     Runs on load AND on every cart change, because the change that strands a
-     gift is made in the CART DRAWER — the customer drops from three pouches to
-     two there, no page ever reloads, and a load-only sweep never sees it. That
-     is precisely the reported bug: the discount stops applying, the creatine
-     goes from free to $24, and it just sits there.
-
-     This is the shape that once spun the cart endpoints into a 429, so the
-     brakes matter. It only writes when a doomed line actually exists, so a
-     successful removal ends it: the line is gone and the next pass finds
-     nothing. A removal that keeps FAILING is the dangerous case, and that is
-     what SWEEP_MAX_WRITES caps. Our own removals are skipped by ftdcFrom, and
-     the whole thing is debounced because stepper clicks arrive in bursts. */
-  var SWEEP_MAX_WRITES = 4;
-  var sweepWrites = 0;
-  var sweepBusy = false;
-  var sweepTimer = null;
-
+  /* Compatibility for old surface shims only. No local policy, listeners,
+     timers, or boot sweep: the globally loaded service is the sole owner. */
   function sweepUnearnedGift() {
-    if (sweepBusy || sweepWrites >= SWEEP_MAX_WRITES) return Promise.resolve();
-    sweepBusy = true;
-    return getCart().then(function (cart) {
-      var ours = (cart.items || []).filter(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
-      if (!ours.length) return;
-      var pouches = 0;
-      ours.forEach(function (l) { if ((l.properties || {})._role === 'pouch') pouches += (l.quantity || 0); });
-
-      var doomed = ours.filter(function (l) {
-        var role = (l.properties || {})._role;
-        /* Both creatines hang off the bundle, so both go when the bundle
-           does. The second one is sold at half price BECAUSE it is riding on
-           a 3-pack; it used to survive until the last pouch was gone, which
-           left someone who dropped from three pouches to two holding a
-           half-price add-on to an order that no longer existed. */
-        if (role === 'creatine') return pouches < GIFT_MIN && creatineIsGift(l);
-        if (role === 'creatine2') return pouches < GIFT_MIN;
-        return false;
-      });
-      if (!doomed.length) return;
-      sweepWrites++;
-
-      return doomed.reduce(function (chain, l) {
-        return chain.then(function () { return cartPost('/cart/change.js', { id: l.key, quantity: 0 }); });
-      }, Promise.resolve()).then(function () {
-        /* Announced so the drawer repaints without the line it just lost.
-           'update', never 'add' — this must not pop the drawer open at
-           someone who is not looking at it. */
-        return getCart().then(function (c) { return announceCartUpdate(c, 'update'); });
-      });
-    }).catch(function (e) { try { console.warn('[FTDC-D] gift sweep', e); } catch (_) {} })
-      .then(function () { sweepBusy = false; }, function () { sweepBusy = false; });
+    return reconcileGift().catch(function (e) {
+      try { console.warn('[FTDC-Gold] gift sync', e); } catch (_) {}
+    });
   }
-
-  /* Cart edits arrive in bursts — every tap of the drawer's minus button is
-     its own write — so settle before reading. */
-  function scheduleSweep() {
-    if (sweepTimer) clearTimeout(sweepTimer);
-    sweepTimer = setTimeout(function () { sweepTimer = null; sweepUnearnedGift(); }, 600);
-  }
-
-  /* The only cart listener left. It does not rebuild the builder — the
-     builder is still a draft that owes the cart nothing — it just asks
-     whether a gift in there is still earned. */
-  function onCartChanged(e) {
-    if (e && e.ftdcFrom === SID) return;
-    scheduleSweep();
-  }
-  document.addEventListener(STD_CART_EVENT, onCartChanged);
-  document.addEventListener('cart:update', onCartChanged);
 
   /* Nothing Loop does is allowed to hold the cart hostage.
 
@@ -576,9 +471,7 @@
   }
 
   /* Announce a cart write to the theme. `action` is 'add' only when the
-     customer pressed Add to Cart — that is the flag cart-drawer-component
-     reads to decide whether to open itself, so the gift sweep must not claim
-     it and pop the drawer open at someone who just loaded the page. */
+     customer pressed Add to Cart; a gift-only retry uses 'update'. */
   function announceCartUpdate(cart, action) {
     return standardEvents().then(function (mod) {
       var Ctor = mod && mod.CartLinesUpdateEvent;
@@ -605,8 +498,7 @@
         evt = new Event(STD_CART_EVENT, { bubbles: true, composed: true });
         Object.keys(payload).forEach(function (k) { evt[k] = payload[k]; });
       }
-      /* So our own listener below can tell our echo from a real outside
-         change without leaning on the timing guard alone. */
+      /* Preserve the selector origin tag for existing theme integrations. */
       evt.ftdcFrom = SID;
 
       var summary;
@@ -777,26 +669,25 @@
     }
   }
 
-  /* Does this build earn the free creatine? Any subscription plan with at
-     least GIFT_MIN pouches — it used to be "quarterly, always", which only
-     worked because quarterly was the only plan that could reach three.
-     Monthly can now too.
-
-     GIFT_MIN mirrors the "Buy 3" side of the 3PackFree automatic discount in
-     Shopify. That discount is what actually makes the line free; this only
-     decides when to put the line in the cart. If the two disagree, the
-     customer is shown a gift they get charged for, so the setting carries a
-     warning to keep them in step. One-time orders are excluded on purpose:
-     the ask was subscriptions only. */
+  /* Quote only selected Hydration units with the plan actually intended for
+     that variant. The global service applies the same rule to the whole cart
+     after commit; unrelated products and one-time quantities never count. */
+  function qualifyingGiftQuantity() {
+    var service = window.FtdCreatineGift;
+    if (!isSubscription() || !service || typeof service.qualifyingQuantity !== 'function') return 0;
+    var items = Object.keys(state.selections).map(function (k) {
+      var s = state.selections[k];
+      var planId = selectedPlanId(s);
+      return {
+        product_type: s.productType,
+        quantity: Math.max(0, Math.floor(Number(s.qty) || 0)),
+        selling_plan_allocation: planId ? { selling_plan: { id: planId } } : null
+      };
+    });
+    return service.qualifyingQuantity({ items: items });
+  }
   function giftQualifies() {
-    /* One gate for the whole offer. Every place the gift shows up — the
-       "Included — FREE" row, the order summary line, the cart line itself —
-       asks this, so switching it off here withdraws the offer everywhere
-       rather than leaving a promise on the page that the cart does not keep.
-       With it off, updateCreatineIncluded() falls through to showing
-       subscribers the paid creatine row instead. */
-    if (!GIFT_ON) return false;
-    return state.plan !== 'onetime' && totalQty() >= GIFT_MIN;
+    return GIFT_ON && qualifyingGiftQuantity() >= GIFT_MIN;
   }
 
   /* Point the paid creatine row at the current plan's copy and price. The row
@@ -844,25 +735,23 @@
     set('[data-creatine-was]', was);
   }
 
-  /* Show the gift as an "Included — FREE" row and hide the manual priced
-     toggle, which would otherwise contradict it and demand a redundant click.
-     Below the threshold the priced toggle comes back. */
+  /* The gift needs no manual toggle. Paid creatine controls remain disabled. */
   function updateCreatineIncluded() {
     updateAddonPricing();
     updateAddonQtyUI();
     var gift = giftQualifies();
-    var onetime = state.plan === 'onetime';
     var el = $('[data-creatine-included]');
-    if (el) el.hidden = !gift;
+    if (el) {
+      el.hidden = !gift;
+      el.setAttribute('aria-hidden', gift ? 'false' : 'true');
+    }
 
     /* The creatine variant is priced at 0, so the card that used to SELL it
        would now hand one out to anyone who opened the one-time plan and added
        it on its own, no bags required. Creatine is the gift now and nothing
        else, so the card never shows.
 
-       It stays in the DOM rather than being deleted because it carries
-       data-variant — the id desiredItems() adds the gift with. Hidden, not
-       gone. */
+       It stays in the DOM as a source of imagery, not a cart-write route. */
     var card = $('[data-creatine-card]');
     if (card) card.hidden = true;
     /* Showing or hiding it changes how many cards are in the row. */
@@ -873,9 +762,9 @@
        it. One-time orders never earn it, so they are shown neither. */
     var prog = $('[data-creatine-progress]');
     if (prog) {
-      var have = totalQty();
+      var have = qualifyingGiftQuantity();
       var need = GIFT_MIN;
-      var show = GIFT_ON && !onetime && !gift;
+      var show = GIFT_ON && isSubscription() && !gift;
       prog.hidden = !show;
       prog.setAttribute('aria-hidden', show ? 'false' : 'true');
 
@@ -887,23 +776,21 @@
       if (fill) fill.style.width = pct + '%';
       var bar = prog.querySelector('[data-creatine-progress-bar]');
       if (bar) {
-        bar.setAttribute('aria-valuenow', String(have));
+        bar.setAttribute('aria-valuenow', String(Math.min(have, need)));
         bar.setAttribute('aria-valuemax', String(need));
       }
       var note = prog.querySelector('[data-creatine-progress-note]');
       if (note) {
-        var tpl = note.getAttribute('data-note');
+        var tpl = note.getAttribute('data-note') || PROGRESS_NOTE;
         note.textContent = tpl
           ? tpl.replace('[n]', String(have)).replace('[total]', String(need))
           : '';
       }
     }
     var payRow = $('[data-upsell-creatine]');
-    if (payRow) payRow.hidden = onetime || gift;
-    /* The first one is the gift, so the discounted second only makes sense
-       once the bundle has earned it. */
+    if (payRow) { payRow.hidden = true; payRow.setAttribute('aria-hidden', 'true'); }
     var row2 = $('[data-upsell-creatine2]');
-    if (row2) row2.hidden = !(gift && state.plan === 'quarterly');
+    if (row2) { row2.hidden = true; row2.setAttribute('aria-hidden', 'true'); }
   }
   /* How many creatines a one-time order is buying. Subscriptions take one per
      shipment and the gift is a single unit, so this only applies to onetime. */
@@ -912,15 +799,14 @@
   /* THE number of creatines on the order. Everything — the cart payload, the
      summary row, the total — goes through here, so the three cannot disagree
      the way the add-on price and the total once did. */
-  /* How many creatines the customer is BUYING. The gift is counted
-     separately and shipped as its own cart line — see desiredItems(). They
+  /* How many creatines the customer is BUYING. The gift is maintained
+     separately by the global service. They
      used to share one checkbox, which is why the row kept having to flip
      between "Add Creatine" and "Included — FREE". */
   function creatineQty() {
     /* Nobody BUYS creatine any more. The variant is priced at 0, so a bought
        line would be a free one handed out with no bags behind it — which is
-       the offer, but only when it is earned, and that path is the gift in
-       desiredItems() rather than this one.
+       the offer, but only when it is earned by the global gift rule.
 
        Kept as a function rather than deleted because the summary, the total
        and the cart payload all still ask the question; they now all get the
@@ -967,9 +853,7 @@
          quietly costs the customer their work. */
       reclampSelections();
       upsellAutoScrolled = false;
-      /* The add-on choice does not survive a plan switch: each plan prices it
-         differently. updateCreatineIncluded() re-forces it on for quarterly;
-         other plans start unchecked until set. */
+      /* Clear legacy paid add-on choices on a plan switch. */
       addonQty = 0;
       var cr0 = $('[data-creatine-input]'); if (cr0) cr0.checked = false;
       var cr20 = $('[data-creatine2-input]'); if (cr20) cr20.checked = false;
@@ -1034,9 +918,7 @@
       delete state.selections[v]; c.classList.remove('is-selected');
       if (a) a.hidden = false; if (q) q.hidden = true; if (i) i.value = 0;
     } else {
-      state.selections[v] = { qty: n, variantId: v, fnId: c.dataset.fnId, fnLabel: c.dataset.fnLabel, flavorName: c.dataset.flavorName, planMonthly: c.dataset.planMonthly || '', planQuarterly: c.dataset.planQuarterly || '', price: parseInt(c.dataset.variantPrice, 10) || 0, compareAt: parseInt(c.dataset.variantCompare, 10) || 0 };
-      c.classList.add('is-selected');
-      if (a) a.hidden = true; if (q) q.hidden = false; if (i) i.value = n;
+      applyQty(c, n);
     }
     updateProgress(); updateCreatineIncluded(); updateBar();
     /* Quarterly bundle just filled up for the first time this visit — ease
@@ -1243,46 +1125,12 @@
   });
 
   function buildItems() {
-    var items = [];
-    Object.keys(state.selections).forEach(function (k) {
-      var s = state.selections[k]; var it = { id: parseInt(s.variantId, 10), quantity: s.qty };
-      if (state.plan === 'monthly') { var p = parseInt(s.planMonthly, 10); if (p) it.selling_plan = p; }
-      else if (state.plan === 'quarterly') {
-        var p = parseInt(s.planQuarterly, 10); if (p) it.selling_plan = p;
-        /* Marked for Loop bundle grouping; stripped before /cart/add.js. */
-        it._bundleable = true;
-      }
-      items.push(it);
+    /* Share validation and the no-gift payload with the actual commit path.
+       Preserve the existing optional Loop marker on Hydration selections. */
+    var items = desiredItems();
+    items.forEach(function (it) {
+      if (state.plan === 'quarterly' && (it.properties || {})._role === 'pouch') it._bundleable = true;
     });
-    /* Mirrors desiredItems(): a separate gift line and bought line. */
-    var card2 = $('[data-creatine-card]');
-    if (card2 && (Object.keys(state.selections).length > 0 || state.plan === 'onetime')) {
-      var cv2 = parseInt(card2.dataset.variant, 10);
-      if (cv2) {
-        if (giftQualifies()) {
-          items.push({ id: cv2, quantity: 1, properties: { _upsell: 'creatine-first-order-free' } });
-        }
-        var bought2 = creatineQty();
-        if (bought2 > 0) {
-          var bi2 = { id: cv2, quantity: bought2 };
-          if (state.plan === 'monthly') {
-            var pm3 = parseInt(card2.dataset.planMonthly, 10);
-            if (pm3) bi2.selling_plan = pm3;
-          } else if (state.plan === 'onetime') {
-            bi2.properties = { _upsell: 'creatine-onetime' };
-          }
-          items.push(bi2);
-        }
-      }
-    }
-    var cr2b = $('[data-creatine2-input]');
-    var cardb = $('[data-creatine-card]');
-    if (state.plan === 'quarterly' && cr2b && cr2b.checked && cardb && Object.keys(state.selections).length > 0) {
-      var v2b = parseInt(cardb.dataset.variant, 10);
-      var row2b = $('[data-upsell-creatine2]');
-      var p50b = row2b ? parseInt(row2b.getAttribute('data-plan-quarterly-50off'), 10) : 0;
-      if (v2b && p50b) items.push({ id: v2b, quantity: 1, selling_plan: p50b });
-    }
     return items;
   }
 
@@ -1363,6 +1211,7 @@
       : (raw || 'Something went wrong. Please try again.');
     var box = $('[data-cart-error]');
     if (!box) { alert(msg); return; }
+    box.setAttribute('role', 'alert');
     box.textContent = msg;
     box.hidden = false;
     if (cartErrorTimer) clearTimeout(cartErrorTimer);
@@ -1371,37 +1220,115 @@
   }
   var cartErrorTimer = null;
 
+  /* A post-add failure is not an invitation to add again. Keep a persistent
+     notice by the selector CTA and inside the drawer (outside its rerendered
+     cart items), with an action that only calls the central gift service. */
+  var giftSyncRetryBusy = false;
+  var GIFT_SYNC_NOTICE = 'Your items are already in your cart. FREE Lifetime Creatine could not be synced. Retry gift sync below; this will not add your selected items again.';
+  function clearGiftSyncNotice() {
+    if (cartErrorTimer) { clearTimeout(cartErrorTimer); cartErrorTimer = null; }
+    var box = $('[data-cart-error]');
+    var drawerBox = document.getElementById('ftdc-gift-sync-notice-' + SID);
+    if (box) box.hidden = true;
+    if (drawerBox) drawerBox.hidden = true;
+  }
+  function showGiftSyncNotice(message, canRetry) {
+    if (cartErrorTimer) { clearTimeout(cartErrorTimer); cartErrorTimer = null; }
+    var box = $('[data-cart-error]');
+    if (!box) {
+      box = document.createElement('div');
+      box.setAttribute('data-cart-error', '');
+      root.appendChild(box);
+    }
+    var boxes = [box];
+    var host = document.querySelector('cart-drawer-component');
+    var dialog = host && host.closest ? host.closest('dialog') : null;
+    if (dialog) {
+      var id = 'ftdc-gift-sync-notice-' + SID;
+      var drawerBox = document.getElementById(id);
+      if (!drawerBox) {
+        drawerBox = document.createElement('div');
+        drawerBox.id = id;
+        drawerBox.style.cssText = 'flex:0 0 auto;padding:16px;border-bottom:1px solid currentColor;background:var(--color-background,#fff);color:var(--color-foreground,#222);font-size:1rem;line-height:1.4;';
+        dialog.insertBefore(drawerBox, dialog.firstChild);
+      }
+      boxes.push(drawerBox);
+    }
+    boxes.forEach(function (node) {
+      node.setAttribute('role', 'status');
+      node.setAttribute('aria-live', 'polite');
+      node.style.fontSize = '1rem';
+      node.hidden = false;
+      node.textContent = message + ' ';
+      if (canRetry) {
+        var retry = document.createElement('button');
+        retry.type = 'button';
+        retry.textContent = giftSyncRetryBusy ? 'Syncing gift…' : 'Retry gift sync';
+        retry.disabled = giftSyncRetryBusy;
+        retry.style.cssText = 'min-height:44px;padding:8px 12px;margin:8px 8px 0 0;text-decoration:underline;';
+        retry.addEventListener('click', retryGiftSync);
+        node.appendChild(retry);
+      }
+      var view = document.createElement('a');
+      view.href = '/cart';
+      view.textContent = 'View cart';
+      view.style.cssText = 'display:inline-block;min-height:44px;padding:8px 0;text-decoration:underline;';
+      node.appendChild(view);
+    });
+  }
+  function retryGiftSync() {
+    if (giftSyncRetryBusy) return;
+    giftSyncRetryBusy = true;
+    showGiftSyncNotice('Your items are in your cart. Syncing FREE Lifetime Creatine without adding your items again.', true);
+    return reconcileGift().then(function (cart) {
+      return announceCartUpdate(cart, 'update');
+    }).then(function () {
+      giftSyncRetryBusy = false;
+      showGiftSyncNotice('Your items are in your cart. Gift sync is complete; check your cart for the eligible gift.', false);
+    }).catch(function (e) {
+      giftSyncRetryBusy = false;
+      try { console.warn('[FTDC-Gold] gift retry failed', e); } catch (_) {}
+      showGiftSyncNotice(GIFT_SYNC_NOTICE, true);
+    });
+  }
+  function recoverCommittedCart(cart, message) {
+    busy = false;
+    clearDraft();
+    return (cart ? announceCartUpdate(cart, 'add') : Promise.resolve()).then(function () {
+      openCartDrawer();
+      /* If this store uses a cart page instead of a drawer, stay here so the
+         customer can retry sync safely or follow the explicit View cart link. */
+      showGiftSyncNotice(message, true);
+    });
+  }
+
   function doCheckout() {
-    if (!canProc()) return;
+    if (busy || !canProc()) return;
     if (!totalQty() && !(state.plan === 'onetime' && creatineQty() > 0)) return;
     busy = true;
     setAdvanceDisabled(true); $$('[data-action="checkout"]').forEach(function (b) { b.disabled = true; });
     var dcard = $('[data-creatine-card]');
     var ot = state.plan === 'onetime' && creatineQty() > 0;
     var d = (ot && dcard) ? (dcard.dataset.discountOnetime || '') : '';
-    /* The build has not been near the cart until now. Put it in, then hand it
-       over — and where the handover keeps the customer on this page, do NOT
-       wait for Loop before doing so.
+    /* Put the build in and wait for the central gift service's final cart.
+       Optional Loop grouping keeps its existing timing: background for the
+       drawer, awaited when leaving for checkout.
 
-       A ceiling stopped a dead Loop endpoint from breaking Add to Cart, but it
-       still charged the customer the wait: five seconds of a button that looks
-       broken, before a drawer that was ready the whole time. The cart is
-       complete the moment /cart/add.js returns. Grouping is bookkeeping for
-       Loop's order webhook, so it can catch up behind an open drawer.
-
-       The checkout path is the exception and still waits. There the customer
-       leaves this page immediately, and a patch cut off mid-flight is a
-       subscription that never gets grouped. */
+       Once the add succeeded, no later read or gift failure may restore this
+       draft and encourage a duplicate order. */
     var groupLoopBundle = function () {
       return withTimeout(patchLoopBundle, LOOP_TIMEOUT_MS, 'Loop bundle grouping');
     };
 
-    commitToCart().then(function () {
-      if (CTA_ADDS_TO_CART) return;
-      return groupLoopBundle();
-    }).then(getCart).then(function (cart) {
-      var ok = (cart.items || []).some(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
-      if (!ok) throw new Error('Could not add your selections to the cart.');
+    var committed = false;
+    return commitToCart().then(function (result) {
+      committed = true;
+      if (result.giftSyncError) {
+        try { console.warn('[FTDC-Gold] items added; gift sync failed', result.giftSyncError); } catch (_) {}
+        return recoverCommittedCart(result.cart, GIFT_SYNC_NOTICE);
+      }
+      var cart = result.cart;
+      clearGiftSyncNotice();
 
       if (CTA_ADDS_TO_CART) {
         return applyDiscountInPlace(d).then(function () {
@@ -1433,8 +1360,18 @@
          so the real cart page became unreachable and customers saw the
          builder's review step instead of their cart. Let the browser keep
          the true history and let /cart be the cart. */
-      window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout';
+      return groupLoopBundle().then(function () {
+        cartRead = null;
+        return getCart();
+      }).then(function () {
+        clearDraft();
+        window.location.href = d ? ('/discount/' + encodeURIComponent(d) + '?redirect=/checkout') : '/checkout';
+      });
     }).catch(function (e) {
+      if (committed) {
+        try { console.warn('[FTDC-Gold] items added; cart handover failed', e); } catch (_) {}
+        return recoverCommittedCart(null, 'Your items are already in your cart, but the cart could not finish updating. Retry gift sync to refresh the cart without adding your items again.');
+      }
       busy = false; updateBar();
       showCartError(e);
     });
@@ -1482,10 +1419,7 @@
   });
   if (surface && typeof surface.init === 'function') surface.init(api);
 
-  /* The builder starts empty on every load — it is an order form, not a
-     picture of the cart. The one thing it does read the cart for is a free
-     creatine whose bundle has since been deleted. */
-  sweepUnearnedGift();
+  /* The builder starts empty. Global gift maintenance boots independently. */
 
   /* A flag used to be stashed here so a return-from-checkout visit could
      land on Review with the build restored from the cart. Nothing restores a

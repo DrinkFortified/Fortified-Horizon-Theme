@@ -2552,7 +2552,7 @@
         },
         "ftd_creatine_MIGRATED": {
           "type": "_ftd-c-creatine",
-          "disabled": true,
+          "disabled": false,
           "settings": {
             "product": "creatine",
             "product_handle": "creatine",
@@ -2575,8 +2575,8 @@
             "price_quarterly": "$12.00",
             "was_quarterly": "$24.00",
             "loop_plan_quarterly_50off": "2852552860",
-            "included_title": "Creatine — Included",
-            "included_desc": "Free with your first order.",
+            "included_title": "FREE Lifetime Creatine",
+            "included_desc": "Your first creatine is added automatically.",
             "included_price_text": "FREE"
           },
           "blocks": {}
@@ -2650,10 +2650,8 @@
         "selected_label": "Selected",
         "addon_qty_label": "Creatine quantity",
         "addon_product_handle": "creatine",
-        "free_creatine_enabled": true,
-        "gift_threshold": 3,
-        "addon_included_title": "Creatine — Included",
-        "addon_included_desc": "Free with your first order.",
+        "addon_included_title": "FREE Lifetime Creatine",
+        "addon_included_desc": "Your first creatine is added automatically.",
         "addon_was_monthly": "$24.00",
         "addon_was_quarterly": "$24.00",
         "addon_was_onetime": "$24.00",

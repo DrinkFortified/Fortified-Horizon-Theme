@@ -1145,13 +1145,7 @@
   (window.__ftdGoldQueue = window.__ftdGoldQueue || []).push({
     SID: {{ section.id | json }},
     BUNDLE_COUNT: {{ bundle_count | json }},
-    GIFT_MIN: {{ section.settings.gift_threshold | default: 3 | json }},
-    {%- comment -%}
-      Sent as an explicit true/false rather than omitted when off: the runtime
-      treats a missing GIFT_ON as "on", so that an older section that predates
-      this setting keeps giving the gift instead of silently withdrawing it.
-    {%- endcomment -%}
-    GIFT_ON: {{ section.settings.free_creatine_enabled | default: true, allow_false: true | json }},
+    /* Gift policy comes from the shared cart service, not a section override. */
     LIVE_SUMMARY: true,   /* aside shows the order on every step, not just Review */
     SKIP_REVIEW: true,      /* no Review step — the aside is the review */
     ADVANCE_ON_PLAN: true,  /* picking a plan moves straight to the flavours */
@@ -1579,35 +1573,21 @@
       "info": "Used only when no product is picked above. Shopify does not allow a default on a product picker, so this is what gives a newly added section its creatine — without it the whole add-on row renders as nothing."
     },
     {
-      "type": "checkbox",
-      "id": "free_creatine_enabled",
-      "label": "Offer the free creatine",
-      "default": true,
-      "info": "Turn off to stop giving creatine away. The \"Included — FREE\" row disappears, nothing free is added to the cart, and subscription customers are offered the paid creatine instead. Carts that already hold a free creatine keep it until the order drops below the pouch threshold below."
-    },
-    {
-      "type": "range",
-      "id": "gift_threshold",
-      "label": "Free creatine at N pouches",
-      "visible_if": "{{ section.settings.free_creatine_enabled }}",
-      "min": 1,
-      "max": 12,
-      "step": 1,
-      "default": 3,
-      "info": "Subscription orders with at least this many pouches get the creatine added free. MUST match the \"Buy N\" side of the 3PackFree automatic discount in Shopify — that discount is what actually zeroes the line. If they disagree, customers are shown a gift they get charged for."
+      "type": "paragraph",
+      "content": "FREE Lifetime Creatine is earned at 3 or more hydration subscription units. One zero-priced creatine is added to the initial cart without a selling plan. This cart-wide rule also removes the gift below 3; Loop handles renewals."
     },
     {
       "type": "text",
       "id": "addon_included_title",
       "label": "Included row title (3-month)",
-      "default": "Creatine — Included"
+      "default": "FREE Lifetime Creatine"
     },
     {
       "type": "text",
       "id": "addon_included_desc",
       "label": "Included row description (3-month)",
-      "default": "Free with your first order.",
-      "info": "The gift is first-order only — it is a one-off line with no selling plan, zeroed by a Shopify automatic discount. Do not promise it on every renewal."
+      "default": "Your first creatine is added automatically.",
+      "info": "Initial-cart gift only. The product must be available and priced at zero in Shopify. Loop manages renewal gifts separately."
     },
     {
       "type": "text",

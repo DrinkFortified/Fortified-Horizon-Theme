@@ -52,14 +52,28 @@
       {%- endif -%}
       {%- if flavor_name == '' -%}{%- assign flavor_name = v.title -%}{%- endif -%}
       {%- assign card_img = v.featured_image | default: block.settings.card_image | default: prod.featured_image -%}
+      {%- liquid
+        assign monthly_plan = ''
+        assign quarterly_plan = ''
+        for allocation in v.selling_plan_allocations
+          assign plan_id = allocation.selling_plan.id | append: ''
+          if plan_id == block.settings.loop_plan_monthly
+            assign monthly_plan = plan_id
+          endif
+          if plan_id == block.settings.loop_plan_quarterly
+            assign quarterly_plan = plan_id
+          endif
+        endfor
+      -%}
       <article class="ftdc__card" data-slot="function"
                data-fn-id="{{ block.id }}"
                data-fn-label="{{ block.settings.function_label | escape }}"
                data-variant-id="{{ v.id }}"
                data-product-handle="{{ prod.handle }}"
+               data-product-type="{{ prod.type | escape }}"
                data-flavor-name="{{ flavor_name | escape }}"
-               data-plan-monthly="{{ block.settings.loop_plan_monthly }}"
-               data-plan-quarterly="{{ block.settings.loop_plan_quarterly }}"
+               data-plan-monthly="{{ monthly_plan }}"
+               data-plan-quarterly="{{ quarterly_plan }}"
                data-variant-price="{{ v.price }}"
                data-variant-compare="{{ v.compare_at_price | default: 0 }}"
                {%- if block.settings.coming_soon %} data-coming-soon="true" aria-disabled="true"{%- endif %}>

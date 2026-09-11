@@ -144,6 +144,11 @@
       var keep = {}, qtyFixes = [], removals = {};
       (cart.items || []).forEach(function (l) {
         if ((l.properties || {})[CART_SEL] !== CART_OWNER) return;
+        /* The cart-wide initial gift is not part of D's draft. Leave it to
+           its single owner, otherwise D removes it and the gift service adds
+           it back indefinitely. Paid/legacy add-ons retain D's behavior. */
+        if (window.FtdCreatineGift &&
+            (l.properties || {})._upsell === 'creatine-first-order-free') return;
         var sig = lineSig(l), want = wantBySig[sig];
         if (want && !keep[sig]) {
           keep[sig] = l;

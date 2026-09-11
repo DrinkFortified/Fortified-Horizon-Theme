@@ -1465,18 +1465,6 @@
 {%- endif -%}
 
 {%- comment -%}
-  FORTIFIED — the free creatine is only free while the bundle that earned it is
-  still in the cart, and that rule has to hold wherever the cart can be edited.
-
-  It used to load only from the two selectors, so it ran on the homepage and on
-  product pages and nowhere else. The cart page has no selector on it: a
-  customer who dropped from three pouches to two there watched 3PackFree stop
-  applying, the creatine turn into a $24 charge, and nothing clear it — which
-  is exactly the reported bug.
-
-  Loading it from here instead ties it to the cart itself. This snippet draws
-  both the cart page and the drawer, and the drawer is in the header on every
-  page, so the rule now follows the cart everywhere it can be changed. The file
-  stands down on its own wherever the Gold runtime is already doing this job.
+  The cart-wide creatine gift service is loaded once by layout/theme.liquid.
+  Do not reload it from section-rendered cart markup.
 {%- endcomment -%}
-<script src="{{ 'ftd-gift-sweep.js' | asset_url }}" defer></script>

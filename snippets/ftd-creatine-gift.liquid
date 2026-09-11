@@ -1,0 +1,20 @@
+{%- comment -%}
+  One cart-wide first-order gift. The unlisted Shopify product is the source
+  of truth for variant, availability and price; never attach a selling plan.
+  The three-unit subscription rule is intentionally shared by every page.
+  Loop owns renewal gifts. This snippet does not configure Loop or discounts.
+{%- endcomment -%}
+{%- liquid
+  assign gift_product = all_products['creatine']
+  assign gift_variant = gift_product.selected_or_first_available_variant
+-%}
+<script>
+  window.__ftdCreatineGiftConfig = {
+    variantId: {% if gift_variant != blank %}{{ gift_variant.id | json }}{% else %}null{% endif %},
+    price: {% if gift_variant != blank %}{{ gift_variant.price | json }}{% else %}null{% endif %},
+    available: {{ gift_variant.available | default: false | json }},
+    minimum: 3,
+    productType: 'Hydration'
+  };
+</script>
+<script src="{{ 'ftd-gift-sweep.js' | asset_url }}" defer></script>
