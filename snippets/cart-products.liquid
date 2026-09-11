@@ -83,9 +83,19 @@
       </p>
     {%- endif -%}
 
+    {%- comment -%}
+      FORTIFIED — an empty cart sends people to the homepage, not to the
+      all-products collection Horizon falls back to. The buying happens in the
+      selector on the homepage; /collections/all is a bare product list that
+      is not where anyone should be pointed to start an order.
+
+      Still only the fallback. Theme settings → Cart → "Empty cart button
+      link" overrides it, so this can be pointed anywhere without a code
+      change.
+    {%- endcomment -%}
     <a
       class="button cart-items__empty-button"
-      href="{{ settings.empty_cart_button_link | default: routes.all_products_collection_url }}"
+      href="{{ settings.empty_cart_button_link | default: routes.root_url }}"
     >
       <span class="button-text">
         {{ 'actions.continue_shopping' | t }}
