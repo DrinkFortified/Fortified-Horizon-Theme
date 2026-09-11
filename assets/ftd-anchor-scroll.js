@@ -15,6 +15,16 @@
    button in a section and a link in the menu drawer behave identically. The
    drawer used to carry its own copy of this; one implementation is the point.
 
+   WHAT SCROLLS is not always the window. From 990px up Horizon puts
+   `overflow: hidden` on html and body and scrolls `.page-wrapper` instead
+   (assets/base.css, assets/scroll-container.js). On that layout
+   window.scrollTo is a no-op and window.scrollY is forever 0 — the first
+   version of this file did exactly that, which is why every anchor button
+   worked on a phone and did nothing on a desktop: the click's default had
+   been cancelled and the replacement scroll went to an element that cannot
+   move. So the container is looked up per click, the same way the theme's
+   own scroll-container.js does it, and every read and write goes through it.
+
    It steps aside for anything that is not a real anchor: a hash with no
    matching element (#open-bundle, #leadcapture — those are hooks another
    script listens for), a link another handler has already claimed, a
@@ -22,6 +32,29 @@
    left exactly as the browser found it. */
 (function () {
   if (window.ftdScrollToAnchor) return;
+
+  var SQUEEZE = '(min-width: 990px)';
+
+  /* The element whose scrollTop moves the page: `.page-wrapper` in the
+     desktop squeeze layout, the document otherwise. Resolved on every call
+     because a resize across 990px swaps it. */
+  function scrollContainer() {
+    var squeezed = false;
+    try { squeezed = window.matchMedia(SQUEEZE).matches; } catch (_) {}
+    if (squeezed) {
+      var wrapper = document.querySelector('.page-wrapper');
+      if (wrapper) return wrapper;
+    }
+    return document.scrollingElement || document.documentElement;
+  }
+
+  function isDocument(container) {
+    return container === document.scrollingElement || container === document.documentElement;
+  }
+
+  function currentTop(container) {
+    return isDocument(container) ? window.scrollY : container.scrollTop;
+  }
 
   var headerOffset = function () {
     var raw = getComputedStyle(document.body).getPropertyValue('--header-height');
@@ -35,13 +68,20 @@
      away from is worse than the bug. */
   function scrollToAnchor(target, hash) {
     if (!target) return;
+    var container = scrollContainer();
+
+    /* Where the target sits inside the container's scrollable content. For
+       the document the container's own top is the viewport's top (0); for
+       .page-wrapper it is wherever that element starts. */
     var wanted = function () {
-      return Math.max(0, target.getBoundingClientRect().top + window.scrollY - headerOffset());
+      var containerTop = isDocument(container) ? 0 : container.getBoundingClientRect().top;
+      var offsetInContainer = target.getBoundingClientRect().top - containerTop + currentTop(container);
+      return Math.max(0, offsetInContainer - headerOffset());
     };
 
     var reduced = false;
     try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (_) {}
-    window.scrollTo({ top: wanted(), behavior: reduced ? 'auto' : 'smooth' });
+    container.scrollTo({ top: wanted(), behavior: reduced ? 'auto' : 'smooth' });
 
     /* Keep the address bar honest without letting the browser scroll again. */
     if (hash) { try { history.replaceState(history.state, '', hash); } catch (_) {} }
@@ -57,12 +97,15 @@
     }
 
     /* Corrections start only once the smooth scroll has had time to finish,
-       so they are fixing late layout rather than fighting the animation. */
+       so they are fixing late layout rather than fighting the animation.
+       `behavior: 'auto'` also overrides the `scroll-behavior: smooth` that
+       base.css puts on .page-wrapper, so a correction is a snap, not a
+       second animation. */
     var attempts = 0;
     var settle = function () {
       if (cancelled) return;
       var want = wanted();
-      if (Math.abs(window.scrollY - want) > 4) window.scrollTo({ top: want, behavior: 'auto' });
+      if (Math.abs(currentTop(container) - want) > 4) container.scrollTo({ top: want, behavior: 'auto' });
       if (++attempts < 6) setTimeout(settle, 180);
       else stop();
     };

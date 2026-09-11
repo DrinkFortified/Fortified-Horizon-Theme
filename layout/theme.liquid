@@ -323,7 +323,14 @@
             const isTouchDevice = 'ontouchstart' in window && navigator.maxTouchPoints > 0;
             const overflowList = headerComponent.querySelector('overflow-list');
             const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
-            headerComponent.dataset.menuStyle = isTouchDevice || hasReachedMinimum ? 'drawer' : 'menu';
+            // data-force-drawer is the header's "Always use the hamburger menu"
+            // setting. This first-paint pass is the one that decides what a
+            // desktop visitor actually sees: the module version in utilities.js
+            // only re-runs on a resize or an overflow change, and a wide screen
+            // that fits the whole menu triggers neither. Ignoring the flag here
+            // is how the inline menu came back on desktop with the setting on.
+            const forceDrawer = headerComponent.hasAttribute('data-force-drawer');
+            headerComponent.dataset.menuStyle = forceDrawer || isTouchDevice || hasReachedMinimum ? 'drawer' : 'menu';
           }
         })();
       </script>
