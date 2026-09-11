@@ -438,9 +438,52 @@
   document.addEventListener(STD_CART_EVENT, onCartChanged);
   document.addEventListener('cart:update', onCartChanged);
 
+  /* Nothing Loop does is allowed to hold the cart hostage.
+
+     Grouping runs between putting the order in the cart and telling the page
+     about it, so an unbounded wait here is a customer pressing Add to Cart
+     and watching nothing happen — the order IS in their cart, but the drawer
+     is never opened and never repainted, because the announcement is still
+     queued behind a promise that will not settle.
+
+     A failing endpoint was always survivable; the catch below handles it and
+     the order goes through ungrouped. A HANGING one was not, and hanging is
+     the likelier failure: bundle.loopwork.co is a third-party domain, so a
+     privacy shield or content blocker can leave the request pending forever
+     rather than refusing it outright.
+
+     So: a ceiling, and an abort so the dead request is actually dropped
+     rather than left dangling. Resolves rather than rejects — the grouping is
+     the optional part, and losing it costs Loop a tidy bundle, while losing
+     the announcement costs the customer their cart. */
+  var LOOP_TIMEOUT_MS = 5000;
+
+  function withTimeout(makePromise, ms, label) {
+    return new Promise(function (resolve) {
+      var settled = false;
+      var finish = function () {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        resolve();
+      };
+      var timer = setTimeout(function () {
+        if (settled) return;
+        try { console.warn('[FTDC-D] ' + label + ' timed out after ' + ms + 'ms; carrying on without it'); } catch (_) {}
+        try { if (ctrl) ctrl.abort(); } catch (_) {}
+        finish();
+      }, ms);
+      var ctrl = null;
+      try { ctrl = new AbortController(); } catch (_) {}
+      Promise.resolve()
+        .then(function () { return makePromise(ctrl); })
+        .then(finish, finish);
+    });
+  }
+
   /* Loop bundle (Option A): mint a transaction, then stamp _bundleId +
      selling plan onto our quarterly pouch lines already in the cart. */
-  function patchLoopBundle() {
+  function patchLoopBundle(ctrl) {
     if (!(LOOP_BUNDLE_ON && state.plan === 'quarterly')) return Promise.resolve();
     return getCart().then(function (cart) {
       var key0 = LOOP_BUNDLE.propKey || '_bundleId';
@@ -454,7 +497,7 @@
       });
       if (!pouches.length) return;
       var body = { bundleId: parseInt(LOOP_BUNDLE.bundleId, 10), bundleVariantId: parseInt(LOOP_BUNDLE.bundleVariantId, 10) || null, bundleDiscountId: parseInt(LOOP_BUNDLE.bundleDiscountId, 10) || null, sellingPlanId: parseInt(LOOP_BUNDLE.apiSellingPlanId, 10) };
-      return fetch('https://bundle.loopwork.co/api/transactions/create', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      return fetch('https://bundle.loopwork.co/api/transactions/create', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: ctrl ? ctrl.signal : undefined })
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) { if (!r.ok) throw new Error('Loop ' + r.status); return b; }); })
         .then(function (b) {
           var txn = extractBundleTxnId(b); if (!txn) throw new Error('no txn id');
@@ -1285,7 +1328,9 @@
     var d = (ot && dcard) ? (dcard.dataset.discountOnetime || '') : '';
     /* The build has not been near the cart until now. Put it in, group the
        quarterly lines into their Loop bundle, then hand it over. */
-    commitToCart().then(patchLoopBundle).then(getCart).then(function (cart) {
+    commitToCart().then(function () {
+      return withTimeout(patchLoopBundle, LOOP_TIMEOUT_MS, 'Loop bundle grouping');
+    }).then(getCart).then(function (cart) {
       var ok = (cart.items || []).some(function (l) { return (l.properties || {})[CART_SEL] === CART_OWNER; });
       if (!ok) throw new Error('Could not add your selections to the cart.');
 
