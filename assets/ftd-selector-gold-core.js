@@ -51,6 +51,14 @@
      saved before this setting existed should keep the behaviour it had, not
      quietly withdraw the gift. Only an explicit false turns it off. */
   var GIFT_ON = C.GIFT_ON !== false;
+  /* Counter under the progress bar. Read from the block's own setting when it
+     is there, so the copy stays with the row it belongs to. */
+  var PROGRESS_NOTE = (function () {
+    var node = document.querySelector('[data-creatine-progress-note]');
+    var fromBlock = node && node.getAttribute('data-note');
+    if (typeof fromBlock === 'string') return fromBlock;
+    return typeof C.PROGRESS_NOTE === 'string' ? C.PROGRESS_NOTE : '[n] of [total] bags';
+  })();
   var STEPS_ORDER_FULL = ['plans', 'products', 'review'];
   var RETURN_FLAG_KEY = 'ftdcReturnToReview';
   var state = { step: 'plans', plan: 'quarterly', selections: {} };
@@ -846,12 +854,50 @@
     var onetime = state.plan === 'onetime';
     var el = $('[data-creatine-included]');
     if (el) el.hidden = !gift;
-    /* The card is the one-time storefront for creatine; subscriptions get the
-       switch instead, and only while they have not already earned the gift. */
+
+    /* The creatine variant is priced at 0, so the card that used to SELL it
+       would now hand one out to anyone who opened the one-time plan and added
+       it on its own, no bags required. Creatine is the gift now and nothing
+       else, so the card never shows.
+
+       It stays in the DOM rather than being deleted because it carries
+       data-variant — the id desiredItems() adds the gift with. Hidden, not
+       gone. */
     var card = $('[data-creatine-card]');
-    if (card) card.hidden = !onetime;
+    if (card) card.hidden = true;
     /* Showing or hiding it changes how many cards are in the row. */
     syncGridCols();
+
+    /* The offer while it is still out of reach, and how close they are. Swaps
+       with the included row at the threshold: bar below it, confirmation at
+       it. One-time orders never earn it, so they are shown neither. */
+    var prog = $('[data-creatine-progress]');
+    if (prog) {
+      var have = totalQty();
+      var need = GIFT_MIN;
+      var show = GIFT_ON && !onetime && !gift;
+      prog.hidden = !show;
+      prog.setAttribute('aria-hidden', show ? 'false' : 'true');
+
+      /* Kept current even while hidden. Hiding it at the threshold and then
+         showing it again — drop from three bags back to two — would otherwise
+         flash the old numbers for a frame before they caught up. */
+      var pct = need > 0 ? Math.min(100, Math.round((have / need) * 100)) : 0;
+      var fill = prog.querySelector('[data-creatine-progress-fill]');
+      if (fill) fill.style.width = pct + '%';
+      var bar = prog.querySelector('[data-creatine-progress-bar]');
+      if (bar) {
+        bar.setAttribute('aria-valuenow', String(have));
+        bar.setAttribute('aria-valuemax', String(need));
+      }
+      var note = prog.querySelector('[data-creatine-progress-note]');
+      if (note) {
+        var tpl = note.getAttribute('data-note');
+        note.textContent = tpl
+          ? tpl.replace('[n]', String(have)).replace('[total]', String(need))
+          : '';
+      }
+    }
     var payRow = $('[data-upsell-creatine]');
     if (payRow) payRow.hidden = onetime || gift;
     /* The first one is the gift, so the discounted second only makes sense
@@ -871,11 +917,18 @@
      used to share one checkbox, which is why the row kept having to flip
      between "Add Creatine" and "Included — FREE". */
   function creatineQty() {
-    /* One-time buys by the unit from the card. A subscription add-on is not a
-       quantity you pick — it is one per shipment — so there it is the switch. */
-    if (state.plan === 'onetime') return Math.max(0, addonQty);
-    var cr = $('[data-creatine-input]');
-    return (cr && cr.checked) ? 1 : 0;
+    /* Nobody BUYS creatine any more. The variant is priced at 0, so a bought
+       line would be a free one handed out with no bags behind it — which is
+       the offer, but only when it is earned, and that path is the gift in
+       desiredItems() rather than this one.
+
+       Kept as a function rather than deleted because the summary, the total
+       and the cart payload all still ask the question; they now all get the
+       same honest zero. Put the price back above zero and the two lines below
+       are what to restore. */
+    return 0;
+    /* if (state.plan === 'onetime') return Math.max(0, addonQty);
+       var cr = $('[data-creatine-input]'); return (cr && cr.checked) ? 1 : 0; */
   }
 
   /* Swap the on/off switch for a stepper on one-time, and keep the two in

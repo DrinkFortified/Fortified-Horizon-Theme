@@ -85,6 +85,15 @@
 .ftdc__upsell--included { border-color: var(--ftdc-accent, var(--color-primary-button-background)); background: color-mix(in srgb, var(--ftdc-accent, var(--color-primary-button-background)) 8%, var(--color-background)); }
 .ftdc__upsell-price--free { color: var(--ftdc-accent, var(--color-primary-button-background)); letter-spacing: 0.06em; }
 .ftdc__included-check { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ftdc-accent, var(--color-primary-button-background)); color: #fff; }
+/* The offer before it is earned. Quieter than the included row it turns into,
+   so reaching the threshold reads as something happening. */
+.ftdc__upsell--progress { border-style: dashed; }
+.ftdc__progress { position: relative; height: 6px; border-radius: 999px; margin-top: 0.5rem; overflow: hidden; background: color-mix(in srgb, var(--color-foreground) 12%, transparent); }
+.ftdc__progress-fill { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--ftdc-accent, var(--color-primary-button-background)); transition: width 0.3s ease; }
+.ftdc__progress-note { margin: 0.35rem 0 0; font-size: var(--font-size--xs, 0.75rem); opacity: 0.7; }
+/* A bar that animates as it fills is the whole point of it, but not to
+   everyone: honour a request for less motion. */
+@media (prefers-reduced-motion: reduce) { .ftdc__progress-fill { transition: none; } }
 .ftdc__step-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1.25rem; }
 /* Inherit Horizon's native button look: same font, padding, radius, colors as every other button in the theme */
 .ftdc__btn { display: inline-grid; align-content: center; text-align: center; cursor: pointer; appearance: none; font-family: var(--font-paragraph--family); font-style: var(--font-paragraph--style); font-weight: var(--font-paragraph--weight); font-size: var(--font-paragraph--size); line-height: var(--font-paragraph--line-height); padding-block: var(--button-padding-block); padding-inline: var(--button-padding-inline); margin-block: 0; transition: color var(--animation-speed) var(--animation-easing), box-shadow var(--animation-speed) var(--animation-easing), background-color var(--animation-speed) var(--animation-easing); color: var(--button-color); background-color: var(--button-background-color); border: none; box-shadow: inset 0 0 0 var(--button-border-width, 0) var(--button-border-color); }

@@ -185,6 +185,38 @@
     </div>
     {%- endcomment -%}
 
+    {%- comment -%}
+      ── Not earned yet: the offer, and how far off it is ──────────────────
+
+      Stands where the paid "Add Creatine" row used to, and answers the same
+      question from the other side. That row asked someone to buy a creatine;
+      this one tells them they are getting one, and what it takes.
+
+      Swaps with the included row below at the threshold: bar while short of
+      it, confirmation once there. The runtime fills data-creatine-progress-fill
+      and writes the count; the threshold itself comes from the section's
+      GIFT_MIN so the copy and the cart cannot disagree.
+    {%- endcomment -%}
+    <div class="ftdc__upsell ftdc__upsell--progress" data-slot="creatine-progress"
+         data-creatine-progress hidden aria-hidden="true">
+      <div class="ftdc__upsell-media">
+        {%- if card_img != blank -%}
+          <img src="{{ card_img | image_url: width: 240 }}" alt="" width="80" height="80" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="ftdc__upsell-body">
+        <p class="ftdc__upsell-title" data-creatine-progress-title>
+          {{ block.settings.progress_title | default: 'FREE Lifetime Creatine with purchase of 3 bags or more' }}
+        </p>
+        <div class="ftdc__progress" role="progressbar" aria-valuemin="0" aria-valuenow="0" aria-valuemax="3"
+             data-creatine-progress-bar>
+          <span class="ftdc__progress-fill" data-creatine-progress-fill style="width:0%"></span>
+        </div>
+        <p class="ftdc__progress-note" data-creatine-progress-note aria-live="polite"
+           data-note="{{ block.settings.progress_note | default: '[n] of [total] bags' | escape }}"></p>
+      </div>
+    </div>
+
     {%- comment -%} ── Given, not bought: no control, nothing to decide ── {%- endcomment -%}
     <div class="ftdc__upsell ftdc__upsell--included" data-slot="creatine-included"
          data-creatine-included data-variant="{{ v_id }}" hidden aria-hidden="true">
@@ -368,6 +400,27 @@
       "type": "text",
       "id": "loop_plan_quarterly_50off",
       "label": "Loop selling plan (2nd creatine)"
+    },
+    {
+      "type": "header",
+      "content": "Progress row (not earned yet)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Shown while the build is still short of the free creatine, with a bar that fills as bags are added. It swaps for the gift row below the moment the threshold is reached. The number in the copy should match \"Free creatine at N pouches\" in the section settings."
+    },
+    {
+      "type": "text",
+      "id": "progress_title",
+      "label": "Progress row title",
+      "default": "FREE Lifetime Creatine with purchase of 3 bags or more"
+    },
+    {
+      "type": "text",
+      "id": "progress_note",
+      "label": "Progress row counter",
+      "default": "[n] of [total] bags",
+      "info": "[n] is how many bags are chosen so far and [total] is how many are needed. Leave blank for no counter."
     },
     {
       "type": "header",
