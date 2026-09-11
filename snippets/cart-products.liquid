@@ -1320,9 +1320,147 @@
 {%- endcomment -%}
 {%- if settings.loop_cart_grouping -%}
   <script defer="defer">
-    window.Loop = {};
-    window.Loop.bundleCartAllItems = {{ cart.items | json }};
-    initLoopBundle("LOOP_1q0i53-mc_bundles");
+    (function () {
+      var CLIENT = 'LOOP_1q0i53-mc_bundles';
+
+      /* Not `window.Loop = {}`: this snippet draws both the cart page and the
+         drawer, so on a page carrying both it runs twice and the second run
+         would wipe the first. */
+      window.Loop = window.Loop || {};
+      window.Loop.bundleCartAllItems = {{ cart.items | json }};
+
+      /* initLoopBundle is async and catches nothing, so a details endpoint
+         that refuses — a blocker, an outage — surfaces as an unhandled
+         rejection. Caught here because this is the call site; the redraw
+         below is what actually recovers the row in that case. */
+      Promise.resolve()
+        .then(function () { return initLoopBundle(CLIENT); })
+        .catch(function (e) { try { console.warn('[FTD] Loop bundle init', e); } catch (_) {} });
+
+      /* ── Redraw the bundle row after an AJAX cart change ──────────────
+         Loop's cart integration assumes full page loads. Its rows are not
+         rendered by Liquid at all — the filter above takes every _bundleId
+         line OUT of the list, and Loop's JS prepends a replacement row. So
+         the row exists only for as long as that JS last ran.
+
+         Nothing re-runs it. The inline script above fires once, and a script
+         inside morphed HTML does not execute, so after the drawer re-renders
+         the bundle lines are gone: pulled from the list by the filter, and
+         never put back. Which is the reported bug — the bundle shows up only
+         if you refresh.
+
+         Loop's own watcher cannot cover this either. setupMutationLoop bails
+         on `if (!_bundleItems?.length) return`, and at first load the cart has
+         no bundle yet, so it never arms. Its only answer to a change is
+         window.location.reload() regardless, which is not something to
+         trigger from inside an open drawer.
+
+         So: redraw it here. Deliberately NOT by calling initLoopBundle again,
+         which would re-arm that reload-on-change watcher every time. Just the
+         three steps that produce the row — refresh Loop's cart snapshot, work
+         out the bundles, render them.
+
+         Loop prepends with innerHTML rather than replacing, so its old rows
+         are cleared first or every redraw would stack another copy. They are
+         identifiable: tr.cart-item#CartBundleItem-N, where the theme's own
+         rows are .cart-items__table-row.
+
+         The details call goes to api-service.loopwork.co and gets a ceiling
+         for the same reason the bundle-creation call did — a third-party
+         request that never settles must not leave the customer looking at a
+         cart with their order missing. Past the ceiling the row is drawn with
+         whatever is known; Loop's template is written defensively enough to
+         cope.
+
+         Loop regenerates this block from their bundle designer. If the bundle
+         starts needing a refresh again, this is the first thing to check. */
+      if (window.__ftdLoopRedrawBound) return;
+      window.__ftdLoopRedrawBound = true;
+
+      var busy = false;
+      var timer = null;
+      var lastHadBundle = false;
+
+      var containers = function () {
+        return Array.prototype.slice.call(document.querySelectorAll('.' + CLIENT));
+      };
+
+      var clearLoopRows = function () {
+        containers().forEach(function (parent) {
+          Array.prototype.slice
+            .call(parent.querySelectorAll('tr.cart-item[id^="CartBundleItem-"]'))
+            .forEach(function (row) { row.remove(); });
+        });
+      };
+
+      var capped = function (promise, ms) {
+        return new Promise(function (resolve) {
+          var settled = false;
+          var finish = function () {
+            if (settled) return;
+            settled = true;
+            clearTimeout(t);
+            resolve();
+          };
+          var t = setTimeout(finish, ms);
+          promise.then(finish, finish);
+        });
+      };
+
+      var root = function () {
+        return (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+      };
+
+      var redraw = function () {
+        if (busy || !containers().length) return;
+        busy = true;
+        return fetch(root() + 'cart.js', { headers: { Accept: 'application/json' } })
+          .then(function (r) { return r.json(); })
+          .then(function (cart) {
+            var items = cart.items || [];
+            clearLoopRows();
+            window.Loop.bundleCartAllItems = items;
+            var bundles = getBundleItemsLoop(items);
+            lastHadBundle = bundles.length > 0;
+            if (!bundles.length) return;
+            return capped(
+              Promise.resolve().then(function () { return addExtraDetailsToBundleItemsLoop(bundles); }),
+              4000
+            ).then(function () { renderBundleItemsLoop(bundles, CLIENT); });
+          })
+          .catch(function (e) { try { console.warn('[FTD] Loop bundle redraw', e); } catch (_) {} })
+          .then(function () { busy = false; }, function () { busy = false; });
+      };
+
+      var schedule = function () {
+        clearTimeout(timer);
+        timer = setTimeout(redraw, 350);
+      };
+
+      /* The drawer repaints only once the event's promise settles, so waiting
+         on it is what keeps this from drawing into markup about to be thrown
+         away. */
+      document.addEventListener('shopify:cart:lines-update', function (e) {
+        if (e && e.promise && typeof e.promise.then === 'function') e.promise.then(schedule, schedule);
+        else schedule();
+      });
+      document.addEventListener('cart:update', schedule);
+
+      /* Backstop for a repaint this never heard about. It only acts when the
+         row is MISSING and the cart is known to hold a bundle, so a successful
+         redraw ends it rather than feeding it — and its own clearing pass is
+         ignored, because that runs with busy set. */
+      try {
+        var mo = new MutationObserver(function () {
+          if (busy || !lastHadBundle) return;
+          if (document.querySelector('tr.cart-item[id^="CartBundleItem-"]')) return;
+          schedule();
+        });
+        Array.prototype.slice.call(document.querySelectorAll('cart-items-component')).forEach(function (node) {
+          mo.observe(node, { childList: true, subtree: true });
+        });
+      } catch (_) {}
+    })();
   </script>
 {%- endif -%}
 
