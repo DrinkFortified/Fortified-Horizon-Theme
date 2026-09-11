@@ -39,6 +39,12 @@
   {%- render 'fonts' -%}
   {%- render 'scripts' -%}
   {%- render 'ftd-creatine-gift' -%}
+  {%- comment -%}
+    FORTIFIED — same-page anchor links (the Shop buttons, the menu) scrolled
+    by hand so a section lands flush under the sticky header rather than
+    tucked beneath it. One handler for every anchor on the page; see the file.
+  {%- endcomment -%}
+  <script src="{{ 'ftd-anchor-scroll.js' | asset_url }}" defer></script>
   {%- render 'theme-styles-variables' -%}
   {%- render 'color-palette' -%}
   {%- comment -%}

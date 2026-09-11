@@ -63,108 +63,20 @@ class HeaderDrawer extends Component {
     // Anchors that open elsewhere leave this page — and this drawer — standing.
     if (!link || !this.contains(link)) return;
     if (link.target && link.target !== '_self') return;
-
-    /* A link to a section on this page gets scrolled by hand rather than left
-       to the browser. See #scrollToAnchor for why. */
-    const target = this.#samePageTarget(link);
-    if (target) {
-      event.preventDefault();
-      if (this.isOpen) this.close();
-      this.#scrollToAnchor(target, link.hash);
-      return;
-    }
-
     if (!this.isOpen) return;
 
+    /* Only the closing is this component's job. Where the link goes — and
+       the hand-rolled scroll that lands a same-page section flush under the
+       sticky header — belongs to assets/ftd-anchor-scroll.js, which handles
+       every anchor on the page from the document so a menu link and a
+       section button behave identically. This used to carry its own copy;
+       one implementation is the point.
+
+       Not preventing default here is what lets that handler see the click.
+       close() releases the scroll lock synchronously, so by the time the
+       document-level handler runs the page can already move. */
     this.close();
   };
-
-  /**
-   * The element a link points at, when it points somewhere on this very page.
-   * @param {HTMLAnchorElement} link
-   * @returns {HTMLElement | null}
-   */
-  #samePageTarget(link) {
-    let url;
-    try {
-      url = new URL(link.href, window.location.href);
-    } catch (_) {
-      return null;
-    }
-    if (url.origin !== window.location.origin) return null;
-    if (url.pathname !== window.location.pathname) return null;
-    if (!url.hash || url.hash === '#') return null;
-
-    let id;
-    try {
-      id = decodeURIComponent(url.hash.slice(1));
-    } catch (_) {
-      id = url.hash.slice(1);
-    }
-    return document.getElementById(id);
-  }
-
-  /**
-   * Scroll a same-page section to the top of the viewport, and keep it there.
-   *
-   * The browser's own anchor scroll lands in the wrong place on this store,
-   * for two reasons that compound on a phone.
-   *
-   * It scrolls the target to y=0, where a sticky header is already sitting, so
-   * the top of the section starts life underneath it. And it decides where to
-   * stop using the layout as it is at the moment of the click — while images
-   * between here and there are still lazy and still occupy no height. Each one
-   * that loads afterwards pushes the target further down the document, and
-   * nothing scrolls again to make up for it. The section that should have been
-   * at the top of the screen ends up halfway down it, which is the report.
-   *
-   * So: subtract the header, then re-assert the position a few times while the
-   * page settles. Corrections stop the instant the visitor touches the scroll
-   * themselves — being dragged back to a place you just scrolled away from is
-   * worse than the bug.
-   *
-   * @param {HTMLElement} target
-   * @param {string} hash
-   */
-  #scrollToAnchor(target, hash) {
-    const headerOffset = () => {
-      const raw = getComputedStyle(document.body).getPropertyValue('--header-height');
-      const value = parseFloat(raw);
-      return Number.isFinite(value) ? value : 0;
-    };
-    const wanted = () => Math.max(0, target.getBoundingClientRect().top + window.scrollY - headerOffset());
-
-    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-    window.scrollTo({ top: wanted(), behavior: reduced ? 'auto' : 'smooth' });
-
-    /* Keep the address bar honest without letting it scroll again. */
-    try {
-      history.replaceState(history.state, '', hash);
-    } catch (_) {}
-
-    let cancelled = false;
-    const stop = () => {
-      cancelled = true;
-      for (const name of ['wheel', 'touchstart', 'keydown']) {
-        window.removeEventListener(name, stop);
-      }
-    };
-    for (const name of ['wheel', 'touchstart', 'keydown']) {
-      window.addEventListener(name, stop, { passive: true, once: true });
-    }
-
-    /* Corrections begin only once the smooth scroll has had time to finish,
-       so they are fixing late layout rather than fighting the animation. */
-    let attempts = 0;
-    const settle = () => {
-      if (cancelled) return;
-      const want = wanted();
-      if (Math.abs(window.scrollY - want) > 4) window.scrollTo({ top: want, behavior: 'auto' });
-      if (++attempts < 6) setTimeout(settle, 180);
-      else stop();
-    };
-    setTimeout(settle, 650);
-  }
 
   /**
    * @returns {boolean} Whether the main menu drawer is open
