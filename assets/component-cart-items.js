@@ -32,6 +32,17 @@ import {
  * @extends {Component<Refs>}
  */
 export class CartItemsComponent extends createViewEventElement(Component) {
+  /** @type {WeakMap<Event, string>} */
+  #quantityLineKeys = new WeakMap();
+  /** Capture identity before the debounce, while the clicked row still exists. */
+  #queueQuantityChange = (event) => {
+    if (!(event instanceof QuantitySelectorUpdateEvent) ||
+        !(event.target instanceof Node) || !this.contains(event.target)) return;
+    const row = this.refs.cartItemRows[(event.detail.cartLine || 0) - 1];
+    if (!row?.dataset.key) return;
+    this.#quantityLineKeys.set(event, row.dataset.key);
+    this.#debouncedOnChange(event);
+  };
   #debouncedOnChange = debounce(
     /** @param {Event} event */
     (event) => {
@@ -105,7 +116,7 @@ export class CartItemsComponent extends createViewEventElement(Component) {
     super.connectedCallback();
 
     document.addEventListener(StandardEvents.cartLinesUpdate, this.#handleCartUpdate);
-    document.addEventListener(ThemeEvents.quantitySelectorUpdate, this.#debouncedOnChange);
+    document.addEventListener(ThemeEvents.quantitySelectorUpdate, this.#queueQuantityChange);
     document.addEventListener(StandardEvents.cartDiscountUpdate, this.#handleDiscountUpdate);
     document.addEventListener(StandardEvents.cartNoteUpdate, this.#handleNoteUpdate);
   }
@@ -114,7 +125,7 @@ export class CartItemsComponent extends createViewEventElement(Component) {
     super.disconnectedCallback();
 
     document.removeEventListener(StandardEvents.cartLinesUpdate, this.#handleCartUpdate);
-    document.removeEventListener(ThemeEvents.quantitySelectorUpdate, this.#debouncedOnChange);
+    document.removeEventListener(ThemeEvents.quantitySelectorUpdate, this.#queueQuantityChange);
     document.removeEventListener(StandardEvents.cartDiscountUpdate, this.#handleDiscountUpdate);
     document.removeEventListener(StandardEvents.cartNoteUpdate, this.#handleNoteUpdate);
   }
@@ -124,12 +135,19 @@ export class CartItemsComponent extends createViewEventElement(Component) {
    * @param {QuantitySelectorUpdateEvent} event - The event.
    */
   #onQuantityChange(event) {
-    if (!(event.target instanceof Node) || !this.contains(event.target)) return;
-
-    const { quantity, cartLine: line } = event.detail;
-
-    // Cart items require a line number
-    if (!line) return;
+    const lineId = this.#quantityLineKeys.get(event);
+    if (!lineId) return;
+    const { quantity } = event.detail;
+    // The DOM may have morphed during the debounce. Resolve only the captured
+    // key, never the old positional cartLine or the now-detached event target.
+    const line = this.refs.cartItemRows.findIndex((row) => row.dataset.key === lineId) + 1;
+    if (!line) {
+      sectionRenderer.renderSection(this.sectionId, {
+        cache: false,
+        mode: this.isDrawer ? 'hydration' : 'full',
+      });
+      return;
+    }
 
     if (quantity === 0) {
       return this.onLineItemRemove(line);
@@ -137,6 +155,7 @@ export class CartItemsComponent extends createViewEventElement(Component) {
 
     this.updateQuantity({
       line,
+      lineId,
       quantity,
       action: 'change',
     });
@@ -203,11 +222,12 @@ export class CartItemsComponent extends createViewEventElement(Component) {
    * @param {Object} config - The config.
    * @param {number} config.line - The line.
    * @param {number} config.quantity - The quantity.
+   * @param {string} [config.lineId] - The stable key captured before debounce.
    * @param {string} config.action - The action.
    */
   updateQuantity(config) {
     const { line, quantity } = config;
-    const lineId = this.refs.cartItemRows[line - 1]?.dataset.key;
+    const lineId = config.lineId || this.refs.cartItemRows[line - 1]?.dataset.key;
     if (!lineId) {
       // A section replacement invalidated this control; refresh rather than
       // guessing an index that may now refer to the automatically added gift.
