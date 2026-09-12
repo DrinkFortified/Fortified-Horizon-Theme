@@ -2509,7 +2509,7 @@
             "spec_top": "D3 + K2",
             "spec_1": "1,200MG SODIUM",
             "spec_2": "150MG MAGNESIUM",
-            "spec_3": "-",
+            "spec_3": "200MG Potassium",
             "flavor_option": "-",
             "loop_plan_monthly": "2852487324",
             "loop_plan_quarterly": "2852520092"
@@ -2526,7 +2526,7 @@
             "spec_top": "150mg CAFFEINE",
             "spec_1": "1,200MG SODIUM",
             "spec_2": "150MG MAGNESIUM",
-            "spec_3": "-",
+            "spec_3": "200MG Potassium",
             "flavor_option": "-",
             "loop_plan_monthly": "2852487324",
             "loop_plan_quarterly": "2852520092"
@@ -2552,7 +2552,6 @@
         },
         "ftd_creatine_MIGRATED": {
           "type": "_ftd-c-creatine",
-          "disabled": false,
           "settings": {
             "product": "creatine",
             "product_handle": "creatine",
@@ -2575,6 +2574,8 @@
             "price_quarterly": "$12.00",
             "was_quarterly": "$24.00",
             "loop_plan_quarterly_50off": "2852552860",
+            "progress_title": "FREE Lifetime Creatine with purchase of 3 bags or more",
+            "progress_note": "[n] of [total] bags",
             "included_title": "FREE Lifetime Creatine",
             "included_desc": "Your first creatine is added automatically.",
             "included_price_text": "FREE"
