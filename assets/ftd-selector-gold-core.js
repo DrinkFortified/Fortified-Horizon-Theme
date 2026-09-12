@@ -44,6 +44,13 @@
   var root = document.getElementById('ftdc-' + SID);
   if (!root) return;
   var BUNDLE_COUNT = parseInt(C.BUNDLE_COUNT, 10) || 3;
+  /* The quarterly plan used to take EXACTLY BUNDLE_COUNT pouches: the plus
+     buttons clamped, Continue waited for the last slot, and switching plans
+     trimmed anything over. With this on, BUNDLE_COUNT is the floor instead —
+     3 or more, as many as the customer wants, renewing together every 90
+     days. The section's "Quarterly takes the bundle size or more" setting;
+     off restores the fixed-size bundle exactly as it was. */
+  var BUNDLE_OPEN = !!C.BUNDLE_OPEN;
   /* The global service owns the exact three-subscription-Hydration rule.
      Section settings cannot change the threshold or withdraw a global gift. */
   var giftService = window.FtdCreatineGift;
@@ -880,7 +887,7 @@
      Trims from the end so the earliest choices survive, then repaints every
      card from whatever state survived. */
   function reclampSelections() {
-    var cap = bundleSize();
+    var cap = bundleCap();
     if (cap) {
       var running = 0;
       Object.keys(state.selections).forEach(function (k) {
@@ -903,7 +910,7 @@
        through here. */
     if (c.hasAttribute('data-coming-soon')) return;
     n = Math.max(0, Math.floor(n));
-    if (state.plan === 'quarterly') {
+    if (bundleCap()) {
       var others = totalQty() - (state.selections[c.dataset.variantId] ? state.selections[c.dataset.variantId].qty : 0);
       n = Math.min(n, Math.max(0, BUNDLE_COUNT - others));
     }
@@ -947,11 +954,15 @@
      Monthly returned 1 here, which is what drove the "1 of 1 selected"
      progress, the exactly-one continue rule, and the trim on plan switch. */
   function bundleSize() { return state.plan === 'quarterly' ? BUNDLE_COUNT : 0; }
+  /* The number of pouches a plan REFUSES to go past, or 0 for no ceiling.
+     Only the fixed-size quarterly bundle has one; open-ended quarterly keeps
+     bundleSize() as its floor and nothing as its ceiling. */
+  function bundleCap() { return state.plan === 'quarterly' && !BUNDLE_OPEN ? BUNDLE_COUNT : 0; }
   function updateProgress() {
     var n = totalQty(), s = bundleSize(), pt = $('[data-progress-text]'), pf = $('[data-progress-fill]');
     var track = $('[data-progress-track]');
     if (pt && pf) {
-      if (s) { pt.textContent = n + ' of ' + s + ' selected'; pf.style.width = Math.min(100, n / s * 100) + '%'; }
+      if (s) { pt.textContent = n + ' of ' + s + (BUNDLE_OPEN ? '+' : '') + ' selected'; pf.style.width = Math.min(100, n / s * 100) + '%'; }
       else   { pt.textContent = n ? (n + (n === 1 ? ' pouch' : ' pouches') + ' selected') : 'Choose your pouches'; pf.style.width = '0%'; }
     }
     /* A one-time order has no fixed size, so there is nothing to fill toward.
@@ -1027,7 +1038,9 @@
       var n = totalQty(), s = bundleSize();
       /* One-time may be creatine and nothing else. */
       if (!s && state.plan === 'onetime') return n > 0 || creatineQty() > 0;
-      return s ? n === s : n > 0;
+      /* A fixed bundle wants exactly its size; an open-ended one wants at
+         least it. */
+      return s ? (BUNDLE_OPEN ? n >= s : n === s) : n > 0;
     }
     return true;
   }

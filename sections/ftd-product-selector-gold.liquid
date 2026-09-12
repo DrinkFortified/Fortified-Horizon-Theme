@@ -41,6 +41,12 @@
   assign show_monthly   = section.settings.show_monthly
   assign show_quarterly = section.settings.show_quarterly
   assign bundle_count   = section.settings.bundle_count | default: 3
+  comment
+    Quarterly takes bundle_count pouches OR MORE when this is on; exactly
+    bundle_count when it is off. A checkbox setting reads false when unset,
+    so the "or more" default lives in the schema, not here.
+  endcomment
+  assign bundle_open    = section.settings.bundle_open_ended
   assign addon = section.settings.addon_product
   comment
     Shopify's product setting type accepts no default, so a freshly added
@@ -1057,7 +1063,7 @@
               arithmetic further down. Filled by updatePlanBadge(). {%- endcomment %}
             <p class="ftdcg__bundle-plan" data-bundle-plan></p>
             <p class="ftdc__bundle-eyebrow">{{ section.settings.bundle_label | default: 'Your Bundle' }}</p>
-            <p class="ftdc__bundle-progress-text" data-progress-text>0 {{ section.settings.of_word | default: 'of' }} {{ bundle_count }} {{ section.settings.selected_word | default: 'selected' }}</p>
+            <p class="ftdc__bundle-progress-text" data-progress-text>0 {{ section.settings.of_word | default: 'of' }} {{ bundle_count }}{% if bundle_open %}+{% endif %} {{ section.settings.selected_word | default: 'selected' }}</p>
             <div class="ftdc__bundle-bar" data-progress-track><div class="ftdc__bundle-bar-fill" data-progress-fill style="width:0%"></div></div>
             <p class="ftdc__bundle-warning" data-bar-warning hidden role="status"></p>
           </div>
@@ -1145,6 +1151,7 @@
   (window.__ftdGoldQueue = window.__ftdGoldQueue || []).push({
     SID: {{ section.id | json }},
     BUNDLE_COUNT: {{ bundle_count | json }},
+    BUNDLE_OPEN: {{ bundle_open | json }},   /* quarterly = BUNDLE_COUNT or more, not exactly */
     /* Gift policy comes from the shared cart service, not a section override. */
     LIVE_SUMMARY: true,   /* aside shows the order on every step, not just Review */
     SKIP_REVIEW: true,      /* no Review step — the aside is the review */
@@ -1290,7 +1297,7 @@
       "type": "text",
       "id": "quarterly_title",
       "label": "Title",
-      "default": "3 Month Supply Every 3 Months"
+      "default": "3+ Pouches Every 3 Months"
     },
     {
       "type": "richtext",
@@ -1326,10 +1333,18 @@
       "type": "range",
       "id": "bundle_count",
       "label": "Bundle size",
+      "info": "Pouches on the quarterly plan. With the setting below on, this is the minimum.",
       "min": 2,
       "max": 6,
       "step": 1,
       "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "bundle_open_ended",
+      "label": "Quarterly takes the bundle size or more",
+      "info": "On: the customer must pick at least the bundle size and can add as many more as they like — all renew together every 3 months. Off: exactly the bundle size, as before.",
+      "default": true
     },
     {
       "type": "range",
