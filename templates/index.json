@@ -2629,7 +2629,7 @@
         "monthly_estimate_pct": 70,
         "show_onetime": true,
         "onetime_badge": "20% OFF",
-        "onetime_title": "30-Day Supply",
+        "onetime_title": "One-Time Purchase",
         "onetime_desc": "<ul><li>45 Day Happiness Guarantee</li><li>FREE Shipping</li></ul>",
         "onetime_price": "$47.20",
         "onetime_period": "Normally $59.00 per 30 pack",
