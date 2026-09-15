@@ -219,11 +219,6 @@
     background: var(--ftdcg-selected);
     border-color: var(--ftdcg-selected);
   }
-  /* Buy Once is deliberately recessive when unpicked; picking it must still
-     lift it clear of that. */
-  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"].is-active {
-    background: rgb(var(--color-foreground-rgb) / 0.06);
-  }
   #ftdc-{{ sid }} .ftdcg__plan-selected {
     position: absolute;
     top: 13px;
@@ -244,33 +239,6 @@
   /* Below this the badge and the marker would meet. */
   @media screen and (max-width: 520px) {
     #ftdc-{{ sid }} .ftdcg__plan-selected { display: none !important; }
-  }
-  /* Buy Once is a single compact row, so an absolutely positioned marker
-     lands on top of the price. Give it a track of its own instead and let
-     the price shift left.
-     The .is-active qualifier is load-bearing, not decoration: the Buy Once
-     layout block above uses the same selector and the same !important, so a
-     plain repeat here loses on source order and the marker lands in the
-     price's track. It also means the fourth track only exists while there is
-     a marker to put in it. */
-  @media screen and (min-width: 750px) {
-    #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"].is-active {
-      grid-template-columns: auto minmax(0, 1fr) auto auto !important;
-    }
-    #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"].is-active .ftdcg__plan-selected {
-      position: static;
-      grid-row: 1;
-      grid-column: 3;
-      align-self: center;
-    }
-    #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"].is-active .ftdc__plan-pricing {
-      grid-row: 1;
-      grid-column: 4;
-    }
-  }
-  /* Narrower than that the row has no room for it at all. */
-  @media screen and (max-width: 749px) {
-    #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdcg__plan-selected { display: none !important; }
   }
 
   /* The chosen plan, above "Your Bundle". */
@@ -824,57 +792,18 @@
   #ftdc-{{ sid }} .ftdc__step-pill.is-done + .ftdc__step-pill::before { background: var(--color-foreground); }
 
 
-  /* ───── Plan hierarchy ────────────────────────────────────────────────
-     Buy Once spanned the full width beneath the two subscriptions, so the
-     option with the least value for the customer was the largest object on
-     the screen and the last word on the page. It keeps the span — the row
-     reads cleanly — but is styled as the footnote it is: half the padding,
-     price inline instead of stacked, muted surface.
-
-     Explicit grid placement, not flex-wrap: wrap re-flowed on the width
-     left over after the badge and the title, so the price landed on its own
-     line at some widths and beside the title at others. Placed cells cannot
-     do that — the middle column absorbs the slack instead. */
-  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"] {
-    display: grid !important;
-    /* !important: ftdc.css pins every plan card to a single-column track
-       list with !important, so an unweighted declaration here loses and
-       columns 2 and 3 get auto-created as implicit tracks instead. */
-    grid-template-columns: auto minmax(0, 1fr) auto !important;
-    align-items: center;
-    column-gap: 0.75rem !important;
-    row-gap: 0.25rem !important;
-    padding: 0.75rem 3rem 0.75rem 1.1rem !important;
-    background: rgb(var(--color-foreground-rgb) / 0.03);
-  }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-badge   { grid-row: 1; grid-column: 1; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-title   { grid-row: 1; grid-column: 2; width: auto !important; padding-right: 0; font-size: 15px; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-pricing { grid-row: 1; grid-column: 3; width: auto !important; margin: 0; justify-content: flex-end; }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-price   { font-size: 18px; }
-  /* The bullets become one compact inline row rather than a stacked list. */
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-desc    { grid-row: 2; grid-column: 1 / -1; width: auto !important; font-size: 12px; }
-  /* Too narrow for one line: badge on top, then title and price paired. */
-  @media screen and (max-width: 749px) {
-    #ftdc-{{ sid }} .ftdc__plans .ftdc__plan[data-plan="onetime"] { grid-template-columns: minmax(0, 1fr) auto !important; }
-    #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-badge   { grid-row: 1; grid-column: 1 / -1; }
-    #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-title   { grid-row: 2; grid-column: 1; }
-    #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-pricing { grid-row: 2; grid-column: 2; }
-    #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-desc    { grid-row: 3; }
-  }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-desc ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.125rem 1rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  #ftdc-{{ sid }} .ftdc__plan[data-plan="onetime"] .ftdc__plan-desc li { margin: 0; }
-  /* The two subscription cards carry different numbers of bullets, so their
-     prices landed at different heights and could not be compared at a glance.
-     Column flex plus an auto top margin drops both prices to the same line. */
-  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan:not([data-plan="onetime"]) { display: flex !important; flex-direction: column; }
-  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan:not([data-plan="onetime"]) .ftdc__plan-pricing { margin-top: auto; }
+  /* ───── Plan cards ────────────────────────────────────────────────────
+     All three cards share one layout: badge, title, bullets, then the price
+     block pinned to the bottom so prices line up across cards that carry
+     different numbers of bullets. Buy Once used to be a compact single row
+     (badge | title | price, bullets inline) as a footnote beneath the
+     subscriptions. That held while its copy was short; once it carried a
+     "Normally $59.00 per 30 pack" period and a "Save $11.80 per 30 pack"
+     line, the row squeezed the title into a two-character column and the
+     saving into a four-line sliver. Same layout as its neighbours now — on
+     desktop it still spans the row beneath them, only wider. */
+  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan { display: flex !important; flex-direction: column; }
+  #ftdc-{{ sid }} .ftdc__plans .ftdc__plan .ftdc__plan-pricing { margin-top: auto; }
   /* Lift the recommended plan clear of its neighbour. */
   #ftdc-{{ sid }} .ftdc__plan[data-plan="quarterly"].is-active { box-shadow: 0 0 0 3px color-mix(in srgb, var(--ftdc-accent) 18%, transparent), 0 6px 20px rgb(var(--color-foreground-rgb) / 0.1); }
 
