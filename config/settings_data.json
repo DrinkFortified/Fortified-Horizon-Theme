@@ -134,6 +134,14 @@
         "type": "shopify://apps/uppromote-affiliate/blocks/customer-referral/64c32457-930d-4cb9-9641-e24c0d9cf1f4",
         "disabled": false,
         "settings": {}
+      },
+      "9880403401104739693": {
+        "type": "shopify://apps/sparklayer-wholesale/blocks/sparklayer_core_script/019bbd73-3010-74e2-b9bd-86c9cb3ee550",
+        "disabled": false,
+        "settings": {
+          "css-variables": "",
+          "css-display-none": ""
+        }
       }
     },
     "color_schemes": {
