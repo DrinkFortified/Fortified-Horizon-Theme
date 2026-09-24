@@ -604,61 +604,9 @@ This is the JavaScript that controls basic behaviour such as the form showing an
 
 {% endcomment %}
 
-document.addEventListener("DOMContentLoaded", function() {
-    // FAQ Accordion Functionality
-    var faqItems = document.querySelectorAll(".b2b-faq-question");
-
-    faqItems.forEach(function(item) {
-        item.addEventListener("click", function() {
-            var answer = this.nextElementSibling;
-            var parent = this.parentElement;
-
-            parent.classList.toggle("active");
-
-            if (parent.classList.contains("active")) {
-                answer.style.maxHeight = answer.scrollHeight + "px";
-                answer.addEventListener("transitionend", function handler() {
-                    answer.style.maxHeight = "none";
-                    answer.removeEventListener("transitionend", handler);
-                });
-            } else {
-                answer.style.maxHeight = answer.scrollHeight + "px";
-                requestAnimationFrame(function() {
-                    answer.style.maxHeight = "0px";
-                });
-            }
-        });
-    });
-
-    {% unless section.settings.show_form_expanded %}
-
-    var registerForm = document.getElementById("b2b-register");
-    if (registerForm) {
-        registerForm.style.maxHeight = "0px";
-        registerForm.style.overflow = "hidden";
-        registerForm.style.transition = "max-height 0.3s ease-in-out";
-    }
-
-    window.b2bRegister = function() {
-        if (registerForm.style.maxHeight === "0px" || registerForm.style.maxHeight === "") {
-            registerForm.style.maxHeight = registerForm.scrollHeight + "px";
-            registerForm.addEventListener("transitionend", function handler() {
-                registerForm.style.maxHeight = "none";
-                registerForm.removeEventListener("transitionend", handler);
-            });
-        } else {
-            registerForm.style.maxHeight = registerForm.scrollHeight + "px";
-            requestAnimationFrame(function() {
-                registerForm.style.maxHeight = "0px";
-            });
-        }
-    };
-
-    {% endunless %}
-});
 
 
-{% comment %} <script>
+<script>
 document.addEventListener("DOMContentLoaded", function() {
     // FAQ Accordion Functionality
     var faqItems = document.querySelectorAll(".b2b-faq-question");
@@ -702,7 +650,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     {% endunless %}
 });
-</script> {% endcomment %}
+</script>
 
 
 {% comment %}
