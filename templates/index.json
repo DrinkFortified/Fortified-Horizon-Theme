@@ -2611,7 +2611,7 @@
         "quarterly_badge": "Most Popular - 20% OFF",
         "quarterly_title": "3+ Pouches Every 3 Months",
         "quarterly_desc": "<ul><li>20% OFF Every Shipment</li><li>FREE 45 day Supply of Creatine!</li><li>FREE Shipping on Every Order</li><li>45 Day Happiness Guarantee</li><li>Pause, Skip or Cancel Anytime</li></ul>",
-        "quarterly_price": "$141.60",
+        "quarterly_price": "$47.20",
         "quarterly_period": "/ Normally $59.00 per 30 pack",
         "quarterly_was": "Save $11.80 per 30 pack",
         "quarterly_accent_color": "#e8833a",
@@ -2688,7 +2688,7 @@
         "review_hint": "Your order is on the right. Check it over, then continue to checkout.",
         "plan_continue_label": "Choose your flavors",
         "upgrade_badge": "Best value",
-        "upgrade_title": "Save 40% with the 3-month plan",
+        "upgrade_title": "Save 20% with the 3-month plan",
         "upgrade_body": "Every 3 months, free shipping, and your first Creatine included free.",
         "upgrade_cta": "Switch to 3-month",
         "aside_offset": 21
