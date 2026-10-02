@@ -188,6 +188,7 @@
                 "rating_value": "4.8",
                 "rating_count": "(342 reviews)",
                 "star_color": "#f5a623",
+                "default_plan": "onetime",
                 "plan_step_label": "Choose Your Plan",
                 "plan_step_note": "Monthly 10% Off",
                 "show_monthly": false,
@@ -217,7 +218,7 @@
                 "onetime_badge_color": "#6b7280",
                 "onetime_title": "Single\nPouch",
                 "onetime_desc": "Try it first. Subscribe whenever you're ready.",
-                "onetime_price": "$24.00",
+                "onetime_price": "",
                 "onetime_period": "/ pouch",
                 "onetime_was": "",
                 "onetime_checklist": "30 servings per pouch\nShipping calculated at checkout\nNo subscription required",
@@ -294,7 +295,11 @@
                 "padding-block-end": 32,
                 "custom_css": "",
                 "use_current_product": true,
-                "default_plan": "onetime"
+                "current_plan_monthly": "",
+                "current_plan_quarterly": "",
+                "current_spec_1": "",
+                "current_spec_2": "",
+                "current_spec_3": ""
               },
               "blocks": {
                 "ftd_ps_benefit_kckgiX": {
